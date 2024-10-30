@@ -2,22 +2,26 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Modules\Acl\Database\Seeders\AclModelHasRolesSeeder;
+use Modules\Acl\Database\Seeders\AclPermissionSeeder;
+use Modules\Acl\Database\Seeders\AclRoleSeeder;
+use Modules\Blog\Database\Seeders\BlogAclSeeder;
+use Modules\Blog\Database\Seeders\BlogSeeder;
+use Modules\User\Database\Seeders\UserSeeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call([
+            UserSeeder::class,
+            AclRoleSeeder::class,
+            AclPermissionSeeder::class,
+            AclModelHasRolesSeeder::class,
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            BlogAclSeeder::class,
+            BlogSeeder::class,
         ]);
     }
 }
