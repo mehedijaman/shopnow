@@ -29,14 +29,14 @@ class ProductCategoryController extends BackendController
                 'active' => $category->active,
             ]);
 
-        return inertia('Product/ProductCategoryIndex', [
+        return inertia('ProductCategory/ProductCategoryIndex', [
             'categories' => $categories,
         ]);
     }
 
     public function create(): Response
     {
-        return inertia('Product/ProductCategoryForm');
+        return inertia('ProductCategory/ProductCategoryForm');
     }
 
     public function store(ProductCategoryValidate $request): RedirectResponse
@@ -58,7 +58,7 @@ class ProductCategoryController extends BackendController
     {
         $category = ProductCategory::find($id);
 
-        return inertia('Product/ProductCategoryForm', [
+        return inertia('ProductCategory/ProductCategoryForm', [
             'category' => $category,
         ]);
     }
@@ -104,7 +104,7 @@ class ProductCategoryController extends BackendController
                 'name' => Str::limit($category->name, 50),
             ]);
 
-        return inertia('Product/ProductCategoryRecycleBin', [
+        return inertia('ProductCategory/ProductCategoryRecycleBin', [
             'categories' => $categories,
         ]);
     }
