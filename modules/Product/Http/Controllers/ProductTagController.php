@@ -2,14 +2,15 @@
 
 namespace Modules\Product\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Str;
 use Inertia\Response;
-use Modules\Product\Http\Requests\ProductProductTagValidate;
+use Illuminate\Support\Str;
+use Illuminate\Http\RedirectResponse;
 use Modules\Product\Models\ProductTag;
-use Modules\Support\Http\Controllers\BackendController;
-use Modules\Support\Traits\EditorImage;
 use Modules\Support\Traits\UploadFile;
+use Modules\Support\Traits\EditorImage;
+use Modules\Product\Http\Requests\ProductTagValidate;
+use Modules\Support\Http\Controllers\BackendController;
+use Modules\Product\Http\Requests\ProductProductTagValidate;
 
 class ProductTagController extends BackendController
 {

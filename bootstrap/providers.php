@@ -1,5 +1,7 @@
 <?php
 
+use Modules\Product\ProductServiceProvider;
+
 return [
     App\Providers\AppServiceProvider::class,
 
@@ -11,4 +13,6 @@ return [
 
     Modules\Index\IndexServiceProvider::class,
     Modules\Blog\BlogServiceProvider::class,
+
+    ProductServiceProvider::class,
 ];

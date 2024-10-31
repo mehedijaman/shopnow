@@ -7,6 +7,36 @@ export default {
             icon: 'ri-dashboard-line',
             link: route('dashboard.index')
         },
+        {
+            label: 'Product Management',
+            permission: 'product-menu',
+            children: [
+                {
+                    label: 'Products',
+                    permission: 'product-list',
+                    icon: 'ri-draft-line',
+                    link: route('product.index')
+                },
+                {
+                    label: 'Product Categories',
+                    permission: 'product-category-list',
+                    icon: 'ri-folders-line',
+                    link: route('productCategory.index')
+                },
+                {
+                    label: 'Product Tags',
+                    permission: 'product-tag-list',
+                    icon: 'ri-price-tag-3-line',
+                    link: route('productTag.index')
+                },
+                {
+                    label: 'Product Brands',
+                    permission: 'product-brand-list',
+                    icon: 'ri-team-line',
+                    link: route('productBrand.index')
+                }
+            ]
+        },
 
         {
             label: 'Blog',
