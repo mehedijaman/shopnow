@@ -2,15 +2,15 @@
     <div class="mt-5 flex items-center">
         <AppCheckbox
             id="term"
-            v-model="categoryStore.category.is_visible"
+            v-model="categoryStore.category.active"
             name="term"
             :value="true"
         />
-        <AppLabel for="term" class="ml-3"> Turn Category visible </AppLabel>
+        <AppLabel for="term" class="ml-3"> Active </AppLabel>
     </div>
 </template>
 
 <script setup>
-import { useCategoryStore } from '../ProductCategoryStore'
-const categoryStore = useCategoryStore()
+import { useProductCategoryStore } from '../ProductCategoryStore'
+const categoryStore = useProductCategoryStore()
 </script>

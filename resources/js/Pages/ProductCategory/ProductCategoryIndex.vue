@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Categories" :bread-crumb="breadCrumb">
+    <AppSectionHeader title="Product Categories" :bread-crumb="breadCrumb">
         <template #right>
             <AppButton
                 v-if="can('Blog: Category - Create')"

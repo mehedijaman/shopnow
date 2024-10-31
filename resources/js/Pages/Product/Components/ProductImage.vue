@@ -1,9 +1,9 @@
 <template>
     <div class="mt-5">
         <AppInputFile
-            v-model="categoryStore.category.image"
+            v-model="productStore.product.image"
             :image-preview-url="getImagePreviewURL()"
-            @remove-file="categoryStore.category.remove_previous_image = true"
+            @remove-file="productStore.product.remove_previous_image = true"
         ></AppInputFile>
     </div>
 </template>
@@ -11,14 +11,14 @@
 <script setup>
 import useFormErrors from '@/Composables/useFormErrors'
 import useFormContext from '@/Composables/useFormContext'
-import { useProductCategoryStore } from '../ProductCategoryStore'
-const categoryStore = useProductCategoryStore()
+import { useProductStore } from '../ProductStore'
+const productStore = useProductStore()
 const { errorsFields } = useFormErrors()
 
 const { isCreate } = useFormContext()
 const getImagePreviewURL = () => {
-    if (!isCreate.value && categoryStore.category.image_url) {
-        return categoryStore.category.image_url
+    if (!isCreate.value && productStore.product.image_url) {
+        return productStore.product.image_url
     }
 
     return null

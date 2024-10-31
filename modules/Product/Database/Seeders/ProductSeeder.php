@@ -1,23 +1,20 @@
 <?php
 
-namespace Modules\Blog\Database\Seeders;
+namespace Modules\Product\Database\Seeders;
 
-use Modules\Blog\Models\Post;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
-use Modules\Blog\Models\Author;
-use Modules\Blog\Models\Category;
-use function Laravel\Prompts\info;
-use Modules\Product\Models\Product;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Schema;
-
-use Modules\Product\Models\ProductTag;
 use Illuminate\Support\Facades\Storage;
+use Modules\Product\Models\Product;
 use Modules\Product\Models\ProductBrand;
 use Modules\Product\Models\ProductCategory;
-use Illuminate\Database\Eloquent\Factories\Sequence;
+use Modules\Product\Models\ProductTag;
 
-class BlogSeeder extends Seeder
+use function Laravel\Prompts\info;
+
+class ProductSeeder extends Seeder
 {
     //These images are available at: resources/images/blog . Just copy them to storage/app/public/blog as mentioned in the README.md
 
@@ -71,7 +68,7 @@ class BlogSeeder extends Seeder
 
         info('Creating product categories...');
         ProductCategory::factory()->count(10)
-            ->sequence(fn(Sequence $sequence) => ['image' => $this->productCategoriesImages[$sequence->index]])
+            ->sequence(fn (Sequence $sequence) => ['image' => $this->productCategoriesImages[$sequence->index]])
             ->create();
         info('product categories created.');
 
@@ -85,7 +82,7 @@ class BlogSeeder extends Seeder
 
         info('Creating Products...');
         Product::factory()->count(20)
-            ->sequence(fn(Sequence $sequence) => ['image' => $this->productImages[$sequence->index]])
+            ->sequence(fn (Sequence $sequence) => ['image' => $this->productImages[$sequence->index]])
             ->create();
         info('Product created.');
 

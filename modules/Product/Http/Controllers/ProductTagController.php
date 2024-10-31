@@ -2,108 +2,85 @@
 
 namespace Modules\Product\Http\Controllers;
 
-use Inertia\Response;
-use Illuminate\Support\Str;
 use Illuminate\Http\RedirectResponse;
-use Modules\Product\Models\ProductTag;
-use Modules\Support\Traits\UploadFile;
-use Modules\Support\Traits\EditorImage;
+use Illuminate\Support\Str;
+use Inertia\Response;
 use Modules\Product\Http\Requests\ProductTagValidate;
+use Modules\Product\Models\ProductTag;
 use Modules\Support\Http\Controllers\BackendController;
-use Modules\Product\Http\Requests\ProductProductTagValidate;
 
 class ProductTagController extends BackendController
 {
-    use EditorImage, UploadFile;
-
     public function index(): Response
     {
-        $categories = ProductTag::orderBy('name')
+        $tags = ProductTag::orderBy('name')
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($category) => [
-                'id' => $category->id,
-                'name' => Str::limit($category->name, 50),
-                'active' => $category->active,
+            ->through(fn ($tag) => [
+                'id' => $tag->id,
+                'name' => Str::limit($tag->name, 50),
             ]);
 
-        return inertia('Product/ProductTagIndex', [
-            'categories' => $categories,
+        return inertia('ProductTag/ProductTagIndex', [
+            'tags' => $tags,
         ]);
     }
 
     public function create(): Response
     {
-        return inertia('Product/ProductTagForm');
+        return inertia('ProductTag/ProductTagForm');
     }
 
     public function store(ProductTagValidate $request): RedirectResponse
     {
+        ProductTag::create($request->validated());
 
-        $categoryData = $request->validated();
-
-        if ($request->hasFile('image')) {
-            $categoryData = array_merge($categoryData, $this->uploadFile('image', 'blog', 'originalUUID', 'public'));
-        }
-
-        ProductTag::create($categoryData);
-
-        return redirect()->route('blogCategory.index')
-            ->with('success', 'Category created.');
+        return redirect()->route('blogTag.index')
+            ->with('success', 'Tag created.');
     }
 
     public function edit(int $id): Response
     {
-        $category = ProductTag::find($id);
+        $tag = ProductTag::find($id);
 
-        return inertia('Product/ProductTagForm', [
-            'category' => $category,
+        return inertia('ProductTag/ProductTagForm', [
+            'tag' => $tag,
         ]);
     }
 
     public function update(ProductTagValidate $request, int $id): RedirectResponse
     {
-        $category = ProductTag::findOrFail($id);
+        $tag = ProductTag::findOrFail($id);
 
-        $categoryData = $request->validated();
+        $tag->update($request->validated());
 
-        if ($request->hasFile('image')) {
-            $categoryData = array_merge($categoryData, $this->uploadFile('image', 'blog', 'originalUUID', 'public'));
-        } elseif ($request->input('remove_previous_image')) {
-            $categoryData['image'] = null;
-        } else {
-            unset($categoryData['image']);
-        }
-
-        $category->update($categoryData);
-
-        return redirect()->route('blogCategory.index')
-            ->with('success', 'Category updated.');
+        return redirect()->route('blogTag.index')
+            ->with('success', 'Tag updated.');
     }
 
     public function destroy(int $id): RedirectResponse
     {
         ProductTag::findOrFail($id)->delete();
 
-        return redirect()->route('blogCategory.index')
-            ->with('success', 'Category deleted.');
+        return redirect()->route('blogTag.index')
+            ->with('success', 'Tag deleted.');
     }
 
     public function recycleBin(): Response
     {
-        $categories = ProductTag::onlyTrashed()
+        $tags = ProductTag::onlyTrashed()
             ->orderBy('id')
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($category) => [
-                'id' => $category->id,
-                'name' => Str::limit($category->name, 50),
+            ->through(fn ($tag) => [
+                'id' => $tag->id,
+                'name' => Str::limit($tag->name, 50),
             ]);
 
         return inertia('Product/ProductTagRecycleBin', [
-            'categories' => $categories,
+            'tags' => $tags,
         ]);
     }
 
@@ -112,25 +89,25 @@ class ProductTagController extends BackendController
         ProductTag::onlyTrashed()->findOrFail($id)->restore(); // Restore soft deleted record
 
         return redirect()->route('productTag.recycleBin.index')
-            ->with('success', 'Category restored.');
+            ->with('success', 'tag restored.');
     }
 
     public function destroyForce(int $id): RedirectResponse
     {
 
-        $category = ProductTag::onlyTrashed()->findOrFail($id);
+        $tag = ProductTag::onlyTrashed()->findOrFail($id);
 
-        $category->forceDelete();
+        $tag->forceDelete();
 
-        return redirect()->route('productTag.recycleBin.index')->with('success', 'Category deleted.');
+        return redirect()->route('productTag.recycleBin.index')->with('success', 'tag deleted.');
     }
 
     public function emptyRecycleBin(): RedirectResponse
     {
-        $categories = ProductTag::onlyTrashed()->get();
+        $tags = ProductTag::onlyTrashed()->get();
 
-        foreach ($categories as $category) {
-            $category->forceDelete();
+        foreach ($tags as $tag) {
+            $tag->forceDelete();
         }
 
         return redirect()->route('productTag.recycleBin.index')
@@ -142,6 +119,6 @@ class ProductTagController extends BackendController
         ProductTag::onlyTrashed()->restore(); // Restore soft deleted records
 
         return redirect()->route('productTag.recycleBin.index')
-            ->with('success', 'Category restored.');
+            ->with('success', 'tag restored.');
     }
 }

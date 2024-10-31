@@ -8,6 +8,8 @@ use Modules\Acl\Database\Seeders\AclPermissionSeeder;
 use Modules\Acl\Database\Seeders\AclRoleSeeder;
 use Modules\Blog\Database\Seeders\BlogAclSeeder;
 use Modules\Blog\Database\Seeders\BlogSeeder;
+use Modules\Product\Database\Seeders\ProductAclSeeder;
+use Modules\Product\Database\Seeders\ProductSeeder;
 use Modules\User\Database\Seeders\UserSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,6 +24,9 @@ class DatabaseSeeder extends Seeder
 
             BlogAclSeeder::class,
             BlogSeeder::class,
+
+            ProductAclSeeder::class,
+            ProductSeeder::class,
         ]);
     }
 }

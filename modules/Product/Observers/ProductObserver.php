@@ -16,7 +16,7 @@ class ProductObserver
     private function setMetaTagTitle(Product $product): void
     {
         if (! request()->has('meta_tag_title') or empty(request('meta_tag_title'))) {
-            $product->meta_tag_title = Str::limit($product->title, 60, '');
+            $product->meta_tag_title = Str::limit($product->name, 60, '');
         }
     }
 

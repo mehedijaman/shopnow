@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Product\Http\Controllers\ProductController;
-use Modules\Product\Http\Controllers\ProductTagController;
 use Modules\Product\Http\Controllers\ProductBrandController;
 use Modules\Product\Http\Controllers\ProductCategoryController;
+use Modules\Product\Http\Controllers\ProductController;
+use Modules\Product\Http\Controllers\ProductTagController;
 
 /** Product Category routes **/
 Route::prefix('product-category')->name('productCategory.')->middleware('can:product-category')->group(function () {
@@ -50,7 +50,6 @@ Route::prefix('product-brand')->name('productBrand.')->middleware('can:product-b
     Route::delete('{id}', [ProductBrandController::class, 'destroy'])->name('destroy')->can('delete');
 });
 
-
 /** Product Tag routes **/
 Route::prefix('product-tag')->name('productTag.')->middleware('can:product-tag')->group(function () {
     Route::prefix('recycle-bin')->name('recycleBin.')->group(function () {
@@ -69,7 +68,6 @@ Route::prefix('product-tag')->name('productTag.')->middleware('can:product-tag')
     Route::put('{id}', [ProductTagController::class, 'update'])->name('update')->can('edit');
     Route::delete('{id}', [ProductTagController::class, 'destroy'])->name('destroy')->can('delete');
 });
-
 
 /** Product routes **/
 Route::prefix('product')->name('product.')->middleware('can:product')->group(function () {

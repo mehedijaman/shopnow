@@ -3,7 +3,6 @@
 namespace Modules\Product\Services;
 
 use Illuminate\Support\Str;
-use Modules\Blog\Models\Tag;
 use Modules\Product\Models\ProductTag;
 
 class GetProductTagOptions
@@ -12,7 +11,7 @@ class GetProductTagOptions
     {
         return ProductTag::orderBy('name')
             ->get()
-            ->map(fn($tag) => [
+            ->map(fn ($tag) => [
                 'value' => $tag->id,
                 'label' => Str::limit($tag->name, 25),
             ])

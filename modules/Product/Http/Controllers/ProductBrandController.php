@@ -2,15 +2,14 @@
 
 namespace Modules\Product\Http\Controllers;
 
-use Inertia\Response;
-use Illuminate\Support\Str;
 use Illuminate\Http\RedirectResponse;
-use Modules\Support\Traits\UploadFile;
-use Modules\Support\Traits\EditorImage;
+use Illuminate\Support\Str;
+use Inertia\Response;
 use Modules\Product\Models\ProductBrand;
-use Modules\Support\Http\Controllers\BackendController;
 use Modules\Produdct\Http\Requests\ProductBrandValidate;
-use Modules\Product\Http\Requests\ProductProductBrandValidate;
+use Modules\Support\Http\Controllers\BackendController;
+use Modules\Support\Traits\EditorImage;
+use Modules\Support\Traits\UploadFile;
 
 class ProductBrandController extends BackendController
 {
@@ -22,7 +21,7 @@ class ProductBrandController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($category) => [
+            ->through(fn ($category) => [
                 'id' => $category->id,
                 'image_url' => $category->image_url,
                 'name' => Str::limit($category->name, 50),
@@ -98,7 +97,7 @@ class ProductBrandController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($category) => [
+            ->through(fn ($category) => [
                 'id' => $category->id,
                 'image_url' => $category->image_url,
                 'name' => Str::limit($category->name, 50),

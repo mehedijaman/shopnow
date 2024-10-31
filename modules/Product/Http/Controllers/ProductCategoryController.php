@@ -2,15 +2,14 @@
 
 namespace Modules\Product\Http\Controllers;
 
-use Inertia\Response;
-use Illuminate\Support\Str;
 use Illuminate\Http\RedirectResponse;
-use Modules\Support\Traits\UploadFile;
-use Modules\Support\Traits\EditorImage;
+use Illuminate\Support\Str;
+use Inertia\Response;
 use Modules\Product\Models\ProductCategory;
-use Modules\Support\Http\Controllers\BackendController;
 use Modules\Produdct\Http\Requests\ProductCategoryValidate;
-use Modules\Product\Http\Requests\ProductProductCategoryValidate;
+use Modules\Support\Http\Controllers\BackendController;
+use Modules\Support\Traits\EditorImage;
+use Modules\Support\Traits\UploadFile;
 
 class ProductCategoryController extends BackendController
 {
@@ -22,7 +21,7 @@ class ProductCategoryController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($category) => [
+            ->through(fn ($category) => [
                 'id' => $category->id,
                 'image_url' => $category->image_url,
                 'name' => Str::limit($category->name, 50),
@@ -41,7 +40,6 @@ class ProductCategoryController extends BackendController
 
     public function store(ProductCategoryValidate $request): RedirectResponse
     {
-
         $categoryData = $request->validated();
 
         if ($request->hasFile('image')) {
@@ -98,7 +96,7 @@ class ProductCategoryController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($category) => [
+            ->through(fn ($category) => [
                 'id' => $category->id,
                 'image_url' => $category->image_url,
                 'name' => Str::limit($category->name, 50),

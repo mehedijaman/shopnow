@@ -3,7 +3,6 @@
 namespace Modules\Product\Services;
 
 use Illuminate\Support\Str;
-use Modules\Blog\Models\brand;
 use Modules\Product\Models\ProductBrand;
 
 class GetProductBrandOptions
@@ -12,7 +11,7 @@ class GetProductBrandOptions
     {
         return ProductBrand::orderBy('name')
             ->get()
-            ->map(fn($brand) => [
+            ->map(fn ($brand) => [
                 'value' => $brand->id,
                 'label' => Str::limit($brand->name, 25),
             ])

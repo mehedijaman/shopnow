@@ -3,11 +3,11 @@
 namespace Modules\Product\Database\Factories;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Modules\Product\Models\Product;
 use Modules\Product\Models\ProductBrand;
 use Modules\Product\Models\ProductCategory;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
 {

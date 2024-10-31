@@ -3,9 +3,9 @@
 namespace Modules\Product\Database\Factories;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Modules\Product\Models\ProductBrand;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductBrandFactory extends Factory
 {
@@ -20,7 +20,7 @@ class ProductBrandFactory extends Factory
             'name' => $name,
             'description' => $this->faker->realText(),
             'image' => $this->faker->imageUrl(),
-            'is_visible' => $this->faker->boolean(),
+            'active' => $this->faker->boolean(),
             'slug' => Str::slug($name),
             'meta_tag_title' => Str::limit($name, 60, ''),
             'meta_tag_description' => Str::limit($name, 160, ''),

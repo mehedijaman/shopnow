@@ -2,18 +2,18 @@
 
 namespace Modules\Product\Http\Controllers;
 
-use Inertia\Response;
-use Illuminate\Support\Str;
-use Modules\Product\Models\Product;
 use Illuminate\Http\RedirectResponse;
-use Modules\Support\Traits\UploadFile;
-use Modules\Support\Traits\EditorImage;
-use Modules\Product\Services\SyncProductTags;
-use Modules\Product\Services\GetProductTagOptions;
+use Illuminate\Support\Str;
+use Inertia\Response;
+use Modules\Product\Http\Requests\ProductValidate;
+use Modules\Product\Models\Product;
 use Modules\Product\Services\GetProductBrandOptions;
 use Modules\Product\Services\GetProductCategoryOptions;
-use Modules\Product\Http\Requests\ProductValidate;
+use Modules\Product\Services\GetProductTagOptions;
+use Modules\Product\Services\SyncProductTags;
 use Modules\Support\Http\Controllers\BackendController;
+use Modules\Support\Traits\EditorImage;
+use Modules\Support\Traits\UploadFile;
 
 class ProductController extends BackendController
 {
@@ -27,24 +27,30 @@ class ProductController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($product) => [
+            ->through(fn ($product) => [
                 'id' => $product->id,
                 'image_url' => $product->image_url,
-                'title' => $product->title,
-                'status' => $product->status,
+                'name' => $product->name,
+                'price' => $product->price,
+                'sale_price' => $product->sale_price,
+                'quantity' => $product->quantity,
+                'unit' => $product->unit,
+                'min_order' => $product->min_order,
+                'active' => $product->active,
+                'featured' => $product->featured,
             ]);
 
-        return inertia('BlogPost/PostIndex', [
+        return inertia('Product/ProductIndex', [
             'products' => $products,
         ]);
     }
 
     public function create(GetProductCategoryOptions $getProductCategoryOptions, GetProductTagOptions $getProductTagOptions, GetProductBrandOptions $getProductBrandOptions): Response
     {
-        return inertia('BlogPost/PostForm', [
-            'products' => $getProductCategoryOptions->get(),
+        return inertia('Product/ProductForm', [
+            'categories' => $getProductCategoryOptions->get(),
             'tags' => $getProductTagOptions->get(),
-            'authors' => $getProductBrandOptions->get(),
+            // 'authors' => $getProductBrandOptions->get(),
         ]);
     }
 
@@ -53,7 +59,7 @@ class ProductController extends BackendController
         $productData = $request->validated();
 
         if ($request->hasFile('image')) {
-            $productData = array_merge($productData, $this->uploadFile('image', 'blog', 'originalUUID', 'public'));
+            $productData = array_merge($productData, $this->uploadFile('image', 'product', 'originalUUID', 'public'));
         }
 
         $product = Product::create($productData);
@@ -63,18 +69,18 @@ class ProductController extends BackendController
         }
 
         return redirect()->route('product.index')
-            ->with('success', 'Post created.');
+            ->with('success', 'Product created.');
     }
 
     public function edit(GetProductCategoryOptions $getProductCategoryOptions, GetProductTagOptions $getProductTagOptions, GetProductBrandOptions $getProductBrandOptions, int $id): Response
     {
-        return inertia('BlogPost/PostForm', [
+        return inertia('Product/ProductForm', [
             'product' => Product::with(['tags' => function ($query) {
                 $query->select('product_tags.id', 'product_tags.name');
             }])->find($id),
-            'products' => $getProductCategoryOptions->get(),
+            'categories' => $getProductCategoryOptions->get(),
             'tags' => $getProductTagOptions->get(),
-            'authors' => $getProductBrandOptions->get(),
+            // 'authors' => $getProductBrandOptions->get(),
         ]);
     }
 
@@ -100,7 +106,7 @@ class ProductController extends BackendController
         }
 
         return redirect()->route('product.index')
-            ->with('success', 'Post updated.');
+            ->with('success', 'Product updated.');
     }
 
     public function destroy(int $id): RedirectResponse
@@ -108,7 +114,7 @@ class ProductController extends BackendController
         Product::findOrFail($id)->delete();
 
         return redirect()->route('product.index')
-            ->with('success', 'Post deleted.');
+            ->with('success', 'Product deleted.');
     }
 
     public function recycleBin(): Response
@@ -118,7 +124,7 @@ class ProductController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($product) => [
+            ->through(fn ($product) => [
                 'id' => $product->id,
                 'name' => Str::limit($product->name, 50),
             ]);

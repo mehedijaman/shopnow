@@ -2,19 +2,15 @@
 
 namespace Modules\Product\Models;
 
-use Carbon\Carbon;
-use Modules\Support\Models\BaseModel;
-use Modules\Product\Models\ProductTag;
-use Modules\Support\Traits\Searchable;
-use Modules\Support\Traits\ActivityLog;
-use Modules\Product\Models\ProductBrand;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Modules\Product\Models\ProductCategory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Product\Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Product\Database\Factories\ProductFactory;
+use Modules\Support\Models\BaseModel;
+use Modules\Support\Traits\ActivityLog;
+use Modules\Support\Traits\Searchable;
 
 class Product extends BaseModel
 {
@@ -34,11 +30,10 @@ class Product extends BaseModel
     {
         return [
             'slug' => [
-                'source' => 'title',
+                'source' => 'name',
             ],
         ];
     }
-
 
     public function getImageUrlAttribute(): ?string
     {

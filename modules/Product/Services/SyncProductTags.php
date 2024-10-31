@@ -2,7 +2,6 @@
 
 namespace Modules\Product\Services;
 
-use Modules\Blog\Models\Post;
 use Modules\Product\Models\Product;
 
 class SyncProductTags

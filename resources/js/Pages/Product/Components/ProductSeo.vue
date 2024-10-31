@@ -13,7 +13,7 @@
         </h4>
 
         <small
-            v-show="categoryStore.showSeoAlert()"
+            v-show="productStore.showSeoAlert()"
             class="block text-sm text-skin-neutral-9"
         >
             (fill the title and description to see a preview)
@@ -29,8 +29,8 @@
                     <div class="flex flex-col items-start">
                         <p class="text-sm">Your Site Name</p>
                         <p class="-mt-1 text-sm text-skin-neutral-10">
-                            https://your-domain.com/product/category/{{
-                                categoryStore.getSlug()
+                            https://your-domain.com/product/{{
+                                productStore.getSlug()
                             }}
                         </p>
                     </div>
@@ -38,11 +38,11 @@
 
                 <div>
                     <p class="text-2xl text-skin-primary-11">
-                        {{ categoryStore.category.meta_tag_title }}
+                        {{ productStore.product.meta_tag_title }}
                     </p>
 
                     <p class="">
-                        {{ categoryStore.category.meta_tag_description }}
+                        {{ productStore.product.meta_tag_description }}
                     </p>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                 <AppLabel for="meta_tag_title">Meta Tag Title</AppLabel>
                 <AppInputText
                     id="meta_tag_title"
-                    v-model="categoryStore.category.meta_tag_title"
+                    v-model="productStore.product.meta_tag_title"
                     type="text"
                     maxlength="60"
                     :class="{
@@ -59,7 +59,7 @@
                     }"
                 />
                 <small class="block text-right text-skin-neutral-9">
-                    {{ categoryStore.getRemainingChars('meta_tag_title', 60) }}
+                    {{ productStore.getRemainingChars('meta_tag_title', 60) }}
                     of 60
                 </small>
             </div>
@@ -70,7 +70,7 @@
                 >
                 <AppTextArea
                     id="meta_tag_description"
-                    v-model="categoryStore.category.meta_tag_description"
+                    v-model="productStore.product.meta_tag_description"
                     class="h-24"
                     maxlength="160"
                     :class="{
@@ -81,7 +81,7 @@
                 />
                 <small class="block text-right text-skin-neutral-9">
                     {{
-                        categoryStore.getRemainingChars(
+                        productStore.getRemainingChars(
                             'meta_tag_description',
                             160
                         )
@@ -96,10 +96,9 @@
 <script setup>
 import useFormErrors from '@/Composables/useFormErrors'
 import useFormContext from '@/Composables/useFormContext'
-import { useProductCategoryStore } from '../ProductCategoryStore'
+import { useProductStore } from '../ProductStore'
 import { ref, onMounted } from 'vue'
-
-const categoryStore = useProductCategoryStore()
+const productStore = useProductStore()
 const { errorsFields } = useFormErrors()
 
 const { isCreate } = useFormContext()
@@ -116,10 +115,10 @@ const toggleSeoForm = () => {
     if (
         !showSeoForm.value &&
         isCreate.value &&
-        !categoryStore.category.meta_tag_title.length &&
-        !categoryStore.category.meta_tag_description.length
+        !productStore.product.meta_tag_title.length &&
+        !productStore.product.meta_tag_description.length
     ) {
-        categoryStore.initSeoTags()
+        productStore.initSeoTags()
     }
 
     showSeoForm.value = !showSeoForm.value
