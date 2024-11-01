@@ -28,13 +28,13 @@ export default {
                     permission: 'product-tag-list',
                     icon: 'ri-price-tag-3-line',
                     link: route('productTag.index')
-                },
-                {
-                    label: 'Product Brands',
-                    permission: 'product-brand-list',
-                    icon: 'ri-team-line',
-                    link: route('productBrand.index')
                 }
+                // {
+                //     label: 'Product Brands',
+                //     permission: 'product-brand-list',
+                //     icon: 'ri-team-line',
+                //     link: route('productBrand.index')
+                // }
             ]
         },
 
