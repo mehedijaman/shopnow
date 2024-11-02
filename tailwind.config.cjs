@@ -10,7 +10,8 @@ module.exports = {
         './resources/js/**/*.vue',
         './resources-site/views/**/*.blade.php',
         './resources-site/js/**/*.vue',
-        './modules/**/views/**/*.blade.php'
+        './modules/**/views/**/*.blade.php',
+        './node_modules/flowbite/**/*.js'
     ],
 
     theme: {
@@ -80,7 +81,7 @@ module.exports = {
         }
     },
 
-    plugins: [require('@tailwindcss/forms')],
+    plugins: [require('@tailwindcss/forms'), require('flowbite/plugin')],
 
     safelist: ['tooltip-arrow']
 }

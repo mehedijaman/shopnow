@@ -1,6 +1,9 @@
 import { createVueApp } from './create-vue-app.js'
-import IndexExampleComponent from './Components/IndexExampleComponent.vue'
+import 'flowbite'
+import NavBar from './Components/NavBar.vue'
+import ProductCard from './Components/ProductCard.vue'
 
 createVueApp({
-    IndexExampleComponent
+    NavBar,
+    ProductCard
 }).mount('#app')
