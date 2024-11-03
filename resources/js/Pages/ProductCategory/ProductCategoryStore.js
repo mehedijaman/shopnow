@@ -10,6 +10,7 @@ export const useProductCategoryStore = defineStore('ProductCategoryStore', {
                 image: null,
 
                 active: true,
+                featured: false,
 
                 meta_tag_title: '',
                 meta_tag_description: '',

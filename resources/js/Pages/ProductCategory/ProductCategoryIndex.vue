@@ -25,10 +25,10 @@
                         <img
                             v-if="item.image_url"
                             :src="item.image_url"
-                            class="h-6 w-24 rounded"
+                            class="h-12 w-20 rounded"
                         />
 
-                        <AppImageNotAvailable v-else class="!h-6 !w-24" />
+                        <AppImageNotAvailable v-else class="!h-12 !w-20" />
                     </AppDataTableData>
 
                     <AppDataTableData>
@@ -36,12 +36,21 @@
                     </AppDataTableData>
 
                     <AppDataTableData>
-                        <span
-                            class="rounded px-3 py-1 text-sm"
-                            :class="getCategoryStatusClass(item.is_visible)"
-                        >
-                            {{ item.is_visible ? 'Visible' : 'Invisible' }}
-                        </span>
+                        <div class="flex gap-2">
+                            <span
+                                class="rounded px-3 py-1 text-sm"
+                                :class="getStatusClass(item.active)"
+                            >
+                                {{ item.active ? 'Active' : 'Inactive' }}
+                            </span>
+
+                            <span
+                                v-if="item.featured"
+                                class="active rounded px-3 py-1 text-sm"
+                            >
+                                Featured
+                            </span>
+                        </div>
                     </AppDataTableData>
 
                     <AppDataTableData>
@@ -122,8 +131,8 @@ const breadCrumb = [
 
 const headers = ['Image', 'Name', 'Status', 'Actions']
 
-const getCategoryStatusClass = (isVisible) => {
-    return isVisible ? 'category-visible' : 'category-invisible'
+const getStatusClass = (active) => {
+    return active ? 'active' : 'inactive'
 }
 
 const confirmDialogRef = ref(null)
@@ -133,13 +142,3 @@ const confirmDelete = (deleteRoute) => {
 
 const { can } = useAuthCan()
 </script>
-
-<style scoped>
-.category-visible {
-    @apply bg-skin-success-light text-skin-success;
-}
-
-.category-invisible {
-    @apply bg-skin-warning-light text-skin-warning;
-}
-</style>

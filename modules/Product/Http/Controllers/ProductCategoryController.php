@@ -2,18 +2,20 @@
 
 namespace Modules\Product\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Str;
 use Inertia\Response;
-use Modules\Product\Models\ProductCategory;
-use Modules\Produdct\Http\Requests\ProductCategoryValidate;
-use Modules\Support\Http\Controllers\BackendController;
-use Modules\Support\Traits\EditorImage;
+use Illuminate\Support\Str;
+use Illuminate\Http\RedirectResponse;
 use Modules\Support\Traits\UploadFile;
+use Modules\Support\Traits\EditorImage;
+use Modules\Product\Models\ProductCategory;
+use Modules\Support\Http\Controllers\BackendController;
+use Modules\Product\Http\Requests\ProductCategoryValidate;
 
 class ProductCategoryController extends BackendController
 {
     use EditorImage, UploadFile;
+
+    protected string $uploadImagePath = 'storage/app/public/product';
 
     public function index(): Response
     {
@@ -21,11 +23,12 @@ class ProductCategoryController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn ($category) => [
+            ->through(fn($category) => [
                 'id' => $category->id,
                 'image_url' => $category->image_url,
                 'name' => Str::limit($category->name, 50),
                 'active' => $category->active,
+                'featured' => $category->featured,
             ]);
 
         return inertia('ProductCategory/ProductCategoryIndex', [
@@ -38,18 +41,18 @@ class ProductCategoryController extends BackendController
         return inertia('ProductCategory/ProductCategoryForm');
     }
 
-    public function store(ProductCategoryValidate $request): RedirectResponse
+    public function store(ProductCategoryValidate $request)
     {
         $categoryData = $request->validated();
 
         if ($request->hasFile('image')) {
-            $categoryData = array_merge($categoryData, $this->uploadFile('image', 'blog', 'originalUUID', 'public'));
+            $categoryData = array_merge($categoryData, $this->uploadFile('image', 'product-category', 'originalUUID', 'public'));
         }
 
         ProductCategory::create($categoryData);
 
-        return redirect()->route('blogCategory.index')
-            ->with('success', 'Category created.');
+        return redirect()->route('productCategory.index')
+            ->with('success', 'Product Category created.');
     }
 
     public function edit(int $id): Response
@@ -68,7 +71,7 @@ class ProductCategoryController extends BackendController
         $categoryData = $request->validated();
 
         if ($request->hasFile('image')) {
-            $categoryData = array_merge($categoryData, $this->uploadFile('image', 'blog', 'originalUUID', 'public'));
+            $categoryData = array_merge($categoryData, $this->uploadFile('image', 'product-category', 'originalUUID', 'public'));
         } elseif ($request->input('remove_previous_image')) {
             $categoryData['image'] = null;
         } else {
@@ -77,16 +80,16 @@ class ProductCategoryController extends BackendController
 
         $category->update($categoryData);
 
-        return redirect()->route('blogCategory.index')
-            ->with('success', 'Category updated.');
+        return redirect()->route('productCategory.index')
+            ->with('success', 'Product Category updated.');
     }
 
     public function destroy(int $id): RedirectResponse
     {
         ProductCategory::findOrFail($id)->delete();
 
-        return redirect()->route('blogCategory.index')
-            ->with('success', 'Category deleted.');
+        return redirect()->route('productCategory.index')
+            ->with('success', 'Product Category deleted.');
     }
 
     public function recycleBin(): Response
@@ -96,7 +99,7 @@ class ProductCategoryController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn ($category) => [
+            ->through(fn($category) => [
                 'id' => $category->id,
                 'image_url' => $category->image_url,
                 'name' => Str::limit($category->name, 50),
@@ -112,7 +115,7 @@ class ProductCategoryController extends BackendController
         ProductCategory::onlyTrashed()->findOrFail($id)->restore(); // Restore soft deleted record
 
         return redirect()->route('productCategory.recycleBin.index')
-            ->with('success', 'Category restored.');
+            ->with('success', 'Product Category restored.');
     }
 
     public function destroyForce(int $id): RedirectResponse
@@ -122,7 +125,7 @@ class ProductCategoryController extends BackendController
 
         $category->forceDelete();
 
-        return redirect()->route('productCategory.recycleBin.index')->with('success', 'Category deleted.');
+        return redirect()->route('productCategory.recycleBin.index')->with('success', 'Product Category deleted.');
     }
 
     public function emptyRecycleBin(): RedirectResponse
@@ -142,6 +145,6 @@ class ProductCategoryController extends BackendController
         ProductCategory::onlyTrashed()->restore(); // Restore soft deleted records
 
         return redirect()->route('productCategory.recycleBin.index')
-            ->with('success', 'Category restored.');
+            ->with('success', 'Product Category restored.');
     }
 }

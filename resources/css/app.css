@@ -125,3 +125,11 @@
 #nprogress .bar {
     height: 0.3125em !important;
 }
+
+.active {
+    @apply bg-skin-success-light text-skin-success;
+}
+
+.inactive {
+    @apply bg-skin-warning-light text-skin-warning;
+}

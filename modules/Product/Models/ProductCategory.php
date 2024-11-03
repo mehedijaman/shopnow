@@ -23,6 +23,7 @@ class ProductCategory extends BaseModel
 
     protected $casts = [
         'active' => 'boolean',
+        'featured' => 'boolean',
     ];
 
     public function sluggable(): array
@@ -37,7 +38,7 @@ class ProductCategory extends BaseModel
     public function getImageUrlAttribute(): ?string
     {
         if ($this->image) {
-            return asset("storage/category/{$this->image}");
+            return asset("storage/product-category/{$this->image}");
         }
 
         return null;

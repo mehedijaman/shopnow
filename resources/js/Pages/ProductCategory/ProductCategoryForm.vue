@@ -9,8 +9,6 @@
             <form class="pt-4">
                 <CategoryBody />
 
-                <CategoryVisibility />
-
                 <CategoryImage />
 
                 <CategorySeo />
