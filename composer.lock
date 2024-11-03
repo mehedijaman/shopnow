@@ -285,16 +285,16 @@
         },
         {
             "name": "daniel-cintra/modular",
-            "version": "v0.3.13",
+            "version": "v0.3.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/daniel-cintra/modular.git",
-                "reference": "b3122fff182048bcd4d38c71b0948459fd7e03b3"
+                "reference": "de2a69101d960005b3c11aee4e6c243c4de45a3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daniel-cintra/modular/zipball/b3122fff182048bcd4d38c71b0948459fd7e03b3",
-                "reference": "b3122fff182048bcd4d38c71b0948459fd7e03b3",
+                "url": "https://api.github.com/repos/daniel-cintra/modular/zipball/de2a69101d960005b3c11aee4e6c243c4de45a3c",
+                "reference": "de2a69101d960005b3c11aee4e6c243c4de45a3c",
                 "shasum": ""
             },
             "require": {
@@ -339,16 +339,16 @@
                 }
             ],
             "description": "A fast way to develop web apps using Laravel, Vue and Inertia.",
-            "homepage": "https://docs.ismodular.com/",
+            "homepage": "https://ismodular.com/",
             "keywords": [
                 "laravel",
                 "modular"
             ],
             "support": {
                 "issues": "https://github.com/daniel-cintra/modular/issues",
-                "source": "https://github.com/daniel-cintra/modular/tree/v0.3.13"
+                "source": "https://github.com/daniel-cintra/modular/tree/v0.3.14"
             },
-            "time": "2024-10-30T21:19:53+00:00"
+            "time": "2024-10-31T14:16:55+00:00"
         },
         {
             "name": "daniel-cintra/modular-blog",

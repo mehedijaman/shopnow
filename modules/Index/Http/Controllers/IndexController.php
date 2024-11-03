@@ -13,7 +13,7 @@ class IndexController extends SiteController
         // ->search(request('searchContext'), request('searchTerm'))
         // ->paginate(request('rowsPerPage', 8));
 
-        return  view('index::index', compact('products'));
+        return view('index::index', compact('products'));
     }
 
     public function shop()
@@ -22,6 +22,6 @@ class IndexController extends SiteController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 8));
 
-        return  view('index::shop', compact('products'));
+        return view('index::shop', compact('products'));
     }
 }

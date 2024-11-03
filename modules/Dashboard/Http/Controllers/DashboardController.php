@@ -4,13 +4,13 @@ namespace Modules\Dashboard\Http\Controllers;
 
 use App\Models\User;
 use Inertia\Inertia;
-use Spatie\Permission\Models\Role;
 use Modules\Product\Models\Product;
-use Modules\Product\Models\ProductTag;
 use Modules\Product\Models\ProductBrand;
-use Spatie\Permission\Models\Permission;
 use Modules\Product\Models\ProductCategory;
+use Modules\Product\Models\ProductTag;
 use Modules\Support\Http\Controllers\BackendController;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class DashboardController extends BackendController
 {
@@ -43,7 +43,7 @@ class DashboardController extends BackendController
         ];
 
         return Inertia::render('Dashboard/DashboardIndex', [
-            'count' => $count
+            'count' => $count,
         ]);
     }
 }

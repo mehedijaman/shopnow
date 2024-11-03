@@ -30,6 +30,16 @@
                                 Shop
                             </a>
                         </li>
+
+                        <li class="shrink-0">
+                            <a
+                                href="/blog"
+                                title=""
+                                class="hover:text-primary-700 dark:hover:text-primary-500 flex text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                                Blog
+                            </a>
+                        </li>
                     </ul>
                 </div>
 

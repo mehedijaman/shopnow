@@ -54,7 +54,7 @@ class ProductController extends BackendController
         ]);
     }
 
-    public function store(ProductValidate $request, SyncProductTags $syncProductTags): RedirectResponse
+    public function store(ProductValidate $request, SyncProductTags $syncProductTags)
     {
         $productData = $request->validated();
 
@@ -72,12 +72,14 @@ class ProductController extends BackendController
             ->with('success', 'Product created.');
     }
 
-    public function edit(GetProductCategoryOptions $getProductCategoryOptions, GetProductTagOptions $getProductTagOptions, GetProductBrandOptions $getProductBrandOptions, int $id): Response
+    public function edit(GetProductCategoryOptions $getProductCategoryOptions, GetProductTagOptions $getProductTagOptions, GetProductBrandOptions $getProductBrandOptions, int $id)
     {
+        $product = Product::with(['tags' => function ($query) {
+            $query->select('product_tags.id', 'product_tags.name');
+        }])->find($id);
+
         return inertia('Product/ProductForm', [
-            'product' => Product::with(['tags' => function ($query) {
-                $query->select('product_tags.id', 'product_tags.name');
-            }])->find($id),
+            'product' => $product,
             'categories' => $getProductCategoryOptions->get(),
             'tags' => $getProductTagOptions->get(),
             // 'authors' => $getProductBrandOptions->get(),
@@ -92,7 +94,7 @@ class ProductController extends BackendController
         $productData = $request->validated();
 
         if ($request->hasFile('image')) {
-            $productData = array_merge($productData, $this->uploadFile('image', 'blog', 'originalUUID', 'public'));
+            $productData = array_merge($productData, $this->uploadFile('image', 'product', 'originalUUID', 'public'));
         } elseif ($request->input('remove_previous_image')) {
             $productData['image'] = null;
         } else {
