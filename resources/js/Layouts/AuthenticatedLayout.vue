@@ -7,12 +7,18 @@
         :body-scrolling="!isMobile"
         @sidebar:toggle="sidebarToggle"
     >
-        <Link :href="route('dashboard.index')" class="mb-6 flex pl-2">
-            <img
+        <Link :href="route('dashboard.index')" class="mb-6 flex">
+            <!-- <img
                 src="@resources/images/logo.svg"
                 class="w-40"
                 alt="Modular Logo"
-            />
+            /> -->
+
+            <span
+                class="rounded-md bg-skin-primary-10 px-4 py-1 text-3xl font-extrabold text-skin-neutral-3 hover:text-skin-neutral-6 dark:bg-skin-neutral-6 dark:text-skin-neutral-1 dark:hover:text-skin-primary-9"
+            >
+                ShopNow
+            </span>
         </Link>
 
         <AppMenu :items="items" />
