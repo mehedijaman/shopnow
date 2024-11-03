@@ -2,109 +2,111 @@
 
 namespace Modules\Product\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Str;
 use Inertia\Response;
-use Modules\Product\Models\ProductBrand;
-use Modules\Produdct\Http\Requests\ProductBrandValidate;
-use Modules\Support\Http\Controllers\BackendController;
-use Modules\Support\Traits\EditorImage;
+use Illuminate\Support\Str;
+use Illuminate\Http\RedirectResponse;
 use Modules\Support\Traits\UploadFile;
+use Modules\Support\Traits\EditorImage;
+use Modules\Product\Models\ProductBrand;
+use Modules\Support\Http\Controllers\BackendController;
+use Modules\Product\Http\Requests\ProductBrandValidate;
 
 class ProductBrandController extends BackendController
 {
     use EditorImage, UploadFile;
 
+    protected string $uploadImagePath = 'storage/app/public/product';
+
     public function index(): Response
     {
-        $categories = ProductBrand::orderBy('name')
+        $brands = ProductBrand::orderBy('name')
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn ($category) => [
-                'id' => $category->id,
-                'image_url' => $category->image_url,
-                'name' => Str::limit($category->name, 50),
-                'active' => $category->active,
+            ->through(fn($brand) => [
+                'id' => $brand->id,
+                'image_url' => $brand->image_url,
+                'name' => Str::limit($brand->name, 50),
+                'active' => $brand->active,
+                'featured' => $brand->featured,
             ]);
 
-        return inertia('Product/ProductBrandIndex', [
-            'categories' => $categories,
+        return inertia('ProductBrand/ProductBrandIndex', [
+            'brands' => $brands,
         ]);
     }
 
     public function create(): Response
     {
-        return inertia('Product/ProductBrandForm');
+        return inertia('ProductBrand/ProductBrandForm');
     }
 
-    public function store(ProductBrandValidate $request): RedirectResponse
+    public function store(ProductBrandValidate $request)
     {
-
-        $categoryData = $request->validated();
+        $brandData = $request->validated();
 
         if ($request->hasFile('image')) {
-            $categoryData = array_merge($categoryData, $this->uploadFile('image', 'blog', 'originalUUID', 'public'));
+            $brandData = array_merge($brandData, $this->uploadFile('image', 'product-brand', 'originalUUID', 'public'));
         }
 
-        ProductBrand::create($categoryData);
+        ProductBrand::create($brandData);
 
-        return redirect()->route('blogCategory.index')
-            ->with('success', 'Category created.');
+        return redirect()->route('productBrand.index')
+            ->with('success', 'Product Brand created.');
     }
 
     public function edit(int $id): Response
     {
-        $category = ProductBrand::find($id);
+        $brand = ProductBrand::find($id);
 
-        return inertia('Product/ProductBrandForm', [
-            'category' => $category,
+        return inertia('ProductBrand/ProductBrandForm', [
+            'brand' => $brand,
         ]);
     }
 
     public function update(ProductBrandValidate $request, int $id): RedirectResponse
     {
-        $category = ProductBrand::findOrFail($id);
+        $brand = ProductBrand::findOrFail($id);
 
-        $categoryData = $request->validated();
+        $brandData = $request->validated();
 
         if ($request->hasFile('image')) {
-            $categoryData = array_merge($categoryData, $this->uploadFile('image', 'blog', 'originalUUID', 'public'));
+            $brandData = array_merge($brandData, $this->uploadFile('image', 'product-brand', 'originalUUID', 'public'));
         } elseif ($request->input('remove_previous_image')) {
-            $categoryData['image'] = null;
+            $brandData['image'] = null;
         } else {
-            unset($categoryData['image']);
+            unset($brandData['image']);
         }
 
-        $category->update($categoryData);
+        $brand->update($brandData);
 
-        return redirect()->route('blogCategory.index')
-            ->with('success', 'Category updated.');
+        return redirect()->route('productBrand.index')
+            ->with('success', 'Product Brand updated.');
     }
 
     public function destroy(int $id): RedirectResponse
     {
         ProductBrand::findOrFail($id)->delete();
 
-        return redirect()->route('blogCategory.index')
-            ->with('success', 'Category deleted.');
+        return redirect()->route('productBrand.index')
+            ->with('success', 'Product Brand deleted.');
     }
 
     public function recycleBin(): Response
     {
-        $categories = ProductBrand::onlyTrashed()
+        $brands = ProductBrand::onlyTrashed()
             ->orderBy('id')
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn ($category) => [
-                'id' => $category->id,
-                'image_url' => $category->image_url,
-                'name' => Str::limit($category->name, 50),
+            ->through(fn($brand) => [
+                'id' => $brand->id,
+                'image_url' => $brand->image_url,
+                'name' => Str::limit($brand->name, 50),
             ]);
 
-        return inertia('Product/ProductBrandRecycleBin', [
-            'categories' => $categories,
+        return inertia('ProductBrand/ProductBrandRecycleBin', [
+            'brands' => $brands,
         ]);
     }
 
@@ -113,25 +115,25 @@ class ProductBrandController extends BackendController
         ProductBrand::onlyTrashed()->findOrFail($id)->restore(); // Restore soft deleted record
 
         return redirect()->route('productBrand.recycleBin.index')
-            ->with('success', 'Category restored.');
+            ->with('success', 'Product Brand restored.');
     }
 
     public function destroyForce(int $id): RedirectResponse
     {
 
-        $category = ProductBrand::onlyTrashed()->findOrFail($id);
+        $brand = ProductBrand::onlyTrashed()->findOrFail($id);
 
-        $category->forceDelete();
+        $brand->forceDelete();
 
-        return redirect()->route('productBrand.recycleBin.index')->with('success', 'Category deleted.');
+        return redirect()->route('productBrand.recycleBin.index')->with('success', 'Product Brand deleted.');
     }
 
     public function emptyRecycleBin(): RedirectResponse
     {
-        $categories = ProductBrand::onlyTrashed()->get();
+        $brands = ProductBrand::onlyTrashed()->get();
 
-        foreach ($categories as $category) {
-            $category->forceDelete();
+        foreach ($brands as $brand) {
+            $brand->forceDelete();
         }
 
         return redirect()->route('productBrand.recycleBin.index')
@@ -143,6 +145,6 @@ class ProductBrandController extends BackendController
         ProductBrand::onlyTrashed()->restore(); // Restore soft deleted records
 
         return redirect()->route('productBrand.recycleBin.index')
-            ->with('success', 'Category restored.');
+            ->with('success', 'Product Brand restored.');
     }
 }

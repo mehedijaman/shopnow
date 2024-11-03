@@ -23,6 +23,7 @@ class ProductBrand extends BaseModel
 
     protected $casts = [
         'active' => 'boolean',
+        'featured' => 'boolean',
     ];
 
     public function sluggable(): array

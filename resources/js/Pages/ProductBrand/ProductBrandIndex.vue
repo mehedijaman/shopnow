@@ -1,34 +1,34 @@
 <template>
-    <AppSectionHeader title="Products" :bread-crumb="breadCrumb">
+    <AppSectionHeader title="Product Brands" :bread-crumb="breadCrumb">
         <template #right>
             <AppButton
-                v-if="can('product-create')"
+                v-if="can('product-brand-create')"
                 class="btn btn-primary"
-                @click="$inertia.visit(route('product.create'))"
+                @click="$inertia.visit(route('productBrand.create'))"
             >
-                Create Product
+                Create Brand
             </AppButton>
         </template>
     </AppSectionHeader>
 
     <AppDataSearch
-        v-if="products.data.length || route().params.searchTerm"
-        :url="route('product.index')"
-        fields-to-search="title"
+        v-if="brands.data.length || route().params.searchTerm"
+        :url="route('productBrand.index')"
+        fields-to-search="name"
     ></AppDataSearch>
 
-    <AppDataTable v-if="products.data.length" :headers="headers">
+    <AppDataTable v-if="brands.data.length" :headers="headers">
         <template #TableBody>
             <tbody>
-                <AppDataTableRow v-for="item in products.data" :key="item.id">
+                <AppDataTableRow v-for="item in brands.data" :key="item.id">
                     <AppDataTableData>
                         <img
                             v-if="item.image_url"
                             :src="item.image_url"
-                            class="h-10 w-10 rounded"
+                            class="h-12 w-20 rounded"
                         />
 
-                        <AppImageNotAvailable v-else />
+                        <AppImageNotAvailable v-else class="!h-12 !w-20" />
                     </AppDataTableData>
 
                     <AppDataTableData>
@@ -36,38 +36,17 @@
                     </AppDataTableData>
 
                     <AppDataTableData>
-                        {{ item.price }}
-                    </AppDataTableData>
-
-                    <AppDataTableData>
-                        {{ item.sale_price }}
-                    </AppDataTableData>
-
-                    <AppDataTableData>
-                        {{ item.quantity }}
-                    </AppDataTableData>
-
-                    <AppDataTableData>
-                        {{ item.unit }}
-                    </AppDataTableData>
-
-                    <AppDataTableData>
-                        {{ item.min_order }}
-                    </AppDataTableData>
-
-                    <AppDataTableData>
                         <div class="flex gap-2">
                             <span
                                 class="rounded px-3 py-1 text-sm"
-                                :class="getstatusClass(item.active)"
+                                :class="getStatusClass(item.active)"
                             >
                                 {{ item.active ? 'Active' : 'Inactive' }}
                             </span>
 
                             <span
                                 v-if="item.featured"
-                                class="rounded px-3 py-1 text-sm"
-                                :class="getstatusClass(item.featured)"
+                                class="active rounded px-3 py-1 text-sm"
                             >
                                 Featured
                             </span>
@@ -77,15 +56,15 @@
                     <AppDataTableData>
                         <!-- Edit -->
                         <AppTooltip
-                            v-if="can('product-edit')"
-                            text="Edit Post"
+                            v-if="can('product-brand-edit')"
+                            text="Edit Brand"
                             class="mr-3"
                         >
                             <AppButton
                                 class="btn btn-icon btn-primary"
                                 @click="
                                     $inertia.visit(
-                                        route('product.edit', item.id)
+                                        route('productBrand.edit', item.id)
                                     )
                                 "
                             >
@@ -95,14 +74,14 @@
 
                         <!-- Delete -->
                         <AppTooltip
-                            v-if="can('product-delete')"
-                            text="Delete Post"
+                            v-if="can('product-brand-delete')"
+                            text="Delete Brand"
                         >
                             <AppButton
                                 class="btn btn-icon btn-destructive"
                                 @click="
                                     confirmDelete(
-                                        route('product.destroy', item.id)
+                                        route('productBrand.destroy', item.id)
                                     )
                                 "
                             >
@@ -116,16 +95,15 @@
     </AppDataTable>
 
     <AppPaginator
-        v-if="products.data.length"
-        :links="products.links"
-        :from="products.from || 0"
-        :to="products.to || 0"
-        :total="products.total || 0"
+        :links="brands.links"
+        :from="brands.from || 0"
+        :to="brands.to || 0"
+        :total="brands.total || 0"
         class="mt-4 justify-center"
     ></AppPaginator>
 
-    <AppAlert v-if="!products.data.length" class="mt-4">
-        No products found.
+    <AppAlert v-if="!brands.data.length" class="mt-4">
+        No brands found.
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
@@ -137,7 +115,7 @@ import useAuthCan from '@/Composables/useAuthCan'
 import AppImageNotAvailable from '@/Components/Modules/Blog/AppImageNotAvailable.vue'
 
 const props = defineProps({
-    products: {
+    brands: {
         type: Object,
         default: () => {}
     }
@@ -145,23 +123,13 @@ const props = defineProps({
 
 const breadCrumb = [
     { label: 'Home', href: route('dashboard.index') },
-    { label: 'Products', last: true }
+    { label: 'brands', last: true }
 ]
 
-const headers = [
-    'Image',
-    'Name',
-    'Price',
-    'Sale Price',
-    'Quantity',
-    'Unit',
-    'Min Order',
-    'Status',
-    'Actions'
-]
+const headers = ['Image', 'Name', 'Status', 'Actions']
 
-const getstatusClass = (status) => {
-    return status ? 'active' : 'inactive'
+const getStatusClass = (active) => {
+    return active ? 'active' : 'inactive'
 }
 
 const confirmDialogRef = ref(null)
@@ -171,13 +139,3 @@ const confirmDelete = (deleteRoute) => {
 
 const { can } = useAuthCan()
 </script>
-
-<style scoped>
-.active {
-    @apply bg-skin-success-light text-skin-success;
-}
-
-.inactive {
-    @apply bg-skin-warning-light text-skin-warning;
-}
-</style>

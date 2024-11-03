@@ -22,9 +22,10 @@ class Product extends BaseModel
 
     protected $appends = ['image_url'];
 
-    // protected $casts = [
-    //     'published_at' => 'datetime:Y-m-d',
-    // ];
+    protected $casts = [
+        'active' => 'boolean',
+        'featured' => 'boolean',
+    ];
 
     public function sluggable(): array
     {

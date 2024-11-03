@@ -27,7 +27,7 @@ class ProductController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn ($product) => [
+            ->through(fn($product) => [
                 'id' => $product->id,
                 'image_url' => $product->image_url,
                 'name' => $product->name,
@@ -126,7 +126,7 @@ class ProductController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn ($product) => [
+            ->through(fn($product) => [
                 'id' => $product->id,
                 'name' => Str::limit($product->name, 50),
             ]);
