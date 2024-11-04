@@ -2,14 +2,14 @@
 
 namespace Modules\Product\Http\Controllers;
 
-use Inertia\Response;
-use Illuminate\Support\Str;
 use Illuminate\Http\RedirectResponse;
-use Modules\Support\Traits\UploadFile;
-use Modules\Support\Traits\EditorImage;
+use Illuminate\Support\Str;
+use Inertia\Response;
+use Modules\Product\Http\Requests\ProductBrandValidate;
 use Modules\Product\Models\ProductBrand;
 use Modules\Support\Http\Controllers\BackendController;
-use Modules\Product\Http\Requests\ProductBrandValidate;
+use Modules\Support\Traits\EditorImage;
+use Modules\Support\Traits\UploadFile;
 
 class ProductBrandController extends BackendController
 {
@@ -23,7 +23,7 @@ class ProductBrandController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($brand) => [
+            ->through(fn ($brand) => [
                 'id' => $brand->id,
                 'image_url' => $brand->image_url,
                 'name' => Str::limit($brand->name, 50),
@@ -99,7 +99,7 @@ class ProductBrandController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($brand) => [
+            ->through(fn ($brand) => [
                 'id' => $brand->id,
                 'image_url' => $brand->image_url,
                 'name' => Str::limit($brand->name, 50),

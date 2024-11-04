@@ -8,6 +8,25 @@ export default {
             link: route('dashboard.index')
         },
         {
+            label: 'Order Management',
+            permission: 'order-menu',
+            children: [
+                {
+                    label: 'Pending Orders',
+                    permission: 'order-list',
+                    icon: 'ri-draft-line',
+                    link: route('order.index')
+                },
+                {
+                    label: 'Completed Orders',
+                    permission: 'order-list',
+                    icon: 'ri-draft-line',
+                    link: route('order.index')
+                }
+            ]
+        },
+
+        {
             label: 'Product Management',
             permission: 'product-menu',
             children: [
@@ -34,6 +53,19 @@ export default {
                     permission: 'product-brand-list',
                     icon: 'ri-team-line',
                     link: route('productBrand.index')
+                }
+            ]
+        },
+
+        {
+            label: 'Customer Management',
+            permission: 'customer-menu',
+            children: [
+                {
+                    label: 'Customers',
+                    permission: 'customer-list',
+                    icon: 'ri-draft-line',
+                    link: route('customer.index')
                 }
             ]
         },

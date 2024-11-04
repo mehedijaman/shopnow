@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Order\Http\Controllers\OrderController;
 
 Route::get('order', [
-    OrderController::class, 'index', 
+    OrderController::class, 'index',
 ])->name('order.index');
 
 Route::get('order/create', [

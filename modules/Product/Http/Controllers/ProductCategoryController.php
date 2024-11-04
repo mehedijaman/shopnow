@@ -2,14 +2,14 @@
 
 namespace Modules\Product\Http\Controllers;
 
-use Inertia\Response;
-use Illuminate\Support\Str;
 use Illuminate\Http\RedirectResponse;
-use Modules\Support\Traits\UploadFile;
-use Modules\Support\Traits\EditorImage;
+use Illuminate\Support\Str;
+use Inertia\Response;
+use Modules\Product\Http\Requests\ProductCategoryValidate;
 use Modules\Product\Models\ProductCategory;
 use Modules\Support\Http\Controllers\BackendController;
-use Modules\Product\Http\Requests\ProductCategoryValidate;
+use Modules\Support\Traits\EditorImage;
+use Modules\Support\Traits\UploadFile;
 
 class ProductCategoryController extends BackendController
 {
@@ -23,7 +23,7 @@ class ProductCategoryController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($category) => [
+            ->through(fn ($category) => [
                 'id' => $category->id,
                 'image_url' => $category->image_url,
                 'name' => Str::limit($category->name, 50),
@@ -99,7 +99,7 @@ class ProductCategoryController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($category) => [
+            ->through(fn ($category) => [
                 'id' => $category->id,
                 'image_url' => $category->image_url,
                 'name' => Str::limit($category->name, 50),

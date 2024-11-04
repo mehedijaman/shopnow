@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Order\Database\Factories;
+namespace Modules\Cart\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Order\Models\Order;
+use Modules\Cart\Models\Cart;
 
-class OrderFactory extends Factory
+class CartFactory extends Factory
 {
-    protected $model = Order::class;
+    protected $model = Cart::class;
 
     public function definition(): array
     {

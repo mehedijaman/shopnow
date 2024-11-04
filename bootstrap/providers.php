@@ -1,18 +1,32 @@
 <?php
 
+use App\Providers\AppServiceProvider;
+use Modules\Acl\AclServiceProvider;
+use Modules\AdminAuth\AdminAuthServiceProvider;
+use Modules\Blog\BlogServiceProvider;
+use Modules\Cart\CartServiceProvider;
+use Modules\Customer\CustomerServiceProvider;
+use Modules\Dashboard\DashboardServiceProvider;
+use Modules\Index\IndexServiceProvider;
+use Modules\Order\OrderServiceProvider;
 use Modules\Product\ProductServiceProvider;
+use Modules\Support\SupportServiceProvider;
+use Modules\User\UserServiceProvider;
 
 return [
-    App\Providers\AppServiceProvider::class,
+    AppServiceProvider::class,
 
-    Modules\Support\SupportServiceProvider::class,
-    Modules\AdminAuth\AdminAuthServiceProvider::class,
-    Modules\User\UserServiceProvider::class,
-    Modules\Dashboard\DashboardServiceProvider::class,
-    Modules\Acl\AclServiceProvider::class,
+    SupportServiceProvider::class,
+    AdminAuthServiceProvider::class,
+    UserServiceProvider::class,
+    DashboardServiceProvider::class,
+    AclServiceProvider::class,
 
-    Modules\Index\IndexServiceProvider::class,
-    Modules\Blog\BlogServiceProvider::class,
+    IndexServiceProvider::class,
+    BlogServiceProvider::class,
 
     ProductServiceProvider::class,
+    CustomerServiceProvider::class,
+    OrderServiceProvider::class,
+    CartServiceProvider::class,
 ];

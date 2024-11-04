@@ -2,11 +2,11 @@
 
 namespace Modules\Order\Http\Controllers;
 
-use Modules\Support\Http\Controllers\BackendController;
-use Modules\Order\Http\Requests\OrderValidate;
-use Modules\Order\Models\Order;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
+use Modules\Order\Http\Requests\OrderValidate;
+use Modules\Order\Models\Order;
+use Modules\Support\Http\Controllers\BackendController;
 
 class OrderController extends BackendController
 {
@@ -17,13 +17,13 @@ class OrderController extends BackendController
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
             ->through(fn ($order) => [
-                    'id' => $order->id,
-                    'name' => $order->name,
-                    'created_at' => $order->created_at->format('d/m/Y H:i') . 'h'
+                'id' => $order->id,
+                'name' => $order->name,
+                'created_at' => $order->created_at->format('d/m/Y H:i').'h',
             ]);
 
         return inertia('Order/OrderIndex', [
-            'orders' => $orders
+            'orders' => $orders,
         ]);
     }
 
@@ -45,7 +45,7 @@ class OrderController extends BackendController
         $order = Order::find($id);
 
         return inertia('Order/OrderForm', [
-            'order' => $order
+            'order' => $order,
         ]);
     }
 

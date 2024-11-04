@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Order\Database\Factories;
+namespace Modules\Customer\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Order\Models\Order;
+use Modules\Customer\Models\Customer;
 
-class OrderFactory extends Factory
+class CustomerFactory extends Factory
 {
-    protected $model = Order::class;
+    protected $model = Customer::class;
 
     public function definition(): array
     {
