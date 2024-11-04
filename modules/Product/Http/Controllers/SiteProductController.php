@@ -3,9 +3,9 @@
 namespace Modules\Product\Http\Controllers;
 
 use Modules\Product\Models\Product;
-use Modules\Support\Http\Controllers\BackendController;
+use Modules\Support\Http\Controllers\SiteController;
 
-class SiteProductController extends BackendController
+class SiteProductController extends SiteController
 {
     public function show(int $productId)
     {
