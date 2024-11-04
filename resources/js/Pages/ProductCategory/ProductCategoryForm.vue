@@ -31,7 +31,6 @@ import useFormErrors from '@/Composables/useFormErrors'
 import CategoryBody from './Components/CategoryBody.vue'
 import CategoryImage from './Components/CategoryImage.vue'
 import CategorySeo from './Components/CategorySeo.vue'
-import CategoryVisibility from './Components/CategoryVisibility.vue'
 import { useProductCategoryStore } from './ProductCategoryStore'
 const categoryStore = useProductCategoryStore()
 
