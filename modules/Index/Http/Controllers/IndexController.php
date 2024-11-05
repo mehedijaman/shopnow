@@ -36,4 +36,14 @@ class IndexController extends SiteController
     {
         return view('contact');
     }
+
+    public function privacyPolicy()
+    {
+        return view('privacy-policy');
+    }
+
+    public function termsOfService()
+    {
+        return view('terms-of-service');
+    }
 }

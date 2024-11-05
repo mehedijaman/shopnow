@@ -17,19 +17,29 @@
                     d="m190.707 180.101-47.078-47.077c11.702-14.072 18.752-32.142 18.752-51.831C162.381 36.423 125.959 0 81.191 0 36.422 0 0 36.423 0 81.193c0 44.767 36.422 81.187 81.191 81.187 19.688 0 37.759-7.049 51.831-18.751l47.079 47.078a7.474 7.474 0 0 0 5.303 2.197 7.498 7.498 0 0 0 5.303-12.803zM15 81.193C15 44.694 44.693 15 81.191 15c36.497 0 66.189 29.694 66.189 66.193 0 36.496-29.692 66.187-66.189 66.187C44.693 147.38 15 117.689 15 81.193z"
                 ></path>
             </svg>
-            <input
-                type="text"
-                placeholder="Search..."
-                class="w-full bg-transparent text-sm outline-none"
-            />
+            <form action="{{ route('site.product.search') }}">
+                <input
+                    type="text"
+                    name="searchText"
+                    placeholder="Search..."
+                    class="w-full bg-transparent text-sm outline-none"
+                />
+            </form>
         </div>
 
-        <a href="javascript:void(0)" class="shrink-0">
-            <img
+        <a href="{{ route('site.index') }}" class="shrink-0">
+            {{--
+                <img
                 src="https://readymadeui.com/readymadeui.svg"
                 alt="logo"
                 class="w-36 md:w-[170px]"
-            />
+                />
+            --}}
+            <span
+                class="rounded-md bg-blue-500 px-4 py-1 text-3xl font-extrabold text-skin-neutral-3 hover:text-skin-neutral-6 dark:text-skin-neutral-1 dark:hover:text-skin-primary-9"
+            >
+                ShopNow
+            </span>
         </a>
 
         <div
@@ -119,12 +129,19 @@
                 class="z-50 max-lg:fixed max-lg:left-0 max-lg:top-0 max-lg:h-full max-lg:w-2/3 max-lg:min-w-[300px] max-lg:space-y-3 max-lg:overflow-auto max-lg:bg-white max-lg:p-4 max-lg:shadow-md lg:flex lg:gap-x-10"
             >
                 <li class="px-3 max-lg:border-b max-lg:pb-4 lg:hidden">
-                    <a href="javascript:void(0)">
-                        <img
+                    <a href="{{ route('site.index') }}">
+                        {{--
+                            <img
                             src="https://readymadeui.com/readymadeui.svg"
                             alt="logo"
                             class="w-36"
-                        />
+                            />
+                        --}}
+                        <span
+                            class="rounded-md bg-blue-500 px-4 py-1 text-3xl font-extrabold text-skin-neutral-3 hover:text-skin-neutral-6 dark:text-skin-neutral-1 dark:hover:text-skin-primary-9"
+                        >
+                            ShopNow
+                        </span>
                     </a>
                 </li>
                 <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">

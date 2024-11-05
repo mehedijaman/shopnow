@@ -14,7 +14,7 @@
     <AppDataSearch
         v-if="products.data.length || route().params.searchTerm"
         :url="route('product.index')"
-        fields-to-search="title"
+        fields-to-search="name"
     ></AppDataSearch>
 
     <AppDataTable v-if="products.data.length" :headers="headers">

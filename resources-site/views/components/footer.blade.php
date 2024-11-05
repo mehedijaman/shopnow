@@ -119,7 +119,7 @@
         <ul class="flex flex-wrap gap-4 gap-x-7">
             <li>
                 <a
-                    href="javascript:void(0)"
+                    href="{{ route('site.termsOfService') }}"
                     class="text-base text-gray-200 transition-all hover:underline"
                 >
                     Terms of Service
@@ -127,7 +127,7 @@
             </li>
             <li>
                 <a
-                    href="javascript:void(0)"
+                    href="{{ route('site.privacyPolicy') }}"
                     class="text-base text-gray-200 transition-all hover:underline"
                 >
                     Privacy Policy
@@ -135,7 +135,7 @@
             </li>
             <li>
                 <a
-                    href="javascript:void(0)"
+                    href="{{ route('site.contact') }}"
                     class="text-base text-gray-200 transition-all hover:underline"
                 >
                     Contact

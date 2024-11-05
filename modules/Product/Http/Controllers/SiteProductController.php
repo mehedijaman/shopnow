@@ -2,6 +2,7 @@
 
 namespace Modules\Product\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Modules\Product\Models\Product;
 use Modules\Support\Http\Controllers\SiteController;
@@ -10,22 +11,10 @@ class SiteProductController extends SiteController
 {
     public function index(): View
     {
-        $products = Product::orderBy('id', 'desc')
+        $products = Product::with(['category', 'tags'])
+            ->orderBy('id', 'desc')
             ->search(request('searchContext'), request('searchTerm'))
-            ->paginate(request('rowsPerPage', 10))
-            ->withQueryString()
-            ->through(fn ($product) => [
-                'id' => $product->id,
-                'image_url' => $product->image_url,
-                'name' => $product->name,
-                'price' => $product->price,
-                'sale_price' => $product->sale_price,
-                'quantity' => $product->quantity,
-                'unit' => $product->unit,
-                'min_order' => $product->min_order,
-                'active' => $product->active,
-                'featured' => $product->featured,
-            ]);
+            ->paginate(request('rowsPerPage', 12));
 
         return view('product::product-index', compact('products'));
     }
@@ -34,6 +23,18 @@ class SiteProductController extends SiteController
     {
         $product = Product::find($productId);
 
-        return view('product::product-details', compact('product'));
+        return view('product::product-show', compact('product'));
+    }
+
+    public function search(Request $request): View
+    {
+        $searchText = $request->input('searchText');
+
+        $products = Product::with(['category', 'tags'])
+            ->orderBy('name', 'asc')
+            ->where('name', 'like', '%' . $searchText . '%')
+            ->paginate(request('rowsPerPage', 10));
+
+        return view('product::product-search-result', compact('products', 'searchText'));
     }
 }

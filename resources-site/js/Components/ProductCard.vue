@@ -148,7 +148,7 @@ const props = defineProps({
     }
 })
 
-const productDetailsRoute = '/product/' + props.product.id
+const productDetailsRoute = '/products/' + props.product.id
 
 function addToCart(product) {
     localStorage.setItem('cart', JSON.stringify(product))
