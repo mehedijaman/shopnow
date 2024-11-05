@@ -2,10 +2,10 @@
 
 namespace Modules\Customer\Http\Controllers;
 
-use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
-use Modules\Customer\Models\Customer;
+use Inertia\Response;
 use Modules\Customer\Http\Requests\CustomerValidate;
+use Modules\Customer\Models\Customer;
 use Modules\Support\Http\Controllers\BackendController;
 
 class CustomerController extends BackendController
@@ -16,7 +16,7 @@ class CustomerController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($customer) => [
+            ->through(fn ($customer) => [
                 'id' => $customer->id,
                 'first_name' => $customer->first_name,
                 'last_name' => $customer->last_name,
@@ -45,7 +45,6 @@ class CustomerController extends BackendController
                 $customer->addresses()->create($address);
             }
         }
-
 
         return redirect()->route('customer.index')
             ->with('success', 'Customer Created.');
@@ -84,7 +83,7 @@ class CustomerController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($customer) => [
+            ->through(fn ($customer) => [
                 'id' => $customer->id,
                 'first_name' => $customer->first_name,
                 'last_name' => $customer->last_name,

@@ -15,10 +15,11 @@
     </head>
 
     <body>
+        <x-header></x-header>
         <div id="app">
             @yield('content')
         </div>
-
         @yield('bodyEndScripts')
+        <x-footer></x-footer>
     </body>
 </html>

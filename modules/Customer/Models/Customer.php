@@ -2,19 +2,19 @@
 
 namespace Modules\Customer\Models;
 
-use Modules\Support\Models\BaseModel;
-use Modules\Support\Traits\Searchable;
-use Modules\Support\Traits\ActivityLog;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Modules\Customer\Database\Factories\CustomerFactory;
+use Modules\Support\Models\BaseModel;
+use Modules\Support\Traits\ActivityLog;
+use Modules\Support\Traits\Searchable;
 
 class Customer extends BaseModel
 {
-    use ActivityLog, HasFactory, Searchable, SoftDeletes, Notifiable;
+    use ActivityLog, HasFactory, Notifiable, Searchable, SoftDeletes;
 
     protected $table = 'customers';
 

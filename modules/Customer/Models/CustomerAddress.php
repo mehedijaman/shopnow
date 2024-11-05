@@ -2,13 +2,13 @@
 
 namespace Modules\Customer\Models;
 
-use Modules\Support\Models\BaseModel;
-use Modules\Support\Traits\Searchable;
-use Modules\Support\Traits\ActivityLog;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Customer\Database\Factories\CustomerAddressFactory;
+use Modules\Support\Models\BaseModel;
+use Modules\Support\Traits\ActivityLog;
+use Modules\Support\Traits\Searchable;
 
 class CustomerAddress extends BaseModel
 {

@@ -3,8 +3,8 @@
 namespace Modules\Customer\Http\Requests;
 
 use Illuminate\Validation\Rule;
-use Modules\Customer\Models\Customer;
 use Illuminate\Validation\Rules\Password;
+use Modules\Customer\Models\Customer;
 use Modules\Support\Http\Requests\Request;
 
 class CustomerValidate extends Request

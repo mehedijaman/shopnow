@@ -2,8 +2,6 @@
 
 namespace Modules\Customer\Http\Requests;
 
-use Illuminate\Validation\Rule;
-use Modules\Customer\Models\Customer;
 use Illuminate\Validation\Rules\Password;
 use Modules\Support\Http\Requests\Request;
 

@@ -3,13 +3,10 @@
 namespace Modules\Customer\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use function Laravel\Prompts\info;
-use Illuminate\Filesystem\Filesystem;
-use Modules\Customer\Models\Customer;
 use Illuminate\Support\Facades\Schema;
+use Modules\Customer\Models\Customer;
 
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\Factories\Sequence;
+use function Laravel\Prompts\info;
 
 class CustomerSeeder extends Seeder
 {
