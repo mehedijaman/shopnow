@@ -4,20 +4,97 @@
     </AppSectionHeader>
 
     <AppCard class="w-full md:w-3/4 xl:w-1/2">
-        <template #title> {{ title }} </template>
+        <template #title>
+            {{ title }}
+        </template>
         <template #content>
             <AppFormErrors class="mb-4" />
-            <form>
+            <form class="grid grid-cols-1 gap-2 md:grid-cols-2">
                 <div>
-                    <AppLabel for="name">{{ __('Name') }}</AppLabel>
+                    <AppLabel for="first_name">
+                        {{ __('First Name') }}
+                    </AppLabel>
                     <AppInputText
-                        id="name"
-                        v-model="form.name"
+                        id="first_name"
+                        v-model="form.first_name"
                         type="text"
                         :class="{
-                            'input-error': errorsFields.includes('name')
+                            'input-error': errorsFields.includes('first_name')
                         }"
                     />
+                </div>
+
+                <div>
+                    <AppLabel for="last_name"> {{ __('Last Name') }} </AppLabel>
+                    <AppInputText
+                        id="last_name"
+                        v-model="form.last_name"
+                        type="text"
+                        :class="{
+                            'input-error': errorsFields.includes('last_name')
+                        }"
+                    />
+                </div>
+
+                <div>
+                    <AppLabel for="phone"> {{ __('Phone') }} </AppLabel>
+                    <AppInputText
+                        id="phone"
+                        v-model="form.phone"
+                        type="text"
+                        :class="{
+                            'input-error': errorsFields.includes('phone')
+                        }"
+                    />
+                </div>
+
+                <div>
+                    <AppLabel for="email"> {{ __('Email') }} </AppLabel>
+                    <AppInputText
+                        id="email"
+                        v-model="form.email"
+                        type="email"
+                        :class="{
+                            'input-error': errorsFields.includes('email')
+                        }"
+                    />
+                </div>
+
+                <div>
+                    <AppLabel for="password"> {{ __('Password') }} </AppLabel>
+                    <AppInputText
+                        id="password"
+                        v-model="form.password"
+                        type="password"
+                        :class="{
+                            'input-error': errorsFields.includes('password')
+                        }"
+                    />
+                </div>
+
+                <div>
+                    <AppLabel for="confirm_password">
+                        {{ __('Confirm Password') }}
+                    </AppLabel>
+                    <AppInputText
+                        id="confirm_password"
+                        v-model="form.confirm_password"
+                        type="password"
+                        :class="{
+                            'input-error':
+                                errorsFields.includes('confirm_password')
+                        }"
+                    />
+                </div>
+
+                <div class="mt-5 flex items-center">
+                    <AppCheckbox
+                        id="active"
+                        v-model="form.active"
+                        name="active"
+                        :value="true"
+                    />
+                    <AppLabel for="active" class="ml-3"> Active </AppLabel>
                 </div>
             </form>
         </template>
@@ -35,38 +112,52 @@ import { Head } from '@inertiajs/vue3'
 import useTitle from '@/Composables/useTitle'
 import useFormContext from '@/Composables/useFormContext'
 import useFormErrors from '@/Composables/useFormErrors'
+import { onMounted } from 'vue'
+
+const props = defineProps({
+    customer: {
+        type: Object,
+        default: null
+    }
+})
 
 const { title } = useTitle('Customer')
 
-const props = defineProps({
-  customer: {
-    type: Object,
-    default: null
-  }
-})
-
 const breadCrumb = [
-  { label: 'Home', href: route('dashboard.index') },
-  { label: 'Customers', href: route('customer.index') },
-  { label: 'Customer', last: true }
+    { label: 'Home', href: route('dashboard.index') },
+    { label: 'Customers', href: route('customer.index') },
+    { label: title, last: true }
 ]
 
-
-
 const form = useForm({
-  name: props.customer ? props.customer.name : '',
+    first_name: props.customer ? props.customer.first_name : '',
+    last_name: props.customer ? props.customer.last_name : '',
+    email: props.customer ? props.customer.email : '',
+    phone: props.customer ? props.customer.phone : '',
+    password: '',
+    confirm_password: '',
+    active: props.customer ? props.customer.active : '',
+    address: props.customer ? props.customer.address : null
 })
 
-const { isCreate, isEdit } = useFormContext()
+const { isCreate } = useFormContext()
 
 const submitForm = () => {
-  if (isCreate.value) {
-    form.post(route('customer.store'))
-  } 
+    const postData = (data) => {
+        const commonData = {
+            ...data
+        }
 
-  if(isEdit.value) {
-    form.put(route('customer.update', props.customer.id))
-  }
+        return isCreate.value ? commonData : { ...commonData, _method: 'PUT' }
+    }
+
+    if (isCreate.value) {
+        form.transform(postData).post(route('customer.store'))
+    } else {
+        form.transform(postData).post(
+            route('customer.update', props.customer.id)
+        )
+    }
 }
 
 const { errorsFields } = useFormErrors()
