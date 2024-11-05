@@ -70,36 +70,36 @@ export default {
             ]
         },
 
-        {
-            label: 'Blog',
-            permission: 'Blog',
-            children: [
-                {
-                    label: 'Posts',
-                    permission: 'Blog: Post - List',
-                    icon: 'ri-draft-line',
-                    link: route('blogPost.index')
-                },
-                {
-                    label: 'Categories',
-                    permission: 'Blog: Category - List',
-                    icon: 'ri-folders-line',
-                    link: route('blogCategory.index')
-                },
-                {
-                    label: 'Tags',
-                    permission: 'Blog: Tag - List',
-                    icon: 'ri-price-tag-3-line',
-                    link: route('blogTag.index')
-                },
-                {
-                    label: 'Authors',
-                    permission: 'Blog: Author - List',
-                    icon: 'ri-team-line',
-                    link: route('blogAuthor.index')
-                }
-            ]
-        },
+        // {
+        //     label: 'Blog',
+        //     permission: 'Blog',
+        //     children: [
+        //         {
+        //             label: 'Posts',
+        //             permission: 'Blog: Post - List',
+        //             icon: 'ri-draft-line',
+        //             link: route('blogPost.index')
+        //         },
+        //         {
+        //             label: 'Categories',
+        //             permission: 'Blog: Category - List',
+        //             icon: 'ri-folders-line',
+        //             link: route('blogCategory.index')
+        //         },
+        //         {
+        //             label: 'Tags',
+        //             permission: 'Blog: Tag - List',
+        //             icon: 'ri-price-tag-3-line',
+        //             link: route('blogTag.index')
+        //         },
+        //         {
+        //             label: 'Authors',
+        //             permission: 'Blog: Author - List',
+        //             icon: 'ri-team-line',
+        //             link: route('blogAuthor.index')
+        //         }
+        //     ]
+        // },
 
         {
             label: 'Access Control List',
