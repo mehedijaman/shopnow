@@ -5,10 +5,18 @@
 @endsection
 
 @section('content')
+    <div
+        class="bg-gradient-to-r from-blue-700 to-[#B06AB3] px-6 py-12 font-sans"
+    >
+        <div
+            class="container mx-auto flex flex-col items-center justify-center text-center"
+        >
+            <h2 class="mb-4 text-3xl font-bold text-white sm:text-4xl">
+                Contact Us
+            </h2>
+        </div>
+    </div>
     <div class="mx-auto max-w-xl bg-white p-4 font-[sans-serif]">
-        <h1 class="text-center text-3xl font-extrabold text-gray-800">
-            Contact us
-        </h1>
         <form class="mt-8 space-y-4">
             <input
                 type="text"
