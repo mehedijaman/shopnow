@@ -40,28 +40,42 @@
                 {{ $product->name }}
             </a>
         </h1>
-        <p class="mt-1 text-center text-gray-800">{{ $product->price }} BDT</p>
-
+        {{-- <p class="mt-1 text-center text-gray-800">{{ $product->price }} BDT</p> --}}
+        <div class="mt-1 text-center text-gray-800">
+            <span class="mr-2 text-lg">
+                @if ($product->sale_price)
+                    {{ $product->sale_price }}
+                @else
+                    {{ $product->price }}
+                @endif
+                BDT
+            </span>
+            @if ($product->sale_price)
+                <span class="text-sm text-gray-500 line-through">
+                    {{ $product->price }} BDT
+                </span>
+            @endif
+        </div>
         <!-- Quantity Counter -->
-        {{--
-            <div class="mt-2 inline-flex items-center">
+
+        <div class="mt-2 inline-flex items-center">
             <button
-            class="inline-flex items-center rounded-l border border-r border-gray-200 bg-white px-2 py-1 text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+                class="inline-flex items-center rounded-l border border-r border-gray-200 bg-white px-2 py-1 text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
             >
-            <i class="ri-subtract-line"></i>
+                <i class="ri-subtract-line"></i>
             </button>
             <div
-            class="inline-flex select-none items-center border-b border-t border-gray-100 bg-gray-100 px-4 py-1 text-gray-600 hover:bg-gray-100"
+                class="inline-flex select-none items-center border-b border-t border-gray-100 bg-gray-100 px-4 py-1 text-gray-600 hover:bg-gray-100"
             >
-            2
+                1
             </div>
             <button
-            class="inline-flex items-center rounded-r border border-r border-gray-200 bg-white px-2 py-1 text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+                class="inline-flex items-center rounded-r border border-r border-gray-200 bg-white px-2 py-1 text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
             >
-            <i class="ri-add-line"></i>
+                <i class="ri-add-line"></i>
             </button>
-            </div>
-        --}}
+        </div>
+
         <button
             class="mt-4 flex w-full items-center justify-center rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50"
         >

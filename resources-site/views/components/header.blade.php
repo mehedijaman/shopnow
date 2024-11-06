@@ -137,7 +137,7 @@
                         <i class="ri-arrow-down-s-line"></i>
                     </a>
                     <ul
-                        class="absolute left-0 top-5 z-50 block max-h-0 min-w-[250px] space-y-2 overflow-hidden bg-white px-6 shadow-lg transition-all duration-500 group-hover:max-h-[700px] group-hover:pb-4 group-hover:pt-6 group-hover:opacity-100 max-lg:top-8"
+                        class="absolute left-0 top-5 z-50 block max-h-0 min-w-[350px] space-y-2 overflow-hidden bg-white px-6 shadow-lg transition-all duration-500 group-hover:max-h-[700px] group-hover:pb-4 group-hover:pt-6 group-hover:opacity-100 max-lg:top-8"
                     >
                         @foreach ($categories as $category)
                             <li class="border-b py-3">
