@@ -26,6 +26,7 @@ return new class extends Migration
             $table->boolean('active')->default(false);
             $table->boolean('featured')->default(false);
             $table->string('image')->nullable();
+            $table->text('summary')->nullable();
             $table->longText('description')->nullable();
             $table->string('meta_tag_title', 60)->nullable();
             $table->string('meta_tag_description', 160)->nullable();

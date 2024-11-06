@@ -1,9 +1,7 @@
 <div class="w-80 rounded border border-gray-300 bg-white shadow">
     <div
         class="flex h-48 w-full flex-col justify-between bg-gray-200 bg-cover bg-center p-4"
-        style="
-            background-image: url('https://images.pexels.com/photos/7989741/pexels-photo-7989741.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
-        "
+        style="background-image: url('{{ $product->image_url }}')"
     >
         <div class="flex justify-between">
             <span></span>
@@ -35,8 +33,12 @@
         <p class="text-center text-xs font-light text-gray-400">
             {{ $product->category?->name }}
         </p>
-        <h1 class="mt-1 text-center text-gray-800">
-            {{ $product->name }}
+        <h1
+            class="mt-1 text-center text-gray-800 hover:text-blue-500 hover:underline"
+        >
+            <a href="{{ route('site.product.show', $product) }}">
+                {{ $product->name }}
+            </a>
         </h1>
         <p class="mt-1 text-center text-gray-800">{{ $product->price }} BDT</p>
 
@@ -60,7 +62,6 @@
             </button>
             </div>
         --}}
-
         <button
             class="mt-4 flex w-full items-center justify-center rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50"
         >
