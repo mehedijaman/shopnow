@@ -2,6 +2,8 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@import 'remixicon/fonts/remixicon.css';
+
 @layer base {
     :root {
         --color-primary-1: 253 253 254; /* #fdfdfe */
