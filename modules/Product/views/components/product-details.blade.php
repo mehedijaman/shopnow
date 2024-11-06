@@ -19,7 +19,7 @@
                     <p
                         class="text-2xl font-extrabold text-gray-900 dark:text-white sm:text-3xl"
                     >
-                        ${{ product . price }}
+                        {{ product . price }}
                     </p>
 
                     <!-- <div class="mt-2 flex items-center gap-2 sm:mt-0">
