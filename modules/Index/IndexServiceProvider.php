@@ -3,7 +3,7 @@
 namespace Modules\Index;
 
 use Illuminate\Support\Facades\View;
-use Modules\Product\Services\Site\GetProductCategoryOptions;
+use Modules\Product\Models\ProductCategory;
 use Modules\Support\BaseServiceProvider;
 
 class IndexServiceProvider extends BaseServiceProvider
@@ -16,7 +16,7 @@ class IndexServiceProvider extends BaseServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/views', 'index');
 
-        $categories = GetProductCategoryOptions::get();
+        $categories = ProductCategory::orderBy('name')->get();
         View::share('categories', $categories);
     }
 }

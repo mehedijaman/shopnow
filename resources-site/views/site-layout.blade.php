@@ -15,8 +15,8 @@
     </head>
 
     <body>
-        <x-header></x-header>
         <div id="app">
+            <x-header></x-header>
             @yield('content')
         </div>
         @yield('bodyEndScripts')
