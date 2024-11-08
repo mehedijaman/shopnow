@@ -16,7 +16,7 @@
             </h2>
         </div>
     </div>
-    <div class="mx-auto max-w-7xl px-6 py-12 lg:px-6">
+    <div class="mx-auto min-h-screen max-w-7xl px-6 py-12 lg:px-6">
         <div class="mx-auto max-w-xl bg-white p-4 font-[sans-serif]">
             <form class="mt-8 space-y-4">
                 <input
