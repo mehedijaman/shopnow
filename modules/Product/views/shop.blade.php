@@ -6,6 +6,10 @@
 
 @section('content')
     <div class="mx-auto max-w-7xl px-6 py-12 lg:px-6">
-        <shopping-cart></shopping-cart>
+        @if ($products->count())
+            <x-product-list :products="$products"></x-product-list>
+        @endif
+
+        {{ $products->links() }}
     </div>
 @endsection

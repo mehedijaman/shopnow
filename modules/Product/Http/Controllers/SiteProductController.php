@@ -19,6 +19,16 @@ class SiteProductController extends SiteController
         return view('product::product-index', compact('products'));
     }
 
+    public function shop(): View
+    {
+        $products = Product::with(['category', 'tags'])
+            ->orderBy('id', 'desc')
+            ->search(request('searchContext'), request('searchTerm'))
+            ->paginate(request('rowsPerPage', 12));
+
+        return view('product::shop', compact('products'));
+    }
+
     public function show(int $productId)
     {
         $product = Product::find($productId);
