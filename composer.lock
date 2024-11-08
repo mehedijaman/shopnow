@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0c22b0a217aa590c024d4d919e0ce3ad",
+    "content-hash": "0f4bc4ad865831b8c636916c6250486a",
     "packages": [
         {
             "name": "brick/math",
@@ -285,21 +285,22 @@
         },
         {
             "name": "daniel-cintra/modular",
-            "version": "v0.3.14",
+            "version": "v0.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ModularThink/modular.git",
-                "reference": "de2a69101d960005b3c11aee4e6c243c4de45a3c"
+                "reference": "f3fc3b0f3b92d4fff063229096d7fbd821c38a85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ModularThink/modular/zipball/de2a69101d960005b3c11aee4e6c243c4de45a3c",
-                "reference": "de2a69101d960005b3c11aee4e6c243c4de45a3c",
+                "url": "https://api.github.com/repos/ModularThink/modular/zipball/f3fc3b0f3b92d4fff063229096d7fbd821c38a85",
+                "reference": "f3fc3b0f3b92d4fff063229096d7fbd821c38a85",
                 "shasum": ""
             },
             "require": {
                 "illuminate/contracts": "^11.0",
                 "inertiajs/inertia-laravel": "^1.0",
+                "laravel/prompts": "^0.3.1",
                 "php": "^8.2",
                 "spatie/laravel-activitylog": "^4.8",
                 "spatie/laravel-package-tools": "^1.16.3",
@@ -346,27 +347,27 @@
             ],
             "support": {
                 "issues": "https://github.com/ModularThink/modular/issues",
-                "source": "https://github.com/ModularThink/modular/tree/v0.3.14"
+                "source": "https://github.com/ModularThink/modular/tree/v0.4.2"
             },
-            "time": "2024-10-31T14:16:55+00:00"
+            "time": "2024-11-06T14:41:40+00:00"
         },
         {
             "name": "daniel-cintra/modular-blog",
-            "version": "v0.3.9",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ModularThink/modular-blog.git",
-                "reference": "31a64a880628586de931193ebd87b51381815d22"
+                "reference": "0032dc1255b993783f2a735fd144dc6c0c2b9908"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ModularThink/modular-blog/zipball/31a64a880628586de931193ebd87b51381815d22",
-                "reference": "31a64a880628586de931193ebd87b51381815d22",
+                "url": "https://api.github.com/repos/ModularThink/modular-blog/zipball/0032dc1255b993783f2a735fd144dc6c0c2b9908",
+                "reference": "0032dc1255b993783f2a735fd144dc6c0c2b9908",
                 "shasum": ""
             },
             "require": {
                 "cviebrock/eloquent-sluggable": "^11.0",
-                "daniel-cintra/modular": "^0.3.0"
+                "daniel-cintra/modular": "^0.4.0"
             },
             "require-dev": {
                 "laravel/pint": "^1.13",
@@ -398,7 +399,7 @@
                 }
             ],
             "description": "A Blog Module for a Modular Application.",
-            "homepage": "https://docs.ismodular.com",
+            "homepage": "https://ismodular.com",
             "keywords": [
                 "Blog Module",
                 "blog",
@@ -407,9 +408,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ModularThink/modular-blog/issues",
-                "source": "https://github.com/ModularThink/modular-blog/tree/v0.3.9"
+                "source": "https://github.com/ModularThink/modular-blog/tree/v0.4.0"
             },
-            "time": "2024-10-30T20:56:43+00:00"
+            "time": "2024-11-06T20:33:13+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -2280,16 +2281,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "3.8.1",
+            "version": "3.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "10ac0aa86b8062219ce21e8189123d611ca3ecd9"
+                "reference": "e1268cdbc486d97ce23fef2c666dc3c6b6de9947"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/10ac0aa86b8062219ce21e8189123d611ca3ecd9",
-                "reference": "10ac0aa86b8062219ce21e8189123d611ca3ecd9",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/e1268cdbc486d97ce23fef2c666dc3c6b6de9947",
+                "reference": "e1268cdbc486d97ce23fef2c666dc3c6b6de9947",
                 "shasum": ""
             },
             "require": {
@@ -2382,7 +2383,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-03T16:02:24+00:00"
+            "time": "2024-11-07T17:46:48+00:00"
         },
         {
             "name": "nette/schema",
@@ -7731,16 +7732,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "5.5.0",
+            "version": "5.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "54e10d44fc1a84e2598d26f70d4f6f1f233e228a"
+                "reference": "0c70d2c566e899666f367ab7b80986beb3581e6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/54e10d44fc1a84e2598d26f70d4f6f1f233e228a",
-                "reference": "54e10d44fc1a84e2598d26f70d4f6f1f233e228a",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/0c70d2c566e899666f367ab7b80986beb3581e6f",
+                "reference": "0c70d2c566e899666f367ab7b80986beb3581e6f",
                 "shasum": ""
             },
             "require": {
@@ -7789,9 +7790,9 @@
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
             "support": {
                 "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
-                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/5.5.0"
+                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/5.5.1"
             },
-            "time": "2024-11-04T21:26:31+00:00"
+            "time": "2024-11-06T11:58:54+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
