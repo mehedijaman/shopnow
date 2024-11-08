@@ -102,7 +102,7 @@
         </div>
 
         <div id="toggleOpen" class="flex lg:hidden">
-            <button>
+            <button @click="toggleOpen">
                 <i class="ri-menu-line"></i>
             </button>
         </div>
@@ -126,6 +126,7 @@
                         class="ri-shopping-cart-line cursor-pointer text-xl hover:text-skin-primary-9"
                     ></i>
                     <span
+                        v-show="cartStore.totalQuantity > 0"
                         class="absolute left-auto top-0 -ml-1 rounded-full bg-red-500 px-1 py-0 text-xs text-white"
                     >
                         {{ cartStore.totalQuantity }}
@@ -151,12 +152,12 @@ const props = defineProps({
     }
 })
 
-// const toggleOpen = () => {
-//     const open = document.getElementById('open'),
-//     const close = document.getElementById('close'),
-//     const toggleOpen = document.getElementById('toggleOpen'),
-//     open.classList.toggle('hidden'),
-//     close.classList.toggle('hidden'),
-//     toggleOpen.classList.toggle('hidden'),
-// }
+const toggleOpen = () => {
+    const open = document.getElementById('open')
+    const close = document.getElementById('close')
+    const toggleOpen = document.getElementById('toggleOpen')
+    open.classList.toggle('hidden')
+    close.classList.toggle('hidden')
+    toggleOpen.classList.toggle('hidden')
+}
 </script>

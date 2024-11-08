@@ -11,7 +11,7 @@ class GetProductCategoryOptions
     {
         return ProductCategory::orderBy('name')
             ->get()
-            ->map(fn($category) => [
+            ->map(fn ($category) => [
                 'id' => $category->id,
                 'name' => Str::limit($category->name, 25),
             ])

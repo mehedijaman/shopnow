@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>{{ config('app.name', 'Modular') }}</title>
+        <title>{{ config('app.name', 'ShopNow') }}</title>
 
         <meta name="csrf-token" content="{{ csrf_token() }}" />
 
@@ -17,9 +17,12 @@
     <body>
         <div id="app">
             <x-header></x-header>
+
             @yield('content')
+
+            <x-footer></x-footer>
         </div>
+
         @yield('bodyEndScripts')
-        <x-footer></x-footer>
     </body>
 </html>

@@ -1,15 +1,10 @@
 import { createVueApp } from './create-vue-app.js'
-import AppAuthLogo from '@/Components/Auth/AppAuthLogo.vue'
 import ProductCard from './Components/ProductCard.vue'
-import NavBar from './Components/NavBar.vue'
-import { createPinia } from 'pinia'
 import ShoppingCart from './Components/ShoppingCart.vue'
+import ProductDetails from './Components/ProductDetails.vue'
 
 createVueApp({
-    AppAuthLogo,
-    NavBar,
     ProductCard,
+    ProductDetails,
     ShoppingCart
-})
-    .use(createPinia())
-    .mount('#app')
+}).mount('#app')

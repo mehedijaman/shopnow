@@ -19,7 +19,7 @@ class SiteProductController extends SiteController
         return view('product::product-index', compact('products'));
     }
 
-    public function show(int $productId): View
+    public function show(int $productId)
     {
         $product = Product::find($productId);
 

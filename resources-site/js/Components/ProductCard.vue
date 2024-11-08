@@ -1,5 +1,5 @@
 <template>
-    <div class="w-80 rounded border border-gray-300 bg-white shadow">
+    <div class="w-full max-w-sm rounded border border-gray-300 bg-white shadow">
         <div
             class="flex h-48 w-full flex-col justify-between bg-gray-200 bg-cover bg-center p-4"
             :style="{ backgroundImage: `url(${product.image_url})` }"
