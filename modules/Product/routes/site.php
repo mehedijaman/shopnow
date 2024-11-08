@@ -1,13 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Product\Http\Controllers\SiteProductCategoryController;
 use Modules\Product\Http\Controllers\SiteProductController;
 
-Route::get('/shop', [SiteProductController::class, 'shop'])->name('site.shop');
-Route::get('/products', [SiteProductController::class, 'index'])->name('site.product.index');
-Route::get('/products/search', [SiteProductController::class, 'search'])->name('site.product.search');
-Route::get('/products/{id}', [SiteProductController::class, 'show'])->name('site.product.show');
-
-Route::get('/categories', [SiteProductCategoryController::class, 'index'])->name('site.product.category.index');
-Route::get('/categories/{id}', [SiteProductCategoryController::class, 'show'])->name('site.product.category.show');
+Route::prefix('shop')->name('shop.')->group(function () {
+    Route::get('/', [SiteProductController::class, 'index'])->name('index');
+    Route::get('/search/{searchText?}', [SiteProductController::class, 'search'])->name('search');
+    Route::get('product/{id}/{slug?}', [SiteProductController::class, 'show'])->name('product');
+    Route::get('category/{id}/{slug?}', [SiteProductController::class, 'category'])->name('category');
+});

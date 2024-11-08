@@ -5,9 +5,15 @@
 @endsection
 
 @section('content')
-    <div class="mx-auto max-w-7xl px-6 py-12 lg:px-6">
+    <div class="mx-auto min-h-screen max-w-7xl px-6 py-12 lg:px-6">
         @if ($products->count())
-            <x-product-list :products="$products"></x-product-list>
+            <section
+                class="grid grid-cols-1 justify-center justify-items-center gap-x-8 gap-y-16 py-4 md:grid-cols-2 lg:grid-cols-4"
+            >
+                @foreach ($products as $product)
+                    <product-card :product="{{ $product }}"></product-card>
+                @endforeach
+            </section>
         @endif
 
         {{ $products->links() }}

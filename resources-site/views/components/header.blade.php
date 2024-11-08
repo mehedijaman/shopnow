@@ -3,7 +3,7 @@
         <section
             class="relative flex flex-col items-center gap-5 px-10 py-3 max-lg:min-h-[60px] lg:min-h-[80px] lg:justify-center"
         >
-            <a href="/">
+            <a href="{{ route('site.index') }}">
                 {{--
                     <img
                     src="https://readymadeui.com/readymadeui.svg"
@@ -21,72 +21,26 @@
             <div
                 class="flex items-center space-x-6 max-md:ml-auto md:absolute md:right-10"
             >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="cursor-pointer"
-                    width="20px"
-                    height="20px"
-                    viewBox="0 0 512 512"
-                >
-                    <path
-                        d="M449.643 0H62.357C27.973 0 0 27.973 0 62.357v387.285C0 484.027 27.973 512 62.357 512H260.86c8.349 0 15.118-6.769 15.118-15.118v-183.31c0-8.349-6.769-15.118-15.118-15.118h-54.341v-43.033h54.341c8.349 0 15.118-6.769 15.118-15.118v-61.192c0-33.116 26.942-60.058 60.059-60.058h52.433v43.033h-52.433c-9.387 0-17.025 7.639-17.025 17.026v61.192c0 8.349 6.769 15.118 15.118 15.118h54.341v43.033H334.13c-8.349 0-15.118 6.769-15.118 15.118v183.31c0 8.349 6.769 15.118 15.118 15.118h115.513C484.027 512 512 484.027 512 449.643V62.357C512 27.973 484.027 0 449.643 0zm32.121 449.643c0 17.712-14.409 32.122-32.122 32.122H349.246V328.69h54.341c8.349 0 15.118-6.769 15.118-15.118v-73.268c0-8.349-6.769-15.118-15.118-15.118h-54.341v-32.864h54.341c8.349 0 15.118-6.769 15.118-15.118v-73.268c0-8.349-6.769-15.118-15.118-15.118h-67.551c-49.788 0-90.294 40.506-90.294 90.294v46.074h-54.341c-8.349 0-15.118 6.769-15.118 15.118v73.268c0 8.349 6.769 15.118 15.118 15.118h54.341v153.074H62.357c-17.712 0-32.122-14.409-32.122-32.122V62.357c0-17.712 14.409-32.122 32.122-32.122h387.285c17.712 0 32.122 14.409 32.122 32.122v387.286z"
-                        data-original="#000000"
-                    />
-                </svg>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="cursor-pointer"
-                    width="20px"
-                    height="20px"
-                    viewBox="0 0 409.61 409.61"
-                >
-                    <path
-                        d="M307.205 0h-204.8C46.09 0 .005 46.085.005 102.4v204.81c0 56.3 46.085 102.4 102.4 102.4h204.8c56.315 0 102.4-46.1 102.4-102.4V102.4c0-56.315-46.085-102.4-102.4-102.4zm68.265 307.21c0 37.632-30.612 68.265-68.265 68.265h-204.8c-37.637 0-68.265-30.633-68.265-68.265V102.4c0-37.642 30.628-68.265 68.265-68.265h204.8c37.653 0 68.265 30.623 68.265 68.265v204.81z"
-                        data-original="#000000"
-                    />
-                    <circle
-                        cx="315.755"
-                        cy="93.865"
-                        r="25.6"
-                        data-original="#000000"
-                    />
-                    <path
-                        d="M204.805 102.4c-56.566 0-102.4 45.839-102.4 102.4 0 56.54 45.834 102.41 102.4 102.41 56.55 0 102.4-45.87 102.4-102.41 0-56.561-45.85-102.4-102.4-102.4zm0 170.675c-37.699 0-68.265-30.566-68.265-68.275s30.566-68.265 68.265-68.265 68.265 30.556 68.265 68.265-30.566 68.275-68.265 68.275z"
-                        data-original="#000000"
-                    />
-                </svg>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="cursor-pointer"
-                    width="20px"
-                    height="20px"
-                    viewBox="0 0 682.667 682.667"
-                >
-                    <defs>
-                        <clipPath id="a" clipPathUnits="userSpaceOnUse">
-                            <path d="M0 512h512V0H0Z" data-original="#000000" />
-                        </clipPath>
-                    </defs>
-                    <g
-                        clip-path="url(#a)"
-                        transform="matrix(1.33 0 0 -1.33 0 682.667)"
-                    >
-                        <path
-                            d="M140.008 89h-30c-11.046 0-20 8.954-20 20v186c0 11.046 8.954 20 20 20h30c11.045 0 20-8.954 20-20V109c0-11.046-8.955-20-20-20m-13.991 257C103.311 346 85 364.368 85 387.003 85 409.632 103.311 428 126.017 428c22.616 0 40.977-18.368 40.977-40.997 0-22.635-18.361-41.003-40.977-41.003M402 89h-29c-11.046 0-20 8.954-20 20v90.341c0 26.121-1.164 59.726-37.092 59.726-36.429 0-43.908-28.47-43.908-57.856V109c0-11.046-8.954-20-20-20h-28c-11.046 0-20 8.954-20 20v186c0 11.046 8.954 20 20 20h28c11.046 0 20-8.954 20-20v-10.741h.065c9.334 17.708 32.19 34.741 66.249 34.741C409.186 319 422 274.002 422 213.336V109c0-11.046-8.954-20-20-20"
-                            data-original="#000000"
-                        />
-                        <path
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-miterlimit="10"
-                            stroke-width="40"
-                            d="M492 80c0-33.137-26.863-60-60-60H80c-33.137 0-60 26.863-60 60v352c0 33.137 26.863 60 60 60h352c33.137 0 60-26.863 60-60V181"
-                            data-original="#000000"
-                        />
-                    </g>
-                </svg>
+                <a href="https://facebook.com" target="_blank">
+                    <i
+                        class="ri-facebook-box-line text-2xl hover:text-skin-primary-9"
+                    ></i>
+                </a>
+                <a href="https://twitter.com" target="_blank">
+                    <i
+                        class="ri-twitter-line text-2xl hover:text-skin-primary-9"
+                    ></i>
+                </a>
+                <a href="https://instagram.com" target="_blank">
+                    <i
+                        class="ri-instagram-line text-2xl hover:text-skin-primary-9"
+                    ></i>
+                </a>
+                <a href="https://pinterest.com" target="_blank">
+                    <i
+                        class="ri-pinterest-line text-2xl hover:text-skin-primary-9"
+                    ></i>
+                </a>
             </div>
         </section>
     </div>
@@ -95,5 +49,136 @@
 <header
     class="relative z-50 min-h-[60px] border-b bg-white font-sans tracking-wide"
 >
-    <nav-bar :categories="{{ $categories }}"></nav-bar>
+    <div class="mx-auto max-w-7xl px-6 py-2 lg:px-6">
+        <div
+            class="mx-auto my-6 flex h-10 rounded-full border border-transparent bg-gray-100 px-6 focus-within:border-blue-500 focus-within:bg-transparent lg:w-2/4"
+        >
+            <i class="ri-search-2-line mr-2 mt-1 text-xl"></i>
+            <input
+                type="text"
+                placeholder="Search..."
+                class="w-full bg-transparent text-[15px] font-semibold text-gray-600 outline-none"
+            />
+        </div>
+
+        <div class="relative mt-6 flex flex-wrap justify-between">
+            <div
+                id="collapseMenu"
+                class="max-lg:hidden max-lg:before:fixed max-lg:before:inset-0 max-lg:before:z-50 max-lg:before:bg-black max-lg:before:opacity-40 lg:!block"
+            >
+                <button
+                    id="toggleClose"
+                    class="fixed right-4 top-2 z-[100] rounded-full bg-white p-3 lg:hidden"
+                >
+                    <i class="ri-close-line text-2xl"></i>
+                </button>
+
+                <ul
+                    class="z-50 max-lg:fixed max-lg:left-0 max-lg:top-0 max-lg:h-full max-lg:w-2/3 max-lg:min-w-[300px] max-lg:space-y-3 max-lg:overflow-auto max-lg:bg-white max-lg:p-4 max-lg:shadow-md lg:flex lg:gap-x-10"
+                >
+                    <li class="px-3 max-lg:border-b max-lg:pb-4 lg:hidden">
+                        <a href="{{ route('site.index') }}">
+                            <span
+                                class="rounded-md bg-blue-500 px-4 py-1 text-3xl font-extrabold text-skin-neutral-3 hover:text-skin-neutral-6 dark:text-skin-neutral-1 dark:hover:text-skin-primary-9"
+                            >
+                                ShopNow
+                            </span>
+                        </a>
+                    </li>
+                    <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">
+                        <a
+                            href="/"
+                            class="block text-[15px] font-semibold hover:text-[#007bff]"
+                        >
+                            <i class="ri-home-4-line"></i>
+                            Home
+                        </a>
+                    </li>
+
+                    <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">
+                        <a
+                            href="/shop"
+                            class="block text-[15px] font-semibold hover:text-[#007bff]"
+                        >
+                            <i class="ri-shopping-bag-line"></i>
+                            Shop
+                        </a>
+                    </li>
+                    <li
+                        class="group relative max-lg:border-b max-lg:px-3 max-lg:py-3"
+                    >
+                        <a
+                            href="javascript:void(0)"
+                            class="block text-[15px] font-semibold text-gray-600 hover:fill-[#007bff] hover:text-[#007bff]"
+                        >
+                            <i class="ri-bookmark-line"></i>
+                            Categories
+                            <i class="ri-arrow-down-s-line"></i>
+                        </a>
+                        <ul
+                            class="absolute left-0 top-5 z-50 block max-h-0 min-w-[350px] space-y-2 overflow-hidden bg-white px-6 shadow-lg transition-all duration-500 group-hover:max-h-[700px] group-hover:pb-4 group-hover:pt-6 group-hover:opacity-100 max-lg:top-8"
+                        >
+                            @foreach ($categories as $category)
+                                <li class="border-b py-3">
+                                    <a
+                                        href="{{ route('shop.category', [$category->id, $category->slug]) }}"
+                                        class="flex gap-2 text-[15px] font-semibold text-gray-600 hover:fill-[#007bff] hover:text-[#007bff]"
+                                    >
+                                        <i class="ri-bookmark-line"></i>
+                                        {{ $category->name }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">
+                        <a
+                            href="/blog"
+                            class="block text-[15px] font-semibold text-gray-600 hover:text-[#007bff]"
+                        >
+                            <i class="ri-newspaper-line"></i>
+                            Blog
+                        </a>
+                    </li>
+
+                    <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">
+                        <a
+                            href="/about"
+                            class="block text-[15px] font-semibold text-gray-600 hover:text-[#007bff]"
+                        >
+                            <i class="ri-question-line"></i>
+                            About
+                        </a>
+                    </li>
+
+                    <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">
+                        <a
+                            href="/contact"
+                            class="block text-[15px] font-semibold text-gray-600 hover:text-[#007bff]"
+                        >
+                            <i class="ri-mail-send-line"></i>
+                            Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="toggleOpen" class="flex lg:hidden">
+                <button @click="toggleOpen">
+                    <i class="ri-menu-line"></i>
+                </button>
+            </div>
+
+            <div
+                class="ml-auto flex items-center space-x-6 lg:absolute lg:right-0"
+            >
+                <cart-icon></cart-icon>
+                <button class="inline-block cursor-pointer border-gray-300">
+                    <i
+                        class="ri-user-line text-xl hover:text-skin-primary-9"
+                    ></i>
+                </button>
+            </div>
+        </div>
+    </div>
 </header>

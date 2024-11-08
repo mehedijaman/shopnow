@@ -33,7 +33,7 @@
             <h1
                 class="mt-1 text-center text-gray-800 hover:text-blue-500 hover:underline"
             >
-                <a :href="`/products/${product.id}`">
+                <a :href="`/shop/product/${product.id}/${product.slug}`">
                     {{ product.name }}
                 </a>
             </h1>

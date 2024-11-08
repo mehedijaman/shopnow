@@ -74,7 +74,7 @@
                                 class="border-b py-3"
                             >
                                 <a
-                                    :href="`/categories/${category.id}`"
+                                    :href="`/shop/category/${category.id}/${category.slug}`"
                                     class="flex gap-2 text-[15px] font-semibold text-gray-600 hover:fill-[#007bff] hover:text-[#007bff]"
                                 >
                                     <i class="ri-bookmark-line"></i>
@@ -153,6 +153,7 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { useCartStore } from '../Stores/CartStore'
 
 const cartStore = useCartStore()
