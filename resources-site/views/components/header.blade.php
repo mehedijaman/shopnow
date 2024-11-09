@@ -1,7 +1,7 @@
 <div class="border-b border-gray-200">
     <div class="mx-auto max-w-7xl">
         <section
-            class="relative flex flex-col items-center gap-5 px-10 py-3 max-lg:min-h-[60px] lg:min-h-[80px] lg:justify-center"
+            class="relative flex flex-col items-center gap-5 px-10 pt-10 max-lg:min-h-[60px] lg:min-h-[80px] lg:justify-center"
         >
             <a href="{{ route('site.index') }}">
                 {{--
@@ -11,6 +11,7 @@
                     class="w-36 md:w-[170px]"
                     />
                 --}}
+
                 <span
                     class="rounded-md bg-blue-500 px-4 py-1 text-3xl font-extrabold text-skin-neutral-3 hover:text-skin-neutral-6 dark:text-skin-neutral-1 dark:hover:text-skin-primary-9"
                 >
@@ -18,50 +19,45 @@
                 </span>
             </a>
 
-            <div
+            <shop-search></shop-search>
+
+            {{--
+                <div
                 class="flex items-center space-x-6 max-md:ml-auto md:absolute md:right-10"
-            >
+                >
                 <a href="https://facebook.com" target="_blank">
-                    <i
-                        class="ri-facebook-box-line text-2xl hover:text-skin-primary-9"
-                    ></i>
+                <i
+                class="ri-facebook-box-line text-2xl hover:text-skin-primary-9"
+                ></i>
                 </a>
                 <a href="https://twitter.com" target="_blank">
-                    <i
-                        class="ri-twitter-line text-2xl hover:text-skin-primary-9"
-                    ></i>
+                <i
+                class="ri-twitter-line text-2xl hover:text-skin-primary-9"
+                ></i>
                 </a>
                 <a href="https://instagram.com" target="_blank">
-                    <i
-                        class="ri-instagram-line text-2xl hover:text-skin-primary-9"
-                    ></i>
+                <i
+                class="ri-instagram-line text-2xl hover:text-skin-primary-9"
+                ></i>
                 </a>
                 <a href="https://pinterest.com" target="_blank">
-                    <i
-                        class="ri-pinterest-line text-2xl hover:text-skin-primary-9"
-                    ></i>
+                <i
+                class="ri-pinterest-line text-2xl hover:text-skin-primary-9"
+                ></i>
                 </a>
-            </div>
+                </div>
+            --}}
         </section>
     </div>
 </div>
 
 <header
-    class="relative z-50 min-h-[60px] border-b bg-white font-sans tracking-wide"
+    class="relative z-50 border-b bg-skin-primary-4 font-sans tracking-wide"
 >
-    <div class="mx-auto max-w-7xl px-6 py-2 lg:px-6">
-        <div
-            class="mx-auto my-6 flex h-10 rounded-full border border-transparent bg-gray-100 px-6 focus-within:border-blue-500 focus-within:bg-transparent lg:w-2/4"
-        >
-            <i class="ri-search-2-line mr-2 mt-1 text-xl"></i>
-            <input
-                type="text"
-                placeholder="Search..."
-                class="w-full bg-transparent text-[15px] font-semibold text-gray-600 outline-none"
-            />
-        </div>
+    <div class="mx-auto max-w-7xl px-6 py-3 lg:px-6">
+        {{-- <shop-search></shop-search> --}}
 
-        <div class="relative mt-6 flex flex-wrap justify-between">
+        <div class="relative flex flex-wrap justify-between">
             <div
                 id="collapseMenu"
                 class="max-lg:hidden max-lg:before:fixed max-lg:before:inset-0 max-lg:before:z-50 max-lg:before:bg-black max-lg:before:opacity-40 lg:!block"
