@@ -20,24 +20,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { useCartStore } from '../Stores/CartStore'
 
 const cartStore = useCartStore()
-
-const props = defineProps({
-    categories: {
-        type: Array,
-        required: true
-    }
-})
-
-const toggleOpen = () => {
-    const open = document.getElementById('open')
-    const close = document.getElementById('close')
-    const toggleOpen = document.getElementById('toggleOpen')
-    open.classList.toggle('hidden')
-    close.classList.toggle('hidden')
-    toggleOpen.classList.toggle('hidden')
-}
 </script>

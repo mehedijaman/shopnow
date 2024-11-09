@@ -68,7 +68,7 @@ class ProductSeeder extends Seeder
 
         info('Creating product categories...');
         ProductCategory::factory()->count(10)
-            ->sequence(fn (Sequence $sequence) => ['image' => $this->productCategoriesImages[$sequence->index]])
+            ->sequence(fn(Sequence $sequence) => ['image' => $this->productCategoriesImages[$sequence->index]])
             ->create();
         info('product categories created.');
 
@@ -82,7 +82,7 @@ class ProductSeeder extends Seeder
 
         info('Creating Products...');
         Product::factory()->count(20)
-            ->sequence(fn (Sequence $sequence) => ['image' => $this->productImages[$sequence->index]])
+            ->sequence(fn(Sequence $sequence) => ['image' => $this->productImages[$sequence->index]])
             ->create();
         info('Product created.');
 
@@ -91,11 +91,11 @@ class ProductSeeder extends Seeder
 
     private function setupProductImages(): void
     {
-        Storage::deleteDirectory('public/produdct');
+        Storage::deleteDirectory('public/product');
         info('Copying product images...');
 
         (new Filesystem)->ensureDirectoryExists(base_path('storage/app/public/product'));
-        (new Filesystem)->copyDirectory(base_path('resources/images/product'), base_path('storage/app/public/product'));
+        (new Filesystem)->copyDirectory(base_path('resources/images/blog'), base_path('storage/app/public/product'));
 
         info('The product images were copied.');
     }

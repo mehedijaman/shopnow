@@ -13,21 +13,6 @@ class IndexController extends SiteController
             ->orderBy('id', 'desc')
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 12));
-        // ->withQueryString()
-        // ->through(fn($product) => [
-        //     'id' => $product->id,
-        //     'image_url' => $product->image_url,
-        //     'name' => $product->name,
-        //     'price' => $product->price,
-        //     'sale_price' => $product->sale_price,
-        //     'quantity' => $product->quantity,
-        //     'unit' => $product->unit,
-        //     'min_order' => $product->min_order,
-        //     'active' => $product->active,
-        //     'featured' => $product->featured,
-        //     'category' => $product->category,
-        //     'tags' => $product->tags
-        // ]);
 
         return view('index::index', compact('products'));
     }
@@ -35,6 +20,11 @@ class IndexController extends SiteController
     public function contact()
     {
         return view('contact');
+    }
+
+    public function about()
+    {
+        return view('about');
     }
 
     public function privacyPolicy()

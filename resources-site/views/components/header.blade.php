@@ -97,13 +97,14 @@
 
                     <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">
                         <a
-                            href="/shop"
+                            href="{{ route('shop.index') }}"
                             class="block text-[15px] font-semibold hover:text-[#007bff]"
                         >
                             <i class="ri-shopping-bag-line"></i>
                             Shop
                         </a>
                     </li>
+
                     <li
                         class="group relative max-lg:border-b max-lg:px-3 max-lg:py-3"
                     >
@@ -131,6 +132,7 @@
                             @endforeach
                         </ul>
                     </li>
+
                     <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">
                         <a
                             href="/blog"
@@ -143,7 +145,7 @@
 
                     <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">
                         <a
-                            href="/about"
+                            href="{{ route('site.about') }}"
                             class="block text-[15px] font-semibold text-gray-600 hover:text-[#007bff]"
                         >
                             <i class="ri-question-line"></i>
@@ -153,7 +155,7 @@
 
                     <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">
                         <a
-                            href="/contact"
+                            href="{{ route('site.contact') }}"
                             class="block text-[15px] font-semibold text-gray-600 hover:text-[#007bff]"
                         >
                             <i class="ri-mail-send-line"></i>
@@ -163,8 +165,8 @@
                 </ul>
             </div>
 
-            <div id="toggleOpen" class="flex lg:hidden">
-                <button @click="toggleOpen">
+            <div class="flex lg:hidden">
+                <button id="toggleOpen">
                     <i class="ri-menu-line"></i>
                 </button>
             </div>
@@ -172,7 +174,7 @@
             <div
                 class="ml-auto flex items-center space-x-6 lg:absolute lg:right-0"
             >
-                <cart-icon></cart-icon>
+                <navbar-cart-menu></navbar-cart-menu>
                 <button class="inline-block cursor-pointer border-gray-300">
                     <i
                         class="ri-user-line text-xl hover:text-skin-primary-9"
@@ -182,3 +184,22 @@
         </div>
     </div>
 </header>
+
+{{--
+    <script>
+    var toggleOpen = document.getElementById('toggleOpen')
+    var toggleClose = document.getElementById('toggleClose')
+    var collapseMenu = document.getElementById('collapseMenu')
+    
+    function handleClick() {
+    if (collapseMenu.style.display === 'block') {
+    collapseMenu.style.display = 'none'
+    } else {
+    collapseMenu.style.display = 'block'
+    }
+    }
+    
+    toggleOpen.addEventListener('click', handleClick)
+    toggleClose.addEventListener('click', handleClick)
+    </script>
+--}}

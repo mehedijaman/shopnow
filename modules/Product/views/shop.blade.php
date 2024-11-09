@@ -10,15 +10,15 @@
             <div>
                 <div class="sticky top-0">
                     <div
-                        class="box mt-4 w-full rounded-md border border-gray-300 bg-white p-6 md:max-w-sm"
+                        class="box mt-4 w-full rounded-md border border-gray-300 bg-white p-4 md:max-w-sm"
                     >
                         <div
-                            class="mb-7 flex w-full items-center justify-between border-b border-gray-200 pb-3"
+                            class="mb-4 flex w-full items-center justify-between border-b border-gray-200 pb-3"
                         >
                             <p
                                 class="text-base font-medium leading-7 text-black"
                             >
-                                Filter Products
+                                Product Categories
                             </p>
                             <a
                                 href="{{ route('shop.index') }}"
@@ -27,18 +27,43 @@
                                 RESET
                             </a>
                         </div>
-                        <p
+                        {{--
+                            <p
                             class="mb-3 text-sm font-medium leading-6 text-black"
-                        >
+                            >
                             Categories
-                        </p>
+                            </p>
+                        --}}
                         <div class="box flex flex-col gap-2">
                             @foreach ($categories as $category)
                                 <a
                                     href="{{ route('shop.category', [$category->id, $category->slug]) }}"
-                                    class="cursor-pointer text-sm font-normal text-gray-600"
+                                    class="flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
                                 >
-                                    {{ $category->name }}
+                                    {{--
+                                        <svg
+                                        class="me-2 h-4 w-4 shrink-0 text-gray-900 dark:text-white"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        >
+                                        <path
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M12 15v5m-3 0h6M4 11h16M5 15h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1Z"
+                                        ></path>
+                                        </svg>
+                                    --}}
+                                    <span
+                                        class="text-sm font-medium text-gray-900 dark:text-white"
+                                    >
+                                        {{ $category->name }}
+                                    </span>
                                 </a>
                             @endforeach
                         </div>
@@ -52,9 +77,9 @@
                         class="grid grid-cols-1 justify-center justify-items-center gap-x-4 gap-y-12 py-4 md:grid-cols-3"
                     >
                         @foreach ($products as $product)
-                            <product-card
-                                :product="{{ $product }}"
-                            ></product-card>
+                            <x-product-card
+                                :product="$product"
+                            ></x-product-card>
                         @endforeach
                     </section>
                 @endif
