@@ -68,7 +68,7 @@ class ProductSeeder extends Seeder
 
         info('Creating product categories...');
         ProductCategory::factory()->count(10)
-            ->sequence(fn(Sequence $sequence) => ['image' => $this->productCategoriesImages[$sequence->index]])
+            ->sequence(fn (Sequence $sequence) => ['image' => $this->productCategoriesImages[$sequence->index]])
             ->create();
         info('product categories created.');
 
@@ -82,7 +82,7 @@ class ProductSeeder extends Seeder
 
         info('Creating Products...');
         Product::factory()->count(20)
-            ->sequence(fn(Sequence $sequence) => ['image' => $this->productImages[$sequence->index]])
+            ->sequence(fn (Sequence $sequence) => ['image' => $this->productImages[$sequence->index]])
             ->create();
         info('Product created.');
 
