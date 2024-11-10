@@ -16,21 +16,19 @@
                         <div
                             v-for="item in cartStore.items"
                             :key="item.id"
-                            class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6"
+                            class="rounded-lg border border-gray-200 bg-skin-neutral-1 p-4 shadow-sm hover:bg-skin-primary-2 dark:border-gray-700 dark:bg-gray-800 md:p-6"
                         >
                             <div
                                 class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0"
                             >
-                                <a href="#" class="shrink-0 md:order-1">
+                                <a
+                                    :href="`/shop/product/${item.item.id}/${item.item.slug}`"
+                                    class="shrink-0 md:order-1"
+                                >
                                     <img
-                                        class="h-20 w-20 dark:hidden"
-                                        src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg"
-                                        alt="imac image"
-                                    />
-                                    <img
-                                        class="hidden h-20 w-20 dark:block"
-                                        src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg"
-                                        alt="imac image"
+                                        class="h-20 w-20"
+                                        :src="item.item.image_url"
+                                        :alt="item.item.name"
                                     />
                                 </a>
 
@@ -97,7 +95,7 @@
                                     class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md"
                                 >
                                     <a
-                                        :href="`/products/${item.item.id}`"
+                                        :href="`/shop/product/${item.item.id}/${item.item.slug}`"
                                         class="text-base font-medium text-gray-900 hover:underline dark:text-white"
                                     >
                                         {{ item.item.name }}
@@ -211,7 +209,7 @@
 
                         <a
                             href="#"
-                            class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 flex w-full items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-white focus:outline-none focus:ring-4"
+                            class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                         >
                             Proceed to Checkout
                         </a>
@@ -225,7 +223,7 @@
                             <a
                                 href="/products"
                                 title=""
-                                class="text-primary-700 dark:text-primary-500 inline-flex items-center gap-2 text-sm font-medium underline hover:no-underline"
+                                class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500"
                             >
                                 Continue Shopping
                                 <svg
@@ -261,14 +259,14 @@
                                 <input
                                     type="text"
                                     id="voucher"
-                                    class="focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-500 dark:focus:ring-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400"
+                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                                     placeholder=""
                                     required
                                 />
                             </div>
                             <button
                                 type="submit"
-                                class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 flex w-full items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-white focus:outline-none focus:ring-4"
+                                class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                             >
                                 Apply Code
                             </button>

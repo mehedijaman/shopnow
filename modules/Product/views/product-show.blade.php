@@ -49,8 +49,14 @@
                     <h2 class="mb-2 text-3xl font-bold">
                         {{ $product->name }}
                     </h2>
-                    <p class="mb-4 text-gray-600">
-                        Category: {{ $product->category?->name }}
+                    <p class="my-4 text-gray-600">
+                        Category:
+                        <a
+                            href="{{ route('shop.category', [$product->category?->id, $product->category?->slug]) }}"
+                            class="text-blue-600 hover:underline dark:text-blue-500"
+                        >
+                            {{ $product->category?->name }}
+                        </a>
                     </p>
                     <div class="mb-4">
                         <span class="mr-2 text-2xl font-bold">
@@ -161,7 +167,9 @@
                         </div>
                     --}}
 
-                    <div class="mb-6 flex space-x-4">
+                    <div
+                        class="mb-6 flex flex-col items-center space-x-4 md:flex-row"
+                    >
                         {{--
                             <button
                             class="flex items-center gap-2 rounded-md bg-indigo-600 px-6 py-2 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -174,11 +182,12 @@
                         <add-to-cart-button
                             :product="{{ json_encode($product) }}"
                         ></add-to-cart-button>
+
                         <button
                             class="mt-4 flex w-full items-center justify-center rounded bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300 focus:ring-gray-500 disabled:opacity-50"
                         >
                             <i class="ri-heart-line mr-2 text-xl"></i>
-                            Wishlist
+                            Add to Wishlist
                         </button>
                     </div>
 

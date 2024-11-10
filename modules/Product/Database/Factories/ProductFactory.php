@@ -31,6 +31,7 @@ class ProductFactory extends Factory
             'active' => $this->faker->boolean(),
             'featured' => $this->faker->boolean(),
             'image' => $this->faker->imageUrl(),
+            'summary' => $this->faker->realText(),
             'description' => $this->faker->realText(),
             'meta_tag_title' => Str::limit($name, 60, ''),
             'meta_tag_description' => Str::limit($name, 160, ''),
