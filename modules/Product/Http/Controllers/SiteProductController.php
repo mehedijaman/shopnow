@@ -20,13 +20,11 @@ class SiteProductController extends SiteController
         return view('product::shop', compact('products'));
     }
 
-    public function search(Request $request): View
+    public function search($searchText = null): View
     {
-        $searchText = $request->input('searchText');
-
         $products = Product::with(['category', 'tags'])
             ->orderBy('name', 'asc')
-            ->where('name', 'like', '%'.$searchText.'%')
+            ->where('name', 'like', '%' . $searchText . '%')
             ->paginate(request('rowsPerPage', 12));
 
         return view('product::shop', compact(['products', 'searchText']));
