@@ -129,11 +129,9 @@
                         </div>
                     --}}
 
-                    {{--
-                        <p class="mb-6 text-gray-700">
+                    <p class="mb-6 text-gray-700">
                         {{ $product->summary }}
-                        </p>
-                    --}}
+                    </p>
 
                     {{--
                         <div class="mb-6">

@@ -20,6 +20,7 @@ export const useProductStore = defineStore('ProductStore', {
                 featured: false,
                 image: null,
 
+                summary: '',
                 description: '',
                 meta_tag_title: '',
                 meta_tag_description: '',

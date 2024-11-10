@@ -80,6 +80,18 @@
     </div>
 
     <div class="mt-5">
+        <AppLabel for="summary">Product Summary</AppLabel>
+        <AppInputText
+            id="summary"
+            v-model="productStore.product.summary"
+            type="text"
+            :class="{
+                'input-error': errorsFields.includes('summary')
+            }"
+        />
+    </div>
+
+    <div class="mt-5">
         <AppLabel for="description">Description</AppLabel>
         <AppTipTapEditor
             v-model="productStore.product.description"

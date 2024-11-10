@@ -24,10 +24,10 @@ class ProductValidate extends Request
             'unit' => 'nullable|string',
             'min_order' => 'nullable|numeric',
             'active' => 'required|boolean',
-            'featured' => 'required|boolean',
+            'featured' => 'nullable|boolean',
             'image' => 'nullable|image|max:2048',
-
-            'description' => 'required|string',
+            'summary' => 'nullable|string',
+            'description' => 'nullable|string',
             'meta_tag_title' => 'nullable|string|max:60',
             'meta_tag_description' => 'nullable|string|max:160',
             // 'published_at' => 'nullable|date',
