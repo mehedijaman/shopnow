@@ -26,10 +26,10 @@ class SiteProductController extends SiteController
 
         $products = Product::with(['category', 'tags'])
             ->orderBy('name', 'asc')
-            ->where('name', 'like', '%'.$searchText.'%')
+            ->where('name', 'like', '%' . $searchText . '%')
             ->paginate(request('rowsPerPage', 12));
 
-        return view('product::shop', compact('products', 'searchText'));
+        return view('product::shop', compact(['products', 'searchText']));
     }
 
     public function category(int $categoryId): View

@@ -6,6 +6,22 @@
 
 @section('content')
     <div class="mx-auto min-h-screen max-w-7xl px-6 py-12 lg:px-6">
+        @if (isset($searchText))
+            <div class="mb-4">
+                <h2 class="text-2xl font-bold">
+                    Search Results for "{{ $searchText }}"
+                </h2>
+            </div>
+        @endif
+
+        @if (isset($category))
+            <div class="mb-4">
+                <h2 class="text-2xl font-bold">
+                    Category: {{ $category->name }}
+                </h2>
+            </div>
+        @endif
+
         <div class="grid grid-cols-4 gap-4">
             <div>
                 <div class="sticky top-0">

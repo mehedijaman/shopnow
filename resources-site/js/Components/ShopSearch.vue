@@ -1,6 +1,6 @@
 <template>
     <div
-        class="mx-auto my-6 flex h-10 rounded-full border border-blue-300 border-transparent bg-gray-100 focus-within:border-blue-400 focus-within:bg-transparent lg:w-2/4"
+        class="mx-auto my-6 flex h-10 rounded-full border border-blue-400 border-transparent bg-gray-100 focus-within:border-blue-500 focus-within:bg-transparent lg:w-2/4"
     >
         <i class="ri-search-2-line mx-4 mt-1 text-xl"></i>
         <input
