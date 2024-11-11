@@ -13,8 +13,9 @@
                 --}}
 
                 <span
-                    class="rounded-md bg-blue-500 px-4 py-1 text-3xl font-extrabold text-skin-neutral-3 hover:text-skin-neutral-6 dark:text-skin-neutral-1 dark:hover:text-skin-primary-9"
+                    class="rounded-md bg-blue-500 px-4 py-2 text-3xl font-extrabold text-skin-neutral-3 hover:text-skin-neutral-6 dark:text-skin-neutral-1 dark:hover:text-skin-primary-9"
                 >
+                    <i class="ri-shopping-bag-line"></i>
                     ShopNow
                 </span>
             </a>
@@ -84,7 +85,7 @@
                     <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">
                         <a
                             href="/"
-                            class="block text-[15px] font-semibold hover:text-[#007bff]"
+                            class="block text-[15px] font-semibold text-gray-700 hover:fill-[#007bff] hover:text-[#007bff]"
                         >
                             <i class="ri-home-4-line"></i>
                             Home
@@ -94,7 +95,7 @@
                     <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">
                         <a
                             href="{{ route('shop.index') }}"
-                            class="block text-[15px] font-semibold hover:text-[#007bff]"
+                            class="block text-[15px] font-semibold text-gray-700 hover:fill-[#007bff] hover:text-[#007bff]"
                         >
                             <i class="ri-shopping-bag-line"></i>
                             Shop
@@ -106,7 +107,7 @@
                     >
                         <a
                             href="javascript:void(0)"
-                            class="block text-[15px] font-semibold text-gray-600 hover:fill-[#007bff] hover:text-[#007bff]"
+                            class="block text-[15px] font-semibold text-gray-700 hover:fill-[#007bff] hover:text-[#007bff]"
                         >
                             <i class="ri-bookmark-line"></i>
                             Categories
@@ -119,7 +120,7 @@
                                 <li class="border-b py-3">
                                     <a
                                         href="{{ route('shop.category', [$category->id, $category->slug]) }}"
-                                        class="flex gap-2 text-[15px] font-semibold text-gray-600 hover:fill-[#007bff] hover:text-[#007bff]"
+                                        class="flex gap-2 text-[15px] font-semibold text-gray-700 hover:fill-[#007bff] hover:text-[#007bff]"
                                     >
                                         <i class="ri-bookmark-line"></i>
                                         {{ $category->name }}
@@ -132,7 +133,7 @@
                     <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">
                         <a
                             href="/blog"
-                            class="block text-[15px] font-semibold text-gray-600 hover:text-[#007bff]"
+                            class="block text-[15px] font-semibold text-gray-700 hover:text-[#007bff]"
                         >
                             <i class="ri-newspaper-line"></i>
                             Blog
@@ -142,7 +143,7 @@
                     <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">
                         <a
                             href="{{ route('site.about') }}"
-                            class="block text-[15px] font-semibold text-gray-600 hover:text-[#007bff]"
+                            class="block text-[15px] font-semibold text-gray-700 hover:text-[#007bff]"
                         >
                             <i class="ri-question-line"></i>
                             About
@@ -152,7 +153,7 @@
                     <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">
                         <a
                             href="{{ route('site.contact') }}"
-                            class="block text-[15px] font-semibold text-gray-600 hover:text-[#007bff]"
+                            class="block text-[15px] font-semibold text-gray-700 hover:text-[#007bff]"
                         >
                             <i class="ri-mail-send-line"></i>
                             Contact
