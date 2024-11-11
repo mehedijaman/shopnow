@@ -25,6 +25,11 @@
                     class="w-full rounded-md bg-gray-100 px-4 py-3 text-sm text-gray-800 outline-blue-500 focus:bg-transparent"
                 />
                 <input
+                    type="text"
+                    placeholder="Phone"
+                    class="w-full rounded-md bg-gray-100 px-4 py-3 text-sm text-gray-800 outline-blue-500 focus:bg-transparent"
+                />
+                <input
                     type="email"
                     placeholder="Email"
                     class="w-full rounded-md bg-gray-100 px-4 py-3 text-sm text-gray-800 outline-blue-500 focus:bg-transparent"
