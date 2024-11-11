@@ -5,6 +5,7 @@ use Modules\Acl\AclServiceProvider;
 use Modules\AdminAuth\AdminAuthServiceProvider;
 use Modules\Blog\BlogServiceProvider;
 use Modules\Cart\CartServiceProvider;
+use Modules\ContactMessage\ContactMessageServiceProvider;
 use Modules\Customer\CustomerServiceProvider;
 use Modules\Dashboard\DashboardServiceProvider;
 use Modules\Index\IndexServiceProvider;
@@ -29,4 +30,6 @@ return [
     CustomerServiceProvider::class,
     OrderServiceProvider::class,
     CartServiceProvider::class,
+
+    ContactMessageServiceProvider::class,
 ];

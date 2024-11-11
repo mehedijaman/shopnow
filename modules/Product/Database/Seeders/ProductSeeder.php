@@ -53,7 +53,7 @@ class ProductSeeder extends Seeder
 
         info('Creating Products...');
         Product::factory()->count(30)
-            ->create(['image' => fn() => $this->getRandomProductImage()]);
+            ->create(['image' => fn () => $this->getRandomProductImage()]);
         info('Product created.');
 
         Schema::enableForeignKeyConstraints();

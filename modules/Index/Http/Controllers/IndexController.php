@@ -17,11 +17,6 @@ class IndexController extends SiteController
         return view('index::index', compact('products'));
     }
 
-    public function contact()
-    {
-        return view('contact');
-    }
-
     public function about()
     {
         return view('about');

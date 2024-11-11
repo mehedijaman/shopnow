@@ -2,7 +2,6 @@
 
 namespace Modules\Product\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Modules\Product\Models\Product;
 use Modules\Product\Models\ProductCategory;
@@ -24,7 +23,7 @@ class SiteProductController extends SiteController
     {
         $products = Product::with(['category', 'tags'])
             ->orderBy('name', 'asc')
-            ->where('name', 'like', '%' . $searchText . '%')
+            ->where('name', 'like', '%'.$searchText.'%')
             ->paginate(request('rowsPerPage', 12));
 
         return view('product::shop', compact(['products', 'searchText']));
