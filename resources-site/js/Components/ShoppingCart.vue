@@ -148,7 +148,7 @@
                                     <dd
                                         class="text-base text-gray-900 dark:text-white"
                                     >
-                                        {{ cartStore.totalAmount }}
+                                        {{ cartStore.subtotal }}
                                         Tk.
                                     </dd>
                                 </dl>
@@ -162,7 +162,7 @@
                                         Shipping
                                     </dt>
                                     <dd class="text-base text-green-600">
-                                        0 Tk.
+                                        {{ cartStore.shipping }} Tk.
                                     </dd>
                                 </dl>
 
@@ -177,7 +177,7 @@
                                     <dd
                                         class="text-base text-gray-900 dark:text-white"
                                     >
-                                        {{ cartStore.totalAmount }} Tk.
+                                        {{ cartStore.total }} Tk.
                                     </dd>
                                 </dl>
                             </div>
@@ -193,7 +193,7 @@
                                 <dd
                                     class="text-base font-bold text-gray-900 dark:text-white"
                                 >
-                                    {{ cartStore.totalAmount }} Tk.
+                                    {{ cartStore.total }} Tk.
                                 </dd>
                             </dl>
                         </div>

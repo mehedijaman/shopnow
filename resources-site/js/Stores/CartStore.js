@@ -2,7 +2,9 @@ import { defineStore } from 'pinia'
 
 export const useCartStore = defineStore('CartStore', {
     state: () => ({
-        items: JSON.parse(localStorage.getItem('cart')) || []
+        items: JSON.parse(localStorage.getItem('cart')) || [],
+        tax: 0,
+        shipping: 0
     }),
 
     actions: {
@@ -62,16 +64,19 @@ export const useCartStore = defineStore('CartStore', {
     },
 
     getters: {
+        totalItems: (state) => state.items.length,
         totalQuantity: (state) =>
             state.items.reduce(
                 (total, cartItem) => total + cartItem.quantity,
                 0
             ),
-        totalAmount: (state) =>
+        subtotal: (state) =>
             state.items.reduce(
                 (total, cartItem) =>
                     total + cartItem.item.price * cartItem.quantity,
                 0
-            )
+            ),
+        // calculate total = subtotal + tax + shipping
+        total: (state) => state.subtotal + state.tax + state.shipping
     }
 })

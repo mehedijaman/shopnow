@@ -157,47 +157,29 @@
                     Payment Method
                 </h3>
 
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div
-                        class="cursor-pointer rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800"
+                        @click="form.payment_method = 'cod'"
+                        :class="
+                            form.payment_method == 'cod'
+                                ? 'bg-primary-100 font-bold'
+                                : ''
+                        "
+                        class="cursor-pointer rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 text-lg dark:border-gray-700 dark:bg-gray-800"
                     >
-                        <div class="flex items-start">
-                            <div class="ms-4 text-sm">
-                                <label
-                                    for="cod"
-                                    class="font-medium leading-none text-gray-900 dark:text-white"
-                                >
-                                    Cash on Delivery
-                                </label>
-                            </div>
-                        </div>
+                        Cash on Delivery
                     </div>
 
                     <div
-                        class="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800"
+                        @click="form.payment_method = 'sslcommerz'"
+                        :class="
+                            form.payment_method == 'sslcommerz'
+                                ? 'bg-primary-100 font-bold'
+                                : ''
+                        "
+                        class="cursor-pointer rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 text-lg dark:border-gray-700 dark:bg-gray-800"
                     >
-                        <div class="flex items-start">
-                            <div class="flex h-5 items-center">
-                                <input
-                                    id="sslcommerz"
-                                    aria-describedby="sslcommerz-text"
-                                    type="radio"
-                                    name="payment_method"
-                                    form.payment_method
-                                    value="sslcommerz"
-                                    class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-                                />
-                            </div>
-
-                            <div class="ms-4 text-sm">
-                                <label
-                                    for="sslcommerz"
-                                    class="font-medium leading-none text-gray-900 dark:text-white"
-                                >
-                                    SSLCommerz
-                                </label>
-                            </div>
-                        </div>
+                        SSLCommerz (Online Payment)
                     </div>
                 </div>
             </div>
@@ -217,7 +199,7 @@
                             Subtotal
                         </dt>
                         <dd class="text-base text-gray-900 dark:text-white">
-                            {{ cartStore.totalAmount }} Tk.
+                            {{ cartStore.subtotal }} Tk.
                         </dd>
                     </dl>
 
@@ -228,7 +210,7 @@
                             Shpping
                         </dt>
                         <dd class="text-base text-gray-900 dark:text-white">
-                            0 Tk.
+                            {{ cartStore.shipping }} Tk.
                         </dd>
                     </dl>
 
@@ -239,7 +221,7 @@
                             Total
                         </dt>
                         <dd class="text-base text-gray-900 dark:text-white">
-                            {{ cartStore.totalAmount }} Tk.
+                            {{ cartStore.subtotal }} Tk.
                         </dd>
                     </dl>
 
@@ -252,11 +234,13 @@
                         <dd
                             class="text-base font-bold text-gray-900 dark:text-white"
                         >
-                            {{ cartStore.totalAmount }} Tk.
+                            {{ cartStore.subtotal }} Tk.
                         </dd>
                     </dl>
                 </div>
             </div>
+
+            <hr class="" />
 
             <div class="my-6">
                 <label
@@ -302,7 +286,8 @@
 
             <div class="space-y-3">
                 <button
-                    type="submit"
+                    @click="submitForm"
+                    type="button"
                     class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
                     Proceed to Payment
@@ -322,6 +307,7 @@
             </div>
         </div>
     </div>
+
     {{ form }}
 </template>
 
@@ -381,6 +367,17 @@ const form = useForm({
     upazila_id: '',
     union_id: '',
     address: '',
-    note: ''
+    note: '',
+    payment_method: null,
+
+    items: cartStore.items,
+    subtotal: cartStore.subtotal,
+    tax: cartStore.tax,
+    shipping: cartStore.shipping,
+    total: cartStore.subtotal
 })
+
+const submitForm = () => {
+    form.post('/order')
+}
 </script>

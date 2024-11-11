@@ -13,9 +13,18 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
-            $table->timestamp('order_date');
+            $table->foreignId('customer_id')->nullable()->constrained('customers')->nullOnDelete();
+            $table->string('name');
+            $table->string('email')->nullable();
+            $table->string('phone');
+            $table->foreignId('division_id')->nullable()->constrained('divisions')->nullOnDelete();
+            $table->foreignId('district_id')->nullable()->constrained('districts')->nullOnDelete();
+            $table->foreignId('upazilla_id')->nullable()->constrained('upazillas')->nullOnDelete();
+            $table->foreignId('union_id')->nullable()->constrained('unions')->nullOnDelete();
+            $table->string('address');
+            $table->string('country')->nullable();
 
+            // Order Status
             $table->enum('status', [
                 'pending',
                 'processing',
@@ -25,16 +34,20 @@ return new class extends Migration
                 'cancelled',
             ])->default('pending');
 
-            $table->decimal('subtotal', 10, 2);
-            $table->decimal('discount_amount', 10, 2);
-            $table->decimal('tax_amount', 10, 2)->default(0.00);
-            $table->decimal('shipping_fee', 10, 2)->default(0.00);
-            $table->decimal('total_amount', 10, 2);
+            // Financial details
+            $table->decimal('subtotal', 10, 2)->default(0.00);
+            $table->decimal('tax', 10, 2)->default(0.00);
+            $table->decimal('shipping', 10, 2)->default(0.00);
+            $table->decimal('total', 10, 2)->default(0.00);
+            $table->decimal('paid', 10, 2)->default(0.00);
+            $table->decimal('due', 10, 2)->default(0.00);
+            $table->enum('payment_status', ['paid', 'unpaid'])->default('unpaid');
+            $table->string('payment_method');
 
-            $table->foreignId('shipping_address')->nullable()->constrained('customer_addresses')->nullOnDelete();
-            $table->foreignId('billing_address')->nullable()->constrained('customer_addresses')->nullOnDelete();
 
+            // Additional notes
             $table->text('notes')->nullable();
+
             $table->timestamps();
         });
     }
