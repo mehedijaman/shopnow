@@ -22,7 +22,7 @@ class SiteContactMessageController extends SiteController
 
         ContactMessage::create($validatedData);
 
-        Mail::to('mail4mjaman@gmail.com')->send(new ContactMessageMail($validatedData));
+        // Mail::to('mail4mjaman@gmail.com')->send(new ContactMessageMail($validatedData));
 
         return back()->with('success', 'Your message has been sent.');
     }

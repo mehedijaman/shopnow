@@ -12,18 +12,24 @@ class ContactMessageController extends BackendController
 {
     public function index(): Response
     {
-        $contactMessages = ContactMessage::orderBy('name')
+        $messages = ContactMessage::orderBy('name')
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn ($contactMessage) => [
-                'id' => $contactMessage->id,
-                'name' => $contactMessage->name,
-                'created_at' => $contactMessage->created_at->format('d/m/Y H:i').'h',
+            ->through(fn($message) => [
+                'id' => $message->id,
+                'name' => $message->name,
+                'phone' => $message->phone,
+                'email' => $message->email,
+                'subject' => $message->subject,
+                'message' => $message->message,
+
+                // 'read_at' => $message->read_at->format('d/m/Y H:i') . 'h',
+                // 'created_at' => $message->created_at->format('d/m/Y H:i') . 'h',
             ]);
 
         return inertia('ContactMessage/ContactMessageIndex', [
-            'contactMessages' => $contactMessages,
+            'messages' => $messages,
         ]);
     }
 
@@ -65,5 +71,64 @@ class ContactMessageController extends BackendController
 
         return redirect()->route('contactMessage.index')
             ->with('success', 'ContactMessage deleted.');
+    }
+
+    public function recycleBin(): Response
+    {
+        $messages = ContactMessage::onlyTrashed()
+            ->orderBy('id')
+            ->search(request('searchContext'), request('searchTerm'))
+            ->paginate(request('rowsPerPage', 10))
+            ->withQueryString()
+            ->through(fn($message) => [
+                'id' => $message->id,
+                'name' => $message->name,
+                'phone' => $message->phone,
+                'email' => $message->email,
+                'subject' => $message->subject,
+                'message' => $message->message,
+            ]);
+
+        return inertia('ContactMessage/ContactMessageRecycleBin', [
+            'messages' => $messages,
+        ]);
+    }
+
+    public function restore(int $id): RedirectResponse
+    {
+        ContactMessage::onlyTrashed()->findOrFail($id)->restore(); // Restore soft deleted record
+
+        return redirect()->route('contactMessage.recycleBin.index')
+            ->with('success', 'Message restored.');
+    }
+
+    public function destroyForce(int $id): RedirectResponse
+    {
+
+        $message = ContactMessage::onlyTrashed()->findOrFail($id);
+
+        $message->forceDelete();
+
+        return redirect()->route('contactMessage.recycleBin.index')->with('success', 'Message deleted.');
+    }
+
+    public function emptyRecycleBin(): RedirectResponse
+    {
+        $messages = ContactMessage::onlyTrashed()->get();
+
+        foreach ($messages as $message) {
+            $message->forceDelete();
+        }
+
+        return redirect()->route('contactMessage.recycleBin.index')
+            ->with('success', 'Recycle bin emptied.');
+    }
+
+    public function restoreRecycleBin(): RedirectResponse
+    {
+        ContactMessage::onlyTrashed()->restore(); // Restore soft deleted records
+
+        return redirect()->route('contactMessage.recycleBin.index')
+            ->with('success', 'Message restored.');
     }
 }

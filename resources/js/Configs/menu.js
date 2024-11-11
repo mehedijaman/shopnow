@@ -8,6 +8,12 @@ export default {
             link: route('dashboard.index')
         },
         {
+            label: 'Contact Messages',
+            permission: 'contact-message-list',
+            icon: 'ri-mail-line',
+            link: route('contactMessage.index')
+        },
+        {
             label: 'Order Management',
             permission: 'order-menu',
             children: [

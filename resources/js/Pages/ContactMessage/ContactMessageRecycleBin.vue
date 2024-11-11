@@ -1,23 +1,45 @@
 <template>
-    <AppSectionHeader title="Contact Messages" :bread-crumb="breadCrumb">
+    <Head :title="title"></Head>
+    <AppSectionHeader :title="title" :bread-crumb="breadCrumb">
         <template #right>
-            <AppButton
-                v-if="can('Leave - Recycle Bin List')"
-                class="btn btn-secondary"
-                @click="
-                    $inertia.visit(route('contactMessage.recycleBin.index'))
-                "
-            >
-                <i class="ri-recycle-line mr-1"></i>
-                Recycle Bin
-            </AppButton>
+            <div class="flex gap-2">
+                <AppButton
+                    class="btn btn-secondary"
+                    @click="$inertia.visit(route('contactMessage.index'))"
+                >
+                    <i class="ri-arrow-left-s-line mr-1"></i>
+                    Back to List
+                </AppButton>
+
+                <AppButton
+                    class="btn btn-primary"
+                    @click="
+                        $inertia.visit(
+                            route('contactMessage.recycleBin.restoreAll')
+                        )
+                    "
+                >
+                    <i class="ri-recycle-fill mr-1"></i>
+                    Restore Recycle Bin
+                </AppButton>
+
+                <AppButton
+                    class="btn btn-destructive"
+                    @click="
+                        confirmDelete(route('contactMessage.recycleBin.empty'))
+                    "
+                >
+                    <i class="ri-delete-bin-7-line mr-1"></i>
+                    Empty Recycle Bin
+                </AppButton>
+            </div>
         </template>
     </AppSectionHeader>
 
     <AppDataSearch
         v-if="messages.data.length || route().params.searchTerm"
-        :url="route('contactMessage.index')"
-        fields-to-search="name"
+        :url="route('contactMessage.recycleBin.index')"
+        fields-to-search="id"
     ></AppDataSearch>
 
     <AppDataTable v-if="messages.data.length" :headers="headers">
@@ -46,33 +68,32 @@
 
                     <AppDataTableData>
                         <!-- Edit -->
-                        <!-- <AppTooltip
-                            v-if="can('contact-message-edit')"
-                            text="Edit Post"
-                            class="mr-3"
-                        >
+                        <AppTooltip text="Restore" class="mr-2">
                             <AppButton
                                 class="btn btn-icon btn-primary"
                                 @click="
                                     $inertia.visit(
-                                        route('contactMessage.edit', item.id)
+                                        route(
+                                            'contactMessage.recycleBin.restore',
+                                            item.id
+                                        )
                                     )
                                 "
                             >
-                                <i class="ri-edit-line"></i>
+                                <i class="ri-recycle-fill"></i>
                             </AppButton>
-                        </AppTooltip> -->
+                        </AppTooltip>
 
                         <!-- Delete -->
-                        <AppTooltip
-                            v-if="can('contact-message-delete')"
-                            text="Delete Post"
-                        >
+                        <AppTooltip text="Permanently Delete">
                             <AppButton
                                 class="btn btn-icon btn-destructive"
                                 @click="
                                     confirmDelete(
-                                        route('contactMessage.destroy', item.id)
+                                        route(
+                                            'contactMessage.recycleBin.destroyForce',
+                                            item.id
+                                        )
                                     )
                                 "
                             >
@@ -95,7 +116,7 @@
     ></AppPaginator>
 
     <AppAlert v-if="!messages.data.length" class="mt-4">
-        No messages found.
+        No data found.
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
@@ -103,7 +124,9 @@
 
 <script setup>
 import { ref } from 'vue'
-import useAuthCan from '@/Composables/useAuthCan'
+import { Head } from '@inertiajs/vue3'
+import useTitle from '@/Composables/useTitle'
+const { title } = useTitle('Contact Message Recycle Bin')
 
 const props = defineProps({
     messages: {
@@ -114,7 +137,8 @@ const props = defineProps({
 
 const breadCrumb = [
     { label: 'Home', href: route('dashboard.index') },
-    { label: 'Contact Messages', last: true }
+    { label: 'messages', href: route('contactMessage.index') },
+    { label: 'Recycle Bin', last: true }
 ]
 
 const headers = ['Name', 'Phone', 'Email', 'Subject', 'Message', 'Actions']
@@ -123,8 +147,4 @@ const confirmDialogRef = ref(null)
 const confirmDelete = (deleteRoute) => {
     confirmDialogRef.value.openModal(deleteRoute)
 }
-
-const { can } = useAuthCan()
 </script>
-
-<style scoped></style>
