@@ -56,7 +56,7 @@
                     </AppDataTableData>
 
                     <AppDataTableData>
-                        {{ item.first_name }} {{ item.last_name }}
+                        {{ item.name }}
                     </AppDataTableData>
 
                     <AppDataTableData>

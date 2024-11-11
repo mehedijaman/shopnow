@@ -12,8 +12,7 @@ class CustomerValidate extends Request
     public function rules(): array
     {
         return [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'image' => 'nullable|image|max:2048',
             'phone' => 'nullable|string|max:255',
             'email' => [

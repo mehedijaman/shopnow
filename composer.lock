@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0f4bc4ad865831b8c636916c6250486a",
+    "content-hash": "330f97b558cb2276f0087b32fe6a6b63",
     "packages": [
         {
             "name": "brick/math",
@@ -411,6 +411,66 @@
                 "source": "https://github.com/ModularThink/modular-blog/tree/v0.4.0"
             },
             "time": "2024-11-06T20:33:13+00:00"
+        },
+        {
+            "name": "devfaysal/laravel-bangladesh-geocode",
+            "version": "2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/devfaysal/laravel-bangladesh-geocode.git",
+                "reference": "7f7db0de3ba20a029f682e5844d4b93a6b180726"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/devfaysal/laravel-bangladesh-geocode/zipball/7f7db0de3ba20a029f682e5844d4b93a6b180726",
+                "reference": "7f7db0de3ba20a029f682e5844d4b93a6b180726",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0",
+                "phpunit/phpunit": "^9.0|^10.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Devfaysal\\BangladeshGeocode\\BangladeshGeocodeServiceProvider"
+                    ],
+                    "aliases": {
+                        "BangladeshGeocode": "Devfaysal\\BangladeshGeocode\\BangladeshGeocodeFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Devfaysal\\BangladeshGeocode\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Faysal Ahamed",
+                    "email": "devfaysal@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "homepage": "https://github.com/devfaysal/laravel-bangladesh-geocode",
+            "keywords": [
+                "bangladesh-geocode",
+                "devfaysal"
+            ],
+            "support": {
+                "issues": "https://github.com/devfaysal/laravel-bangladesh-geocode/issues",
+                "source": "https://github.com/devfaysal/laravel-bangladesh-geocode/tree/2.3.0"
+            },
+            "time": "2024-11-06T09:38:35+00:00"
         },
         {
             "name": "dflydev/dot-access-data",

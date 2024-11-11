@@ -11,27 +11,15 @@
             <AppFormErrors class="mb-4" />
             <form class="grid grid-cols-1 gap-2 md:grid-cols-2">
                 <div>
-                    <AppLabel for="first_name">
-                        {{ __('First Name') }}
+                    <AppLabel for="name">
+                        {{ __('Name') }}
                     </AppLabel>
                     <AppInputText
-                        id="first_name"
-                        v-model="form.first_name"
+                        id="name"
+                        v-model="form.name"
                         type="text"
                         :class="{
-                            'input-error': errorsFields.includes('first_name')
-                        }"
-                    />
-                </div>
-
-                <div>
-                    <AppLabel for="last_name"> {{ __('Last Name') }} </AppLabel>
-                    <AppInputText
-                        id="last_name"
-                        v-model="form.last_name"
-                        type="text"
-                        :class="{
-                            'input-error': errorsFields.includes('last_name')
+                            'input-error': errorsFields.includes('name')
                         }"
                     />
                 </div>
@@ -130,8 +118,7 @@ const breadCrumb = [
 ]
 
 const form = useForm({
-    first_name: props.customer ? props.customer.first_name : '',
-    last_name: props.customer ? props.customer.last_name : '',
+    name: props.customer ? props.customer.name : '',
     email: props.customer ? props.customer.email : '',
     phone: props.customer ? props.customer.phone : '',
     password: '',

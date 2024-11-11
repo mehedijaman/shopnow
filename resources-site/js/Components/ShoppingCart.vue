@@ -16,7 +16,7 @@
                         <div
                             v-for="item in cartStore.items"
                             :key="item.id"
-                            class="rounded-lg border border-gray-200 bg-skin-neutral-1 p-4 shadow-sm hover:bg-skin-primary-2 dark:border-gray-700 dark:bg-gray-800 md:p-6"
+                            class="rounded-md border border-gray-200 bg-skin-neutral-1 p-4 shadow-sm hover:bg-skin-primary-2 dark:border-gray-700 dark:bg-gray-800 md:p-6"
                         >
                             <div
                                 class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0"
@@ -73,20 +73,12 @@
                                     </div>
                                     <div class="text-end md:order-4 md:w-32">
                                         <p
-                                            class="text-base font-bold text-gray-900 dark:text-white"
+                                            class="text-base text-gray-900 dark:text-white"
                                         >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 384 512"
-                                                class="inline h-3 w-3"
-                                            >
-                                                <path
-                                                    d="M36 32.3C18.4 30.1 2.4 42.5 .2 60S10.5 93.6 28 95.8l7.9 1c16 2 28 15.6 28 31.8L64 160l-32 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l32 0 0 160c0 53 43 96 96 96l32 0c106 0 192-86 192-192l0-32c0-53-43-96-96-96l-16 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l16 0c17.7 0 32 14.3 32 32l0 32c0 70.7-57.3 128-128 128l-32 0c-17.7 0-32-14.3-32-32l0-160 32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-32 0 0-31.5c0-48.4-36.1-89.3-84.1-95.3l-7.9-1z"
-                                                />
-                                            </svg>
                                             {{
                                                 item.item.price * item.quantity
                                             }}
+                                            Tk.
                                         </p>
                                     </div>
                                 </div>
@@ -135,10 +127,10 @@
                     class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full"
                 >
                     <div
-                        class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6"
+                        class="space-y-4 rounded-md border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6"
                     >
                         <p
-                            class="text-xl font-semibold text-gray-900 dark:text-white"
+                            class="border-b border-gray-200 pb-2 text-xl font-semibold text-gray-900 dark:border-gray-700 dark:text-white"
                         >
                             Order summary
                         </p>
@@ -146,7 +138,7 @@
                         <div class="space-y-4">
                             <div class="space-y-2">
                                 <dl
-                                    class="flex items-center justify-between gap-4"
+                                    class="flex items-center justify-between gap-4 border-b border-gray-200 pb-2 dark:border-gray-700"
                                 >
                                     <dt
                                         class="text-base font-normal text-gray-500 dark:text-gray-400"
@@ -154,62 +146,61 @@
                                         Subtotal
                                     </dt>
                                     <dd
-                                        class="text-base font-medium text-gray-900 dark:text-white"
+                                        class="text-base text-gray-900 dark:text-white"
                                     >
                                         {{ cartStore.totalAmount }}
+                                        Tk.
                                     </dd>
                                 </dl>
 
                                 <dl
-                                    class="flex items-center justify-between gap-4"
+                                    class="flex items-center justify-between gap-4 border-b border-gray-200 pb-2 dark:border-gray-700"
                                 >
                                     <dt
                                         class="text-base font-normal text-gray-500 dark:text-gray-400"
                                     >
                                         Shipping
                                     </dt>
-                                    <dd
-                                        class="text-base font-medium text-green-600"
-                                    >
-                                        0
+                                    <dd class="text-base text-green-600">
+                                        0 Tk.
                                     </dd>
                                 </dl>
 
                                 <dl
-                                    class="flex items-center justify-between gap-4"
+                                    class="flex items-center justify-between gap-4 border-b border-gray-200 pb-2 dark:border-gray-700"
                                 >
                                     <dt
                                         class="text-base font-normal text-gray-500 dark:text-gray-400"
                                     >
-                                        Discount
+                                        Total
                                     </dt>
                                     <dd
-                                        class="text-base font-medium text-gray-900 dark:text-white"
+                                        class="text-base text-gray-900 dark:text-white"
                                     >
-                                        0
+                                        {{ cartStore.totalAmount }} Tk.
                                     </dd>
                                 </dl>
                             </div>
 
                             <dl
-                                class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700"
+                                class="flex items-center justify-between gap-4 border-b border-gray-200 pb-2 dark:border-gray-700"
                             >
                                 <dt
                                     class="text-base font-bold text-gray-900 dark:text-white"
                                 >
-                                    Total
+                                    Payable Total
                                 </dt>
                                 <dd
                                     class="text-base font-bold text-gray-900 dark:text-white"
                                 >
-                                    {{ cartStore.totalAmount }}
+                                    {{ cartStore.totalAmount }} Tk.
                                 </dd>
                             </dl>
                         </div>
 
                         <a
-                            href="#"
-                            class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                            href="/checkout"
+                            class="flex w-full items-center justify-center rounded-md bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                         >
                             Proceed to Checkout
                         </a>
@@ -221,12 +212,12 @@
                                 or
                             </span>
                             <a
-                                href="/products"
+                                href="/shop"
                                 title=""
-                                class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500"
+                                class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 no-underline hover:underline dark:text-primary-500"
                             >
                                 Continue Shopping
-                                <svg
+                                <!-- <svg
                                     class="h-5 w-5"
                                     aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -240,13 +231,14 @@
                                         stroke-width="2"
                                         d="M19 12H5m14 0-4 4m4-4-4-4"
                                     />
-                                </svg>
+                                </svg> -->
+                                <i class="ri-arrow-right-line h-5 w-5"></i>
                             </a>
                         </div>
                     </div>
 
-                    <div
-                        class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6"
+                    <!-- <div
+                        class="space-y-4 rounded-md border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6"
                     >
                         <form class="space-y-4">
                             <div>
@@ -259,19 +251,19 @@
                                 <input
                                     type="text"
                                     id="voucher"
-                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                                    class="block w-full rounded-md border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                                     placeholder=""
                                     required
                                 />
                             </div>
                             <button
                                 type="submit"
-                                class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                class="flex w-full items-center justify-center rounded-md bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                             >
                                 Apply Code
                             </button>
                         </form>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -279,7 +271,7 @@
 
     <div
         v-else
-        class="w-full rounded-lg border border-gray-200 bg-white p-6 text-center shadow dark:border-gray-700 dark:bg-gray-800"
+        class="w-full rounded-md border border-gray-200 bg-white p-6 text-center shadow dark:border-gray-700 dark:bg-gray-800"
     >
         <div class="text-bold mb-8 text-6xl">
             <i class="ri-shopping-cart-2-line"></i>
@@ -291,7 +283,7 @@
         </h5>
         <a
             href="/shop"
-            class="inline-flex items-center rounded-lg bg-blue-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            class="inline-flex items-center rounded-md bg-blue-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
             Continue shopping
             <i class="ri-arrow-right-line ml-2"></i>

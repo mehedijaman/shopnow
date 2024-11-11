@@ -1,7 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Devfaysal\BangladeshGeocode\Models\Union;
+use Devfaysal\BangladeshGeocode\Models\Upazila;
+use Devfaysal\BangladeshGeocode\Models\District;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +22,12 @@ use Inertia\Inertia;
 //         'test' => 'Hello World!',
 //     ]);
 // });
+
+
+Route::get('/upazila/{districtId?}', function () {
+    return Upazila::where('district_id', request('districtId'))->get();
+});
+
+Route::get('/union/{upazilaId?}', function () {
+    return Union::where('upazila_id', request('upazilaId'))->get();
+});
