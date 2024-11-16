@@ -16,7 +16,7 @@ class UserAuth
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard('user')->guest()) {
+        if (Auth::guard('customer')->guest()) {
             return redirect()->route('customerAuth.loginForm')
                 ->withErrors(['email' => 'Session expired, please login again.']);
         }

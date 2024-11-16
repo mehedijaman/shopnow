@@ -62,11 +62,22 @@ class AuthenticatedSessionController extends AppController
      */
     public function login(LoginRequest $request)
     {
-        $request->authenticate();
+        // $request->authenticate();
 
-        $request->session()->regenerate();
+        // $request->session()->regenerate();
 
-        return redirect()->intended(route(config('modular.default-logged-route')));
+        // // return redirect()->intended(route(config('modular.default-logged-route')));
+        // return redirect()->intended(route('site.index'));
+
+        if (Auth::guard('customer')->attempt($request->only('email', 'password'))) {
+            $request->session()->regenerate();
+
+            return redirect()->intended(route('site.index'));
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
 
     /**

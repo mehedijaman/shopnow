@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('phone');
-            $table->foreignId('division_id')->nullable()->constrained('divisions')->nullOnDelete();
-            $table->foreignId('district_id')->nullable()->constrained('districts')->nullOnDelete();
-            $table->foreignId('upazilla_id')->nullable()->constrained('upazillas')->nullOnDelete();
-            $table->foreignId('union_id')->nullable()->constrained('unions')->nullOnDelete();
+            $table->foreignId('division_id')->nullable();
+            $table->foreignId('district_id')->nullable();
+            $table->foreignId('upazilla_id')->nullable();
+            $table->foreignId('union_id')->nullable();
             $table->string('address');
             $table->string('country')->nullable();
 
