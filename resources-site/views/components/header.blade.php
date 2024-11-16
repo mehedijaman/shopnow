@@ -172,11 +172,14 @@
                 class="ml-auto flex items-center space-x-6 lg:absolute lg:right-0"
             >
                 <navbar-cart-menu></navbar-cart-menu>
-                <button class="inline-block cursor-pointer border-gray-300">
+                <a
+                    href="{{ route('customerAuth.loginForm') }}"
+                    class="inline-block cursor-pointer border-gray-300"
+                >
                     <i
                         class="ri-user-line text-xl hover:text-skin-primary-9"
                     ></i>
-                </button>
+                </a>
             </div>
         </div>
     </div>

@@ -45,6 +45,11 @@ return [
             'driver' => 'session',
             'provider' => 'usersModule',
         ],
+
+        'customer' => [
+            'driver' => 'session',
+            'provider' => 'customersModule',
+        ],
     ],
 
     /*
@@ -79,6 +84,11 @@ return [
             'driver' => 'eloquent',
             'model' => Modules\User\Models\User::class,
         ],
+
+        'customersModule' => [
+            'driver' => 'eloquent',
+            'model' => Modules\Customer\Models\Customer::class,
+        ],
     ],
 
     /*
@@ -106,6 +116,13 @@ return [
 
         'usersModule' => [
             'provider' => 'usersModule',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'customersModule' => [
+            'provider' => 'customersModule',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

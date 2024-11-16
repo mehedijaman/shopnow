@@ -7,6 +7,7 @@ use Modules\Blog\BlogServiceProvider;
 use Modules\Cart\CartServiceProvider;
 use Modules\ContactMessage\ContactMessageServiceProvider;
 use Modules\Customer\CustomerServiceProvider;
+use Modules\CustomerAuth\CustomerAuthServiceProvider;
 use Modules\Dashboard\DashboardServiceProvider;
 use Modules\Index\IndexServiceProvider;
 use Modules\Order\OrderServiceProvider;
@@ -32,4 +33,6 @@ return [
     CartServiceProvider::class,
 
     ContactMessageServiceProvider::class,
+
+    CustomerAuthServiceProvider::class,
 ];

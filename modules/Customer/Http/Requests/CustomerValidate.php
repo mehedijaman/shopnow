@@ -14,7 +14,10 @@ class CustomerValidate extends Request
         return [
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|max:2048',
-            'phone' => 'nullable|string|max:255',
+            'phone' => [
+                'required',
+                'digits:11',
+            ],
             'email' => [
                 'required',
                 'email',
@@ -22,11 +25,11 @@ class CustomerValidate extends Request
                 Rule::unique(Customer::class)->ignore($this->id),
             ],
             'password' => $this->passwordRules(),
-            'password_confirmation' => [
+            'confirm_password' => [
                 'required_with:password',
                 'same:password',
             ],
-            'active' => 'required|boolean',
+            'active' => 'nullable|boolean',
 
         ];
     }
