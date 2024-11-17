@@ -5,9 +5,11 @@
     >
         <div class="flex justify-between">
             <span></span>
-            <button class="text-white hover:text-blue-500">
-                <i class="ri-heart-line text-2xl"></i>
-            </button>
+            @if (auth('customer')->check())
+                <button class="text-white hover:text-blue-500">
+                    <i class="ri-heart-line text-2xl"></i>
+                </button>
+            @endif
         </div>
         <div class="flex justify-between">
             <span

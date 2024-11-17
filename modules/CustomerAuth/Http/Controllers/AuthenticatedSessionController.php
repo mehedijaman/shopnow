@@ -72,7 +72,7 @@ class AuthenticatedSessionController extends AppController
         if (Auth::guard('customer')->attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('site.index'));
+            return redirect()->intended(route(config('modular.default-customer-logged-route')));
         }
 
         return back()->withErrors([
@@ -87,12 +87,12 @@ class AuthenticatedSessionController extends AppController
      */
     public function logout(Request $request)
     {
-        Auth::guard('user')->logout();
+        Auth::guard('customer')->logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        return Inertia::location(config('modular.login-url'));
+        return Inertia::location('/');
     }
 }

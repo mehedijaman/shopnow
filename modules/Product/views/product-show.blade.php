@@ -184,9 +184,9 @@
                         ></add-to-cart-button>
 
                         <button
-                            class="mt-4 flex w-full items-center justify-center rounded bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300 focus:ring-gray-500 disabled:opacity-50"
+                            class="flex items-center justify-center rounded bg-gray-200 px-4 py-1 text-gray-800 hover:bg-gray-300 focus:ring-gray-500 disabled:opacity-50"
                         >
-                            <i class="ri-heart-line mr-2 text-xl"></i>
+                            <i class="ri-heart-line mr-1"></i>
                             Add to Wishlist
                         </button>
                     </div>

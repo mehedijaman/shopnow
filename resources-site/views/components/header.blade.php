@@ -172,14 +172,68 @@
                 class="ml-auto flex items-center space-x-6 lg:absolute lg:right-0"
             >
                 <navbar-cart-menu></navbar-cart-menu>
-                <a
-                    href="{{ route('customerAuth.loginForm') }}"
-                    class="inline-block cursor-pointer border-gray-300"
-                >
-                    <i
-                        class="ri-user-line text-xl hover:text-skin-primary-9"
-                    ></i>
-                </a>
+
+                @if (auth('customer')->check())
+                    <div
+                        class="group relative max-lg:border-b max-lg:px-3 max-lg:py-3"
+                    >
+                        <a
+                            href="javascript:void(0)"
+                            class="block text-[15px] font-semibold text-gray-700 hover:fill-[#007bff] hover:text-[#007bff]"
+                        >
+                            Welcome, {{ auth('customer')->user()->name }}
+                            <i class="ri-arrow-down-s-line"></i>
+                        </a>
+                        <ul
+                            class="absolute left-0 top-5 z-50 block max-h-0 min-w-[350px] space-y-2 overflow-hidden bg-white px-6 shadow-lg transition-all duration-500 group-hover:max-h-[700px] group-hover:pb-4 group-hover:pt-6 group-hover:opacity-100 max-lg:top-8"
+                        >
+                            <li class="border-b py-2">
+                                <a
+                                    href="{{ route('customerAuth.logout') }}"
+                                    class="flex gap-2 text-[15px] font-semibold text-gray-700 hover:fill-[#007bff] hover:text-[#007bff]"
+                                >
+                                    My Profile
+                                </a>
+                            </li>
+
+                            <li class="border-b py-2">
+                                <a
+                                    href="{{ route('customerAuth.logout') }}"
+                                    class="flex gap-2 text-[15px] font-semibold text-gray-700 hover:fill-[#007bff] hover:text-[#007bff]"
+                                >
+                                    Orders
+                                </a>
+                            </li>
+
+                            <li class="border-b py-2">
+                                <a
+                                    href="{{ route('customerAuth.logout') }}"
+                                    class="flex gap-2 text-[15px] font-semibold text-gray-700 hover:fill-[#007bff] hover:text-[#007bff]"
+                                >
+                                    Wishlist
+                                </a>
+                            </li>
+
+                            <li class="border-b py-2">
+                                <a
+                                    href="{{ route('customerAuth.logout') }}"
+                                    class="flex gap-2 text-[15px] font-semibold text-gray-700 hover:fill-[#007bff] hover:text-[#007bff]"
+                                >
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                @else
+                    <a
+                        href="{{ route('customerAuth.loginForm') }}"
+                        class="inline-block cursor-pointer border-gray-300"
+                    >
+                        <i
+                            class="ri-user-line text-xl hover:text-skin-primary-9"
+                        ></i>
+                    </a>
+                @endif
             </div>
         </div>
     </div>

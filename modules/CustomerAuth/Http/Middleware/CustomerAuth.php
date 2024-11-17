@@ -5,7 +5,7 @@ namespace Modules\CustomerAuth\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class UserAuth
+class CustomerAuth
 {
     /**
      * Handle an incoming request.

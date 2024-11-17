@@ -1,31 +1,33 @@
 <template>
-    <div class="mt-2 inline-flex items-center">
-        <button
-            @click="decreaseQuantity"
-            class="inline-flex items-center rounded-l border border-r border-gray-200 bg-white px-2 py-1 text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
-        >
-            <i class="ri-subtract-line"></i>
-        </button>
-        <div
-            class="inline-flex select-none items-center border-b border-t border-gray-100 bg-gray-100 px-4 py-1 text-gray-600 hover:bg-gray-100"
-        >
-            {{ quantity }}
+    <div class="mt-4 flex gap-4 border-t pt-3">
+        <div class="inline-flex items-center">
+            <button
+                @click="decreaseQuantity"
+                class="inline-flex items-center rounded-l border border-r border-gray-200 bg-white px-2 py-1 text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+            >
+                <i class="ri-subtract-line"></i>
+            </button>
+            <div
+                class="inline-flex select-none items-center border-b border-t border-gray-100 bg-gray-100 px-4 py-1 text-gray-600 hover:bg-gray-100"
+            >
+                {{ quantity }}
+            </div>
+            <button
+                @click="increaseQuantity"
+                class="inline-flex items-center rounded-r border border-r border-gray-200 bg-white px-2 py-1 text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+            >
+                <i class="ri-add-line"></i>
+            </button>
         </div>
+
         <button
-            @click="increaseQuantity"
-            class="inline-flex items-center rounded-r border border-r border-gray-200 bg-white px-2 py-1 text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+            @click="addToCart"
+            class="flex items-center justify-center rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50"
         >
-            <i class="ri-add-line"></i>
+            <i class="ri-shopping-cart-fill mr-1"></i>
+            Add to Cart
         </button>
     </div>
-
-    <button
-        @click="addToCart"
-        class="mt-4 flex w-full items-center justify-center rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50"
-    >
-        <i class="ri-shopping-cart-fill mr-2 text-xl"></i>
-        Add to Cart
-    </button>
 </template>
 
 <script setup>
