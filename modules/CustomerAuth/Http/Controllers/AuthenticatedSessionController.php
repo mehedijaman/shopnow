@@ -2,14 +2,14 @@
 
 namespace Modules\CustomerAuth\Http\Controllers;
 
-use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Modules\Customer\Models\Customer;
-use Modules\Support\Http\Controllers\AppController;
+use Inertia\Inertia;
 use Modules\Customer\Http\Requests\CustomerValidate;
+use Modules\Customer\Models\Customer;
 use Modules\CustomerAuth\Http\Requests\LoginRequest;
+use Modules\Support\Http\Controllers\AppController;
 
 class AuthenticatedSessionController extends AppController
 {
@@ -31,7 +31,7 @@ class AuthenticatedSessionController extends AppController
     /**
      * Handle customer signup.
      *
-     * @param  \Modules\CustomerAuth\Http\Requests\SignupRequest $request
+     * @param  \Modules\CustomerAuth\Http\Requests\SignupRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function signup(CustomerValidate $request)

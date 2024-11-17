@@ -22,7 +22,7 @@ class CustomerAuthServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__ . '/views', 'customer-auth');
+        $this->loadViewsFrom(__DIR__.'/views', 'customer-auth');
         parent::boot();
     }
 }

@@ -2,11 +2,11 @@
 
 namespace Modules\Order\Http\Requests;
 
-use Illuminate\Validation\Rule;
-use Modules\Support\Http\Requests\Request;
-use Devfaysal\BangladeshGeocode\Models\Union;
 use Devfaysal\BangladeshGeocode\Models\District;
 use Devfaysal\BangladeshGeocode\Models\Division;
+use Devfaysal\BangladeshGeocode\Models\Union;
+use Illuminate\Validation\Rule;
+use Modules\Support\Http\Requests\Request;
 
 class SiteOrderValidate extends Request
 {
@@ -48,7 +48,7 @@ class SiteOrderValidate extends Request
             'payment_method' => [
                 'required',
                 Rule::in(['cod', 'sslcommerz']),
-            ]
+            ],
         ];
     }
 }

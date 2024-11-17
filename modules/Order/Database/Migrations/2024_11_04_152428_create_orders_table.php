@@ -44,7 +44,6 @@ return new class extends Migration
             $table->enum('payment_status', ['paid', 'unpaid'])->default('unpaid');
             $table->string('payment_method');
 
-
             // Additional notes
             $table->text('notes')->nullable();
 

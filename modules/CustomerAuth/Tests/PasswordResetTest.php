@@ -32,7 +32,7 @@ test('reset password screen can be rendered', function () {
     $this->post('/customer-auth/send-reset-link-email', ['email' => $user->email]);
 
     Notification::assertSentTo($user, AdminAuthResetPassword::class, function ($notification) {
-        $response = $this->get('/customer-auth/reset-password/' . $notification->token);
+        $response = $this->get('/customer-auth/reset-password/'.$notification->token);
 
         $response->assertStatus(200);
 

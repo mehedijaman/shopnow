@@ -16,7 +16,7 @@ class ContactMessageController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($message) => [
+            ->through(fn ($message) => [
                 'id' => $message->id,
                 'name' => $message->name,
                 'phone' => $message->phone,
@@ -80,7 +80,7 @@ class ContactMessageController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($message) => [
+            ->through(fn ($message) => [
                 'id' => $message->id,
                 'name' => $message->name,
                 'phone' => $message->phone,

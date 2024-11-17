@@ -108,7 +108,7 @@ class ProductController extends BackendController
         }
 
         return redirect()->route('product.index')
-            ->with('success', 'Product updated.');
+            ->with('success', 'Product has been updated.');
     }
 
     public function destroy(int $id): RedirectResponse

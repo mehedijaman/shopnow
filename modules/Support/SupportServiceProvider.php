@@ -25,9 +25,9 @@ class SupportServiceProvider extends BaseServiceProvider
             'customer' => 'Modules\Customer\Models\Customer',
         ]);
 
-        include __DIR__ . '/helpers.php';
-        include __DIR__ . '/Validators/required_editor.php';
-        include __DIR__ . '/Validators/recaptcha.php';
+        include __DIR__.'/helpers.php';
+        include __DIR__.'/Validators/required_editor.php';
+        include __DIR__.'/Validators/recaptcha.php';
         parent::boot();
     }
 }

@@ -2,12 +2,12 @@
 
 namespace Modules\ContactMessage\Http\Controllers;
 
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
-use Modules\ContactMessage\Models\ContactMessage;
-use Modules\ContactMessage\Mail\ContactMessageMail;
-use Modules\Support\Http\Controllers\SiteController;
+use Illuminate\Support\Facades\Mail;
 use Modules\ContactMessage\Http\Requests\ContactMessageValidate;
+use Modules\ContactMessage\Mail\ContactMessageMail;
+use Modules\ContactMessage\Models\ContactMessage;
+use Modules\Support\Http\Controllers\SiteController;
 
 class SiteContactMessageController extends SiteController
 {

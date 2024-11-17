@@ -50,7 +50,7 @@
                         {{ $product->name }}
                     </h2>
                     <p class="my-4 text-gray-600">
-                        Category:
+                        Category Name:
                         <a
                             href="{{ route('shop.category', [$product->category?->id, $product->category?->slug]) }}"
                             class="text-blue-600 hover:underline dark:text-blue-500"
