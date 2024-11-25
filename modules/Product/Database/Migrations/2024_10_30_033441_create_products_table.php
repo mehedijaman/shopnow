@@ -18,8 +18,8 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('slug')->unique();
-            $table->string('price');
-            $table->string('sale_price')->nullable();
+            $table->decimal('price', 10, 2);
+            $table->string('sale_price', 10, 2)->nullable();
             $table->string('quantity');
             $table->string('unit')->nullable();
             $table->string('min_order')->nullable();

@@ -1,7 +1,7 @@
 <template>
     <Head :title="title"></Head>
     <AppSectionHeader :title="title" :bread-crumb="breadCrumb">
-        <template #right>
+        <!-- <template #right>
             <AppButton
                 class="btn btn-primary"
                 @click="$inertia.visit(route('order.create'))"
@@ -9,7 +9,7 @@
                 <i class="ri-add-fill mr-1"></i>
                 Create Order
             </AppButton>
-        </template>
+        </template> -->
     </AppSectionHeader>
 
     <AppDataSearch
@@ -26,47 +26,57 @@
                     :key="item.id"
                 >
                     <AppDataTableData>
-                        {{ item.id }}
+                        {{ item.created_at }}
                     </AppDataTableData>
 
-                    <!-- <AppDataTableData>
+                    <AppDataTableData>
                         {{ item.name }}
-                    </AppDataTableData> -->
+                    </AppDataTableData>
 
                     <AppDataTableData>
-                        <!-- Edit order -->
-                        <AppTooltip text="Edit Order" class="mr-2">
+                        {{ item.email }}
+                    </AppDataTableData>
+
+                    <AppDataTableData>
+                        {{ item.phone }}
+                    </AppDataTableData>
+
+                    <AppDataTableData>
+                        {{ item.address }}
+                    </AppDataTableData>
+
+                    <AppDataTableData>
+                        {{ item.status }}
+                    </AppDataTableData>
+
+                    <AppDataTableData>
+                        {{ item.total }}
+                    </AppDataTableData>
+
+                    <AppDataTableData>
+                        <AppTooltip text="View Order" class="mr-2">
                             <AppButton
                                 class="btn btn-icon btn-primary"
                                 @click="
-                                    $inertia.visit(
-                                        route(
-                                            'order.edit',
-                                            item.id
-                                        )
-                                    )
+                                    $inertia.visit(route('order.show', item.id))
                                 "
                             >
-                                <i class="ri-edit-line"></i>
+                                <i class="ri-eye-line"></i>
                             </AppButton>
                         </AppTooltip>
 
-                        <!-- Delete order -->
-                        <AppTooltip text="Delete Order">
+                        <!-- <AppTooltip text="Delete Order">
                             <AppButton
                                 class="btn btn-icon btn-destructive"
                                 @click="
                                     confirmDelete(
-                                        route(
-                                            'order.destroy',
-                                            item.id
-                                        )
+                                        route('order.destroy', item.id)
                                     )
                                 "
                             >
                                 <i class="ri-delete-bin-line"></i>
                             </AppButton>
-                        </AppTooltip>
+                        </AppTooltip> -->
                     </AppDataTableData>
                 </AppDataTableRow>
             </tbody>
@@ -98,18 +108,27 @@ const { title } = useTitle('Order')
 const { can } = useAuthCan()
 
 const props = defineProps({
-  orders: {
-    type: Object,
-    default: () => {}
-  }
+    orders: {
+        type: Object,
+        default: () => {}
+    }
 })
 
 const breadCrumb = [
-  { label: 'Home', href: route('dashboard.index') },
-  { label: 'Orders', last: true }
+    { label: 'Home', href: route('dashboard.index') },
+    { label: 'Orders', last: true }
 ]
 
-const headers = ['ID', 'Actions']
+const headers = [
+    'Date',
+    'Name',
+    'Email',
+    'Phone',
+    'Address',
+    'Status',
+    'Total',
+    'Actions'
+]
 
 const confirmDialogRef = ref(null)
 const confirmDelete = (deleteRoute) => {

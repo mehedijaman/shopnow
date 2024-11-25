@@ -18,6 +18,11 @@ Route::post('order', [
     'store',
 ])->name('order.store');
 
+Route::get('order/{id}/show', [
+    OrderController::class,
+    'show',
+])->name('order.show');
+
 Route::get('order/{id}/edit', [
     OrderController::class,
     'edit',

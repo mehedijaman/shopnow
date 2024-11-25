@@ -277,8 +277,8 @@
                 <div>
                     <textarea
                         required
-                        name="address"
-                        v-model="form.address"
+                        name="note"
+                        v-model="form.note"
                         class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                     ></textarea>
                 </div>
@@ -307,8 +307,6 @@
             </div>
         </div>
     </div>
-
-    {{ form }}
 </template>
 
 <script setup>
@@ -355,7 +353,7 @@ function fetchUnions() {
                 console.error('Error fetching unions:', error)
             })
     } else {
-        unions.value = [] // Clear upazilas if no district is selected
+        unions.value = [] // Clear unions if no upazila is selected
     }
 }
 
@@ -374,10 +372,53 @@ const form = useForm({
     subtotal: cartStore.subtotal,
     tax: cartStore.tax,
     shipping: cartStore.shipping,
-    total: cartStore.subtotal
+    total: cartStore.subtotal + cartStore.tax + cartStore.shipping
 })
 
-const submitForm = () => {
-    form.post('/order')
+// const submitForm = () => {
+//     form.post('site-order-store', {
+//         onSuccess: () => {
+//             // Clear cart and reset form after successful submission
+//             cartStore.clearCart()
+//             form.reset()
+//             alert('Order placed successfully!')
+//         },
+//         onError: (errors) => {
+//             console.error('Error submitting order:', errors)
+//             alert(
+//                 'Failed to place the order. Please check the form and try again.'
+//             )
+//         }
+//     })
+// }
+
+const submitForm = async () => {
+    try {
+        const response = await axios.post('/site-order-store', form)
+
+        // Handle successful response
+        cartStore.clearCart() // Clear the cart
+        form.reset() // Reset the form
+        alert('Order placed successfully!')
+
+        window.location.href = '/'
+    } catch (error) {
+        // Handle errors
+        if (error.response) {
+            // Server responded with a status code outside the 2xx range
+            console.error('Error Response:', error.response.data)
+            alert(
+                'Failed to place the order. Please check the form and try again.'
+            )
+        } else if (error.request) {
+            // Request was made but no response was received
+            console.error('No Response:', error.request)
+            alert('Failed to communicate with the server. Please try again.')
+        } else {
+            // Something happened in setting up the request
+            console.error('Error Setting Up Request:', error.message)
+            alert('An unexpected error occurred. Please try again.')
+        }
+    }
 }
 </script>

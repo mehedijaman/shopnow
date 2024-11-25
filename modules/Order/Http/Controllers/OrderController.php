@@ -16,10 +16,15 @@ class OrderController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn ($order) => [
+            ->through(fn($order) => [
                 'id' => $order->id,
                 'name' => $order->name,
-                'created_at' => $order->created_at->format('d/m/Y H:i').'h',
+                'email' => $order->email,
+                'phone' => $order->phone,
+                'address' => $order->address,
+                'status' => $order->status,
+                'total' => $order->total,
+                'created_at' => $order->created_at->format('d/m/Y H:i') . 'h',
             ]);
 
         return inertia('Order/OrderIndex', [
@@ -45,6 +50,15 @@ class OrderController extends BackendController
         $order = Order::find($id);
 
         return inertia('Order/OrderForm', [
+            'order' => $order,
+        ]);
+    }
+
+    public function show(int $id): Response
+    {
+        $order = Order::with(['orderProducts', 'orderProducts.product'])->find($id);
+
+        return inertia('Order/OrderShow', [
             'order' => $order,
         ]);
     }

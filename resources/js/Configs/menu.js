@@ -7,24 +7,18 @@ export default {
             icon: 'ri-dashboard-line',
             link: route('dashboard.index')
         },
-        {
-            label: 'Contact Messages',
-            permission: 'contact-message-list',
-            icon: 'ri-mail-line',
-            link: route('contactMessage.index')
-        },
+        // {
+        //     label: 'Contact Messages',
+        //     permission: 'contact-message-list',
+        //     icon: 'ri-mail-line',
+        //     link: route('contactMessage.index')
+        // },
         {
             label: 'Order Management',
             permission: 'order-menu',
             children: [
                 {
-                    label: 'Pending Orders',
-                    permission: 'order-list',
-                    icon: 'ri-draft-line',
-                    link: route('order.index')
-                },
-                {
-                    label: 'Completed Orders',
+                    label: 'Orders',
                     permission: 'order-list',
                     icon: 'ri-draft-line',
                     link: route('order.index')
@@ -61,20 +55,20 @@ export default {
                     link: route('productBrand.index')
                 }
             ]
-        },
+        }
 
-        {
-            label: 'Customer Management',
-            permission: 'customer-menu',
-            children: [
-                {
-                    label: 'Customers',
-                    permission: 'customer-list',
-                    icon: 'ri-draft-line',
-                    link: route('customer.index')
-                }
-            ]
-        },
+        // {
+        //     label: 'Customer Management',
+        //     permission: 'customer-menu',
+        //     children: [
+        //         {
+        //             label: 'Customers',
+        //             permission: 'customer-list',
+        //             icon: 'ri-draft-line',
+        //             link: route('customer.index')
+        //         }
+        //     ]
+        // },
 
         // {
         //     label: 'Blog',
@@ -107,29 +101,29 @@ export default {
         //     ]
         // },
 
-        {
-            label: 'Access Control List',
-            permission: 'Acl',
-            children: [
-                {
-                    label: 'Users',
-                    permission: 'Acl: User - List',
-                    icon: 'ri-user-line',
-                    link: route('user.index')
-                },
-                {
-                    label: 'Permissions',
-                    permission: 'Acl: Permission - List',
-                    icon: 'ri-shield-keyhole-line',
-                    link: route('aclPermission.index')
-                },
-                {
-                    label: 'Roles',
-                    permission: 'Acl: Role - List',
-                    icon: 'ri-account-box-line',
-                    link: route('aclRole.index')
-                }
-            ]
-        }
+        // {
+        //     label: 'Access Control List',
+        //     permission: 'Acl',
+        //     children: [
+        //         {
+        //             label: 'Users',
+        //             permission: 'Acl: User - List',
+        //             icon: 'ri-user-line',
+        //             link: route('user.index')
+        //         },
+        //         {
+        //             label: 'Permissions',
+        //             permission: 'Acl: Permission - List',
+        //             icon: 'ri-shield-keyhole-line',
+        //             link: route('aclPermission.index')
+        //         },
+        //         {
+        //             label: 'Roles',
+        //             permission: 'Acl: Role - List',
+        //             icon: 'ri-account-box-line',
+        //             link: route('aclRole.index')
+        //         }
+        //     ]
+        // }
     ]
 }

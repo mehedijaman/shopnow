@@ -4,20 +4,19 @@ namespace Modules\Order\Models;
 
 use Modules\Product\Models\Product;
 use Modules\Support\Models\BaseModel;
-use Modules\Order\Models\OrderProduct;
 use Modules\Support\Traits\Searchable;
 use Modules\Support\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Order extends BaseModel
+class OrderProduct extends BaseModel
 {
-    use ActivityLog, Searchable, SoftDeletes;
+    use ActivityLog, Searchable;
 
-    protected $table = 'orders';
+    protected $table = 'order_products';
 
 
-    public function orderProducts()
+    public function product()
     {
-        return $this->hasMany(OrderProduct::class, 'order_id', 'id');
+        return $this->belongsTo(Product::class);
     }
 }

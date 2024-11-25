@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignId('district_id')->nullable();
             $table->foreignId('upazilla_id')->nullable();
             $table->foreignId('union_id')->nullable();
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->string('country')->nullable();
 
             // Order Status
@@ -42,12 +42,16 @@ return new class extends Migration
             $table->decimal('paid', 10, 2)->default(0.00);
             $table->decimal('due', 10, 2)->default(0.00);
             $table->enum('payment_status', ['paid', 'unpaid'])->default('unpaid');
-            $table->string('payment_method');
+            $table->string('payment_method')->nullable();
 
             // Additional notes
             $table->text('notes')->nullable();
 
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
