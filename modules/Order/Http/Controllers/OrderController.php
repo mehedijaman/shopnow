@@ -16,7 +16,7 @@ class OrderController extends BackendController
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
-            ->through(fn($order) => [
+            ->through(fn ($order) => [
                 'id' => $order->id,
                 'name' => $order->name,
                 'email' => $order->email,
@@ -24,7 +24,7 @@ class OrderController extends BackendController
                 'address' => $order->address,
                 'status' => $order->status,
                 'total' => $order->total,
-                'created_at' => $order->created_at->format('d/m/Y H:i') . 'h',
+                'created_at' => $order->created_at->format('d/m/Y H:i').'h',
             ]);
 
         return inertia('Order/OrderIndex', [

@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
 
-        //this will be a root user...
+        // this will be a root user...
         $testUser = User::factory()->create([
             'name' => 'Example User',
             'email' => 'user@example.com',

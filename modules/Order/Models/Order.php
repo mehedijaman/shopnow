@@ -2,19 +2,16 @@
 
 namespace Modules\Order\Models;
 
-use Modules\Product\Models\Product;
-use Modules\Support\Models\BaseModel;
-use Modules\Order\Models\OrderProduct;
-use Modules\Support\Traits\Searchable;
-use Modules\Support\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Support\Models\BaseModel;
+use Modules\Support\Traits\ActivityLog;
+use Modules\Support\Traits\Searchable;
 
 class Order extends BaseModel
 {
     use ActivityLog, Searchable, SoftDeletes;
 
     protected $table = 'orders';
-
 
     public function orderProducts()
     {

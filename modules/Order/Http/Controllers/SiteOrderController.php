@@ -2,13 +2,13 @@
 
 namespace Modules\Order\Http\Controllers;
 
-use Inertia\Response;
-use Modules\Order\Models\Order;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Http\RedirectResponse;
+use Inertia\Response;
 use Modules\Order\Http\Requests\OrderValidate;
 use Modules\Order\Http\Requests\SiteOrderValidate;
+use Modules\Order\Models\Order;
 use Modules\Support\Http\Controllers\SiteController;
 
 class SiteOrderController extends SiteController
@@ -68,16 +68,16 @@ class SiteOrderController extends SiteController
             // Return success response
             return response()->json([
                 'message' => 'Order placed successfully.',
-                'order_id' => $order->id
+                'order_id' => $order->id,
             ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
 
             // Log the error to check details in case of failure
-            Log::error('Order creation failed: ' . $e->getMessage(), [
+            Log::error('Order creation failed: '.$e->getMessage(), [
                 'order_data' => $orderData,
                 'items' => $items,
-                'error' => $e
+                'error' => $e,
             ]);
 
             return response()->json([
@@ -85,10 +85,6 @@ class SiteOrderController extends SiteController
             ], 500);
         }
     }
-
-
-
-
 
     // public function edit(int $id): Response
     // {

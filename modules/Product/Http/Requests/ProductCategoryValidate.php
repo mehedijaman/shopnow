@@ -11,7 +11,7 @@ class ProductCategoryValidate extends Request
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|max:2048', //Max size 2MB
+            'image' => 'nullable|image|max:2048', // Max size 2MB
             'active' => 'nullable|boolean',
             'featured' => 'nullable|boolean',
             'meta_tag_title' => 'nullable|string|max:60',

@@ -14,7 +14,7 @@ class AclModelHasRolesSeeder extends Seeder
 
         DB::table('model_has_roles')->truncate();
 
-        //root
+        // root
         DB::table('model_has_roles')->insert([
             'role_id' => 1,
             'model_type' => 'user',
