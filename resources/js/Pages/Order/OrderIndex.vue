@@ -163,7 +163,6 @@ import { ref } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import useTitle from '@/Composables/useTitle'
 import useAuthCan from '@/Composables/useAuthCan'
-import axios from 'axios'
 
 const { title } = useTitle('Orders')
 const { can } = useAuthCan()
@@ -222,22 +221,24 @@ function closeQuickUpdate() {
     quickStatus.value = ''
 }
 
-async function saveQuickStatus(item) {
+function saveQuickStatus(item) {
     if (quickStatus.value === item.status) {
         closeQuickUpdate()
         return
     }
     savingId.value = item.id
-    try {
-        await axios.patch(route('order.updateStatus', item.id), {
-            status: quickStatus.value,
-            payment_status: item.payment_status,
-        })
-        router.reload({ preserveState: true, preserveScroll: true })
-    } finally {
-        savingId.value = null
-        closeQuickUpdate()
-    }
+    router.patch(
+        route('order.updateStatus', item.id),
+        { status: quickStatus.value, payment_status: item.payment_status },
+        {
+            preserveState: true,
+            preserveScroll: true,
+            onFinish: () => {
+                savingId.value = null
+                closeQuickUpdate()
+            },
+        },
+    )
 }
 
 // Styling helpers
