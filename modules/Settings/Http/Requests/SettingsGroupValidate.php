@@ -15,6 +15,7 @@ class SettingsGroupValidate extends Request
             'social' => $this->socialRules(),
             'seo' => $this->seoRules(),
             'mail' => $this->mailRules(),
+            'shipping' => $this->shippingRules(),
             default => [],
         };
     }
@@ -94,6 +95,14 @@ class SettingsGroupValidate extends Request
             'username' => 'nullable|string|max:255',
             'password' => 'nullable|string|max:255',
             'encryption' => 'nullable|string|in:tls,ssl,starttls',
+        ];
+    }
+
+    private function shippingRules(): array
+    {
+        return [
+            'flat_rate' => 'required|integer|min:0',
+            'free_shipping_threshold' => 'required|integer|min:0',
         ];
     }
 }

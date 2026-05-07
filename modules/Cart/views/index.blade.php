@@ -6,6 +6,9 @@
 
 @section('content')
     <div class="mx-auto min-h-screen max-w-7xl px-6 py-12 lg:px-6">
-        <shopping-cart></shopping-cart>
+        <shopping-cart
+            :shipping-flat-rate="{{ $shippingFlatRate }}"
+            :free-shipping-threshold="{{ $freeShippingThreshold }}"
+        ></shopping-cart>
     </div>
 @endsection

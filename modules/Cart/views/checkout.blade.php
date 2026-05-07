@@ -90,7 +90,6 @@
                 </ol>
 
                 <checkout-form
-                    :districts="{{ json_encode($districts) }}"
                     :shipping-flat-rate="{{ $shippingFlatRate }}"
                     :free-shipping-threshold="{{ $freeShippingThreshold }}"
                 ></checkout-form>

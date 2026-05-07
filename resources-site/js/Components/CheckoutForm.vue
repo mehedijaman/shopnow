@@ -59,52 +59,35 @@
                     </div>
 
                     <div>
-                        <div class="mb-2 flex items-center gap-2">
-                            <label
-                                for="division"
-                                class="block text-sm font-medium text-gray-900 dark:text-white"
-                            >
-                                District
-                            </label>
-                        </div>
-                        <select
-                            @change="fetchUpazilas"
-                            v-model="form.district_id"
-                            id="district"
-                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                        <label
+                            for="district"
+                            class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                         >
-                            <option
-                                v-for="district in districts"
-                                :key="district.id"
-                                :value="district.id"
-                            >
-                                {{ district.name }} - {{ district.bn_name }}
-                            </option>
-                        </select>
+                            District
+                        </label>
+                        <input
+                            v-model="form.district"
+                            type="text"
+                            id="district"
+                            placeholder="e.g. Dhaka"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                        />
                     </div>
 
                     <div>
-                        <div class="mb-2 flex items-center gap-2">
-                            <label
-                                for="upazila"
-                                class="block text-sm font-medium text-gray-900 dark:text-white"
-                            >
-                                Upazila/Thana
-                            </label>
-                        </div>
-                        <select
-                            v-model="form.upazila_id"
-                            id="upazila"
-                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                        <label
+                            for="upazila"
+                            class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                         >
-                            <option
-                                v-for="upazila in upazilas"
-                                :key="upazila.id"
-                                :value="upazila.id"
-                            >
-                                {{ upazila.name }} - {{ upazila.bn_name }}
-                            </option>
-                        </select>
+                            Upazila/Thana
+                        </label>
+                        <input
+                            v-model="form.upazila"
+                            type="text"
+                            id="upazila"
+                            placeholder="e.g. Mirpur"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                        />
                     </div>
 
                     <div class="col-span-2">
@@ -266,7 +249,7 @@
                     type="button"
                     class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-hidden focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
-                    Proceed to Payment
+                    Proceed
                 </button>
 
                 <!-- <p class="text-sm font-normal text-gray-500 dark:text-gray-400">
@@ -286,7 +269,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { useCartStore } from '../Stores/CartStore'
 import axios from 'axios'
 import { useForm } from '@inertiajs/vue3'
@@ -294,10 +277,6 @@ import { useForm } from '@inertiajs/vue3'
 const cartStore = useCartStore()
 
 const props = defineProps({
-    districts: {
-        type: Object,
-        default: null,
-    },
     shippingFlatRate: {
         type: Number,
         default: 60,
@@ -307,8 +286,6 @@ const props = defineProps({
         default: 1000,
     },
 })
-
-const upazilas = ref([])
 
 const shippingCharge = computed(() => {
     if (props.freeShippingThreshold > 0 && cartStore.subtotal >= props.freeShippingThreshold) {
@@ -321,27 +298,12 @@ const orderTotal = computed(() => {
     return cartStore.subtotal + shippingCharge.value + cartStore.tax
 })
 
-function fetchUpazilas() {
-    if (form.district_id) {
-        axios
-            .get(`/upazila/${form.district_id}`)
-            .then((response) => {
-                upazilas.value = response.data
-            })
-            .catch((error) => {
-                console.error('Error fetching upazilas:', error)
-            })
-    } else {
-        upazilas.value = []
-    }
-}
-
 const form = useForm({
     name: '',
     phone: '',
     email: '',
-    district_id: '',
-    upazila_id: '',
+    district: '',
+    upazila: '',
     address: '',
     note: '',
     payment_method: null,

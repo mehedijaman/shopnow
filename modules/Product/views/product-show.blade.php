@@ -188,12 +188,12 @@
                             :product="{{ json_encode($product) }}"
                         ></add-to-cart-button>
 
-                        <button
+                        {{-- <button
                             class="flex items-center justify-center rounded-sm bg-gray-200 px-4 py-1 text-gray-800 hover:bg-gray-300 focus:ring-gray-500 disabled:opacity-50"
                         >
                             <i class="ri-heart-line mr-1"></i>
                             Add to Wishlist
-                        </button>
+                        </button> --}}
                     </div>
 
                     {{--

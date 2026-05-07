@@ -2,9 +2,6 @@
 
 namespace Modules\Order\Http\Requests;
 
-use Devfaysal\BangladeshGeocode\Models\District;
-use Devfaysal\BangladeshGeocode\Models\Division;
-use Devfaysal\BangladeshGeocode\Models\Union;
 use Illuminate\Validation\Rule;
 use Modules\Support\Http\Requests\Request;
 
@@ -19,26 +16,10 @@ class SiteOrderValidate extends Request
             'phone' => 'required|string|max:255',
 
             // Geographic info
-            'division_id' => [
-                'nullable',
-                'integer',
-                Rule::exists(Division::class, 'id'),
-            ],
-            'district_id' => [
-                'nullable',
-                'integer',
-                Rule::exists(District::class, 'id'),
-            ],
-            'upazila_id' => [
-                'nullable',
-                'integer',
-                Rule::exists(District::class, 'id'),
-            ],
-            'union_id' => [
-                'nullable',
-                'integer',
-                Rule::exists(Union::class, 'id'),
-            ],
+            'division' => 'nullable|string|max:255',
+            'district' => 'nullable|string|max:255',
+            'upazila' => 'nullable|string|max:255',
+            'union' => 'nullable|string|max:255',
 
             // Address and payment
             'address' => 'nullable|string|max:255',

@@ -94,7 +94,7 @@
                                     </a>
 
                                     <div class="flex items-center gap-4">
-                                        <button
+                                        <!-- <button
                                             type="button"
                                             class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
                                         >
@@ -102,7 +102,7 @@
                                                 class="ri-heart-line mr-1 text-xl"
                                             ></i>
                                             Add to Favorites
-                                        </button>
+                                        </button> -->
 
                                         <button
                                             @click="
@@ -161,8 +161,9 @@
                                     >
                                         Shipping
                                     </dt>
-                                    <dd class="text-base text-green-600">
-                                        {{ cartStore.shipping }} Tk.
+                                    <dd class="text-base">
+                                        <span v-if="shippingCharge === 0" class="text-green-600 font-medium">Free</span>
+                                        <span v-else class="text-gray-900 dark:text-white">{{ shippingCharge }} Tk.</span>
                                     </dd>
                                 </dl>
 
@@ -177,7 +178,7 @@
                                     <dd
                                         class="text-base text-gray-900 dark:text-white"
                                     >
-                                        {{ cartStore.total }} Tk.
+                                        {{ orderTotal }} Tk.
                                     </dd>
                                 </dl>
                             </div>
@@ -193,7 +194,7 @@
                                 <dd
                                     class="text-base font-bold text-gray-900 dark:text-white"
                                 >
-                                    {{ cartStore.total }} Tk.
+                                    {{ orderTotal }} Tk.
                                 </dd>
                             </dl>
                         </div>
@@ -291,7 +292,28 @@
     </div>
 </template>
 <script setup>
+import { computed } from 'vue'
 import { useCartStore } from '../Stores/CartStore'
 
+const props = defineProps({
+    shippingFlatRate: {
+        type: Number,
+        default: 60,
+    },
+    freeShippingThreshold: {
+        type: Number,
+        default: 1000,
+    },
+})
+
 const cartStore = useCartStore()
+
+const shippingCharge = computed(() => {
+    if (props.freeShippingThreshold > 0 && cartStore.subtotal >= props.freeShippingThreshold) {
+        return 0
+    }
+    return cartStore.subtotal > 0 ? props.shippingFlatRate : 0
+})
+
+const orderTotal = computed(() => cartStore.subtotal + shippingCharge.value + cartStore.tax)
 </script>

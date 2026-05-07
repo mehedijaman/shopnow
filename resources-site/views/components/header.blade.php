@@ -1,18 +1,18 @@
 <div class="border-b border-gray-200">
     <div class="mx-auto max-w-7xl">
         <section
-            class="relative flex flex-col items-center gap-5 px-10 pt-10 max-lg:min-h-[60px] lg:min-h-[80px] lg:justify-center"
+            class="relative flex flex-col items-center px-10 py-4 max-lg:min-h-[60px] lg:min-h-[80px] lg:justify-center"
         >
             <a href="{{ route('site.index') }}">
                 @php $logoUrl = setting('branding.logo_url'); $siteName = setting('branding.site_name', 'ShopNow'); @endphp
                 @if ($logoUrl)
-                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-12 w-auto object-contain" />
+                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-30 w-auto" />
                 @else
-                    <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-12 w-auto object-contain" />
+                    <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-30 w-auto" />
                 @endif
             </a>
 
-            <shop-search></shop-search>
+            {{-- <shop-search></shop-search> --}}
 
             {{--
                 <div
