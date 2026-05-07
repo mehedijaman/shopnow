@@ -1,7 +1,5 @@
 @import 'tailwindcss';
 
-@import 'remixicon/fonts/remixicon.css' layer(utilities);
-
 @config "../../tailwind.config.cjs";
 
 /*

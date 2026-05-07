@@ -87,6 +87,7 @@
         {{-- Page-level overrides from child views --}}
         @stack('head')
 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4/fonts/remixicon.min.css">
         @vite(['resources-site/css/site.css'])
         @yield('headEndScripts')
 
