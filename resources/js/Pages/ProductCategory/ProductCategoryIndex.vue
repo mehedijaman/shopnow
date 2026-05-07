@@ -25,10 +25,10 @@
                         <img
                             v-if="item.image_url"
                             :src="item.image_url"
-                            class="h-12 w-20 rounded"
+                            class="h-12 w-20 rounded-sm"
                         />
 
-                        <AppImageNotAvailable v-else class="!h-12 !w-20" />
+                        <AppImageNotAvailable v-else class="h-12! w-20!" />
                     </AppDataTableData>
 
                     <AppDataTableData>
@@ -38,7 +38,7 @@
                     <AppDataTableData>
                         <div class="flex gap-2">
                             <span
-                                class="rounded px-3 py-1 text-sm"
+                                class="rounded-sm px-3 py-1 text-sm"
                                 :class="getStatusClass(item.active)"
                             >
                                 {{ item.active ? 'Active' : 'Inactive' }}
@@ -46,7 +46,7 @@
 
                             <span
                                 v-if="item.featured"
-                                class="active rounded px-3 py-1 text-sm"
+                                class="active rounded-sm px-3 py-1 text-sm"
                             >
                                 Featured
                             </span>

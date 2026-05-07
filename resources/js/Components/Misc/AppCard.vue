@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-4 rounded-md bg-skin-neutral-2 shadow">
+    <div class="mt-4 rounded-md bg-skin-neutral-2 shadow-sm">
         <div class="rounded-t-md bg-skin-neutral-3 px-4 py-2">
             <h3 class="text-xl font-semibold tracking-tight">
                 <slot name="title"> </slot>

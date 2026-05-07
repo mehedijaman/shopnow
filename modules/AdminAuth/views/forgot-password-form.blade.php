@@ -11,7 +11,7 @@
         </div>
 
         @if (session('status'))
-        <div class="px-4 py-2 mt-3 text-sm text-green-700 bg-gray-200 rounded" role="alert">
+        <div class="px-4 py-2 mt-3 text-sm text-green-700 bg-gray-200 rounded-sm" role="alert">
             {{ session('status') }}
         </div>
         @endif
@@ -22,7 +22,7 @@
         </p>
         <ul>
             @foreach ($errors->all() as $error)
-            <li class="px-4 py-2 text-sm text-white bg-red-700 rounded">{{ $error }}</li>
+            <li class="px-4 py-2 text-sm text-white bg-red-700 rounded-sm">{{ $error }}</li>
             @endforeach
         </ul>
         @endif
@@ -34,14 +34,14 @@
             <div>
                 <input type="email" name="email" autocapitalize="off" autocorrect="off" autocomplete="off"
                     aria-label="Email"
-                    class="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md appearance-none focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
+                    class="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md appearance-none focus:outline-hidden focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
                     placeholder="Email" />
 
             </div>
 
             <div class="mt-6">
                 <button type="submit"
-                    class="relative flex justify-center w-full px-6 py-3 text-sm font-medium text-white transition duration-150 ease-in-out bg-green-600 border border-transparent rounded-md group hover:bg-green-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700">
+                    class="relative flex justify-center w-full px-6 py-3 text-sm font-medium text-white transition duration-150 ease-in-out bg-green-600 border border-transparent rounded-md group hover:bg-green-500 focus:outline-hidden focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700">
                     Enviar
                 </button>
             </div>

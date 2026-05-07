@@ -1,7 +1,7 @@
 <template>
     <div>
         <div
-            class="mx-0 mb-0 mt-1 flex flex-none flex-wrap items-center break-words rounded-t-md border-x border-t border-solid border-skin-neutral-7 bg-no-repeat p-2 font-sans text-xl leading-5 tracking-normal"
+            class="mx-0 mb-0 mt-1 flex flex-none flex-wrap items-center wrap-break-word rounded-t-md border-x border-t border-solid border-skin-neutral-7 bg-no-repeat p-2 font-sans text-xl leading-5 tracking-normal"
             :class="editorClass"
         >
             <TipTapButton
@@ -152,7 +152,7 @@
 
         <div
             v-show="showTableToolbar"
-            class="mx-0 mb-0 flex flex-none flex-wrap items-center break-words border-x border-t border-solid border-skin-neutral-7 border-t-skin-neutral-7 bg-no-repeat p-2 font-sans text-xl leading-5 tracking-normal"
+            class="mx-0 mb-0 flex flex-none flex-wrap items-center wrap-break-word border-x border-t border-solid border-skin-neutral-7 border-t-skin-neutral-7 bg-no-repeat p-2 font-sans text-xl leading-5 tracking-normal"
         >
             <TipTapButton
                 :title="__('Insert Table')"
@@ -275,7 +275,7 @@
         <editor-content
             v-show="!codeMode"
             :editor="editor"
-            class="relative m-0 max-h-[240px] min-h-[120px] overflow-auto break-words rounded-b-md border border-solid border-skin-neutral-7 bg-no-repeat px-1 py-1 font-sans text-xs leading-5 tracking-normal"
+            class="relative m-0 max-h-[240px] min-h-[120px] overflow-auto wrap-break-word rounded-b-md border border-solid border-skin-neutral-7 bg-no-repeat px-1 py-1 font-sans text-xs leading-5 tracking-normal"
         />
 
         <textarea

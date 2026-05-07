@@ -53,11 +53,11 @@
         <div class="relative flex flex-wrap justify-between">
             <div
                 id="collapseMenu"
-                class="max-lg:hidden max-lg:before:fixed max-lg:before:inset-0 max-lg:before:z-50 max-lg:before:bg-black max-lg:before:opacity-40 lg:!block"
+                class="max-lg:hidden max-lg:before:fixed max-lg:before:inset-0 max-lg:before:z-50 max-lg:before:bg-black max-lg:before:opacity-40 lg:block!"
             >
                 <button
                     id="toggleClose"
-                    class="fixed right-4 top-2 z-[100] rounded-full bg-white p-3 lg:hidden"
+                    class="fixed right-4 top-2 z-100 rounded-full bg-white p-3 lg:hidden"
                 >
                     <i class="ri-close-line text-2xl"></i>
                 </button>
@@ -137,7 +137,7 @@
             >
                 <navbar-cart-menu></navbar-cart-menu>
 
-                @if (auth('customer')->check())
+                {{-- @if (auth('customer')->check())
                     <div
                         class="group relative max-lg:border-b max-lg:px-3 max-lg:py-3"
                     >
@@ -197,7 +197,7 @@
                             class="ri-user-line text-xl hover:text-skin-primary-9"
                         ></i>
                     </a>
-                @endif
+                @endif --}}
             </div>
         </div>
     </div>

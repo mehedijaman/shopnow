@@ -52,7 +52,7 @@
                 <img
                     :src="urls.og_image_url"
                     alt="OG Image"
-                    class="h-20 rounded border border-skin-neutral-4 object-cover"
+                    class="h-20 rounded-sm border border-skin-neutral-4 object-cover"
                 />
                 <button
                     type="button"

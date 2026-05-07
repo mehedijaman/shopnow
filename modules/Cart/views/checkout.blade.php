@@ -7,12 +7,12 @@
 @section('content')
     <div class="mx-auto max-w-7xl px-6 py-12 lg:px-6">
         <section class="py-8 antialiased dark:bg-gray-900 md:py-16">
-            <form action="#" class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+            <form action="#" class="mx-auto max-w-(--breakpoint-xl) px-4 2xl:px-0">
                 <ol
                     class="flex w-full max-w-2xl items-center text-center text-sm font-medium text-gray-500 dark:text-gray-400 sm:text-base"
                 >
                     <li
-                        class="after:border-1 flex items-center text-primary-700 after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 dark:text-primary-500 dark:after:border-gray-700 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10"
+                        class="after:border flex items-center text-primary-700 after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 dark:text-primary-500 dark:after:border-gray-700 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10"
                     >
                         <a href="{{ route('shop.cart') }}">
                             <span
@@ -41,7 +41,7 @@
                     </li>
 
                     <li
-                        class="after:border-1 flex items-center text-primary-700 after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 dark:text-primary-500 dark:after:border-gray-700 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10"
+                        class="after:border flex items-center text-primary-700 after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 dark:text-primary-500 dark:after:border-gray-700 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10"
                     >
                         <span
                             class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] dark:after:text-gray-500 sm:after:hidden"

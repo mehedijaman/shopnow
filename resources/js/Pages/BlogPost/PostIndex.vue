@@ -25,7 +25,7 @@
                         <img
                             v-if="item.image_url"
                             :src="item.image_url"
-                            class="h-10 w-10 rounded"
+                            class="h-10 w-10 rounded-sm"
                         />
 
                         <AppImageNotAvailable v-else />
@@ -37,7 +37,7 @@
 
                     <AppDataTableData>
                         <span
-                            class="rounded px-3 py-1 text-sm"
+                            class="rounded-sm px-3 py-1 text-sm"
                             :class="getPostStatusClass(item.status)"
                         >
                             {{ item.status }}
@@ -132,6 +132,8 @@ const { can } = useAuthCan()
 </script>
 
 <style scoped>
+@reference "../../../css/app.css";
+
 .published {
     @apply bg-skin-success-light  text-skin-success;
 }

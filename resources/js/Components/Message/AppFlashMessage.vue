@@ -70,6 +70,8 @@ const closeToast = () => {
 </script>
 
 <style scoped>
+@reference "../../../css/app.css";
+
 .alert {
     @apply flex w-80 justify-between rounded-lg px-4 py-3 align-middle shadow;
 }

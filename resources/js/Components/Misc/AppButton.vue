@@ -9,8 +9,10 @@ defineEmits(['click'])
 </script>
 
 <style scoped>
+@reference "../../../css/app.css";
+
 .btn {
-    @apply z-0 flex items-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+    @apply z-0 flex items-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2;
 }
 
 .btn-primary {

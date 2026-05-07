@@ -58,11 +58,11 @@
                                             loading="lazy"
                                             width="800"
                                             height="450"
-                                            class="aspect-[16/9] w-full rounded-md bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+                                            class="aspect-video w-full rounded-md bg-gray-100 object-cover sm:aspect-2/1 lg:aspect-3/2"
                                         />
                                     @else
                                         <div
-                                            class="flex aspect-[16/9] w-full items-center justify-center rounded-md bg-gradient-to-bl from-skin-neutral-1 to-skin-neutral-6 sm:aspect-[2/1] lg:aspect-[3/2]"
+                                            class="flex aspect-video w-full items-center justify-center rounded-md bg-linear-to-bl from-skin-neutral-1 to-skin-neutral-6 sm:aspect-2/1 lg:aspect-3/2"
                                         >
                                             <span
                                                 class="text-lg text-skin-neutral-9"
@@ -149,7 +149,7 @@
                                     @foreach ($post->tags as $tag)
                                         <a
                                             href="/blog/tag/{{ $tag->slug }}"
-                                            class="mr-2 inline-block rounded bg-gray-200 px-3 py-1.5 text-sm hover:bg-gray-100"
+                                            class="mr-2 inline-block rounded-sm bg-gray-200 px-3 py-1.5 text-sm hover:bg-gray-100"
                                         >
                                             {{ $tag->name }}
                                         </a>
@@ -161,7 +161,7 @@
                 </div>
             @else
                 <p
-                    class="mt-2 rounded bg-skin-neutral-3 px-4 py-2 text-gray-600"
+                    class="mt-2 rounded-sm bg-skin-neutral-3 px-4 py-2 text-gray-600"
                 >
                     No posts found.
                 </p>

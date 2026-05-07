@@ -14,11 +14,11 @@
 
     <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
 
-        {{-- Left Column: Customer + Items --}}
+        <!-- Left Column: Customer + Items -->
         <div class="space-y-6 lg:col-span-2">
 
-            {{-- Customer Details --}}
-            <div class="rounded-lg bg-skin-neutral-1 p-6 shadow-sm ring-1 ring-skin-neutral-4">
+            <!-- Customer Details -->
+            <div class="rounded-lg bg-skin-neutral-1 p-6 shadow-xs ring-1 ring-skin-neutral-4">
                 <h3 class="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-skin-neutral-9">
                     <i class="ri-user-line"></i> Customer Details
                 </h3>
@@ -50,8 +50,8 @@
                 </div>
             </div>
 
-            {{-- Ordered Items --}}
-            <div class="rounded-lg bg-skin-neutral-1 p-6 shadow-sm ring-1 ring-skin-neutral-4">
+            <!-- Ordered Items -->
+            <div class="rounded-lg bg-skin-neutral-1 p-6 shadow-xs ring-1 ring-skin-neutral-4">
                 <h3 class="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-skin-neutral-9">
                     <i class="ri-shopping-bag-line"></i> Ordered Items
                 </h3>
@@ -78,7 +78,7 @@
                     </table>
                 </div>
 
-                {{-- Totals --}}
+                <!-- Totals -->
                 <div class="mt-4 border-t border-skin-neutral-4 pt-4">
                     <div class="ml-auto max-w-xs space-y-1.5 text-sm">
                         <div class="flex justify-between">
@@ -112,8 +112,8 @@
                 </div>
             </div>
 
-            {{-- Notes --}}
-            <div v-if="order.notes" class="rounded-lg bg-skin-neutral-1 p-6 shadow-sm ring-1 ring-skin-neutral-4">
+            <!-- Notes -->
+            <div v-if="order.notes" class="rounded-lg bg-skin-neutral-1 p-6 shadow-xs ring-1 ring-skin-neutral-4">
                 <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-skin-neutral-9">
                     <i class="ri-sticky-note-line mr-1"></i> Notes
                 </h3>
@@ -122,11 +122,11 @@
 
         </div>
 
-        {{-- Right Column: Order Summary + Status --}}
+        <!-- Right Column: Order Summary + Status -->
         <div class="space-y-6">
 
-            {{-- Order Summary Card --}}
-            <div class="rounded-lg bg-skin-neutral-1 p-6 shadow-sm ring-1 ring-skin-neutral-4">
+            <!-- Order Summary Card -->
+            <div class="rounded-lg bg-skin-neutral-1 p-6 shadow-xs ring-1 ring-skin-neutral-4">
                 <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-skin-neutral-9">Order Summary</h3>
 
                 <div class="space-y-3">
@@ -155,8 +155,8 @@
                 </div>
             </div>
 
-            {{-- Update Status --}}
-            <div class="rounded-lg bg-skin-neutral-1 p-6 shadow-sm ring-1 ring-skin-neutral-4">
+            <!-- Update Status -->
+            <div class="rounded-lg bg-skin-neutral-1 p-6 shadow-xs ring-1 ring-skin-neutral-4">
                 <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-skin-neutral-9">Update Status</h3>
 
                 <form @submit.prevent="submitStatus">
@@ -165,7 +165,7 @@
                             <label class="mb-1 block text-xs font-medium text-skin-neutral-10">Order Status</label>
                             <select
                                 v-model="statusForm.status"
-                                class="block w-full rounded-md border border-skin-neutral-6 bg-skin-neutral-2 px-3 py-2 text-sm text-skin-neutral-12 focus:border-skin-primary-7 focus:outline-none focus:ring-1 focus:ring-skin-primary-7"
+                                class="block w-full rounded-md border border-skin-neutral-6 bg-skin-neutral-2 px-3 py-2 text-sm text-skin-neutral-12 focus:border-skin-primary-7 focus:outline-hidden focus:ring-1 focus:ring-skin-primary-7"
                             >
                                 <option v-for="s in statuses" :key="s" :value="s" class="capitalize">
                                     {{ s.charAt(0).toUpperCase() + s.slice(1) }}
@@ -177,7 +177,7 @@
                             <label class="mb-1 block text-xs font-medium text-skin-neutral-10">Payment Status</label>
                             <select
                                 v-model="statusForm.payment_status"
-                                class="block w-full rounded-md border border-skin-neutral-6 bg-skin-neutral-2 px-3 py-2 text-sm text-skin-neutral-12 focus:border-skin-primary-7 focus:outline-none focus:ring-1 focus:ring-skin-primary-7"
+                                class="block w-full rounded-md border border-skin-neutral-6 bg-skin-neutral-2 px-3 py-2 text-sm text-skin-neutral-12 focus:border-skin-primary-7 focus:outline-hidden focus:ring-1 focus:ring-skin-primary-7"
                             >
                                 <option value="unpaid">Unpaid</option>
                                 <option value="paid">Paid</option>

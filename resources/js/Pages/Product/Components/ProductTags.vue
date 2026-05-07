@@ -11,7 +11,7 @@
         <li
             v-for="tag in productStore.product.tags"
             :key="tag.id"
-            class="mb-3 flex items-center justify-between rounded bg-skin-neutral-3 p-3"
+            class="mb-3 flex items-center justify-between rounded-sm bg-skin-neutral-3 p-3"
         >
             <span>
                 {{ tag.name }}

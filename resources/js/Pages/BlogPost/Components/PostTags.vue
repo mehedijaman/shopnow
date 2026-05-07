@@ -11,7 +11,7 @@
         <li
             v-for="tag in postStore.post.tags"
             :key="tag.id"
-            class="bg-skin-neutral-3 mb-3 flex items-center justify-between rounded p-3"
+            class="bg-skin-neutral-3 mb-3 flex items-center justify-between rounded-sm p-3"
         >
             <span>
                 {{ tag.name }}

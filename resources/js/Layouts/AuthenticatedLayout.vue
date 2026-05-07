@@ -76,6 +76,8 @@ const items = menu.items
 </script>
 
 <style scoped>
+@reference "../../css/app.css";
+
 .fade-enter-active,
 .fade-leave-active {
     @apply transition-opacity duration-300 ease-out;

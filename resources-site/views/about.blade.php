@@ -6,7 +6,7 @@
 
 @section('content')
     <div
-        class="bg-gradient-to-r from-blue-700 to-[#B06AB3] px-6 py-12 font-sans"
+        class="bg-linear-to-r from-blue-700 to-[#B06AB3] px-6 py-12 font-sans"
     >
         <div
             class="container mx-auto flex flex-col items-center justify-center text-center"

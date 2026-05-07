@@ -3,7 +3,7 @@
         <Link
             v-if="menuItem.label && menuItem.link && can(menuItem.permission)"
             :href="menuItem.link"
-            class="flex rounded-sm px-4 py-2 transition duration-300 ease-in-out hover:bg-skin-neutral-4 hover:text-skin-neutral-12"
+            class="flex rounded-xs px-4 py-2 transition duration-300 ease-in-out hover:bg-skin-neutral-4 hover:text-skin-neutral-12"
         >
             <i :class="menuItem.icon" class="pr-3"></i>
             {{ __(menuItem.label) }}

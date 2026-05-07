@@ -1,6 +1,6 @@
 <template>
     <div
-        class="sticky top-0 z-40 flex h-16 flex-shrink-0 justify-between bg-skin-neutral-2 py-3 pl-3 pr-9 text-skin-neutral-11 shadow-sm"
+        class="sticky top-0 z-40 flex h-16 shrink-0 justify-between bg-skin-neutral-2 py-3 pl-3 pr-9 text-skin-neutral-11 shadow-xs"
     >
         <div class="flex items-center">
             <AppButton

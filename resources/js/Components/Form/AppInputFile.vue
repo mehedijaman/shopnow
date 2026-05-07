@@ -41,7 +41,7 @@
             <img
                 :src="imagePreview"
                 alt="image preview"
-                class="h-auto max-w-full rounded shadow-md"
+                class="h-auto max-w-full rounded-sm shadow-md"
             />
         </div>
     </div>

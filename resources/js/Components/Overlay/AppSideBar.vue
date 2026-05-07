@@ -2,7 +2,7 @@
     <div :class="baseClasses" :aria-hidden="!isVisible.toString()">
         <!-- Your Sidebar Content -->
         <div
-            class="fixed z-40 h-screen w-64 overflow-y-auto bg-skin-neutral-2 shadow"
+            class="fixed z-40 h-screen w-64 overflow-y-auto bg-skin-neutral-2 shadow-sm"
         >
             <aside aria-label="Sidebar">
                 <div class="h-full overflow-y-auto px-3 py-5">
@@ -124,6 +124,8 @@ defineExpose({
 </script>
 
 <style scoped>
+@reference "../../../css/app.css";
+
 .fade-enter-active,
 .fade-leave-active {
     @apply transition-opacity duration-300 ease-in;

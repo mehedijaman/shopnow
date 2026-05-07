@@ -25,7 +25,7 @@
                         <img
                             v-if="item.image_url"
                             :src="item.image_url"
-                            class="h-10 w-10 rounded"
+                            class="h-10 w-10 rounded-sm"
                         />
 
                         <AppImageNotAvailable v-else />
@@ -58,7 +58,7 @@
                     <AppDataTableData>
                         <div class="flex gap-2">
                             <span
-                                class="rounded px-3 py-1 text-sm"
+                                class="rounded-sm px-3 py-1 text-sm"
                                 :class="getstatusClass(item.active)"
                             >
                                 {{ item.active ? 'Active' : 'Inactive' }}
@@ -66,7 +66,7 @@
 
                             <span
                                 v-if="item.featured"
-                                class="rounded px-3 py-1 text-sm"
+                                class="rounded-sm px-3 py-1 text-sm"
                                 :class="getstatusClass(item.featured)"
                             >
                                 Featured
@@ -173,6 +173,8 @@ const { can } = useAuthCan()
 </script>
 
 <style scoped>
+@reference "../../../css/app.css";
+
 .active {
     @apply bg-skin-success-light text-skin-success;
 }

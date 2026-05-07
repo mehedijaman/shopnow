@@ -9,7 +9,7 @@
         <transition name="fade">
             <div
                 v-show="showTooltip"
-                class="absolute inline-flex rounded bg-skin-neutral-10 p-2 text-xs text-skin-neutral-1 transition-opacity duration-500 ease-in-out"
+                class="absolute inline-flex rounded-sm bg-skin-neutral-10 p-2 text-xs text-skin-neutral-1 transition-opacity duration-500 ease-in-out"
                 :class="tooltipClass"
                 :style="tooltipStyle"
             >
@@ -57,8 +57,10 @@ const tooltipStyle = ref({
 </script>
 
 <style scoped>
+@reference "../../../css/app.css";
+
 .tooltip-top {
-    @apply bottom-full left-1/2 -translate-x-1/2 -translate-y-[5px] transform;
+    @apply bottom-full left-1/2 -translate-x-1/2 translate-y-[-5px] transform;
 }
 
 .tooltip-bottom {
@@ -66,7 +68,7 @@ const tooltipStyle = ref({
 }
 
 .tooltip-left {
-    @apply right-full top-1/2 -translate-x-[5px] -translate-y-1/2 transform;
+    @apply right-full top-1/2 translate-x-[-5px] -translate-y-1/2 transform;
 }
 
 .tooltip-right {
@@ -82,19 +84,19 @@ const tooltipStyle = ref({
 }
 
 .tooltip-top::before {
-    @apply -bottom-[5px] left-1/2 -translate-x-1/2 transform border-b-0 border-l-[5px] border-r-[5px] border-t-[5px] border-b-transparent border-l-transparent border-r-transparent border-t-skin-neutral-9;
+    @apply bottom-[-5px] left-1/2 -translate-x-1/2 transform border-b-0 border-l-[5px] border-r-[5px] border-t-[5px] border-b-transparent border-l-transparent border-r-transparent border-t-skin-neutral-9;
 }
 
 .tooltip-bottom::before {
-    @apply -top-[5px] left-1/2 -translate-x-1/2 transform border-b-[5px] border-l-[5px] border-r-[5px] border-t-0 border-b-skin-neutral-9 border-l-transparent border-r-transparent border-t-transparent;
+    @apply top-[-5px] left-1/2 -translate-x-1/2 transform border-b-[5px] border-l-[5px] border-r-[5px] border-t-0 border-b-skin-neutral-9 border-l-transparent border-r-transparent border-t-transparent;
 }
 
 .tooltip-left::before {
-    @apply -right-[5px] top-1/2 -translate-y-1/2 transform border-b-[5px] border-l-[5px] border-r-0 border-t-[5px] border-b-transparent border-l-skin-neutral-9 border-r-transparent border-t-transparent;
+    @apply right-[-5px] top-1/2 -translate-y-1/2 transform border-b-[5px] border-l-[5px] border-r-0 border-t-[5px] border-b-transparent border-l-skin-neutral-9 border-r-transparent border-t-transparent;
 }
 
 .tooltip-right::before {
-    @apply -left-[5px] top-1/2 -translate-y-1/2 transform border-b-[5px] border-l-0 border-r-[5px] border-t-[5px] border-b-transparent border-l-transparent border-r-skin-neutral-9 border-t-transparent;
+    @apply left-[-5px] top-1/2 -translate-y-1/2 transform border-b-[5px] border-l-0 border-r-[5px] border-t-[5px] border-b-transparent border-l-transparent border-r-skin-neutral-9 border-t-transparent;
 }
 
 /* Tooltip Transition */

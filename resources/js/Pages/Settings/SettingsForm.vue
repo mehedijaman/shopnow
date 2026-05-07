@@ -26,7 +26,7 @@
 
         <!-- Active group form -->
         <div class="min-w-0 flex-1">
-            <div class="rounded-lg bg-skin-neutral-1 p-6 shadow-sm ring-1 ring-skin-neutral-4">
+            <div class="rounded-lg bg-skin-neutral-1 p-6 shadow-xs ring-1 ring-skin-neutral-4">
                 <div class="mb-6 border-b border-skin-neutral-4 pb-5">
                     <div class="flex items-center gap-2">
                         <span class="flex h-8 w-8 items-center justify-center rounded-md bg-skin-primary-10 text-skin-neutral-1">

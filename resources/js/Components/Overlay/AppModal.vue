@@ -70,6 +70,8 @@ function hideModal() {
 </script>
 
 <style scoped>
+@reference "../../../css/app.css";
+
 /* Fade Transition */
 .fade-enter-active,
 .fade-leave-active {

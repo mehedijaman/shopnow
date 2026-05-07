@@ -56,7 +56,7 @@
 
                     <AppDataTableData>
                         <span
-                            class="rounded px-3 py-1 text-sm"
+                            class="rounded-sm px-3 py-1 text-sm"
                             :class="
                                 getStatusClass(
                                     item.email_verified_at ? true : false
@@ -73,7 +73,7 @@
 
                     <AppDataTableData>
                         <span
-                            class="rounded px-3 py-1 text-sm"
+                            class="rounded-sm px-3 py-1 text-sm"
                             :class="getStatusClass(item.active)"
                         >
                             {{ item.active ? 'Active' : 'Inactive' }}

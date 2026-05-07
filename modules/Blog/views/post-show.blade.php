@@ -52,7 +52,7 @@
                         alt="{{ $post->title }}"
                         width="1200"
                         height="675"
-                        class="aspect-[16/9] w-full rounded-md bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+                        class="aspect-video w-full rounded-md bg-gray-100 object-cover sm:aspect-2/1 lg:aspect-3/2"
                     />
                 </div>
                 @endif

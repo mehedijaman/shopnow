@@ -29,6 +29,8 @@ const iconClass = computed(() => {
 </script>
 
 <style scoped>
+@reference "../../../css/app.css";
+
 .alert {
     @apply flex w-full rounded-lg px-4 py-3 align-middle shadow;
 }

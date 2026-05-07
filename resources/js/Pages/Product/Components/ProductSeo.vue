@@ -23,7 +23,7 @@
             <div>
                 <div class="mb-2 mt-2 flex items-center">
                     <div
-                        class="mr-4 flex h-10 w-10 rounded-full bg-gradient-to-bl from-skin-neutral-3 to-skin-neutral-6"
+                        class="mr-4 flex h-10 w-10 rounded-full bg-linear-to-bl from-skin-neutral-3 to-skin-neutral-6"
                     ></div>
 
                     <div class="flex flex-col items-start">

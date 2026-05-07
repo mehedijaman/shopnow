@@ -22,7 +22,7 @@
 
         <button
             @click="addToCart"
-            class="flex items-center justify-center rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50"
+            class="flex items-center justify-center rounded-sm bg-blue-500 px-2 py-1 text-white hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50"
         >
             <i class="ri-shopping-cart-fill mr-1"></i>
             Add to Cart

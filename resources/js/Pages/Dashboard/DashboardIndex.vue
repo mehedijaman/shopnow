@@ -1,7 +1,7 @@
 <template>
     <Head title="Dashboard"></Head>
     <div
-        class="shadow-xs mt-6 flex flex-col justify-between rounded-md border border-skin-neutral-4 bg-skin-neutral-2 px-4 py-2 md:flex-row"
+        class="shadow-2xs mt-6 flex flex-col justify-between rounded-md border border-skin-neutral-4 bg-skin-neutral-2 px-4 py-2 md:flex-row"
     >
         <div>
             <i class="ri-megaphone-line"></i>
@@ -17,7 +17,7 @@
     <div class="my-6 grid grid-cols-1 gap-6 md:grid-cols-4">
         <!-- Product Count Card -->
         <div
-            class="shadow-xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
+            class="shadow-2xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
             @click="$inertia.visit(route('product.index'))"
             v-if="can('product-list')"
         >
@@ -42,7 +42,7 @@
 
         <!-- Active Product Count Card -->
         <div
-            class="shadow-xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
+            class="shadow-2xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
             @click="$inertia.visit(route('product.index'))"
             v-if="can('product-list')"
         >
@@ -67,7 +67,7 @@
 
         <!-- Inactive Product Count Card -->
         <div
-            class="shadow-xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
+            class="shadow-2xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
             @click="$inertia.visit(route('product.index'))"
             v-if="can('product-list')"
         >
@@ -92,7 +92,7 @@
 
         <!-- Featured Products Count Card -->
         <div
-            class="shadow-xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
+            class="shadow-2xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
             @click="$inertia.visit(route('product.index'))"
             v-if="can('product-list')"
         >
@@ -117,7 +117,7 @@
 
         <!-- Product Category Count Card -->
         <div
-            class="shadow-xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
+            class="shadow-2xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
             @click="$inertia.visit(route('productCategory.index'))"
             v-if="can('product-category-list')"
         >
@@ -142,7 +142,7 @@
 
         <!-- Active Product Category Count Card -->
         <div
-            class="shadow-xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
+            class="shadow-2xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
             @click="$inertia.visit(route('productCategory.index'))"
             v-if="can('product-category-list')"
         >
@@ -167,7 +167,7 @@
 
         <!-- Inactive Product Category Count Card -->
         <div
-            class="shadow-xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
+            class="shadow-2xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
             @click="$inertia.visit(route('productCategory.index'))"
             v-if="can('product-category-list')"
         >
@@ -192,7 +192,7 @@
 
         <!-- Featured Products Count Card -->
         <div
-            class="shadow-xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
+            class="shadow-2xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
             @click="$inertia.visit(route('productCategory.index'))"
             v-if="can('product-category-list')"
         >
@@ -217,7 +217,7 @@
 
         <!-- Product Tags Count Card -->
         <div
-            class="shadow-xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
+            class="shadow-2xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
             @click="$inertia.visit(route('productTag.index'))"
             v-if="can('product-tag-list')"
         >
@@ -242,7 +242,7 @@
 
         <!-- Product Brand Count Card -->
         <div
-            class="shadow-xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
+            class="shadow-2xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
             @click="$inertia.visit(route('productBrand.index'))"
             v-if="can('product-brand-list')"
         >
@@ -267,7 +267,7 @@
 
         <!-- User Count Card -->
         <div
-            class="shadow-xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
+            class="shadow-2xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
             @click="$inertia.visit(route('user.index'))"
             v-if="can('Acl')"
         >
@@ -292,7 +292,7 @@
 
         <!-- Role Count Card -->
         <div
-            class="shadow-xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
+            class="shadow-2xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
             @click="$inertia.visit(route('aclRole.index'))"
             v-if="can('Acl')"
         >
@@ -317,7 +317,7 @@
 
         <!-- Permission Count Card -->
         <div
-            class="shadow-xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
+            class="shadow-2xs flex items-center rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4 hover:cursor-pointer hover:bg-skin-neutral-1"
             @click="$inertia.visit(route('aclPermission.index'))"
             v-if="can('Acl')"
         >

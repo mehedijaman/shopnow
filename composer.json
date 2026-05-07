@@ -8,12 +8,13 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
-        "daniel-cintra/modular": "^0.4.21",
-        "daniel-cintra/modular-blog": "^0.4.0",
+        "php": "^8.4",
+        "daniel-cintra/modular": "^0.5.0",
+        "daniel-cintra/modular-blog": "^0.5.0",
         "devfaysal/laravel-bangladesh-geocode": "^2.3",
-        "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.9"
+        "inertiajs/inertia-laravel": "^3.0",
+        "laravel/framework": "^13.0",
+        "laravel/tinker": "^3.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -23,8 +24,8 @@
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
-        "pestphp/pest": "^3.0",
-        "pestphp/pest-plugin-laravel": "^3.0"
+        "pestphp/pest": "^4.0",
+        "pestphp/pest-plugin-laravel": "^4.0"
     },
     "autoload": {
         "psr-4": {

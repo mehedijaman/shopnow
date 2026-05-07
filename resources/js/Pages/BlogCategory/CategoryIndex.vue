@@ -25,10 +25,10 @@
                         <img
                             v-if="item.image_url"
                             :src="item.image_url"
-                            class="h-6 w-24 rounded"
+                            class="h-6 w-24 rounded-sm"
                         />
 
-                        <AppImageNotAvailable v-else class="!h-6 !w-24" />
+                        <AppImageNotAvailable v-else class="h-6! w-24!" />
                     </AppDataTableData>
 
                     <AppDataTableData>
@@ -37,7 +37,7 @@
 
                     <AppDataTableData>
                         <span
-                            class="rounded px-3 py-1 text-sm"
+                            class="rounded-sm px-3 py-1 text-sm"
                             :class="getCategoryVisibilityClass(item.is_visible)"
                         >
                             {{ item.is_visible ? 'Visible' : 'Invisible' }}
@@ -132,6 +132,8 @@ const { can } = useAuthCan()
 </script>
 
 <style scoped>
+@reference "../../../css/app.css";
+
 .category-visible {
     @apply bg-skin-success-light  text-skin-success;
 }

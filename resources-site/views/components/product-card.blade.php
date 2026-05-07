@@ -1,4 +1,4 @@
-<div class="w-full max-w-sm rounded border border-gray-300 bg-white shadow">
+<div class="w-full max-w-sm rounded-sm border border-gray-300 bg-white shadow-sm">
     <div
         class="flex h-48 w-full flex-col justify-between bg-gray-200 bg-cover bg-center p-4"
         style="background-image: url({{ $product->image_url }})"
@@ -13,7 +13,7 @@
         </div>
         <div class="flex justify-between">
             {{-- <span
-                class="select-none rounded border border-green-500 bg-green-50 p-0.5 text-xs font-medium uppercase text-green-700"
+                class="select-none rounded-sm border border-green-500 bg-green-50 p-0.5 text-xs font-medium uppercase text-green-700"
             >
                 <span>
                     @if ($product->active)
@@ -26,7 +26,7 @@
 
             @if ($product->featured)
                 <span
-                    class="select-none rounded border border-green-500 bg-green-50 p-0.5 text-xs font-medium uppercase text-green-700"
+                    class="select-none rounded-sm border border-green-500 bg-green-50 p-0.5 text-xs font-medium uppercase text-green-700"
                 >
                     Featured
                 </span>

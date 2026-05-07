@@ -1,7 +1,7 @@
 <template>
     <div ref="wrapperRef" class="relative w-48">
         <AppButton
-            class="mt-1 flex w-full justify-between rounded-md border-0 bg-skin-neutral-1 px-3 py-2 align-middle text-skin-neutral-12 placeholder-skin-neutral-9 shadow-sm ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
+            class="mt-1 flex w-full justify-between rounded-md border-0 bg-skin-neutral-1 px-3 py-2 align-middle text-skin-neutral-12 placeholder-skin-neutral-9 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
             aria-haspopup="true"
             :aria-expanded="isOpen"
             @click="toggleState"
@@ -19,7 +19,7 @@
 
         <transition name="slide-fade">
             <div v-show="isOpen" class="absolute z-50 mt-1 w-full">
-                <div v-show="useSearch" class="bg-skin-neutral-1 p-1 shadow">
+                <div v-show="useSearch" class="bg-skin-neutral-1 p-1 shadow-sm">
                     <!-- search input -->
                     <label :for="getElementId()" class="sr-only">Search</label>
                     <div class="relative">
@@ -45,7 +45,7 @@
                 </div>
 
                 <!-- combo options -->
-                <ul class="bg-skin-neutral-1 p-1 shadow" role="listbox">
+                <ul class="bg-skin-neutral-1 p-1 shadow-sm" role="listbox">
                     <li
                         v-for="(option, index) in filteredOptions"
                         :key="option.value"
@@ -191,6 +191,8 @@ const comboLabelText = computed(() => {
 </script>
 
 <style scoped>
+@reference "../../../css/app.css";
+
 .slide-fade-enter-active,
 .slide-fade-leave-active {
     @apply transition-all duration-200 ease-in;

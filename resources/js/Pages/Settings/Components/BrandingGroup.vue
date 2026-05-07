@@ -34,7 +34,7 @@
                 <img
                     :src="urls.logo_url"
                     alt="Logo"
-                    class="h-14 rounded border border-skin-neutral-4 object-contain p-1"
+                    class="h-14 rounded-sm border border-skin-neutral-4 object-contain p-1"
                 />
                 <button
                     type="button"
@@ -45,7 +45,7 @@
                 </button>
             </div>
             <div v-if="!urls.logo_url && !form.logo" class="mb-3">
-                <img src="/logo.png" alt="Default Logo" class="h-14 rounded border border-skin-neutral-4 object-contain p-1 opacity-40" />
+                <img src="/logo.png" alt="Default Logo" class="h-14 rounded-sm border border-skin-neutral-4 object-contain p-1 opacity-40" />
                 <p class="mt-1 text-xs text-skin-neutral-8">{{ __('Fallback logo shown — no logo uploaded yet') }}</p>
             </div>
             <AppInputFile
@@ -66,7 +66,7 @@
                 <img
                     :src="urls.favicon_url"
                     alt="Favicon"
-                    class="h-8 w-8 rounded border border-skin-neutral-4 object-contain p-0.5"
+                    class="h-8 w-8 rounded-sm border border-skin-neutral-4 object-contain p-0.5"
                 />
                 <button
                     type="button"
@@ -94,7 +94,7 @@
                 <img
                     :src="urls.dark_logo_url"
                     alt="Dark Logo"
-                    class="h-14 rounded border border-skin-neutral-4 bg-gray-800 object-contain p-1"
+                    class="h-14 rounded-sm border border-skin-neutral-4 bg-gray-800 object-contain p-1"
                 />
                 <button
                     type="button"
