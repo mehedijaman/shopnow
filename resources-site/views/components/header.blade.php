@@ -127,8 +127,8 @@
             </div>
 
             <div class="flex lg:hidden">
-                <button id="toggleOpen">
-                    <i class="ri-menu-line"></i>
+                <button id="toggleOpen" class="rounded-md p-2 text-gray-700 hover:bg-gray-100">
+                    <i class="ri-menu-line text-2xl"></i>
                 </button>
             </div>
 
@@ -221,3 +221,31 @@
     toggleClose.addEventListener('click', handleClick)
     </script>
 --}}
+
+@push('scripts')
+<script>
+    // Use event delegation so listeners survive Vue's deferred DOM replacement
+    document.addEventListener('click', function (e) {
+        var menu = document.getElementById('collapseMenu')
+        if (!menu) { return }
+
+        if (e.target.closest('#toggleOpen')) {
+            menu.style.display = 'block'
+            document.body.style.overflow = 'hidden'
+            return
+        }
+
+        if (e.target.closest('#toggleClose')) {
+            menu.style.display = ''
+            document.body.style.overflow = ''
+            return
+        }
+
+        // Click on the dark backdrop (the wrapper div, not the <ul> inside)
+        if (e.target === menu) {
+            menu.style.display = ''
+            document.body.style.overflow = ''
+        }
+    })
+</script>
+@endpush

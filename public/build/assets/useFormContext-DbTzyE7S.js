@@ -1,0 +1,1 @@
+import{e as r}from"./pinia-BiVX4xFK.js";function n(){const e=r(),t=r();return e.value=route().current().includes(".create"),t.value=route().current().includes(".edit"),{isCreate:e,isEdit:t}}export{n as u};

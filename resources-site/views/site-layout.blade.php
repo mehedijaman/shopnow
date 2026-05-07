@@ -112,5 +112,6 @@
         </div>
 
         @yield('bodyEndScripts')
+        @stack('scripts')
     </body>
 </html>

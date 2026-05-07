@@ -2,7 +2,8 @@
 
 namespace Modules\Index\Http\Controllers;
 
-use Modules\Product\Models\Product;
+use Modules\Blog\Models\Post;
+use Modules\Product\Models\ProductCategory;
 use Modules\Settings\Services\SeoService;
 use Modules\Support\Http\Controllers\SiteController;
 
@@ -10,10 +11,21 @@ class IndexController extends SiteController
 {
     public function index(SeoService $seoService)
     {
-        $products = Product::with(['category', 'tags'])
-            ->orderBy('id', 'desc')
-            ->search(request('searchContext'), request('searchTerm'))
-            ->paginate(request('rowsPerPage', 12));
+        $featuredCategories = ProductCategory::where('featured', true)
+            ->where('active', true)
+            ->with(['products' => function ($query) {
+                $query->where('active', true)
+                    ->with('category')
+                    ->latest()
+                    ->limit(8);
+            }])
+            ->get();
+
+        $latestPosts = Post::whereNotNull('published_at')
+            ->where('published_at', '<=', now())
+            ->latest('published_at')
+            ->limit(4)
+            ->get();
 
         $seo = $seoService->build([
             'canonical_full' => url('/'),
@@ -23,7 +35,7 @@ class IndexController extends SiteController
             ],
         ]);
 
-        return view('index::index', compact('products', 'seo'));
+        return view('index::index', compact('featuredCategories', 'latestPosts', 'seo'));
     }
 
     public function about(SeoService $seoService)

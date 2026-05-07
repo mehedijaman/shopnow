@@ -94,18 +94,24 @@ const currentGroupComponent = computed(() => groupComponents[props.group])
 // Build submittable form fields, excluding display-only _url keys.
 const buildFormFields = () => {
     const fields = {}
+
+    // Image fields are identified by having a companion _url key.
+    // They must start as null so stored filename strings don't fail
+    // Laravel's `image` validation rule when no new file is selected.
+    const imageBaseKeys = new Set(
+        Object.keys(props.settings)
+            .filter((k) => k.endsWith('_url'))
+            .map((k) => k.slice(0, -4)),
+    )
+
     for (const [key, value] of Object.entries(props.settings)) {
-        if (!key.endsWith('_url')) {
-            fields[key] = value
-        }
+        if (key.endsWith('_url')) continue
+        fields[key] = imageBaseKeys.has(key) ? null : value
     }
 
-    // Add remove_previous_* flags for each image field detected via a _url companion.
-    for (const key of Object.keys(props.settings)) {
-        if (key.endsWith('_url')) {
-            const baseKey = key.slice(0, -4)
-            fields[`remove_previous_${baseKey}`] = false
-        }
+    // Add remove_previous_* flags for each image field.
+    for (const baseKey of imageBaseKeys) {
+        fields[`remove_previous_${baseKey}`] = false
     }
 
     return fields

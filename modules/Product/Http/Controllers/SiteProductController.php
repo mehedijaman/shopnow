@@ -12,6 +12,8 @@ class SiteProductController extends SiteController
 {
     public function index(SeoService $seoService): View
     {
+        $categories = ProductCategory::where('active', true)->orderBy('name')->get();
+
         $products = Product::with(['category', 'tags'])
             ->orderBy('id', 'desc')
             ->search(request('searchContext'), request('searchTerm'))
@@ -30,11 +32,13 @@ class SiteProductController extends SiteController
             ],
         ]);
 
-        return view('product::shop', compact('products', 'seo'));
+        return view('product::shop', compact('products', 'categories', 'seo'));
     }
 
     public function search(?string $searchText, SeoService $seoService): View
     {
+        $categories = ProductCategory::where('active', true)->orderBy('name')->get();
+
         $products = Product::with(['category', 'tags'])
             ->orderBy('name', 'asc')
             ->where('name', 'like', '%'.$searchText.'%')
@@ -45,11 +49,12 @@ class SiteProductController extends SiteController
             'robots' => 'noindex, follow',
         ]);
 
-        return view('product::shop', compact('products', 'searchText', 'seo'));
+        return view('product::shop', compact('products', 'categories', 'searchText', 'seo'));
     }
 
     public function category(int $categoryId, SeoService $seoService): View
     {
+        $categories = ProductCategory::where('active', true)->orderBy('name')->get();
         $category = ProductCategory::findOrFail($categoryId);
 
         $products = $category->products()->paginate(12);
@@ -69,7 +74,7 @@ class SiteProductController extends SiteController
             ],
         ]);
 
-        return view('product::shop', compact('products', 'category', 'seo'));
+        return view('product::shop', compact('products', 'categories', 'category', 'seo'));
     }
 
     public function show(int $productId, SeoService $seoService): View
