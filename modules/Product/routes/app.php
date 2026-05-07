@@ -4,7 +4,10 @@ use Illuminate\Support\Facades\Route;
 use Modules\Product\Http\Controllers\ProductBrandController;
 use Modules\Product\Http\Controllers\ProductCategoryController;
 use Modules\Product\Http\Controllers\ProductController;
+use Modules\Product\Http\Controllers\ProductReportController;
 use Modules\Product\Http\Controllers\ProductTagController;
+
+Route::get('product/report', [ProductReportController::class, 'index'])->name('product.report');
 
 /** Product Category routes **/
 Route::prefix('product-category')->name('productCategory.')->middleware('can:product-category')->group(function () {

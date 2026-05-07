@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Customer\Http\Controllers\CustomerController;
+use Modules\Customer\Http\Controllers\CustomerReportController;
+
+Route::get('customer/report', [CustomerReportController::class, 'index'])->name('customer.report');
 
 /** Customer routes **/
 Route::prefix('customer')->name('customer.')->middleware('can:customer')->group(function () {

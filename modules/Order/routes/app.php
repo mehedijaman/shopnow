@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Order\Http\Controllers\OrderController;
+use Modules\Order\Http\Controllers\OrderReportController;
+
+Route::get('order/report', [OrderReportController::class, 'index'])->name('order.report');
 
 Route::get('order', [
     OrderController::class,

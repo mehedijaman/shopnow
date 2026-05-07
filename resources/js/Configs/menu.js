@@ -22,6 +22,12 @@ export default {
                     permission: 'order-list',
                     icon: 'ri-draft-line',
                     link: route('order.index')
+                },
+                {
+                    label: 'Order Report',
+                    permission: 'order-list',
+                    icon: 'ri-bar-chart-2-line',
+                    link: route('order.report')
                 }
             ]
         },
@@ -35,6 +41,12 @@ export default {
                     permission: 'product-list',
                     icon: 'ri-draft-line',
                     link: route('product.index')
+                },
+                {
+                    label: 'Product Report',
+                    permission: 'product-list',
+                    icon: 'ri-bar-chart-2-line',
+                    link: route('product.report')
                 },
                 {
                     label: 'Product Categories',
@@ -66,6 +78,12 @@ export default {
                     permission: 'customer-list',
                     icon: 'ri-draft-line',
                     link: route('customer.index')
+                },
+                {
+                    label: 'Customer Report',
+                    permission: 'customer-list',
+                    icon: 'ri-bar-chart-2-line',
+                    link: route('customer.report')
                 }
             ]
         },
