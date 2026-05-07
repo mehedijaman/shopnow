@@ -3,6 +3,7 @@
 namespace Modules\Customer\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Response;
 use Modules\Customer\Http\Requests\CustomerValidate;
 use Modules\Customer\Models\Customer;
@@ -10,24 +11,32 @@ use Modules\Support\Http\Controllers\BackendController;
 
 class CustomerController extends BackendController
 {
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $customers = Customer::orderBy('id')
-            ->search(request('searchContext'), request('searchTerm'))
-            ->paginate(request('rowsPerPage', 10))
+        $activeFilter = $request->input('active');
+
+        $customers = Customer::orderByDesc('id')
+            ->search($request->input('searchContext'), $request->input('searchTerm'))
+            ->when($activeFilter !== null && $activeFilter !== '', fn ($q) => $q->where('active', (bool) $activeFilter))
+            ->paginate($request->input('rowsPerPage', 15))
             ->withQueryString()
             ->through(fn ($customer) => [
                 'id' => $customer->id,
-                'first_name' => $customer->first_name,
-                'last_name' => $customer->last_name,
+                'name' => $customer->name,
                 'phone' => $customer->phone,
                 'email' => $customer->email,
                 'email_verified_at' => $customer->email_verified_at,
                 'active' => $customer->active,
+                'total_spent' => $customer->total_spent ?? 0,
+                'created_at' => $customer->created_at->format('d M Y'),
             ]);
 
         return inertia('Customer/CustomerIndex', [
             'customers' => $customers,
+            'filters' => [
+                'active' => $activeFilter,
+                'searchTerm' => $request->input('searchTerm'),
+            ],
         ]);
     }
 

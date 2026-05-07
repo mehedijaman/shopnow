@@ -3,6 +3,7 @@
 namespace Modules\Product\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Response;
 use Modules\Product\Http\Requests\ProductValidate;
@@ -21,11 +22,20 @@ class ProductController extends BackendController
 
     protected string $uploadImagePath = 'storage/app/public/product';
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $products = Product::orderBy('id', 'desc')
-            ->search(request('searchContext'), request('searchTerm'))
-            ->paginate(request('rowsPerPage', 10))
+        $activeFilter = $request->input('active');
+        $featuredFilter = $request->input('featured');
+        $stockFilter = $request->input('stock');
+
+        $products = Product::orderByDesc('id')
+            ->with('category:id,name')
+            ->search($request->input('searchContext'), $request->input('searchTerm'))
+            ->when($activeFilter !== null && $activeFilter !== '', fn ($q) => $q->where('active', (bool) $activeFilter))
+            ->when($featuredFilter !== null && $featuredFilter !== '', fn ($q) => $q->where('featured', (bool) $featuredFilter))
+            ->when($stockFilter === 'low', fn ($q) => $q->where('quantity', '<', 10))
+            ->when($stockFilter === 'out', fn ($q) => $q->where('quantity', '<=', 0))
+            ->paginate($request->input('rowsPerPage', 15))
             ->withQueryString()
             ->through(fn ($product) => [
                 'id' => $product->id,
@@ -35,13 +45,19 @@ class ProductController extends BackendController
                 'sale_price' => $product->sale_price,
                 'quantity' => $product->quantity,
                 'unit' => $product->unit,
-                'min_order' => $product->min_order,
+                'category' => $product->category?->name,
                 'active' => $product->active,
                 'featured' => $product->featured,
             ]);
 
         return inertia('Product/ProductIndex', [
             'products' => $products,
+            'filters' => [
+                'active' => $activeFilter,
+                'featured' => $featuredFilter,
+                'stock' => $stockFilter,
+                'searchTerm' => $request->input('searchTerm'),
+            ],
         ]);
     }
 
