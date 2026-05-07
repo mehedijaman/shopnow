@@ -14,11 +14,16 @@ class OrderController extends BackendController
 {
     private const STATUSES = ['pending', 'processing', 'shipped', 'delivered', 'completed', 'cancelled'];
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $statusFilter = $request->input('status');
+        $paymentFilter = $request->input('payment_status');
+
         $orders = Order::orderBy('id', 'desc')
-            ->search(request('searchContext'), request('searchTerm'))
-            ->paginate(request('rowsPerPage', 10))
+            ->search($request->input('searchContext'), $request->input('searchTerm'))
+            ->when($statusFilter, fn ($q) => $q->where('status', $statusFilter))
+            ->when($paymentFilter, fn ($q) => $q->where('payment_status', $paymentFilter))
+            ->paginate($request->input('rowsPerPage', 15))
             ->withQueryString()
             ->through(fn ($order) => [
                 'id' => $order->id,
@@ -28,12 +33,25 @@ class OrderController extends BackendController
                 'address' => $order->address,
                 'status' => $order->status,
                 'payment_status' => $order->payment_status,
+                'payment_method' => $order->payment_method,
                 'total' => $order->total,
-                'created_at' => $order->created_at->format('d/m/Y H:i').'h',
+                'created_at' => $order->created_at->format('d M Y'),
             ]);
+
+        // Status counts for tab badges
+        $statusCounts = collect(self::STATUSES)->mapWithKeys(
+            fn ($s) => [$s => Order::where('status', $s)->count()]
+        );
 
         return inertia('Order/OrderIndex', [
             'orders' => $orders,
+            'statuses' => self::STATUSES,
+            'statusCounts' => $statusCounts,
+            'filters' => [
+                'status' => $statusFilter,
+                'payment_status' => $paymentFilter,
+                'searchTerm' => $request->input('searchTerm'),
+            ],
         ]);
     }
 
