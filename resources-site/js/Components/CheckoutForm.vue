@@ -153,7 +153,7 @@
                         </div>
                     </button>
 
-                    <button
+                    <!-- <button
                         type="button"
                         @click="selectPayment('sslcommerz')"
                         :class="[
@@ -181,7 +181,7 @@
                                 </svg>
                             </div>
                         </div>
-                    </button>
+                    </button> -->
                 </div>
                 <p v-if="errors.payment_method" class="text-xs text-red-600">{{ errors.payment_method }}</p>
             </div>
