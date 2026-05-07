@@ -12,7 +12,7 @@
             @endif
         </div>
         <div class="flex justify-between">
-            <span
+            {{-- <span
                 class="select-none rounded border border-green-500 bg-green-50 p-0.5 text-xs font-medium uppercase text-green-700"
             >
                 <span>
@@ -22,7 +22,7 @@
                             Not Available
                     @endif
                 </span>
-            </span>
+            </span> --}}
 
             @if ($product->featured)
                 <span

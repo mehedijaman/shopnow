@@ -2,6 +2,7 @@
     <div class="space-y-6">
         <div>
             <AppLabel for="site_name" :value="__('Site Name')" />
+            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('Displayed in the browser tab and emails.') }}</p>
             <AppInputText
                 id="site_name"
                 v-model="form.site_name"
@@ -14,11 +15,15 @@
 
         <div>
             <AppLabel for="site_slogan" :value="__('Site Slogan')" />
+            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('A short tagline displayed alongside your brand.') }}</p>
             <AppInputText
                 id="site_slogan"
                 v-model="form.site_slogan"
                 :class="{ 'input-error': errorsFields.includes('site_slogan') }"
             />
+            <p v-if="errorsFields.includes('site_slogan')" class="mt-1 text-sm text-red-500">
+                {{ errors.site_slogan }}
+            </p>
         </div>
 
         <!-- Logo -->

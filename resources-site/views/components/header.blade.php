@@ -102,34 +102,6 @@
                         </a>
                     </li>
 
-                    <li
-                        class="group relative max-lg:border-b max-lg:px-3 max-lg:py-3"
-                    >
-                        <a
-                            href="javascript:void(0)"
-                            class="block text-[15px] font-semibold text-gray-700 hover:fill-[#007bff] hover:text-[#007bff]"
-                        >
-                            <i class="ri-bookmark-line"></i>
-                            Categories
-                            <i class="ri-arrow-down-s-line"></i>
-                        </a>
-                        <ul
-                            class="absolute left-0 top-5 z-50 block max-h-0 min-w-[350px] space-y-2 overflow-hidden bg-white px-6 shadow-lg transition-all duration-500 group-hover:max-h-[700px] group-hover:pb-4 group-hover:pt-6 group-hover:opacity-100 max-lg:top-8"
-                        >
-                            @foreach ($categories as $category)
-                                <li class="border-b py-3">
-                                    <a
-                                        href="{{ route('shop.category', [$category->id, $category->slug]) }}"
-                                        class="flex gap-2 text-[15px] font-semibold text-gray-700 hover:fill-[#007bff] hover:text-[#007bff]"
-                                    >
-                                        <i class="ri-bookmark-line"></i>
-                                        {{ $category->name }}
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </li>
-
                     <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">
                         <a
                             href="/blog"

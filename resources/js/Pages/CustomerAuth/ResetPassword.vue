@@ -1,4 +1,5 @@
 <template>
+    <Head title="Reset Password"></Head>
     <AppAuthShell>
         <AppCustomerAuthLogo />
 
@@ -80,7 +81,7 @@ export default {
 </script>
 
 <script setup>
-import { useForm } from '@inertiajs/vue3'
+import { Head, useForm } from '@inertiajs/vue3'
 import useFormErrors from '@/Composables/useFormErrors'
 
 const props = defineProps({

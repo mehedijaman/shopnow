@@ -1,5 +1,6 @@
 <template>
     <div class="space-y-6">
+        <p class="text-sm text-skin-neutral-9">{{ __('Enter the full URL (including https://) for each platform you want to link.') }}</p>
         <div v-for="platform in platforms" :key="platform.key">
             <AppLabel :for="platform.key" :value="platform.label" />
             <div class="mt-1 flex items-center gap-2">

@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Modules\Settings\Services\SeoService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,25 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->applyDynamicMailConfig();
+        $this->registerSeoViewComposer();
+    }
+
+    /**
+     * Share default SEO metadata with the site layout so every page that does
+     * not override $seo still has sensible fallback meta tags.
+     */
+    private function registerSeoViewComposer(): void
+    {
+        View::composer('site-layout', function ($view) {
+            if (! $view->offsetExists('seo')) {
+                try {
+                    $seo = app(SeoService::class)->build();
+                    $view->with('seo', $seo);
+                } catch (\Throwable) {
+                    $view->with('seo', []);
+                }
+            }
+        });
     }
 
     /**

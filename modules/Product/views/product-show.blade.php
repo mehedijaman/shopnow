@@ -12,14 +12,19 @@
                 <div class="mb-8 w-full p-4 md:w-1/2">
                     <img
                         src="{{ $product->image_url }}"
-                        alt="Product"
+                        alt="{{ $product->name }}"
+                        width="800"
+                        height="800"
                         class="mb-4 h-fit w-full rounded-lg shadow-md"
                         id="mainImage"
                     />
                     <div class="flex justify-center gap-4 overflow-x-auto py-4">
                         <img
                             src="{{ $product->image_url }}"
-                            alt="Thumbnail 1"
+                            alt="{{ $product->name }} - thumbnail"
+                            loading="lazy"
+                            width="80"
+                            height="80"
                             class="size-16 cursor-pointer rounded-md object-cover opacity-60 transition duration-300 hover:opacity-100 sm:size-20"
                             onclick="changeImage(this.src)"
                         />

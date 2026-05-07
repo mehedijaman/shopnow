@@ -3,32 +3,68 @@
 namespace Modules\Index\Http\Controllers;
 
 use Modules\Product\Models\Product;
+use Modules\Settings\Services\SeoService;
 use Modules\Support\Http\Controllers\SiteController;
 
 class IndexController extends SiteController
 {
-    public function index()
+    public function index(SeoService $seoService)
     {
         $products = Product::with(['category', 'tags'])
             ->orderBy('id', 'desc')
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 12));
 
-        return view('index::index', compact('products'));
+        $seo = $seoService->build([
+            'canonical_full' => url('/'),
+            'schema' => [
+                $seoService->organizationSchema(),
+                $seoService->websiteSchema(),
+            ],
+        ]);
+
+        return view('index::index', compact('products', 'seo'));
     }
 
-    public function about()
+    public function about(SeoService $seoService)
     {
-        return view('about');
+        $seo = $seoService->build([
+            'title' => 'About Us',
+            'description' => 'Learn more about who we are, our mission, and what drives us.',
+            'canonical_full' => url('/about'),
+            'schema' => [
+                $seoService->organizationSchema(),
+                $seoService->breadcrumbSchema([
+                    ['name' => 'Home', 'url' => url('/')],
+                    ['name' => 'About Us', 'url' => url('/about')],
+                ]),
+            ],
+        ]);
+
+        return view('about', compact('seo'));
     }
 
-    public function privacyPolicy()
+    public function privacyPolicy(SeoService $seoService)
     {
-        return view('privacy-policy');
+        $seo = $seoService->build([
+            'title' => 'Privacy Policy',
+            'description' => 'Read our privacy policy to understand how we handle your data.',
+            'canonical_full' => url('/privacy-policy'),
+            'robots' => 'noindex, follow',
+        ]);
+
+        return view('privacy-policy', compact('seo'));
     }
 
-    public function termsOfService()
+    public function termsOfService(SeoService $seoService)
     {
-        return view('terms-of-service');
+        $seo = $seoService->build([
+            'title' => 'Terms of Service',
+            'description' => 'Review the terms and conditions for using our platform.',
+            'canonical_full' => url('/terms-of-service'),
+            'robots' => 'noindex, follow',
+        ]);
+
+        return view('terms-of-service', compact('seo'));
     }
 }

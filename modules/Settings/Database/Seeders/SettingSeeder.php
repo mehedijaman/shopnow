@@ -70,6 +70,11 @@ class SettingSeeder extends Seeder
             ['group' => 'seo', 'key' => 'meta_title', 'value' => null, 'type' => 'text', 'label' => 'Meta Title', 'is_public' => true, 'sort_order' => 1],
             ['group' => 'seo', 'key' => 'meta_description', 'value' => null, 'type' => 'textarea', 'label' => 'Meta Description', 'is_public' => true, 'sort_order' => 2],
             ['group' => 'seo', 'key' => 'meta_keywords', 'value' => null, 'type' => 'text', 'label' => 'Meta Keywords', 'is_public' => true, 'sort_order' => 3],
+            ['group' => 'seo', 'key' => 'og_image', 'value' => null, 'type' => 'image', 'label' => 'Default OG/Social Share Image', 'is_public' => true, 'sort_order' => 4],
+            ['group' => 'seo', 'key' => 'twitter_handle', 'value' => null, 'type' => 'text', 'label' => 'Twitter/X Handle (e.g. @shopnow)', 'is_public' => true, 'sort_order' => 5],
+            ['group' => 'seo', 'key' => 'google_analytics_id', 'value' => null, 'type' => 'text', 'label' => 'Google Analytics ID (G-XXXXXX)', 'is_public' => true, 'sort_order' => 6],
+            ['group' => 'seo', 'key' => 'robots_default', 'value' => 'index, follow', 'type' => 'text', 'label' => 'Default Robots Directive', 'is_public' => false, 'sort_order' => 7],
+            ['group' => 'seo', 'key' => 'canonical_domain', 'value' => null, 'type' => 'text', 'label' => 'Canonical Domain (e.g. https://example.com)', 'is_public' => false, 'sort_order' => 8],
 
             // Mail
             ['group' => 'mail', 'key' => 'from_name', 'value' => null, 'type' => 'text', 'label' => 'From Name', 'is_public' => false, 'sort_order' => 1],

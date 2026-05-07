@@ -18,6 +18,7 @@ class SettingsController extends BackendController
     /** @var array<string, string[]> */
     private const IMAGE_FIELDS = [
         'branding' => ['logo', 'favicon', 'dark_logo'],
+        'seo' => ['og_image'],
     ];
 
     public function redirect(): RedirectResponse

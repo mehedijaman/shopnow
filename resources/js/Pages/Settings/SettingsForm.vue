@@ -5,20 +5,21 @@
 
     <div class="mt-6 flex gap-6">
         <!-- Group sidebar navigation -->
-        <aside class="w-44 shrink-0">
+        <aside class="w-52 shrink-0">
             <nav class="flex flex-col gap-1">
                 <Link
                     v-for="g in groups"
                     :key="g"
                     :href="route('settings.show', { group: g })"
                     :class="[
-                        'rounded-md px-4 py-2 text-sm font-medium capitalize transition-colors',
+                        'flex items-center gap-2.5 rounded-md px-3 py-2.5 text-sm font-medium transition-colors',
                         g === group
                             ? 'bg-skin-primary-10 text-skin-neutral-1'
                             : 'text-skin-neutral-11 hover:bg-skin-neutral-3',
                     ]"
                 >
-                    {{ groupLabel(g) }}
+                    <i :class="[groupIcon(g), 'text-base leading-none']"></i>
+                    <span class="capitalize">{{ groupLabel(g) }}</span>
                 </Link>
             </nav>
         </aside>
@@ -26,6 +27,17 @@
         <!-- Active group form -->
         <div class="min-w-0 flex-1">
             <div class="rounded-lg bg-skin-neutral-1 p-6 shadow-sm ring-1 ring-skin-neutral-4">
+                <div class="mb-6 border-b border-skin-neutral-4 pb-5">
+                    <div class="flex items-center gap-2">
+                        <span class="flex h-8 w-8 items-center justify-center rounded-md bg-skin-primary-10 text-skin-neutral-1">
+                            <i :class="[groupIcon(group), 'text-base']"></i>
+                        </span>
+                        <h2 class="text-base font-semibold capitalize text-skin-neutral-12">
+                            {{ groupLabel(group) }} {{ __('Settings') }}
+                        </h2>
+                    </div>
+                    <p class="mt-2 text-sm text-skin-neutral-9">{{ groupDescription(group) }}</p>
+                </div>
                 <form @submit.prevent="submit">
                     <component
                         :is="currentGroupComponent"
@@ -121,6 +133,30 @@ const groupLabel = (g) => {
         mail: 'Mail',
     }
     return labels[g] ?? g
+}
+
+const groupIcon = (g) => {
+    const icons = {
+        general: 'ri-settings-2-line',
+        branding: 'ri-palette-line',
+        contact: 'ri-contacts-line',
+        social: 'ri-share-line',
+        seo: 'ri-search-2-line',
+        mail: 'ri-mail-line',
+    }
+    return icons[g] ?? 'ri-settings-line'
+}
+
+const groupDescription = (g) => {
+    const descriptions = {
+        general: 'Configure your site name and description shown across the platform.',
+        branding: 'Upload your logo, favicon, and other brand assets.',
+        contact: 'Manage public contact details like phone, email, and address.',
+        social: 'Link your social media profiles to be shown on the site.',
+        seo: 'Control meta title, description, and keywords for search engine visibility.',
+        mail: 'Configure the SMTP server used to send outgoing emails.',
+    }
+    return descriptions[g] ?? ''
 }
 
 const breadCrumb = [{ label: 'Settings' }]

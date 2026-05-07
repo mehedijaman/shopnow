@@ -55,6 +55,9 @@
                                         <img
                                             src="{{ $post->image_url }}"
                                             alt="{{ $post->title }}"
+                                            loading="lazy"
+                                            width="800"
+                                            height="450"
                                             class="aspect-[16/9] w-full rounded-md bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
                                         />
                                     @else
@@ -101,6 +104,9 @@
                                                 <img
                                                     src="{{ $post->author->image_url }}"
                                                     alt="{{ $post->author->name }}"
+                                                    loading="lazy"
+                                                    width="16"
+                                                    height="16"
                                                     class="h-4 w-4 rounded-md bg-gray-100 object-cover"
                                                 />
                                             @else
