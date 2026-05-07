@@ -10,6 +10,7 @@ use Modules\Blog\Database\Seeders\BlogAclSeeder;
 use Modules\Blog\Database\Seeders\BlogSeeder;
 use Modules\Product\Database\Seeders\ProductAclSeeder;
 use Modules\Product\Database\Seeders\ProductSeeder;
+use Modules\Settings\Database\Seeders\SettingSeeder;
 use Modules\User\Database\Seeders\UserSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,6 +28,8 @@ class DatabaseSeeder extends Seeder
 
             ProductAclSeeder::class,
             ProductSeeder::class,
+
+            SettingSeeder::class,
         ]);
     }
 }

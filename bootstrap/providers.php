@@ -12,6 +12,7 @@ use Modules\Dashboard\DashboardServiceProvider;
 use Modules\Index\IndexServiceProvider;
 use Modules\Order\OrderServiceProvider;
 use Modules\Product\ProductServiceProvider;
+use Modules\Settings\SettingsServiceProvider;
 use Modules\Support\SupportServiceProvider;
 use Modules\User\UserServiceProvider;
 
@@ -35,4 +36,5 @@ return [
     ContactMessageServiceProvider::class,
 
     CustomerAuthServiceProvider::class,
+    SettingsServiceProvider::class,
 ];

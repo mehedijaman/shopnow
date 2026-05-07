@@ -52,6 +52,10 @@ class HandleInertiaRequests extends Middleware
             'datetime' => fn () => [
                 'now' => Carbon::now()->format('d M Y, g:i A'),
             ],
+            'branding' => fn () => [
+                'site_name' => setting('branding.site_name', 'ShopNow'),
+                'logo_url' => setting('branding.logo_url'),
+            ],
         ]);
     }
 }

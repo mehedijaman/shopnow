@@ -124,6 +124,13 @@ export default {
                     link: route('aclRole.index')
                 }
             ]
+        },
+
+        {
+            label: 'Settings',
+            permission: 'settings-list',
+            icon: 'ri-settings-3-line',
+            link: route('settings.show', { group: 'general' })
         }
     ]
 }

@@ -7,17 +7,18 @@
         :body-scrolling="!isMobile"
         @sidebar:toggle="sidebarToggle"
     >
-        <Link :href="route('dashboard.index')" class="mb-6 flex">
-            <!-- <img
-                src="@resources/images/logo.svg"
-                class="w-40"
-                alt="Modular Logo"
-            /> -->
-
+        <Link :href="route('dashboard.index')" class="mb-6 flex items-center">
+            <img
+                v-if="branding.logo_url"
+                :src="branding.logo_url"
+                :alt="branding.site_name"
+                class="max-h-10 w-auto object-contain"
+            />
             <span
+                v-else
                 class="rounded-md bg-skin-primary-10 px-4 py-1 text-3xl font-extrabold text-skin-neutral-3 hover:text-skin-neutral-6 dark:bg-skin-neutral-6 dark:text-skin-neutral-1 dark:hover:text-skin-primary-9"
             >
-                ShopNow
+                {{ branding.site_name }}
             </span>
         </Link>
 
@@ -46,12 +47,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { Head, usePage } from '@inertiajs/vue3'
 import useIsMobile from '@/Composables/useIsMobile'
 import menu from '@/Configs/menu'
 
 const page = usePage()
+
+const branding = computed(() => page.props.branding ?? { site_name: 'ShopNow', logo_url: null })
 
 const isSideBarOpen = ref(true)
 const sidebarRef = ref()
