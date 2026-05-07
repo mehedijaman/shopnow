@@ -95,7 +95,7 @@
                         {{ $products->total() }} product{{ $products->total() !== 1 ? 's' : '' }} found
                     </div>
 
-                    <section class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+                    <section class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3">
                         @foreach ($products as $product)
                             <x-product-card :product="$product" />
                         @endforeach
