@@ -1,10 +1,17 @@
 <template>
     <AppLink href="#">
-        <span
-            class="rounded-md bg-blue-500 px-4 py-1 text-3xl font-extrabold text-skin-neutral-3 hover:text-skin-neutral-6 dark:text-skin-neutral-1 dark:hover:text-skin-primary-9"
-        >
-            ShopNow
-        </span>
-        <!-- <img class="w-48" src="@resources/images/logo.svg" alt="logo" /> -->
+        <img
+            :src="branding.logo_url ?? '/logo.png'"
+            :alt="branding.site_name"
+            class="h-10 w-auto object-contain"
+        />
     </AppLink>
 </template>
+
+<script setup>
+import { computed } from 'vue'
+import { usePage } from '@inertiajs/vue3'
+
+const page = usePage()
+const branding = computed(() => page.props.branding ?? { site_name: 'ShopNow', logo_url: null })
+</script>
