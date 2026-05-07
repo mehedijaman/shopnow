@@ -33,6 +33,11 @@ Route::put('order/{id}', [
     'update',
 ])->name('order.update');
 
+Route::patch('order/{id}/status', [
+    OrderController::class,
+    'updateStatus',
+])->name('order.updateStatus');
+
 Route::delete('order/{id}', [
     OrderController::class,
     'destroy',

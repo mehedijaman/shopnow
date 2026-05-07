@@ -5,7 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {{-- Primary SEO --}}
-        <title>@yield('seo_title', $seo['title'] ?? config('app.name'))</title>
+        @php
+            $siteName = setting('branding.site_name', config('app.name'));
+            $siteSlogan = setting('branding.site_slogan');
+            $defaultTitle = $siteSlogan ? $siteName.' — '.$siteSlogan : $siteName;
+        @endphp
+        <title>@yield('seo_title', $seo['title'] ?? $defaultTitle)</title>
         @if (!empty($seo['description']))
         <meta name="description" content="{{ $seo['description'] }}" />
         @endif

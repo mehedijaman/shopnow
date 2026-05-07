@@ -93,7 +93,6 @@
                             </label>
                         </div>
                         <select
-                            @change="fetchUnions"
                             v-model="form.upazila_id"
                             id="upazila"
                             class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
@@ -104,30 +103,6 @@
                                 :value="upazila.id"
                             >
                                 {{ upazila.name }} - {{ upazila.bn_name }}
-                            </option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <div class="mb-2 flex items-center gap-2">
-                            <label
-                                for="union"
-                                class="block text-sm font-medium text-gray-900 dark:text-white"
-                            >
-                                Union
-                            </label>
-                        </div>
-                        <select
-                            v-model="form.union_id"
-                            id="union"
-                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                        >
-                            <option
-                                v-for="union in unions"
-                                :key="union.id"
-                                :value="union.id"
-                            >
-                                {{ union.name }} - {{ union.bn_name }}
                             </option>
                         </select>
                     </div>
@@ -207,10 +182,11 @@
                         <dt
                             class="text-base font-normal text-gray-500 dark:text-gray-400"
                         >
-                            Shpping
+                            Shipping
                         </dt>
                         <dd class="text-base text-gray-900 dark:text-white">
-                            {{ cartStore.shipping }} Tk.
+                            <span v-if="shippingCharge === 0" class="text-green-600 font-medium">Free</span>
+                            <span v-else>{{ shippingCharge }} Tk.</span>
                         </dd>
                     </dl>
 
@@ -218,10 +194,10 @@
                         <dt
                             class="text-base font-normal text-gray-500 dark:text-gray-400"
                         >
-                            Total
+                            Tax
                         </dt>
                         <dd class="text-base text-gray-900 dark:text-white">
-                            {{ cartStore.subtotal }} Tk.
+                            {{ cartStore.tax }} Tk.
                         </dd>
                     </dl>
 
@@ -229,12 +205,12 @@
                         <dt
                             class="text-base font-bold text-gray-900 dark:text-white"
                         >
-                            Payable Total
+                            Total
                         </dt>
                         <dd
                             class="text-base font-bold text-gray-900 dark:text-white"
                         >
-                            {{ cartStore.subtotal }} Tk.
+                            {{ orderTotal }} Tk.
                         </dd>
                     </dl>
                 </div>
@@ -310,22 +286,40 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useCartStore } from '../Stores/CartStore'
 import axios from 'axios'
 import { useForm } from '@inertiajs/vue3'
 
 const cartStore = useCartStore()
 
-defineProps({
+const props = defineProps({
     districts: {
         type: Object,
-        default: null
-    }
+        default: null,
+    },
+    shippingFlatRate: {
+        type: Number,
+        default: 60,
+    },
+    freeShippingThreshold: {
+        type: Number,
+        default: 1000,
+    },
 })
 
 const upazilas = ref([])
-const unions = ref([])
+
+const shippingCharge = computed(() => {
+    if (props.freeShippingThreshold > 0 && cartStore.subtotal >= props.freeShippingThreshold) {
+        return 0
+    }
+    return props.shippingFlatRate
+})
+
+const orderTotal = computed(() => {
+    return cartStore.subtotal + shippingCharge.value + cartStore.tax
+})
 
 function fetchUpazilas() {
     if (form.district_id) {
@@ -338,22 +332,7 @@ function fetchUpazilas() {
                 console.error('Error fetching upazilas:', error)
             })
     } else {
-        upazilas.value = [] // Clear upazilas if no district is selected
-    }
-}
-
-function fetchUnions() {
-    if (form.upazila_id) {
-        axios
-            .get(`/union/${form.upazila_id}`)
-            .then((response) => {
-                unions.value = response.data
-            })
-            .catch((error) => {
-                console.error('Error fetching unions:', error)
-            })
-    } else {
-        unions.value = [] // Clear unions if no upazila is selected
+        upazilas.value = []
     }
 }
 
@@ -363,7 +342,6 @@ const form = useForm({
     email: '',
     district_id: '',
     upazila_id: '',
-    union_id: '',
     address: '',
     note: '',
     payment_method: null,
@@ -371,51 +349,35 @@ const form = useForm({
     items: cartStore.items,
     subtotal: cartStore.subtotal,
     tax: cartStore.tax,
-    shipping: cartStore.shipping,
-    total: cartStore.subtotal + cartStore.tax + cartStore.shipping
+    shipping: shippingCharge,
+    total: orderTotal,
+    paid: 0,
+    due: orderTotal,
 })
 
-// const submitForm = () => {
-//     form.post('site-order-store', {
-//         onSuccess: () => {
-//             // Clear cart and reset form after successful submission
-//             cartStore.clearCart()
-//             form.reset()
-//             alert('Order placed successfully!')
-//         },
-//         onError: (errors) => {
-//             console.error('Error submitting order:', errors)
-//             alert(
-//                 'Failed to place the order. Please check the form and try again.'
-//             )
-//         }
-//     })
-// }
-
 const submitForm = async () => {
+    // Sync reactive values before submitting
+    form.subtotal = cartStore.subtotal
+    form.shipping = shippingCharge.value
+    form.total = orderTotal.value
+    form.due = orderTotal.value
+    form.items = cartStore.items
+
     try {
-        const response = await axios.post('/site-order-store', form)
+        const response = await axios.post('/site-order-store', form.data())
 
-        // Handle successful response
-        cartStore.clearCart() // Clear the cart
-        form.reset() // Reset the form
-        alert('Order placed successfully!')
+        cartStore.clearCart()
+        form.reset()
 
-        window.location.href = '/'
+        window.location.href = '/order-confirm/' + response.data.order_id
     } catch (error) {
-        // Handle errors
         if (error.response) {
-            // Server responded with a status code outside the 2xx range
             console.error('Error Response:', error.response.data)
-            alert(
-                'Failed to place the order. Please check the form and try again.'
-            )
+            alert('Failed to place the order. Please check the form and try again.')
         } else if (error.request) {
-            // Request was made but no response was received
             console.error('No Response:', error.request)
             alert('Failed to communicate with the server. Please try again.')
         } else {
-            // Something happened in setting up the request
             console.error('Error Setting Up Request:', error.message)
             alert('An unexpected error occurred. Please try again.')
         }

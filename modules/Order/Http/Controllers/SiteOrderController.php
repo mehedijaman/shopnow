@@ -2,52 +2,31 @@
 
 namespace Modules\Order\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
+use App\Mail\OrderPlacedMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Inertia\Response;
-use Modules\Order\Http\Requests\OrderValidate;
+use Illuminate\Support\Facades\Mail;
 use Modules\Order\Http\Requests\SiteOrderValidate;
 use Modules\Order\Models\Order;
 use Modules\Support\Http\Controllers\SiteController;
 
 class SiteOrderController extends SiteController
 {
-    // public function index(): Response
-    // {
-    //     $orders = Order::orderBy('name')
-    //         ->search(request('searchContext'), request('searchTerm'))
-    //         ->paginate(request('rowsPerPage', 10))
-    //         ->withQueryString()
-    //         ->through(fn($order) => [
-    //             'id' => $order->id,
-    //             'name' => $order->name,
-    //             'created_at' => $order->created_at->format('d/m/Y H:i') . 'h',
-    //         ]);
-
-    //     return inertia('Order/OrderIndex', [
-    //         'orders' => $orders,
-    //     ]);
-    // }
-
     public function store(SiteOrderValidate $request)
     {
         DB::beginTransaction();
 
         try {
-            // Extract and clean the request data
             $orderData = $request->validated();
-            $items = $orderData['items']; // Extract items
-            unset($orderData['items']);  // Remove items before creating the order
+            $items = $orderData['items'];
+            unset($orderData['items']);
 
-            // Create the order
             $order = Order::create($orderData);
 
-            // Prepare order_products data and associate them with the order
             $orderProducts = collect($items)->map(function ($item) use ($order) {
                 $unitPrice = $item['item']['price'];
                 $quantity = $item['quantity'];
-                $discount = 0; // Default discount
+                $discount = 0;
                 $totalPrice = ($unitPrice * $quantity) - $discount;
 
                 return [
@@ -60,12 +39,17 @@ class SiteOrderController extends SiteController
                 ];
             })->toArray();
 
-            // Save related products using the correct relationship
             $order->orderProducts()->createMany($orderProducts);
 
             DB::commit();
 
-            // Return success response
+            // Send admin notification email
+            $adminEmail = setting('general.admin_email');
+            if ($adminEmail) {
+                $order->load('orderProducts.product');
+                Mail::to($adminEmail)->send(new OrderPlacedMail($order));
+            }
+
             return response()->json([
                 'message' => 'Order placed successfully.',
                 'order_id' => $order->id,
@@ -73,10 +57,9 @@ class SiteOrderController extends SiteController
         } catch (\Exception $e) {
             DB::rollBack();
 
-            // Log the error to check details in case of failure
             Log::error('Order creation failed: '.$e->getMessage(), [
-                'order_data' => $orderData,
-                'items' => $items,
+                'order_data' => $orderData ?? [],
+                'items' => $items ?? [],
                 'error' => $e,
             ]);
 
@@ -86,30 +69,10 @@ class SiteOrderController extends SiteController
         }
     }
 
-    // public function edit(int $id): Response
-    // {
-    //     $order = Order::find($id);
+    public function confirm(int $id)
+    {
+        $order = Order::with(['orderProducts.product'])->findOrFail($id);
 
-    //     return inertia('Order/OrderForm', [
-    //         'order' => $order,
-    //     ]);
-    // }
-
-    // public function update(OrderValidate $request, int $id): RedirectResponse
-    // {
-    //     $order = Order::findOrFail($id);
-
-    //     $order->update($request->validated());
-
-    //     return redirect()->route('order.index')
-    //         ->with('success', 'Order updated.');
-    // }
-
-    // public function destroy(int $id): RedirectResponse
-    // {
-    //     Order::findOrFail($id)->delete();
-
-    //     return redirect()->route('order.index')
-    //         ->with('success', 'Order deleted.');
-    // }
+        return view('order::order-confirm', compact('order'));
+    }
 }

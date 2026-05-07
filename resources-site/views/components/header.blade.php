@@ -4,20 +4,12 @@
             class="relative flex flex-col items-center gap-5 px-10 pt-10 max-lg:min-h-[60px] lg:min-h-[80px] lg:justify-center"
         >
             <a href="{{ route('site.index') }}">
-                {{--
-                    <img
-                    src="https://readymadeui.com/readymadeui.svg"
-                    alt="logo"
-                    class="w-36 md:w-[170px]"
-                    />
-                --}}
-
-                <span
-                    class="rounded-md bg-blue-500 px-4 py-2 text-3xl font-extrabold text-skin-neutral-3 hover:text-skin-neutral-6 dark:text-skin-neutral-1 dark:hover:text-skin-primary-9"
-                >
-                    <i class="ri-shopping-bag-line"></i>
-                    ShopNow
-                </span>
+                @php $logoUrl = setting('branding.logo_url'); $siteName = setting('branding.site_name', 'ShopNow'); @endphp
+                @if ($logoUrl)
+                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-12 w-auto object-contain" />
+                @else
+                    <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-12 w-auto object-contain" />
+                @endif
             </a>
 
             <shop-search></shop-search>
@@ -75,11 +67,11 @@
                 >
                     <li class="px-3 max-lg:border-b max-lg:pb-4 lg:hidden">
                         <a href="{{ route('site.index') }}">
-                            <span
-                                class="rounded-md bg-blue-500 px-4 py-1 text-3xl font-extrabold text-skin-neutral-3 hover:text-skin-neutral-6 dark:text-skin-neutral-1 dark:hover:text-skin-primary-9"
-                            >
-                                ShopNow
-                            </span>
+                            @if ($logoUrl ?? false)
+                                <img src="{{ $logoUrl }}" alt="{{ $siteName ?? 'ShopNow' }}" class="h-10 w-auto object-contain" />
+                            @else
+                                <img src="{{ asset('logo.png') }}" alt="{{ $siteName ?? 'ShopNow' }}" class="h-10 w-auto object-contain" />
+                            @endif
                         </a>
                     </li>
                     <li class="max-lg:border-b max-lg:px-3 max-lg:py-3">

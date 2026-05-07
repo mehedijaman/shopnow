@@ -1,20 +1,6 @@
 <template>
     <div class="space-y-6">
         <div>
-            <AppLabel for="site_name" :value="__('Site Name')" />
-            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('The name of your website, used in the browser title and emails.') }}</p>
-            <AppInputText
-                id="site_name"
-                v-model="form.site_name"
-                :placeholder="__('e.g. My Awesome Store')"
-                :class="{ 'input-error': errorsFields.includes('site_name') }"
-            />
-            <p v-if="errorsFields.includes('site_name')" class="mt-1 text-sm text-red-500">
-                {{ errors.site_name }}
-            </p>
-        </div>
-
-        <div>
             <AppLabel for="site_description" :value="__('Site Description')" />
             <p class="mb-1 text-xs text-skin-neutral-9">{{ __('A short summary of your site shown in listings and previews.') }}</p>
             <AppTextArea
@@ -25,6 +11,21 @@
             />
             <p v-if="errorsFields.includes('site_description')" class="mt-1 text-sm text-red-500">
                 {{ errors.site_description }}
+            </p>
+        </div>
+
+        <div>
+            <AppLabel for="admin_email" :value="__('Admin Email')" />
+            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('Receives new order notification emails.') }}</p>
+            <AppInputText
+                id="admin_email"
+                type="email"
+                v-model="form.admin_email"
+                :placeholder="__('e.g. admin@example.com')"
+                :class="{ 'input-error': errorsFields.includes('admin_email') }"
+            />
+            <p v-if="errorsFields.includes('admin_email')" class="mt-1 text-sm text-red-500">
+                {{ errors.admin_email }}
             </p>
         </div>
     </div>

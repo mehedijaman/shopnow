@@ -7,3 +7,8 @@ Route::post('site-order-store', [
     SiteOrderController::class,
     'store',
 ])->name('site.order.store');
+
+Route::get('order-confirm/{id}', [
+    SiteOrderController::class,
+    'confirm',
+])->name('site.order.confirm');

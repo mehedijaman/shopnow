@@ -40,8 +40,8 @@ class SettingSeeder extends Seeder
     {
         return [
             // General
-            ['group' => 'general', 'key' => 'site_name', 'value' => 'ShopNow', 'type' => 'text', 'label' => 'Site Name', 'is_public' => true, 'sort_order' => 1],
-            ['group' => 'general', 'key' => 'site_description', 'value' => null, 'type' => 'textarea', 'label' => 'Site Description', 'is_public' => true, 'sort_order' => 2],
+            ['group' => 'general', 'key' => 'site_description', 'value' => null, 'type' => 'textarea', 'label' => 'Site Description', 'is_public' => true, 'sort_order' => 1],
+            ['group' => 'general', 'key' => 'admin_email', 'value' => null, 'type' => 'text', 'label' => 'Admin Email', 'description' => 'Receives order notification emails.', 'is_public' => false, 'sort_order' => 2],
 
             // Branding
             ['group' => 'branding', 'key' => 'site_name', 'value' => 'ShopNow', 'type' => 'text', 'label' => 'Site Name', 'is_public' => true, 'sort_order' => 1],
@@ -84,6 +84,10 @@ class SettingSeeder extends Seeder
             ['group' => 'mail', 'key' => 'username', 'value' => null, 'type' => 'text', 'label' => 'SMTP Username', 'is_public' => false, 'sort_order' => 5],
             ['group' => 'mail', 'key' => 'password', 'value' => null, 'type' => 'text', 'label' => 'SMTP Password', 'is_public' => false, 'sort_order' => 6],
             ['group' => 'mail', 'key' => 'encryption', 'value' => 'tls', 'type' => 'text', 'label' => 'Encryption', 'is_public' => false, 'sort_order' => 7],
+
+            // Shipping
+            ['group' => 'shipping', 'key' => 'flat_rate', 'value' => '60', 'type' => 'text', 'label' => 'Flat Rate Shipping (Tk)', 'description' => 'Default shipping charge added to every order.', 'is_public' => true, 'sort_order' => 1],
+            ['group' => 'shipping', 'key' => 'free_shipping_threshold', 'value' => '1000', 'type' => 'text', 'label' => 'Free Shipping Threshold (Tk)', 'description' => 'Orders above this amount get free shipping. Set 0 to disable.', 'is_public' => true, 'sort_order' => 2],
         ];
     }
 }

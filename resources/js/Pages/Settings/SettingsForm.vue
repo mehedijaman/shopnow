@@ -69,6 +69,7 @@ import ContactGroup from './Components/ContactGroup.vue'
 import SocialGroup from './Components/SocialGroup.vue'
 import SeoGroup from './Components/SeoGroup.vue'
 import MailGroup from './Components/MailGroup.vue'
+import ShippingGroup from './Components/ShippingGroup.vue'
 
 const props = defineProps({
     group: { type: String, required: true },
@@ -85,6 +86,7 @@ const groupComponents = {
     social: markRaw(SocialGroup),
     seo: markRaw(SeoGroup),
     mail: markRaw(MailGroup),
+    shipping: markRaw(ShippingGroup),
 }
 
 const currentGroupComponent = computed(() => groupComponents[props.group])
@@ -131,6 +133,7 @@ const groupLabel = (g) => {
         social: 'Social',
         seo: 'SEO',
         mail: 'Mail',
+        shipping: 'Shipping',
     }
     return labels[g] ?? g
 }
@@ -143,18 +146,20 @@ const groupIcon = (g) => {
         social: 'ri-share-line',
         seo: 'ri-search-2-line',
         mail: 'ri-mail-line',
+        shipping: 'ri-truck-line',
     }
     return icons[g] ?? 'ri-settings-line'
 }
 
 const groupDescription = (g) => {
     const descriptions = {
-        general: 'Configure your site name and description shown across the platform.',
+        general: 'Configure your site description and admin notification email.',
         branding: 'Upload your logo, favicon, and other brand assets.',
         contact: 'Manage public contact details like phone, email, and address.',
         social: 'Link your social media profiles to be shown on the site.',
         seo: 'Control meta title, description, and keywords for search engine visibility.',
         mail: 'Configure the SMTP server used to send outgoing emails.',
+        shipping: 'Set flat rate shipping charge and free shipping threshold.',
     }
     return descriptions[g] ?? ''
 }
