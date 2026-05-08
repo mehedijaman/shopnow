@@ -66,7 +66,7 @@ class ProductController extends BackendController
         return inertia('Product/ProductForm', [
             'categories' => $getProductCategoryOptions->get(),
             'tags' => $getProductTagOptions->get(),
-            // 'authors' => $getProductBrandOptions->get(),
+            'brands' => $getProductBrandOptions->get(),
         ]);
     }
 
@@ -109,7 +109,7 @@ class ProductController extends BackendController
             'gallery' => $gallery,
             'categories' => $getProductCategoryOptions->get(),
             'tags' => $getProductTagOptions->get(),
-            // 'authors' => $getProductBrandOptions->get(),
+            'brands' => $getProductBrandOptions->get(),
         ]);
     }
 

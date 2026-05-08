@@ -16,6 +16,7 @@ class ProductValidate extends Request
                 'integer',
                 Rule::exists(ProductCategory::class, 'id'),
             ],
+            'brand_id' => 'nullable|integer|exists:product_brands,id',
             // 'brand_id' => 'nullable|exists:blog_authors,id',
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',

@@ -6,6 +6,7 @@ export const useProductStore = defineStore('ProductStore', {
         return {
             product: {
                 category_id: null,
+                brand_id: null,
                 // blog_author_id: null,
 
                 tags: [],
@@ -36,7 +37,7 @@ export const useProductStore = defineStore('ProductStore', {
 
     actions: {
         setProduct(product) {
-            this.product = { ...product, gallery_images: [] }
+            this.product = { ...product, image: null, gallery_images: [] }
         },
         initSeoTags() {
             this.product.meta_tag_title = this.product.name.substring(0, 60)

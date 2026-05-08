@@ -207,6 +207,7 @@
                 </template>
                 <template #content>
                     <ProductCategory :categories="categories" />
+                    <ProductBrand :brands="brands" />
                     <ProductTags :tags="tags" />
                 </template>
             </AppCard>
@@ -264,6 +265,7 @@ import useFormContext from '@/Composables/useFormContext'
 import useFormErrors from '@/Composables/useFormErrors'
 import ProductImage from './Components/ProductImage.vue'
 import ProductCategory from './Components/ProductCategory.vue'
+import ProductBrand from './Components/ProductBrand.vue'
 import ProductTags from './Components/ProductTags.vue'
 import ProductGallery from './Components/ProductGallery.vue'
 import { useProductStore } from './ProductStore'
@@ -282,6 +284,11 @@ const props = defineProps({
     categories: {
         type: Object,
         default: () => {}
+    },
+
+    brands: {
+        type: Object,
+        default: () => []
     },
 
     tags: {
@@ -333,7 +340,8 @@ const submitForm = () => {
     const productData = (data) => {
         const commonData = {
             ...data,
-            category_id: getValueFromKey(data, 'category_id')
+            category_id: getValueFromKey(data, 'category_id'),
+            brand_id: getValueFromKey(data, 'brand_id'),
         }
 
         return isCreate.value ? commonData : { ...commonData, _method: 'PUT' }
