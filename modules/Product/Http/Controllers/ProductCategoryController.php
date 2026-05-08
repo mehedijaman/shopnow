@@ -2,7 +2,6 @@
 
 namespace Modules\Product\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -95,7 +94,7 @@ class ProductCategoryController extends BackendController
             ->with('success', 'Product Category deleted.');
     }
 
-    public function reorder(Request $request): JsonResponse
+    public function reorder(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'items' => 'required|array',
@@ -107,7 +106,7 @@ class ProductCategoryController extends BackendController
             ProductCategory::where('id', $item['id'])->update(['sort_order' => $item['sort_order']]);
         }
 
-        return response()->json(['success' => true]);
+        return back();
     }
 
     public function recycleBin(): Response
