@@ -120,6 +120,13 @@ export default {
         },
 
         {
+            label: 'Pages',
+            permission: 'page-list',
+            icon: 'ri-pages-line',
+            link: route('page.index')
+        },
+
+        {
             label: 'Access Control List',
             permission: 'Acl',
             children: [

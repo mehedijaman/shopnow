@@ -9,6 +9,7 @@ Route::get('/', [IndexController::class, 'index'])->name('site.index');
 Route::get('/about', [IndexController::class, 'about'])->name('site.about');
 Route::get('/privacy-policy', [IndexController::class, 'privacyPolicy'])->name('site.privacyPolicy');
 Route::get('/terms-of-service', [IndexController::class, 'termsOfService'])->name('site.termsOfService');
+Route::get('/refund-policy', [IndexController::class, 'refundPolicy'])->name('site.refundPolicy');
 
 // Dynamic robots.txt (overrides the static public/robots.txt via routing)
 Route::get('/robots.txt', RobotsController::class)->name('robots.txt');

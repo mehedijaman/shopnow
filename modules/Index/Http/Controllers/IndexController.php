@@ -3,6 +3,7 @@
 namespace Modules\Index\Http\Controllers;
 
 use Modules\Blog\Models\Post;
+use Modules\Page\Models\Page;
 use Modules\Product\Models\ProductCategory;
 use Modules\Settings\Services\SeoService;
 use Modules\Support\Http\Controllers\SiteController;
@@ -40,43 +41,63 @@ class IndexController extends SiteController
 
     public function about(SeoService $seoService)
     {
+        $page = Page::where('slug', 'about')->where('active', true)->firstOrFail();
+
         $seo = $seoService->build([
-            'title' => 'About Us',
-            'description' => 'Learn more about who we are, our mission, and what drives us.',
+            'title' => $page->meta_tag_title ?? $page->title,
+            'description' => $page->meta_tag_description ?? 'Learn more about who we are, our mission, and what drives us.',
             'canonical_full' => url('/about'),
             'schema' => [
                 $seoService->organizationSchema(),
                 $seoService->breadcrumbSchema([
                     ['name' => 'Home', 'url' => url('/')],
-                    ['name' => 'About Us', 'url' => url('/about')],
+                    ['name' => $page->title, 'url' => url('/about')],
                 ]),
             ],
         ]);
 
-        return view('about', compact('seo'));
+        return view('page-show', compact('page', 'seo'));
     }
 
     public function privacyPolicy(SeoService $seoService)
     {
+        $page = Page::where('slug', 'privacy-policy')->where('active', true)->firstOrFail();
+
         $seo = $seoService->build([
-            'title' => 'Privacy Policy',
-            'description' => 'Read our privacy policy to understand how we handle your data.',
+            'title' => $page->meta_tag_title ?? $page->title,
+            'description' => $page->meta_tag_description ?? 'Read our privacy policy to understand how we handle your data.',
             'canonical_full' => url('/privacy-policy'),
             'robots' => 'noindex, follow',
         ]);
 
-        return view('privacy-policy', compact('seo'));
+        return view('page-show', compact('page', 'seo'));
     }
 
     public function termsOfService(SeoService $seoService)
     {
+        $page = Page::where('slug', 'terms-of-service')->where('active', true)->firstOrFail();
+
         $seo = $seoService->build([
-            'title' => 'Terms of Service',
-            'description' => 'Review the terms and conditions for using our platform.',
+            'title' => $page->meta_tag_title ?? $page->title,
+            'description' => $page->meta_tag_description ?? 'Review the terms and conditions for using our platform.',
             'canonical_full' => url('/terms-of-service'),
             'robots' => 'noindex, follow',
         ]);
 
-        return view('terms-of-service', compact('seo'));
+        return view('page-show', compact('page', 'seo'));
+    }
+
+    public function refundPolicy(SeoService $seoService)
+    {
+        $page = Page::where('slug', 'refund-policy')->where('active', true)->firstOrFail();
+
+        $seo = $seoService->build([
+            'title' => $page->meta_tag_title ?? $page->title,
+            'description' => $page->meta_tag_description ?? 'Read our refund and return policy.',
+            'canonical_full' => url('/refund-policy'),
+            'robots' => 'noindex, follow',
+        ]);
+
+        return view('page-show', compact('page', 'seo'));
     }
 }

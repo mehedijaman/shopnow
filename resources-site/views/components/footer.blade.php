@@ -46,6 +46,7 @@
                     <li><a href="{{ route('site.about') }}" class="text-sm text-gray-300 transition hover:text-white hover:underline">About Us</a></li>
                     <li><a href="{{ route('site.contact') }}" class="text-sm text-gray-300 transition hover:text-white hover:underline">Contact</a></li>
                     <li><a href="{{ route('site.termsOfService') }}" class="text-sm text-gray-300 transition hover:text-white hover:underline">Terms of Service</a></li>
+                    <li><a href="{{ route('site.refundPolicy') }}" class="text-sm text-gray-300 transition hover:text-white hover:underline">Refund Policy</a></li>
                     <li><a href="{{ route('site.privacyPolicy') }}" class="text-sm text-gray-300 transition hover:text-white hover:underline">Privacy Policy</a></li>
                 </ul>
             </div>
