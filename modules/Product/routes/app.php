@@ -85,6 +85,9 @@ Route::prefix('product')->name('product.')->middleware('can:product')->group(fun
     // Editor Image Upload
     Route::post('upload-editor-image', [ProductController::class, 'uploadEditorImage'])->name('uploadEditorImage')->can('create')->can('edit');
 
+    // Gallery
+    Route::delete('{id}/gallery/{mediaId}', [ProductController::class, 'destroyGalleryImage'])->name('gallery.destroy')->can('edit');
+
     Route::get('/', [ProductController::class, 'index'])->name('index')->can('list');
     Route::get('create', [ProductController::class, 'create'])->name('create')->can('create');
     Route::post('/', [ProductController::class, 'store'])->name('store')->can('create');

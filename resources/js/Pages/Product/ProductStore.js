@@ -20,6 +20,8 @@ export const useProductStore = defineStore('ProductStore', {
                 featured: false,
                 image: null,
 
+                gallery_images: [],
+
                 summary: '',
                 description: '',
                 meta_tag_title: '',

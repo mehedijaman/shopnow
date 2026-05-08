@@ -81,6 +81,8 @@ class SiteProductController extends SiteController
     {
         $product = Product::with(['category', 'brand'])->findOrFail($productId);
 
+        $gallery = $product->getMedia('gallery')->map(fn ($m) => $m->getUrl())->values()->toArray();
+
         $description = strip_tags($product->description ?? "Buy {$product->name} at the best price.");
 
         $seo = $seoService->build([
@@ -109,6 +111,6 @@ class SiteProductController extends SiteController
             ],
         ]);
 
-        return view('product::product-show', compact('product', 'seo'));
+        return view('product::product-show', compact('product', 'gallery', 'seo'));
     }
 }

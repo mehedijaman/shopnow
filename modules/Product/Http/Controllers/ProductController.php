@@ -84,6 +84,10 @@ class ProductController extends BackendController
             $syncProductTags->sync($product, $request->input('tags'));
         }
 
+        foreach ($request->file('gallery_images', []) as $file) {
+            $product->addMedia($file)->toMediaCollection('gallery');
+        }
+
         return redirect()->route('product.index')
             ->with('success', 'Product created.');
     }
@@ -94,8 +98,15 @@ class ProductController extends BackendController
             $query->select('product_tags.id', 'product_tags.name');
         }])->find($id);
 
+        $gallery = $product->getMedia('gallery')->map(fn ($m) => [
+            'id' => $m->id,
+            'url' => $m->getUrl(),
+            'name' => $m->file_name,
+        ])->values();
+
         return inertia('Product/ProductForm', [
             'product' => $product,
+            'gallery' => $gallery,
             'categories' => $getProductCategoryOptions->get(),
             'tags' => $getProductTagOptions->get(),
             // 'authors' => $getProductBrandOptions->get(),
@@ -104,7 +115,6 @@ class ProductController extends BackendController
 
     public function update(ProductValidate $request, SyncProductTags $syncProductTags, int $id): RedirectResponse
     {
-
         $product = Product::findOrFail($id);
 
         $productData = $request->validated();
@@ -123,8 +133,25 @@ class ProductController extends BackendController
             $syncProductTags->sync($product, $request->input('tags'));
         }
 
-        return redirect()->route('product.index')
+        foreach ($request->file('gallery_images', []) as $file) {
+            $product->addMedia($file)->toMediaCollection('gallery');
+        }
+
+        return redirect()->route('product.edit', $id)
             ->with('success', 'Product has been updated.');
+    }
+
+    public function destroyGalleryImage(int $id, int $mediaId): RedirectResponse
+    {
+        $product = Product::findOrFail($id);
+        $media = $product->getMedia('gallery')->firstWhere('id', $mediaId);
+
+        if ($media) {
+            $media->delete();
+        }
+
+        return redirect()->route('product.edit', $id)
+            ->with('success', 'Gallery image removed.');
     }
 
     public function destroy(int $id): RedirectResponse

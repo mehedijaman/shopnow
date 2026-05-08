@@ -34,6 +34,8 @@
                 <ProductTags :tags="tags" />
 
                 <!-- <ProductAuthor :authors="authors" /> -->
+
+                <ProductGallery :gallery="gallery" />
             </template>
         </AppCard>
     </div>
@@ -62,6 +64,7 @@ import ProductPublishDate from './Components/ProductPublishDate.vue'
 import ProductCategory from './Components/ProductCategory.vue'
 import ProductTags from './Components/ProductTags.vue'
 import ProductAuthor from './Components/ProductAuthor.vue'
+import ProductGallery from './Components/ProductGallery.vue'
 import { useProductStore } from './ProductStore'
 
 const productStore = useProductStore()
@@ -81,6 +84,11 @@ const props = defineProps({
     tags: {
         type: Object,
         default: () => {}
+    },
+
+    gallery: {
+        type: Array,
+        default: () => []
     }
 
     // authors: {

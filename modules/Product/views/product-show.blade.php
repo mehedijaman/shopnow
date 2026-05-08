@@ -5,230 +5,185 @@
 @endsection
 
 @section('content')
-    <div class="mx-auto max-w-7xl px-6 py-12 lg:px-6">
-        <div class="w-full bg-gray-100">
-            <div class="flex flex-wrap">
-                <!-- Product Images -->
-                <div class="mb-8 w-full p-4 md:w-1/2">
+    @php
+        $allImages = collect([$product->image_url])->merge($gallery)->filter()->values();
+    @endphp
+
+    <!-- Breadcrumb -->
+    <div class="border-b border-gray-100 bg-gray-50">
+        <div class="mx-auto max-w-7xl px-4 py-3 sm:px-6">
+            <nav class="flex items-center gap-2 text-sm text-gray-500">
+                <a href="{{ route('site.index') }}" class="hover:text-gray-700">Home</a>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+                <a href="{{ route('shop.index') }}" class="hover:text-gray-700">Shop</a>
+                @if ($product->category)
+                    <i class="ri-arrow-right-s-line text-gray-400"></i>
+                    <a href="{{ route('shop.category', [$product->category->id, $product->category->slug]) }}" class="hover:text-gray-700">
+                        {{ $product->category->name }}
+                    </a>
+                @endif
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+                <span class="truncate font-medium text-gray-800">{{ Str::limit($product->name, 40) }}</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Product Section -->
+    <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:py-12">
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
+
+            <!-- Left: Image Gallery -->
+            <div>
+                <!-- Main Image -->
+                <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
                     <img
-                        src="{{ $product->image_url }}"
-                        alt="{{ $product->name }}"
-                        width="800"
-                        height="800"
-                        class="mb-4 h-fit w-full rounded-lg shadow-md"
                         id="mainImage"
+                        src="{{ $allImages->first() ?? 'https://placehold.co/800x800/f3f4f6/9ca3af?text=No+Image' }}"
+                        alt="{{ $product->name }}"
+                        class="h-auto max-h-[480px] w-full object-contain"
                     />
-                    <div class="flex justify-center gap-4 overflow-x-auto py-4">
-                        <img
-                            src="{{ $product->image_url }}"
-                            alt="{{ $product->name }} - thumbnail"
-                            loading="lazy"
-                            width="80"
-                            height="80"
-                            class="size-16 cursor-pointer rounded-md object-cover opacity-60 transition duration-300 hover:opacity-100 sm:size-20"
-                            onclick="changeImage(this.src)"
-                        />
-                        <img
-                            src="https://images.unsplash.com/photo-1484704849700-f032a568e944?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw0fHxoZWFkcGhvbmV8ZW58MHwwfHx8MTcyMTMwMzY5MHww&ixlib=rb-4.0.3&q=80&w=1080"
-                            alt="Thumbnail 2"
-                            class="size-16 cursor-pointer rounded-md object-cover opacity-60 transition duration-300 hover:opacity-100 sm:size-20"
-                            onclick="changeImage(this.src)"
-                        />
-                        <img
-                            src="https://images.unsplash.com/photo-1496957961599-e35b69ef5d7c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw4fHxoZWFkcGhvbmV8ZW58MHwwfHx8MTcyMTMwMzY5MHww&ixlib=rb-4.0.3&q=80&w=1080"
-                            alt="Thumbnail 3"
-                            class="size-16 cursor-pointer rounded-md object-cover opacity-60 transition duration-300 hover:opacity-100 sm:size-20"
-                            onclick="changeImage(this.src)"
-                        />
-                        <img
-                            src="https://images.unsplash.com/photo-1528148343865-51218c4a13e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwzfHxoZWFkcGhvbmV8ZW58MHwwfHx8MTcyMTMwMzY5MHww&ixlib=rb-4.0.3&q=80&w=1080"
-                            alt="Thumbnail 4"
-                            class="size-16 cursor-pointer rounded-md object-cover opacity-60 transition duration-300 hover:opacity-100 sm:size-20"
-                            onclick="changeImage(this.src)"
-                        />
-                    </div>
                 </div>
 
-                <!-- Product Details -->
-                <div class="w-full px-4 md:w-1/2">
-                    <h2 class="mb-2 text-3xl font-bold">
-                        {{ $product->name }}
-                    </h2>
-                    <p class="my-4 text-gray-600">
-                        Category Name:
-                        <a
-                            href="{{ route('shop.category', [$product->category?->id, $product->category?->slug]) }}"
-                            class="text-blue-600 hover:underline dark:text-blue-500"
-                        >
-                            {{ $product->category?->name }}
-                        </a>
-                    </p>
-                    <div class="mb-4">
-                        <span class="mr-2 text-2xl font-bold">
-                            {{ $product->sale_price }} BDT
-                        </span>
-                        <span class="text-gray-500 line-through">
-                            {{ $product->price }} BDT
-                        </span>
-                    </div>
-
-                    {{--
-                        <div class="mb-4 flex items-center">
-                        <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        class="size-6 text-yellow-500"
-                        >
-                        <path
-                        fill-rule="evenodd"
-                        d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                        clip-rule="evenodd"
-                        />
-                        </svg>
-                        <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        class="size-6 text-yellow-500"
-                        >
-                        <path
-                        fill-rule="evenodd"
-                        d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                        clip-rule="evenodd"
-                        />
-                        </svg>
-                        <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        class="size-6 text-yellow-500"
-                        >
-                        <path
-                        fill-rule="evenodd"
-                        d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                        clip-rule="evenodd"
-                        />
-                        </svg>
-                        <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        class="size-6 text-yellow-500"
-                        >
-                        <path
-                        fill-rule="evenodd"
-                        d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                        clip-rule="evenodd"
-                        />
-                        </svg>
-                        <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        class="size-6 text-yellow-500"
-                        >
-                        <path
-                        fill-rule="evenodd"
-                        d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                        clip-rule="evenodd"
-                        />
-                        </svg>
-                        <span class="ml-2 text-gray-600">
-                        4.5 (120 reviews)
-                        </span>
-                        </div>
-                    --}}
-
-                    <p class="mb-6 text-gray-700">
-                        {{ $product->summary }}
-                    </p>
-
-                    {{--
-                        <div class="mb-6">
-                        <label
-                        for="quantity"
-                        class="mb-1 block text-sm font-medium text-gray-700"
-                        >
-                        Quantity:
-                        </label>
-                        <div class="mt-2 inline-flex items-center">
-                        <button
-                        class="inline-flex items-center rounded-l border border-r border-gray-200 bg-white px-2 py-1 text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
-                        >
-                        <i class="ri-subtract-line"></i>
-                        </button>
-                        <div
-                        class="inline-flex select-none items-center border-b border-t border-gray-100 bg-gray-100 px-4 py-1 text-gray-600 hover:bg-gray-100"
-                        >
-                        2
-                        </div>
-                        <button
-                        class="inline-flex items-center rounded-r border border-r border-gray-200 bg-white px-2 py-1 text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
-                        >
-                        <i class="ri-add-line"></i>
-                        </button>
-                        </div>
-                        </div>
-                    --}}
-
-                    <div
-                        class="mb-6 flex flex-col items-center space-x-4 md:flex-row"
-                    >
-                        {{--
+                <!-- Thumbnails -->
+                @if ($allImages->count() > 1)
+                    <div class="mt-3 flex gap-2 overflow-x-auto pb-1">
+                        @foreach ($allImages as $index => $imgUrl)
                             <button
-                            class="flex items-center gap-2 rounded-md bg-indigo-600 px-6 py-2 text-white hover:bg-indigo-700 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                type="button"
+                                onclick="setMainImage(this, '{{ $imgUrl }}')"
+                                class="gallery-thumb shrink-0 overflow-hidden rounded-lg border-2 border-transparent transition hover:border-blue-500 focus:outline-none {{ $index === 0 ? 'border-blue-500' : '' }}"
                             >
-                            <i class="ri-shopping-cart-line text-2xl"></i>
-                            Add to Cart
+                                <img
+                                    src="{{ $imgUrl }}"
+                                    alt="{{ $product->name }} image {{ $index + 1 }}"
+                                    class="h-16 w-16 object-cover sm:h-20 sm:w-20"
+                                />
                             </button>
-                        --}}
-
-                        <add-to-cart-button
-                            :product="{{ json_encode($product) }}"
-                        ></add-to-cart-button>
-
-                        {{-- <button
-                            class="flex items-center justify-center rounded-sm bg-gray-200 px-4 py-1 text-gray-800 hover:bg-gray-300 focus:ring-gray-500 disabled:opacity-50"
-                        >
-                            <i class="ri-heart-line mr-1"></i>
-                            Add to Wishlist
-                        </button> --}}
+                        @endforeach
                     </div>
+                @endif
+            </div>
 
-                    {{--
-                        <div>
-                        <h3 class="mb-2 text-lg font-semibold">
-                        Key Features:
-                        </h3>
-                        <ul class="list-inside list-disc text-gray-700">
-                        <li>Industry-leading noise cancellation</li>
-                        <li>30-hour battery life</li>
-                        <li>Touch sensor controls</li>
-                        <li>Speak-to-chat technology</li>
-                        </ul>
-                        </div>
-                    --}}
+            <!-- Right: Product Details -->
+            <div class="flex flex-col">
+
+                <!-- Category + Featured badge -->
+                <div class="mb-2 flex flex-wrap items-center gap-2">
+                    @if ($product->category)
+                        <a
+                            href="{{ route('shop.category', [$product->category->id, $product->category->slug]) }}"
+                            class="rounded-full bg-blue-50 px-3 py-0.5 text-xs font-medium text-blue-600 hover:bg-blue-100"
+                        >
+                            {{ $product->category->name }}
+                        </a>
+                    @endif
+                    @if ($product->featured)
+                        <span class="rounded-full bg-amber-50 px-3 py-0.5 text-xs font-medium text-amber-600">
+                            <i class="ri-star-fill mr-0.5"></i> Featured
+                        </span>
+                    @endif
+                    @if ($product->quantity <= 0)
+                        <span class="rounded-full bg-red-50 px-3 py-0.5 text-xs font-medium text-red-600">
+                            Out of Stock
+                        </span>
+                    @elseif ($product->quantity < 10)
+                        <span class="rounded-full bg-orange-50 px-3 py-0.5 text-xs font-medium text-orange-600">
+                            Only {{ $product->quantity }} left
+                        </span>
+                    @else
+                        <span class="rounded-full bg-green-50 px-3 py-0.5 text-xs font-medium text-green-600">
+                            <i class="ri-checkbox-circle-line mr-0.5"></i> In Stock
+                        </span>
+                    @endif
                 </div>
+
+                <!-- Name -->
+                <h1 class="text-2xl font-bold leading-snug text-gray-900 sm:text-3xl">
+                    {{ $product->name }}
+                </h1>
+
+                <!-- Price -->
+                <div class="mt-4 flex items-baseline gap-3">
+                    <span class="text-3xl font-bold text-gray-900">
+                        ৳{{ number_format($product->sale_price ?? $product->price, 2) }}
+                    </span>
+                    @if ($product->sale_price && $product->price && $product->sale_price < $product->price)
+                        <span class="text-lg text-gray-400 line-through">
+                            ৳{{ number_format($product->price, 2) }}
+                        </span>
+                        @php
+                            $discount = round((($product->price - $product->sale_price) / $product->price) * 100);
+                        @endphp
+                        <span class="rounded-md bg-red-100 px-2 py-0.5 text-sm font-semibold text-red-600">
+                            -{{ $discount }}%
+                        </span>
+                    @endif
+                </div>
+
+                <!-- Summary -->
+                @if ($product->summary)
+                    <p class="mt-4 leading-relaxed text-gray-600">{{ $product->summary }}</p>
+                @endif
+
+                <hr class="my-5 border-gray-100" />
+
+                <!-- Product Meta -->
+                <dl class="space-y-2 text-sm">
+                    @if ($product->brand)
+                        <div class="flex gap-2">
+                            <dt class="w-24 shrink-0 font-medium text-gray-500">Brand</dt>
+                            <dd class="text-gray-800">{{ $product->brand->name }}</dd>
+                        </div>
+                    @endif
+                    @if ($product->unit)
+                        <div class="flex gap-2">
+                            <dt class="w-24 shrink-0 font-medium text-gray-500">Unit</dt>
+                            <dd class="text-gray-800">{{ $product->unit }}</dd>
+                        </div>
+                    @endif
+                    @if ($product->min_order)
+                        <div class="flex gap-2">
+                            <dt class="w-24 shrink-0 font-medium text-gray-500">Min Order</dt>
+                            <dd class="text-gray-800">{{ $product->min_order }} {{ $product->unit }}</dd>
+                        </div>
+                    @endif
+                </dl>
+
+                <hr class="my-5 border-gray-100" />
+
+                <!-- Add to Cart -->
+                <div class="flex flex-wrap items-center gap-3">
+                    <add-to-cart-button :product="{{ json_encode($product) }}"></add-to-cart-button>
+                </div>
+
+                <!-- Tags -->
+                @if ($product->tags?->count())
+                    <div class="mt-5 flex flex-wrap items-center gap-2">
+                        <span class="text-xs font-medium text-gray-500">Tags:</span>
+                        @foreach ($product->tags as $tag)
+                            <span class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-600">{{ $tag->name }}</span>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         </div>
 
-        <section class="justify-center justify-items-center">
-            <div>
-                <h2 class="text-center text-3xl font-bold sm:text-3xl">
-                    Product Description
-                </h2>
-                <hr class="my-6 border-gray-200 dark:border-gray-800" />
+        <!-- Description -->
+        @if ($product->description)
+            <div class="mt-12 border-t border-gray-100 pt-10">
+                <h2 class="mb-6 text-xl font-bold text-gray-900">Product Description</h2>
+                <div class="prose prose-gray max-w-none leading-relaxed text-gray-700">
+                    {!! $product->description !!}
+                </div>
             </div>
-            <div class="text-justify">
-                {!! $product->description !!}
-            </div>
-        </section>
+        @endif
     </div>
 
     <script>
-        function changeImage(src) {
+        function setMainImage(btn, src) {
             document.getElementById('mainImage').src = src
+            document.querySelectorAll('.gallery-thumb').forEach(el => el.classList.remove('border-blue-500'))
+            btn.classList.add('border-blue-500')
         }
     </script>
 @endsection

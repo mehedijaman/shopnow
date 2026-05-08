@@ -26,6 +26,8 @@ class ProductValidate extends Request
             'active' => 'required|boolean',
             'featured' => 'nullable|boolean',
             'image' => 'nullable|image|max:2048',
+            'gallery_images' => 'nullable|array',
+            'gallery_images.*' => 'image|max:2048',
             'summary' => 'nullable|string',
             'description' => 'nullable|string',
             'meta_tag_title' => 'nullable|string|max:60',

@@ -11,10 +11,12 @@ use Modules\Product\Database\Factories\ProductFactory;
 use Modules\Support\Models\BaseModel;
 use Modules\Support\Traits\ActivityLog;
 use Modules\Support\Traits\Searchable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Product extends BaseModel
+class Product extends BaseModel implements HasMedia
 {
-    use ActivityLog, HasFactory, Searchable, Sluggable, SoftDeletes;
+    use ActivityLog, HasFactory, InteractsWithMedia, Searchable, Sluggable, SoftDeletes;
 
     protected $table = 'products';
 
@@ -58,6 +60,11 @@ class Product extends BaseModel
     public function brand()
     {
         return $this->belongsTo(ProductBrand::class);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('gallery');
     }
 
     public function tags(): BelongsToMany
