@@ -1,6 +1,6 @@
 <div class="w-full max-w-sm rounded-sm border border-gray-300 bg-white shadow-sm">
     <div
-        class="flex h-48 w-full flex-col justify-between bg-gray-200 bg-cover bg-center p-4"
+        class="flex h-64 w-full flex-col justify-between bg-gray-200 bg-contain bg-center p-4"
         style="background-image: url({{ $product->image_url }})"
     >
         <div class="flex justify-between">

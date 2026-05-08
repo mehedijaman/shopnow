@@ -7,7 +7,7 @@
                         ? 'ri-shopping-cart-fill'
                         : 'ri-shopping-cart-line'
                 "
-                class="cursor-pointer text-xl hover:text-skin-primary-9"
+                class="cursor-pointer text-2xl hover:text-skin-primary-9"
             ></i>
             <span
                 v-show="cartStore.totalQuantity > 0"

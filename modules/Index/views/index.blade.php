@@ -11,10 +11,19 @@
         @forelse ($featuredCategories as $category)
             @if ($category->products->isNotEmpty())
                 <section class="mb-16">
-                    <div class="mb-6 flex items-center justify-between border-b border-gray-200 pb-3">
+                    <div class="mb-6 border-b border-gray-200 pb-3">
                         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
                             {{ $category->name }}
                         </h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 justify-items-center gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+                        @foreach ($category->products as $product)
+                            <x-product-card :product="$product" />
+                        @endforeach
+                    </div>
+
+                    <div class="mt-8 flex justify-center">
                         <a
                             href="{{ route('shop.category', [$category->id, $category->slug]) }}"
                             class="inline-flex items-center gap-1 rounded-lg border border-primary-600 px-4 py-2 text-sm font-medium text-primary-600 hover:bg-primary-50 dark:border-primary-400 dark:text-primary-400 dark:hover:bg-gray-800"
@@ -24,12 +33,6 @@
                                 <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
                             </svg>
                         </a>
-                    </div>
-
-                    <div class="grid grid-cols-1 justify-items-center gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-                        @foreach ($category->products as $product)
-                            <x-product-card :product="$product" />
-                        @endforeach
                     </div>
                 </section>
             @endif
@@ -42,19 +45,10 @@
         {{-- Blog Section --}}
         @if ($latestPosts->isNotEmpty())
             <section class="mt-8 border-t border-gray-200 pt-16 dark:border-gray-700">
-                <div class="mb-6 flex items-center justify-between border-b border-gray-200 pb-3 dark:border-gray-700">
+                <div class="mb-6 border-b border-gray-200 pb-3 dark:border-gray-700">
                     <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
                         Latest from the Blog
                     </h2>
-                    <a
-                        href="/blog"
-                        class="inline-flex items-center gap-1 rounded-lg border border-primary-600 px-4 py-2 text-sm font-medium text-primary-600 hover:bg-primary-50 dark:border-primary-400 dark:text-primary-400 dark:hover:bg-gray-800"
-                    >
-                        View All
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
-                            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                        </svg>
-                    </a>
                 </div>
 
                 <div class="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -107,6 +101,18 @@
                             </div>
                         </article>
                     @endforeach
+                </div>
+
+                <div class="mt-8 flex justify-center">
+                    <a
+                        href="/blog"
+                        class="inline-flex items-center gap-1 rounded-lg border border-primary-600 px-4 py-2 text-sm font-medium text-primary-600 hover:bg-primary-50 dark:border-primary-400 dark:text-primary-400 dark:hover:bg-gray-800"
+                    >
+                        View All
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+                            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
                 </div>
             </section>
         @endif
