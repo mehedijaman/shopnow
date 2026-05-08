@@ -2,6 +2,13 @@
 
 @section('bodyEndScripts')
     @vite('resources-site/js/index-app.js')
+    <script>
+        function setMainImage(btn, src) {
+            document.getElementById('mainImage').src = src
+            document.querySelectorAll('.gallery-thumb').forEach(el => el.classList.remove('border-blue-500'))
+            btn.classList.add('border-blue-500')
+        }
+    </script>
 @endsection
 
 @section('content')
@@ -178,12 +185,4 @@
             </div>
         @endif
     </div>
-
-    <script>
-        function setMainImage(btn, src) {
-            document.getElementById('mainImage').src = src
-            document.querySelectorAll('.gallery-thumb').forEach(el => el.classList.remove('border-blue-500'))
-            btn.classList.add('border-blue-500')
-        }
-    </script>
 @endsection

@@ -1,67 +1,69 @@
 <template>
     <div class="mt-5">
-        <AppLabel>Gallery Images</AppLabel>
+        <div class="mb-2 flex items-center justify-between">
+            <AppLabel class="mb-0">Gallery Images</AppLabel>
+            <span class="text-xs text-skin-neutral-9">{{ totalCount }} image{{ totalCount !== 1 ? 's' : '' }}</span>
+        </div>
 
-        <!-- Existing gallery images -->
-        <div v-if="existingImages.length" class="mt-2 grid grid-cols-3 gap-2">
+        <!-- All images grid -->
+        <div v-if="existingImages.length || newPreviews.length" class="grid grid-cols-3 gap-2">
+            <!-- Existing saved images -->
             <div
                 v-for="img in existingImages"
-                :key="img.id"
-                class="group relative overflow-hidden rounded-md border border-skin-neutral-5"
+                :key="'e-' + img.id"
+                class="group relative aspect-square overflow-hidden rounded-lg border border-skin-neutral-5 bg-skin-neutral-3"
             >
-                <img
-                    :src="img.url"
-                    :alt="img.name"
-                    class="h-20 w-full object-cover"
-                />
-                <button
-                    type="button"
-                    class="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100"
-                    title="Remove image"
-                    @click="removeExisting(img.id)"
-                >
-                    <i class="ri-close-line"></i>
-                </button>
+                <img :src="img.url" :alt="img.name" class="h-full w-full object-cover" />
+                <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+                    <button
+                        type="button"
+                        class="flex h-7 w-7 items-center justify-center rounded-full bg-red-600 text-white shadow-md hover:bg-red-700"
+                        title="Delete image"
+                        @click="removeExisting(img.id)"
+                    >
+                        <i class="ri-delete-bin-line text-sm"></i>
+                    </button>
+                </div>
+                <span class="absolute bottom-0 left-0 right-0 bg-black/50 px-1 py-0.5 text-center text-[10px] text-white">Saved</span>
             </div>
-        </div>
 
-        <!-- New image previews -->
-        <div v-if="newPreviews.length" class="mt-2 grid grid-cols-3 gap-2">
+            <!-- New pending images -->
             <div
                 v-for="(preview, index) in newPreviews"
-                :key="index"
-                class="group relative overflow-hidden rounded-md border border-skin-neutral-5"
+                :key="'n-' + index"
+                class="group relative aspect-square overflow-hidden rounded-lg border border-blue-300 bg-skin-neutral-3"
             >
-                <img
-                    :src="preview"
-                    alt="New gallery image"
-                    class="h-20 w-full object-cover"
-                />
-                <button
-                    type="button"
-                    class="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100"
-                    title="Remove"
-                    @click="removeNew(index)"
-                >
-                    <i class="ri-close-line"></i>
-                </button>
+                <img :src="preview" alt="New image" class="h-full w-full object-cover" />
+                <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+                    <button
+                        type="button"
+                        class="flex h-7 w-7 items-center justify-center rounded-full bg-red-600 text-white shadow-md hover:bg-red-700"
+                        title="Remove"
+                        @click="removeNew(index)"
+                    >
+                        <i class="ri-delete-bin-line text-sm"></i>
+                    </button>
+                </div>
+                <span class="absolute bottom-0 left-0 right-0 bg-blue-600/70 px-1 py-0.5 text-center text-[10px] text-white">Pending</span>
             </div>
         </div>
 
-        <!-- Upload button -->
+        <p v-else class="mt-1 rounded-md border border-dashed border-skin-neutral-5 py-4 text-center text-xs text-skin-neutral-9">
+            No gallery images yet
+        </p>
+
+        <!-- Upload trigger -->
         <div class="mt-3">
-            <input
-                ref="fileInput"
-                type="file"
-                accept="image/*"
-                multiple
-                hidden
-                @change="handleFiles"
-            />
-            <AppButton type="button" class="btn btn-secondary text-sm" @click="fileInput.click()">
-                <i class="ri-image-add-line mr-1"></i> Add Images
-            </AppButton>
-            <p class="mt-1 text-xs text-skin-neutral-9">JPG, PNG, WEBP — max 2 MB each</p>
+            <input ref="fileInput" type="file" accept="image/*" multiple hidden @change="handleFiles" />
+            <button
+                type="button"
+                class="flex w-full items-center justify-center gap-1.5 rounded-md border border-dashed border-skin-neutral-6 py-2 text-sm text-skin-neutral-10 transition hover:border-skin-primary-9 hover:text-skin-primary-10"
+                @click="fileInput.click()"
+            >
+                <i class="ri-image-add-line text-base"></i>
+                Add Images
+            </button>
+            <p class="mt-1 text-center text-xs text-skin-neutral-9">JPG, PNG, WEBP — max 2 MB each</p>
         </div>
     </div>
 </template>
@@ -69,10 +71,13 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { router } from '@inertiajs/vue3'
-import useFormContext from '@/Composables/useFormContext'
 import { useProductStore } from '../ProductStore'
 
 const props = defineProps({
+    productId: {
+        type: Number,
+        default: null
+    },
     gallery: {
         type: Array,
         default: () => []
@@ -80,16 +85,18 @@ const props = defineProps({
 })
 
 const productStore = useProductStore()
-const { isCreate } = useFormContext()
-
 const fileInput = ref(null)
 const newPreviews = ref([])
-
-// Keep a local copy of existing images so we can hide deleted ones immediately
 const existingImages = ref([...props.gallery])
+
+const totalCount = computed(() => existingImages.value.length + newPreviews.value.length)
 
 const handleFiles = (event) => {
     const files = Array.from(event.target.files)
+
+    if (!Array.isArray(productStore.product.gallery_images)) {
+        productStore.product.gallery_images = []
+    }
 
     files.forEach((file) => {
         productStore.product.gallery_images.push(file)
@@ -98,7 +105,6 @@ const handleFiles = (event) => {
         reader.readAsDataURL(file)
     })
 
-    // Clear input so same file can be re-added if removed
     event.target.value = null
 }
 
@@ -108,12 +114,11 @@ const removeNew = (index) => {
 }
 
 const removeExisting = (mediaId) => {
-    const productId = history.state?.props?.product?.id
-    if (!productId) return
+    if (!props.productId) return
 
     existingImages.value = existingImages.value.filter((img) => img.id !== mediaId)
 
-    router.delete(route('product.gallery.destroy', { id: productId, mediaId }), {
+    router.delete(route('product.gallery.destroy', { id: props.productId, mediaId }), {
         preserveScroll: true,
         preserveState: false,
     })

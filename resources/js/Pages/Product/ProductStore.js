@@ -36,7 +36,7 @@ export const useProductStore = defineStore('ProductStore', {
 
     actions: {
         setProduct(product) {
-            this.product = product
+            this.product = { ...product, gallery_images: [] }
         },
         initSeoTags() {
             this.product.meta_tag_title = this.product.name.substring(0, 60)
