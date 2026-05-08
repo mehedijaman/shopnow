@@ -1,0 +1,1 @@
+import{f as a,g as s,y as l,t as r,p as n,n as o}from"./pinia-C3MsEOmF.js";const m={__name:"AppLabel",props:{value:{type:String,default:""}},setup(t){return(e,p)=>(a(),s("label",{class:o(["block text-sm font-medium text-skin-neutral-12",e.$attrs.class])},[l(r(t.value),1),n(e.$slots,"default")],2))}};export{m as _};
