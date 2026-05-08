@@ -4,99 +4,172 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>New Order #{{ $order->id }}</title>
-    <style>
-        body { font-family: Arial, sans-serif; color: #333; background: #f4f4f4; margin: 0; padding: 0; }
-        .container { max-width: 620px; margin: 30px auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
-        .header { background: #1a202c; color: #fff; padding: 24px 32px; }
-        .header h1 { margin: 0; font-size: 20px; }
-        .header p { margin: 4px 0 0; font-size: 13px; color: #a0aec0; }
-        .body { padding: 32px; }
-        .section-title { font-size: 14px; font-weight: bold; color: #718096; text-transform: uppercase; letter-spacing: .05em; margin: 24px 0 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; }
-        .info-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; }
-        .info-row span:first-child { color: #718096; }
-        table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 8px; }
-        th { background: #f7fafc; text-align: left; padding: 8px 10px; font-size: 12px; text-transform: uppercase; color: #718096; }
-        td { padding: 8px 10px; border-bottom: 1px solid #e2e8f0; }
-        .total-row td { font-weight: bold; border-bottom: none; }
-        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; text-transform: capitalize; }
-        .badge-pending { background: #fef3c7; color: #92400e; }
-        .footer { background: #f7fafc; padding: 16px 32px; font-size: 12px; color: #a0aec0; text-align: center; }
-    </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>New Order Received</h1>
-            <p>Order #{{ $order->id }} &mdash; {{ $order->created_at->format('d M Y, h:i A') }}</p>
-        </div>
+<body style="margin:0;padding:0;background-color:#f1f5f9;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1e293b;">
 
-        <div class="body">
-            <p style="font-size:15px;">A new order has been placed on your store. Please review the details below.</p>
+@php
+    $siteName = setting('branding.site_name', config('app.name'));
+    $logoUrl  = setting('branding.logo_url');
+@endphp
 
-            <div class="section-title">Customer Details</div>
-            <div class="info-row"><span>Name</span><span>{{ $order->name }}</span></div>
-            <div class="info-row"><span>Phone</span><span>{{ $order->phone }}</span></div>
-            @if ($order->email)
-                <div class="info-row"><span>Email</span><span>{{ $order->email }}</span></div>
-            @endif
-            @if ($order->address)
-                <div class="info-row"><span>Address</span><span>{{ $order->address }}</span></div>
-            @endif
-            <div class="info-row">
-                <span>Payment Method</span>
-                <span>{{ $order->payment_method === 'cod' ? 'Cash on Delivery' : ($order->payment_method ?? '—') }}</span>
-            </div>
-            <div class="info-row">
-                <span>Status</span>
-                <span><span class="badge badge-pending">{{ ucfirst($order->status) }}</span></span>
-            </div>
+<!-- Outer wrapper -->
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background:#f1f5f9;">
+    <tr>
+        <td align="center" style="padding:32px 16px;">
 
-            <div class="section-title">Ordered Items</div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th style="text-align:center;">Qty</th>
-                        <th style="text-align:right;">Unit Price</th>
-                        <th style="text-align:right;">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($order->orderProducts as $item)
-                        <tr>
-                            <td>{{ $item->product?->name ?? 'Product #'.$item->product_id }}</td>
-                            <td style="text-align:center;">{{ $item->quantity }}</td>
-                            <td style="text-align:right;">{{ number_format($item->unit_price, 2) }} Tk</td>
-                            <td style="text-align:right;">{{ number_format($item->total_price, 2) }} Tk</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="3" style="text-align:right; color:#718096;">Subtotal</td>
-                        <td style="text-align:right;">{{ number_format($order->subtotal, 2) }} Tk</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" style="text-align:right; color:#718096;">Shipping</td>
-                        <td style="text-align:right;">{{ number_format($order->shipping, 2) }} Tk</td>
-                    </tr>
-                    @if ($order->tax > 0)
-                        <tr>
-                            <td colspan="3" style="text-align:right; color:#718096;">Tax</td>
-                            <td style="text-align:right;">{{ number_format($order->tax, 2) }} Tk</td>
-                        </tr>
-                    @endif
-                    <tr class="total-row">
-                        <td colspan="3" style="text-align:right;">Total</td>
-                        <td style="text-align:right;">{{ number_format($order->total, 2) }} Tk</td>
-                    </tr>
-                </tfoot>
+            <!-- Card -->
+            <table width="700" cellpadding="0" cellspacing="0" role="presentation" style="max-width:700px;width:100%;background:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.08);">
+
+                <!-- ── HERO BAND ── -->
+                <tr>
+                    <td style="background:#1e40af;padding:20px 36px;">
+                        <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                            <tr>
+                                <td>
+                                    <p style="margin:0;font-size:11px;color:#bfdbfe;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">New Order Received</p>
+                                    <p style="margin:4px 0 0;font-size:22px;font-weight:700;color:#ffffff;">Order #{{ $order->id }}</p>
+                                </td>
+                                <td align="right" style="white-space:nowrap;">
+                                    <p style="margin:0;font-size:12px;color:#bfdbfe;">{{ $order->created_at->format('d M Y') }}</p>
+                                    <p style="margin:2px 0 0;font-size:12px;color:#bfdbfe;">{{ $order->created_at->format('h:i A') }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <!-- ── BODY ── -->
+                <tr>
+                    <td style="padding:32px 36px;">
+
+                        <p style="margin:0 0 24px;font-size:15px;color:#475569;line-height:1.6;">
+                            A new order has been placed on your store. Please review the details below and take the necessary action.
+                        </p>
+
+                        <!-- Customer Details -->
+                        <p style="margin:0 0 10px;font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid #e2e8f0;padding-bottom:8px;">Customer Details</p>
+
+                        <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="font-size:14px;">
+                            <tr>
+                                <td style="padding:6px 0;color:#64748b;width:140px;">Name</td>
+                                <td style="padding:6px 0;color:#1e293b;font-weight:600;">{{ $order->name }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:6px 0;color:#64748b;">Phone</td>
+                                <td style="padding:6px 0;color:#1e293b;">{{ $order->phone }}</td>
+                            </tr>
+                            @if ($order->email)
+                            <tr>
+                                <td style="padding:6px 0;color:#64748b;">Email</td>
+                                <td style="padding:6px 0;color:#1e293b;">{{ $order->email }}</td>
+                            </tr>
+                            @endif
+                            @if ($order->district || $order->upazila)
+                            <tr>
+                                <td style="padding:6px 0;color:#64748b;vertical-align:top;">Area</td>
+                                <td style="padding:6px 0;color:#1e293b;">
+                                    {{ collect([$order->upazila, $order->district])->filter()->implode(', ') }}
+                                </td>
+                            </tr>
+                            @endif
+                            @if ($order->address)
+                            <tr>
+                                <td style="padding:6px 0;color:#64748b;vertical-align:top;">Address</td>
+                                <td style="padding:6px 0;color:#1e293b;">{{ $order->address }}</td>
+                            </tr>
+                            @endif
+                            <tr>
+                                <td style="padding:6px 0;color:#64748b;">Payment</td>
+                                <td style="padding:6px 0;color:#1e293b;">
+                                    {{ $order->payment_method === 'cod' ? 'Cash on Delivery' : ($order->payment_method ?? '—') }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:6px 0;color:#64748b;">Order Status</td>
+                                <td style="padding:6px 0;">
+                                    @php
+                                        $statusStyles = [
+                                            'pending'    => 'background:#fef3c7;color:#92400e;',
+                                            'processing' => 'background:#dbeafe;color:#1e40af;',
+                                            'shipped'    => 'background:#ede9fe;color:#5b21b6;',
+                                            'delivered'  => 'background:#d1fae5;color:#065f46;',
+                                            'completed'  => 'background:#dcfce7;color:#166534;',
+                                            'cancelled'  => 'background:#fee2e2;color:#991b1b;',
+                                        ];
+                                        $style = $statusStyles[$order->status] ?? 'background:#f1f5f9;color:#475569;';
+                                    @endphp
+                                    <span style="display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;text-transform:capitalize;{{ $style }}">
+                                        {{ ucfirst($order->status) }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Order Items -->
+                        <p style="margin:28px 0 10px;font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid #e2e8f0;padding-bottom:8px;">Ordered Items</p>
+
+                        <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="font-size:14px;border-collapse:collapse;">
+                            <thead>
+                                <tr style="background:#f8fafc;">
+                                    <th style="padding:9px 10px;text-align:left;font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid #e2e8f0;">Product</th>
+                                    <th style="padding:9px 10px;text-align:center;font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid #e2e8f0;">Qty</th>
+                                    <th style="padding:9px 10px;text-align:right;font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid #e2e8f0;">Unit Price</th>
+                                    <th style="padding:9px 10px;text-align:right;font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid #e2e8f0;">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($order->orderProducts as $item)
+                                <tr>
+                                    <td style="padding:10px 10px;border-bottom:1px solid #f1f5f9;color:#1e293b;">{{ $item->product?->name ?? 'Product #'.$item->product_id }}</td>
+                                    <td style="padding:10px 10px;border-bottom:1px solid #f1f5f9;text-align:center;color:#475569;">{{ $item->quantity }}</td>
+                                    <td style="padding:10px 10px;border-bottom:1px solid #f1f5f9;text-align:right;color:#475569;">{{ number_format($item->unit_price, 2) }} Tk</td>
+                                    <td style="padding:10px 10px;border-bottom:1px solid #f1f5f9;text-align:right;color:#1e293b;">{{ number_format($item->total_price, 2) }} Tk</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        <!-- Totals -->
+                        <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="font-size:14px;margin-top:4px;">
+                            <tr>
+                                <td style="padding:6px 10px;color:#64748b;text-align:right;">Subtotal</td>
+                                <td style="padding:6px 10px;text-align:right;width:120px;color:#1e293b;">{{ number_format($order->subtotal, 2) }} Tk</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:6px 10px;color:#64748b;text-align:right;">Shipping</td>
+                                <td style="padding:6px 10px;text-align:right;color:#1e293b;">{{ number_format($order->shipping, 2) }} Tk</td>
+                            </tr>
+                            @if ($order->tax > 0)
+                            <tr>
+                                <td style="padding:6px 10px;color:#64748b;text-align:right;">Tax</td>
+                                <td style="padding:6px 10px;text-align:right;color:#1e293b;">{{ number_format($order->tax, 2) }} Tk</td>
+                            </tr>
+                            @endif
+                            <tr>
+                                <td style="padding:10px 10px 6px;text-align:right;font-weight:700;font-size:15px;color:#0f172a;border-top:2px solid #e2e8f0;">Grand Total</td>
+                                <td style="padding:10px 10px 6px;text-align:right;font-weight:700;font-size:15px;color:#1e40af;border-top:2px solid #e2e8f0;">{{ number_format($order->total, 2) }} Tk</td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+
+                <!-- ── FOOTER ── -->
+                <tr>
+                    <td style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:20px 36px;text-align:center;">
+                        <p style="margin:0;font-size:12px;color:#94a3b8;line-height:1.6;">
+                            This is an automated notification from <strong style="color:#64748b;">{{ $siteName }}</strong>.<br>
+                            Please do not reply to this email.
+                        </p>
+                    </td>
+                </tr>
+
             </table>
-        </div>
+            <!-- /Card -->
 
-        <div class="footer">
-            This is an automated notification from {{ setting('branding.site_name', config('app.name')) }}.
-        </div>
-    </div>
+        </td>
+    </tr>
+</table>
+
 </body>
 </html>

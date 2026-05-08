@@ -46,7 +46,7 @@ class SiteOrderController extends SiteController
             // Send admin notification email
             $adminEmail = setting('general.admin_email');
             if ($adminEmail) {
-                $order->load('orderProducts.product');
+                $order->refresh()->load('orderProducts.product');
                 Mail::to($adminEmail)->send(new OrderPlacedMail($order));
             }
 
