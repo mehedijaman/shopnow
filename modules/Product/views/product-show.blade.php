@@ -19,18 +19,30 @@
     <!-- Breadcrumb -->
     <div class="border-b border-gray-100 bg-gray-50">
         <div class="mx-auto max-w-7xl px-4 py-3 sm:px-6">
-            <nav class="flex items-center gap-2 text-sm text-gray-500">
-                <a href="{{ route('site.index') }}" class="hover:text-gray-700">Home</a>
-                <i class="ri-arrow-right-s-line text-gray-400"></i>
-                <a href="{{ route('shop.index') }}" class="hover:text-gray-700">Shop</a>
-                @if ($product->category)
-                    <i class="ri-arrow-right-s-line text-gray-400"></i>
-                    <a href="{{ route('shop.category', [$product->category->id, $product->category->slug]) }}" class="hover:text-gray-700">
-                        {{ $product->category->name }}
-                    </a>
-                @endif
-                <i class="ri-arrow-right-s-line text-gray-400"></i>
-                <span class="truncate font-medium text-gray-800">{{ Str::limit($product->name, 40) }}</span>
+            <nav aria-label="Breadcrumb">
+                <ol class="flex min-w-0 flex-wrap items-center gap-x-1 gap-y-1 text-sm text-gray-500">
+                    <li class="flex shrink-0 items-center gap-1">
+                        <a href="{{ route('site.index') }}" class="hover:text-primary-600 hover:underline">Home</a>
+                        <i class="ri-arrow-right-s-line text-gray-400"></i>
+                    </li>
+                    <li class="flex shrink-0 items-center gap-1">
+                        <a href="{{ route('shop.index') }}" class="hover:text-primary-600 hover:underline">Shop</a>
+                        @if ($product->category)
+                            <i class="ri-arrow-right-s-line text-gray-400"></i>
+                        @endif
+                    </li>
+                    @if ($product->category)
+                        <li class="flex shrink-0 items-center gap-1">
+                            <a href="{{ route('shop.category', [$product->category->id, $product->category->slug]) }}" class="hover:text-primary-600 hover:underline">
+                                {{ $product->category->name }}
+                            </a>
+                            <i class="ri-arrow-right-s-line text-gray-400"></i>
+                        </li>
+                    @endif
+                    <li class="min-w-0">
+                        <span class="block truncate font-semibold text-gray-800" title="{{ $product->name }}">{{ $product->name }}</span>
+                    </li>
+                </ol>
             </nav>
         </div>
     </div>

@@ -5,6 +5,30 @@
 @endsection
 
 @section('content')
+    <x-breadcrumb>
+        @if (isset($searchText))
+            <li class="flex shrink-0 items-center gap-1">
+                <a href="{{ route('shop.index') }}" class="hover:text-primary-600 hover:underline">Shop</a>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+            </li>
+            <li class="min-w-0">
+                <span class="block truncate font-semibold text-gray-800">Search: &ldquo;{{ $searchText }}&rdquo;</span>
+            </li>
+        @elseif (isset($category))
+            <li class="flex shrink-0 items-center gap-1">
+                <a href="{{ route('shop.index') }}" class="hover:text-primary-600 hover:underline">Shop</a>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+            </li>
+            <li class="min-w-0">
+                <span class="block truncate font-semibold text-gray-800">{{ $category->name }}</span>
+            </li>
+        @else
+            <li class="min-w-0">
+                <span class="font-semibold text-gray-800">Shop</span>
+            </li>
+        @endif
+    </x-breadcrumb>
+
     <div class="mx-auto min-h-screen max-w-7xl px-4 py-8 sm:px-6 lg:px-6">
 
         {{-- Page header --}}
@@ -15,11 +39,6 @@
         @elseif (isset($category))
             <div class="mb-6">
                 <h1 class="text-2xl font-bold text-gray-900">{{ $category->name }}</h1>
-                <nav class="mt-1 text-sm text-gray-500">
-                    <a href="{{ route('shop.index') }}" class="hover:text-primary-600">Shop</a>
-                    <span class="mx-1">/</span>
-                    <span>{{ $category->name }}</span>
-                </nav>
             </div>
         @else
             <div class="mb-6">

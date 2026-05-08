@@ -5,8 +5,18 @@
 @endsection
 
 @section('content')
-    <div class="min-h-screen bg-gray-50 py-12 sm:py-16">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <x-breadcrumb>
+        <li class="flex shrink-0 items-center gap-1">
+            <a href="/blog" class="hover:text-primary-600 hover:underline">Blog</a>
+            <i class="ri-arrow-right-s-line text-gray-400"></i>
+        </li>
+        <li class="min-w-0">
+            <span class="block truncate font-semibold text-gray-800" title="{{ $post->title }}">{{ $post->title }}</span>
+        </li>
+    </x-breadcrumb>
+
+    <div class="bg-gray-50 py-12 sm:py-16">
+        <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
             <article itemscope itemtype="https://schema.org/Article" class="overflow-hidden rounded-2xl bg-white shadow-sm">
 
                 {{-- Hero Image --}}
@@ -24,12 +34,25 @@
                 @endif
 
                 <div class="p-6 sm:p-10">
-                    {{-- Category / breadcrumb could go here --}}
+
+                    {{-- Tags --}}
+                    @if ($post->tags->count())
+                        <div class="mb-4 flex flex-wrap gap-1.5">
+                            @foreach ($post->tags as $tag)
+                                <a
+                                    href="/blog/tag/{{ $tag->slug }}"
+                                    class="rounded-full bg-primary-50 px-2.5 py-0.5 text-xs font-medium text-primary-700 hover:bg-primary-100"
+                                >
+                                    {{ $tag->name }}
+                                </a>
+                            @endforeach
+                        </div>
+                    @endif
 
                     {{-- Title --}}
                     <h1
                         itemprop="headline"
-                        class="text-2xl font-bold leading-snug tracking-tight text-gray-900 sm:text-3xl lg:text-4xl"
+                        class="text-2xl font-extrabold leading-snug tracking-tight text-gray-900 sm:text-3xl lg:text-4xl"
                     >
                         {{ $post->title }}
                     </h1>
@@ -67,10 +90,19 @@
                     {{-- Body --}}
                     <div
                         itemprop="articleBody"
-                        class="prose prose-gray mt-6 max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg"
+                        class="prose prose-gray mt-8 max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-a:text-primary-600 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl"
                     >
                         {!! $post->content !!}
                     </div>
+
+                    {{-- Back link --}}
+                    <div class="mt-10 border-t border-gray-100 pt-6">
+                        <a href="/blog" class="inline-flex items-center gap-1.5 text-sm font-medium text-primary-600 hover:underline">
+                            <i class="ri-arrow-left-line"></i>
+                            Back to Blog
+                        </a>
+                    </div>
+
                 </div>
             </article>
         </div>

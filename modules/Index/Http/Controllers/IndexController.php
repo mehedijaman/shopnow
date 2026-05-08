@@ -58,7 +58,7 @@ class IndexController extends SiteController
             ],
         ]);
 
-        return view('page-show', compact('page', 'seo'));
+        return view('page::index', compact('page', 'seo'));
     }
 
     public function privacyPolicy(SeoService $seoService)
@@ -72,7 +72,7 @@ class IndexController extends SiteController
             'robots' => 'noindex, follow',
         ]);
 
-        return view('page-show', compact('page', 'seo'));
+        return view('page::index', compact('page', 'seo'));
     }
 
     public function termsOfService(SeoService $seoService)
@@ -86,7 +86,7 @@ class IndexController extends SiteController
             'robots' => 'noindex, follow',
         ]);
 
-        return view('page-show', compact('page', 'seo'));
+        return view('page::index', compact('page', 'seo'));
     }
 
     public function refundPolicy(SeoService $seoService)
@@ -100,6 +100,6 @@ class IndexController extends SiteController
             'robots' => 'noindex, follow',
         ]);
 
-        return view('page-show', compact('page', 'seo'));
+        return view('page::index', compact('page', 'seo'));
     }
 }
