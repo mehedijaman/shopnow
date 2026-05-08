@@ -14,6 +14,8 @@ class IndexController extends SiteController
     {
         $featuredCategories = ProductCategory::where('featured', true)
             ->where('active', true)
+            ->orderBy('sort_order')
+            ->orderBy('name')
             ->with(['products' => function ($query) {
                 $query->where('active', true)
                     ->with('category')

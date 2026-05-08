@@ -6,7 +6,8 @@
         "dev": "vite"
     },
     "dependencies": {
-        "chart.js": "^4.4.4"
+        "chart.js": "^4.4.4",
+        "vuedraggable": "^4.1.0"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^2.3",

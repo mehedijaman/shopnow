@@ -25,6 +25,7 @@ Route::prefix('product-category')->name('productCategory.')->middleware('can:pro
     Route::get('/', [ProductCategoryController::class, 'index'])->name('index')->can('list');
     Route::get('create', [ProductCategoryController::class, 'create'])->name('create')->can('create');
     Route::post('/', [ProductCategoryController::class, 'store'])->name('store')->can('create');
+    Route::post('reorder', [ProductCategoryController::class, 'reorder'])->name('reorder')->can('edit');
     Route::get('{id}', [ProductCategoryController::class, 'show'])->name('show')->can('view');
     Route::get('{id}/edit', [ProductCategoryController::class, 'edit'])->name('edit')->can('edit');
     Route::put('{id}', [ProductCategoryController::class, 'update'])->name('update')->can('edit');

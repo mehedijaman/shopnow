@@ -2,7 +2,9 @@
 
 namespace Modules\Product\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Response;
 use Modules\Product\Http\Requests\ProductCategoryValidate;
@@ -19,9 +21,9 @@ class ProductCategoryController extends BackendController
 
     public function index(): Response
     {
-        $categories = ProductCategory::orderBy('name')
+        $categories = ProductCategory::orderBy('sort_order')->orderBy('name')
             ->search(request('searchContext'), request('searchTerm'))
-            ->paginate(request('rowsPerPage', 10))
+            ->paginate(request('rowsPerPage', 200))
             ->withQueryString()
             ->through(fn ($category) => [
                 'id' => $category->id,
@@ -29,6 +31,7 @@ class ProductCategoryController extends BackendController
                 'name' => Str::limit($category->name, 50),
                 'active' => $category->active,
                 'featured' => $category->featured,
+                'sort_order' => $category->sort_order,
             ]);
 
         return inertia('ProductCategory/ProductCategoryIndex', [
@@ -90,6 +93,21 @@ class ProductCategoryController extends BackendController
 
         return redirect()->route('productCategory.index')
             ->with('success', 'Product Category deleted.');
+    }
+
+    public function reorder(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'items' => 'required|array',
+            'items.*.id' => 'required|integer',
+            'items.*.sort_order' => 'required|integer',
+        ]);
+
+        foreach ($validated['items'] as $item) {
+            ProductCategory::where('id', $item['id'])->update(['sort_order' => $item['sort_order']]);
+        }
+
+        return response()->json(['success' => true]);
     }
 
     public function recycleBin(): Response

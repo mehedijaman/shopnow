@@ -9,7 +9,7 @@ class GetProductCategoryOptions
 {
     public function get(): array
     {
-        return ProductCategory::orderBy('name')
+        return ProductCategory::orderBy('sort_order')->orderBy('name')
             ->get()
             ->map(fn ($category) => [
                 'value' => $category->id,

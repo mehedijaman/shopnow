@@ -12,7 +12,7 @@ class SiteProductController extends SiteController
 {
     public function index(SeoService $seoService): View
     {
-        $categories = ProductCategory::where('active', true)->orderBy('name')->get();
+        $categories = ProductCategory::where('active', true)->orderBy('sort_order')->orderBy('name')->get();
 
         $products = Product::with(['category', 'tags'])
             ->orderBy('id', 'desc')
@@ -37,7 +37,7 @@ class SiteProductController extends SiteController
 
     public function search(?string $searchText, SeoService $seoService): View
     {
-        $categories = ProductCategory::where('active', true)->orderBy('name')->get();
+        $categories = ProductCategory::where('active', true)->orderBy('sort_order')->orderBy('name')->get();
 
         $products = Product::with(['category', 'tags'])
             ->orderBy('name', 'asc')
@@ -54,7 +54,7 @@ class SiteProductController extends SiteController
 
     public function category(int $categoryId, SeoService $seoService): View
     {
-        $categories = ProductCategory::where('active', true)->orderBy('name')->get();
+        $categories = ProductCategory::where('active', true)->orderBy('sort_order')->orderBy('name')->get();
         $category = ProductCategory::findOrFail($categoryId);
 
         $products = $category->products()->paginate(12);
