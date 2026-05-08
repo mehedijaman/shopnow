@@ -18,7 +18,7 @@
                     Delivery Details
                 </h2>
 
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 
                     <!-- Name -->
                     <div class="col-span-2">
@@ -36,72 +36,78 @@
                         <p v-if="errors.name" class="mt-1.5 text-xs text-red-600">{{ errors.name }}</p>
                     </div>
 
-                    <!-- Phone -->
-                    <div>
-                        <label for="phone" class="mb-1.5 block text-sm font-medium text-gray-700">
-                            Phone Number <span class="text-red-500">*</span>
-                        </label>
-                        <input
-                            v-model="form.phone"
-                            type="tel"
-                            id="phone"
-                            placeholder="e.g. 01712345678"
-                            :class="inputClass('phone')"
-                            @input="clearError('phone')"
-                        />
-                        <p v-if="errors.phone" class="mt-1.5 text-xs text-red-600">{{ errors.phone }}</p>
+                    <div class="col-span-2 grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <!-- Phone -->
+                        <div>
+                            <label for="phone" class="mb-1.5 block text-sm font-medium text-gray-700">
+                                Phone Number <span class="text-red-500">*</span>
+                            </label>
+                            <input
+                                v-model="form.phone"
+                                type="tel"
+                                id="phone"
+                                placeholder="e.g. 01712345678"
+                                :class="inputClass('phone')"
+                                @input="clearError('phone')"
+                            />
+                            <p v-if="errors.phone" class="mt-1.5 text-xs text-red-600">{{ errors.phone }}</p>
+                        </div>
+
+                        <!-- Email -->
+                        <div>
+                            <label for="email" class="mb-1.5 block text-sm font-medium text-gray-700">
+                                Email Address (Optional)
+                            </label>
+                            <input
+                                v-model="form.email"
+                                type="email"
+                                id="email"
+                                placeholder="e.g. you@example.com"
+                                :class="inputClass('email')"
+                                @input="clearError('email')"
+                            />
+                            <p v-if="errors.email" class="mt-1.5 text-xs text-red-600">{{ errors.email }}</p>
+                        </div>
                     </div>
 
-                    <!-- Email -->
-                    <div>
-                        <label for="email" class="mb-1.5 block text-sm font-medium text-gray-700">
-                            Email Address
-                        </label>
-                        <input
-                            v-model="form.email"
-                            type="email"
-                            id="email"
-                            placeholder="e.g. you@example.com"
-                            :class="inputClass('email')"
-                            @input="clearError('email')"
-                        />
-                        <p v-if="errors.email" class="mt-1.5 text-xs text-red-600">{{ errors.email }}</p>
-                    </div>
+                    
+                    <div class="col-span-2 grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <!-- District -->
+                        <div>
+                            <label for="district" class="mb-1.5 block text-sm font-medium text-gray-700">
+                                District <span class="text-red-500">*</span>
+                            </label>
+                            <input
+                                v-model="form.district"
+                                type="text"
+                                id="district"
+                                placeholder="e.g. Dhaka"
+                                :class="inputClass('district')"
+                            />
+                            <p v-if="errors.district" class="mt-1.5 text-xs text-red-600">{{ errors.district }}</p>
+                        </div>
 
-                    <!-- District -->
-                    <div>
-                        <label for="district" class="mb-1.5 block text-sm font-medium text-gray-700">
-                            District
-                        </label>
-                        <input
-                            v-model="form.district"
-                            type="text"
-                            id="district"
-                            placeholder="e.g. Dhaka"
-                            :class="inputClass('district')"
-                        />
-                        <p v-if="errors.district" class="mt-1.5 text-xs text-red-600">{{ errors.district }}</p>
-                    </div>
+                        <!-- Upazila -->
+                        <div>
+                            <label for="upazila" class="mb-1.5 block text-sm font-medium text-gray-700">
+                                Upazila / Thana <span class="text-red-500">*</span>
+                            </label>
+                            <input
+                                v-model="form.upazila"
+                                type="text"
+                                id="upazila"
+                                placeholder="e.g. Mirpur"
+                                :class="inputClass('upazila')"
+                            />
+                            <p v-if="errors.upazila" class="mt-1.5 text-xs text-red-600">{{ errors.upazila }}</p>
+                        </div>
 
-                    <!-- Upazila -->
-                    <div>
-                        <label for="upazila" class="mb-1.5 block text-sm font-medium text-gray-700">
-                            Upazila / Thana
-                        </label>
-                        <input
-                            v-model="form.upazila"
-                            type="text"
-                            id="upazila"
-                            placeholder="e.g. Mirpur"
-                            :class="inputClass('upazila')"
-                        />
-                        <p v-if="errors.upazila" class="mt-1.5 text-xs text-red-600">{{ errors.upazila }}</p>
                     </div>
 
                     <!-- Address -->
                     <div class="col-span-2">
                         <label for="address" class="mb-1.5 block text-sm font-medium text-gray-700">
-                            Full Address
+                            Full Address <span class="text-red-500">*</span>
                         </label>
                         <textarea
                             v-model="form.address"
@@ -348,6 +354,26 @@ function validate() {
 
     if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
         errors.email = 'Please enter a valid email address.'
+        valid = false
+    }
+
+    if (!form.district.trim()) {
+        errors.district = 'District is required.'
+        valid = false
+    }
+
+    if (!form.upazila.trim()) {
+        errors.upazila = 'Upazila / Thana is required.'
+        valid = false
+    }
+
+    if (!form.address.trim()) {
+        errors.address = 'Full address is required.'
+        valid = false
+    }
+
+    if (!form.payment_method) {
+        errors.payment_method = 'Please select a payment method.'
         valid = false
     }
 
