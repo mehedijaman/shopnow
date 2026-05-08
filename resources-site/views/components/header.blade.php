@@ -44,11 +44,11 @@
     </div>
 </div>
 
+{{-- Navbar --}}
 <header
-    class="relative z-50 border-b bg-skin-primary-4 font-sans tracking-wide"
+    class="sticky top-0 z-50 border-b bg-skin-primary-4 font-sans tracking-wide"
 >
-    <div class="mx-auto max-w-7xl px-6 py-3 lg:px-6">
-        {{-- <shop-search></shop-search> --}}
+    <div class="mx-auto max-w-7xl px-6 md:py-3 lg:px-6">
 
         <div class="relative flex flex-wrap justify-between">
             <div
@@ -203,24 +203,6 @@
     </div>
 </header>
 
-{{--
-    <script>
-    var toggleOpen = document.getElementById('toggleOpen')
-    var toggleClose = document.getElementById('toggleClose')
-    var collapseMenu = document.getElementById('collapseMenu')
-    
-    function handleClick() {
-    if (collapseMenu.style.display === 'block') {
-    collapseMenu.style.display = 'none'
-    } else {
-    collapseMenu.style.display = 'block'
-    }
-    }
-    
-    toggleOpen.addEventListener('click', handleClick)
-    toggleClose.addEventListener('click', handleClick)
-    </script>
---}}
 
 @push('scripts')
 <script>
