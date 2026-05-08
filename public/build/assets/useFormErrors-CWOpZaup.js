@@ -1,0 +1,1 @@
+import{b as s}from"./app-DTBjQ0xQ.js";import{e as o}from"./pinia-Qufimy4t.js";function m(){const r=o(()=>s().props.errors),e=o(()=>Object.keys(r.value));return{errors:r,errorsFields:e}}export{m as u};
