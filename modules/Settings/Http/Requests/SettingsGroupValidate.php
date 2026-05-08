@@ -22,8 +22,8 @@ class SettingsGroupValidate extends Request
     private function generalRules(): array
     {
         return [
-            'site_name' => 'required|string|max:100',
             'site_description' => 'nullable|string|max:500',
+            'admin_email' => 'nullable|email|max:255',
         ];
     }
 
