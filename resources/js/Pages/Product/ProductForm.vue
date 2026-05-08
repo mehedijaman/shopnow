@@ -255,7 +255,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import useAuthCan from '@/Composables/useAuthCan'
 import { onUnmounted } from 'vue'
@@ -298,6 +298,16 @@ const props = defineProps({
 if (props.product) {
     productStore.setProduct(props.product)
 }
+
+// Re-sync store when Inertia updates props without remounting (e.g. after save redirect)
+watch(
+    () => props.product,
+    (newProduct) => {
+        if (newProduct) {
+            productStore.setProduct(newProduct)
+        }
+    }
+)
 
 onUnmounted(() => {
     productStore.$reset()

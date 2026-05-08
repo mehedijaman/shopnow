@@ -69,7 +69,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { router } from '@inertiajs/vue3'
 import { useProductStore } from '../ProductStore'
 
@@ -88,6 +88,18 @@ const productStore = useProductStore()
 const fileInput = ref(null)
 const newPreviews = ref([])
 const existingImages = ref([...props.gallery])
+
+// When Inertia updates props without remounting (SPA navigation back to same route),
+// sync existingImages and clear pending uploads to prevent re-submission.
+watch(
+    () => props.gallery,
+    (newGallery) => {
+        existingImages.value = [...newGallery]
+        newPreviews.value = []
+        productStore.product.gallery_images = []
+    },
+    { deep: true }
+)
 
 const totalCount = computed(() => existingImages.value.length + newPreviews.value.length)
 
