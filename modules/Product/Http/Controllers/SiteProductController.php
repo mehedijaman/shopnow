@@ -17,7 +17,7 @@ class SiteProductController extends SiteController
         $products = Product::with(['category', 'tags'])
             ->orderBy('id', 'desc')
             ->search(request('searchContext'), request('searchTerm'))
-            ->paginate(request('rowsPerPage', 12));
+            ->paginate(request('rowsPerPage', 30));
 
         $seo = $seoService->build([
             'title' => 'Shop',
