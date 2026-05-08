@@ -21,6 +21,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Register the exception renderer view namespace unconditionally so
+        // `php artisan view:cache` (part of `optimize`) can compile these
+        // framework views even when APP_DEBUG is false in production.
+        if (! $this->app->hasDebugModeEnabled()) {
+            $this->loadViewsFrom(
+                base_path('vendor/laravel/framework/src/Illuminate/Foundation/resources/exceptions/renderer'),
+                'laravel-exceptions-renderer'
+            );
+        }
+
         $this->applyDynamicMailConfig();
         $this->registerSeoViewComposer();
     }

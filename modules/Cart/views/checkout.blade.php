@@ -5,6 +5,16 @@
 @endsection
 
 @section('content')
+    <x-breadcrumb>
+        <li class="flex shrink-0 items-center gap-1">
+            <a href="{{ route('shop.cart') }}" class="hover:text-primary-600 hover:underline">Cart</a>
+            <i class="ri-arrow-right-s-line text-gray-400"></i>
+        </li>
+        <li class="flex shrink-0 items-center">
+            <span class="font-medium text-gray-700">Checkout</span>
+        </li>
+    </x-breadcrumb>
+
     <div class="mx-auto max-w-7xl px-6 py-12 lg:px-6">
         <section class="py-8 antialiased dark:bg-gray-900 md:py-16">
             <form action="#" class="mx-auto max-w-(--breakpoint-xl) px-4 2xl:px-0">

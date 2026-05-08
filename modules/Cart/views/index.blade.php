@@ -5,7 +5,13 @@
 @endsection
 
 @section('content')
-    <div class="mx-auto min-h-screen max-w-7xl px-6 py-12 lg:px-6">
+    <x-breadcrumb>
+        <li class="flex shrink-0 items-center">
+            <span class="font-medium text-gray-700">Cart</span>
+        </li>
+    </x-breadcrumb>
+
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <shopping-cart
             :shipping-flat-rate="{{ $shippingFlatRate }}"
             :free-shipping-threshold="{{ $freeShippingThreshold }}"
