@@ -15,7 +15,6 @@ class SettingsGroupValidate extends Request
             'social' => $this->socialRules(),
             'seo' => $this->seoRules(),
             'mail' => $this->mailRules(),
-            'shipping' => $this->shippingRules(),
             default => [],
         };
     }
@@ -23,8 +22,8 @@ class SettingsGroupValidate extends Request
     private function generalRules(): array
     {
         return [
+            'site_name' => 'required|string|max:100',
             'site_description' => 'nullable|string|max:500',
-            'admin_email' => 'nullable|email|max:255',
         ];
     }
 
@@ -76,12 +75,6 @@ class SettingsGroupValidate extends Request
             'meta_title' => 'nullable|string|max:60',
             'meta_description' => 'nullable|string|max:160',
             'meta_keywords' => 'nullable|string|max:255',
-            'og_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'remove_previous_og_image' => 'nullable|boolean',
-            'twitter_handle' => 'nullable|string|max:50',
-            'google_analytics_id' => 'nullable|string|max:50',
-            'robots_default' => 'nullable|string|max:50',
-            'canonical_domain' => 'nullable|url|max:255',
         ];
     }
 
@@ -95,14 +88,6 @@ class SettingsGroupValidate extends Request
             'username' => 'nullable|string|max:255',
             'password' => 'nullable|string|max:255',
             'encryption' => 'nullable|string|in:tls,ssl,starttls',
-        ];
-    }
-
-    private function shippingRules(): array
-    {
-        return [
-            'flat_rate' => 'required|integer|min:0',
-            'free_shipping_threshold' => 'required|integer|min:0',
         ];
     }
 }
