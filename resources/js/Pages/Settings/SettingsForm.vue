@@ -3,16 +3,16 @@
 
     <AppSectionHeader :title="__('Settings')" :bread-crumb="breadCrumb" />
 
-    <div class="mt-6 flex gap-6">
+    <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:gap-6">
         <!-- Group sidebar navigation -->
-        <aside class="w-52 shrink-0">
-            <nav class="flex flex-col gap-1">
+        <aside class="w-full sm:w-52 sm:shrink-0">
+            <nav class="flex flex-row gap-1 overflow-x-auto pb-1 sm:flex-col sm:overflow-x-visible sm:pb-0">
                 <Link
                     v-for="g in groups"
                     :key="g"
                     :href="route('settings.show', { group: g })"
                     :class="[
-                        'flex items-center gap-2.5 rounded-md px-3 py-2.5 text-sm font-medium transition-colors',
+                        'flex shrink-0 items-center gap-2.5 rounded-md px-3 py-2.5 text-sm font-medium transition-colors sm:w-full',
                         g === group
                             ? 'bg-skin-primary-10 text-skin-neutral-1'
                             : 'text-skin-neutral-11 hover:bg-skin-neutral-3',
@@ -26,7 +26,7 @@
 
         <!-- Active group form -->
         <div class="min-w-0 flex-1">
-            <div class="rounded-lg bg-skin-neutral-1 p-6 shadow-xs ring-1 ring-skin-neutral-4">
+            <div class="rounded-lg bg-skin-neutral-1 p-4 shadow-xs ring-1 ring-skin-neutral-4 sm:p-6">
                 <div class="mb-6 border-b border-skin-neutral-4 pb-5">
                     <div class="flex items-center gap-2">
                         <span class="flex h-8 w-8 items-center justify-center rounded-md bg-skin-primary-10 text-skin-neutral-1">
