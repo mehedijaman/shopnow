@@ -1,57 +1,59 @@
 <template>
     <Head title="Forgot Password"></Head>
     <AppAuthShell>
-        <AppAuthLogo />
 
-        <AppCard class="w-80 space-y-2 bg-skin-neutral-2">
-            <template #title>
-                <h3 class="px-2 py-3 text-lg font-semibold tracking-tight">
-                    {{ __('Forgot your password?') }}
-                </h3>
-            </template>
+        <!-- Logo -->
+        <div class="mb-6 flex justify-center">
+            <AppAuthLogo />
+        </div>
 
-            <template #description>
-                <h2 class="px-2 text-sm leading-relaxed">
-                    {{ __('Enter your email to reset your password.') }}
-                </h2>
-            </template>
+        <!-- Card -->
+        <div class="w-full max-w-md rounded-2xl bg-skin-neutral-1 p-8 shadow-md ring-1 ring-skin-neutral-4">
 
-            <template #content>
-                <AppFormErrors class="mb-4" />
+            <h2 class="mb-1 text-center text-2xl font-bold tracking-tight text-skin-neutral-12">
+                Forgot your password?
+            </h2>
+            <p class="mb-8 text-center text-sm text-skin-neutral-9">
+                Enter your email and we'll send you a link to reset your password.
+            </p>
 
-                <form>
-                    <div class="px-2">
-                        <AppLabel for="email">{{ __('Your Email') }}</AppLabel>
-                        <AppInputText
-                            id="email"
-                            v-model="form.email"
-                            type="text"
-                            class="w-full"
-                            :class="{
-                                'p-invalid': errorsFields.includes('email')
-                            }"
-                        />
-                    </div>
-                </form>
-            </template>
+            <AppFormErrors class="mb-5" />
 
-            <template #footer>
-                <div class="px-2">
-                    <AppButton
-                        class="btn btn-primary flex w-full justify-center"
-                        @click="submitForm"
-                    >
-                        {{ __('Send Password Reset Link') }}
-                    </AppButton>
+            <form class="space-y-5" @submit.prevent="submitForm">
 
-                    <p class="mt-3">
-                        <AppLink :href="route('adminAuth.loginForm')">
-                            {{ __('Back to Login') }}
-                        </AppLink>
-                    </p>
+                <div>
+                    <AppLabel for="email" value="Email address" />
+                    <AppInputText
+                        id="email"
+                        v-model="form.email"
+                        type="email"
+                        class="mt-1 w-full"
+                        autocomplete="email"
+                        placeholder="you@example.com"
+                        :class="{ 'input-error': errorsFields.includes('email') }"
+                    />
                 </div>
-            </template>
-        </AppCard>
+
+                <AppButton
+                    class="btn btn-primary w-full justify-center"
+                    type="submit"
+                    :disabled="form.processing"
+                >
+                    <i v-if="form.processing" class="ri-loader-4-line mr-1.5 animate-spin"></i>
+                    Send Reset Link
+                </AppButton>
+
+            </form>
+
+            <p class="mt-6 text-center text-sm text-skin-neutral-9">
+                Remember your password?
+                <AppLink :href="route('adminAuth.loginForm')" class="ml-1 font-medium">
+                    Back to login
+                </AppLink>
+            </p>
+
+        </div>
+
     </AppAuthShell>
 </template>
 
@@ -64,8 +66,7 @@ export default {
 </script>
 
 <script setup>
-import { Head } from '@inertiajs/vue3'
-import { useForm } from '@inertiajs/vue3'
+import { Head, useForm } from '@inertiajs/vue3'
 import useFormErrors from '@/Composables/useFormErrors'
 
 const form = useForm({

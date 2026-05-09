@@ -1,73 +1,82 @@
 <template>
     <Head title="Reset Password"></Head>
     <AppAuthShell>
-        <AppAuthLogo />
 
-        <AppCard class="min-w-[360px] space-y-6 px-16">
-            <template #title>
-                <h3 class="text-2xl font-semibold tracking-tight">
-                    {{ __('Password Reset') }}
-                </h3>
-            </template>
+        <!-- Logo -->
+        <div class="mb-6 flex justify-center">
+            <AppAuthLogo />
+        </div>
 
-            <template #description>
-                {{ __('Fill the form below to reset your password') }}.
-            </template>
+        <!-- Card -->
+        <div class="w-full max-w-md rounded-2xl bg-skin-neutral-1 p-8 shadow-md ring-1 ring-skin-neutral-4">
 
-            <template #content>
-                <AppFormErrors class="mb-4" />
+            <h2 class="mb-1 text-center text-2xl font-bold tracking-tight text-skin-neutral-12">
+                Reset your password
+            </h2>
+            <p class="mb-8 text-center text-sm text-skin-neutral-9">
+                Choose a strong new password for your account.
+            </p>
 
-                <form>
-                    <div>
-                        <AppLabel for="email">{{ __('Email') }}</AppLabel>
-                        <AppInputText
-                            id="email"
-                            v-model="form.email"
-                            type="text"
-                            class="w-full"
-                            :class="{
-                                'input-error': errorsFields.includes('email')
-                            }"
-                        />
-                    </div>
+            <AppFormErrors class="mb-5" />
 
-                    <div class="mt-6">
-                        <AppLabel for="email">{{ __('Password') }}</AppLabel>
-                        <AppInputPassword
-                            id="password"
-                            v-model="form.password"
-                            name="password"
-                            class="w-full"
-                            autocomplete="current-password"
-                            :class="{
-                                'input-error': errorsFields.includes('password')
-                            }"
-                        />
-                    </div>
+            <form class="space-y-5" @submit.prevent="submitForm">
 
-                    <div class="mt-6">
-                        <AppLabel for="password_confirmation">{{
-                            __('Password Confirmation')
-                        }}</AppLabel>
-                        <AppInputPassword
-                            id="password_confirmation"
-                            v-model="form.password_confirmation"
-                            name="password_confirmation"
-                            class="w-full"
-                            :class="{
-                                'input-error': errorsFields.includes('password')
-                            }"
-                        />
-                    </div>
-                </form>
-            </template>
+                <div>
+                    <AppLabel for="email" value="Email address" />
+                    <AppInputText
+                        id="email"
+                        v-model="form.email"
+                        type="email"
+                        class="mt-1 w-full"
+                        autocomplete="username"
+                        :class="{ 'input-error': errorsFields.includes('email') }"
+                    />
+                </div>
 
-            <template #footer>
-                <AppButton class="btn btn-primary" @click="submitForm">
-                    {{ __('Save') }}
+                <div>
+                    <AppLabel for="password" value="New password" />
+                    <AppInputPassword
+                        id="password"
+                        v-model="form.password"
+                        name="password"
+                        class="mt-1 w-full"
+                        autocomplete="new-password"
+                        :class="{ 'input-error': errorsFields.includes('password') }"
+                    />
+                </div>
+
+                <div>
+                    <AppLabel for="password_confirmation" value="Confirm new password" />
+                    <AppInputPassword
+                        id="password_confirmation"
+                        v-model="form.password_confirmation"
+                        name="password_confirmation"
+                        class="mt-1 w-full"
+                        autocomplete="new-password"
+                        :class="{ 'input-error': errorsFields.includes('password_confirmation') }"
+                    />
+                </div>
+
+                <AppButton
+                    class="btn btn-primary w-full justify-center"
+                    type="submit"
+                    :disabled="form.processing"
+                >
+                    <i v-if="form.processing" class="ri-loader-4-line mr-1.5 animate-spin"></i>
+                    Reset Password
                 </AppButton>
-            </template>
-        </AppCard>
+
+            </form>
+
+            <p class="mt-6 text-center text-sm text-skin-neutral-9">
+                Remembered it?
+                <AppLink :href="route('adminAuth.loginForm')" class="ml-1 font-medium">
+                    Back to login
+                </AppLink>
+            </p>
+
+        </div>
+
     </AppAuthShell>
 </template>
 

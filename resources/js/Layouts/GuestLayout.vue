@@ -1,6 +1,6 @@
 <template>
     <Head title="Modular"></Head>
-    <main>
+    <main class="min-h-screen bg-skin-neutral-3">
         <article>
             <AppFlashMessage />
             <slot></slot>

@@ -1,80 +1,79 @@
 <template>
     <Head title="Login"></Head>
     <AppAuthShell>
-        <AppAuthLogo />
 
-        <form @submit.prevent="submitForm">
-            <AppCard class="w-80 space-y-2 bg-skin-neutral-2">
-                <template #title>
-                    <h3
-                        class="text-center text-lg font-semibold tracking-tight"
-                    >
-                        {{ __('Sign in to your account') }}
-                    </h3>
-                </template>
+        <!-- Logo -->
+        <div class="mb-6 flex justify-center">
+            <AppAuthLogo />
+        </div>
 
-                <template #content>
-                    <AppFormErrors class="mb-4" />
+        <!-- Card -->
+        <div class="w-full max-w-md rounded-2xl bg-skin-neutral-1 p-8 shadow-md ring-1 ring-skin-neutral-4">
 
-                    <div>
-                        <AppLabel for="email">{{ __('Email') }}</AppLabel>
-                        <AppInputText
-                            id="email"
-                            v-model="form.email"
-                            name="email"
-                            type="text"
-                            class="w-full"
-                            autocomplete="email"
-                            :class="{
-                                'input-error': errorsFields.includes('email')
-                            }"
-                        />
-                    </div>
+            <h2 class="mb-1 text-center text-2xl font-bold tracking-tight text-skin-neutral-12">
+                Welcome back
+            </h2>
+            <p class="mb-8 text-center text-sm text-skin-neutral-9">
+                Sign in to your admin account
+            </p>
 
-                    <div class="mt-6">
-                        <AppLabel for="email">{{ __('Password') }}</AppLabel>
-                        <AppInputPassword
-                            id="password"
-                            v-model="form.password"
-                            name="password"
-                            class="w-full"
-                            autocomplete="current-password"
-                            :class="{
-                                'input-error': errorsFields.includes('password')
-                            }"
-                        />
-                    </div>
+            <AppFormErrors class="mb-5" />
 
-                    <div class="mt-4 flex items-center">
-                        <AppCheckbox
-                            id="remember"
-                            v-model="form.remember"
-                            name="remember"
-                            :value="true"
-                        />
-                        <AppLabel for="remember" class="ml-3">{{
-                            __('Remember me')
-                        }}</AppLabel>
-                    </div>
-                </template>
+            <form class="space-y-5" @submit.prevent="submitForm">
 
-                <template #footer>
-                    <AppButton
-                        class="btn btn-primary flex w-full justify-center"
-                        aria-label="botao submit"
-                        type="submit"
-                        @click="submitForm"
-                        >{{ __('Sign in') }}</AppButton
-                    >
+                <div>
+                    <AppLabel for="email" value="Email address" />
+                    <AppInputText
+                        id="email"
+                        v-model="form.email"
+                        name="email"
+                        type="email"
+                        class="mt-1 w-full"
+                        autocomplete="email"
+                        placeholder="you@example.com"
+                        :class="{ 'input-error': errorsFields.includes('email') }"
+                    />
+                </div>
 
-                    <p class="mt-3">
-                        <AppLink :href="route('adminAuth.forgotPassword')">
-                            {{ __('Forgot your password?') }}
+                <div>
+                    <div class="flex items-center justify-between">
+                        <AppLabel for="password" value="Password" />
+                        <AppLink :href="route('adminAuth.forgotPassword')" class="text-xs">
+                            Forgot password?
                         </AppLink>
-                    </p>
-                </template>
-            </AppCard>
-        </form>
+                    </div>
+                    <AppInputPassword
+                        id="password"
+                        v-model="form.password"
+                        name="password"
+                        class="mt-1 w-full"
+                        autocomplete="current-password"
+                        :class="{ 'input-error': errorsFields.includes('password') }"
+                    />
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <AppCheckbox
+                        id="remember"
+                        v-model="form.remember"
+                        name="remember"
+                        :value="true"
+                    />
+                    <AppLabel for="remember" value="Remember me" class="cursor-pointer" />
+                </div>
+
+                <AppButton
+                    class="btn btn-primary w-full justify-center"
+                    type="submit"
+                    :disabled="form.processing"
+                >
+                    <i v-if="form.processing" class="ri-loader-4-line mr-1.5 animate-spin"></i>
+                    Sign in
+                </AppButton>
+
+            </form>
+        </div>
+
     </AppAuthShell>
 </template>
 
@@ -86,8 +85,7 @@ export default {
 </script>
 
 <script setup>
-import { Head } from '@inertiajs/vue3'
-import { useForm } from '@inertiajs/vue3'
+import { Head, useForm } from '@inertiajs/vue3'
 import useFormErrors from '@/Composables/useFormErrors'
 
 const form = useForm({
