@@ -12,7 +12,7 @@
                 v-if="branding.logo_url"
                 :src="branding.logo_url"
                 :alt="branding.site_name"
-                class="max-h-10 w-auto object-contain"
+                class="max-h-16 w-full object-contain"
             />
             <span
                 v-else

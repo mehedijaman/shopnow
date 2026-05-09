@@ -3,7 +3,7 @@
         <img
             :src="branding.logo_url ?? '/logo.png'"
             :alt="branding.site_name"
-            class="h-10 w-auto object-contain"
+            class="h-24 w-auto object-contain"
         />
     </AppLink>
 </template>

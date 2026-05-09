@@ -156,6 +156,12 @@ export default {
             permission: 'settings-list',
             icon: 'ri-settings-3-line',
             link: route('settings.show', { group: 'general' })
+        },
+
+        {
+            label: 'My Profile',
+            icon: 'ri-user-settings-line',
+            get link() { return route('profile.show') }
         }
     ]
 }
