@@ -30,7 +30,7 @@
                     <div class="mt-8 flex justify-center">
                         <a
                             href="{{ route('shop.category', [$category->id, $category->slug]) }}"
-                            class="inline-flex items-center gap-1 rounded-lg border border-primary-600 px-5 py-2 text-sm font-medium text-primary-600 hover:bg-primary-50 dark:border-primary-400 dark:text-primary-400 dark:hover:bg-gray-800"
+                            class="inline-flex items-center gap-1 rounded-lg bg-primary-600 px-5 py-2 text-sm font-medium text-white hover:bg-primary-700 dark:bg-primary-600 dark:hover:bg-primary-700"
                         >
                             View All {{ $category->name }}
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
