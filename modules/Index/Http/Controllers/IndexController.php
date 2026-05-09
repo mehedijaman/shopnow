@@ -20,7 +20,7 @@ class IndexController extends SiteController
                 $query->where('active', true)
                     ->with('category')
                     ->latest()
-                    ->limit(40);
+                    ->limit(8);
             }])
             ->get();
 

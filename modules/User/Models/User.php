@@ -12,11 +12,13 @@ use Modules\AdminAuth\Notifications\ResetPassword;
 use Modules\Support\Traits\Searchable;
 // use Modules\Support\Traits\ActivityLog;
 use Modules\User\Database\Factories\UserFactory;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, HasRoles, Notifiable, Searchable, SoftDeletes;
+    use HasFactory, HasRoles, InteractsWithMedia, Notifiable, Searchable, SoftDeletes;
 
     protected static function newFactory()
     {
@@ -63,6 +65,16 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPassword($token));
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('avatar')->singleFile();
+    }
+
+    public function getAvatarUrlAttribute(): ?string
+    {
+        return $this->getFirstMediaUrl('avatar') ?: null;
     }
 
     public function profile()

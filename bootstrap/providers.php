@@ -13,6 +13,7 @@ use Modules\Index\IndexServiceProvider;
 use Modules\Order\OrderServiceProvider;
 use Modules\Page\PageServiceProvider;
 use Modules\Product\ProductServiceProvider;
+use Modules\Profile\ProfileServiceProvider;
 use Modules\Settings\SettingsServiceProvider;
 use Modules\Support\SupportServiceProvider;
 use Modules\User\UserServiceProvider;
@@ -39,4 +40,5 @@ return [
 
     CustomerAuthServiceProvider::class,
     SettingsServiceProvider::class,
+    ProfileServiceProvider::class,
 ];

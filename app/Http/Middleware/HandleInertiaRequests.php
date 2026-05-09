@@ -38,7 +38,9 @@ class HandleInertiaRequests extends Middleware
 
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $user,
+                'user' => $user ? array_merge($user->toArray(), [
+                    'avatar_url' => $user->avatar_url,
+                ]) : null,
                 'permissions' => $user ? (new ListUserPermissions)->run($user->id) : [],
                 'isRootUser' => $user ? ($user->hasRole('root') ? true : false) : false,
             ],
