@@ -1,18 +1,18 @@
 <template>
-    <div>
-        <AppLabel for="title">Title</AppLabel>
-        <AppInputText
+    <!-- WP-style large title input -->
+    <div class="border-b border-skin-neutral-4 px-5 pt-5 pb-4">
+        <input
             id="title"
             v-model="postStore.post.title"
             type="text"
-            :class="{
-                'input-error': errorsFields.includes('title')
-            }"
+            placeholder="Add title"
+            class="w-full border-0 bg-transparent text-2xl font-bold text-skin-neutral-12 placeholder-skin-neutral-6 outline-none focus:ring-0"
+            :class="{ 'placeholder-red-400': errorsFields.includes('title') }"
         />
     </div>
 
-    <div class="mt-5">
-        <AppLabel for="notes">Content</AppLabel>
+    <!-- Rich text editor -->
+    <div class="p-5">
         <AppTipTapEditor
             v-model="postStore.post.content"
             editor-id="notes"

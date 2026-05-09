@@ -1,11 +1,9 @@
 <template>
-    <div class="mt-4">
-        <AppInputDate
-            v-model="postStore.post.published_at"
-            label="Publish Date"
-            name="publish_date"
-        ></AppInputDate>
-    </div>
+    <AppInputDate
+        v-model="postStore.post.published_at"
+        label="Publish Date"
+        name="publish_date"
+    ></AppInputDate>
 </template>
 
 <script setup>

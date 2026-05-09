@@ -1,10 +1,9 @@
 <template>
-    <p class="mb-1 mt-5">Category</p>
     <AppCombobox
         v-model="postStore.post.blog_category_id"
         :options="categories"
         combo-label="Select a Category"
-        class="w-64 xl:w-full"
+        class="w-full"
     />
 </template>
 

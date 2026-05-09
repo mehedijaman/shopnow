@@ -1,10 +1,9 @@
 <template>
-    <p class="mb-1 mt-5">Author</p>
     <AppCombobox
         v-model="postStore.post.blog_author_id"
         :options="authors"
         combo-label="Select an Author"
-        class="w-64 xl:w-full"
+        class="w-full"
     />
 </template>
 

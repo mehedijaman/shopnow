@@ -1,11 +1,9 @@
 <template>
-    <div class="mt-5">
-        <AppInputFile
-            v-model="postStore.post.image"
-            :image-preview-url="getImagePreviewURL()"
-            @remove-file="postStore.post.remove_previous_image = true"
-        ></AppInputFile>
-    </div>
+    <AppInputFile
+        v-model="postStore.post.image"
+        :image-preview-url="getImagePreviewURL()"
+        @remove-file="postStore.post.remove_previous_image = true"
+    ></AppInputFile>
 </template>
 
 <script setup>

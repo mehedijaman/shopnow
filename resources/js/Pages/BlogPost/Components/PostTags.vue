@@ -1,28 +1,27 @@
 <template>
-    <p class="mb-1 mt-5">Tag</p>
     <AppCombobox
         v-model="selectedTag"
         :options="tags"
         combo-label="Select a Tag"
-        class="w-64 xl:w-full"
+        class="w-full"
     />
 
-    <ul class="mt-2">
-        <li
+    <div v-if="postStore.post.tags.length" class="mt-3 flex flex-wrap gap-1.5">
+        <span
             v-for="tag in postStore.post.tags"
             :key="tag.id"
-            class="bg-skin-neutral-3 mb-3 flex items-center justify-between rounded-sm p-3"
+            class="inline-flex items-center gap-1 rounded-full bg-skin-primary-2 px-2.5 py-1 text-xs font-medium text-skin-primary-9"
         >
-            <span>
-                {{ tag.name }}
-            </span>
-
-            <i
-                class="ri-close-line text-skin-neutral-11 hover:text-skin-neutral-12 hover:cursor-pointer"
+            {{ tag.name }}
+            <button
+                type="button"
+                class="ml-0.5 hover:text-skin-primary-12 focus:outline-none"
                 @click="removeTag(tag)"
-            ></i>
-        </li>
-    </ul>
+            >
+                <i class="ri-close-line text-xs"></i>
+            </button>
+        </span>
+    </div>
 </template>
 
 <script setup>
