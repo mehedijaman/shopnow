@@ -6,12 +6,26 @@ use Modules\Blog\Models\Post;
 use Modules\Page\Models\Page;
 use Modules\Product\Models\ProductCategory;
 use Modules\Settings\Services\SeoService;
+use Modules\Slider\Models\Slider;
 use Modules\Support\Http\Controllers\SiteController;
 
 class IndexController extends SiteController
 {
     public function index(SeoService $seoService)
     {
+        $sliders = Slider::where('active', true)
+            ->orderBy('order')
+            ->get(['id', 'title', 'description', 'image', 'bg_color', 'url', 'button_text'])
+            ->map(fn ($slider) => [
+                'id' => $slider->id,
+                'title' => $slider->title,
+                'description' => $slider->description,
+                'image_url' => $slider->image_url,
+                'bg_color' => $slider->bg_color,
+                'url' => $slider->url,
+                'button_text' => $slider->button_text,
+            ]);
+
         $featuredCategories = ProductCategory::where('featured', true)
             ->where('active', true)
             ->orderBy('sort_order')
@@ -38,7 +52,7 @@ class IndexController extends SiteController
             ],
         ]);
 
-        return view('index::index', compact('featuredCategories', 'latestPosts', 'seo'));
+        return view('index::index', compact('sliders', 'featuredCategories', 'latestPosts', 'seo'));
     }
 
     public function about(SeoService $seoService)

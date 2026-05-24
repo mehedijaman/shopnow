@@ -1,1 +1,0 @@
-import{u as a}from"./useFormContext-x_9Z0jxJ.js";import{x as o,e as n}from"./pinia-trZibR5n.js";function f(r){const e=o("translate"),{isCreate:i,isEdit:s}=a();return{title:n(()=>{let t="";return i.value&&(t="Create"),s.value&&(t="Edit"),t=e(t),t+" "+e(r)})}}export{f as u};

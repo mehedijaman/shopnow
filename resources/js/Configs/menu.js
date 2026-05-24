@@ -120,6 +120,13 @@ export default {
         },
 
         {
+            label: 'Sliders',
+            permission: 'slider-list',
+            icon: 'ri-image-line',
+            link: route('slider.index')
+        },
+
+        {
             label: 'Pages',
             permission: 'page-list',
             icon: 'ri-pages-line',

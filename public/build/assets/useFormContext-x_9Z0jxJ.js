@@ -1,1 +1,0 @@
-import{a as r}from"./pinia-trZibR5n.js";function n(){const e=r(),t=r();return e.value=route().current().includes(".create"),t.value=route().current().includes(".edit"),{isCreate:e,isEdit:t}}export{n as u};

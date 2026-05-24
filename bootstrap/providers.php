@@ -15,6 +15,7 @@ use Modules\Page\PageServiceProvider;
 use Modules\Product\ProductServiceProvider;
 use Modules\Profile\ProfileServiceProvider;
 use Modules\Settings\SettingsServiceProvider;
+use Modules\Slider\SliderServiceProvider;
 use Modules\Support\SupportServiceProvider;
 use Modules\User\UserServiceProvider;
 
@@ -37,6 +38,7 @@ return [
     CartServiceProvider::class,
 
     ContactMessageServiceProvider::class,
+    SliderServiceProvider::class,
 
     CustomerAuthServiceProvider::class,
     SettingsServiceProvider::class,

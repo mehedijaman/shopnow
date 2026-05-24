@@ -5,6 +5,11 @@
 @endsection
 
 @section('content')
+    {{-- Slider Carousel --}}
+    @if ($sliders->isNotEmpty())
+        <slider-carousel :sliders="{{ json_encode($sliders) }}"></slider-carousel>
+    @endif
+
     <div class="mx-auto max-w-7xl px-6 py-12 lg:px-6">
 
         {{-- Featured Category Sections --}}
