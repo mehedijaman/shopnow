@@ -15,6 +15,7 @@ class SettingsGroupValidate extends Request
             'social' => $this->socialRules(),
             'seo' => $this->seoRules(),
             'mail' => $this->mailRules(),
+            'homepage' => $this->homepageRules(),
             default => [],
         };
     }
@@ -88,6 +89,15 @@ class SettingsGroupValidate extends Request
             'username' => 'nullable|string|max:255',
             'password' => 'nullable|string|max:255',
             'encryption' => 'nullable|string|in:tls,ssl,starttls',
+        ];
+    }
+
+    private function homepageRules(): array
+    {
+        return [
+            'show_slider' => 'nullable|boolean',
+            'show_featured_categories' => 'nullable|boolean',
+            'show_blog' => 'nullable|boolean',
         ];
     }
 }

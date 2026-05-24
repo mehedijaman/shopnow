@@ -1,1 +1,0 @@
-import{O as e,g as t}from"./preload-helper-D_xcCMPL.js";import{o as n}from"./app-B8Ww-gAZ.js";e();function r(){let e=t(()=>n().props.errors);return{errors:e,errorsFields:t(()=>Object.keys(e.value))}}export{r as t};

@@ -88,6 +88,11 @@ class SettingSeeder extends Seeder
             // Shipping
             ['group' => 'shipping', 'key' => 'flat_rate', 'value' => '60', 'type' => 'text', 'label' => 'Flat Rate Shipping (Tk)', 'description' => 'Default shipping charge added to every order.', 'is_public' => true, 'sort_order' => 1],
             ['group' => 'shipping', 'key' => 'free_shipping_threshold', 'value' => '1000', 'type' => 'text', 'label' => 'Free Shipping Threshold (Tk)', 'description' => 'Orders above this amount get free shipping. Set 0 to disable.', 'is_public' => true, 'sort_order' => 2],
+
+            // Homepage
+            ['group' => 'homepage', 'key' => 'show_slider', 'value' => '1', 'type' => 'boolean', 'label' => 'Show Slider', 'description' => 'Show the hero image carousel on the homepage.', 'is_public' => false, 'sort_order' => 1],
+            ['group' => 'homepage', 'key' => 'show_featured_categories', 'value' => '1', 'type' => 'boolean', 'label' => 'Show Featured Categories', 'description' => 'Show the featured product categories section.', 'is_public' => false, 'sort_order' => 2],
+            ['group' => 'homepage', 'key' => 'show_blog', 'value' => '1', 'type' => 'boolean', 'label' => 'Show Blog Section', 'description' => 'Show the latest blog posts section.', 'is_public' => false, 'sort_order' => 3],
         ];
     }
 }

@@ -13,36 +13,46 @@ class IndexController extends SiteController
 {
     public function index(SeoService $seoService)
     {
-        $sliders = Slider::where('active', true)
-            ->orderBy('order')
-            ->get(['id', 'title', 'description', 'image', 'bg_color', 'url', 'button_text'])
-            ->map(fn ($slider) => [
-                'id' => $slider->id,
-                'title' => $slider->title,
-                'description' => $slider->description,
-                'image_url' => $slider->image_url,
-                'bg_color' => $slider->bg_color,
-                'url' => $slider->url,
-                'button_text' => $slider->button_text,
-            ]);
+        $showSlider = setting('homepage.show_slider', true) !== false;
+        $showFeaturedCategories = setting('homepage.show_featured_categories', true) !== false;
+        $showBlog = setting('homepage.show_blog', true) !== false;
 
-        $featuredCategories = ProductCategory::where('featured', true)
-            ->where('active', true)
-            ->orderBy('sort_order')
-            ->orderBy('name')
-            ->with(['products' => function ($query) {
-                $query->where('active', true)
-                    ->with('category')
-                    ->latest()
-                    ->limit(8);
-            }])
-            ->get();
+        $sliders = $showSlider
+            ? Slider::where('active', true)
+                ->orderBy('order')
+                ->get(['id', 'title', 'description', 'image', 'bg_color', 'url', 'button_text'])
+                ->map(fn ($slider) => [
+                    'id' => $slider->id,
+                    'title' => $slider->title,
+                    'description' => $slider->description,
+                    'image_url' => $slider->image_url,
+                    'bg_color' => $slider->bg_color,
+                    'url' => $slider->url,
+                    'button_text' => $slider->button_text,
+                ])
+            : collect();
 
-        $latestPosts = Post::whereNotNull('published_at')
-            ->where('published_at', '<=', now())
-            ->latest('published_at')
-            ->limit(4)
-            ->get();
+        $featuredCategories = $showFeaturedCategories
+            ? ProductCategory::where('featured', true)
+                ->where('active', true)
+                ->orderBy('sort_order')
+                ->orderBy('name')
+                ->with(['products' => function ($query) {
+                    $query->where('active', true)
+                        ->with('category')
+                        ->latest()
+                        ->limit(8);
+                }])
+                ->get()
+            : collect();
+
+        $latestPosts = $showBlog
+            ? Post::whereNotNull('published_at')
+                ->where('published_at', '<=', now())
+                ->latest('published_at')
+                ->limit(4)
+                ->get()
+            : collect();
 
         $seo = $seoService->build([
             'canonical_full' => url('/'),
