@@ -15,6 +15,8 @@ class SiteProductController extends SiteController
         $categories = ProductCategory::where('active', true)->orderBy('sort_order')->orderBy('name')->get();
 
         $products = Product::with(['category', 'tags'])
+            ->where('active', true)
+            ->whereHas('category', fn ($query) => $query->where('active', true))
             ->orderBy('id', 'desc')
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 45));
@@ -40,6 +42,8 @@ class SiteProductController extends SiteController
         $categories = ProductCategory::where('active', true)->orderBy('sort_order')->orderBy('name')->get();
 
         $products = Product::with(['category', 'tags'])
+            ->where('active', true)
+            ->whereHas('category', fn ($query) => $query->where('active', true))
             ->orderBy('name', 'asc')
             ->where('name', 'like', '%'.$searchText.'%')
             ->paginate(request('rowsPerPage', 45));
@@ -57,7 +61,10 @@ class SiteProductController extends SiteController
         $categories = ProductCategory::where('active', true)->orderBy('sort_order')->orderBy('name')->get();
         $category = ProductCategory::findOrFail($categoryId);
 
-        $products = $category->products()->paginate(45);
+        $products = $category->products()
+            ->where('active', true)
+            ->whereHas('category', fn ($query) => $query->where('active', true))
+            ->paginate(45);
 
         $description = strip_tags($category->description ?? "Browse all products in {$category->name}.");
 

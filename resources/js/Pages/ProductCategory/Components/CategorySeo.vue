@@ -116,8 +116,8 @@ const toggleSeoForm = () => {
     if (
         !showSeoForm.value &&
         isCreate.value &&
-        !categoryStore.category.meta_tag_title.length &&
-        !categoryStore.category.meta_tag_description.length
+        !(categoryStore.category.meta_tag_title ?? '').length &&
+        !(categoryStore.category.meta_tag_description ?? '').length
     ) {
         categoryStore.initSeoTags()
     }

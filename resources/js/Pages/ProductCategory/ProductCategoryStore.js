@@ -22,7 +22,14 @@ export const useProductCategoryStore = defineStore('ProductCategoryStore', {
 
     actions: {
         setCategory(category) {
-            this.category = category
+            this.category = {
+                ...this.category,
+                ...category,
+                name: category?.name ?? '',
+                description: category?.description ?? '',
+                meta_tag_title: category?.meta_tag_title ?? '',
+                meta_tag_description: category?.meta_tag_description ?? ''
+            }
         },
         initSeoTags() {
             this.category.meta_tag_title = this.category.name.substring(0, 60)
