@@ -71,6 +71,7 @@ import SeoGroup from './Components/SeoGroup.vue'
 import MailGroup from './Components/MailGroup.vue'
 import ShippingGroup from './Components/ShippingGroup.vue'
 import HomepageGroup from './Components/HomepageGroup.vue'
+import PixelGroup from './Components/PixelGroup.vue'
 
 const props = defineProps({
     group: { type: String, required: true },
@@ -89,6 +90,7 @@ const groupComponents = {
     mail: markRaw(MailGroup),
     shipping: markRaw(ShippingGroup),
     homepage: markRaw(HomepageGroup),
+    pixel: markRaw(PixelGroup),
 }
 
 const currentGroupComponent = computed(() => groupComponents[props.group])
@@ -143,6 +145,7 @@ const groupLabel = (g) => {
         mail: 'Mail',
         shipping: 'Shipping',
         homepage: 'Homepage',
+        pixel: 'Pixel',
     }
     return labels[g] ?? g
 }
@@ -157,6 +160,7 @@ const groupIcon = (g) => {
         mail: 'ri-mail-line',
         shipping: 'ri-truck-line',
         homepage: 'ri-home-line',
+        pixel: 'ri-radar-line',
     }
     return icons[g] ?? 'ri-settings-line'
 }
@@ -171,6 +175,7 @@ const groupDescription = (g) => {
         mail: 'Configure the SMTP server used to send outgoing emails.',
         shipping: 'Set flat rate shipping charge and free shipping threshold.',
         homepage: 'Control which sections are visible on the homepage.',
+        pixel: 'Configure Meta Pixel and Conversions API tracking settings.',
     }
     return descriptions[g] ?? ''
 }

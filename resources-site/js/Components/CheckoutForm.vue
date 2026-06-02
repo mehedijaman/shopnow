@@ -275,7 +275,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { useCartStore } from '../Stores/CartStore'
 import axios from 'axios'
 
@@ -316,6 +316,20 @@ const voucherCode = ref('')
 const submitting = ref(false)
 const errors = reactive({})
 const generalError = ref('')
+
+onMounted(() => {
+    if (!window.ShopNowTracking) {
+        return
+    }
+
+    window.ShopNowTracking.track('InitiateCheckout', {
+        content_ids: cartStore.items.map((cartItem) => String(cartItem.item.id)),
+        content_type: 'product',
+        num_items: cartStore.items.reduce((total, cartItem) => total + Number(cartItem.quantity || 0), 0),
+        value: Number(orderTotal.value || 0),
+        currency: 'BDT',
+    })
+})
 
 const baseInputClass = 'block w-full rounded-lg border px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-1 transition'
 const validInputClass = `${baseInputClass} border-gray-300 bg-gray-50 focus:border-primary-500 focus:ring-primary-500`
@@ -403,6 +417,18 @@ async function submitForm() {
         }
 
         const response = await axios.post('/site-order-store', payload)
+
+        if (window.ShopNowTracking) {
+            window.ShopNowTracking.track('Purchase', {
+                content_ids: cartStore.items.map((cartItem) => String(cartItem.item.id)),
+                content_type: 'product',
+                num_items: cartStore.items.reduce((total, cartItem) => total + Number(cartItem.quantity || 0), 0),
+                value: Number(orderTotal.value || 0),
+                currency: 'BDT',
+            }, {
+                eventID: 'purchase_' + response.data.order_id,
+            })
+        }
 
         cartStore.clearCart()
 

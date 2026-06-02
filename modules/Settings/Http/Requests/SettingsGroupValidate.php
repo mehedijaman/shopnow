@@ -16,6 +16,7 @@ class SettingsGroupValidate extends Request
             'seo' => $this->seoRules(),
             'mail' => $this->mailRules(),
             'homepage' => $this->homepageRules(),
+            'pixel' => $this->pixelRules(),
             default => [],
         };
     }
@@ -98,6 +99,20 @@ class SettingsGroupValidate extends Request
             'show_slider' => 'nullable|boolean',
             'show_featured_categories' => 'nullable|boolean',
             'show_blog' => 'nullable|boolean',
+        ];
+    }
+
+    private function pixelRules(): array
+    {
+        return [
+            'enabled' => 'nullable|boolean',
+            'meta_pixel_id' => ['nullable', 'regex:/^\d{8,20}$/'],
+            'require_consent' => 'nullable|boolean',
+            'enable_non_production' => 'nullable|boolean',
+            'capi_enabled' => 'nullable|boolean',
+            'capi_access_token' => 'nullable|string|max:500',
+            'api_version' => ['nullable', 'regex:/^v\d+\.\d+$/'],
+            'test_event_code' => 'nullable|string|max:100',
         ];
     }
 }

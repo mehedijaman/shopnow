@@ -3,6 +3,7 @@
 namespace Modules\Settings\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 use Modules\Settings\Http\Requests\SettingsGroupValidate;
 use Modules\Settings\Services\SettingService;
@@ -13,7 +14,7 @@ class SettingsController extends BackendController
 {
     use UploadFile;
 
-    private const GROUPS = ['general', 'branding', 'contact', 'social', 'seo', 'mail', 'shipping', 'homepage'];
+    private const GROUPS = ['general', 'branding', 'contact', 'social', 'seo', 'mail', 'shipping', 'homepage', 'pixel'];
 
     /** @var array<string, string[]> */
     private const IMAGE_FIELDS = [
@@ -29,17 +30,25 @@ class SettingsController extends BackendController
     public function show(string $group, SettingService $service): Response
     {
         abort_unless(in_array($group, self::GROUPS, true), 404);
+        $this->authorizeGroupAccess($group);
+
+        $groups = self::GROUPS;
+        $user = Auth::guard('user')->user();
+        if (! $user || ! $user->can('pixel-settings-edit')) {
+            $groups = array_values(array_filter(self::GROUPS, static fn ($item) => $item !== 'pixel'));
+        }
 
         return inertia('Settings/SettingsForm', [
             'group' => $group,
             'settings' => $service->getGroup($group),
-            'groups' => self::GROUPS,
+            'groups' => $groups,
         ]);
     }
 
     public function update(string $group, SettingsGroupValidate $request, SettingService $service): RedirectResponse
     {
         abort_unless(in_array($group, self::GROUPS, true), 404);
+        $this->authorizeGroupAccess($group);
 
         $imageFields = self::IMAGE_FIELDS[$group] ?? [];
         $settingsToUpdate = [];
@@ -67,5 +76,15 @@ class SettingsController extends BackendController
         $service->clearCache();
 
         return back()->with('success', 'Settings updated.');
+    }
+
+    private function authorizeGroupAccess(string $group): void
+    {
+        if ($group !== 'pixel') {
+            return;
+        }
+
+        $user = Auth::guard('user')->user();
+        abort_unless($user && $user->can('pixel-settings-edit'), 403);
     }
 }

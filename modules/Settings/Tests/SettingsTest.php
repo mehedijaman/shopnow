@@ -20,7 +20,7 @@ beforeEach(function () {
     $this->loggedRequest = $this->actingAs($this->user);
 
     // Seed base settings rows needed for tests
-    Setting::insert([
+    collect([
         ['group' => 'general', 'key' => 'site_name', 'value' => 'TestShop', 'type' => 'text', 'label' => 'Site Name', 'sort_order' => 1, 'is_public' => true, 'created_at' => now(), 'updated_at' => now()],
         ['group' => 'general', 'key' => 'site_description', 'value' => null, 'type' => 'textarea', 'label' => 'Site Description', 'sort_order' => 2, 'is_public' => true, 'created_at' => now(), 'updated_at' => now()],
         ['group' => 'branding', 'key' => 'site_name', 'value' => 'TestShop', 'type' => 'text', 'label' => 'Site Name', 'sort_order' => 1, 'is_public' => true, 'created_at' => now(), 'updated_at' => now()],
@@ -28,7 +28,14 @@ beforeEach(function () {
         ['group' => 'contact', 'key' => 'phone', 'value' => '[]', 'type' => 'repeater', 'label' => 'Phone Numbers', 'sort_order' => 1, 'is_public' => true, 'created_at' => now(), 'updated_at' => now()],
         ['group' => 'contact', 'key' => 'email', 'value' => '[]', 'type' => 'repeater', 'label' => 'Email Addresses', 'sort_order' => 2, 'is_public' => true, 'created_at' => now(), 'updated_at' => now()],
         ['group' => 'social', 'key' => 'facebook', 'value' => null, 'type' => 'text', 'label' => 'Facebook', 'sort_order' => 1, 'is_public' => true, 'created_at' => now(), 'updated_at' => now()],
-    ]);
+        ['group' => 'pixel', 'key' => 'enabled', 'value' => '0', 'type' => 'boolean', 'label' => 'Enable Meta Pixel', 'sort_order' => 1, 'is_public' => false, 'created_at' => now(), 'updated_at' => now()],
+        ['group' => 'pixel', 'key' => 'meta_pixel_id', 'value' => null, 'type' => 'text', 'label' => 'Meta Pixel ID', 'sort_order' => 2, 'is_public' => false, 'created_at' => now(), 'updated_at' => now()],
+    ])->each(function (array $setting): void {
+        Setting::updateOrCreate(
+            ['group' => $setting['group'], 'key' => $setting['key']],
+            $setting,
+        );
+    });
 });
 
 afterEach(function () {
@@ -44,7 +51,7 @@ test('settings general page can be rendered', function () {
     $response->assertStatus(200);
     $response->assertInertia(
         fn (Assert $page) => $page
-            ->component('Settings/SettingsForm')
+            ->component('Settings/SettingsForm', false)
             ->where('group', 'general')
             ->has('settings.site_name')
             ->has('groups')
@@ -75,7 +82,6 @@ test('unauthenticated user is redirected from settings', function () {
 
 test('general settings can be updated', function () {
     $response = $this->loggedRequest->post('/admin/settings/general', [
-        'site_name' => 'New Shop Name',
         'site_description' => 'Best online shop.',
     ]);
 
@@ -84,13 +90,13 @@ test('general settings can be updated', function () {
 
     $this->assertDatabaseHas('settings', [
         'group' => 'general',
-        'key' => 'site_name',
-        'value' => 'New Shop Name',
+        'key' => 'site_description',
+        'value' => 'Best online shop.',
     ]);
 });
 
-test('general settings validation rejects empty site_name', function () {
-    $response = $this->loggedRequest->post('/admin/settings/general', [
+test('branding settings validation rejects empty site_name', function () {
+    $response = $this->loggedRequest->post('/admin/settings/branding', [
         'site_name' => '',
     ]);
 
@@ -228,4 +234,38 @@ test('setting() model casts repeater values as array', function () {
     $setting = Setting::where(['group' => 'contact', 'key' => 'phone'])->first();
 
     $this->assertIsArray($setting->value);
+});
+
+test('pixel settings page can be rendered for root user', function () {
+    $response = $this->loggedRequest->get('/admin/settings/pixel');
+
+    $response->assertStatus(200);
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('Settings/SettingsForm', false)
+            ->where('group', 'pixel')
+            ->has('settings.enabled')
+            ->has('groups')
+    );
+});
+
+test('pixel settings page is forbidden without pixel permission', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->get('/admin/settings/pixel');
+
+    $response->assertStatus(403);
+});
+
+test('pixel settings rejects invalid pixel id format', function () {
+    $response = $this->loggedRequest->post('/admin/settings/pixel', [
+        'enabled' => true,
+        'meta_pixel_id' => 'PIXEL-ID',
+        'require_consent' => true,
+        'enable_non_production' => false,
+        'capi_enabled' => true,
+        'api_version' => 'v23.0',
+    ]);
+
+    $response->assertSessionHasErrors('meta_pixel_id');
 });

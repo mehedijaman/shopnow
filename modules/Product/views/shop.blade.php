@@ -147,5 +147,14 @@
         if (!sidebar) { return }
         sidebar.style.display = sidebar.style.display === 'block' ? '' : 'block'
     })
+
+    @if (isset($searchText))
+    if (window.ShopNowTracking) {
+        window.ShopNowTracking.track('Search', {
+            search_string: @json($searchText),
+            content_category: 'shop',
+        })
+    }
+    @endif
 </script>
 @endpush

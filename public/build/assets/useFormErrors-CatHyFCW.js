@@ -1,0 +1,1 @@
+import{O as e,g as t}from"./preload-helper-BstIDjV2.js";import{o as n}from"./app-IglBh3_N.js";e();function r(){let e=t(()=>n().props.errors);return{errors:e,errorsFields:t(()=>Object.keys(e.value))}}export{r as t};

@@ -8,6 +8,17 @@
             document.querySelectorAll('.gallery-thumb').forEach(el => el.classList.remove('border-blue-500'))
             btn.classList.add('border-blue-500')
         }
+
+        if (window.ShopNowTracking) {
+            window.ShopNowTracking.track('ViewContent', {
+                content_ids: [String(@json($product->id))],
+                content_type: 'product',
+                content_name: @json($product->name),
+                value: Number(@json($product->sale_price ?? $product->price ?? 0)),
+                currency: 'BDT',
+                category: @json($product->category?->name),
+            })
+        }
     </script>
 @endsection
 
