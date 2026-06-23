@@ -22,7 +22,7 @@ class ProductCategoryController extends BackendController
     {
         $categories = ProductCategory::orderBy('sort_order')->orderBy('name')
             ->search(request('searchContext'), request('searchTerm'))
-            ->paginate(request('rowsPerPage', 200))
+            ->paginate(request('rowsPerPage', 15))
             ->withQueryString()
             ->through(fn ($category) => [
                 'id' => $category->id,

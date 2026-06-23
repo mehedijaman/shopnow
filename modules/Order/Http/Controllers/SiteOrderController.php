@@ -2,11 +2,10 @@
 
 namespace Modules\Order\Http\Controllers;
 
-use App\Mail\OrderPlacedMail;
+use App\Jobs\SendOrderPlacedMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Modules\Order\Http\Requests\SiteOrderValidate;
 use Modules\Order\Models\Order;
 use Modules\Settings\Services\MetaConversionApiService;
@@ -45,11 +44,10 @@ class SiteOrderController extends SiteController
 
             DB::commit();
 
-            // Send admin notification email
+            // Dispatch admin notification email (async via queue)
             $adminEmail = setting('general.admin_email');
             if ($adminEmail) {
-                $order->refresh()->load('orderProducts.product');
-                Mail::to($adminEmail)->send(new OrderPlacedMail($order));
+                SendOrderPlacedMail::dispatch($order->id, $adminEmail);
             }
 
             $this->trackPurchaseEvent($request, $order, $orderProducts, $metaConversionApiService);

@@ -104,6 +104,6 @@ class SettingService
      */
     public function getFromCache(): array
     {
-        return Cache::rememberForever(self::CACHE_KEY, fn () => $this->getAll());
+        return Cache::remember(self::CACHE_KEY, 86400, fn () => $this->getAll());
     }
 }

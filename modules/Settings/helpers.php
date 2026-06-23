@@ -13,7 +13,7 @@ if (! function_exists('setting')) {
     function setting(string $key, mixed $default = null): mixed
     {
         try {
-            $all = Cache::rememberForever('settings', fn () => app(SettingService::class)->getAll());
+            $all = Cache::remember('settings', 86400, fn () => app(SettingService::class)->getAll());
 
             if (! str_contains($key, '.')) {
                 $key = 'general.'.$key;
@@ -35,7 +35,7 @@ if (! function_exists('settings_group')) {
     function settings_group(string $group): array
     {
         try {
-            $all = Cache::rememberForever('settings', fn () => app(SettingService::class)->getAll());
+            $all = Cache::remember('settings', 86400, fn () => app(SettingService::class)->getAll());
 
             $prefix = $group.'.';
             $result = [];
