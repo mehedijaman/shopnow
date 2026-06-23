@@ -10,6 +10,23 @@
         </testsuite>
         <testsuite name="Feature">
             <directory>tests/Feature</directory>
+            <directory>modules/Acl/Tests</directory>
+            <directory>modules/AdminAuth/Tests</directory>
+            <directory>modules/Blog/Tests</directory>
+            <directory>modules/Cart/Tests</directory>
+            <directory>modules/ContactMessage/Tests</directory>
+            <directory>modules/Customer/Tests</directory>
+            <directory>modules/CustomerAuth/Tests</directory>
+            <directory>modules/Dashboard/Tests</directory>
+            <directory>modules/Index/Tests</directory>
+            <directory>modules/Order/Tests</directory>
+            <directory>modules/Page/Tests</directory>
+            <directory>modules/Product/Tests</directory>
+            <directory>modules/Profile/Tests</directory>
+            <directory>modules/Settings/Tests</directory>
+            <directory>modules/Slider/Tests</directory>
+            <directory>modules/Support/Tests</directory>
+            <directory>modules/User/Tests</directory>
         </testsuite>
     </testsuites>
     <source>
