@@ -133,7 +133,7 @@ test('post can be updated', function () {
 });
 
 test('post can be deleted', function () {
-    $response = $this->loggedRequest->delete('/admin/blog-post/'.$this->user->id);
+    $response = $this->loggedRequest->delete('/admin/blog-post/'.$this->post->id);
 
     $response->assertRedirect('/admin/blog-post');
 

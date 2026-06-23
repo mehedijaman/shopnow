@@ -123,7 +123,7 @@ test('category can be updated', function () {
 });
 
 test('category can be deleted', function () {
-    $response = $this->loggedRequest->delete('/admin/blog-category/'.$this->user->id);
+    $response = $this->loggedRequest->delete('/admin/blog-category/'.$this->category->id);
 
     $response->assertRedirect('/admin/blog-category');
 

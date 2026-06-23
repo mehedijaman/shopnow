@@ -125,7 +125,7 @@ test('author can be updated', function () {
 });
 
 test('author can be deleted', function () {
-    $response = $this->loggedRequest->delete('/admin/blog-author/'.$this->user->id);
+    $response = $this->loggedRequest->delete('/admin/blog-author/'.$this->author->id);
 
     $response->assertRedirect('/admin/blog-author');
 

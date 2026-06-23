@@ -12,11 +12,11 @@ uses(TestCase::class, RefreshDatabase::class);
 beforeEach(function () {
     $this->user = User::factory()->create();
 
-    $this->role = Role::create(['name' => 'role 1', 'guard_name' => 'user']);
-    $this->role2 = Role::create(['name' => 'role 2', 'guard_name' => 'user']);
+    $this->role = Role::create(['name' => 'role 1']);
+    $this->role2 = Role::create(['name' => 'role 2']);
 
-    $this->permission = Permission::create(['name' => 'permission 1', 'guard_name' => 'user']);
-    $this->permission2 = Permission::create(['name' => 'permission 2', 'guard_name' => 'user']);
+    $this->permission = Permission::create(['name' => 'permission 1']);
+    $this->permission2 = Permission::create(['name' => 'permission 2']);
 });
 
 test('user permission service returns correct direct permissions for the user', function () {

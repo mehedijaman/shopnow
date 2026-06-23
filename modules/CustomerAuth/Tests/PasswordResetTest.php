@@ -1,15 +1,15 @@
 <?php
 
+use Modules\CustomerAuth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
-use Modules\AdminAuth\Notifications\ResetPassword as AdminAuthResetPassword;
-use Modules\User\Models\User;
+use Modules\Customer\Models\Customer;
 use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);
 
 test('reset password link screen can be rendered', function () {
-    $response = $this->get('/customer-auth/forgot-password');
+    $response = $this->get('/forgot-password');
 
     $response->assertStatus(200);
 });
@@ -17,22 +17,22 @@ test('reset password link screen can be rendered', function () {
 test('reset password link can be requested', function () {
     Notification::fake();
 
-    $user = User::factory()->create();
+    $customer = Customer::factory()->create();
 
-    $this->post('/customer-auth/send-reset-link-email', ['email' => $user->email]);
+    $this->post('/send-reset-link-email', ['email' => $customer->email]);
 
-    Notification::assertSentTo($user, AdminAuthResetPassword::class);
+    Notification::assertSentTo($customer, ResetPassword::class);
 });
 
 test('reset password screen can be rendered', function () {
     Notification::fake();
 
-    $user = User::factory()->create();
+    $customer = Customer::factory()->create();
 
-    $this->post('/customer-auth/send-reset-link-email', ['email' => $user->email]);
+    $this->post('/send-reset-link-email', ['email' => $customer->email]);
 
-    Notification::assertSentTo($user, AdminAuthResetPassword::class, function ($notification) {
-        $response = $this->get('/customer-auth/reset-password/'.$notification->token);
+    Notification::assertSentTo($customer, ResetPassword::class, function ($notification) {
+        $response = $this->get('/reset-password/'.$notification->token);
 
         $response->assertStatus(200);
 
@@ -43,16 +43,16 @@ test('reset password screen can be rendered', function () {
 test('password can be reset with valid token', function () {
     Notification::fake();
 
-    $user = User::factory()->create();
+    $customer = Customer::factory()->create();
 
-    $this->post('/customer-auth/send-reset-link-email', ['email' => $user->email]);
+    $this->post('/send-reset-link-email', ['email' => $customer->email]);
 
-    Notification::assertSentTo($user, AdminAuthResetPassword::class, function ($notification) use ($user) {
-        $response = $this->post('/customer-auth/reset-password/', [
+    Notification::assertSentTo($customer, ResetPassword::class, function ($notification) use ($customer) {
+        $response = $this->post('/reset-password', [
             'token' => $notification->token,
-            'email' => $user->email,
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'email' => $customer->email,
+            'password' => 'new-password',
+            'password_confirmation' => 'new-password',
         ]);
 
         $response->assertSessionHasNoErrors();

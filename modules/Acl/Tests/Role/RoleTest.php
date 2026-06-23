@@ -12,7 +12,8 @@ beforeEach(function () {
     $this->user = User::factory()->create();
     $this->loggedRequest = $this->actingAs($this->user);
 
-    $this->role = Role::create(['name' => 'root', 'guard_name' => 'user']);
+    $this->role = Role::create(['name' => 'root']);
+    $this->user->assignRole($this->role);
 });
 
 test('role list can be rendered', function () {

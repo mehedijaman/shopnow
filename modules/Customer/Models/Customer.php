@@ -2,7 +2,7 @@
 
 namespace Modules\Customer\Models;
 
-use Illuminate\Auth\Notifications\ResetPassword;
+use Modules\CustomerAuth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;

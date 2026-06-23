@@ -17,7 +17,7 @@ class CustomerFactory extends Factory
             'image' => $this->faker->imageUrl(),
             'phone' => $this->faker->phoneNumber(),
             'email' => $this->faker->unique()->safeEmail(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => 'password', // let the 'hashed' cast hash it dynamically
             'remember_token' => Str::random(10),
             'active' => $this->faker->boolean(),
             'total_spent' => $this->faker->randomNumber(2),

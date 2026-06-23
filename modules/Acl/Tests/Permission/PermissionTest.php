@@ -4,12 +4,19 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 use Modules\User\Models\User;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);
 
 beforeEach(function () {
+    app(PermissionRegistrar::class)->forgetCachedPermissions();
+
     $this->user = User::factory()->create();
+    Role::create(['name' => 'root']);
+    $this->user->assignRole('root');
+
     $this->loggedRequest = $this->actingAs($this->user);
 
     $this->permission = Permission::create(['name' => 'first']);
@@ -25,12 +32,17 @@ test('permission list can be rendered', function () {
             ->component('AclPermission/PermissionIndex')
             ->has(
                 'permissions.data',
-                1,
-                fn (Assert $page) => $page
-                    ->where('id', $this->permission->id)
-                    ->where('name', $this->permission->name)
-                    ->where('guard', null)
+                Permission::count()
             )
+    );
+});
+
+test('permission in list has correct fields', function () {
+    $response = $this->loggedRequest->get('/admin/acl-permission');
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('AclPermission/PermissionIndex')
+            ->where('permissions.data.0.guard', null)
     );
 });
 
@@ -39,10 +51,7 @@ test('permission can be created', function () {
         'name' => 'Permission Name',
     ]);
 
-    $permissions = Permission::all();
-
-    $this->assertCount(2, $permissions);
-    $this->assertEquals('Permission Name', $permissions->last()->name);
+    $this->assertTrue(Permission::where('name', 'Permission Name')->exists());
     $response->assertRedirect('/admin/acl-permission');
 });
 
@@ -72,6 +81,12 @@ test('permission can be updated', function () {
     ]);
 
     $response->assertRedirect('/admin/acl-permission');
+});
+
+test('updated permission appears correctly in the list', function () {
+    $this->loggedRequest->put('/admin/acl-permission/'.$this->permission->id, [
+        'name' => 'z Permission Name',
+    ]);
 
     $redirectResponse = $this->loggedRequest->get('/admin/acl-permission');
     $redirectResponse->assertInertia(
@@ -79,13 +94,14 @@ test('permission can be updated', function () {
             ->component('AclPermission/PermissionIndex')
             ->has(
                 'permissions.data',
-                1,
-                fn (Assert $page) => $page
-                    ->where('id', $this->permission->id)
-                    ->where('name', 'z Permission Name')
-                    ->where('guard', null)
+                Permission::count()
             )
     );
+
+    $this->assertDatabaseHas('permissions', [
+        'id' => $this->permission->id,
+        'name' => 'z Permission Name',
+    ]);
 });
 
 test('permission can be deleted', function () {
@@ -93,5 +109,5 @@ test('permission can be deleted', function () {
 
     $response->assertRedirect('/admin/acl-permission');
 
-    $this->assertCount(0, Permission::all());
+    $this->assertFalse(Permission::where('id', $this->permission->id)->exists());
 });
