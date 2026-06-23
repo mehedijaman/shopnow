@@ -16,6 +16,10 @@ class CustomerAddress extends BaseModel
 
     protected $table = 'customer_addresses';
 
+    protected $fillable = [
+        'division_id', 'district_id', 'upazilla_id', 'union_id', 'address', 'country', 'default',
+    ];
+
     protected $casts = [
         'default' => 'boolean',
     ];

@@ -20,44 +20,58 @@ class OrderReportController extends BackendController
             ? Carbon::parse($request->input('to'))->endOfDay()
             : Carbon::now()->endOfDay();
 
-        $orders = Order::whereBetween('created_at', [$from, $to])->get();
+        // Aggregate queries for performance
+        $summary = [
+            'totalOrders' => Order::whereBetween('created_at', [$from, $to])->count(),
+            'totalRevenue' => round(Order::whereBetween('created_at', [$from, $to])
+                ->whereNotIn('status', ['cancelled'])->sum('total'), 2),
+            'avgOrderValue' => round(Order::whereBetween('created_at', [$from, $to])
+                ->whereNotIn('status', ['cancelled'])->avg('total') ?? 0, 2),
+            'pendingCount' => Order::whereBetween('created_at', [$from, $to])
+                ->where('status', 'pending')->count(),
+            'completedCount' => Order::whereBetween('created_at', [$from, $to])
+                ->whereIn('status', ['delivered', 'completed'])->count(),
+            'cancelledCount' => Order::whereBetween('created_at', [$from, $to])
+                ->where('status', 'cancelled')->count(),
+        ];
 
-        $nonCancelled = $orders->whereNotIn('status', ['cancelled']);
-
-        // Daily breakdown (PHP groupBy — SQLite-safe)
-        $dailyGroups = $orders->groupBy(fn ($o) => Carbon::parse($o->created_at)->format('Y-m-d'));
+        // Daily breakdown using DB grouping
+        $dailyGroups = Order::whereBetween('created_at', [$from, $to])
+            ->selectRaw("date_format(created_at, '%Y-%m-%d') as day,
+                count(*) as count,
+                sum(case when status not in ('cancelled') then total else 0 end) as revenue")
+            ->groupBy('day')
+            ->orderBy('day')
+            ->get()
+            ->keyBy('day');
 
         $period = [];
         $cursor = $from->copy();
         while ($cursor->lte($to)) {
             $key = $cursor->format('Y-m-d');
-            $group = $dailyGroups->get($key, collect());
+            $group = $dailyGroups->get($key);
             $period[] = [
                 'date' => $cursor->format('d M'),
-                'count' => $group->count(),
-                'revenue' => round($group->whereNotIn('status', ['cancelled'])->sum('total'), 2),
+                'count' => $group ? (int) $group->count : 0,
+                'revenue' => round($group ? (float) $group->revenue : 0, 2),
             ];
             $cursor->addDay();
         }
 
+        // Status breakdown using DB grouping
+        $statusGroups = Order::whereBetween('created_at', [$from, $to])
+            ->selectRaw('status, count(*) as count, sum(total) as revenue')
+            ->groupBy('status')
+            ->get()
+            ->keyBy('status');
+
         $byStatus = collect(['pending', 'processing', 'shipped', 'delivered', 'completed', 'cancelled'])
             ->mapWithKeys(fn ($status) => [
                 $status => [
-                    'count' => $orders->where('status', $status)->count(),
-                    'revenue' => round($orders->where('status', $status)->sum('total'), 2),
+                    'count' => $statusGroups->get($status)?->count ?? 0,
+                    'revenue' => round((float) ($statusGroups->get($status)?->revenue ?? 0), 2),
                 ],
             ]);
-
-        $summary = [
-            'totalOrders' => $orders->count(),
-            'totalRevenue' => round($nonCancelled->sum('total'), 2),
-            'avgOrderValue' => $nonCancelled->count()
-                ? round($nonCancelled->sum('total') / $nonCancelled->count(), 2)
-                : 0,
-            'pendingCount' => $orders->where('status', 'pending')->count(),
-            'completedCount' => $orders->whereIn('status', ['delivered', 'completed'])->count(),
-            'cancelledCount' => $orders->where('status', 'cancelled')->count(),
-        ];
 
         $paginated = Order::whereBetween('created_at', [$from, $to])
             ->orderByDesc('id')

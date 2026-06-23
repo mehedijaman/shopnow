@@ -13,6 +13,12 @@ class Order extends BaseModel
 
     protected $table = 'orders';
 
+    protected $fillable = [
+        'customer_id', 'name', 'email', 'phone', 'division', 'district', 'upazila', 'union', 'address',
+        'country', 'status', 'subtotal', 'tax', 'shipping', 'total', 'paid', 'due',
+        'payment_status', 'payment_method', 'notes', 'created_by', 'updated_by', 'deleted_by',
+    ];
+
     public function orderProducts()
     {
         return $this->hasMany(OrderProduct::class, 'order_id', 'id');

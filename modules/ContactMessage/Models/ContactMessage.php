@@ -12,4 +12,8 @@ class ContactMessage extends BaseModel
     use ActivityLog, Searchable, SoftDeletes;
 
     protected $table = 'contact_messages';
+
+    protected $fillable = [
+        'name', 'email', 'phone', 'subject', 'message', 'read_at', 'read_by', 'updated_by', 'deleted_by',
+    ];
 }

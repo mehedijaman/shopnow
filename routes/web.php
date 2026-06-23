@@ -29,6 +29,3 @@ Route::get('/upazila/{districtId?}', function () {
 Route::get('/union/{upazilaId?}', function () {
     return Union::where('upazila_id', request('upazilaId'))->get();
 });
-
-require __DIR__.'/custom.php';
-require __DIR__.'/mehedi.php';

@@ -12,7 +12,7 @@
 		<title>Adm</title>
 		<meta name="description" content="Adm">
 
-		<link rel="stylesheet" href="{{ mix('/backend/css/app.css') }}">
+		@vite('resources/css/app.css')
 
 	</head>
 
@@ -20,7 +20,7 @@
 
         @yield('content')
             
-        <script src="{{ mix('/backend/js/app-auth.js') }}"></script>
+        @vite('resources/js/app-auth.js')
 
 	</body>
 

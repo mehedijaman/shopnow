@@ -1,4 +1,4 @@
-@extends('admin-auth::layouts.master')
+@extends('customer-auth::layouts.master')
 
 @section('content')
 
@@ -10,7 +10,7 @@
             </h2>
         </div>
 
-        <form method="POST" action="/admin-auth/reset-password" class="mt-4">
+        <form method="POST" action="{{ route('customerAuth.resetPassword') }}" class="mt-4">
 
             @csrf
 

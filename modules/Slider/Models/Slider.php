@@ -17,6 +17,10 @@ class Slider extends BaseModel
 
     protected $table = 'sliders';
 
+    protected $fillable = [
+        'title', 'description', 'image', 'bg_color', 'url', 'button_text', 'order', 'active',
+    ];
+
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $appends = ['image_url'];

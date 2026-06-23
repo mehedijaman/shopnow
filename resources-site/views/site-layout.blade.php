@@ -17,7 +17,7 @@
         @if (!empty($seo['keywords']))
         <meta name="keywords" content="{{ $seo['keywords'] }}" />
         @endif
-        <meta name="robots" content="{{ $seo['robots'] ?? 'index, follow' }}" />
+        <meta name="robots" content="@yield('robots', $seo['robots'] ?? 'index, follow')" />
         @if (!empty($seo['author']))
         <meta name="author" content="{{ $seo['author'] }}" />
         @endif

@@ -2,9 +2,7 @@
 
 @section('seo_title', 'Shopping Cart — ' . setting('branding.site_name', config('app.name')))
 
-@push('head')
-    <meta name="robots" content="noindex, follow" />
-@endpush
+@section('robots', 'noindex, follow')
 
 @section('bodyEndScripts')
     @vite('resources-site/js/index-app.js')

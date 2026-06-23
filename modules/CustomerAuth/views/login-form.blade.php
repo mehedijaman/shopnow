@@ -1,4 +1,4 @@
-@extends('admin-auth::layouts.master')
+@extends('customer-auth::layouts.master')
 
 @section('content')
     <div id="app">

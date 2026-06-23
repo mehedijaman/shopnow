@@ -13,6 +13,10 @@ class OrderProduct extends BaseModel
 
     protected $table = 'order_products';
 
+    protected $fillable = [
+        'order_id', 'product_id', 'quantity', 'unit_price', 'discount', 'total_price',
+    ];
+
     public function product()
     {
         return $this->belongsTo(Product::class);

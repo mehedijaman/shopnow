@@ -12,4 +12,6 @@ class Cart extends BaseModel
     use ActivityLog, Searchable, SoftDeletes;
 
     protected $table = 'carts';
+
+    protected $fillable = ['id'];
 }

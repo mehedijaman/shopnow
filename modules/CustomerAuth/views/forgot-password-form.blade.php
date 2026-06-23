@@ -1,4 +1,4 @@
-@extends('admin-auth::layouts.master')
+@extends('customer-auth::layouts.master')
 
 @section('content')
 
@@ -27,7 +27,7 @@
         </ul>
         @endif
 
-        <form method="POST" action="/admin-auth/send-reset-link-email" class="mt-4">
+        <form method="POST" action="{{ route('customerAuth.sendResetLinkEmail') }}" class="mt-4">
 
             @csrf
 

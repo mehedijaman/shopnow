@@ -2,7 +2,6 @@
 
 namespace Modules\Page\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 use Modules\Page\Http\Requests\PageValidate;
@@ -112,14 +111,11 @@ class PageController extends BackendController
                 'id' => $page->id,
                 'slug' => $page->slug,
                 'title' => $page->title,
-                'content' => $page->content,
                 'image_url' => $page->image_url,
-                'title' => $page->title,
                 'status' => $page->status,
                 'published_at' => $page->published_at_formatted,
                 'is_system' => $page->is_system,
-                'deleted_at' => $page->deleted_at ? Carbon::parse($page->deleted_at)->format('d/m/Y') : null,
-                'deletedBy' => $page->deletedBy,
+                'deleted_at' => $page->deleted_at ? $page->deleted_at->format('d/m/Y') : null,
             ]);
 
         return inertia('Page/PageRecycleBin', [

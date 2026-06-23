@@ -24,8 +24,6 @@ class ContactMessageController extends BackendController
                 'subject' => $message->subject,
                 'message' => $message->message,
 
-                // 'read_at' => $message->read_at->format('d/m/Y H:i') . 'h',
-                // 'created_at' => $message->created_at->format('d/m/Y H:i') . 'h',
             ]);
 
         return inertia('ContactMessage/ContactMessageIndex', [
@@ -87,6 +85,7 @@ class ContactMessageController extends BackendController
                 'email' => $message->email,
                 'subject' => $message->subject,
                 'message' => $message->message,
+                'deleted_at' => $message->deleted_at ? $message->deleted_at->format('d M Y') : null,
             ]);
 
         return inertia('ContactMessage/ContactMessageRecycleBin', [

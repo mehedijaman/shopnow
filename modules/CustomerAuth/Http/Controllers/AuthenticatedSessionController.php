@@ -11,7 +11,6 @@ use Inertia\Response;
 use Modules\Customer\Http\Requests\CustomerValidate;
 use Modules\Customer\Models\Customer;
 use Modules\CustomerAuth\Http\Requests\LoginRequest;
-use Modules\CustomerAuth\Http\Requests\SignupRequest;
 use Modules\Settings\Services\MetaConversionApiService;
 use Modules\Support\Http\Controllers\AppController;
 
@@ -78,27 +77,15 @@ class AuthenticatedSessionController extends AppController
     /**
      * Handle an incoming authentication request.
      *
-     * @param  \App\Http\Requests\Auth\LoginRequest  $request
      * @return RedirectResponse
      */
     public function login(LoginRequest $request)
     {
-        // $request->authenticate();
+        $request->authenticate();
 
-        // $request->session()->regenerate();
+        $request->session()->regenerate();
 
-        // // return redirect()->intended(route(config('modular.default-logged-route')));
-        // return redirect()->intended(route('site.index'));
-
-        if (Auth::guard('customer')->attempt($request->only('email', 'password'))) {
-            $request->session()->regenerate();
-
-            return redirect()->intended(route(config('modular.default-customer-logged-route')));
-        }
-
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        return redirect()->intended(route(config('modular.default-customer-logged-route')));
     }
 
     /**

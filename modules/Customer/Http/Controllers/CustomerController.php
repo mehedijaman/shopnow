@@ -94,8 +94,7 @@ class CustomerController extends BackendController
             ->withQueryString()
             ->through(fn ($customer) => [
                 'id' => $customer->id,
-                'first_name' => $customer->first_name,
-                'last_name' => $customer->last_name,
+                'name' => $customer->name,
                 'phone' => $customer->phone,
                 'email' => $customer->email,
                 'email_verified_at' => $customer->email_verified_at,

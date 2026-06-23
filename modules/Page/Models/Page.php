@@ -18,6 +18,11 @@ class Page extends BaseModel
 
     protected $table = 'pages';
 
+    protected $fillable = [
+        'parent_id', 'title', 'slug', 'content', 'image', 'meta_tag_title', 'meta_tag_description',
+        'published_at', 'active', 'is_system',
+    ];
+
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [

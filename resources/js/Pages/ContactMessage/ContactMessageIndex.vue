@@ -2,7 +2,7 @@
     <AppSectionHeader title="Contact Messages" :bread-crumb="breadCrumb">
         <template #right>
             <AppButton
-                v-if="can('Leave - Recycle Bin List')"
+                v-if="can('recycle-bin-list')"
                 class="btn btn-secondary"
                 @click="
                     $inertia.visit(route('contactMessage.recycleBin.index'))

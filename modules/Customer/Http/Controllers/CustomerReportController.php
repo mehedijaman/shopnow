@@ -11,7 +11,7 @@ class CustomerReportController extends BackendController
 {
     public function index(): Response
     {
-        $customers = Customer::withTrashed(false)->get(['active', 'total_spent', 'created_at']);
+        $customers = Customer::withoutTrashed()->get(['active', 'total_spent', 'created_at']);
 
         $summary = [
             'totalCustomers' => $customers->count(),

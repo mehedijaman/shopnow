@@ -12,8 +12,8 @@ Route::prefix('contact-message')->name('contactMessage.')->group(function () {
         Route::get('restore', [ContactMessageController::class, 'restoreRecycleBin'])->name('restoreAll')->can('recycle-bin-restore');
     });
 
-    Route::get('/', [ContactMessageController::class, 'index'])->name('index');
-    Route::get('{id}/edit', [ContactMessageController::class, 'edit'])->name('edit');
-    Route::put('{id}', [ContactMessageController::class, 'update'])->name('update');
-    Route::delete('{id}', [ContactMessageController::class, 'destroy'])->name('destroy');
+    Route::get('/', [ContactMessageController::class, 'index'])->name('index')->can('contact-message-list');
+    Route::get('{id}/edit', [ContactMessageController::class, 'edit'])->name('edit')->can('contact-message-edit');
+    Route::put('{id}', [ContactMessageController::class, 'update'])->name('update')->can('contact-message-edit');
+    Route::delete('{id}', [ContactMessageController::class, 'destroy'])->name('destroy')->can('contact-message-delete');
 });

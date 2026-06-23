@@ -23,18 +23,20 @@ class DashboardController extends BackendController
         $now = Carbon::now();
         $monthStart = $now->copy()->startOfMonth();
 
-        // Load all orders once for collection-based aggregations
-        $allOrders = Order::whereNotIn('status', ['cancelled'])->get(['status', 'total', 'created_at']);
-
-        $monthlyRevenue = $allOrders
-            ->filter(fn ($o) => Carbon::parse($o->created_at)->gte($monthStart))
+        // Aggregate queries for performance
+        $totalRevenue = Order::whereNotIn('status', ['cancelled'])->sum('total');
+        $monthlyRevenue = Order::whereNotIn('status', ['cancelled'])
+            ->where('created_at', '>=', $monthStart)
             ->sum('total');
 
-        // Build last-12-months revenue array (SQLite-safe: PHP groupBy)
+        // Build last-12-months revenue array using DB grouping
         $twelveMonthsAgo = $now->copy()->subMonths(11)->startOfMonth();
-        $ordersForChart = Order::whereNotIn('status', ['cancelled'])
+        $monthlyGroups = Order::whereNotIn('status', ['cancelled'])
             ->where('created_at', '>=', $twelveMonthsAgo)
-            ->get(['total', 'created_at']);
+            ->selectRaw("date_format(created_at, '%Y-%m') as month, sum(total) as revenue")
+            ->groupBy('month')
+            ->orderBy('month')
+            ->pluck('revenue', 'month');
 
         $revenueLabels = [];
         $revenueData = [];
@@ -43,12 +45,7 @@ class DashboardController extends BackendController
             $month = $now->copy()->subMonths($i);
             $key = $month->format('Y-m');
             $revenueLabels[] = $month->format('M Y');
-            $revenueData[] = round(
-                $ordersForChart
-                    ->filter(fn ($o) => Carbon::parse($o->created_at)->format('Y-m') === $key)
-                    ->sum('total'),
-                2
-            );
+            $revenueData[] = round((float) ($monthlyGroups[$key] ?? 0), 2);
         }
 
         // Orders by status
@@ -83,18 +80,15 @@ class DashboardController extends BackendController
                 'revenue' => round($op->revenue, 2),
             ]);
 
-        $products = Product::all(['active', 'featured']);
-        $productCategories = ProductCategory::all(['active', 'featured']);
-
         $count = [
-            'totalProducts' => $products->count(),
-            'activeProducts' => $products->where('active', true)->count(),
-            'inactiveProducts' => $products->where('active', false)->count(),
-            'featuredProducts' => $products->where('featured', true)->count(),
-            'totalProductCategories' => $productCategories->count(),
-            'activeProductCategories' => $productCategories->where('active', true)->count(),
-            'inactiveProductCategories' => $productCategories->where('active', false)->count(),
-            'featuredProductCategories' => $productCategories->where('featured', true)->count(),
+            'totalProducts' => Product::count(),
+            'activeProducts' => Product::where('active', true)->count(),
+            'inactiveProducts' => Product::where('active', false)->count(),
+            'featuredProducts' => Product::where('featured', true)->count(),
+            'totalProductCategories' => ProductCategory::count(),
+            'activeProductCategories' => ProductCategory::where('active', true)->count(),
+            'inactiveProductCategories' => ProductCategory::where('active', false)->count(),
+            'featuredProductCategories' => ProductCategory::where('featured', true)->count(),
             'totalProductTags' => ProductTag::count(),
             'totalProductBrands' => ProductBrand::count(),
             'users' => User::count(),
@@ -103,12 +97,12 @@ class DashboardController extends BackendController
         ];
 
         $kpi = [
-            'totalRevenue' => round($allOrders->sum('total'), 2),
+            'totalRevenue' => round($totalRevenue, 2),
             'monthRevenue' => round($monthlyRevenue, 2),
             'totalOrders' => Order::count(),
             'monthOrders' => Order::where('created_at', '>=', $monthStart)->count(),
             'totalCustomers' => Customer::count(),
-            'totalProducts' => $products->count(),
+            'totalProducts' => Product::count(),
         ];
 
         return Inertia::render('Dashboard/DashboardIndex', [
