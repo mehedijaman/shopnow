@@ -12,6 +12,15 @@ class Setting extends BaseModel
 
     protected $table = 'settings';
 
+    protected $fillable = [
+        'group', 'key', 'value', 'type', 'label', 'description', 'is_public', 'sort_order',
+    ];
+
+    protected $casts = [
+        'is_public' => 'boolean',
+        'sort_order' => 'integer',
+    ];
+
     protected $appends = ['value_url'];
 
     /**

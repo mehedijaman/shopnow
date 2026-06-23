@@ -46,6 +46,10 @@
             <option value="">All Products</option>
             <option value="1">Featured Only</option>
         </select>
+        <select v-model="brandFilter" class="rounded-md border border-skin-neutral-4 bg-skin-neutral-2 px-3 py-1.5 text-sm focus:outline-none" @change="applyFilters">
+            <option value="">All Brands</option>
+            <option v-for="brand in brands" :key="brand.value" :value="brand.value">{{ brand.label }}</option>
+        </select>
     </div>
 
     <!-- Table -->
@@ -55,6 +59,7 @@
                 <tr class="border-b border-skin-neutral-4 text-left text-xs text-skin-neutral-9">
                     <th class="px-4 py-3 font-medium">Product</th>
                     <th class="px-4 py-3 font-medium">Category</th>
+                    <th class="px-4 py-3 font-medium">Brand</th>
                     <th class="px-4 py-3 text-right font-medium">Price</th>
                     <th class="px-4 py-3 text-right font-medium">Sale Price</th>
                     <th class="px-4 py-3 text-center font-medium">Stock</th>
@@ -75,6 +80,7 @@
                         </div>
                     </td>
                     <td class="px-4 py-3 text-xs text-skin-neutral-9">{{ item.category ?? '—' }}</td>
+                    <td class="px-4 py-3 text-xs text-skin-neutral-9">{{ item.brand ?? '—' }}</td>
                     <td class="px-4 py-3 text-right text-skin-neutral-11">৳{{ item.price }}</td>
                     <td class="px-4 py-3 text-right">
                         <span v-if="item.sale_price" class="font-semibold text-green-700">৳{{ item.sale_price }}</span>
@@ -143,6 +149,7 @@ const { can } = useAuthCan()
 
 const props = defineProps({
     products: { type: Object, default: () => ({}) },
+    brands: { type: Array, default: () => [] },
     filters: { type: Object, default: () => ({}) },
 })
 
@@ -155,6 +162,7 @@ const searchInput = ref(props.filters?.searchTerm ?? '')
 const activeFilter = ref(props.filters?.active ?? '')
 const featuredFilter = ref(props.filters?.featured ?? '')
 const stockFilter = ref(props.filters?.stock ?? '')
+const brandFilter = ref(props.filters?.brand ?? '')
 
 function applyFilters() {
     const params = {}
@@ -162,6 +170,7 @@ function applyFilters() {
     if (activeFilter.value !== '') { params.active = activeFilter.value }
     if (featuredFilter.value !== '') { params.featured = featuredFilter.value }
     if (stockFilter.value !== '') { params.stock = stockFilter.value }
+    if (brandFilter.value !== '') { params.brand = brandFilter.value }
     router.get(route('product.index'), params, { preserveState: true, replace: true })
 }
 

@@ -1,5 +1,11 @@
 @extends('site-layout')
 
+@section('seo_title', 'Shopping Cart — ' . setting('branding.site_name', config('app.name')))
+
+@push('head')
+    <meta name="robots" content="noindex, follow" />
+@endpush
+
 @section('bodyEndScripts')
     @vite('resources-site/js/index-app.js')
 @endsection

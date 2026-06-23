@@ -2,6 +2,10 @@
 
 @section('seo_title', 'Order Confirmed — #' . $order->id)
 
+@push('head')
+    <meta name="robots" content="noindex, follow" />
+@endpush
+
 @section('bodyEndScripts')
     @vite('resources-site/js/index-app.js')
 @endsection

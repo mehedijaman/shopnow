@@ -22,19 +22,21 @@ class ProductController extends BackendController
 
     protected string $uploadImagePath = 'storage/app/public/product';
 
-    public function index(Request $request): Response
+    public function index(Request $request, GetProductBrandOptions $getProductBrandOptions): Response
     {
         $activeFilter = $request->input('active');
         $featuredFilter = $request->input('featured');
         $stockFilter = $request->input('stock');
+        $brandFilter = $request->input('brand');
 
         $products = Product::orderByDesc('id')
-            ->with('category:id,name')
+            ->with(['category:id,name', 'brand:id,name'])
             ->search($request->input('searchContext'), $request->input('searchTerm'))
             ->when($activeFilter !== null && $activeFilter !== '', fn ($q) => $q->where('active', (bool) $activeFilter))
             ->when($featuredFilter !== null && $featuredFilter !== '', fn ($q) => $q->where('featured', (bool) $featuredFilter))
             ->when($stockFilter === 'low', fn ($q) => $q->where('quantity', '<', 10))
             ->when($stockFilter === 'out', fn ($q) => $q->where('quantity', '<=', 0))
+            ->when($brandFilter, fn ($q) => $q->where('brand_id', $brandFilter))
             ->paginate($request->input('rowsPerPage', 15))
             ->withQueryString()
             ->through(fn ($product) => [
@@ -46,16 +48,19 @@ class ProductController extends BackendController
                 'quantity' => $product->quantity,
                 'unit' => $product->unit,
                 'category' => $product->category?->name,
+                'brand' => $product->brand?->name,
                 'active' => $product->active,
                 'featured' => $product->featured,
             ]);
 
         return inertia('Product/ProductIndex', [
             'products' => $products,
+            'brands' => $getProductBrandOptions->get(),
             'filters' => [
                 'active' => $activeFilter,
                 'featured' => $featuredFilter,
                 'stock' => $stockFilter,
+                'brand' => $brandFilter,
                 'searchTerm' => $request->input('searchTerm'),
             ],
         ]);
