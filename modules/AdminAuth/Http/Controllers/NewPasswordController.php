@@ -3,11 +3,14 @@
 namespace Modules\AdminAuth\Http\Controllers;
 
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 use Modules\Support\Http\Controllers\AppController;
 
 class NewPasswordController extends AppController
@@ -15,7 +18,7 @@ class NewPasswordController extends AppController
     /**
      * Display the password reset view.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function resetPasswordForm(Request $request)
     {
@@ -28,9 +31,9 @@ class NewPasswordController extends AppController
     /**
      * Handle an incoming new password request.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function store(Request $request)
     {

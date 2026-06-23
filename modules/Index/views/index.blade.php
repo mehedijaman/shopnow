@@ -52,6 +52,13 @@
             </div>
         @endforelse
 
+        {{-- Our Brands Section --}}
+        @if ($brands->isNotEmpty())
+            <section class="mt-8 border-t border-gray-200 pt-16 dark:border-gray-700">
+                <brands-carousel :brands="{{ json_encode($brands) }}"></brands-carousel>
+            </section>
+        @endif
+
         {{-- Blog Section --}}
         @if ($latestPosts->isNotEmpty())
             <section class="mt-8 border-t border-gray-200 pt-16 dark:border-gray-700">

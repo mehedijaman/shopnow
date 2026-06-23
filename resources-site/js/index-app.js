@@ -5,6 +5,7 @@ import AddToCartButton from './Components/AddToCartButton.vue'
 import ShopSearch from './Components/ShopSearch.vue'
 import CheckoutForm from './Components/CheckoutForm.vue'
 import SliderCarousel from './Components/SliderCarousel.vue'
+import BrandsCarousel from './Components/BrandsCarousel.vue'
 
 createVueApp({
     ShopSearch,
@@ -12,5 +13,6 @@ createVueApp({
     NavbarCartMenu,
     AddToCartButton,
     CheckoutForm,
-    SliderCarousel
+    SliderCarousel,
+    BrandsCarousel
 }).mount('#app')

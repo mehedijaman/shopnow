@@ -15,7 +15,7 @@ class ProductBrandController extends BackendController
 {
     use EditorImage, UploadFile;
 
-    protected string $uploadImagePath = 'storage/app/public/product';
+    protected string $uploadImagePath = 'storage/app/public/brand';
 
     public function index(): Response
     {
@@ -46,7 +46,7 @@ class ProductBrandController extends BackendController
         $brandData = $request->validated();
 
         if ($request->hasFile('image')) {
-            $brandData = array_merge($brandData, $this->uploadFile('image', 'product-brand', 'originalUUID', 'public'));
+            $brandData = array_merge($brandData, $this->uploadFile('image', 'brand', 'originalUUID', 'public'));
         }
 
         ProductBrand::create($brandData);
@@ -71,7 +71,7 @@ class ProductBrandController extends BackendController
         $brandData = $request->validated();
 
         if ($request->hasFile('image')) {
-            $brandData = array_merge($brandData, $this->uploadFile('image', 'product-brand', 'originalUUID', 'public'));
+            $brandData = array_merge($brandData, $this->uploadFile('image', 'brand', 'originalUUID', 'public'));
         } elseif ($request->input('remove_previous_image')) {
             $brandData['image'] = null;
         } else {

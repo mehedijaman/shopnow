@@ -4,6 +4,7 @@ namespace Modules\Product\Http\Controllers;
 
 use Illuminate\View\View;
 use Modules\Product\Models\Product;
+use Modules\Product\Models\ProductBrand;
 use Modules\Product\Models\ProductCategory;
 use Modules\Settings\Services\SeoService;
 use Modules\Support\Http\Controllers\SiteController;
@@ -82,6 +83,52 @@ class SiteProductController extends SiteController
         ]);
 
         return view('product::shop', compact('products', 'categories', 'category', 'seo'));
+    }
+
+    public function brand(int $brandId, SeoService $seoService): View
+    {
+        $brand = ProductBrand::findOrFail($brandId);
+
+        $products = $brand->products()
+            ->where('active', true)
+            ->whereHas('category', fn ($query) => $query->where('active', true))
+            ->paginate(45);
+
+        $description = strip_tags($brand->description ?? "Browse all products from {$brand->name}.");
+
+        $seo = $seoService->build([
+            'title' => $brand->name,
+            'description' => $description,
+            'canonical_full' => url('/brand/'.$brand->id.'/'.$brand->slug),
+            'schema' => [
+                $seoService->breadcrumbSchema([
+                    ['name' => 'Home', 'url' => url('/')],
+                    ['name' => 'Shop', 'url' => url('/shop')],
+                    ['name' => $brand->name, 'url' => url('/brand/'.$brand->id.'/'.$brand->slug)],
+                ]),
+            ],
+        ]);
+
+        return view('product::brand', compact('brand', 'products', 'seo'));
+    }
+
+    public function brands(SeoService $seoService): View
+    {
+        $brands = ProductBrand::where('active', true)->orderBy('name')->get();
+
+        $seo = $seoService->build([
+            'title' => 'Our Brands',
+            'description' => 'Browse all our brands and discover products from your favorite manufacturers.',
+            'canonical_full' => url('/brands'),
+            'schema' => [
+                $seoService->breadcrumbSchema([
+                    ['name' => 'Home', 'url' => url('/')],
+                    ['name' => 'Brands', 'url' => url('/brands')],
+                ]),
+            ],
+        ]);
+
+        return view('product::brands', compact('brands', 'seo'));
     }
 
     public function show(int $productId, SeoService $seoService): View

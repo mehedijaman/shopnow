@@ -4,6 +4,7 @@ namespace Modules\Index\Http\Controllers;
 
 use Modules\Blog\Models\Post;
 use Modules\Page\Models\Page;
+use Modules\Product\Models\ProductBrand;
 use Modules\Product\Models\ProductCategory;
 use Modules\Settings\Services\SeoService;
 use Modules\Slider\Models\Slider;
@@ -16,6 +17,7 @@ class IndexController extends SiteController
         $showSlider = setting('homepage.show_slider', true) !== false;
         $showFeaturedCategories = setting('homepage.show_featured_categories', true) !== false;
         $showBlog = setting('homepage.show_blog', true) !== false;
+        $showBrands = setting('homepage.show_brands', true) !== false;
 
         $sliders = $showSlider
             ? Slider::where('active', true)
@@ -54,6 +56,10 @@ class IndexController extends SiteController
                 ->get()
             : collect();
 
+        $brands = $showBrands
+            ? ProductBrand::where('active', true)->orderBy('name')->get(['id', 'name', 'image', 'slug'])
+            : collect();
+
         $seo = $seoService->build([
             'canonical_full' => url('/'),
             'schema' => [
@@ -62,7 +68,7 @@ class IndexController extends SiteController
             ],
         ]);
 
-        return view('index::index', compact('sliders', 'featuredCategories', 'latestPosts', 'seo'));
+        return view('index::index', compact('sliders', 'featuredCategories', 'latestPosts', 'brands', 'seo'));
     }
 
     public function about(SeoService $seoService)

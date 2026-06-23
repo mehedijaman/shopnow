@@ -5,6 +5,7 @@ namespace Modules\Product\Models;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Product\Database\Factories\ProductBrandFactory;
 use Modules\Support\Models\BaseModel;
@@ -33,6 +34,11 @@ class ProductBrand extends BaseModel
                 'source' => 'name',
             ],
         ];
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'brand_id');
     }
 
     public function getImageUrlAttribute(): ?string

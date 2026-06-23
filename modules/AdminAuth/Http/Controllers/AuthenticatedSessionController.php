@@ -2,9 +2,11 @@
 
 namespace Modules\AdminAuth\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Inertia\Response;
 use Modules\AdminAuth\Http\Requests\LoginRequest;
 use Modules\Support\Http\Controllers\AppController;
 
@@ -13,7 +15,7 @@ class AuthenticatedSessionController extends AppController
     /**
      * Display the login view.
      *
-     * @return \Inertia\Response
+     * @return Response
      */
     public function loginForm()
     {
@@ -24,7 +26,7 @@ class AuthenticatedSessionController extends AppController
      * Handle an incoming authentication request.
      *
      * @param  \App\Http\Requests\Auth\LoginRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function login(LoginRequest $request)
     {
@@ -38,7 +40,7 @@ class AuthenticatedSessionController extends AppController
     /**
      * Destroy an authenticated session.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function logout(Request $request)
     {

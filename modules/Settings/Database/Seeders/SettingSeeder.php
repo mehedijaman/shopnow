@@ -93,6 +93,7 @@ class SettingSeeder extends Seeder
             ['group' => 'homepage', 'key' => 'show_slider', 'value' => '1', 'type' => 'boolean', 'label' => 'Show Slider', 'description' => 'Show the hero image carousel on the homepage.', 'is_public' => false, 'sort_order' => 1],
             ['group' => 'homepage', 'key' => 'show_featured_categories', 'value' => '1', 'type' => 'boolean', 'label' => 'Show Featured Categories', 'description' => 'Show the featured product categories section.', 'is_public' => false, 'sort_order' => 2],
             ['group' => 'homepage', 'key' => 'show_blog', 'value' => '1', 'type' => 'boolean', 'label' => 'Show Blog Section', 'description' => 'Show the latest blog posts section.', 'is_public' => false, 'sort_order' => 3],
+            ['group' => 'homepage', 'key' => 'show_brands', 'value' => '1', 'type' => 'boolean', 'label' => 'Show Our Brands', 'description' => 'Show the brands carousel section on the homepage.', 'is_public' => false, 'sort_order' => 4],
 
             // Pixel
             ['group' => 'pixel', 'key' => 'enabled', 'value' => '0', 'type' => 'boolean', 'label' => 'Enable Meta Pixel', 'description' => 'Turn Meta Pixel tracking on for storefront pages.', 'is_public' => false, 'sort_order' => 1],

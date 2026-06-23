@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Modules\AdminAuth\Http\Middleware\UserAuth;
+use Modules\CustomerAuth\Http\Middleware\CustomerAuth;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -12,12 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'auth.user' => \Modules\AdminAuth\Http\Middleware\UserAuth::class,
-            'auth.customer' => \Modules\CustomerAuth\Http\Middleware\CustomerAuth::class,
+            'auth.user' => UserAuth::class,
+            'auth.customer' => CustomerAuth::class,
         ]);
 
         $middleware->web(append: [
-            \App\Http\Middleware\HandleInertiaRequests::class,
+            HandleInertiaRequests::class,
         ]);
 
         //

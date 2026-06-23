@@ -2,8 +2,11 @@
 
 namespace Modules\CustomerAuth\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 use Modules\Support\Http\Controllers\AppController;
 
 class PasswordResetLinkController extends AppController
@@ -11,7 +14,7 @@ class PasswordResetLinkController extends AppController
     /**
      * Display the password reset link request view.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function forgotPasswordForm()
     {
@@ -21,9 +24,9 @@ class PasswordResetLinkController extends AppController
     /**
      * Handle an incoming password reset link request.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function sendResetLinkEmail(Request $request)
     {

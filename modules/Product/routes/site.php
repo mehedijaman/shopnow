@@ -9,3 +9,6 @@ Route::prefix('shop')->name('shop.')->group(function () {
     Route::get('product/{id}/{slug?}', [SiteProductController::class, 'show'])->name('product');
     Route::get('category/{id}/{slug?}', [SiteProductController::class, 'category'])->name('category');
 });
+
+Route::get('brand/{id}/{slug?}', [SiteProductController::class, 'brand'])->name('brand');
+Route::get('brands', [SiteProductController::class, 'brands'])->name('brands');
