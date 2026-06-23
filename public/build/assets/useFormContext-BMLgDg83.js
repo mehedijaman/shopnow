@@ -1,1 +1,0 @@
-import{K as e,X as t}from"./preload-helper-DxbPq8HA.js";e();function n(){let e=t(),n=t();return e.value=route().current().includes(`.create`),n.value=route().current().includes(`.edit`),{isCreate:e,isEdit:n}}export{n as t};
