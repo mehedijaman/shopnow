@@ -1,0 +1,1 @@
+import{F as e,O as t,R as n,U as r,v as i,z as a}from"./preload-helper-DxbPq8HA.js";import{n as o}from"./AppButton-Dd3C2eT7.js";t();var s={};function c(t,o){let s=a(`Link`);return e(),i(s,{class:`text-sm font-medium text-skin-primary-9 hover:underline`},{default:r(()=>[n(t.$slots,`default`)]),_:3})}var l=o(s,[[`render`,c]]);export{l as t};

@@ -25,7 +25,7 @@ class ProductReportController extends BackendController
             ->groupBy('product_id')
             ->orderByDesc('sold_qty')
             ->limit(10)
-            ->with('product:id,name,category_id')
+            ->with('product.category:id,name')
             ->get()
             ->map(fn ($op) => [
                 'product_name' => $op->product?->name ?? 'Product #'.$op->product_id,

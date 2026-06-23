@@ -40,7 +40,7 @@ class SitePostController extends SiteController
 
     public function show(string $slug, SeoService $seoService): View
     {
-        $post = Post::with('author')->where('slug', $slug)->firstOrFail();
+        $post = Post::with(['author', 'tags'])->where('slug', $slug)->firstOrFail();
 
         $description = strip_tags($post->excerpt ?? substr(strip_tags($post->content ?? ''), 0, 160));
 

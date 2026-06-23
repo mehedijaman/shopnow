@@ -14,7 +14,7 @@ class GetPostsFromArchive
         $startOfMonth = $archiveDateCarbon->startOfMonth()->format('Y-m-d H:i:s');
         $endOfMonth = $archiveDateCarbon->endOfMonth()->format('Y-m-d H:i:s');
 
-        $posts = Post::with('tags')
+        $posts = Post::with(['tags', 'author'])
             ->whereBetween('published_at', [$startOfMonth, $endOfMonth])
             ->latest()
             ->paginate(6);

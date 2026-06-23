@@ -63,6 +63,7 @@ class SiteProductController extends SiteController
         $category = ProductCategory::findOrFail($categoryId);
 
         $products = $category->products()
+            ->with('category')
             ->where('active', true)
             ->whereHas('category', fn ($query) => $query->where('active', true))
             ->paginate(45);
@@ -90,6 +91,7 @@ class SiteProductController extends SiteController
         $brand = ProductBrand::findOrFail($brandId);
 
         $products = $brand->products()
+            ->with('category')
             ->where('active', true)
             ->whereHas('category', fn ($query) => $query->where('active', true))
             ->paginate(45);
@@ -133,7 +135,7 @@ class SiteProductController extends SiteController
 
     public function show(int $productId, SeoService $seoService): View
     {
-        $product = Product::with(['category', 'brand'])->findOrFail($productId);
+        $product = Product::with(['category', 'brand', 'tags'])->findOrFail($productId);
 
         $gallery = $product->getMedia('gallery')->map(fn ($m) => $m->getUrl())->values()->toArray();
 

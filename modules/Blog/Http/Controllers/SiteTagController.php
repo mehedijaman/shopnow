@@ -15,7 +15,7 @@ class SiteTagController extends SiteController
 {
     public function index(SeoService $seoService, GetArchiveOptions $getArchiveOptions, GetTagOptions $getTagOptions, string $tagSlug): View
     {
-        $posts = Post::with('tags')
+        $posts = Post::with(['tags', 'author'])
             ->whereHas('tags', function ($query) use ($tagSlug) {
                 $query->where('slug', $tagSlug);
             })

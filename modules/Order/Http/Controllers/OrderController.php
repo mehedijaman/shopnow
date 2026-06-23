@@ -38,10 +38,11 @@ class OrderController extends BackendController
                 'created_at' => $order->created_at->format('d M Y'),
             ]);
 
-        // Status counts for tab badges
-        $statusCounts = collect(self::STATUSES)->mapWithKeys(
-            fn ($s) => [$s => Order::where('status', $s)->count()]
-        );
+        // Single grouped query for all status counts
+        $statusCounts = Order::selectRaw('status, count(*) as count')
+            ->whereIn('status', self::STATUSES)
+            ->groupBy('status')
+            ->pluck('count', 'status');
 
         return inertia('Order/OrderIndex', [
             'orders' => $orders,

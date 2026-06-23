@@ -14,7 +14,7 @@ class SitePostSearchController extends SiteController
 {
     public function index(SeoService $seoService, GetArchiveOptions $getArchiveOptions, GetTagOptions $getTagOptions, string $searchTerm): View
     {
-        $posts = Post::with('tags')
+        $posts = Post::with(['tags', 'author'])
             ->where('published_at', '<=', Carbon::now())
             ->search('title,content', $searchTerm)
             ->latest()
@@ -34,7 +34,7 @@ class SitePostSearchController extends SiteController
 
     public function show($slug): View
     {
-        $post = Post::where('slug', $slug)->firstOrFail();
+        $post = Post::with(['tags', 'author'])->where('slug', $slug)->firstOrFail();
 
         return view('blog::post-show', compact('post'));
     }

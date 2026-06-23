@@ -1,4 +1,4 @@
-import { createApp } from 'vue/dist/vue.esm-bundler.js'
+import { createApp } from 'vue/dist/vue.runtime.esm-bundler.js'
 import { createPinia } from 'pinia'
 
 export const createVueApp = (additionalComponents = {}) => {
