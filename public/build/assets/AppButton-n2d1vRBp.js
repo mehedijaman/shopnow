@@ -1,0 +1,1 @@
+import{F as e,O as t,b as n,z as r}from"./preload-helper-BstIDjV2.js";var i=(e,t)=>{let n=e.__vccOpts||e;for(let[e,r]of t)n[e]=r;return n};t();var a=i({__name:`AppButton`,emits:[`click`],setup(t){return(t,i)=>(e(),n(`button`,{type:`button`,onClick:i[0]||=e=>t.$emit(`click`)},[r(t.$slots,`default`,{},void 0,!0)]))}},[[`__scopeId`,`data-v-75539d46`]]);export{i as n,a as t};
