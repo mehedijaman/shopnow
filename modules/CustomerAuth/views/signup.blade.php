@@ -60,36 +60,7 @@
                     @enderror
                 </div>
 
-                <div>
-                    <label for="date_of_birth" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Date of Birth
-                    </label>
-                    <div class="mt-1">
-                        <input id="date_of_birth" name="date_of_birth" type="date" value="{{ old('date_of_birth') }}"
-                            class="block w-full appearance-none rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white placeholder-gray-400 shadow-xs focus:border-primary-500 focus:outline-hidden focus:ring-primary-500 sm:text-sm @error('date_of_birth') border-red-500 ring-1 ring-red-500 @enderror">
-                    </div>
-                    @error('date_of_birth')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                    @enderror
-                </div>
 
-                <div>
-                    <label for="gender" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Gender
-                    </label>
-                    <div class="mt-1">
-                        <select id="gender" name="gender"
-                            class="block w-full appearance-none rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white placeholder-gray-400 shadow-xs focus:border-primary-500 focus:outline-hidden focus:ring-primary-500 sm:text-sm @error('gender') border-red-500 ring-1 ring-red-500 @enderror">
-                            <option value="">Select Gender</option>
-                            <option value="male" {{ old('gender') === 'male' ? 'selected' : '' }}>Male</option>
-                            <option value="female" {{ old('gender') === 'female' ? 'selected' : '' }}>Female</option>
-                            <option value="other" {{ old('gender') === 'other' ? 'selected' : '' }}>Other</option>
-                        </select>
-                    </div>
-                    @error('gender')
-                        <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                    @enderror
-                </div>
 
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
