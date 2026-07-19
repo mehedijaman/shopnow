@@ -593,6 +593,7 @@ async function submitForm() {
 
         const payload = {
             ...form,
+            selected_address_id: selectedAddressId.value || null,
             division_id: districts.value.find(d => d.id == selectedDistrictId.value)?.division_id || null,
             district_id: selectedDistrictId.value || null,
             upazila_id: selectedUpazilaId.value || null,

@@ -26,6 +26,7 @@ class SiteOrderValidate extends Request
             'union_id' => 'nullable|integer',
 
             // Address and payment
+            'selected_address_id' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
             'payment_method' => [

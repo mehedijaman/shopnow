@@ -35,8 +35,9 @@ class SiteOrderController extends SiteController
             $districtId = $orderData['district_id'] ?? null;
             $upazilaId = $orderData['upazila_id'] ?? null;
             $unionId = $orderData['union_id'] ?? null;
+            $selectedAddressId = $orderData['selected_address_id'] ?? null;
 
-            unset($orderData['division_id'], $orderData['district_id'], $orderData['upazila_id'], $orderData['union_id']);
+            unset($orderData['division_id'], $orderData['district_id'], $orderData['upazila_id'], $orderData['union_id'], $orderData['selected_address_id']);
 
             $requiresShipping = $determineShippingRequirement->run($items);
 
@@ -124,12 +125,16 @@ class SiteOrderController extends SiteController
             }
 
             $customer = Auth::guard('customer')->user();
-            if ($customer && $requiresShipping && $customer->addresses()->count() === 0) {
-                if ($districtId && $orderData['address']) {
+            if ($customer && $requiresShipping) {
+                $isNewAddress = ($selectedAddressId === 'new') || ($customer->addresses()->count() === 0);
+
+                if ($isNewAddress && $districtId && $orderData['address']) {
                     if (! $divisionId) {
                         $district = District::find($districtId);
                         $divisionId = $district?->division_id;
                     }
+
+                    $isFirstAddress = $customer->addresses()->count() === 0;
 
                     $customer->addresses()->create([
                         'name' => $orderData['name'],
@@ -140,7 +145,7 @@ class SiteOrderController extends SiteController
                         'union_id' => $unionId,
                         'address' => $orderData['address'],
                         'country' => 'Bangladesh',
-                        'default' => true,
+                        'default' => $isFirstAddress,
                     ]);
                 }
             }

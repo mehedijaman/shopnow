@@ -409,3 +409,63 @@ test('order store saves customer address on the fly if customer has no addresses
     expect($address->union_id)->toBe(1);
     expect($address->default)->toBeTrue();
 });
+
+test('order store saves new customer address on the fly even if customer already has addresses when selected_address_id is new', function () {
+    $customer = Customer::factory()->create();
+
+    // Create an existing address for the customer
+    $customer->addresses()->create([
+        'address' => 'Old Address 123',
+        'default' => true,
+    ]);
+
+    expect($customer->addresses()->count())->toBe(1);
+
+    // Create geocode dummy entries
+    $division = Division::create([
+        'id' => 2,
+        'name' => 'Chittagong',
+        'bn_name' => 'চট্টগ্রাম',
+        'url' => 'www.chittagongdiv.gov.bd',
+    ]);
+
+    $district = District::create([
+        'id' => 2,
+        'division_id' => 2,
+        'name' => 'Chittagong',
+        'bn_name' => 'চট্টগ্রাম',
+        'lat' => '22.335',
+        'lon' => '91.831',
+        'url' => 'www.chittagongdis.gov.bd',
+    ]);
+
+    $response = $this->actingAs($customer, 'customer')->post('/site-order-store', [
+        'name' => 'Recipient Name',
+        'phone' => '01812345678',
+        'division' => 'Chittagong',
+        'district' => 'Chittagong',
+        'division_id' => 2,
+        'district_id' => 2,
+        'selected_address_id' => 'new',
+        'address' => 'New Address 456',
+        'items' => [
+            [
+                'item' => ['id' => $this->physicalProduct->id, 'price' => 99.99],
+                'quantity' => 1,
+            ],
+        ],
+    ]);
+
+    $response->assertStatus(201);
+
+    // Verify address was created on the fly and is NOT set as default since they already had a default one
+    $customer->refresh();
+    expect($customer->addresses()->count())->toBe(2);
+
+    $newAddress = $customer->addresses()->orderBy('id', 'desc')->first();
+    expect($newAddress->address)->toBe('New Address 456');
+    expect($newAddress->name)->toBe('Recipient Name');
+    expect($newAddress->phone)->toBe('01812345678');
+    expect($newAddress->district_id)->toBe(2);
+    expect($newAddress->default)->toBeFalse();
+});
