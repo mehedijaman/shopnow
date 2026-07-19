@@ -1,164 +1,188 @@
 <h1 align="center">ShopNow</h1>
 
 <p align="center">
-  A modern, open-source ecommerce platform built with Laravel, Vue 3, Inertia.js, and Tailwind CSS.
+  <strong>A Premium, Modular E-Commerce Platform & CMS</strong>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Laravel-13.x-red?logo=laravel" alt="Laravel">
   <img src="https://img.shields.io/badge/PHP-8.4-blue?logo=php" alt="PHP">
   <img src="https://img.shields.io/badge/Vue-3.x-green?logo=vue.js" alt="Vue">
-  <img src="https://img.shields.io/badge/Tailwind-3.x-38bdf8?logo=tailwindcss" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/Inertia.js-v3-purple" alt="Inertia.js">
+  <img src="https://img.shields.io/badge/Tailwind-v4.x-38bdf8?logo=tailwindcss" alt="Tailwind CSS">
   <img src="https://img.shields.io/badge/License-MIT-yellow" alt="License">
 </p>
 
 ---
 
-## Features
+## 🌟 Overview
 
-- **Product Catalog** — Categories, featured products, gallery images, sale pricing
-- **Shopping Cart** — Session-based cart with shipping calculation and voucher support
-- **Checkout** — Full delivery details form with payment method selection
-- **Order Management** — Order confirmation, order history, and admin order tracking
-- **Customer Auth** — Registration, login, password reset
-- **Admin Panel** — Product, order, user, blog, and settings management
-- **Blog** — Posts with tags, archive filtering, author profiles, and rich text content
-- **Static Pages** — About, Privacy Policy, Terms of Service, Refund Policy via CMS
-- **Contact Form** — With configurable contact info from settings
-- **Role & Permission** — ACL system via Spatie
-- **Media Library** — Image uploads via Spatie Media Library
-- **SEO Ready** — Meta titles, descriptions, canonical URLs, structured data
-- **Modular Architecture** — Feature modules for clean separation of concerns
+**ShopNow** is a premium, full-featured modular e-commerce platform and Content Management System (CMS) designed for modern retail. Built on a robust **Laravel 13** backend and a reactive **Vue 3** frontend, it features a **dual-frontend architecture**: a highly interactive Single Page Application (SPA) admin dashboard powered by **Inertia.js v3**, paired with a lightning-fast, SEO-optimized public storefront powered by server-rendered **Blade templates** and reactive **Vue 3 Islands**.
 
 ---
 
-## Tech Stack
+## 🏗️ Architectural Blueprint
 
-| Layer | Technology |
+The application is built around a **Modular MVC** pattern with a lightweight **Service Layer** to isolate business operations into testable, reusable units.
+
+### Modular Boundaries
+Instead of cluttering the default `app/` directory, all core domains are encapsulated inside self-contained modules under the `modules/` folder. Each module encapsulates its own routes, models, controllers, services, form requests, views, migrations, seeders, and Pest feature tests.
+
+```mermaid
+graph TD
+    subgraph "Public Front-End (Blade + Vue Islands)"
+        Storefront[Blade Templates]
+        Islands[Vue 3 Components]
+        CartStore[localStorage Cart Store]
+        Storefront --> Islands
+        Islands --> CartStore
+    end
+
+    subgraph "Admin Front-End (Inertia SPA)"
+        Inertia[Inertia.js v3]
+        VueSPA[Vue 3 SPA]
+        Inertia --> VueSPA
+    end
+
+    subgraph "Laravel Core Backend"
+        Routes[Routes]
+        Middleware[Middleware]
+        Controllers[Controllers]
+        Services[Service Layer]
+        Models[Eloquent Models]
+
+        Routes --> Middleware
+        Middleware --> Controllers
+        Controllers --> Services
+        Services --> Models
+    end
+
+    Storefront --> Routes
+    Inertia --> Routes
+```
+
+---
+
+## ⚡ Key Features
+
+- **Modular Domain Design** — Feature modules for Acl, Product, Cart, Order, Blog, Settings, Profile, Slider, and more.
+- **Dual-Frontend Strategy** — A fully-interactive admin panel using Inertia + Vue SPA, alongside an SEO-friendly public storefront using Blade and Vue 3 islands.
+- **Spatie Integration** — Advanced media uploads and conversions via Spatie Media Library, granular roles/permissions via Spatie Permission, and automated audit trails via Spatie Activitylog.
+- **Granular ACL System** — Permission-gated routes and UI actions with support for direct user permissions and role-based policies.
+- **Meta Conversions API** — Built-in server-side Facebook Pixel and Conversions API integration to track user signups, leads, pageviews, and purchases with SHA-256 hashed PII data.
+- **Robust Geocoding & Addresses** — Integrated with Bangladesh geocoding (Division, District, Upazila, Union) supporting saved customer addresses and default selectors, with division auto-derivation on district changes.
+- **SEO & Caching Ready** — Dynamic schema generator (`JSON-LD`), auto-meta tags for posts/products, automated XML sitemaps, and database settings cached for 24 hours.
+
+---
+
+## 🛠️ Technology Stack
+
+| Layer | Technologies |
 |---|---|
-| Backend | Laravel 13, PHP 8.4 |
-| Frontend | Vue 3, Inertia.js v2, Tailwind CSS v3 |
-| Bundler | Vite |
-| Testing | Pest v4, PHPUnit |
-| Database | MySQL / SQLite |
-| Media | Spatie Laravel Media Library |
-| Permissions | Spatie Laravel Permission |
-| Code Style | Laravel Pint, ESLint, Prettier |
+| **Runtime** | PHP 8.4.23+, Node.js 20+ |
+| **Framework** | Laravel 13.16.1 |
+| **Admin Frontend** | Vue 3.4.21, Inertia.js v3 (client v2.3), Pinia, Flowbite, Remix Icon |
+| **Public Storefront** | Laravel Blade, Vue 3 Islands, Tailwind CSS v4.2.4 |
+| **Database** | SQLite (default dev), MySQL / MariaDB (production-ready) |
+| **Testing** | Pest v4.0 (feature & unit suites) |
+| **Code Style** | Laravel Pint (PSR-12), ESLint v9, Prettier v3 |
 
 ---
 
-## Project Structure
+## 📂 Repository Directory Layout
 
 ```
-modules/
-├── Acl/            # Roles & permissions
-├── AdminAuth/      # Admin authentication
-├── Blog/           # Blog posts, tags, authors
-├── Cart/           # Shopping cart & checkout
-├── ContactMessage/ # Contact form
-├── Customer/       # Customer profiles
-├── CustomerAuth/   # Customer authentication
-├── Dashboard/      # Admin dashboard
-├── Index/          # Homepage & static pages
-├── Order/          # Orders & confirmation
-├── Page/           # CMS pages
-├── Product/        # Products & categories
-├── Settings/       # Site-wide settings
-├── Support/        # Support utilities
-└── User/           # Admin user management
-
-resources-site/     # Customer-facing frontend (Blade + Vue)
-resources/          # Admin frontend (Inertia/Vue)
+shopnow/
+├── app/                        # Application bootstrap & shared middleware
+├── bootstrap/                  # Route & middleware configuration (app.php)
+├── config/                     # Application & package settings
+├── database/                   # Seeders & global migrations
+├── modules/                    # Self-contained domain modules
+│   ├── Acl/                    # Roles & permissions management
+│   ├── AdminAuth/              # Admin login & password reset
+│   ├── Blog/                   # Blog posts, categories, tags, and authors
+│   ├── Cart/                   # Client-side shopping cart endpoints
+│   ├── ContactMessage/         # Contact forms & submissions
+│   ├── Customer/               # Customer CRUD, addresses, & report generator
+│   ├── CustomerAuth/           # Customer login, signup, & address management
+│   ├── Dashboard/              # Admin analytics & KPI charts
+│   ├── Index/                  # Home, sitemap, robots.txt & static page controllers
+│   ├── Order/                  # Order processing, status updates & invoicing
+│   ├── Page/                   # CMS system pages (About, Terms, Privacy)
+│   ├── Product/                # Products, categories, brands & attribute variants
+│   ├── Profile/                # Current user profile manager
+│   ├── Settings/               # Site-wide settings (SMTP, SEO, Pixels, Branding)
+│   ├── Slider/                 # Homepage hero banners
+│   ├── Support/                # Base controllers, models, and shared traits
+│   └── User/                   # Admin user manager
+├── resources/                  # Admin single page application source (Inertia + Vue)
+├── resources-site/             # Customer-facing storefront assets & views (Blade + CSS + Vue)
+├── routes/                     # Fallback & local console routes
+├── tests/                      # Global test bootstrap & TestCase
+└── vite.config.js              # Vite compiler configuration
 ```
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
-### Requirements
-
-- PHP 8.4+
-- Node.js 20+
+### Prerequisites
+- PHP 8.4 or higher
 - Composer
-- MySQL or SQLite
+- Node.js 20+ & npm
+- MySQL / MariaDB or SQLite database
 
-### Installation
+### Installation & Setup
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/your-username/shopnow.git
+   cd shopnow
+   ```
+
+2. **Install Composer & NPM Dependencies**
+   ```bash
+   composer install
+   npm ci
+   ```
+
+3. **Configure Environment**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+   *Edit `.env` and specify your database credentials (`DB_DATABASE`, `DB_USERNAME`, etc.).*
+
+4. **Run Migrations & Database Seeding**
+   ```bash
+   php artisan migrate --seed
+   ```
+
+5. **Build Assets & Launch Development Server**
+   ```bash
+   # Compiles and serves assets via Vite + runs artisan dev servers concurrently
+   composer run dev
+   ```
+
+---
+
+## 🧪 Testing & Code Quality
+
+ShopNow enforces high coding standards with integrated linting and automated tests:
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/shopnow.git
-cd shopnow
-
-# Install PHP dependencies
-composer install
-
-# Install Node dependencies
-npm install
-
-# Set up environment
-cp .env.example .env
-php artisan key:generate
-
-# Configure your database in .env, then run migrations
-php artisan migrate --seed
-
-# Build frontend assets
-npm run build
-
-# Start the development server
-php artisan serve
-```
-
-### Development
-
-```bash
-# Run dev server with hot reload
-npm run dev
-
-# Run all processes (server + queue + logs)
-composer run dev
-
-# Run tests
+# Run all Pest feature and unit tests
 php artisan test --compact
 
-# Format PHP code
+# Auto-format PHP code according to PSR-12 conventions
 vendor/bin/pint
+
+# Run frontend ESLint and Prettier formatting checks
+npm run lint
 ```
 
 ---
 
-## Configuration
+## 📄 License
 
-Key settings are managed through the **Admin → Settings** panel and stored in the database:
-
-- **Branding** — Site name, logo, favicon
-- **Contact** — Address, phone, email
-- **Shipping** — Flat rate, free shipping threshold
-- **Payment** — Cash on delivery, online payment methods
-- **SEO** — Default meta tags
-
----
-
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/my-feature`)
-3. Commit your changes (`git commit -m 'Add my feature'`)
-4. Push to the branch (`git push origin feature/my-feature`)
-5. Open a Pull Request
-
-Please ensure your code follows the existing conventions and passes all tests.
-
----
-
-## Security
-
-If you discover a security vulnerability, please open a private security advisory on GitHub rather than a public issue.
-
----
-
-## License
-
-ShopNow is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+ShopNow is open-source software licensed under the [MIT license](LICENSE).
