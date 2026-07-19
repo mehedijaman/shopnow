@@ -35,8 +35,8 @@
                 @mousemove="onDragMove"
                 @mouseup="onDragEnd"
                 @mouseleave="onDragEnd"
-                @touchstart.prevent="onTouchStart"
-                @touchmove.prevent="onTouchMove"
+                @touchstart="onTouchStart"
+                @touchmove="onTouchMove"
                 @touchend="onTouchEnd"
             >
                 <div
@@ -236,9 +236,12 @@ const onDragEnd = () => {
     }
 }
 
+let startY = 0
+
 const onTouchStart = (e) => {
     isDragging = true
     startX = e.touches[0].clientX
+    startY = e.touches[0].clientY
     currentX = startX
     if (track.value) {
         track.value.style.transition = 'none'
@@ -248,9 +251,18 @@ const onTouchStart = (e) => {
 const onTouchMove = (e) => {
     if (!isDragging) return
     currentX = e.touches[0].clientX
-    const diff = currentX - startX
-    if (Math.abs(diff) > 10) {
-        isSwiping = true
+    const currentY = e.touches[0].clientY
+    const diffX = currentX - startX
+    const diffY = currentY - startY
+
+    // If horizontal move is larger than vertical move, prevent page scrolling
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+        if (e.cancelable) {
+            e.preventDefault()
+        }
+        if (Math.abs(diffX) > 10) {
+            isSwiping = true
+        }
     }
 }
 
