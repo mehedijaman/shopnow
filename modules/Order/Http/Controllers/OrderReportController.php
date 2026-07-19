@@ -54,8 +54,8 @@ class OrderReportController extends BackendController
             $group = $dailyGroups->get($key);
             $period[] = [
                 'date' => $cursor->format('d M'),
-                'count' => $group ? (int) $group->count : 0,
-                'revenue' => round($group ? (float) $group->revenue : 0, 2),
+                'count' => $group ? (int) $group['count'] : 0,
+                'revenue' => round($group ? (float) $group['revenue'] : 0, 2),
             ];
             $cursor->addDay();
         }
