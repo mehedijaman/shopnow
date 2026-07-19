@@ -26,6 +26,11 @@ Route::get('order/{id}/show', [
     'show',
 ])->name('order.show');
 
+Route::get('order/{id}/download-invoice', [
+    OrderController::class,
+    'downloadInvoice',
+])->name('order.downloadInvoice');
+
 Route::get('order/{id}/edit', [
     OrderController::class,
     'edit',

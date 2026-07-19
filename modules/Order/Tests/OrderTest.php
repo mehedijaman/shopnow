@@ -131,3 +131,12 @@ test('order status can be updated', function () {
 
     $this->assertEquals('processing', Order::find($this->order->id)->status);
 });
+
+test('order invoice can be downloaded', function () {
+    $response = $this->loggedRequest->get('/admin/order/'.$this->order->id.'/download-invoice');
+
+    $response->assertStatus(200);
+    $response->assertHeader('content-type', 'application/pdf');
+    $response->assertHeader('content-disposition', 'attachment; filename=invoice-'.$this->order->id.'.pdf');
+});
+

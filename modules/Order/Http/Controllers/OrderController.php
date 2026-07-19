@@ -2,6 +2,7 @@
 
 namespace Modules\Order\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -170,6 +171,20 @@ class OrderController extends BackendController
             ],
             'statuses' => self::STATUSES,
         ]);
+    }
+
+    public function downloadInvoice(int $id)
+    {
+        $order = Order::with([
+            'orderProducts.product',
+            'orderProducts.bundleItems',
+        ])->findOrFail($id);
+
+        $pdf = Pdf::loadView('order::invoice-pdf', [
+            'order' => $order,
+        ]);
+
+        return $pdf->download('invoice-'.$order->id.'.pdf');
     }
 
     public function edit(int $id): Response
