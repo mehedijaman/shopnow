@@ -1,0 +1,1 @@
+import{Z as e,q as t}from"./pinia-e1x3eqni.js";t();function n(){let t=e(),n=e();return t.value=route().current().includes(`.create`),n.value=route().current().includes(`.edit`),{isCreate:t,isEdit:n}}export{n as t};

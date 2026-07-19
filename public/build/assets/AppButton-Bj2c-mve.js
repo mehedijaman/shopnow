@@ -1,1 +1,0 @@
-import{M as e,U as t,w as n,z as r}from"./preload-helper-EmZXb67C.js";var i=(e,t)=>{let n=e.__vccOpts||e;for(let[e,r]of t)n[e]=r;return n};e();var a=i({__name:`AppButton`,emits:[`click`],setup(e){return(e,i)=>(r(),n(`button`,{type:`button`,onClick:i[0]||=t=>e.$emit(`click`)},[t(e.$slots,`default`,{},void 0,!0)]))}},[[`__scopeId`,`data-v-75539d46`]]);export{i as n,a as t};

@@ -1,0 +1,1 @@
+import{C as e,F as t,O as n,Tt as r,b as i,ct as a,xt as o,z as s}from"./pinia-e1x3eqni.js";a(),n();var c={__name:`AppLabel`,props:{value:{type:String,default:``}},setup(n){return(a,c)=>(t(),i(`label`,{class:o([`block text-sm font-medium text-skin-neutral-12`,a.$attrs.class])},[e(r(n.value),1),s(a.$slots,`default`)],2))}};export{c as t};

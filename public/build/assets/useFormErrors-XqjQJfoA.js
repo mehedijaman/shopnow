@@ -1,1 +1,0 @@
-import{M as e,b as t}from"./preload-helper-EmZXb67C.js";import{o as n}from"./app-CdxemOQC.js";e();function r(){let e=t(()=>n().props.errors);return{errors:e,errorsFields:t(()=>Object.keys(e.value))}}export{r as t};
