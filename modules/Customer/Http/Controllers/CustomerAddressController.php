@@ -30,6 +30,8 @@ class CustomerAddressController extends AppController
         $customer = Auth::guard('customer')->user();
 
         $validated = $request->validate([
+            'name' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
             'division_id' => 'required|exists:divisions,id',
             'district_id' => 'required|exists:districts,id',
             'upazilla_id' => 'required|exists:upazilas,id',
@@ -50,6 +52,8 @@ class CustomerAddressController extends AppController
         }
 
         $customer->addresses()->create([
+            'name' => $validated['name'] ?? null,
+            'phone' => $validated['phone'] ?? null,
             'division_id' => $validated['division_id'],
             'district_id' => $validated['district_id'],
             'upazilla_id' => $validated['upazilla_id'],
@@ -82,6 +86,8 @@ class CustomerAddressController extends AppController
         }
 
         $validated = $request->validate([
+            'name' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
             'division_id' => 'required|exists:divisions,id',
             'district_id' => 'required|exists:districts,id',
             'upazilla_id' => 'required|exists:upazilas,id',
@@ -97,6 +103,8 @@ class CustomerAddressController extends AppController
         }
 
         $address->update([
+            'name' => $validated['name'] ?? null,
+            'phone' => $validated['phone'] ?? null,
             'division_id' => $validated['division_id'],
             'district_id' => $validated['district_id'],
             'upazilla_id' => $validated['upazilla_id'],

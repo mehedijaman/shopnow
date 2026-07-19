@@ -16,7 +16,7 @@ test('customers can authenticate using the login screen', function () {
     $customer = Customer::factory()->create();
 
     $response = $this->post('/login', [
-        'email' => $customer->email,
+        'login_identity' => $customer->email,
         'password' => 'password',
     ]);
 
@@ -28,7 +28,7 @@ test('customers can not authenticate with invalid password', function () {
     $customer = Customer::factory()->create();
 
     $this->post('/login', [
-        'email' => $customer->email,
+        'login_identity' => $customer->email,
         'password' => 'wrong-password',
     ]);
 

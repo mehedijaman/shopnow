@@ -21,7 +21,7 @@ class CustomerAddress extends BaseModel
     protected $table = 'customer_addresses';
 
     protected $fillable = [
-        'customer_id', 'division_id', 'district_id', 'upazilla_id', 'union_id', 'address', 'country', 'default',
+        'customer_id', 'name', 'phone', 'division_id', 'district_id', 'upazilla_id', 'union_id', 'address', 'country', 'default',
     ];
 
     protected $casts = [

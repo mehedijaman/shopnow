@@ -59,8 +59,8 @@ test('customer create page can be rendered', function () {
 test('customer can be created', function () {
     $response = $this->loggedRequest->post('/admin/customer', [
         'name' => 'Customer Name',
-        'phone' => '12345678901',
-        'email' => 'customer@test.com',
+        'phone' => '12345678902',
+        'email' => 'customer2@test.com',
         'password' => 'password',
         'confirm_password' => 'password',
         'active' => true,

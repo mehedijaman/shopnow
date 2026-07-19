@@ -402,6 +402,8 @@ test('order store saves customer address on the fly if customer has no addresses
 
     $address = $customer->addresses()->first();
     expect($address->address)->toBe('House 123, Road 4');
+    expect($address->name)->toBe('Authenticated customer');
+    expect($address->phone)->toBe('01712345678');
     expect($address->district_id)->toBe(1);
     expect($address->upazilla_id)->toBe(1);
     expect($address->union_id)->toBe(1);

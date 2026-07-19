@@ -620,7 +620,7 @@ async function submitForm() {
             })
         }
 
-        cartStore.clearCart()
+        await cartStore.clearCart()
 
         window.location.href = '/order-confirm/' + response.data.order_id
     } catch (error) {

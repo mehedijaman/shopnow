@@ -132,6 +132,8 @@ class SiteOrderController extends SiteController
                     }
 
                     $customer->addresses()->create([
+                        'name' => $orderData['name'],
+                        'phone' => $orderData['phone'],
                         'division_id' => $divisionId,
                         'district_id' => $districtId,
                         'upazilla_id' => $upazilaId,
