@@ -3,6 +3,7 @@
 namespace Modules\Order\Http\Controllers;
 
 use App\Jobs\SendOrderPlacedMail;
+use Devfaysal\BangladeshGeocode\Models\District;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,6 +30,13 @@ class SiteOrderController extends SiteController
             $orderData = $request->validated();
             $items = $orderData['items'];
             unset($orderData['items']);
+
+            $divisionId = $orderData['division_id'] ?? null;
+            $districtId = $orderData['district_id'] ?? null;
+            $upazilaId = $orderData['upazila_id'] ?? null;
+            $unionId = $orderData['union_id'] ?? null;
+
+            unset($orderData['division_id'], $orderData['district_id'], $orderData['upazila_id'], $orderData['union_id']);
 
             $requiresShipping = $determineShippingRequirement->run($items);
 
@@ -113,6 +121,26 @@ class SiteOrderController extends SiteController
                 $order->orderShipments()->create([
                     'shopment_status' => 'pending',
                 ]);
+            }
+
+            $customer = Auth::guard('customer')->user();
+            if ($customer && $requiresShipping && $customer->addresses()->count() === 0) {
+                if ($districtId && $orderData['address']) {
+                    if (! $divisionId) {
+                        $district = District::find($districtId);
+                        $divisionId = $district?->division_id;
+                    }
+
+                    $customer->addresses()->create([
+                        'division_id' => $divisionId,
+                        'district_id' => $districtId,
+                        'upazilla_id' => $upazilaId,
+                        'union_id' => $unionId,
+                        'address' => $orderData['address'],
+                        'country' => 'Bangladesh',
+                        'default' => true,
+                    ]);
+                }
             }
 
             DB::commit();

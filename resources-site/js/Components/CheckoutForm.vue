@@ -593,6 +593,10 @@ async function submitForm() {
 
         const payload = {
             ...form,
+            division_id: districts.value.find(d => d.id == selectedDistrictId.value)?.division_id || null,
+            district_id: selectedDistrictId.value || null,
+            upazila_id: selectedUpazilaId.value || null,
+            union_id: selectedUnionId.value || null,
             items: items,
             subtotal: cartStore.subtotal,
             tax: cartStore.tax,

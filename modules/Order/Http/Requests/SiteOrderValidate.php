@@ -20,6 +20,10 @@ class SiteOrderValidate extends Request
             'district' => 'nullable|string|max:255',
             'upazila' => 'nullable|string|max:255',
             'union' => 'nullable|string|max:255',
+            'division_id' => 'nullable|integer',
+            'district_id' => 'nullable|integer',
+            'upazila_id' => 'nullable|integer',
+            'union_id' => 'nullable|integer',
 
             // Address and payment
             'address' => 'nullable|string|max:255',

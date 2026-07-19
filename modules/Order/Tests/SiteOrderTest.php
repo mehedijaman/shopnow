@@ -1,5 +1,9 @@
 <?php
 
+use Devfaysal\BangladeshGeocode\Models\District;
+use Devfaysal\BangladeshGeocode\Models\Division;
+use Devfaysal\BangladeshGeocode\Models\Union;
+use Devfaysal\BangladeshGeocode\Models\Upazila;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Modules\Customer\Models\Customer;
@@ -328,4 +332,78 @@ test('orders page can be rendered for authenticated customer', function () {
 
     $response->assertStatus(200);
     $response->assertSee('#'.$order->id);
+});
+
+test('order store saves customer address on the fly if customer has no addresses', function () {
+    $customer = Customer::factory()->create();
+
+    // Verify customer has no addresses initially
+    expect($customer->addresses()->count())->toBe(0);
+
+    // Create geocode dummy entries
+    $division = Division::create([
+        'id' => 1,
+        'name' => 'Dhaka',
+        'bn_name' => 'ঢাকা',
+        'url' => 'www.dhakadiv.gov.bd',
+    ]);
+
+    $district = District::create([
+        'id' => 1,
+        'division_id' => 1,
+        'name' => 'Dhaka',
+        'bn_name' => 'ঢাকা',
+        'lat' => '23.7115253',
+        'lon' => '90.4111451',
+        'url' => 'www.dhakadis.gov.bd',
+    ]);
+
+    $upazila = Upazila::create([
+        'id' => 1,
+        'district_id' => 1,
+        'name' => 'Dhamrai',
+        'bn_name' => 'ধামরাই',
+        'url' => 'dhamrai.dhaka.gov.bd',
+    ]);
+
+    $union = Union::create([
+        'id' => 1,
+        'upazila_id' => 1,
+        'name' => 'Gangutia',
+        'bn_name' => 'গাঙ্গুটিয়া',
+        'url' => 'gangutiaup.dhaka.gov.bd',
+    ]);
+
+    $response = $this->actingAs($customer, 'customer')->post('/site-order-store', [
+        'name' => 'Authenticated customer',
+        'phone' => '01712345678',
+        'division' => 'Dhaka',
+        'district' => 'Dhaka',
+        'upazila' => 'Dhamrai',
+        'union' => 'Gangutia',
+        'division_id' => 1,
+        'district_id' => 1,
+        'upazila_id' => 1,
+        'union_id' => 1,
+        'address' => 'House 123, Road 4',
+        'items' => [
+            [
+                'item' => ['id' => $this->physicalProduct->id, 'price' => 99.99],
+                'quantity' => 1,
+            ],
+        ],
+    ]);
+
+    $response->assertStatus(201);
+
+    // Verify address was created on the fly and is set as default
+    $customer->refresh();
+    expect($customer->addresses()->count())->toBe(1);
+
+    $address = $customer->addresses()->first();
+    expect($address->address)->toBe('House 123, Road 4');
+    expect($address->district_id)->toBe(1);
+    expect($address->upazilla_id)->toBe(1);
+    expect($address->union_id)->toBe(1);
+    expect($address->default)->toBeTrue();
 });
