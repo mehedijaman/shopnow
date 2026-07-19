@@ -469,3 +469,40 @@ test('order store saves new customer address on the fly even if customer already
     expect($newAddress->district_id)->toBe(2);
     expect($newAddress->default)->toBeFalse();
 });
+
+test('order can be placed using existing address', function () {
+    $customer = Customer::factory()->create();
+
+    $address = $customer->addresses()->create([
+        'address' => 'My Saved Address',
+        'division_id' => 1,
+        'district_id' => 1,
+        'upazilla_id' => 1,
+        'union_id' => 1,
+        'country' => 'Bangladesh',
+        'default' => true,
+    ]);
+
+    $response = $this->actingAs($customer, 'customer')->post('/site-order-store', [
+        'name' => 'Authenticated Customer',
+        'phone' => '01712345678',
+        'division' => 'Dhaka',
+        'district' => 'Dhaka',
+        'upazila' => 'Dhamrai',
+        'union' => 'Gangutia',
+        'division_id' => null,
+        'district_id' => null,
+        'upazila_id' => null,
+        'union_id' => null,
+        'address' => 'My Saved Address',
+        'selected_address_id' => $address->id,
+        'items' => [
+            [
+                'item' => ['id' => $this->physicalProduct->id, 'price' => 99.99],
+                'quantity' => 1,
+            ],
+        ],
+    ]);
+
+    $response->assertStatus(201);
+});

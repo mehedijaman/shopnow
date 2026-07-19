@@ -625,6 +625,7 @@ async function submitForm() {
 
         window.location.href = '/order-confirm/' + response.data.order_id
     } catch (error) {
+        console.error('Checkout error response:', error.response?.data);
         if (error.response?.status === 422) {
             // Server validation errors
             const serverErrors = error.response.data.errors ?? {}

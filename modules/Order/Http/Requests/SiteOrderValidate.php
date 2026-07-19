@@ -2,6 +2,8 @@
 
 namespace Modules\Order\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Modules\Support\Http\Requests\Request;
 
@@ -26,7 +28,7 @@ class SiteOrderValidate extends Request
             'union_id' => 'nullable|integer',
 
             // Address and payment
-            'selected_address_id' => 'nullable|string|max:255',
+            'selected_address_id' => 'nullable|max:255',
             'address' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
             'payment_method' => [
@@ -63,5 +65,15 @@ class SiteOrderValidate extends Request
             'paid.numeric' => 'Paid amount must be a valid number.',
             'due.numeric' => 'Due amount must be a valid number.',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        Log::error('SiteOrderValidate failed validation', [
+            'errors' => $validator->errors()->toArray(),
+            'input' => $this->all(),
+        ]);
+
+        parent::failedValidation($validator);
     }
 }
