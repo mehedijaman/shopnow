@@ -105,10 +105,11 @@
             </template>
         </AppDataTable>
         <AppPaginator
+            v-if="props.orders?.data?.length"
             :links="props.orders?.links"
-            :from="props.orders?.from"
-            :to="props.orders?.to"
-            :total="props.orders?.total"
+            :from="props.orders?.from ?? 0"
+            :to="props.orders?.to ?? 0"
+            :total="props.orders?.total ?? 0"
             class="mt-4 justify-center"
         ></AppPaginator>
         <AppAlert v-if="!props.orders?.data?.length" class="m-4">No orders found for selected period.</AppAlert>
