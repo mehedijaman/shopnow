@@ -63,7 +63,7 @@
             </p>
         @endif
 
-        <h2 class="truncate font-semibold text-gray-800 transition-colors group-hover:text-blue-600">
+        <h2 class="line-clamp-2 font-semibold text-gray-800 transition-colors group-hover:text-blue-600">
             <a href="{{ route('shop.product', [$product->id, $product->slug]) }}">
                 {{ $product->name }}
             </a>
