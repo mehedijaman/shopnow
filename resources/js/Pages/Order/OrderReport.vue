@@ -63,22 +63,19 @@
         </div>
         <div class="rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-5 shadow-sm">
             <h3 class="mb-4 font-semibold text-gray-700">Orders by Status</h3>
-            <table class="w-full text-sm">
-                <thead>
-                    <tr class="border-b border-skin-neutral-4 text-xs text-gray-500">
-                        <th class="py-2 text-left font-medium">Status</th>
-                        <th class="py-2 text-right font-medium">Count</th>
-                        <th class="py-2 text-right font-medium">Revenue</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(val, status) in props.byStatus" :key="status" class="border-b border-skin-neutral-4">
-                        <td class="py-2"><span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusBadgeClass(status)">{{ status }}</span></td>
-                        <td class="py-2 text-right text-gray-700">{{ val.count }}</td>
-                        <td class="py-2 text-right font-semibold text-gray-800">৳{{ formatNumber(val.revenue) }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <AppDataTable :headers="['Status', 'Count', 'Revenue']">
+                <template #TableBody>
+                    <tbody>
+                        <AppDataTableRow v-for="(val, status) in props.byStatus" :key="status">
+                            <AppDataTableData>
+                                <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusBadgeClass(status)">{{ status }}</span>
+                            </AppDataTableData>
+                            <AppDataTableData class="text-right text-gray-700">{{ val.count }}</AppDataTableData>
+                            <AppDataTableData class="text-right font-semibold text-gray-800">৳{{ formatNumber(val.revenue) }}</AppDataTableData>
+                        </AppDataTableRow>
+                    </tbody>
+                </template>
+            </AppDataTable>
         </div>
     </div>
 

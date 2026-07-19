@@ -37,29 +37,22 @@
             <div class="border-b border-skin-neutral-4 px-5 py-4">
                 <h3 class="font-semibold text-gray-700">Top Selling Products</h3>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b border-skin-neutral-4 text-xs text-gray-500">
-                            <th class="px-5 py-3 text-left font-medium">#</th>
-                            <th class="px-5 py-3 text-left font-medium">Product</th>
-                            <th class="px-5 py-3 text-left font-medium">Category</th>
-                            <th class="px-5 py-3 text-right font-medium">Qty Sold</th>
-                            <th class="px-5 py-3 text-right font-medium">Revenue</th>
-                        </tr>
-                    </thead>
+            <AppDataTable :headers="['#', 'Product', 'Category', 'Qty Sold', 'Revenue']">
+                <template #TableBody>
                     <tbody>
-                        <tr v-for="(p, i) in props.topSelling" :key="i" class="border-b border-skin-neutral-4">
-                            <td class="px-5 py-3 text-gray-400">{{ i + 1 }}</td>
-                            <td class="px-5 py-3 font-medium text-gray-800">{{ p.product_name }}</td>
-                            <td class="px-5 py-3 text-gray-600">{{ p.category }}</td>
-                            <td class="px-5 py-3 text-right text-gray-700">{{ p.sold_qty }}</td>
-                            <td class="px-5 py-3 text-right font-semibold text-gray-800">৳{{ formatNumber(p.revenue) }}</td>
+                        <AppDataTableRow v-for="(p, i) in props.topSelling" :key="i">
+                            <AppDataTableData class="text-gray-400">{{ i + 1 }}</AppDataTableData>
+                            <AppDataTableData class="font-medium text-gray-800">{{ p.product_name }}</AppDataTableData>
+                            <AppDataTableData class="text-gray-600">{{ p.category }}</AppDataTableData>
+                            <AppDataTableData class="text-right text-gray-700">{{ p.sold_qty }}</AppDataTableData>
+                            <AppDataTableData class="text-right font-semibold text-gray-800">৳{{ formatNumber(p.revenue) }}</AppDataTableData>
+                        </AppDataTableRow>
+                        <tr v-if="!props.topSelling?.length">
+                            <td colspan="5" class="px-5 py-6 text-center text-gray-400">No sales data yet.</td>
                         </tr>
-                        <tr v-if="!props.topSelling?.length"><td colspan="5" class="px-5 py-6 text-center text-gray-400">No sales data yet.</td></tr>
                     </tbody>
-                </table>
-            </div>
+                </template>
+            </AppDataTable>
         </div>
     </div>
 
@@ -71,33 +64,27 @@
                 <span class="ml-2 rounded-full bg-red-100 px-2 py-0.5 text-xs text-red-600">qty &lt; 10</span>
             </h3>
         </div>
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm">
-                <thead>
-                    <tr class="border-b border-skin-neutral-4 text-xs text-gray-500">
-                        <th class="px-5 py-3 text-left font-medium">Product</th>
-                        <th class="px-5 py-3 text-left font-medium">Category</th>
-                        <th class="px-5 py-3 text-right font-medium">Stock</th>
-                        <th class="px-5 py-3 text-left font-medium">Action</th>
-                    </tr>
-                </thead>
+        <AppDataTable :headers="['Product', 'Category', 'Stock', 'Action']">
+            <template #TableBody>
                 <tbody>
-                    <tr v-for="p in props.lowStock" :key="p.id" class="border-b border-skin-neutral-4">
-                        <td class="px-5 py-3 font-medium text-gray-800">{{ p.name }}</td>
-                        <td class="px-5 py-3 text-gray-600">{{ p.category }}</td>
-                        <td class="px-5 py-3 text-right">
+                    <AppDataTableRow v-for="p in props.lowStock" :key="p.id">
+                        <AppDataTableData class="font-medium text-gray-800">{{ p.name }}</AppDataTableData>
+                        <AppDataTableData class="text-gray-600">{{ p.category }}</AppDataTableData>
+                        <AppDataTableData class="text-right">
                             <span class="rounded-full px-2 py-0.5 text-xs font-bold" :class="p.quantity < 5 ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'">{{ p.quantity }}</span>
-                        </td>
-                        <td class="px-5 py-3">
+                        </AppDataTableData>
+                        <AppDataTableData>
                             <AppButton class="btn btn-icon btn-primary" @click="$inertia.visit(route('product.edit', p.id))">
                                 <i class="ri-edit-line"></i>
                             </AppButton>
-                        </td>
+                        </AppDataTableData>
+                    </AppDataTableRow>
+                    <tr v-if="!props.lowStock?.length">
+                        <td colspan="4" class="px-5 py-6 text-center text-gray-400">All products are well-stocked.</td>
                     </tr>
-                    <tr v-if="!props.lowStock?.length"><td colspan="4" class="px-5 py-6 text-center text-gray-400">All products are well-stocked.</td></tr>
                 </tbody>
-            </table>
-        </div>
+            </template>
+        </AppDataTable>
     </div>
 </template>
 

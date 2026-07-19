@@ -51,28 +51,15 @@
     </div>
 
     <!-- Table -->
-    <div v-if="customers.data.length" class="mt-4 overflow-x-auto rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 shadow-sm">
-        <table class="w-full text-sm">
-            <thead>
-                <tr class="border-b border-skin-neutral-4 text-left text-xs text-skin-neutral-9">
-                    <th class="px-4 py-3 font-medium">#</th>
-                    <th class="px-4 py-3 font-medium">Customer</th>
-                    <th class="px-4 py-3 font-medium">Contact</th>
-                    <th class="px-4 py-3 font-medium">Verified</th>
-                    <th class="px-4 py-3 font-medium">Status</th>
-                    <th class="px-4 py-3 font-medium">Gender</th>
-                    <th class="px-4 py-3 font-medium">Joined</th>
-                    <th class="px-4 py-3 font-medium">Actions</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-skin-neutral-3">
-                <tr
+    <AppDataTable v-if="customers.data.length" :headers="headers" class="mt-4 shadow-sm">
+        <template #TableBody>
+            <tbody>
+                <AppDataTableRow
                     v-for="(item, index) in customers.data"
                     :key="item.id"
-                    class="hover:bg-skin-neutral-1"
                 >
-                    <td class="px-4 py-3 font-mono text-xs text-skin-neutral-9">{{ (customers.current_page - 1) * customers.per_page + (index + 1) }}</td>
-                    <td class="px-4 py-3">
+                    <AppDataTableData class="font-mono text-xs text-skin-neutral-9">{{ (customers.current_page - 1) * customers.per_page + (index + 1) }}</AppDataTableData>
+                    <AppDataTableData>
                         <div class="flex items-center gap-2.5">
                             <div class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-xs font-bold text-blue-700">
                                 {{ item.name?.charAt(0)?.toUpperCase() ?? '?' }}
@@ -82,30 +69,30 @@
                                 <p class="text-xs text-skin-neutral-8">ID: {{ item.id }}</p>
                             </div>
                         </div>
-                    </td>
-                    <td class="px-4 py-3">
+                    </AppDataTableData>
+                    <AppDataTableData>
                         <p class="text-skin-neutral-11">{{ item.phone }}</p>
                         <p class="text-xs text-skin-neutral-8">{{ item.email }}</p>
-                    </td>
-                    <td class="px-4 py-3">
+                    </AppDataTableData>
+                    <AppDataTableData>
                         <span
                             class="rounded-full px-2.5 py-0.5 text-xs font-medium"
                             :class="item.email_verified_at ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'"
                         >
                             {{ item.email_verified_at ? 'Verified' : 'Unverified' }}
                         </span>
-                    </td>
-                    <td class="px-4 py-3">
+                    </AppDataTableData>
+                    <AppDataTableData>
                         <span
                             class="rounded-full px-2.5 py-0.5 text-xs font-medium"
                             :class="item.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'"
                         >
                             {{ item.active ? 'Active' : 'Inactive' }}
                         </span>
-                    </td>
-                    <td class="px-4 py-3 text-xs capitalize text-skin-neutral-8">{{ item.gender ?? '—' }}</td>
-                    <td class="px-4 py-3 text-xs text-skin-neutral-8">{{ item.created_at }}</td>
-                    <td class="px-4 py-3">
+                    </AppDataTableData>
+                    <AppDataTableData class="text-xs capitalize text-skin-neutral-8">{{ item.gender ?? '—' }}</AppDataTableData>
+                    <AppDataTableData class="text-xs text-skin-neutral-8">{{ item.created_at }}</AppDataTableData>
+                    <AppDataTableData>
                         <div class="flex gap-1.5">
                             <AppTooltip v-if="can('customer-edit')" text="Edit">
                                 <AppButton class="btn btn-icon btn-primary" @click="$inertia.visit(route('customer.edit', item.id))">
@@ -118,11 +105,11 @@
                                 </AppButton>
                             </AppTooltip>
                         </div>
-                    </td>
-                </tr>
+                    </AppDataTableData>
+                </AppDataTableRow>
             </tbody>
-        </table>
-    </div>
+        </template>
+    </AppDataTable>
 
     <AppPaginator
         :links="customers.links"
@@ -157,6 +144,8 @@ const breadCrumb = [
     { label: 'Home', href: route('dashboard.index') },
     { label: 'Customers', last: true },
 ]
+
+const headers = ['#', 'Customer', 'Contact', 'Verified', 'Status', 'Gender', 'Joined', 'Actions']
 
 const searchInput = ref(props.filters?.searchTerm ?? '')
 const activeFilter = ref(props.filters?.active ?? '')

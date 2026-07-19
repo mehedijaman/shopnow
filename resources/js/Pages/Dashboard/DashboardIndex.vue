@@ -81,29 +81,24 @@
                 <h3 class="font-semibold text-gray-700">Recent Orders</h3>
                 <a :href="route('order.index')" class="text-xs text-blue-600 hover:underline">View all</a>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b border-skin-neutral-4 text-xs text-gray-500">
-                            <th class="px-5 py-3 text-left font-medium">#</th>
-                            <th class="px-5 py-3 text-left font-medium">Customer</th>
-                            <th class="px-5 py-3 text-left font-medium">Status</th>
-                            <th class="px-5 py-3 text-right font-medium">Total</th>
-                            <th class="px-5 py-3 text-left font-medium">Date</th>
-                        </tr>
-                    </thead>
+            <AppDataTable :headers="['#', 'Customer', 'Status', 'Total', 'Date']">
+                <template #TableBody>
                     <tbody>
-                        <tr v-for="order in props.recentOrders" :key="order.id" class="cursor-pointer border-b border-skin-neutral-4 hover:bg-skin-neutral-1" @click="$inertia.visit(route('order.show', order.id))">
-                            <td class="px-5 py-3 text-gray-500">{{ order.id }}</td>
-                            <td class="px-5 py-3 font-medium text-gray-800">{{ order.name }}</td>
-                            <td class="px-5 py-3"><span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusBadgeClass(order.status)">{{ order.status }}</span></td>
-                            <td class="px-5 py-3 text-right font-semibold text-gray-800">৳{{ order.total }}</td>
-                            <td class="px-5 py-3 text-xs text-gray-500">{{ order.created_at }}</td>
+                        <AppDataTableRow v-for="order in props.recentOrders" :key="order.id" class="cursor-pointer" @click="$inertia.visit(route('order.show', order.id))">
+                            <AppDataTableData class="text-gray-500">{{ order.id }}</AppDataTableData>
+                            <AppDataTableData class="font-medium text-gray-800">{{ order.name }}</AppDataTableData>
+                            <AppDataTableData>
+                                <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusBadgeClass(order.status)">{{ order.status }}</span>
+                            </AppDataTableData>
+                            <AppDataTableData class="text-right font-semibold text-gray-800">৳{{ order.total }}</AppDataTableData>
+                            <AppDataTableData class="text-xs text-gray-500">{{ order.created_at }}</AppDataTableData>
+                        </AppDataTableRow>
+                        <tr v-if="!props.recentOrders?.length">
+                            <td colspan="5" class="px-5 py-6 text-center text-gray-400">No orders yet.</td>
                         </tr>
-                        <tr v-if="!props.recentOrders?.length"><td colspan="5" class="px-5 py-6 text-center text-gray-400">No orders yet.</td></tr>
                     </tbody>
-                </table>
-            </div>
+                </template>
+            </AppDataTable>
         </div>
 
         <div class="rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 shadow-sm">
@@ -111,25 +106,20 @@
                 <h3 class="font-semibold text-gray-700">Top Selling Products</h3>
                 <a :href="route('product.index')" class="text-xs text-blue-600 hover:underline">View all</a>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b border-skin-neutral-4 text-xs text-gray-500">
-                            <th class="px-5 py-3 text-left font-medium">Product</th>
-                            <th class="px-5 py-3 text-right font-medium">Qty Sold</th>
-                            <th class="px-5 py-3 text-right font-medium">Revenue</th>
-                        </tr>
-                    </thead>
+            <AppDataTable :headers="['Product', 'Qty Sold', 'Revenue']">
+                <template #TableBody>
                     <tbody>
-                        <tr v-for="(product, i) in props.topProducts" :key="i" class="border-b border-skin-neutral-4">
-                            <td class="px-5 py-3 font-medium text-gray-800">{{ product.product_name }}</td>
-                            <td class="px-5 py-3 text-right text-gray-700">{{ product.sold_qty }}</td>
-                            <td class="px-5 py-3 text-right font-semibold text-gray-800">৳{{ product.revenue }}</td>
+                        <AppDataTableRow v-for="(product, i) in props.topProducts" :key="i">
+                            <AppDataTableData class="font-medium text-gray-800">{{ product.product_name }}</AppDataTableData>
+                            <AppDataTableData class="text-right text-gray-700">{{ product.sold_qty }}</AppDataTableData>
+                            <AppDataTableData class="text-right font-semibold text-gray-800">৳{{ product.revenue }}</AppDataTableData>
+                        </AppDataTableRow>
+                        <tr v-if="!props.topProducts?.length">
+                            <td colspan="3" class="px-5 py-6 text-center text-gray-400">No sales data yet.</td>
                         </tr>
-                        <tr v-if="!props.topProducts?.length"><td colspan="3" class="px-5 py-6 text-center text-gray-400">No sales data yet.</td></tr>
                     </tbody>
-                </table>
-            </div>
+                </template>
+            </AppDataTable>
         </div>
     </div>
 </template>
