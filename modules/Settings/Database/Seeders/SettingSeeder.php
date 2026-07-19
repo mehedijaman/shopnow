@@ -77,6 +77,7 @@ class SettingSeeder extends Seeder
             ['group' => 'seo', 'key' => 'canonical_domain', 'value' => null, 'type' => 'text', 'label' => 'Canonical Domain (e.g. https://example.com)', 'is_public' => false, 'sort_order' => 8],
 
             // Mail
+            ['group' => 'mail', 'key' => 'enable_smtp', 'value' => '0', 'type' => 'boolean', 'label' => 'Enable SMTP Settings', 'is_public' => false, 'sort_order' => 0],
             ['group' => 'mail', 'key' => 'from_name', 'value' => null, 'type' => 'text', 'label' => 'From Name', 'is_public' => false, 'sort_order' => 1],
             ['group' => 'mail', 'key' => 'from_address', 'value' => null, 'type' => 'text', 'label' => 'From Address', 'is_public' => false, 'sort_order' => 2],
             ['group' => 'mail', 'key' => 'host', 'value' => null, 'type' => 'text', 'label' => 'SMTP Host', 'is_public' => false, 'sort_order' => 3],

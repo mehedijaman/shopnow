@@ -84,6 +84,7 @@ class SettingsGroupValidate extends Request
     private function mailRules(): array
     {
         return [
+            'enable_smtp' => 'nullable|boolean',
             'from_name' => 'nullable|string|max:100',
             'from_address' => 'nullable|email|max:255',
             'host' => 'nullable|string|max:255',

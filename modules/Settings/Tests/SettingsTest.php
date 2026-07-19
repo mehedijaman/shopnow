@@ -2,7 +2,9 @@
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 use Modules\Settings\Models\Setting;
@@ -268,4 +270,43 @@ test('pixel settings rejects invalid pixel id format', function () {
     ]);
 
     $response->assertSessionHasErrors('meta_pixel_id');
+});
+
+test('send test email endpoint sends raw email successfully', function () {
+    Event::fake([
+        MessageSending::class,
+    ]);
+
+    $response = $this->loggedRequest->post('/admin/settings/mail/test', [
+        'recipient' => 'test@example.com',
+        'message' => 'Hello, this is a test email.',
+        'enable_smtp' => true,
+        'host' => 'smtp.mailtrap.io',
+        'port' => 2525,
+        'username' => 'testuser',
+        'password' => 'testpass',
+        'encryption' => 'tls',
+    ]);
+
+    $response->assertStatus(200);
+    $response->assertJson([
+        'success' => true,
+        'message' => 'Test email sent successfully!',
+    ]);
+
+    Event::assertDispatched(
+        MessageSending::class,
+        function (MessageSending $event) {
+            return $event->message->getTo()[0]->getAddress() === 'test@example.com';
+        }
+    );
+});
+
+test('send test email endpoint validates input fields', function () {
+    $response = $this->loggedRequest->post('/admin/settings/mail/test', [
+        'recipient' => 'not-an-email',
+        'message' => '',
+    ]);
+
+    $response->assertSessionHasErrors(['recipient', 'message']);
 });

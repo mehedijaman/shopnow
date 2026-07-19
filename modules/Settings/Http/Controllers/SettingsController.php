@@ -2,8 +2,11 @@
 
 namespace Modules\Settings\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Response;
 use Modules\Settings\Http\Requests\SettingsGroupValidate;
 use Modules\Settings\Services\SettingService;
@@ -76,6 +79,73 @@ class SettingsController extends BackendController
         $service->clearCache();
 
         return back()->with('success', 'Settings updated.');
+    }
+
+    public function sendTestEmail(Request $request): JsonResponse
+    {
+        $request->validate([
+            'recipient' => 'required|email',
+            'message' => 'required|string',
+            'enable_smtp' => 'nullable|boolean',
+            'from_name' => 'nullable|string|max:100',
+            'from_address' => 'nullable|email|max:255',
+            'host' => 'nullable|string|max:255',
+            'port' => 'nullable|integer|min:1|max:65535',
+            'username' => 'nullable|string|max:255',
+            'password' => 'nullable|string|max:255',
+            'encryption' => 'nullable|string|in:tls,ssl,starttls',
+        ]);
+
+        try {
+            if ($request->boolean('enable_smtp')) {
+                config([
+                    'mail.mailers.smtp.host' => $request->input('host'),
+                    'mail.mailers.smtp.port' => $request->input('port') ?? 587,
+                    'mail.mailers.smtp.username' => $request->input('username') ?? null,
+                    'mail.mailers.smtp.password' => $request->input('password') ?? null,
+                    'mail.mailers.smtp.encryption' => $request->input('encryption') ?? 'tls',
+                ]);
+                if ($request->filled('from_address')) {
+                    config([
+                        'mail.from.address' => $request->input('from_address'),
+                        'mail.from.name' => $request->input('from_name') ?? config('mail.from.name'),
+                    ]);
+                }
+            } else {
+                config([
+                    'mail.mailers.smtp.host' => env('MAIL_HOST', '127.0.0.1'),
+                    'mail.mailers.smtp.port' => env('MAIL_PORT', 2525),
+                    'mail.mailers.smtp.username' => env('MAIL_USERNAME'),
+                    'mail.mailers.smtp.password' => env('MAIL_PASSWORD'),
+                    'mail.mailers.smtp.encryption' => env('MAIL_ENCRYPTION', 'tls'),
+                    'mail.from.address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+                    'mail.from.name' => env('MAIL_FROM_NAME', config('app.name')),
+                ]);
+            }
+
+            if (! app()->runningUnitTests()) {
+                Mail::purge();
+            }
+
+            $siteName = setting('branding.site_name', config('app.name'));
+            $recipient = $request->input('recipient');
+            $messageBody = $request->input('message');
+
+            Mail::raw($messageBody, function ($message) use ($recipient, $siteName) {
+                $message->to($recipient)
+                    ->subject("Test Email from {$siteName}");
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Test email sent successfully!',
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to send test email: '.$e->getMessage(),
+            ], 500);
+        }
     }
 
     private function authorizeGroupAccess(string $group): void
