@@ -18,7 +18,6 @@
 
     <!-- Search Bar -->
     <AppDataSearch
-        v-slot:default
         v-if="orders.data.length || route().params.searchTerm"
         :url="route('order.index')"
         fields-to-search="id,name,phone"
@@ -49,7 +48,6 @@
                         <!-- Quick status update -->
                         <div v-if="quickUpdateId === item.id" class="flex items-center gap-1.5" @click.stop>
                             <select
-                                v-slot:default
                                 v-model="quickStatus"
                                 class="rounded border border-skin-neutral-5 bg-skin-neutral-1 px-2 py-1 text-xs focus:outline-none"
                                 @keyup.esc="closeQuickUpdate"
@@ -96,7 +94,7 @@
                         >
                             {{ item.payment_status === 'paid' ? 'Paid' : 'Unpaid' }}
                         </span>
-                        <p v-slot:default v-if="item.payment_method" class="mt-0.5 text-xs text-skin-neutral-7">
+                        <p v-if="item.payment_method" class="mt-0.5 text-xs text-skin-neutral-7">
                             {{ item.payment_method === 'cod' ? 'COD' : item.payment_method }}
                         </p>
                     </AppDataTableData>
@@ -121,7 +119,6 @@
     </AppDataTable>
 
     <AppPaginator
-        v-slot:default
         v-if="orders.data.length"
         :links="orders.links"
         :from="orders.from ?? 0"
@@ -130,7 +127,7 @@
         class="mt-4 justify-center"
     />
 
-    <AppAlert v-slot:default v-if="!orders.data.length" class="mt-4">
+    <AppAlert v-if="!orders.data.length" class="mt-4">
         No orders found.
     </AppAlert>
 </template>
