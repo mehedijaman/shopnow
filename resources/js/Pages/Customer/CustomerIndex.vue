@@ -60,7 +60,7 @@
                     <th class="px-4 py-3 font-medium">Contact</th>
                     <th class="px-4 py-3 font-medium">Verified</th>
                     <th class="px-4 py-3 font-medium">Status</th>
-                    <th class="px-4 py-3 text-right font-medium">Total Spent</th>
+                    <th class="px-4 py-3 font-medium">Gender</th>
                     <th class="px-4 py-3 font-medium">Joined</th>
                     <th class="px-4 py-3 font-medium">Actions</th>
                 </tr>
@@ -103,7 +103,7 @@
                             {{ item.active ? 'Active' : 'Inactive' }}
                         </span>
                     </td>
-                    <td class="px-4 py-3 text-right font-semibold text-skin-neutral-12">৳{{ Number(item.total_spent).toLocaleString('en-IN') }}</td>
+                    <td class="px-4 py-3 text-xs capitalize text-skin-neutral-8">{{ item.gender ?? '—' }}</td>
                     <td class="px-4 py-3 text-xs text-skin-neutral-8">{{ item.created_at }}</td>
                     <td class="px-4 py-3">
                         <div class="flex gap-1.5">

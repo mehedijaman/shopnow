@@ -36,14 +36,16 @@ class OrderReportController extends BackendController
         ];
 
         // Daily breakdown using DB grouping
-        $dailyGroups = Order::whereBetween('created_at', [$from, $to])
-            ->selectRaw("date_format(created_at, '%Y-%m-%d') as day,
-                count(*) as count,
-                sum(case when status not in ('cancelled') then total else 0 end) as revenue")
-            ->groupBy('day')
-            ->orderBy('day')
-            ->get()
-            ->keyBy('day');
+        $dailyRevenueRows = Order::whereBetween('created_at', [$from, $to])
+            ->selectRaw('created_at, total, status')
+            ->get();
+
+        $dailyGroups = $dailyRevenueRows
+            ->groupBy(fn ($o) => Carbon::parse($o->created_at)->format('Y-m-d'))
+            ->map(fn ($orders) => [
+                'count' => $orders->count(),
+                'revenue' => round($orders->where('status', '!=', 'cancelled')->sum('total'), 2),
+            ]);
 
         $period = [];
         $cursor = $from->copy();

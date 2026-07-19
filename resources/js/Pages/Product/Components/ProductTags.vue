@@ -5,7 +5,7 @@
         :options="tags"
         combo-label="Select a Tag"
         class="w-64 xl:w-full"
-    />
+    ></AppCombobox>
 
     <ul class="mt-2">
         <li

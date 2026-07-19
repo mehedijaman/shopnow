@@ -11,11 +11,12 @@ class GetPostsFromArchive
     public function get(string $archiveDate): LengthAwarePaginator
     {
         $archiveDateCarbon = Carbon::createFromFormat('m-Y', $archiveDate);
-        $startOfMonth = $archiveDateCarbon->startOfMonth()->format('Y-m-d H:i:s');
-        $endOfMonth = $archiveDateCarbon->endOfMonth()->format('Y-m-d H:i:s');
+        $startOfMonth = $archiveDateCarbon->startOfMonth()->toDateString();
+        $endOfMonth = $archiveDateCarbon->endOfMonth()->toDateString();
 
         $posts = Post::with(['tags', 'author'])
-            ->whereBetween('published_at', [$startOfMonth, $endOfMonth])
+            ->whereDate('published_at', '>=', $startOfMonth)
+            ->whereDate('published_at', '<=', $endOfMonth)
             ->latest()
             ->paginate(6);
 

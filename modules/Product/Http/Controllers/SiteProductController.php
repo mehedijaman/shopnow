@@ -3,7 +3,9 @@
 namespace Modules\Product\Http\Controllers;
 
 use Illuminate\View\View;
+use Modules\Product\Enums\ProductType;
 use Modules\Product\Models\Product;
+use Modules\Product\Models\ProductAttribute;
 use Modules\Product\Models\ProductBrand;
 use Modules\Product\Models\ProductCategory;
 use Modules\Settings\Services\SeoService;
@@ -135,7 +137,7 @@ class SiteProductController extends SiteController
 
     public function show(int $productId, SeoService $seoService): View
     {
-        $product = Product::with(['category', 'brand', 'tags'])->findOrFail($productId);
+        $product = Product::with(['category', 'brand', 'tags', 'variations', 'attributeValues', 'bundleItems.childProduct', 'productFiles.media'])->findOrFail($productId);
 
         $gallery = $product->getMedia('gallery')->map(fn ($m) => $m->getUrl())->values()->toArray();
 
@@ -167,6 +169,85 @@ class SiteProductController extends SiteController
             ],
         ]);
 
-        return view('product::product-show', compact('product', 'gallery', 'seo'));
+        $variationAttributes = [];
+        foreach ($product->attributeValues as $value) {
+            $attr = $value->attribute;
+            $variationAttributes[$attr->id] ??= [
+                'id' => $attr->id,
+                'name' => $attr->name,
+                'input_type' => $attr->input_type,
+                'values' => [],
+            ];
+            $variationAttributes[$attr->id]['values'][] = [
+                'id' => $value->id,
+                'value' => $value->value,
+                'swatch' => $value->swatch,
+            ];
+        }
+
+        // Fallback: if product has variations but no linked attribute values,
+        // load only the attributes used by this product's variations.
+        if (empty($variationAttributes) && $product->variations->isNotEmpty()) {
+            // Collect attribute value IDs from all variations
+            $usedAttributeValueIds = $product->variations
+                ->flatMap(fn ($v) => $v->attributeValues->pluck('id'))
+                ->unique()
+                ->toArray();
+
+            $usedAttributeIds = ProductAttribute::whereHas('values', function ($q) use ($usedAttributeValueIds) {
+                $q->whereIn('id', $usedAttributeValueIds);
+            })->pluck('id')->toArray();
+
+            $allAttributes = ProductAttribute::with(['values' => function ($q) use ($usedAttributeValueIds) {
+                $q->whereIn('id', $usedAttributeValueIds);
+            }])->whereIn('id', $usedAttributeIds)->orderBy('name')->get();
+
+            foreach ($allAttributes as $attr) {
+                $variationAttributes[$attr->id] = [
+                    'id' => $attr->id,
+                    'name' => $attr->name,
+                    'input_type' => $attr->input_type,
+                    'values' => $attr->values->map(fn ($v) => [
+                        'id' => $v->id,
+                        'value' => $v->value,
+                        'swatch' => $v->swatch,
+                    ])->toArray(),
+                ];
+            }
+        }
+
+        $variations = $product->variations->map(fn ($v) => [
+            'id' => $v->id,
+            'price' => (float) $v->price,
+            'sale_price' => (float) $v->sale_price,
+            'quantity' => $v->quantity,
+            'active' => $v->active,
+            'sku' => $v->sku,
+            'attribute_value_ids' => $v->attributeValues->pluck('id'),
+            'image_url' => $v->getFirstMediaUrl('image'),
+        ]);
+
+        $bundleItems = [];
+        if ($product->type === ProductType::Bundle) {
+            $bundleItems = $product->bundleItems->map(fn ($bi) => [
+                'id' => $bi->id,
+                'child_product_id' => $bi->child_product_id,
+                'child_product_name' => $bi->childProduct?->name ?? "Product #{$bi->child_product_id}",
+                'child_product_price' => (float) ($bi->childProduct?->sale_price ?? $bi->childProduct?->price ?? 0),
+                'quantity' => $bi->quantity,
+                'is_optional' => $bi->is_optional,
+                'price_override' => (float) $bi->price_override,
+                'sort_order' => $bi->sort_order,
+            ]);
+        }
+
+        $productFiles = $product->productFiles->map(fn ($pf) => [
+            'id' => $pf->id,
+            'name' => $pf->name,
+            'file_name' => $pf->media?->file_name,
+            'file_size' => $pf->media?->human_readable_size,
+        ]);
+
+        return view('product::product-show', compact('product', 'gallery', 'seo', 'variationAttributes', 'variations', 'bundleItems', 'productFiles'));
     }
 }

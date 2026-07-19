@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="mx-auto max-w-7xl px-6 py-12 lg:px-6">
-        <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+        <section class="bg-white py-8 antialiased md:py-16">
             <div class="mx-auto max-w-2xl px-4 2xl:px-0">
 
                 {{-- Success Icon --}}
@@ -21,16 +21,16 @@
                         </svg>
                     </div>
                     <div>
-                        <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
+                        <h2 class="text-xl font-semibold text-gray-900 sm:text-2xl">
                             Thank you, {{ $order->name }}!
                         </h2>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">Your order has been placed successfully.</p>
+                        <p class="text-sm text-gray-500">Your order has been placed successfully.</p>
                     </div>
                 </div>
 
-                <p class="mb-6 text-gray-500 dark:text-gray-400 md:mb-8">
+                <p class="mb-6 text-gray-500 md:mb-8">
                     Your order
-                    <span class="font-semibold text-gray-900 dark:text-white">#{{ $order->id }}</span>
+                    <span class="font-semibold text-gray-900">#{{ $order->id }}</span>
                     will be processed within 24 hours during working days.
                     @if ($order->email)
                         We will notify you at <strong>{{ $order->email }}</strong> once your order has been shipped.
@@ -38,28 +38,28 @@
                 </p>
 
                 {{-- Order Details --}}
-                <div class="mb-6 space-y-3 rounded-lg border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800 md:mb-8">
+                <div class="mb-6 space-y-3 rounded-lg border border-gray-100 bg-gray-50 p-6 md:mb-8">
                     <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-500">Order Details</h3>
 
                     <dl class="items-center justify-between gap-4 sm:flex">
-                        <dt class="mb-1 font-normal text-gray-500 dark:text-gray-400 sm:mb-0">Order Number</dt>
-                        <dd class="font-semibold text-gray-900 dark:text-white sm:text-end">#{{ $order->id }}</dd>
+                        <dt class="mb-1 font-normal text-gray-500 sm:mb-0">Order Number</dt>
+                        <dd class="font-semibold text-gray-900 sm:text-end">#{{ $order->id }}</dd>
                     </dl>
 
                     <dl class="items-center justify-between gap-4 sm:flex">
-                        <dt class="mb-1 font-normal text-gray-500 dark:text-gray-400 sm:mb-0">Date</dt>
-                        <dd class="font-medium text-gray-900 dark:text-white sm:text-end">{{ $order->created_at->format('d M Y, h:i A') }}</dd>
+                        <dt class="mb-1 font-normal text-gray-500 sm:mb-0">Date</dt>
+                        <dd class="font-medium text-gray-900 sm:text-end">{{ $order->created_at->format('d M Y, h:i A') }}</dd>
                     </dl>
 
                     <dl class="items-center justify-between gap-4 sm:flex">
-                        <dt class="mb-1 font-normal text-gray-500 dark:text-gray-400 sm:mb-0">Payment Method</dt>
-                        <dd class="font-medium text-gray-900 dark:text-white sm:text-end">
+                        <dt class="mb-1 font-normal text-gray-500 sm:mb-0">Payment Method</dt>
+                        <dd class="font-medium text-gray-900 sm:text-end">
                             {{ $order->payment_method === 'cod' ? 'Cash on Delivery' : ($order->payment_method ? ucfirst($order->payment_method) : '—') }}
                         </dd>
                     </dl>
 
                     <dl class="items-center justify-between gap-4 sm:flex">
-                        <dt class="mb-1 font-normal text-gray-500 dark:text-gray-400 sm:mb-0">Payment Status</dt>
+                        <dt class="mb-1 font-normal text-gray-500 sm:mb-0">Payment Status</dt>
                         <dd class="sm:text-end">
                             <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
                                 {{ $order->payment_status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
@@ -69,14 +69,14 @@
                     </dl>
 
                     <dl class="items-center justify-between gap-4 sm:flex">
-                        <dt class="mb-1 font-normal text-gray-500 dark:text-gray-400 sm:mb-0">Phone</dt>
-                        <dd class="font-medium text-gray-900 dark:text-white sm:text-end">{{ $order->phone }}</dd>
+                        <dt class="mb-1 font-normal text-gray-500 sm:mb-0">Phone</dt>
+                        <dd class="font-medium text-gray-900 sm:text-end">{{ $order->phone }}</dd>
                     </dl>
 
                     @if ($order->district || $order->upazila)
                         <dl class="items-center justify-between gap-4 sm:flex">
-                            <dt class="mb-1 font-normal text-gray-500 dark:text-gray-400 sm:mb-0">Area</dt>
-                            <dd class="font-medium text-gray-900 dark:text-white sm:text-end">
+                            <dt class="mb-1 font-normal text-gray-500 sm:mb-0">Area</dt>
+                            <dd class="font-medium text-gray-900 sm:text-end">
                                 {{ collect([$order->upazila, $order->district])->filter()->implode(', ') }}
                             </dd>
                         </dl>
@@ -84,8 +84,8 @@
 
                     @if ($order->address)
                         <dl class="items-center justify-between gap-4 sm:flex">
-                            <dt class="mb-1 font-normal text-gray-500 dark:text-gray-400 sm:mb-0">Delivery Address</dt>
-                            <dd class="font-medium text-gray-900 dark:text-white sm:text-end">{{ $order->address }}</dd>
+                            <dt class="mb-1 font-normal text-gray-500 sm:mb-0">Delivery Address</dt>
+                            <dd class="font-medium text-gray-900 sm:text-end">{{ $order->address }}</dd>
                         </dl>
                     @endif
                 </div>
@@ -93,9 +93,9 @@
                 {{-- Items Table --}}
                 <div class="mb-6 md:mb-8">
                     <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-500">Items Ordered</h3>
-                    <div class="overflow-hidden rounded-lg border border-gray-100 dark:border-gray-700">
+                    <div class="overflow-hidden rounded-lg border border-gray-100">
                         <table class="w-full text-sm">
-                            <thead class="bg-gray-50 dark:bg-gray-800">
+                            <thead class="bg-gray-50">
                                 <tr>
                                     <th class="px-4 py-3 text-left font-medium text-gray-500">Product</th>
                                     <th class="px-4 py-3 text-center font-medium text-gray-500">Qty</th>
@@ -103,26 +103,48 @@
                                     <th class="px-4 py-3 text-right font-medium text-gray-500">Total</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-100 dark:divide-gray-700 dark:bg-gray-900">
+                            <tbody class="divide-y divide-gray-100">
                                 @foreach ($order->orderProducts as $item)
                                     <tr>
-                                        <td class="px-4 py-3 text-gray-900 dark:text-white">
-                                            {{ $item->product?->name ?? 'Product #'.$item->product_id }}
+                                        <td class="px-4 py-3 text-gray-900">
+                                            <div>
+                                                <span class="font-medium">{{ $item->product?->name ?? 'Product #'.$item->product_id }}</span>
+                                                @if ($item->variation_label)
+                                                    <p class="mt-0.5 text-xs text-blue-600">{{ $item->variation_label }}</p>
+                                                @endif
+                                            </div>
                                         </td>
-                                        <td class="px-4 py-3 text-center text-gray-600 dark:text-gray-400">{{ $item->quantity }}</td>
-                                        <td class="px-4 py-3 text-right text-gray-600 dark:text-gray-400">{{ number_format($item->unit_price, 2) }} Tk</td>
-                                        <td class="px-4 py-3 text-right font-medium text-gray-900 dark:text-white">{{ number_format($item->total_price, 2) }} Tk</td>
+                                        <td class="px-4 py-3 text-center text-gray-600">{{ $item->quantity }}</td>
+                                        <td class="px-4 py-3 text-right text-gray-600">{{ number_format($item->unit_price, 2) }} Tk</td>
+                                        <td class="px-4 py-3 text-right font-medium text-gray-900">{{ number_format($item->total_price, 2) }} Tk</td>
                                     </tr>
+
+                                    {{-- Bundle child items snapshot --}}
+                                    @if ($item->bundleItems && $item->bundleItems->count())
+                                        @foreach ($item->bundleItems as $bi)
+                                            <tr class="bg-gray-50/50">
+                                                <td class="px-4 py-2 pl-8">
+                                                    <span class="text-xs text-gray-500">└ {{ $bi->name ?? 'Item' }}</span>
+                                                    @if ($bi->sku)
+                                                        <span class="text-xs text-gray-400">({{ $bi->sku }})</span>
+                                                    @endif
+                                                </td>
+                                                <td class="px-4 py-2 text-center text-xs text-gray-500">{{ $bi->quantity }}</td>
+                                                <td class="px-4 py-2 text-right text-xs text-gray-500">{{ number_format($bi->unit_price, 2) }} Tk</td>
+                                                <td class="px-4 py-2 text-right text-xs font-medium text-gray-600">{{ number_format($bi->total_price, 2) }} Tk</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 @endforeach
                             </tbody>
-                            <tfoot class="bg-gray-50 dark:bg-gray-800">
+                            <tfoot class="bg-gray-50">
                                 <tr>
                                     <td colspan="3" class="px-4 py-2 text-right text-sm text-gray-500">Subtotal</td>
-                                    <td class="px-4 py-2 text-right text-sm text-gray-900 dark:text-white">{{ number_format($order->subtotal, 2) }} Tk</td>
+                                    <td class="px-4 py-2 text-right text-sm text-gray-900">{{ number_format($order->subtotal, 2) }} Tk</td>
                                 </tr>
                                 <tr>
                                     <td colspan="3" class="px-4 py-2 text-right text-sm text-gray-500">Shipping</td>
-                                    <td class="px-4 py-2 text-right text-sm text-gray-900 dark:text-white">
+                                    <td class="px-4 py-2 text-right text-sm text-gray-900">
                                         @if ($order->shipping == 0)
                                             <span class="text-green-600">Free</span>
                                         @else
@@ -133,12 +155,12 @@
                                 @if ($order->tax > 0)
                                     <tr>
                                         <td colspan="3" class="px-4 py-2 text-right text-sm text-gray-500">Tax</td>
-                                        <td class="px-4 py-2 text-right text-sm text-gray-900 dark:text-white">{{ number_format($order->tax, 2) }} Tk</td>
+                                        <td class="px-4 py-2 text-right text-sm text-gray-900">{{ number_format($order->tax, 2) }} Tk</td>
                                     </tr>
                                 @endif
-                                <tr class="border-t border-gray-200 dark:border-gray-600">
-                                    <td colspan="3" class="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white">Total</td>
-                                    <td class="px-4 py-3 text-right font-bold text-gray-900 dark:text-white">{{ number_format($order->total, 2) }} Tk</td>
+                                <tr class="border-t border-gray-200">
+                                    <td colspan="3" class="px-4 py-3 text-right font-semibold text-gray-900">Total</td>
+                                    <td class="px-4 py-3 text-right font-bold text-gray-900">{{ number_format($order->total, 2) }} Tk</td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -155,7 +177,7 @@
                     </a>
                     <a
                         href="{{ route('shop.index') }}"
-                        class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:z-10 focus:outline-hidden focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+                        class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:z-10 focus:outline-hidden focus:ring-4 focus:ring-gray-100"
                     >
                         Back to Shop
                     </a>

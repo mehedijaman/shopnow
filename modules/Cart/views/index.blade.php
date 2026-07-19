@@ -19,6 +19,7 @@
         <shopping-cart
             :shipping-flat-rate="{{ $shippingFlatRate }}"
             :free-shipping-threshold="{{ $freeShippingThreshold }}"
+            :requires-shipping="{{ $totals['requiresShipping'] ? 'true' : 'false' }}"
         ></shopping-cart>
     </div>
 @endsection

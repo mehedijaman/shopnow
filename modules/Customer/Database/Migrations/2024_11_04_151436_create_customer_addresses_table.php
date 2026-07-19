@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('customer_addresses', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
             $table->foreignId('division_id')->nullable();
             $table->foreignId('district_id')->nullable();
             $table->foreignId('upazilla_id')->nullable();
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->string('country')->nullable();
             $table->boolean('default')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

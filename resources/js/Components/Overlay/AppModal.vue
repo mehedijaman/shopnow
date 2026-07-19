@@ -25,7 +25,7 @@ import { computed } from 'vue'
 const props = defineProps({
     backdropClasses: {
         type: String,
-        default: 'bg-skin-neutral-9 bg-opacity-75 fixed inset-0 z-50'
+        default: 'bg-black bg-opacity-50 fixed inset-0 z-50'
     },
     placement: {
         type: String,

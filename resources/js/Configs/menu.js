@@ -65,6 +65,12 @@ export default {
                     permission: 'product-brand-list',
                     icon: 'ri-team-line',
                     link: route('productBrand.index')
+                },
+                {
+                    label: 'Product Attributes',
+                    permission: 'product-attribute-list',
+                    icon: 'ri-list-settings-line',
+                    link: route('productAttribute.index')
                 }
             ]
         },

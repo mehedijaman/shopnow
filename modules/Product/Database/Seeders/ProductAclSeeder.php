@@ -59,6 +59,12 @@ class ProductAclSeeder extends Seeder
             'product-tag-recycle-bin-list',
             'product-tag-recycle-bin-delete',
             'product-tag-recycle-bin-restore',
+
+            'product-attribute-list',
+            'product-attribute-view',
+            'product-attribute-create',
+            'product-attribute-edit',
+            'product-attribute-delete',
         ];
     }
 }

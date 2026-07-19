@@ -2,13 +2,13 @@
 
 namespace Modules\Customer\Models;
 
-use Modules\CustomerAuth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Modules\Customer\Database\Factories\CustomerFactory;
+use Modules\CustomerAuth\Notifications\ResetPassword;
 use Modules\Support\Traits\ActivityLog;
 use Modules\Support\Traits\Searchable;
 
@@ -28,11 +28,16 @@ class Customer extends Authenticatable
         'email',
         'phone',
         'password',
+        'date_of_birth',
+        'gender',
+        'phone_verified_at',
     ];
 
     protected $casts = [
         'active' => 'boolean',
         'email_verified_at' => 'datetime',
+        'phone_verified_at' => 'datetime',
+        'date_of_birth' => 'date',
         'password' => 'hashed',
     ];
 

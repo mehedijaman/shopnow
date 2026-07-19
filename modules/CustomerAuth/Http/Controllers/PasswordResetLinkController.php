@@ -18,7 +18,7 @@ class PasswordResetLinkController extends AppController
      */
     public function forgotPasswordForm()
     {
-        return inertia('CustomerAuth/ForgotPage');
+        return view('customer-auth::forgot-password');
     }
 
     /**

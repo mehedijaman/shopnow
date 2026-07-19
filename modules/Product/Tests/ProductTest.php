@@ -3,8 +3,11 @@
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 use Modules\Product\Models\Product;
+use Modules\Product\Models\ProductAttribute;
+use Modules\Product\Models\ProductAttributeValue;
 use Modules\Product\Models\ProductBrand;
 use Modules\Product\Models\ProductCategory;
+use Modules\Product\Models\ProductTag;
 use Modules\User\Models\User;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
@@ -166,4 +169,64 @@ test('product can be restored from recycle bin', function () {
     $response->assertRedirect('/admin/product/recycle-bin');
 
     $this->assertCount(1, Product::all());
+});
+
+test('product list can be filtered by category, tag, and attributes', function () {
+    $category = ProductCategory::factory()->create();
+    $tag = ProductTag::create(['name' => 'FeaturedTag', 'slug' => 'featured-tag']);
+
+    $attribute = ProductAttribute::create(['name' => 'Color', 'slug' => 'color', 'input_type' => 'select']);
+    $attributeValue = ProductAttributeValue::create([
+        'product_attribute_id' => $attribute->id,
+        'value' => 'Red',
+        'slug' => 'red',
+    ]);
+
+    $matchingProduct = Product::factory()->create([
+        'category_id' => $category->id,
+        'active' => true,
+    ]);
+    $matchingProduct->tags()->attach($tag->id);
+    $matchingProduct->attributeValues()->attach($attributeValue->id);
+
+    $nonMatchingProduct = Product::factory()->create([
+        'category_id' => null,
+        'active' => true,
+    ]);
+
+    // Test Category filter
+    $response = $this->loggedRequest->get('/admin/product?category='.$category->id);
+    $response->assertStatus(200);
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->has('products.data', 1)
+            ->where('products.data.0.id', $matchingProduct->id)
+    );
+
+    // Test Tag filter
+    $response = $this->loggedRequest->get('/admin/product?tag='.$tag->id);
+    $response->assertStatus(200);
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->has('products.data', 1)
+            ->where('products.data.0.id', $matchingProduct->id)
+    );
+
+    // Test Attribute filter
+    $response = $this->loggedRequest->get('/admin/product?attribute='.$attribute->id);
+    $response->assertStatus(200);
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->has('products.data', 1)
+            ->where('products.data.0.id', $matchingProduct->id)
+    );
+
+    // Test Attribute Value filter
+    $response = $this->loggedRequest->get('/admin/product?attribute_value='.$attributeValue->id);
+    $response->assertStatus(200);
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->has('products.data', 1)
+            ->where('products.data.0.id', $matchingProduct->id)
+    );
 });

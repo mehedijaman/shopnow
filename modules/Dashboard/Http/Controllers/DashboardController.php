@@ -31,12 +31,14 @@ class DashboardController extends BackendController
 
         // Build last-12-months revenue array using DB grouping
         $twelveMonthsAgo = $now->copy()->subMonths(11)->startOfMonth();
-        $monthlyGroups = Order::whereNotIn('status', ['cancelled'])
+        $monthlyRevenueRows = Order::whereNotIn('status', ['cancelled'])
             ->where('created_at', '>=', $twelveMonthsAgo)
-            ->selectRaw("date_format(created_at, '%Y-%m') as month, sum(total) as revenue")
-            ->groupBy('month')
-            ->orderBy('month')
-            ->pluck('revenue', 'month');
+            ->selectRaw('created_at, total')
+            ->get();
+
+        $monthlyGroups = $monthlyGroups = $monthlyRevenueRows
+            ->groupBy(fn ($o) => Carbon::parse($o->created_at)->format('Y-m'))
+            ->map(fn ($orders) => round($orders->sum('total'), 2));
 
         $revenueLabels = [];
         $revenueData = [];

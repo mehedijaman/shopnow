@@ -1,0 +1,1 @@
+import{D as e,M as t,Tt as n,U as r,ft as i,kt as a,w as o,z as s}from"./preload-helper-EmZXb67C.js";i(),t();var c={__name:`AppLabel`,props:{value:{type:String,default:``}},setup(t){return(i,c)=>(s(),o(`label`,{class:n([`block text-sm font-medium text-skin-neutral-12`,i.$attrs.class])},[e(a(t.value),1),r(i.$slots,`default`)],2))}};export{c as t};

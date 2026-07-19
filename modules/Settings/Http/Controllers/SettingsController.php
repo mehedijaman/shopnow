@@ -14,7 +14,7 @@ class SettingsController extends BackendController
 {
     use UploadFile;
 
-    private const GROUPS = ['general', 'branding', 'contact', 'social', 'seo', 'mail', 'shipping', 'homepage', 'pixel'];
+    private const GROUPS = ['general', 'branding', 'contact', 'social', 'seo', 'mail', 'shipping', 'homepage', 'pixel', 'downloads'];
 
     /** @var array<string, string[]> */
     private const IMAGE_FIELDS = [

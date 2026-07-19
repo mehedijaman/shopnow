@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Product\Database\Factories\ProductFactory;
+use Modules\Product\Enums\ProductType;
 use Modules\Support\Models\BaseModel;
 use Modules\Support\Traits\ActivityLog;
 use Modules\Support\Traits\Searchable;
@@ -27,7 +28,15 @@ class Product extends BaseModel implements HasMedia
     protected $casts = [
         'active' => 'boolean',
         'featured' => 'boolean',
+        'type' => ProductType::class,
+        'is_virtual' => 'boolean',
+        'is_downloadable' => 'boolean',
     ];
+
+    public function requiresShipping(): bool
+    {
+        return ! $this->is_virtual;
+    }
 
     public function sluggable(): array
     {
@@ -65,10 +74,43 @@ class Product extends BaseModel implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('gallery');
+        $this->addMediaCollection('downloads');
     }
 
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(ProductTag::class);
+    }
+
+    public function productFiles()
+    {
+        return $this->hasMany(ProductFile::class)->orderBy('sort_order');
+    }
+
+    public function attributeValues()
+    {
+        return $this->belongsToMany(ProductAttributeValue::class, 'pivot_product_attr_value')
+            ->withPivot('sort_order')
+            ->orderByPivot('sort_order');
+    }
+
+    public function variations()
+    {
+        return $this->hasMany(ProductVariation::class);
+    }
+
+    public function bundleConfig()
+    {
+        return $this->hasOne(ProductBundleConfig::class);
+    }
+
+    public function bundleItems()
+    {
+        return $this->hasMany(ProductBundleItem::class, 'bundle_product_id');
+    }
+
+    public function partOfBundles()
+    {
+        return $this->hasMany(ProductBundleItem::class, 'child_product_id');
     }
 }

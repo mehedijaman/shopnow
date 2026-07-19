@@ -1,0 +1,1 @@
+import{Z as e,tt as t}from"./preload-helper-EmZXb67C.js";e();function n(){let e=t(),n=t();return e.value=route().current().includes(`.create`),n.value=route().current().includes(`.edit`),{isCreate:e,isEdit:n}}export{n as t};

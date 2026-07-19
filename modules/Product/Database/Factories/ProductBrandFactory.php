@@ -2,7 +2,6 @@
 
 namespace Modules\Product\Database\Factories;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Modules\Product\Models\ProductBrand;
@@ -13,22 +12,37 @@ class ProductBrandFactory extends Factory
 
     public function definition(): array
     {
-        $name = $this->faker->unique()->sentence(4);
+        $name = $this->faker->unique()->words(2, true);
 
         return [
-            'parent_id' => $this->faker->randomElement(ProductBrand::pluck('id')->toArray()),
+            'parent_id' => null,
             'name' => $name,
-            'description' => $this->faker->realText(),
-            'image' => $this->faker->imageUrl(),
-            'active' => $this->faker->boolean(),
+            'description' => $this->faker->realText(200),
+            'image' => $this->faker->imageUrl(640, 480, 'brand'),
+            'active' => true,
+            'featured' => false,
             'slug' => Str::slug($name),
             'meta_tag_title' => Str::limit($name, 60, ''),
-            'meta_tag_description' => Str::limit($name, 160, ''),
-
-            'created_by' => User::inRandomOrder()->first()->id,
-            'updated_by' => User::inRandomOrder()->first()->id,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'meta_tag_description' => $this->faker->sentence(8),
+            'created_by' => null,
+            'updated_by' => null,
         ];
+    }
+
+    public function active(bool $active = true): static
+    {
+        return $this->state(fn () => ['active' => $active]);
+    }
+
+    public function featured(bool $featured = true): static
+    {
+        return $this->state(fn () => ['featured' => $featured]);
+    }
+
+    public function withParent(): static
+    {
+        return $this->state(fn () => [
+            'parent_id' => ProductBrand::inRandomOrder()->value('id'),
+        ]);
     }
 }

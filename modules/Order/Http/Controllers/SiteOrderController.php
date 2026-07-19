@@ -4,17 +4,25 @@ namespace Modules\Order\Http\Controllers;
 
 use App\Jobs\SendOrderPlacedMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Modules\Order\Http\Requests\SiteOrderValidate;
 use Modules\Order\Models\Order;
+use Modules\Order\Services\DetermineShippingRequirement;
+use Modules\Product\Enums\ProductType;
+use Modules\Product\Models\Product;
+use Modules\Product\Models\ProductVariation;
 use Modules\Settings\Services\MetaConversionApiService;
 use Modules\Support\Http\Controllers\SiteController;
 
 class SiteOrderController extends SiteController
 {
-    public function store(SiteOrderValidate $request, MetaConversionApiService $metaConversionApiService)
-    {
+    public function store(
+        SiteOrderValidate $request,
+        DetermineShippingRequirement $determineShippingRequirement,
+        MetaConversionApiService $metaConversionApiService,
+    ) {
         DB::beginTransaction();
 
         try {
@@ -22,25 +30,90 @@ class SiteOrderController extends SiteController
             $items = $orderData['items'];
             unset($orderData['items']);
 
-            $order = Order::create($orderData);
+            $requiresShipping = $determineShippingRequirement->run($items);
 
-            $orderProducts = collect($items)->map(function ($item) use ($order) {
-                $unitPrice = $item['item']['price'];
+            $order = Order::create(array_merge($orderData, [
+                'requires_shipping' => $requiresShipping,
+                'customer_id' => Auth::guard('customer')->id(),
+            ]));
+
+            $createdOrderProducts = collect($items)->map(function ($item) use ($order) {
                 $quantity = $item['quantity'];
                 $discount = 0;
+                $variationId = null;
+                $variationLabel = null;
+
+                $productId = $item['item']['id'];
+                $productVariationId = $item['item']['product_variation_id'] ?? null;
+
+                $product = Product::find($productId);
+                $isBundle = $product && $product->type === ProductType::Bundle;
+
+                if ($isBundle) {
+                    $unitPrice = (float) ($item['item']['price'] ?? $product?->sale_price ?? $product?->price ?? 0);
+                } elseif ($productVariationId) {
+                    $variation = ProductVariation::where('id', $productVariationId)
+                        ->where('product_id', $productId)
+                        ->where('active', true)
+                        ->first();
+
+                    if ($variation) {
+                        $unitPrice = $variation->sale_price ? (float) $variation->sale_price : (float) $variation->price;
+                        $variationId = $variation->id;
+                        $variationLabel = $item['item']['variation_label'] ?? null;
+
+                        if ($variation->quantity >= $quantity) {
+                            $variation->decrement('quantity', $quantity);
+                        }
+                    } else {
+                        $unitPrice = (float) ($product?->sale_price ?? $product?->price ?? 0);
+                    }
+                } else {
+                    $unitPrice = (float) ($product?->sale_price ?? $product?->price ?? 0);
+                }
+
                 $totalPrice = ($unitPrice * $quantity) - $discount;
 
-                return [
-                    'order_id' => $order->id,
-                    'product_id' => $item['item']['id'],
+                $orderProduct = $order->orderProducts()->create([
+                    'product_id' => $productId,
+                    'product_variation_id' => $variationId,
+                    'variation_label' => $variationLabel,
                     'quantity' => $quantity,
                     'unit_price' => $unitPrice,
                     'discount' => $discount,
                     'total_price' => $totalPrice,
-                ];
-            })->toArray();
+                ]);
 
-            $order->orderProducts()->createMany($orderProducts);
+                if ($isBundle) {
+                    $bundleChildren = $product->bundleItems()->with('childProduct')->get();
+
+                    foreach ($bundleChildren as $bi) {
+                        $childUnitPrice = (float) ($bi->price_override ?? $bi->childProduct?->sale_price ?? $bi->childProduct?->price ?? 0);
+
+                        $orderProduct->bundleItems()->create([
+                            'product_id' => $bi->child_product_id,
+                            'product_variation_id' => $bi->child_product_variation_id,
+                            'name' => $bi->childProduct?->name ?? "Product #{$bi->child_product_id}",
+                            'sku' => $bi->childProduct?->sku,
+                            'quantity' => $bi->quantity * $quantity,
+                            'unit_price' => $childUnitPrice,
+                            'total_price' => $childUnitPrice * $bi->quantity * $quantity,
+                        ]);
+
+                        if ($bi->childProduct && $bi->childProduct->quantity >= $bi->quantity * $quantity) {
+                            $bi->childProduct->decrement('quantity', $bi->quantity * $quantity);
+                        }
+                    }
+                }
+
+                return $orderProduct;
+            });
+
+            if ($requiresShipping) {
+                $order->orderShipments()->create([
+                    'shopment_status' => 'pending',
+                ]);
+            }
 
             DB::commit();
 
@@ -50,7 +123,13 @@ class SiteOrderController extends SiteController
                 SendOrderPlacedMail::dispatch($order->id, $adminEmail);
             }
 
-            $this->trackPurchaseEvent($request, $order, $orderProducts, $metaConversionApiService);
+            $orderProductsData = $createdOrderProducts->map(fn ($op) => [
+                'product_id' => $op->product_id,
+                'quantity' => $op->quantity,
+                'unit_price' => $op->unit_price,
+            ])->toArray();
+
+            $this->trackPurchaseEvent($request, $order, $orderProductsData, $metaConversionApiService);
 
             return response()->json([
                 'message' => 'Order placed successfully.',
@@ -73,7 +152,7 @@ class SiteOrderController extends SiteController
 
     public function confirm(int $id)
     {
-        $order = Order::with(['orderProducts.product'])->findOrFail($id);
+        $order = Order::with(['orderProducts.product', 'orderProducts.bundleItems'])->findOrFail($id);
 
         return view('order::order-confirm', compact('order'));
     }
@@ -117,5 +196,15 @@ class SiteOrderController extends SiteController
             'last_name' => $lastName,
             'external_id' => (string) $order->id,
         ]);
+    }
+
+    public function index(Request $request)
+    {
+        $customer = Auth::guard('customer')->user();
+        $orders = Order::where('customer_id', $customer->id)
+            ->orderByDesc('id')
+            ->paginate(10);
+
+        return view('order::my-orders', compact('orders', 'customer'));
     }
 }

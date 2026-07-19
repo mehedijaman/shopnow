@@ -22,7 +22,7 @@ class NewPasswordController extends AppController
      */
     public function resetPasswordForm(Request $request)
     {
-        return inertia('CustomerAuth/ResetPassword', [
+        return view('customer-auth::reset-password', [
             'email' => $request->email,
             'token' => $request->route('token'),
         ]);
@@ -61,8 +61,8 @@ class NewPasswordController extends AppController
         // If the password was successfully reset, we will redirect the user back to
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
-        return $status == Password::broker('customers')::PASSWORD_RESET
-            ? redirect()->route('CustomerAuth.loginForm')->with('success', 'Password updated')
+        return $status == Password::broker('customersModule')::PASSWORD_RESET
+            ? redirect()->route('customerAuth.loginForm')->with('success', 'Password updated')
             : back()->withInput($request->only('email'))
                 ->withErrors(['email' => __($status)]);
     }

@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Modules\AdminAuth\Http\Middleware\UserAuth;
+use Modules\Cart\Http\Middleware\ResolveCart;
 use Modules\CustomerAuth\Http\Middleware\CustomerAuth;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -17,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'auth.user' => UserAuth::class,
             'auth.customer' => CustomerAuth::class,
+            'resolve.cart' => ResolveCart::class,
         ]);
 
         $middleware->web(append: [

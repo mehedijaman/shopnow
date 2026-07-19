@@ -1,11 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Product\Http\Controllers\ProductAttributeController;
 use Modules\Product\Http\Controllers\ProductBrandController;
+use Modules\Product\Http\Controllers\ProductBundleController;
 use Modules\Product\Http\Controllers\ProductCategoryController;
 use Modules\Product\Http\Controllers\ProductController;
+use Modules\Product\Http\Controllers\ProductFileController;
+use Modules\Product\Http\Controllers\ProductPermissionController;
 use Modules\Product\Http\Controllers\ProductReportController;
 use Modules\Product\Http\Controllers\ProductTagController;
+use Modules\Product\Http\Controllers\ProductVariationController;
 
 Route::get('product/report', [ProductReportController::class, 'index'])->name('product.report');
 
@@ -73,6 +78,21 @@ Route::prefix('product-tag')->name('productTag.')->middleware('can:product-tag')
     Route::delete('{id}', [ProductTagController::class, 'destroy'])->name('destroy')->can('delete');
 });
 
+/** Product Attribute routes (admin CRUD + inline AJAX) **/
+Route::prefix('product-attribute')->name('productAttribute.')->middleware('can:product')->group(function () {
+    Route::get('/', [ProductAttributeController::class, 'index'])->name('index')->can('list');
+    Route::get('create', [ProductAttributeController::class, 'create'])->name('create')->can('create');
+    Route::post('/', [ProductAttributeController::class, 'store'])->name('store')->can('create');
+    Route::get('{productAttribute}/edit', [ProductAttributeController::class, 'edit'])->name('edit')->can('edit');
+    Route::put('{productAttribute}', [ProductAttributeController::class, 'update'])->name('update')->can('edit');
+    Route::delete('{productAttribute}', [ProductAttributeController::class, 'destroy'])->name('destroy')->can('delete');
+
+    // AJAX endpoint for inline creation from the product form
+    Route::post('ajax', [ProductAttributeController::class, 'storeAjax'])->name('storeAjax')->can('create');
+    // AJAX endpoint to fetch all attributes (for refreshing after inline creation)
+    Route::get('ajax/all', [ProductAttributeController::class, 'indexAjax'])->name('indexAjax')->can('list');
+});
+
 /** Product routes **/
 Route::prefix('product')->name('product.')->middleware('can:product')->group(function () {
     Route::prefix('recycle-bin')->name('recycleBin.')->group(function () {
@@ -88,6 +108,27 @@ Route::prefix('product')->name('product.')->middleware('can:product')->group(fun
 
     // Gallery
     Route::delete('{id}/gallery/{mediaId}', [ProductController::class, 'destroyGalleryImage'])->name('gallery.destroy')->can('edit');
+
+    // Downloadable files
+    Route::post('{product}/downloads', [ProductFileController::class, 'store'])->name('downloads.store')->can('edit');
+    Route::delete('{product}/downloads/{file}', [ProductFileController::class, 'destroy'])->name('downloads.destroy')->can('edit');
+
+    // Download Permission (reachable from order show)
+    Route::patch('download-permission/{id}/toggle', [ProductPermissionController::class, 'toggle'])->name('downloadPermission.toggle')->can('edit');
+
+    // Variations
+    Route::get('{product}/variations', [ProductVariationController::class, 'attributes'])->name('variations.attributes')->can('edit');
+    Route::post('{product}/variations/generate', [ProductVariationController::class, 'generate'])->name('variations.generate')->can('edit');
+    Route::put('{product}/variations/{variation}', [ProductVariationController::class, 'update'])->name('variations.update')->can('edit');
+    Route::delete('{product}/variations/{variation}', [ProductVariationController::class, 'destroy'])->name('variations.destroy')->can('edit');
+
+    // Bundle
+    Route::get('{product}/bundle', [ProductBundleController::class, 'config'])->name('bundle.config')->can('edit');
+    Route::post('{product}/bundle/config', [ProductBundleController::class, 'saveConfig'])->name('bundle.saveConfig')->can('edit');
+    Route::post('{product}/bundle/items', [ProductBundleController::class, 'addItem'])->name('bundle.items.add')->can('edit');
+    Route::put('{product}/bundle/items/{item}', [ProductBundleController::class, 'updateItem'])->name('bundle.items.update')->can('edit');
+    Route::delete('{product}/bundle/items/{item}', [ProductBundleController::class, 'removeItem'])->name('bundle.items.remove')->can('edit');
+    Route::post('{product}/bundle/reorder', [ProductBundleController::class, 'reorder'])->name('bundle.reorder')->can('edit');
 
     Route::get('/', [ProductController::class, 'index'])->name('index')->can('list');
     Route::get('create', [ProductController::class, 'create'])->name('create')->can('create');

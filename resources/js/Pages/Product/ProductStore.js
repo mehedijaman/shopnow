@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import slug from '@resources/js/Utils/slug.js'
 
 export const useProductStore = defineStore('ProductStore', {
     state: () => {
@@ -7,8 +6,6 @@ export const useProductStore = defineStore('ProductStore', {
             product: {
                 category_id: null,
                 brand_id: null,
-                // blog_author_id: null,
-
                 tags: [],
 
                 name: '',
@@ -19,6 +16,9 @@ export const useProductStore = defineStore('ProductStore', {
                 min_order: '',
                 active: true,
                 featured: false,
+                type: 'simple',
+                is_virtual: false,
+                is_downloadable: false,
                 image: null,
 
                 gallery_images: [],
@@ -37,12 +37,27 @@ export const useProductStore = defineStore('ProductStore', {
 
     actions: {
         setProduct(product) {
-            this.product = { ...product, image: null, gallery_images: [] }
-        },
-        initSeoTags() {
-            this.product.meta_tag_title = this.product.name.substring(0, 60)
-            this.product.meta_tag_description =
-                this.product.description.replace(/<\/?[^>]+(>|$)/g, '')
+            // Normalize category_id and brand_id to combobox objects so
+            // ProductCategory / ProductBrand bind correctly and
+            // getValueFromKey() extracts the id on submit.
+            const normalizeOption = (value) => {
+                if (value && typeof value === 'object' && 'value' in value) return value
+                if (value != null) return { value: Number(value), label: '' }
+                return null
+            }
+
+            this.product = {
+                ...product,
+                category_id: normalizeOption(product.category_id),
+                brand_id: normalizeOption(product.brand_id),
+                type: String(product.type ?? 'simple'),
+                price: Number(product.price) || '',
+                sale_price: product.sale_price ? Number(product.sale_price) : '',
+                quantity: product.quantity != null ? Number(product.quantity) : '',
+                min_order: product.min_order ? Number(product.min_order) : '',
+                image: null,
+                gallery_images: [],
+            }
         }
     },
 
@@ -65,21 +80,13 @@ export const useProductStore = defineStore('ProductStore', {
                 }
 
                 if (
-                    state.product.title.length > 1 &&
-                    state.product.content.length > 2
+                    state.product.name.length > 1 &&
+                    state.product.description.length > 2
                 ) {
                     return false
                 }
 
                 return true
-            }
-        },
-
-        getSlug: (state) => {
-            return () => {
-                if (!state.product.name) return ''
-
-                return slug(state.product.name)
             }
         }
     }

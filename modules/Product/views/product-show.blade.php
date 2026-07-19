@@ -24,7 +24,8 @@
 
 @section('content')
     @php
-        $allImages = collect([$product->image_url])->merge($gallery)->filter()->values();
+        $featuredImage = $product->image_url ?: 'https://placehold.co/800x800/f3f4f6/9ca3af?text=No+Image';
+        $allImages = collect([$featuredImage])->merge($gallery)->filter()->values();
     @endphp
 
     <!-- Breadcrumb -->
@@ -112,7 +113,39 @@
                             <i class="ri-star-fill mr-0.5"></i> Featured
                         </span>
                     @endif
-                    @if ($product->quantity <= 0)
+                    @if ($product->type?->value === 'variable')
+                        <span class="rounded-full bg-purple-50 px-3 py-0.5 text-xs font-medium text-purple-600">
+                            Variable
+                        </span>
+                    @elseif ($product->type?->value === 'bundle')
+                        <span class="rounded-full bg-indigo-50 px-3 py-0.5 text-xs font-medium text-indigo-600">
+                            Bundle
+                        </span>
+                    @endif
+                    @if ($product->is_virtual)
+                        <span class="rounded-full bg-teal-50 px-3 py-0.5 text-xs font-medium text-teal-600">
+                            <i class="ri-wifi-line mr-0.5"></i> Virtual
+                        </span>
+                    @endif
+                    @if ($product->is_downloadable)
+                        <span class="rounded-full bg-cyan-50 px-3 py-0.5 text-xs font-medium text-cyan-600">
+                            <i class="ri-download-line mr-0.5"></i> Downloadable
+                        </span>
+                    @endif
+                    @if ($product->type?->value === 'variable')
+                        @php
+                            $hasStock = $variations->contains(fn($v) => $v['active'] && $v['quantity'] > 0);
+                        @endphp
+                        @if ($hasStock)
+                            <span class="rounded-full bg-green-50 px-3 py-0.5 text-xs font-medium text-green-600">
+                                <i class="ri-checkbox-circle-line mr-0.5"></i> Available in Variations
+                            </span>
+                        @else
+                            <span class="rounded-full bg-red-50 px-3 py-0.5 text-xs font-medium text-red-600">
+                                Out of Stock
+                            </span>
+                        @endif
+                    @elseif ($product->quantity <= 0)
                         <span class="rounded-full bg-red-50 px-3 py-0.5 text-xs font-medium text-red-600">
                             Out of Stock
                         </span>
@@ -134,19 +167,43 @@
 
                 <!-- Price -->
                 <div class="mt-4 flex items-baseline gap-3">
-                    <span class="text-3xl font-bold text-gray-900">
-                        ৳{{ number_format($product->sale_price ?? $product->price, 2) }}
-                    </span>
-                    @if ($product->sale_price && $product->price && $product->sale_price < $product->price)
-                        <span class="text-lg text-gray-400 line-through">
-                            ৳{{ number_format($product->price, 2) }}
-                        </span>
+                    @if ($product->type?->value === 'variable' && count($variations) > 0)
+                        {{-- Variable product: show price range from active variations --}}
                         @php
-                            $discount = round((($product->price - $product->sale_price) / $product->price) * 100);
+                            $activeVariations = collect($variations)->filter(fn($v) => $v['active'] && ($v['price'] ?? 0) > 0);
+                            $minPrice = $activeVariations->min(fn($v) => $v['sale_price'] ?: $v['price']);
+                            $maxPrice = $activeVariations->max(fn($v) => $v['sale_price'] ?: $v['price']);
                         @endphp
-                        <span class="rounded-md bg-red-100 px-2 py-0.5 text-sm font-semibold text-red-600">
-                            -{{ $discount }}%
+                        @if ($minPrice)
+                            <span class="text-3xl font-bold text-gray-900">
+                                ৳{{ number_format($minPrice, 2) }}
+                                @if ($maxPrice && $maxPrice > $minPrice) – ৳{{ number_format($maxPrice, 2) }} @endif
+                            </span>
+                            <span class="text-sm text-gray-400">from</span>
+                        @else
+                            <span class="text-3xl font-bold text-gray-400">Select options for price</span>
+                        @endif
+                    @elseif ($product->type?->value === 'bundle')
+                        {{-- Bundle product: show bundle price --}}
+                        <span class="text-3xl font-bold text-gray-900">
+                            ৳{{ number_format($product->sale_price ?? $product->price, 2) }}
                         </span>
+                    @else
+                        {{-- Simple product --}}
+                        <span class="text-3xl font-bold text-gray-900">
+                            ৳{{ number_format($product->sale_price ?? $product->price, 2) }}
+                        </span>
+                        @if ($product->sale_price && $product->price && $product->sale_price < $product->price)
+                            <span class="text-lg text-gray-400 line-through">
+                                ৳{{ number_format($product->price, 2) }}
+                            </span>
+                            @php
+                                $discount = round((($product->price - $product->sale_price) / $product->price) * 100);
+                            @endphp
+                            <span class="rounded-md bg-red-100 px-2 py-0.5 text-sm font-semibold text-red-600">
+                                -{{ $discount }}%
+                            </span>
+                        @endif
                     @endif
                 </div>
 
@@ -181,9 +238,37 @@
 
                 <hr class="my-5 border-gray-100" />
 
+                <!-- Bundle items (show individual items for bundle products) -->
+                @if ($product->type?->value === 'bundle')
+                    <div class="space-y-2">
+                        <h3 class="text-sm font-semibold text-gray-900">This Bundle Includes</h3>
+                        <ul class="space-y-1">
+                            @foreach ($bundleItems as $bi)
+                                <li class="flex items-center gap-2 text-sm text-gray-700">
+                                    <i class="ri-checkbox-circle-fill text-green-500 text-xs"></i>
+                                    @if ($bi['is_optional'])
+                                        <span class="text-xs text-gray-400 italic">Optional:</span>
+                                    @endif
+                                    {{ $bi['child_product_name'] }}
+                                    @if ($bi['quantity'] > 1) &times; {{ $bi['quantity'] }} @endif
+                                    @if ($bi['price_override'])
+                                        <span class="text-xs text-gray-400">(৳{{ number_format($bi['price_override'], 2) }} ea)</span>
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <hr class="my-5 border-gray-100" />
+                @endif
+
                 <!-- Add to Cart -->
                 <div class="flex flex-wrap items-center gap-3">
-                    <add-to-cart-button :product="{{ json_encode($product) }}"></add-to-cart-button>
+                    <add-to-cart-button
+                        :product="{{ json_encode($product) }}"
+                        :variations="{{ json_encode($variations ?? []) }}"
+                        :variation-attributes="{{ json_encode($variationAttributes ?? (object)[]) }}"
+                        :bundle-items="{{ json_encode($bundleItems ?? []) }}"
+                    ></add-to-cart-button>
                 </div>
 
                 <!-- Tags -->
@@ -193,6 +278,28 @@
                         @foreach ($product->tags as $tag)
                             <span class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-600">{{ $tag->name }}</span>
                         @endforeach
+                    </div>
+                @endif
+
+                <!-- Downloadable Files -->
+                @if ($product->is_downloadable && $productFiles->count())
+                    <div class="mt-5 rounded-lg border border-gray-100 bg-gray-50 p-4">
+                        <h3 class="mb-2 text-sm font-semibold text-gray-900">
+                            <i class="ri-download-cloud-line mr-1 text-cyan-600"></i>
+                            Downloadable Files
+                        </h3>
+                        <p class="mb-3 text-xs text-gray-500">Available after purchase.</p>
+                        <ul class="space-y-1.5">
+                            @foreach ($productFiles as $pf)
+                                <li class="flex items-center gap-2 text-sm text-gray-700">
+                                    <i class="ri-file-line text-gray-400"></i>
+                                    <span class="font-medium">{{ $pf['name'] }}</span>
+                                    @if ($pf['file_size'])
+                                        <span class="text-xs text-gray-400">({{ $pf['file_size'] }})</span>
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
                 @endif
             </div>

@@ -106,6 +106,9 @@
                 <checkout-form
                     :shipping-flat-rate="{{ $shippingFlatRate }}"
                     :free-shipping-threshold="{{ $freeShippingThreshold }}"
+                    :requires-shipping="{{ $totals['requiresShipping'] ? 'true' : 'false' }}"
+                    :customer="{{ $customer ? json_encode($customer->only('name', 'email', 'phone')) : 'null' }}"
+                    :addresses="{{ json_encode($addresses) }}"
                 ></checkout-form>
             </form>
         </section>

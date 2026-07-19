@@ -2,6 +2,10 @@
 
 namespace Modules\Customer\Models;
 
+use Devfaysal\BangladeshGeocode\Models\District;
+use Devfaysal\BangladeshGeocode\Models\Division;
+use Devfaysal\BangladeshGeocode\Models\Union;
+use Devfaysal\BangladeshGeocode\Models\Upazila;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,7 +21,7 @@ class CustomerAddress extends BaseModel
     protected $table = 'customer_addresses';
 
     protected $fillable = [
-        'division_id', 'district_id', 'upazilla_id', 'union_id', 'address', 'country', 'default',
+        'customer_id', 'division_id', 'district_id', 'upazilla_id', 'union_id', 'address', 'country', 'default',
     ];
 
     protected $casts = [
@@ -32,5 +36,25 @@ class CustomerAddress extends BaseModel
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function division()
+    {
+        return $this->belongsTo(Division::class, 'division_id');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'district_id');
+    }
+
+    public function upazila()
+    {
+        return $this->belongsTo(Upazila::class, 'upazilla_id');
+    }
+
+    public function union()
+    {
+        return $this->belongsTo(Union::class, 'union_id');
     }
 }

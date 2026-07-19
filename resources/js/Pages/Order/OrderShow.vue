@@ -87,20 +87,41 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-skin-neutral-3">
-                            <tr v-for="item in order.orderProducts" :key="item.id" class="transition-colors hover:bg-skin-neutral-2">
-                                <td class="px-6 py-4 font-semibold text-skin-neutral-12">{{ item.product_name }}</td>
-                                <td class="px-4 py-4 text-center">
-                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-skin-neutral-3 text-xs font-bold text-skin-neutral-11">
-                                        {{ item.quantity }}
-                                    </span>
-                                </td>
-                                <td class="px-4 py-4 text-right text-skin-neutral-10">{{ Number(item.unit_price).toFixed(2) }} Tk</td>
-                                <td class="px-4 py-4 text-right">
-                                    <span v-if="Number(item.discount) > 0" class="text-green-600">-{{ Number(item.discount).toFixed(2) }} Tk</span>
-                                    <span v-else class="text-skin-neutral-8">—</span>
-                                </td>
-                                <td class="px-6 py-4 text-right font-bold text-skin-neutral-12">{{ Number(item.total_price).toFixed(2) }} Tk</td>
-                            </tr>
+                            <template v-for="item in order.orderProducts" :key="item.id">
+                                <tr class="transition-colors hover:bg-skin-neutral-2">
+                                    <td class="px-6 py-4">
+                                        <div>
+                                            <p class="font-semibold text-skin-neutral-12">{{ item.product_name }}</p>
+                                            <p v-if="item.variation_label" class="text-xs text-skin-primary-7">{{ item.variation_label }}</p>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-center">
+                                        <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-skin-neutral-3 text-xs font-bold text-skin-neutral-11">
+                                            {{ item.quantity }}
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-4 text-right text-skin-neutral-10">{{ Number(item.unit_price).toFixed(2) }} Tk</td>
+                                    <td class="px-4 py-4 text-right">
+                                        <span v-if="Number(item.discount) > 0" class="text-green-600">-{{ Number(item.discount).toFixed(2) }} Tk</span>
+                                        <span v-else class="text-skin-neutral-8">—</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right font-bold text-skin-neutral-12">{{ Number(item.total_price).toFixed(2) }} Tk</td>
+                                </tr>
+                                <!-- Bundle child items snapshot -->
+                                <tr v-if="item.bundle_items?.length" v-for="bi in item.bundle_items" :key="bi.id" class="bg-skin-neutral-2/50">
+                                    <td class="px-6 py-2 pl-12">
+                                        <div class="flex items-center gap-1.5 text-xs text-skin-neutral-9">
+                                            <i class="ri-subtract-line"></i>
+                                            <span class="font-medium">{{ bi.name }}</span>
+                                            <span v-if="bi.sku" class="text-skin-neutral-7">({{ bi.sku }})</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-2 text-center text-xs text-skin-neutral-9">{{ bi.quantity }}</td>
+                                    <td class="px-4 py-2 text-right text-xs text-skin-neutral-9">{{ Number(bi.unit_price).toFixed(2) }} Tk</td>
+                                    <td class="px-4 py-2 text-right text-xs text-skin-neutral-9">—</td>
+                                    <td class="px-6 py-2 text-right text-xs font-medium text-skin-neutral-10">{{ Number(bi.total_price).toFixed(2) }} Tk</td>
+                                </tr>
+                            </template>
                         </tbody>
                     </table>
                 </div>
@@ -137,6 +158,138 @@
                 </div>
             </div>
 
+            <!-- Payment History -->
+            <div v-if="order.orderPayments?.length" class="overflow-hidden rounded-xl bg-skin-neutral-1 shadow-xs ring-1 ring-skin-neutral-4">
+                <div class="flex items-center gap-2 border-b border-skin-neutral-4 bg-skin-neutral-2 px-6 py-3">
+                    <i class="ri-bank-card-line text-skin-neutral-9"></i>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-skin-neutral-9">Payment History</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-skin-neutral-4 bg-skin-neutral-2 text-left text-xs font-semibold uppercase tracking-wider text-skin-neutral-8">
+                                <th class="px-4 py-3">Date</th>
+                                <th class="px-4 py-3">Method</th>
+                                <th class="px-4 py-3">Status</th>
+                                <th class="px-4 py-3 text-right">Amount</th>
+                                <th class="px-4 py-3">Transaction ID</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-skin-neutral-3">
+                            <tr v-for="payment in order.orderPayments" :key="payment.id" class="transition-colors hover:bg-skin-neutral-2">
+                                <td class="px-4 py-3 text-skin-neutral-10">{{ payment.payment_date ?? '—' }}</td>
+                                <td class="px-4 py-3 text-skin-neutral-10">{{ formatPaymentMethod(payment.payment_method) }}</td>
+                                <td class="px-4 py-3">
+                                    <span :class="payment.payment_status === 'success' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'" class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize">
+                                        {{ payment.payment_status }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-right font-semibold text-skin-neutral-12">{{ Number(payment.amount_paid).toFixed(2) }} Tk</td>
+                                <td class="px-4 py-3 font-mono text-xs text-skin-neutral-9">{{ payment.transaction_id ?? '—' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Shipment Tracking — hidden when shipping is not required -->
+            <div v-if="order.requires_shipping && order.orderShipments?.length" class="overflow-hidden rounded-xl bg-skin-neutral-1 shadow-xs ring-1 ring-skin-neutral-4">
+                <div class="flex items-center gap-2 border-b border-skin-neutral-4 bg-skin-neutral-2 px-6 py-3">
+                    <i class="ri-truck-line text-skin-neutral-9"></i>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-skin-neutral-9">Shipment Tracking</h3>
+                </div>
+                <div class="p-6">
+                    <div v-for="shipment in order.orderShipments" :key="shipment.id" class="space-y-3">
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div>
+                                <p class="mb-0.5 text-xs font-medium uppercase tracking-wider text-skin-neutral-8">Status</p>
+                                <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize"
+                                    :class="shipmentStatusClass(shipment.shopment_status)">
+                                    {{ shipment.shopment_status }}
+                                </span>
+                            </div>
+                            <div v-if="shipment.carrier">
+                                <p class="mb-0.5 text-xs font-medium uppercase tracking-wider text-skin-neutral-8">Carrier</p>
+                                <p class="font-semibold text-skin-neutral-12">{{ shipment.carrier }}</p>
+                            </div>
+                            <div v-if="shipment.tracking_number">
+                                <p class="mb-0.5 text-xs font-medium uppercase tracking-wider text-skin-neutral-8">Tracking #</p>
+                                <p class="font-semibold text-skin-neutral-12">
+                                    <template v-if="shipment.tracking_url">
+                                        <a :href="shipment.tracking_url" target="_blank" rel="noopener noreferrer" class="text-skin-primary-7 hover:underline">
+                                            {{ shipment.tracking_number }}
+                                        </a>
+                                    </template>
+                                    <template v-else>
+                                        {{ shipment.tracking_number }}
+                                    </template>
+                                </p>
+                            </div>
+                            <div v-if="shipment.shipment_date">
+                                <p class="mb-0.5 text-xs font-medium uppercase tracking-wider text-skin-neutral-8">Shipment Date</p>
+                                <p class="font-semibold text-skin-neutral-12">{{ shipment.shipment_date }}</p>
+                            </div>
+                            <div v-if="shipment.estimated_delivery">
+                                <p class="mb-0.5 text-xs font-medium uppercase tracking-wider text-skin-neutral-8">Estimated Delivery</p>
+                                <p class="font-semibold text-skin-neutral-12">{{ shipment.estimated_delivery }}</p>
+                            </div>
+                            <div v-if="shipment.actual_delivery">
+                                <p class="mb-0.5 text-xs font-medium uppercase tracking-wider text-skin-neutral-8">Actual Delivery</p>
+                                <p class="font-semibold text-skin-neutral-12">{{ shipment.actual_delivery }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Download Permissions -->
+            <div v-if="order.downloadPermissions?.length" class="overflow-hidden rounded-xl bg-skin-neutral-1 shadow-xs ring-1 ring-skin-neutral-4">
+                <div class="flex items-center gap-2 border-b border-skin-neutral-4 bg-skin-neutral-2 px-6 py-3">
+                    <i class="ri-download-cloud-line text-skin-neutral-9"></i>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-skin-neutral-9">Download Permissions</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-skin-neutral-4 bg-skin-neutral-2 text-left text-xs font-semibold uppercase tracking-wider text-skin-neutral-8">
+                                <th class="px-4 py-3">Product</th>
+                                <th class="px-4 py-3">File</th>
+                                <th class="px-4 py-3 text-center">Downloads</th>
+                                <th class="px-4 py-3">Expires</th>
+                                <th class="px-4 py-3 text-center">Status</th>
+                                <th class="px-4 py-3 text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-skin-neutral-3">
+                            <tr v-for="dp in order.downloadPermissions" :key="dp.id" class="transition-colors hover:bg-skin-neutral-2">
+                                <td class="px-4 py-3 font-medium text-skin-neutral-12">{{ dp.product_name ?? '—' }}</td>
+                                <td class="px-4 py-3 text-skin-neutral-10">{{ dp.product_file_name }}</td>
+                                <td class="px-4 py-3 text-center text-skin-neutral-10">
+                                    {{ dp.download_count }}{{ dp.download_limit ? ' / ' + dp.download_limit : '' }}
+                                </td>
+                                <td class="px-4 py-3 text-skin-neutral-10">{{ dp.expires_at ?? 'Never' }}</td>
+                                <td class="px-4 py-3 text-center">
+                                    <span :class="dp.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'" class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold">
+                                        {{ dp.active ? 'Active' : 'Revoked' }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <button
+                                        type="button"
+                                        :class="dp.active ? 'text-red-600 hover:bg-red-50' : 'text-green-600 hover:bg-green-50'"
+                                        class="rounded-md p-1.5 text-xs font-medium transition-colors"
+                                        @click="togglePermission(dp.id)"
+                                    >
+                                        <i :class="dp.active ? 'ri-close-circle-line' : 'ri-checkbox-circle-line'" class="mr-1 text-base"></i>
+                                        {{ dp.active ? 'Revoke' : 'Activate' }}
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <!-- Notes -->
             <div v-if="order.notes" class="overflow-hidden rounded-xl bg-skin-neutral-1 shadow-xs ring-1 ring-skin-neutral-4">
                 <div class="flex items-center gap-2 border-b border-skin-neutral-4 bg-skin-neutral-2 px-6 py-3">
@@ -164,7 +317,7 @@
                     <div class="flex items-center justify-between py-3">
                         <span class="text-xs text-skin-neutral-9">Payment Method</span>
                         <span class="text-sm font-medium text-skin-neutral-12">
-                            {{ order.payment_method === 'cod' ? 'Cash on Delivery' : (order.payment_method ?? '—') }}
+                            {{ formatPaymentMethod(order.payment_method) }}
                         </span>
                     </div>
                     <div class="flex items-center justify-between py-3">
@@ -177,6 +330,12 @@
                         <span class="text-xs text-skin-neutral-9">Order Status</span>
                         <span :class="statusClass(order.status)" class="rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize">
                             {{ order.status }}
+                        </span>
+                    </div>
+                    <div class="flex items-center justify-between py-3">
+                        <span class="text-xs text-skin-neutral-9">Requires Shipping</span>
+                        <span :class="order.requires_shipping ? 'text-green-600' : 'text-skin-neutral-9'" class="text-sm font-medium">
+                            {{ order.requires_shipping ? 'Yes' : 'No (Virtual)' }}
                         </span>
                     </div>
                     <div class="flex items-center justify-between py-3">
@@ -265,6 +424,23 @@ const submitStatus = () => {
     })
 }
 
+const togglePermission = (id) => {
+    const form = useForm({})
+    form.patch(route('product.downloadPermission.toggle', { id }), {
+        preserveScroll: true,
+    })
+}
+
+const formatPaymentMethod = (method) => {
+    const methods = {
+        cod: 'Cash on Delivery',
+        sslcommerz: 'SSLCommerz',
+        card: 'Card',
+        mobile: 'Mobile Payment',
+    }
+    return methods[method] ?? method ?? '—'
+}
+
 const statusClass = (status) => {
     const classes = {
         pending: 'bg-yellow-100 text-yellow-800',
@@ -279,5 +455,16 @@ const statusClass = (status) => {
 
 const paymentStatusClass = (status) => {
     return status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+}
+
+const shipmentStatusClass = (status) => {
+    const classes = {
+        pending: 'bg-yellow-100 text-yellow-800',
+        processing: 'bg-blue-100 text-blue-800',
+        shipped: 'bg-purple-100 text-purple-800',
+        delivered: 'bg-indigo-100 text-indigo-800',
+        cancelled: 'bg-red-100 text-red-800',
+    }
+    return classes[status] ?? 'bg-gray-100 text-gray-800'
 }
 </script>

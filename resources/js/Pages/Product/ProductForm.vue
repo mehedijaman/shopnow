@@ -49,7 +49,8 @@
                             />
                         </div>
 
-                        <div class="grid grid-cols-3 gap-4">
+                        <!-- Price / Stock — only for simple products (variable: on variations, bundle: from bundle items) -->
+                        <div v-if="productStore.product.type === 'simple'" class="grid grid-cols-3 gap-4">
                             <div>
                                 <AppLabel for="price">Price <span class="text-red-500">*</span></AppLabel>
                                 <AppInputText
@@ -82,7 +83,7 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-4">
+                        <div v-if="productStore.product.type !== 'bundle'" class="grid grid-cols-2 gap-4">
                             <div>
                                 <AppLabel for="unit">Unit</AppLabel>
                                 <AppInputText
@@ -105,6 +106,16 @@
                             </div>
                         </div>
 
+                        <!-- Price hint for variable/bundle types -->
+                        <div v-if="productStore.product.type === 'variable'" class="rounded-md bg-skin-info-light px-3 py-2 text-xs text-skin-info-dark">
+                            <i class="ri-information-line mr-1"></i>
+                            Pricing and stock are managed per variation in the Variations tab.
+                        </div>
+                        <div v-if="productStore.product.type === 'bundle'" class="rounded-md bg-skin-info-light px-3 py-2 text-xs text-skin-info-dark">
+                            <i class="ri-information-line mr-1"></i>
+                            Price and stock are derived from the Bundle Items tab.
+                        </div>
+
                         <div class="flex items-center gap-6 pt-1">
                             <label class="flex cursor-pointer items-center gap-2">
                                 <AppCheckbox
@@ -123,6 +134,24 @@
                                     :value="true"
                                 />
                                 <span class="text-sm font-medium">Featured</span>
+                            </label>
+                            <label v-if="productStore.product.type !== 'bundle'" class="flex cursor-pointer items-center gap-2">
+                                <AppCheckbox
+                                    id="is_virtual"
+                                    v-model="productStore.product.is_virtual"
+                                    name="is_virtual"
+                                    :value="true"
+                                />
+                                <span class="text-sm font-medium">Virtual (no shipping)</span>
+                            </label>
+                            <label v-if="productStore.product.type !== 'bundle'" class="flex cursor-pointer items-center gap-2">
+                                <AppCheckbox
+                                    id="is_downloadable"
+                                    v-model="productStore.product.is_downloadable"
+                                    name="is_downloadable"
+                                    :value="true"
+                                />
+                                <span class="text-sm font-medium">Downloadable</span>
                             </label>
                         </div>
                     </div>
@@ -143,6 +172,118 @@
                         editor-id="description"
                         :class="{ 'app-tip-tap-error': errorsFields.includes('description') }"
                         :file-upload-url="route('product.uploadEditorImage')"
+                    />
+                </template>
+            </AppCard>
+
+            
+
+            <!-- Variations card -->
+            <AppCard v-if="productStore.product.type === 'variable'">
+                <template #title>
+                    <div class="flex items-center gap-2">
+                        <i class="ri-organization-chart text-skin-primary-9"></i>
+                        Variations
+                    </div>
+                </template>
+                <template #content>
+                    <ProductVariations
+                        :product-id="props.product?.id ?? null"
+                        :all-attributes="allAttributes"
+                    />
+                </template>
+            </AppCard>
+
+            <!-- Bundle Items card -->
+            <AppCard v-if="productStore.product.type === 'bundle'">
+                <template #title>
+                    <div class="flex items-center gap-2">
+                        <i class="ri-gift-line text-skin-primary-9"></i>
+                        Bundle Items
+                    </div>
+                </template>
+                <template #content>
+                    <ProductBundleItems
+                        :product-id="props.product?.id ?? null"
+                        :is-new="isCreate"
+                        :all-products="allProducts"
+                    />
+                </template>
+            </AppCard>
+        </div>
+
+        <!-- Right sidebar -->
+        <div class="space-y-5">
+
+            <!-- Publish / Status card -->
+            <AppCard>
+                <template #title>
+                    <div class="flex items-center gap-2">
+                        <i class="ri-settings-3-line text-skin-primary-9"></i>
+                        Product Settings
+                    </div>
+                </template>
+                <template #content>
+                    <div class="mb-4">
+                        <AppLabel for="type">Product Type</AppLabel>
+                        <select
+                            id="type"
+                            v-model="productStore.product.type"
+                            class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-skin-neutral-12 placeholder-skin-neutral-9 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
+                        >
+                            <option value="simple">Simple Product</option>
+                            <option value="variable">Variable Product</option>
+                            <option value="bundle">Bundle Product</option>
+                        </select>
+                    </div>
+                    <ProductCategory :categories="categories" />
+                    <ProductBrand :brands="brands" />
+                    <ProductTags :tags="tags" />
+                </template>
+            </AppCard>
+
+            <!-- Featured image card -->
+            <AppCard>
+                <template #title>
+                    <div class="flex items-center gap-2">
+                        <i class="ri-image-line text-skin-primary-9"></i>
+                        Featured Image
+                    </div>
+                </template>
+                <template #content>
+                    <p class="mb-2 text-xs text-skin-neutral-9">Used as thumbnail on listing pages</p>
+                    <ProductImage />
+                </template>
+            </AppCard>
+
+            <!-- Gallery card -->
+            <AppCard>
+                <template #title>
+                    <div class="flex items-center gap-2">
+                        <i class="ri-gallery-line text-skin-primary-9"></i>
+                        Gallery
+                    </div>
+                </template>
+                <template #content>
+                    <p class="mb-2 text-xs text-skin-neutral-9">Additional images shown on the product detail page</p>
+                    <ProductGallery :gallery="gallery" :product-id="props.product?.id ?? null" />
+                </template>
+            </AppCard>
+
+            <!-- Downloadable Files card -->
+            <AppCard v-if="productStore.product.is_downloadable">
+                <template #title>
+                    <div class="flex items-center gap-2">
+                        <i class="ri-download-cloud-line text-skin-primary-9"></i>
+                        Downloadable Files
+                    </div>
+                </template>
+                <template #content>
+                    <p class="mb-2 text-xs text-skin-neutral-9">Files that customers can download after purchase</p>
+                    <ProductDownloads
+                        :product-files="productFiles"
+                        :product-id="props.product?.id ?? null"
+                        :is-new="isCreate"
                     />
                 </template>
             </AppCard>
@@ -193,53 +334,6 @@
                 </template>
             </AppCard>
         </div>
-
-        <!-- Right sidebar -->
-        <div class="space-y-5">
-
-            <!-- Publish / Status card -->
-            <AppCard>
-                <template #title>
-                    <div class="flex items-center gap-2">
-                        <i class="ri-settings-3-line text-skin-primary-9"></i>
-                        Product Settings
-                    </div>
-                </template>
-                <template #content>
-                    <ProductCategory :categories="categories" />
-                    <ProductBrand :brands="brands" />
-                    <ProductTags :tags="tags" />
-                </template>
-            </AppCard>
-
-            <!-- Featured image card -->
-            <AppCard>
-                <template #title>
-                    <div class="flex items-center gap-2">
-                        <i class="ri-image-line text-skin-primary-9"></i>
-                        Featured Image
-                    </div>
-                </template>
-                <template #content>
-                    <p class="mb-2 text-xs text-skin-neutral-9">Used as thumbnail on listing pages</p>
-                    <ProductImage />
-                </template>
-            </AppCard>
-
-            <!-- Gallery card -->
-            <AppCard>
-                <template #title>
-                    <div class="flex items-center gap-2">
-                        <i class="ri-gallery-line text-skin-primary-9"></i>
-                        Gallery
-                    </div>
-                </template>
-                <template #content>
-                    <p class="mb-2 text-xs text-skin-neutral-9">Additional images shown on the product detail page</p>
-                    <ProductGallery :gallery="gallery" :product-id="props.product?.id ?? null" />
-                </template>
-            </AppCard>
-        </div>
     </div>
 
     <div class="mt-5 flex justify-end">
@@ -253,10 +347,12 @@
             {{ saving ? 'Saving…' : 'Save Product' }}
         </AppButton>
     </div>
+
+    <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, provide } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import useAuthCan from '@/Composables/useAuthCan'
 import { onUnmounted } from 'vue'
@@ -268,12 +364,24 @@ import ProductCategory from './Components/ProductCategory.vue'
 import ProductBrand from './Components/ProductBrand.vue'
 import ProductTags from './Components/ProductTags.vue'
 import ProductGallery from './Components/ProductGallery.vue'
+import ProductDownloads from './Components/ProductDownloads.vue'
+import ProductVariations from './Components/ProductVariations.vue'
+import ProductBundleItems from './Components/ProductBundleItems.vue'
 import { useProductStore } from './ProductStore'
 
 const productStore = useProductStore()
 const { can } = useAuthCan()
 const { errorsFields } = useFormErrors()
 const saving = ref(false)
+const confirmDialogRef = ref(null)
+
+provide('confirmDelete', (callback) => {
+    confirmDialogRef.value?.openCustomModal({
+        title: 'Delete Confirmation',
+        message: 'Are you sure you want to permanently delete this item? This action cannot be undone.',
+        onConfirm: callback
+    })
+})
 
 const props = defineProps({
     product: {
@@ -297,6 +405,21 @@ const props = defineProps({
     },
 
     gallery: {
+        type: Array,
+        default: () => []
+    },
+
+    productFiles: {
+        type: Array,
+        default: () => []
+    },
+
+    allAttributes: {
+        type: Array,
+        default: () => []
+    },
+
+    allProducts: {
         type: Array,
         default: () => []
     }
@@ -337,14 +460,32 @@ const submitForm = () => {
     saving.value = true
     const form = useForm(productStore.product)
 
+    const INTERNAL_FIELDS = ['slug', 'image_url', 'created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by', 'deleted_by', 'tagsHasChanged']
+
     const productData = (data) => {
-        const commonData = {
-            ...data,
-            category_id: getValueFromKey(data, 'category_id'),
-            brand_id: getValueFromKey(data, 'brand_id'),
+        const cleaned = { ...data }
+
+        // Strip DB-only / internal fields that the backend doesn't accept
+        for (const key of INTERNAL_FIELDS) {
+            delete cleaned[key]
         }
 
-        return isCreate.value ? commonData : { ...commonData, _method: 'PUT' }
+        // Remove image when no new file selected — let controller keep existing
+        if (!cleaned.image) {
+            delete cleaned.image
+        }
+
+        // Normalize combobox objects to plain ids
+        cleaned.category_id = getValueFromKey(data, 'category_id')
+        cleaned.brand_id = getValueFromKey(data, 'brand_id')
+
+        // Ensure numeric fields are numbers (DB stores some as strings)
+        if (cleaned.price !== '' && cleaned.price != null) cleaned.price = Number(cleaned.price)
+        if (cleaned.sale_price !== '' && cleaned.sale_price != null) cleaned.sale_price = Number(cleaned.sale_price)
+        if (cleaned.quantity !== '' && cleaned.quantity != null) cleaned.quantity = Number(cleaned.quantity)
+        if (cleaned.min_order !== '' && cleaned.min_order != null) cleaned.min_order = Number(cleaned.min_order)
+
+        return isCreate.value ? cleaned : { ...cleaned, _method: 'PUT' }
     }
 
     const onFinish = () => { saving.value = false }

@@ -3,6 +3,7 @@
 namespace Modules\Customer\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Inertia\Response;
 use Modules\Customer\Models\Customer;
 use Modules\Support\Http\Controllers\BackendController;
@@ -11,18 +12,30 @@ class CustomerReportController extends BackendController
 {
     public function index(): Response
     {
-        $customers = Customer::withoutTrashed()->get(['active', 'total_spent', 'created_at']);
+        $customers = Customer::withoutTrashed()->get(['id', 'active', 'created_at']);
+
+        $totalSpent = (float) DB::table('orders')
+            ->whereNull('deleted_at')
+            ->sum('total');
 
         $summary = [
             'totalCustomers' => $customers->count(),
             'activeCustomers' => $customers->where('active', true)->count(),
             'inactiveCustomers' => $customers->where('active', false)->count(),
-            'totalSpent' => round($customers->sum('total_spent'), 2),
+            'totalSpent' => round($totalSpent, 2),
         ];
 
-        $topSpenders = Customer::orderByDesc('total_spent')
+        $topSpenders = Customer::withoutTrashed()
+            ->select('customers.id', 'customers.name', 'customers.phone', 'customers.email', 'customers.created_at')
+            ->selectRaw('COALESCE(SUM(orders.total), 0) as total_spent')
+            ->leftJoin('orders', function ($join) {
+                $join->on('orders.customer_id', '=', 'customers.id')
+                    ->whereNull('orders.deleted_at');
+            })
+            ->groupBy('customers.id', 'customers.name', 'customers.phone', 'customers.email', 'customers.created_at')
+            ->orderByDesc('total_spent')
             ->limit(10)
-            ->get(['id', 'name', 'phone', 'email', 'total_spent', 'created_at'])
+            ->get()
             ->map(fn ($c) => [
                 'id' => $c->id,
                 'name' => $c->name,
@@ -32,7 +45,7 @@ class CustomerReportController extends BackendController
                 'joined' => Carbon::parse($c->created_at)->format('d M Y'),
             ]);
 
-        // Monthly new customers — last 12 months (PHP groupBy, SQLite-safe)
+        // Monthly new customers — last 12 months
         $now = Carbon::now();
         $twelveMonthsAgo = $now->copy()->subMonths(11)->startOfMonth();
         $recentCustomers = Customer::where('created_at', '>=', $twelveMonthsAgo)->get(['created_at']);
@@ -48,7 +61,15 @@ class CustomerReportController extends BackendController
                 ->count();
         }
 
-        $paginated = Customer::orderByDesc('total_spent')
+        $paginated = Customer::withoutTrashed()
+            ->select('customers.id', 'customers.name', 'customers.phone', 'customers.email', 'customers.active', 'customers.created_at')
+            ->selectRaw('COALESCE(SUM(orders.total), 0) as total_spent')
+            ->leftJoin('orders', function ($join) {
+                $join->on('orders.customer_id', '=', 'customers.id')
+                    ->whereNull('orders.deleted_at');
+            })
+            ->groupBy('customers.id', 'customers.name', 'customers.phone', 'customers.email', 'customers.active', 'customers.created_at')
+            ->orderByDesc('total_spent')
             ->paginate(20)
             ->withQueryString()
             ->through(fn ($c) => [

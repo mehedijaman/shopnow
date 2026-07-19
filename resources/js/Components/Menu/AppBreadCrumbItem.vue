@@ -2,7 +2,8 @@
     <span v-if="!item.href" class="opacity-50">{{ __(item.label) }}</span>
 
     <Link v-if="item.href" :href="item.href" class="hover:underline">
-        {{ __(item.label) }}
+    {{ __(item.label) }}
+
     </Link>
 
     <span v-if="!item.last"> > </span>
@@ -12,7 +13,7 @@
 defineProps({
     item: {
         type: Object,
-        default: () => {}
+        default: () => { }
     }
 })
 </script>

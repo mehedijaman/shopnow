@@ -1,0 +1,1 @@
+import{J as e,M as t,S as n,U as r,W as i,z as a}from"./preload-helper-EmZXb67C.js";import{n as o}from"./AppButton-Bj2c-mve.js";t();var s={};function c(t,o){let s=i(`Link`);return a(),n(s,{class:`text-sm font-medium text-skin-primary-9 hover:underline`},{default:e(()=>[r(t.$slots,`default`)]),_:3})}var l=o(s,[[`render`,c]]);export{l as t};

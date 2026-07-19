@@ -1,1 +1,0 @@
-import{B as e,F as t,O as n,W as r,v as i,z as a}from"./preload-helper-BstIDjV2.js";import{n as o}from"./AppButton-n2d1vRBp.js";n();var s={};function c(n,o){let s=e(`Link`);return t(),i(s,{class:`text-sm font-medium text-skin-primary-9 hover:underline`},{default:r(()=>[a(n.$slots,`default`)]),_:3})}var l=o(s,[[`render`,c]]);export{l as t};

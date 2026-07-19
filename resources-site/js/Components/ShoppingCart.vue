@@ -47,6 +47,7 @@
                                     :href="`/shop/product/${item.item.id}/${item.item.slug}`"
                                     class="line-clamp-2 text-sm font-semibold leading-snug text-gray-900 hover:text-primary-600"
                                 >{{ item.item.name }}</a>
+                                <p v-if="item.variation_label" class="mt-0.5 text-xs text-gray-400">{{ item.variation_label }}</p>
                                 <p class="mt-0.5 text-sm font-bold text-primary-600">{{ item.item.price }} Tk.</p>
 
                                 <div class="mt-2 flex items-center justify-between">
@@ -85,6 +86,7 @@
                                         :href="`/shop/product/${item.item.id}/${item.item.slug}`"
                                         class="line-clamp-2 text-sm font-semibold leading-snug text-gray-900 hover:text-primary-600"
                                     >{{ item.item.name }}</a>
+                                    <p v-if="item.variation_label" class="mt-0.5 text-xs text-gray-400">{{ item.variation_label }}</p>
                                     <button @click="cartStore.removeItem(item.item)" type="button"
                                         class="mt-1.5 flex items-center gap-1 text-xs text-gray-400 transition-colors hover:text-red-500">
                                         <i class="ri-delete-bin-line"></i> Remove

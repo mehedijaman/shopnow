@@ -17,6 +17,7 @@ class SettingsGroupValidate extends Request
             'mail' => $this->mailRules(),
             'homepage' => $this->homepageRules(),
             'pixel' => $this->pixelRules(),
+            'downloads' => $this->downloadsRules(),
             default => [],
         };
     }
@@ -100,6 +101,14 @@ class SettingsGroupValidate extends Request
             'show_featured_categories' => 'nullable|boolean',
             'show_blog' => 'nullable|boolean',
             'show_brands' => 'nullable|boolean',
+        ];
+    }
+
+    private function downloadsRules(): array
+    {
+        return [
+            'default_expiry_days' => 'nullable|integer|min:0',
+            'default_limit' => 'nullable|integer|min:0',
         ];
     }
 

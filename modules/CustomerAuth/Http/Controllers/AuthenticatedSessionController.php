@@ -6,8 +6,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\View\View;
 use Modules\Customer\Http\Requests\CustomerValidate;
 use Modules\Customer\Models\Customer;
 use Modules\CustomerAuth\Http\Requests\LoginRequest;
@@ -19,16 +18,16 @@ class AuthenticatedSessionController extends AppController
     /**
      * Display the login view.
      *
-     * @return Response
+     * @return View
      */
     public function loginForm()
     {
-        return inertia('CustomerAuth/LoginForm');
+        return view('customer-auth::login');
     }
 
     public function signupForm()
     {
-        return inertia('CustomerAuth/SignupForm');
+        return view('customer-auth::signup');
     }
 
     /**
@@ -45,6 +44,8 @@ class AuthenticatedSessionController extends AppController
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
             'password' => Hash::make($request->input('password')),
+            'date_of_birth' => $request->input('date_of_birth'),
+            'gender' => $request->input('gender'),
         ]);
 
         // Log the customer in
@@ -101,6 +102,6 @@ class AuthenticatedSessionController extends AppController
 
         $request->session()->regenerateToken();
 
-        return Inertia::location('/');
+        return redirect('/');
     }
 }

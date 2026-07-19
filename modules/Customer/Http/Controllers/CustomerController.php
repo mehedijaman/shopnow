@@ -27,7 +27,8 @@ class CustomerController extends BackendController
                 'email' => $customer->email,
                 'email_verified_at' => $customer->email_verified_at,
                 'active' => $customer->active,
-                'total_spent' => $customer->total_spent ?? 0,
+                'gender' => $customer->gender,
+                'date_of_birth' => $customer->date_of_birth?->format('d M Y'),
                 'created_at' => $customer->created_at->format('d M Y'),
             ]);
 
@@ -61,10 +62,18 @@ class CustomerController extends BackendController
 
     public function edit(int $id): Response
     {
-        $customer = Customer::find($id);
+        $customer = Customer::findOrFail($id);
 
         return inertia('Customer/CustomerForm', [
-            'customer' => $customer,
+            'customer' => [
+                'id' => $customer->id,
+                'name' => $customer->name,
+                'email' => $customer->email,
+                'phone' => $customer->phone,
+                'active' => $customer->active,
+                'gender' => $customer->gender,
+                'date_of_birth' => $customer->date_of_birth?->format('Y-m-d'),
+            ],
         ]);
     }
 

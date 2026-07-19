@@ -1,82 +1,123 @@
 import { defineStore } from 'pinia'
+import axios from 'axios'
 
 export const useCartStore = defineStore('CartStore', {
     state: () => ({
-        items: JSON.parse(localStorage.getItem('cart')) || [],
+        items: [],
+        totalItems: 0,
+        totalQuantity: 0,
+        subtotal: 0,
         tax: 0,
-        shipping: 0
+        shipping: 0,
+        requiresShipping: true,
+        loaded: false
     }),
 
     actions: {
-        addItem(item, quantity) {
-            const existingItem = this.items.find(
-                (cartItem) => cartItem.item.id === item.id
-            )
+        async fetchCart() {
+            try {
+                const response = await axios.get('/cart/fetch')
+                this.setCartFromResponse(response.data)
+            } catch {
+                this.items = []
+                this.totalItems = 0
+                this.totalQuantity = 0
+                this.subtotal = 0
+            }
+            this.loaded = true
+        },
 
-            if (existingItem) {
-                // If item is already in cart, increase its quantity
-                existingItem.quantity += quantity
-            } else {
-                // If item is not in cart, add it as a new entry
-                this.items.push({
-                    item,
-                    quantity
+        async addItem(product, quantity) {
+            try {
+                const payload = {
+                    product_id: product.id,
+                    quantity: quantity,
+                }
+                if (product.product_variation_id) {
+                    payload.product_variation_id = product.product_variation_id
+                }
+                const response = await axios.post('/cart/items', payload)
+                this.setCartFromResponse(response.data)
+            } catch {
+                // silently fail — server is source of truth
+            }
+        },
+
+        async removeItem(product) {
+            const item = this.items.find(
+                (cartItem) => cartItem.product_id === product.id
+            )
+            if (!item) return
+
+            try {
+                const response = await axios.delete(`/cart/items/${item.id}`)
+                this.setCartFromResponse(response.data)
+            } catch {
+                // silently fail
+            }
+        },
+
+        async increaseQuantity(product) {
+            const item = this.items.find(
+                (cartItem) => cartItem.product_id === product.id
+            )
+            if (!item) return
+
+            try {
+                const response = await axios.put(`/cart/items/${item.id}`, {
+                    product_id: product.id,
+                    product_variation_id: product.product_variation_id || null,
+                    quantity: item.quantity + 1
                 })
+                this.setCartFromResponse(response.data)
+            } catch {
+                // silently fail
             }
-            this.saveCartToLocalStorage()
         },
 
-        removeItem(item) {
-            this.items = this.items.filter(
-                (cartItem) => cartItem.item.id !== item.id
+        async decreaseQuantity(product) {
+            const item = this.items.find(
+                (cartItem) => cartItem.product_id === product.id
             )
-            this.saveCartToLocalStorage()
+            if (!item) return
+
+            if (item.quantity <= 1) {
+                await this.removeItem(product)
+                return
+            }
+
+            try {
+                const response = await axios.put(`/cart/items/${item.id}`, {
+                    product_id: product.id,
+                    product_variation_id: product.product_variation_id || null,
+                    quantity: item.quantity - 1
+                })
+                this.setCartFromResponse(response.data)
+            } catch {
+                // silently fail
+            }
         },
 
-        increaseQuantity(item) {
-            const existingItem = this.items.find(
-                (cartItem) => cartItem.item.id === item.id
-            )
-            if (existingItem) {
-                existingItem.quantity++
-                this.saveCartToLocalStorage()
+        async clearCart() {
+            try {
+                const response = await axios.delete('/cart/items')
+                this.setCartFromResponse(response.data)
+            } catch {
+                // silently fail
             }
         },
-        decreaseQuantity(item) {
-            const existingItem = this.items.find(
-                (cartItem) => cartItem.item.id === item.id
-            )
-            if (existingItem && existingItem.quantity > 1) {
-                existingItem.quantity--
-                this.saveCartToLocalStorage()
-            } else {
-                // Remove item if quantity reaches 0 or less
-                this.removeItem(item)
-            }
-        },
-        clearCart() {
-            this.items = []
-            this.saveCartToLocalStorage()
-        },
-        saveCartToLocalStorage() {
-            localStorage.setItem('cart', JSON.stringify(this.items))
+
+        setCartFromResponse(data) {
+            this.items = data.items || []
+            this.totalItems = data.totalItems || 0
+            this.totalQuantity = data.totalQuantity || 0
+            this.subtotal = data.subtotal || 0
+            this.tax = data.tax || 0
+            this.requiresShipping = data.requiresShipping ?? true
         }
     },
 
     getters: {
-        totalItems: (state) => state.items.length,
-        totalQuantity: (state) =>
-            state.items.reduce(
-                (total, cartItem) => total + cartItem.quantity,
-                0
-            ),
-        subtotal: (state) =>
-            state.items.reduce(
-                (total, cartItem) =>
-                    total + cartItem.item.price * cartItem.quantity,
-                0
-            ),
-        // calculate total = subtotal + tax + shipping
         total: (state) => state.subtotal + state.tax + state.shipping
     }
 })

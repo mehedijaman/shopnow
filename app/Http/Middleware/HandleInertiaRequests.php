@@ -36,13 +36,25 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
 
+        $authUser = null;
+        $permissions = [];
+        $isRootUser = false;
+
+        if ($user) {
+            $authUser = $user->toArray();
+
+            if (method_exists($user, 'hasRole')) {
+                $authUser['avatar_url'] = $user->avatar_url;
+                $permissions = (new ListUserPermissions)->run($user->id);
+                $isRootUser = $user->hasRole('root');
+            }
+        }
+
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $user ? array_merge($user->toArray(), [
-                    'avatar_url' => $user->avatar_url,
-                ]) : null,
-                'permissions' => $user ? (new ListUserPermissions)->run($user->id) : [],
-                'isRootUser' => $user ? ($user->hasRole('root') ? true : false) : false,
+                'user' => $authUser,
+                'permissions' => $permissions,
+                'isRootUser' => $isRootUser,
             ],
             'ziggy' => fn () => array_merge((new Ziggy)->toArray(), [
                 'location' => $request->url(),

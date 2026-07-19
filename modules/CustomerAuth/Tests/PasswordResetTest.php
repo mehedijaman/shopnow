@@ -1,9 +1,9 @@
 <?php
 
-use Modules\CustomerAuth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Modules\Customer\Models\Customer;
+use Modules\CustomerAuth\Notifications\ResetPassword;
 use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);

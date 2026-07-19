@@ -84,6 +84,32 @@
                     />
                     <AppLabel for="active" class="ml-3"> Active </AppLabel>
                 </div>
+
+                <div>
+                    <AppLabel for="gender"> {{ __('Gender') }} </AppLabel>
+                    <select
+                        id="gender"
+                        v-model="form.gender"
+                        class="input w-full"
+                    >
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div>
+                    <AppLabel for="date_of_birth"> {{ __('Date of Birth') }} </AppLabel>
+                    <AppInputText
+                        id="date_of_birth"
+                        v-model="form.date_of_birth"
+                        type="date"
+                        :class="{
+                            'input-error': errorsFields.includes('date_of_birth')
+                        }"
+                    />
+                </div>
             </form>
         </template>
         <template #footer>
@@ -124,6 +150,8 @@ const form = useForm({
     password: '',
     confirm_password: '',
     active: props.customer ? props.customer.active : '',
+    gender: props.customer ? props.customer.gender : '',
+    date_of_birth: props.customer ? props.customer.date_of_birth : '',
     address: props.customer ? props.customer.address : null
 })
 

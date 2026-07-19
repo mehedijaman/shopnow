@@ -13,10 +13,10 @@ class CustomerValidate extends Request
     {
         return [
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|max:2048',
             'phone' => [
                 'required',
                 'digits:11',
+                Rule::unique(Customer::class)->ignore($this->id),
             ],
             'email' => [
                 'required',
@@ -29,6 +29,8 @@ class CustomerValidate extends Request
                 'required_with:password',
                 'same:password',
             ],
+            'date_of_birth' => 'nullable|date',
+            'gender' => 'nullable|string|in:male,female,other',
             'active' => 'nullable|boolean',
 
         ];
