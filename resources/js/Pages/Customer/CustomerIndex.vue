@@ -24,31 +24,21 @@
         </template>
     </AppSectionHeader>
 
-    <!-- Filter row -->
-    <div class="mt-5 flex flex-wrap items-center gap-3">
-        <div class="flex flex-1 items-center gap-2 rounded-md border border-skin-neutral-4 bg-skin-neutral-2 px-3 py-1.5 text-sm">
-            <i class="ri-search-line text-skin-neutral-8"></i>
-            <input
-                v-model="searchInput"
-                type="text"
-                placeholder="Search by name, phone or email..."
-                class="flex-1 bg-transparent text-sm focus:outline-none"
-                @keyup.enter="applyFilters"
-            />
-            <button v-if="searchInput" class="text-skin-neutral-7 hover:text-skin-neutral-11" @click="clearSearch">
-                <i class="ri-close-line"></i>
-            </button>
-        </div>
-        <select
-            v-model="activeFilter"
-            class="rounded-md border border-skin-neutral-4 bg-skin-neutral-2 px-3 py-1.5 text-sm focus:outline-none"
-            @change="applyFilters"
-        >
-            <option value="">All Customers</option>
-            <option value="1">Active</option>
-            <option value="0">Inactive</option>
-        </select>
-    </div>
+    <!-- Filter Card -->
+    <CustomerFilterCard
+        :initial-filters="filters"
+        @apply="applyFilters"
+        @clear="clearFilters"
+    />
+
+    <!-- Search Bar -->
+    <AppDataSearch
+        v-if="customers.data.length || route().params.searchTerm"
+        :url="route('customer.index')"
+        fields-to-search="name,phone,email"
+        :additional-params="additionalParams"
+        class="mt-5"
+    />
 
     <!-- Table -->
     <AppDataTable v-if="customers.data.length" :headers="headers" class="mt-4 shadow-sm">
@@ -112,6 +102,7 @@
     </AppDataTable>
 
     <AppPaginator
+        v-if="customers.data.length"
         :links="customers.links"
         :from="customers.from ?? 0"
         :to="customers.to ?? 0"
@@ -127,10 +118,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import useTitle from '@/Composables/useTitle'
 import useAuthCan from '@/Composables/useAuthCan'
+import CustomerFilterCard from './Components/CustomerFilterCard.vue'
 
 const { title } = useTitle('Customers')
 const { can } = useAuthCan()
@@ -147,19 +139,34 @@ const breadCrumb = [
 
 const headers = ['#', 'Customer', 'Contact', 'Verified', 'Status', 'Gender', 'Joined', 'Actions']
 
-const searchInput = ref(props.filters?.searchTerm ?? '')
-const activeFilter = ref(props.filters?.active ?? '')
-
-function applyFilters() {
+const additionalParams = computed(() => {
     const params = {}
-    if (searchInput.value) { params.searchTerm = searchInput.value }
-    if (activeFilter.value !== '') { params.active = activeFilter.value }
+    if (props.filters?.active !== undefined && props.filters?.active !== null && props.filters?.active !== '') {
+        params.active = props.filters.active
+    }
+    if (props.filters?.gender !== undefined && props.filters?.gender !== null && props.filters?.gender !== '') {
+        params.gender = props.filters.gender
+    }
+    return params
+})
+
+function applyFilters(newFilters) {
+    const params = {}
+    const urlParams = new URLSearchParams(window.location.search)
+    const searchTerm = urlParams.get('searchTerm')
+    if (searchTerm) { params.searchTerm = searchTerm }
+
+    if (newFilters.active !== '') { params.active = newFilters.active }
+    if (newFilters.gender !== '') { params.gender = newFilters.gender }
     router.get(route('customer.index'), params, { preserveState: true, replace: true })
 }
 
-function clearSearch() {
-    searchInput.value = ''
-    applyFilters()
+function clearFilters() {
+    const params = {}
+    const urlParams = new URLSearchParams(window.location.search)
+    const searchTerm = urlParams.get('searchTerm')
+    if (searchTerm) { params.searchTerm = searchTerm }
+    router.get(route('customer.index'), params, { preserveState: true, replace: true })
 }
 
 const confirmDialogRef = ref(null)
@@ -167,4 +174,3 @@ const confirmDelete = (deleteRoute) => {
     confirmDialogRef.value.openModal(deleteRoute)
 }
 </script>
-

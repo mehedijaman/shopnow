@@ -14,10 +14,12 @@ class CustomerController extends BackendController
     public function index(Request $request): Response
     {
         $activeFilter = $request->input('active');
+        $genderFilter = $request->input('gender');
 
         $customers = Customer::orderByDesc('id')
             ->search($request->input('searchContext'), $request->input('searchTerm'))
             ->when($activeFilter !== null && $activeFilter !== '', fn ($q) => $q->where('active', (bool) $activeFilter))
+            ->when($genderFilter !== null && $genderFilter !== '', fn ($q) => $q->where('gender', $genderFilter))
             ->paginate($request->input('rowsPerPage', 15))
             ->withQueryString()
             ->through(fn ($customer) => [
@@ -36,6 +38,7 @@ class CustomerController extends BackendController
             'customers' => $customers,
             'filters' => [
                 'active' => $activeFilter,
+                'gender' => $genderFilter,
                 'searchTerm' => $request->input('searchTerm'),
             ],
         ]);
