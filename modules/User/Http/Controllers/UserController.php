@@ -71,4 +71,59 @@ class UserController extends BackendController
         return redirect()->route('user.index')
             ->with('success', 'User deleted');
     }
+
+    public function recycleBin()
+    {
+        $users = User::onlyTrashed()
+            ->orderBy('name')
+            ->search(request('searchContext'), request('searchTerm'))
+            ->paginate(request('rowsPerPage', 10))
+            ->withQueryString()
+            ->through(fn ($user) => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'created_at' => $user->created_at->format('d/m/Y H:i').'h',
+            ]);
+
+        return inertia('User/UserRecycleBin', [
+            'users' => $users,
+        ]);
+    }
+
+    public function restore($id)
+    {
+        User::onlyTrashed()->findOrFail($id)->restore();
+
+        return redirect()->route('user.recycleBin.index')
+            ->with('success', 'User restored');
+    }
+
+    public function destroyForce($id)
+    {
+        User::onlyTrashed()->findOrFail($id)->forceDelete();
+
+        return redirect()->route('user.recycleBin.index')
+            ->with('success', 'User deleted');
+    }
+
+    public function emptyRecycleBin()
+    {
+        $users = User::onlyTrashed()->get();
+
+        foreach ($users as $user) {
+            $user->forceDelete();
+        }
+
+        return redirect()->route('user.recycleBin.index')
+            ->with('success', 'Recycle bin emptied');
+    }
+
+    public function restoreRecycleBin()
+    {
+        User::onlyTrashed()->restore();
+
+        return redirect()->route('user.recycleBin.index')
+            ->with('success', 'Users restored');
+    }
 }

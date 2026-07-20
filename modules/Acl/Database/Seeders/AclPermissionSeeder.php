@@ -44,6 +44,7 @@ class AclPermissionSeeder extends Seeder
             'Acl: User - Create',
             'Acl: User - Edit',
             'Acl: User - Delete',
+            'Acl: User - Recycle Bin',
 
             // AclPermission/PermissionIndex.vue
             'Acl: Permission - Create',

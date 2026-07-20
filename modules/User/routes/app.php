@@ -3,6 +3,26 @@
 use Illuminate\Support\Facades\Route;
 use Modules\User\Http\Controllers\UserController;
 
+Route::get('user/recycle-bin', [
+    UserController::class, 'recycleBin',
+])->name('user.recycleBin.index');
+
+Route::get('user/recycle-bin/{id}/restore', [
+    UserController::class, 'restore',
+])->name('user.recycleBin.restore');
+
+Route::delete('user/recycle-bin/{id}/destroy', [
+    UserController::class, 'destroyForce',
+])->name('user.recycleBin.destroyForce');
+
+Route::delete('user/recycle-bin/empty', [
+    UserController::class, 'emptyRecycleBin',
+])->name('user.recycleBin.empty');
+
+Route::get('user/recycle-bin/restore-all', [
+    UserController::class, 'restoreRecycleBin',
+])->name('user.recycleBin.restoreAll');
+
 Route::get('user', [
     UserController::class, 'index',
 ])->name('user.index');
