@@ -40,20 +40,6 @@
                     </p>
                 @endif
 
-                {{-- Social Icons --}}
-                @php
-                    $activeSocials = array_filter($socials, fn($key) => !empty($socialSettings[$key] ?? null), ARRAY_FILTER_USE_KEY);
-                @endphp
-                @if (count($activeSocials))
-                    <div class="flex flex-wrap gap-3 pt-2">
-                        @foreach ($activeSocials as $key => $meta)
-                            <a href="{{ $socialSettings[$key] }}" target="_blank" rel="noopener noreferrer" 
-                               class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 transition-all hover:-translate-y-1 hover:bg-primary-600 hover:text-white hover:shadow-lg dark:bg-gray-800/50 dark:hover:bg-primary-600">
-                                <i class="{{ $meta['icon'] }} text-lg"></i>
-                            </a>
-                        @endforeach
-                    </div>
-                @endif
             </div>
 
             {{-- Column 2: Quick Links --}}
@@ -122,6 +108,21 @@
                         </li>
                     @endif
                 </ul>
+                
+                {{-- Social Icons --}}
+                @php
+                    $activeSocials = array_filter($socials, fn($key) => !empty($socialSettings[$key] ?? null), ARRAY_FILTER_USE_KEY);
+                @endphp
+                @if (count($activeSocials))
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        @foreach ($activeSocials as $key => $meta)
+                            <a href="{{ $socialSettings[$key] }}" target="_blank" rel="noopener noreferrer" 
+                               class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 transition-all hover:-translate-y-1 hover:bg-primary-600 hover:text-white hover:shadow-lg dark:bg-gray-800/50 dark:hover:bg-primary-600">
+                                <i class="{{ $meta['icon'] }} text-lg"></i>
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
             </div>
 
         </div>
@@ -131,11 +132,9 @@
                 &copy; {{ date('Y') }} {{ $footerSiteName }}. All rights reserved.
             </p>
             
-            <div class="mt-4 flex items-center gap-3 opacity-50 sm:mt-0">
-                <i class="ri-visa-line text-3xl hover:opacity-100 hover:text-white transition-opacity cursor-pointer"></i>
-                <i class="ri-mastercard-fill text-3xl hover:opacity-100 hover:text-white transition-opacity cursor-pointer"></i>
-                <i class="ri-paypal-fill text-3xl hover:opacity-100 hover:text-white transition-opacity cursor-pointer"></i>
-            </div>
+            <p class="mt-4 text-sm text-gray-500 sm:mt-0">
+                Developed by <a href="#" class="font-medium text-gray-400 hover:text-white transition-colors">Developer</a>
+            </p>
         </div>
     </div>
 </footer>
