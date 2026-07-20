@@ -4,6 +4,14 @@
 @endphp
 
 {{-- ==============================================
+     TOP ANNOUNCEMENT BAR
+================================================ --}}
+<div class="bg-gray-900 px-4 py-2 text-center text-[13px] font-medium tracking-wide text-white sm:px-6 lg:px-8 dark:bg-black">
+    Free shipping on all orders over <span class="font-bold text-primary-400">$100!</span> 
+    <a href="{{ route('shop.index') }}" class="ml-1 underline underline-offset-2 transition-colors hover:text-gray-300">Shop Now</a>
+</div>
+
+{{-- ==============================================
      MOBILE HEADER
 ================================================ --}}
 <div class="block lg:hidden">
@@ -57,49 +65,73 @@
             </div>
 
             {{-- Actions --}}
-            <div class="flex flex-shrink-0 items-center space-x-6">
+            <div class="flex flex-shrink-0 items-center space-x-5">
                 @if (auth('customer')->check())
                     <div class="group relative">
-                        <button class="flex items-center gap-2 rounded-xl p-2 text-gray-700 transition-colors hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800">
-                            <i class="ri-user-smile-line text-3xl text-primary-600"></i>
+                        <button class="flex items-center gap-2.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-gray-700 shadow-sm transition-all hover:border-gray-300 hover:bg-gray-50 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:bg-gray-700">
+                            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-primary-50 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400">
+                                <i class="ri-user-smile-line text-lg"></i>
+                            </div>
                             <div class="flex flex-col items-start text-left">
                                 <span class="text-[10px] font-bold uppercase leading-none tracking-widest text-gray-400">Account</span>
-                                <span class="text-sm font-extrabold leading-tight">{{ explode(' ', auth('customer')->user()->name)[0] }}</span>
+                                <span class="text-[13px] font-extrabold leading-tight text-gray-900 dark:text-white">{{ explode(' ', auth('customer')->user()->name)[0] }}</span>
                             </div>
-                            <i class="ri-arrow-down-s-line ml-1 text-gray-400"></i>
+                            <i class="ri-arrow-down-s-line ml-1 text-gray-400 transition-transform duration-200 group-hover:rotate-180"></i>
                         </button>
                         
                         {{-- Desktop Dropdown --}}
-                        <div class="invisible absolute right-0 top-full mt-2 w-56 origin-top-right rounded-2xl border border-gray-100 bg-white opacity-0 shadow-xl ring-1 ring-black ring-opacity-5 transition-all duration-200 group-hover:visible group-hover:opacity-100 dark:border-gray-700 dark:bg-gray-800 z-50">
-                            <div class="p-2">
-                                <a href="{{ route('account.profile') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-600 dark:text-gray-300 dark:hover:bg-gray-700/50 dark:hover:text-primary-400">
-                                    <i class="ri-user-settings-line text-lg text-gray-400"></i> My Profile
+                        <div class="invisible absolute right-0 top-full mt-2 w-64 origin-top-right rounded-2xl border border-gray-100 bg-white opacity-0 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] ring-1 ring-black ring-opacity-5 transition-all duration-200 group-hover:visible group-hover:opacity-100 dark:border-gray-700 dark:bg-gray-800 z-50">
+                            <div class="p-3">
+                                <div class="mb-2 px-3 pb-2 pt-1">
+                                    <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">Welcome Back</p>
+                                    <p class="truncate text-sm font-bold text-gray-900 dark:text-white">{{ auth('customer')->user()->name }}</p>
+                                </div>
+                                <hr class="mb-2 border-gray-100 dark:border-gray-700" />
+                                
+                                <a href="{{ route('account.profile') }}" class="group/item flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 hover:text-primary-600 dark:text-gray-300 dark:hover:bg-gray-700/50 dark:hover:text-primary-400">
+                                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-gray-500 transition-colors group-hover/item:bg-primary-50 group-hover/item:text-primary-600 dark:bg-gray-700 dark:text-gray-400 dark:group-hover/item:bg-primary-900/30 dark:group-hover/item:text-primary-400">
+                                        <i class="ri-user-settings-line text-lg"></i>
+                                    </div>
+                                    My Profile
                                 </a>
-                                <a href="{{ route('account.orders') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-600 dark:text-gray-300 dark:hover:bg-gray-700/50 dark:hover:text-primary-400">
-                                    <i class="ri-file-list-3-line text-lg text-gray-400"></i> Orders
+                                <a href="{{ route('account.orders') }}" class="group/item flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 hover:text-primary-600 dark:text-gray-300 dark:hover:bg-gray-700/50 dark:hover:text-primary-400">
+                                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-gray-500 transition-colors group-hover/item:bg-primary-50 group-hover/item:text-primary-600 dark:bg-gray-700 dark:text-gray-400 dark:group-hover/item:bg-primary-900/30 dark:group-hover/item:text-primary-400">
+                                        <i class="ri-file-list-3-line text-lg"></i>
+                                    </div>
+                                    Orders
                                 </a>
-                                <a href="{{ route('account.downloads') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-600 dark:text-gray-300 dark:hover:bg-gray-700/50 dark:hover:text-primary-400">
-                                    <i class="ri-download-2-line text-lg text-gray-400"></i> Downloads
+                                <a href="{{ route('account.downloads') }}" class="group/item flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 hover:text-primary-600 dark:text-gray-300 dark:hover:bg-gray-700/50 dark:hover:text-primary-400">
+                                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-gray-500 transition-colors group-hover/item:bg-primary-50 group-hover/item:text-primary-600 dark:bg-gray-700 dark:text-gray-400 dark:group-hover/item:bg-primary-900/30 dark:group-hover/item:text-primary-400">
+                                        <i class="ri-download-2-line text-lg"></i>
+                                    </div>
+                                    Downloads
                                 </a>
+                                
                                 <hr class="my-2 border-gray-100 dark:border-gray-700" />
-                                <a href="{{ route('customerAuth.logout') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/30">
-                                    <i class="ri-logout-box-r-line text-lg text-red-400"></i> Logout
+                                
+                                <a href="{{ route('customerAuth.logout') }}" class="group/item flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/30">
+                                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-500 transition-colors group-hover/item:bg-red-100 dark:bg-red-900/20 dark:group-hover/item:bg-red-900/40">
+                                        <i class="ri-logout-box-r-line text-lg"></i>
+                                    </div>
+                                    Logout
                                 </a>
                             </div>
                         </div>
                     </div>
                 @else
-                    <a href="{{ route('customerAuth.loginForm') }}" class="flex items-center gap-2 rounded-xl p-2 text-gray-700 transition-colors hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800">
-                        <i class="ri-user-line text-3xl text-primary-600"></i>
-                        <div class="flex flex-col items-start text-left">
+                    <a href="{{ route('customerAuth.loginForm') }}" class="flex items-center gap-2.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-gray-700 shadow-sm transition-all hover:border-gray-300 hover:bg-gray-50 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:bg-gray-700">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                            <i class="ri-user-line text-lg"></i>
+                        </div>
+                        <div class="flex flex-col items-start text-left pr-2">
                             <span class="text-[10px] font-bold uppercase leading-none tracking-widest text-gray-400">Welcome</span>
-                            <span class="text-sm font-extrabold leading-tight">Sign In / Register</span>
+                            <span class="text-[13px] font-extrabold leading-tight text-gray-900 dark:text-white">Sign In</span>
                         </div>
                     </a>
                 @endif
                 
                 {{-- Separator --}}
-                <div class="h-8 w-px bg-gray-200 dark:bg-gray-700"></div>
+                <div class="hidden sm:block h-8 w-px bg-gray-200 dark:bg-gray-700"></div>
 
                 <navbar-cart-menu></navbar-cart-menu>
             </div>
@@ -108,14 +140,29 @@
 </div>
 
 {{-- Bottom Row: Navbar (Sticky) --}}
-<div class="hidden lg:block sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur-md shadow-sm dark:border-gray-800 dark:bg-gray-900/95">
+<div class="hidden lg:block sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-lg shadow-[0_4px_20px_-15px_rgba(0,0,0,0.1)] dark:border-gray-800 dark:bg-gray-900/80">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <nav class="flex h-14 items-center gap-x-8">
-            <a href="/" class="text-sm font-bold uppercase tracking-wider text-gray-700 transition-colors hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">Home</a>
-            <a href="{{ route('shop.index') }}" class="text-sm font-bold uppercase tracking-wider text-gray-700 transition-colors hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">Shop</a>
-            <a href="/blog" class="text-sm font-bold uppercase tracking-wider text-gray-700 transition-colors hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">Blog</a>
-            <a href="{{ route('site.about') }}" class="text-sm font-bold uppercase tracking-wider text-gray-700 transition-colors hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">About</a>
-            <a href="{{ route('site.contact') }}" class="text-sm font-bold uppercase tracking-wider text-gray-700 transition-colors hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">Contact</a>
+        <nav class="flex h-14 items-center gap-x-10">
+            <a href="/" class="group relative py-4 text-[15px] font-medium text-gray-700 transition-colors hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">
+                Home
+                <span class="absolute inset-x-0 bottom-0 h-[2px] scale-x-0 transform bg-primary-600 transition-transform duration-300 group-hover:scale-x-100"></span>
+            </a>
+            <a href="{{ route('shop.index') }}" class="group relative py-4 text-[15px] font-medium text-gray-700 transition-colors hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">
+                Shop
+                <span class="absolute inset-x-0 bottom-0 h-[2px] scale-x-0 transform bg-primary-600 transition-transform duration-300 group-hover:scale-x-100"></span>
+            </a>
+            <a href="/blog" class="group relative py-4 text-[15px] font-medium text-gray-700 transition-colors hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">
+                Blog
+                <span class="absolute inset-x-0 bottom-0 h-[2px] scale-x-0 transform bg-primary-600 transition-transform duration-300 group-hover:scale-x-100"></span>
+            </a>
+            <a href="{{ route('site.about') }}" class="group relative py-4 text-[15px] font-medium text-gray-700 transition-colors hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">
+                About
+                <span class="absolute inset-x-0 bottom-0 h-[2px] scale-x-0 transform bg-primary-600 transition-transform duration-300 group-hover:scale-x-100"></span>
+            </a>
+            <a href="{{ route('site.contact') }}" class="group relative py-4 text-[15px] font-medium text-gray-700 transition-colors hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">
+                Contact
+                <span class="absolute inset-x-0 bottom-0 h-[2px] scale-x-0 transform bg-primary-600 transition-transform duration-300 group-hover:scale-x-100"></span>
+            </a>
         </nav>
     </div>
 </div>
