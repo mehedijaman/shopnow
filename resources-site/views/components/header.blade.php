@@ -18,6 +18,7 @@
 
     $phones = $getRepeaterArray('contact.phone');
     $email = $getRepeaterValue('contact.email');
+    $whatsapp = $getRepeaterValue('contact.whatsapp');
 
     $facebook = setting('social.facebook');
     $facebook = is_string($facebook) && !empty(trim($facebook)) ? trim($facebook) : null;
@@ -326,6 +327,9 @@
         </div>
     </div>
 </div>
+
+{{-- WhatsApp Floating Button --}}
+<whatsapp-floating-button :number="'{{ $whatsapp ?? '' }}'"></whatsapp-floating-button>
 
 @push('scripts')
 <script>
