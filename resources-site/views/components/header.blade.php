@@ -3,67 +3,88 @@
     $siteName = setting('branding.site_name', 'ShopNow'); 
     
     $phone = setting('contact.phone');
-    $phone = is_string($phone) && !empty($phone) ? $phone : '+1 234 567 8900';
+    $phone = is_string($phone) && !empty(trim($phone)) ? trim($phone) : null;
     
     $email = setting('contact.email');
-    $email = is_string($email) && !empty($email) ? $email : 'support@shopnow.com';
+    $email = is_string($email) && !empty(trim($email)) ? trim($email) : null;
 
     $facebook = setting('social.facebook');
-    $facebook = is_string($facebook) && !empty($facebook) ? $facebook : 'https://facebook.com';
+    $facebook = is_string($facebook) && !empty(trim($facebook)) ? trim($facebook) : null;
     
     $twitter = setting('social.twitter');
-    $twitter = is_string($twitter) && !empty($twitter) ? $twitter : 'https://twitter.com';
+    $twitter = is_string($twitter) && !empty(trim($twitter)) ? trim($twitter) : null;
     
     $instagram = setting('social.instagram');
-    $instagram = is_string($instagram) && !empty($instagram) ? $instagram : 'https://instagram.com';
+    $instagram = is_string($instagram) && !empty(trim($instagram)) ? trim($instagram) : null;
     
     $pinterest = setting('social.pinterest');
-    $pinterest = is_string($pinterest) && !empty($pinterest) ? $pinterest : 'https://pinterest.com';
+    $pinterest = is_string($pinterest) && !empty(trim($pinterest)) ? trim($pinterest) : null;
 @endphp
 
 {{-- ==============================================
      TOP ANNOUNCEMENT BAR
 ================================================ --}}
+@if($phone || $email || $facebook || $twitter || $instagram || $pinterest)
 <div class="bg-gray-900 text-[13px] font-medium tracking-wide text-white dark:bg-black">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         
         {{-- Left: Contact / Phone (Hidden on very small screens) --}}
         <div class="hidden items-center gap-4 sm:flex">
-            <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}" class="flex items-center gap-1.5 transition-colors hover:text-primary-400">
-                <i class="ri-phone-line text-[15px]"></i>
-                <span>{{ $phone }}</span>
-            </a>
-            <div class="h-3 w-px bg-gray-700"></div>
-            <a href="mailto:{{ $email }}" class="flex items-center gap-1.5 transition-colors hover:text-primary-400">
-                <i class="ri-mail-send-line text-[15px]"></i>
-                <span>{{ $email }}</span>
-            </a>
+            @if($phone)
+                <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}" class="flex items-center gap-1.5 transition-colors hover:text-primary-400">
+                    <i class="ri-phone-line text-[15px]"></i>
+                    <span>{{ $phone }}</span>
+                </a>
+            @endif
+            
+            @if($phone && $email)
+                <div class="h-3 w-px bg-gray-700"></div>
+            @endif
+            
+            @if($email)
+                <a href="mailto:{{ $email }}" class="flex items-center gap-1.5 transition-colors hover:text-primary-400">
+                    <i class="ri-mail-send-line text-[15px]"></i>
+                    <span>{{ $email }}</span>
+                </a>
+            @endif
         </div>
 
         {{-- Center: Announcement --}}
-        <div class="flex-1 text-center">
+        <!-- <div class="flex-1 text-center">
             Free shipping on all orders over <span class="font-bold text-primary-400">$100!</span> 
             <a href="{{ route('shop.index') }}" class="ml-1 underline underline-offset-2 transition-colors hover:text-gray-300">Shop Now</a>
-        </div>
+        </div> -->
 
         {{-- Right: Social Icons (Hidden on mobile) --}}
         <div class="hidden items-center gap-3.5 md:flex">
-            <a href="{{ $facebook }}" target="_blank" aria-label="Facebook" class="transition-colors hover:text-primary-400">
-                <i class="ri-facebook-circle-fill text-[16px]"></i>
-            </a>
-            <a href="{{ $twitter }}" target="_blank" aria-label="Twitter" class="transition-colors hover:text-primary-400">
-                <i class="ri-twitter-x-line text-[16px]"></i>
-            </a>
-            <a href="{{ $instagram }}" target="_blank" aria-label="Instagram" class="transition-colors hover:text-primary-400">
-                <i class="ri-instagram-line text-[16px]"></i>
-            </a>
-            <a href="{{ $pinterest }}" target="_blank" aria-label="Pinterest" class="transition-colors hover:text-primary-400">
-                <i class="ri-pinterest-fill text-[16px]"></i>
-            </a>
+            @if($facebook)
+                <a href="{{ $facebook }}" target="_blank" aria-label="Facebook" class="transition-colors hover:text-primary-400">
+                    <i class="ri-facebook-circle-fill text-[16px]"></i>
+                </a>
+            @endif
+            
+            @if($twitter)
+                <a href="{{ $twitter }}" target="_blank" aria-label="Twitter" class="transition-colors hover:text-primary-400">
+                    <i class="ri-twitter-x-line text-[16px]"></i>
+                </a>
+            @endif
+            
+            @if($instagram)
+                <a href="{{ $instagram }}" target="_blank" aria-label="Instagram" class="transition-colors hover:text-primary-400">
+                    <i class="ri-instagram-line text-[16px]"></i>
+                </a>
+            @endif
+            
+            @if($pinterest)
+                <a href="{{ $pinterest }}" target="_blank" aria-label="Pinterest" class="transition-colors hover:text-primary-400">
+                    <i class="ri-pinterest-fill text-[16px]"></i>
+                </a>
+            @endif
         </div>
 
     </div>
 </div>
+@endif
 
 {{-- ==============================================
      MOBILE HEADER
