@@ -3,9 +3,12 @@
     <AppSectionHeader :title="title" :bread-crumb="breadCrumb">
         <template #right>
             <div class="flex gap-2">
-                <a :href="route('customer.report')" class="btn btn-secondary inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-sm font-medium">
-                    <i class="ri-bar-chart-2-line"></i> Report
-                </a>
+                <AppButton
+                    class="btn btn-secondary"
+                    @click="$inertia.visit(route('customer.report'))"
+                >
+                    <i class="ri-bar-chart-2-line mr-1"></i> Report
+                </AppButton>
                 <AppButton
                     v-if="can('customer-create')"
                     class="btn btn-primary"
@@ -18,7 +21,7 @@
                     class="btn btn-secondary"
                     @click="$inertia.visit(route('customer.recycleBin.index'))"
                 >
-                    <i class="ri-recycle-line"></i>
+                    <i class="ri-delete-bin-2-line mr-1"></i> Recycle Bin
                 </AppButton>
             </div>
         </template>

@@ -3,13 +3,13 @@
     <AppSectionHeader title="Sliders" :bread-crumb="breadCrumb">
         <template #right>
             <div class="flex gap-2">
-                <AppLink
+                <AppButton
                     v-if="can('slider-recycle-bin-list')"
-                    :href="route('slider.recycleBin.index')"
-                    class="btn btn-secondary inline-flex items-center gap-1"
+                    class="btn btn-secondary"
+                    @click="$inertia.visit(route('slider.recycleBin.index'))"
                 >
-                    <i class="ri-delete-bin-2-line"></i> Recycle Bin
-                </AppLink>
+                    <i class="ri-delete-bin-2-line mr-1"></i> Recycle Bin
+                </AppButton>
                 <AppButton
                     v-if="can('slider-create')"
                     class="btn btn-primary"

@@ -1,13 +1,22 @@
 <template>
     <AppSectionHeader title="Product Tags" :bread-crumb="breadCrumb">
         <template #right>
-            <AppButton
-                v-if="can('Blog: Tag - Create')"
-                class="btn btn-primary"
-                @click="$inertia.visit(route('productTag.create'))"
-            >
-                Create Tag
-            </AppButton>
+            <div class="flex gap-2">
+                <AppButton
+                    v-if="can('product-tag-recycle-bin-list')"
+                    class="btn btn-secondary"
+                    @click="$inertia.visit(route('productTag.recycleBin.index'))"
+                >
+                    <i class="ri-delete-bin-2-line mr-1"></i> Recycle Bin
+                </AppButton>
+                <AppButton
+                    v-if="can('product-tag-create')"
+                    class="btn btn-primary"
+                    @click="$inertia.visit(route('productTag.create'))"
+                >
+                    Create Tag
+                </AppButton>
+            </div>
         </template>
     </AppSectionHeader>
 
@@ -28,7 +37,7 @@
                     <AppDataTableData>
                         <!-- edit tag -->
                         <AppTooltip
-                            v-if="can('Blog: Tag - Edit')"
+                            v-if="can('product-tag-edit')"
                             text="Edit Tag"
                             class="mr-3"
                         >
@@ -46,7 +55,7 @@
 
                         <!-- delete tag -->
                         <AppTooltip
-                            v-if="can('Blog: Tag - Delete')"
+                            v-if="can('product-tag-delete')"
                             text="Delete Tag"
                         >
                             <AppButton

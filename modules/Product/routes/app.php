@@ -15,13 +15,13 @@ use Modules\Product\Http\Controllers\ProductVariationController;
 Route::get('product/report', [ProductReportController::class, 'index'])->name('product.report');
 
 /** Product Category routes **/
-Route::prefix('product-category')->name('productCategory.')->middleware('can:product-category')->group(function () {
+Route::prefix('product-category')->name('productCategory.')->middleware('can:product-category-list')->group(function () {
     Route::prefix('recycle-bin')->name('recycleBin.')->group(function () {
-        Route::get('/', [ProductCategoryController::class, 'recycleBin'])->name('index')->can('recycle-bin-list');
-        Route::get('{id}/restore', [ProductCategoryController::class, 'restore'])->name('restore')->can('recycle-bin-restore');
-        Route::delete('{id}/destroy', [ProductCategoryController::class, 'destroyForce'])->name('destroyForce')->can('recycle-bin-delete');
-        Route::delete('empty', [ProductCategoryController::class, 'emptyRecycleBin'])->name('empty')->can('recycle-bin-delete');
-        Route::get('restore', [ProductCategoryController::class, 'restoreRecycleBin'])->name('restoreAll')->can('recycle-bin-restore');
+        Route::get('/', [ProductCategoryController::class, 'recycleBin'])->name('index')->can('product-category-recycle-bin-list');
+        Route::get('{id}/restore', [ProductCategoryController::class, 'restore'])->name('restore')->can('product-category-recycle-bin-restore');
+        Route::delete('{id}/destroy', [ProductCategoryController::class, 'destroyForce'])->name('destroyForce')->can('product-category-recycle-bin-delete');
+        Route::delete('empty', [ProductCategoryController::class, 'emptyRecycleBin'])->name('empty')->can('product-category-recycle-bin-delete');
+        Route::get('restore', [ProductCategoryController::class, 'restoreRecycleBin'])->name('restoreAll')->can('product-category-recycle-bin-restore');
     });
 
     // Editor Image Upload
@@ -38,13 +38,13 @@ Route::prefix('product-category')->name('productCategory.')->middleware('can:pro
 });
 
 /** Product Brand routes **/
-Route::prefix('product-brand')->name('productBrand.')->middleware('can:product-brand')->group(function () {
+Route::prefix('product-brand')->name('productBrand.')->middleware('can:product-brand-list')->group(function () {
     Route::prefix('recycle-bin')->name('recycleBin.')->group(function () {
-        Route::get('/', [ProductBrandController::class, 'recycleBin'])->name('index')->can('recycle-bin-list');
-        Route::get('{id}/restore', [ProductBrandController::class, 'restore'])->name('restore')->can('recycle-bin-restore');
-        Route::delete('{id}/destroy', [ProductBrandController::class, 'destroyForce'])->name('destroyForce')->can('recycle-bin-delete');
-        Route::delete('empty', [ProductBrandController::class, 'emptyRecycleBin'])->name('empty')->can('recycle-bin-delete');
-        Route::get('restore', [ProductBrandController::class, 'restoreRecycleBin'])->name('restoreAll')->can('recycle-bin-restore');
+        Route::get('/', [ProductBrandController::class, 'recycleBin'])->name('index')->can('product-brand-recycle-bin-list');
+        Route::get('{id}/restore', [ProductBrandController::class, 'restore'])->name('restore')->can('product-brand-recycle-bin-restore');
+        Route::delete('{id}/destroy', [ProductBrandController::class, 'destroyForce'])->name('destroyForce')->can('product-brand-recycle-bin-delete');
+        Route::delete('empty', [ProductBrandController::class, 'emptyRecycleBin'])->name('empty')->can('product-brand-recycle-bin-delete');
+        Route::get('restore', [ProductBrandController::class, 'restoreRecycleBin'])->name('restoreAll')->can('product-brand-recycle-bin-restore');
     });
 
     // Editor Image Upload
@@ -60,13 +60,13 @@ Route::prefix('product-brand')->name('productBrand.')->middleware('can:product-b
 });
 
 /** Product Tag routes **/
-Route::prefix('product-tag')->name('productTag.')->middleware('can:product-tag')->group(function () {
+Route::prefix('product-tag')->name('productTag.')->middleware('can:product-tag-list')->group(function () {
     Route::prefix('recycle-bin')->name('recycleBin.')->group(function () {
-        Route::get('/', [ProductTagController::class, 'recycleBin'])->name('index')->can('recycle-bin-list');
-        Route::get('{id}/restore', [ProductTagController::class, 'restore'])->name('restore')->can('recycle-bin-restore');
-        Route::delete('{id}/destroy', [ProductTagController::class, 'destroyForce'])->name('destroyForce')->can('recycle-bin-delete');
-        Route::delete('empty', [ProductTagController::class, 'emptyRecycleBin'])->name('empty')->can('recycle-bin-delete');
-        Route::get('restore', [ProductTagController::class, 'restoreRecycleBin'])->name('restoreAll')->can('recycle-bin-restore');
+        Route::get('/', [ProductTagController::class, 'recycleBin'])->name('index')->can('product-tag-recycle-bin-list');
+        Route::get('{id}/restore', [ProductTagController::class, 'restore'])->name('restore')->can('product-tag-recycle-bin-restore');
+        Route::delete('{id}/destroy', [ProductTagController::class, 'destroyForce'])->name('destroyForce')->can('product-tag-recycle-bin-delete');
+        Route::delete('empty', [ProductTagController::class, 'emptyRecycleBin'])->name('empty')->can('product-tag-recycle-bin-delete');
+        Route::get('restore', [ProductTagController::class, 'restoreRecycleBin'])->name('restoreAll')->can('product-tag-recycle-bin-restore');
     });
 
     Route::get('/', [ProductTagController::class, 'index'])->name('index')->can('list');
@@ -94,13 +94,13 @@ Route::prefix('product-attribute')->name('productAttribute.')->middleware('can:p
 });
 
 /** Product routes **/
-Route::prefix('product')->name('product.')->middleware('can:product')->group(function () {
+Route::prefix('product')->name('product.')->middleware('can:product-list')->group(function () {
     Route::prefix('recycle-bin')->name('recycleBin.')->group(function () {
-        Route::get('/', [ProductController::class, 'recycleBin'])->name('index')->can('recycle-bin-list');
-        Route::get('{id}/restore', [ProductController::class, 'restore'])->name('restore')->can('recycle-bin-restore');
-        Route::delete('{id}/destroy', [ProductController::class, 'destroyForce'])->name('destroyForce')->can('recycle-bin-delete');
-        Route::delete('empty', [ProductController::class, 'emptyRecycleBin'])->name('empty')->can('recycle-bin-delete');
-        Route::get('restore', [ProductController::class, 'restoreRecycleBin'])->name('restoreAll')->can('recycle-bin-restore');
+        Route::get('/', [ProductController::class, 'recycleBin'])->name('index')->can('product-recycle-bin-list');
+        Route::get('{id}/restore', [ProductController::class, 'restore'])->name('restore')->can('product-recycle-bin-restore');
+        Route::delete('{id}/destroy', [ProductController::class, 'destroyForce'])->name('destroyForce')->can('product-recycle-bin-delete');
+        Route::delete('empty', [ProductController::class, 'emptyRecycleBin'])->name('empty')->can('product-recycle-bin-delete');
+        Route::get('restore', [ProductController::class, 'restoreRecycleBin'])->name('restoreAll')->can('product-recycle-bin-restore');
     });
 
     // Editor Image Upload

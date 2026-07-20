@@ -2,9 +2,12 @@
     <Head :title="title"></Head>
     <AppSectionHeader :title="title" :bread-crumb="breadCrumb">
         <template #right>
-            <a :href="route('order.report')" class="btn btn-secondary inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-sm font-medium">
-                <i class="ri-bar-chart-2-line"></i> Report
-            </a>
+            <AppButton
+                class="btn btn-secondary"
+                @click="$inertia.visit(route('order.report'))"
+            >
+                <i class="ri-bar-chart-2-line mr-1"></i> Report
+            </AppButton>
         </template>
     </AppSectionHeader>
 

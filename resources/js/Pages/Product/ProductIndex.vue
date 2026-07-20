@@ -4,10 +4,19 @@
     <AppSectionHeader title="Products" :bread-crumb="breadCrumb">
         <template #right>
             <div class="flex gap-2">
-                <a :href="route('product.report')"
-                    class="btn btn-secondary inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-sm font-medium">
-                    <i class="ri-bar-chart-2-line"></i> Report
-                </a>
+                <AppButton
+                    class="btn btn-secondary"
+                    @click="$inertia.visit(route('product.report'))"
+                >
+                    <i class="ri-bar-chart-2-line mr-1"></i> Report
+                </AppButton>
+                <AppButton
+                    v-if="can('product-recycle-bin-list')"
+                    class="btn btn-secondary"
+                    @click="$inertia.visit(route('product.recycleBin.index'))"
+                >
+                    <i class="ri-delete-bin-2-line mr-1"></i> Recycle Bin
+                </AppButton>
                 <AppButton v-if="can('product-create')" class="btn btn-primary"
                     @click="$inertia.visit(route('product.create'))">
                     <i class="ri-add-fill mr-1"></i> New Product

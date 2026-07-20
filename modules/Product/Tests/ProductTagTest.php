@@ -57,7 +57,7 @@ test('product tag can be created', function () {
 
     $tags = ProductTag::all();
 
-    $response->assertRedirect('/admin/blog-tag');
+    $response->assertRedirect('/admin/product-tag');
     $this->assertCount(2, $tags);
     $this->assertEquals('Test Tag', $tags->last()->name);
 });
@@ -85,7 +85,7 @@ test('product tag can be updated', function () {
         'name' => 'Updated Tag',
     ]);
 
-    $response->assertRedirect('/admin/blog-tag');
+    $response->assertRedirect('/admin/product-tag');
 
     $redirectResponse = $this->loggedRequest->get('/admin/product-tag');
     $redirectResponse->assertInertia(
@@ -105,7 +105,7 @@ test('product tag can be updated', function () {
 test('product tag can be deleted', function () {
     $response = $this->loggedRequest->delete('/admin/product-tag/'.$this->productTag->id);
 
-    $response->assertRedirect('/admin/blog-tag');
+    $response->assertRedirect('/admin/product-tag');
 
     $this->assertCount(0, ProductTag::all());
 });

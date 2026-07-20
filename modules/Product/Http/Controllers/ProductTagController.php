@@ -36,7 +36,7 @@ class ProductTagController extends BackendController
     {
         ProductTag::create($request->validated());
 
-        return redirect()->route('blogTag.index')
+        return redirect()->route('productTag.index')
             ->with('success', 'Tag created.');
     }
 
@@ -55,7 +55,7 @@ class ProductTagController extends BackendController
 
         $tag->update($request->validated());
 
-        return redirect()->route('blogTag.index')
+        return redirect()->route('productTag.index')
             ->with('success', 'Tag updated.');
     }
 
@@ -63,7 +63,7 @@ class ProductTagController extends BackendController
     {
         ProductTag::findOrFail($id)->delete();
 
-        return redirect()->route('blogTag.index')
+        return redirect()->route('productTag.index')
             ->with('success', 'Tag deleted.');
     }
 
@@ -79,7 +79,7 @@ class ProductTagController extends BackendController
                 'name' => Str::limit($tag->name, 50),
             ]);
 
-        return inertia('Product/ProductTagRecycleBin', [
+        return inertia('ProductTag/ProductTagRecycleBin', [
             'tags' => $tags,
         ]);
     }
