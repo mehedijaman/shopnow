@@ -5,34 +5,33 @@
 @endsection
 
 @section('content')
-    <div class="bg-gray-50/50 dark:bg-gray-900/50">
-        {{-- Elegant Header Section --}}
-        <div class="border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
-            <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-                <x-breadcrumb class="mb-4">
-                    @if (isset($searchText))
-                        <li class="flex shrink-0 items-center gap-1">
-                            <a href="{{ route('shop.index') }}" class="hover:text-primary-600 hover:underline">Shop</a>
-                            <i class="ri-arrow-right-s-line text-gray-400"></i>
-                        </li>
-                        <li class="min-w-0">
-                            <span class="block truncate font-medium text-gray-800 dark:text-gray-200">Search: &ldquo;{{ $searchText }}&rdquo;</span>
-                        </li>
-                    @elseif (isset($category))
-                        <li class="flex shrink-0 items-center gap-1">
-                            <a href="{{ route('shop.index') }}" class="hover:text-primary-600 hover:underline">Shop</a>
-                            <i class="ri-arrow-right-s-line text-gray-400"></i>
-                        </li>
-                        <li class="min-w-0">
-                            <span class="block truncate font-medium text-gray-800 dark:text-gray-200">{{ $category->name }}</span>
-                        </li>
-                    @else
-                        <li class="min-w-0">
-                            <span class="font-medium text-gray-800 dark:text-gray-200">Shop</span>
-                        </li>
-                    @endif
-                </x-breadcrumb>
+    <x-breadcrumb>
+        @if (isset($searchText))
+            <li class="flex shrink-0 items-center gap-1">
+                <a href="{{ route('shop.index') }}" class="hover:text-primary-600 hover:underline">Shop</a>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+            </li>
+            <li class="min-w-0">
+                <span class="block truncate font-semibold text-gray-800">Search: &ldquo;{{ $searchText }}&rdquo;</span>
+            </li>
+        @elseif (isset($category))
+            <li class="flex shrink-0 items-center gap-1">
+                <a href="{{ route('shop.index') }}" class="hover:text-primary-600 hover:underline">Shop</a>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+            </li>
+            <li class="min-w-0">
+                <span class="block truncate font-semibold text-gray-800">{{ $category->name }}</span>
+            </li>
+        @else
+            <li class="min-w-0">
+                <span class="font-semibold text-gray-800">Shop</span>
+            </li>
+        @endif
+    </x-breadcrumb>
 
+    <div class="bg-gray-50/50 dark:bg-gray-900/50">
+        <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            <div class="mb-8">
                 @if (isset($searchText))
                     <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Search Results for &ldquo;{{ $searchText }}&rdquo;</h1>
                 @elseif (isset($category))
@@ -41,9 +40,7 @@
                     <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">All Products</h1>
                 @endif
             </div>
-        </div>
 
-        <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             {{-- Mobile filter toggle --}}
             <div class="mb-6 lg:hidden">
                 <button
