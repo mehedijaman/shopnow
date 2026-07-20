@@ -1,6 +1,24 @@
 @php 
     $logoUrl = setting('branding.logo_url'); 
     $siteName = setting('branding.site_name', 'ShopNow'); 
+    
+    $phone = setting('contact.phone');
+    $phone = is_string($phone) && !empty($phone) ? $phone : '+1 234 567 8900';
+    
+    $email = setting('contact.email');
+    $email = is_string($email) && !empty($email) ? $email : 'support@shopnow.com';
+
+    $facebook = setting('social.facebook');
+    $facebook = is_string($facebook) && !empty($facebook) ? $facebook : 'https://facebook.com';
+    
+    $twitter = setting('social.twitter');
+    $twitter = is_string($twitter) && !empty($twitter) ? $twitter : 'https://twitter.com';
+    
+    $instagram = setting('social.instagram');
+    $instagram = is_string($instagram) && !empty($instagram) ? $instagram : 'https://instagram.com';
+    
+    $pinterest = setting('social.pinterest');
+    $pinterest = is_string($pinterest) && !empty($pinterest) ? $pinterest : 'https://pinterest.com';
 @endphp
 
 {{-- ==============================================
@@ -11,14 +29,14 @@
         
         {{-- Left: Contact / Phone (Hidden on very small screens) --}}
         <div class="hidden items-center gap-4 sm:flex">
-            <a href="tel:{{ setting('contact.phone', '+12345678900') }}" class="flex items-center gap-1.5 transition-colors hover:text-primary-400">
+            <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}" class="flex items-center gap-1.5 transition-colors hover:text-primary-400">
                 <i class="ri-phone-line text-[15px]"></i>
-                <span>{{ setting('contact.phone', '+1 234 567 8900') }}</span>
+                <span>{{ $phone }}</span>
             </a>
             <div class="h-3 w-px bg-gray-700"></div>
-            <a href="mailto:{{ setting('contact.email', 'support@shopnow.com') }}" class="flex items-center gap-1.5 transition-colors hover:text-primary-400">
+            <a href="mailto:{{ $email }}" class="flex items-center gap-1.5 transition-colors hover:text-primary-400">
                 <i class="ri-mail-send-line text-[15px]"></i>
-                <span>{{ setting('contact.email', 'support@shopnow.com') }}</span>
+                <span>{{ $email }}</span>
             </a>
         </div>
 
@@ -30,16 +48,16 @@
 
         {{-- Right: Social Icons (Hidden on mobile) --}}
         <div class="hidden items-center gap-3.5 md:flex">
-            <a href="{{ setting('social.facebook', 'https://facebook.com') }}" target="_blank" aria-label="Facebook" class="transition-colors hover:text-primary-400">
+            <a href="{{ $facebook }}" target="_blank" aria-label="Facebook" class="transition-colors hover:text-primary-400">
                 <i class="ri-facebook-circle-fill text-[16px]"></i>
             </a>
-            <a href="{{ setting('social.twitter', 'https://twitter.com') }}" target="_blank" aria-label="Twitter" class="transition-colors hover:text-primary-400">
+            <a href="{{ $twitter }}" target="_blank" aria-label="Twitter" class="transition-colors hover:text-primary-400">
                 <i class="ri-twitter-x-line text-[16px]"></i>
             </a>
-            <a href="{{ setting('social.instagram', 'https://instagram.com') }}" target="_blank" aria-label="Instagram" class="transition-colors hover:text-primary-400">
+            <a href="{{ $instagram }}" target="_blank" aria-label="Instagram" class="transition-colors hover:text-primary-400">
                 <i class="ri-instagram-line text-[16px]"></i>
             </a>
-            <a href="{{ setting('social.pinterest', 'https://pinterest.com') }}" target="_blank" aria-label="Pinterest" class="transition-colors hover:text-primary-400">
+            <a href="{{ $pinterest }}" target="_blank" aria-label="Pinterest" class="transition-colors hover:text-primary-400">
                 <i class="ri-pinterest-fill text-[16px]"></i>
             </a>
         </div>
