@@ -3,77 +3,126 @@
     $siteName = setting('branding.site_name', 'ShopNow'); 
 @endphp
 
-<header class="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/90 backdrop-blur-md transition-all dark:border-gray-800 dark:bg-gray-900/90">
-    <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        
-        {{-- Mobile Menu Button --}}
-        <div class="flex items-center lg:hidden">
-            <button id="toggleOpen" class="rounded-lg p-2 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white">
+{{-- ==============================================
+     MOBILE HEADER
+================================================ --}}
+<div class="block lg:hidden">
+    {{-- Top Sticky Bar --}}
+    <header class="sticky top-0 z-50 flex h-16 w-full items-center justify-between border-b border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+        <div class="flex items-center pl-2 sm:pl-4">
+            <button id="toggleOpen" class="rounded-lg p-2 text-gray-600 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800">
                 <i class="ri-menu-line text-2xl"></i>
             </button>
         </div>
 
-        {{-- Logo --}}
-        <div class="flex lg:flex-1">
-            <a href="{{ route('site.index') }}" class="flex items-center gap-2">
+        <a href="{{ route('site.index') }}" class="flex flex-1 items-center justify-center">
+            @if ($logoUrl)
+                <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-12 w-auto object-contain sm:h-14" />
+            @else
+                <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-12 w-auto object-contain sm:h-14" />
+            @endif
+        </a>
+
+        <div class="flex items-center pr-2 sm:pr-4">
+            <navbar-cart-menu></navbar-cart-menu>
+        </div>
+    </header>
+    
+    {{-- Mobile Search Field (Non-sticky, scrolls away) --}}
+    <div class="relative z-40 border-b border-gray-100 bg-gray-50 px-4 py-3 dark:border-gray-800 dark:bg-gray-900/50">
+        <shop-search></shop-search>
+    </div>
+</div>
+
+{{-- ==============================================
+     DESKTOP HEADER (Two Rows)
+================================================ --}}
+
+{{-- Top Row: Logo, Search, Actions (Not Sticky) --}}
+<div class="hidden lg:block w-full bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 relative z-40">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between gap-10 py-5">
+            {{-- Logo --}}
+            <a href="{{ route('site.index') }}" class="flex-shrink-0">
                 @if ($logoUrl)
-                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-10 w-auto sm:h-12 object-contain" />
+                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-16 w-auto object-contain xl:h-20" />
                 @else
-                    <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-10 w-auto sm:h-12 object-contain" />
+                    <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-16 w-auto object-contain xl:h-20" />
                 @endif
             </a>
-        </div>
 
-        {{-- Desktop Navigation --}}
-        <nav class="hidden lg:flex lg:gap-x-10">
+            {{-- Search --}}
+            <div class="w-full max-w-2xl flex-1">
+                <shop-search></shop-search>
+            </div>
+
+            {{-- Actions --}}
+            <div class="flex flex-shrink-0 items-center space-x-6">
+                @if (auth('customer')->check())
+                    <div class="group relative">
+                        <button class="flex items-center gap-2 rounded-xl p-2 text-gray-700 transition-colors hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800">
+                            <i class="ri-user-smile-line text-3xl text-primary-600"></i>
+                            <div class="flex flex-col items-start text-left">
+                                <span class="text-[10px] font-bold uppercase leading-none tracking-widest text-gray-400">Account</span>
+                                <span class="text-sm font-extrabold leading-tight">{{ explode(' ', auth('customer')->user()->name)[0] }}</span>
+                            </div>
+                            <i class="ri-arrow-down-s-line ml-1 text-gray-400"></i>
+                        </button>
+                        
+                        {{-- Desktop Dropdown --}}
+                        <div class="invisible absolute right-0 top-full mt-2 w-56 origin-top-right rounded-2xl border border-gray-100 bg-white opacity-0 shadow-xl ring-1 ring-black ring-opacity-5 transition-all duration-200 group-hover:visible group-hover:opacity-100 dark:border-gray-700 dark:bg-gray-800 z-50">
+                            <div class="p-2">
+                                <a href="{{ route('account.profile') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-600 dark:text-gray-300 dark:hover:bg-gray-700/50 dark:hover:text-primary-400">
+                                    <i class="ri-user-settings-line text-lg text-gray-400"></i> My Profile
+                                </a>
+                                <a href="{{ route('account.orders') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-600 dark:text-gray-300 dark:hover:bg-gray-700/50 dark:hover:text-primary-400">
+                                    <i class="ri-file-list-3-line text-lg text-gray-400"></i> Orders
+                                </a>
+                                <a href="{{ route('account.downloads') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-600 dark:text-gray-300 dark:hover:bg-gray-700/50 dark:hover:text-primary-400">
+                                    <i class="ri-download-2-line text-lg text-gray-400"></i> Downloads
+                                </a>
+                                <hr class="my-2 border-gray-100 dark:border-gray-700" />
+                                <a href="{{ route('customerAuth.logout') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/30">
+                                    <i class="ri-logout-box-r-line text-lg text-red-400"></i> Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <a href="{{ route('customerAuth.loginForm') }}" class="flex items-center gap-2 rounded-xl p-2 text-gray-700 transition-colors hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800">
+                        <i class="ri-user-line text-3xl text-primary-600"></i>
+                        <div class="flex flex-col items-start text-left">
+                            <span class="text-[10px] font-bold uppercase leading-none tracking-widest text-gray-400">Welcome</span>
+                            <span class="text-sm font-extrabold leading-tight">Sign In / Register</span>
+                        </div>
+                    </a>
+                @endif
+                
+                {{-- Separator --}}
+                <div class="h-8 w-px bg-gray-200 dark:bg-gray-700"></div>
+
+                <navbar-cart-menu></navbar-cart-menu>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Bottom Row: Navbar (Sticky) --}}
+<div class="hidden lg:block sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur-md shadow-sm dark:border-gray-800 dark:bg-gray-900/95">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <nav class="flex h-14 items-center gap-x-8">
             <a href="/" class="text-sm font-bold uppercase tracking-wider text-gray-700 transition-colors hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">Home</a>
             <a href="{{ route('shop.index') }}" class="text-sm font-bold uppercase tracking-wider text-gray-700 transition-colors hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">Shop</a>
             <a href="/blog" class="text-sm font-bold uppercase tracking-wider text-gray-700 transition-colors hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">Blog</a>
             <a href="{{ route('site.about') }}" class="text-sm font-bold uppercase tracking-wider text-gray-700 transition-colors hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">About</a>
             <a href="{{ route('site.contact') }}" class="text-sm font-bold uppercase tracking-wider text-gray-700 transition-colors hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">Contact</a>
         </nav>
-
-        {{-- Right Actions (Cart & Auth) --}}
-        <div class="flex flex-1 items-center justify-end space-x-4 sm:space-x-6">
-            <navbar-cart-menu></navbar-cart-menu>
-
-            @if (auth('customer')->check())
-                <div class="group relative hidden lg:block">
-                    <button class="flex items-center gap-1.5 rounded-full px-3 py-2 text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">
-                        <i class="ri-user-smile-line text-xl"></i>
-                        <span class="text-sm font-semibold">{{ explode(' ', auth('customer')->user()->name)[0] }}</span>
-                        <i class="ri-arrow-down-s-line"></i>
-                    </button>
-                    {{-- Desktop Dropdown --}}
-                    <div class="invisible absolute right-0 top-full mt-1 w-56 origin-top-right rounded-2xl border border-gray-100 bg-white opacity-0 shadow-xl ring-1 ring-black ring-opacity-5 transition-all duration-200 group-hover:visible group-hover:opacity-100 dark:border-gray-700 dark:bg-gray-800">
-                        <div class="p-2">
-                            <a href="{{ route('account.profile') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-600 dark:text-gray-300 dark:hover:bg-gray-700/50 dark:hover:text-primary-400">
-                                <i class="ri-user-settings-line text-lg text-gray-400"></i> My Profile
-                            </a>
-                            <a href="{{ route('account.orders') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-600 dark:text-gray-300 dark:hover:bg-gray-700/50 dark:hover:text-primary-400">
-                                <i class="ri-file-list-3-line text-lg text-gray-400"></i> Orders
-                            </a>
-                            <a href="{{ route('account.downloads') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-600 dark:text-gray-300 dark:hover:bg-gray-700/50 dark:hover:text-primary-400">
-                                <i class="ri-download-2-line text-lg text-gray-400"></i> Downloads
-                            </a>
-                            <hr class="my-2 border-gray-100 dark:border-gray-700" />
-                            <a href="{{ route('customerAuth.logout') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/30">
-                                <i class="ri-logout-box-r-line text-lg text-red-400"></i> Logout
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            @else
-                <a href="{{ route('customerAuth.loginForm') }}" class="hidden lg:flex items-center gap-2 rounded-full px-3 py-2 text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">
-                    <i class="ri-user-line text-xl"></i>
-                    <span class="text-sm font-semibold">Sign In</span>
-                </a>
-            @endif
-        </div>
     </div>
-</header>
+</div>
 
-{{-- Mobile Menu (Offcanvas) --}}
+{{-- ==============================================
+     MOBILE MENU OFFCANVAS
+================================================ --}}
 <div id="collapseMenu" class="fixed inset-0 z-[100] hidden lg:hidden">
     {{-- Backdrop --}}
     <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" id="toggleCloseBackdrop"></div>
@@ -83,9 +132,9 @@
         <div class="flex h-16 shrink-0 items-center justify-between px-6 border-b border-gray-100 dark:border-gray-800">
             <a href="{{ route('site.index') }}">
                 @if ($logoUrl)
-                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-8 w-auto object-contain" />
+                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-10 w-auto object-contain" />
                 @else
-                    <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-8 w-auto object-contain" />
+                    <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-10 w-auto object-contain" />
                 @endif
             </a>
             <button id="toggleCloseBtn" class="rounded-lg p-2 text-gray-500 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800">
