@@ -6,9 +6,45 @@
 {{-- ==============================================
      TOP ANNOUNCEMENT BAR
 ================================================ --}}
-<div class="bg-gray-900 px-4 py-2 text-center text-[13px] font-medium tracking-wide text-white sm:px-6 lg:px-8 dark:bg-black">
-    Free shipping on all orders over <span class="font-bold text-primary-400">$100!</span> 
-    <a href="{{ route('shop.index') }}" class="ml-1 underline underline-offset-2 transition-colors hover:text-gray-300">Shop Now</a>
+<div class="bg-gray-900 text-[13px] font-medium tracking-wide text-white dark:bg-black">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
+        
+        {{-- Left: Contact / Phone (Hidden on very small screens) --}}
+        <div class="hidden items-center gap-4 sm:flex">
+            <a href="tel:{{ setting('contact.phone', '+12345678900') }}" class="flex items-center gap-1.5 transition-colors hover:text-primary-400">
+                <i class="ri-phone-line text-[15px]"></i>
+                <span>{{ setting('contact.phone', '+1 234 567 8900') }}</span>
+            </a>
+            <div class="h-3 w-px bg-gray-700"></div>
+            <a href="mailto:{{ setting('contact.email', 'support@shopnow.com') }}" class="flex items-center gap-1.5 transition-colors hover:text-primary-400">
+                <i class="ri-mail-send-line text-[15px]"></i>
+                <span>{{ setting('contact.email', 'support@shopnow.com') }}</span>
+            </a>
+        </div>
+
+        {{-- Center: Announcement --}}
+        <div class="flex-1 text-center">
+            Free shipping on all orders over <span class="font-bold text-primary-400">$100!</span> 
+            <a href="{{ route('shop.index') }}" class="ml-1 underline underline-offset-2 transition-colors hover:text-gray-300">Shop Now</a>
+        </div>
+
+        {{-- Right: Social Icons (Hidden on mobile) --}}
+        <div class="hidden items-center gap-3.5 md:flex">
+            <a href="{{ setting('social.facebook', 'https://facebook.com') }}" target="_blank" aria-label="Facebook" class="transition-colors hover:text-primary-400">
+                <i class="ri-facebook-circle-fill text-[16px]"></i>
+            </a>
+            <a href="{{ setting('social.twitter', 'https://twitter.com') }}" target="_blank" aria-label="Twitter" class="transition-colors hover:text-primary-400">
+                <i class="ri-twitter-x-line text-[16px]"></i>
+            </a>
+            <a href="{{ setting('social.instagram', 'https://instagram.com') }}" target="_blank" aria-label="Instagram" class="transition-colors hover:text-primary-400">
+                <i class="ri-instagram-line text-[16px]"></i>
+            </a>
+            <a href="{{ setting('social.pinterest', 'https://pinterest.com') }}" target="_blank" aria-label="Pinterest" class="transition-colors hover:text-primary-400">
+                <i class="ri-pinterest-fill text-[16px]"></i>
+            </a>
+        </div>
+
+    </div>
 </div>
 
 {{-- ==============================================
