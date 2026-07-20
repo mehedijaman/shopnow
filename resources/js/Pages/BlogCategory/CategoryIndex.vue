@@ -1,13 +1,22 @@
 <template>
     <AppSectionHeader title="Categories" :bread-crumb="breadCrumb">
         <template #right>
-            <AppButton
-                v-if="can('Blog: Category - Create')"
-                class="btn btn-primary"
-                @click="$inertia.visit(route('blogCategory.create'))"
-            >
-                Create Category
-            </AppButton>
+            <div class="flex gap-2">
+                <AppButton
+                    v-if="can('Blog: Category - Recycle Bin List')"
+                    class="btn btn-secondary"
+                    @click="$inertia.visit(route('blogCategory.recycleBin.index'))"
+                >
+                    <i class="ri-delete-bin-line mr-1"></i> Recycle Bin
+                </AppButton>
+                <AppButton
+                    v-if="can('Blog: Category - Create')"
+                    class="btn btn-primary"
+                    @click="$inertia.visit(route('blogCategory.create'))"
+                >
+                    Create Category
+                </AppButton>
+            </div>
         </template>
     </AppSectionHeader>
 

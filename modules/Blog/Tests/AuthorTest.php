@@ -131,3 +131,45 @@ test('author can be deleted', function () {
 
     $this->assertCount(0, Author::all());
 });
+
+test('author recycle bin can be rendered', function () {
+    $this->author->delete();
+
+    $response = $this->loggedRequest->get('/admin/blog-author/recycle-bin');
+
+    $response->assertStatus(200);
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('BlogAuthor/AuthorRecycleBin')
+            ->has(
+                'authors.data',
+                1,
+                fn (Assert $page) => $page
+                    ->where('id', $this->author->id)
+                    ->where('name', $this->author->name)
+                    ->where('email', $this->author->email)
+                    ->where('image_url', $this->author->image_url)
+                    ->where('github_handle', $this->author->github_handle)
+                    ->where('twitter_handle', $this->author->twitter_handle)
+                    ->etc()
+            )
+    );
+});
+
+test('author can be restored from recycle bin', function () {
+    $this->author->delete();
+
+    $response = $this->loggedRequest->get('/admin/blog-author/recycle-bin/'.$this->author->id.'/restore');
+
+    $response->assertRedirect('/admin/blog-author/recycle-bin');
+    $this->assertCount(1, Author::all());
+});
+
+test('author can be force deleted from recycle bin', function () {
+    $this->author->delete();
+
+    $response = $this->loggedRequest->delete('/admin/blog-author/recycle-bin/'.$this->author->id.'/destroy');
+
+    $response->assertRedirect('/admin/blog-author/recycle-bin');
+    $this->assertCount(0, Author::withTrashed()->get());
+});

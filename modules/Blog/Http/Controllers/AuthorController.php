@@ -89,4 +89,63 @@ class AuthorController extends BackendController
         return redirect()->route('blogAuthor.index')
             ->with('success', 'Author deleted.');
     }
+
+    public function recycleBin(): Response
+    {
+        $authors = Author::onlyTrashed()
+            ->orderBy('name')
+            ->search(request('searchContext'), request('searchTerm'))
+            ->paginate(request('rowsPerPage', 10))
+            ->withQueryString()
+            ->through(fn ($author) => [
+                'id' => $author->id,
+                'image_url' => $author->image_url,
+                'name' => Str::limit($author->name, 50),
+                'email' => $author->email,
+                'github_handle' => $author->github_handle,
+                'twitter_handle' => $author->twitter_handle,
+                'deleted_at' => $author->deleted_at ? $author->deleted_at->format('d/m/Y') : null,
+            ]);
+
+        return inertia('BlogAuthor/AuthorRecycleBin', [
+            'authors' => $authors,
+        ]);
+    }
+
+    public function restore(int $id): RedirectResponse
+    {
+        Author::onlyTrashed()->findOrFail($id)->restore();
+
+        return redirect()->route('blogAuthor.recycleBin.index')
+            ->with('success', 'Author restored.');
+    }
+
+    public function destroyForce(int $id): RedirectResponse
+    {
+        $author = Author::onlyTrashed()->findOrFail($id);
+        $author->forceDelete();
+
+        return redirect()->route('blogAuthor.recycleBin.index')
+            ->with('success', 'Author deleted.');
+    }
+
+    public function emptyRecycleBin(): RedirectResponse
+    {
+        $authors = Author::onlyTrashed()->get();
+
+        foreach ($authors as $author) {
+            $author->forceDelete();
+        }
+
+        return redirect()->route('blogAuthor.recycleBin.index')
+            ->with('success', 'Recycle bin emptied.');
+    }
+
+    public function restoreRecycleBin(): RedirectResponse
+    {
+        Author::onlyTrashed()->restore();
+
+        return redirect()->route('blogAuthor.recycleBin.index')
+            ->with('success', 'Authors restored.');
+    }
 }

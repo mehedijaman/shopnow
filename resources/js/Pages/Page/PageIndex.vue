@@ -2,9 +2,18 @@
     <Head :title="title"></Head>
     <AppSectionHeader :title="title" :bread-crumb="breadCrumb">
         <template #right>
-            <AppButton v-if="can('page-create')" class="btn btn-primary" @click="$inertia.visit(route('page.create'))">
-                <i class="ri-add-fill mr-1"></i> New Page
-            </AppButton>
+            <div class="flex gap-2">
+                <AppButton
+                    v-if="can('page-recycle-bin-list')"
+                    class="btn btn-secondary"
+                    @click="$inertia.visit(route('page.recycleBin.index'))"
+                >
+                    <i class="ri-delete-bin-line mr-1"></i> Recycle Bin
+                </AppButton>
+                <AppButton v-if="can('page-create')" class="btn btn-primary" @click="$inertia.visit(route('page.create'))">
+                    <i class="ri-add-fill mr-1"></i> New Page
+                </AppButton>
+            </div>
         </template>
     </AppSectionHeader>
 

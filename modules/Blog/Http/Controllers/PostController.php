@@ -109,4 +109,61 @@ class PostController extends BackendController
         return redirect()->route('blogPost.index')
             ->with('success', 'Post deleted.');
     }
+
+    public function recycleBin(): Response
+    {
+        $posts = Post::onlyTrashed()
+            ->orderBy('id', 'desc')
+            ->search(request('searchContext'), request('searchTerm'))
+            ->paginate(request('rowsPerPage', 10))
+            ->withQueryString()
+            ->through(fn ($post) => [
+                'id' => $post->id,
+                'image_url' => $post->image_url,
+                'title' => $post->title,
+                'status' => $post->status,
+                'deleted_at' => $post->deleted_at ? $post->deleted_at->format('d/m/Y') : null,
+            ]);
+
+        return inertia('BlogPost/PostRecycleBin', [
+            'posts' => $posts,
+        ]);
+    }
+
+    public function restore(int $id): RedirectResponse
+    {
+        Post::onlyTrashed()->findOrFail($id)->restore();
+
+        return redirect()->route('blogPost.recycleBin.index')
+            ->with('success', 'Post restored.');
+    }
+
+    public function destroyForce(int $id): RedirectResponse
+    {
+        $post = Post::onlyTrashed()->findOrFail($id);
+        $post->forceDelete();
+
+        return redirect()->route('blogPost.recycleBin.index')
+            ->with('success', 'Post deleted.');
+    }
+
+    public function emptyRecycleBin(): RedirectResponse
+    {
+        $posts = Post::onlyTrashed()->get();
+
+        foreach ($posts as $post) {
+            $post->forceDelete();
+        }
+
+        return redirect()->route('blogPost.recycleBin.index')
+            ->with('success', 'Recycle bin emptied.');
+    }
+
+    public function restoreRecycleBin(): RedirectResponse
+    {
+        Post::onlyTrashed()->restore();
+
+        return redirect()->route('blogPost.recycleBin.index')
+            ->with('success', 'Posts restored.');
+    }
 }

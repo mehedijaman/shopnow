@@ -162,3 +162,13 @@ test('page can be restored', function () {
 
     $this->assertCount(1, Page::all());
 });
+
+test('page can be force deleted', function () {
+    $this->loggedRequest->delete('/admin/page/'.$this->page->id);
+
+    $response = $this->loggedRequest->delete('/admin/page/recycle-bin/'.$this->page->id.'/destroy');
+
+    $response->assertRedirect('/admin/page/recycle-bin');
+
+    $this->assertCount(0, Page::withTrashed()->get());
+});

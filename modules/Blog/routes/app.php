@@ -7,163 +7,211 @@ use Modules\Blog\Http\Controllers\PostController;
 use Modules\Blog\Http\Controllers\TagController;
 
 // Posts
-Route::post('blog-post/upload-editor-image', [
-    PostController::class, 'uploadEditorImage',
-])
-    ->name('blogPost.uploadEditorImage')
-    ->can('Blog: Post - Create')
-    ->can('Blog: Post - Edit');
+Route::prefix('blog-post')->name('blogPost.')->group(function () {
+    Route::post('upload-editor-image', [PostController::class, 'uploadEditorImage'])
+        ->name('uploadEditorImage')
+        ->can('Blog: Post - Create')
+        ->can('Blog: Post - Edit');
 
-Route::get('blog-post', [
-    PostController::class, 'index',
-])
-    ->name('blogPost.index')
-    ->can('Blog: Post - List');
+    Route::get('/', [PostController::class, 'index'])
+        ->name('index')
+        ->can('Blog: Post - List');
 
-Route::get('blog-post/create', [
-    PostController::class, 'create',
-])
-    ->name('blogPost.create')
-    ->can('Blog: Post - Create');
+    Route::get('create', [PostController::class, 'create'])
+        ->name('create')
+        ->can('Blog: Post - Create');
 
-Route::post('blog-post', [
-    PostController::class, 'store',
-])
-    ->name('blogPost.store')
-    ->can('Blog: Post - Create');
+    Route::post('/', [PostController::class, 'store'])
+        ->name('store')
+        ->can('Blog: Post - Create');
 
-Route::get('blog-post/{id}/edit', [
-    PostController::class, 'edit',
-])
-    ->name('blogPost.edit')
-    ->can('Blog: Post - Edit');
+    // Recycle Bin Routes
+    Route::prefix('recycle-bin')->name('recycleBin.')->group(function () {
+        Route::get('/', [PostController::class, 'recycleBin'])
+            ->name('index')
+            ->can('Blog: Post - Recycle Bin List');
 
-Route::put('blog-post/{id}', [
-    PostController::class, 'update',
-])
-    ->name('blogPost.update')
-    ->can('Blog: Post - Edit');
+        Route::get('{id}/restore', [PostController::class, 'restore'])
+            ->name('restore')
+            ->can('Blog: Post - Recycle Bin Restore');
 
-Route::delete('blog-post/{id}', [
-    PostController::class, 'destroy',
-])
-    ->name('blogPost.destroy')
-    ->can('Blog: Post - Delete');
+        Route::delete('{id}/destroy', [PostController::class, 'destroyForce'])
+            ->name('destroyForce')
+            ->can('Blog: Post - Recycle Bin Delete');
+
+        Route::delete('empty', [PostController::class, 'emptyRecycleBin'])
+            ->name('empty')
+            ->can('Blog: Post - Recycle Bin Delete');
+
+        Route::get('restore', [PostController::class, 'restoreRecycleBin'])
+            ->name('restoreAll')
+            ->can('Blog: Post - Recycle Bin Restore');
+    });
+
+    Route::get('{id}/edit', [PostController::class, 'edit'])
+        ->name('edit')
+        ->can('Blog: Post - Edit');
+
+    Route::put('{id}', [PostController::class, 'update'])
+        ->name('update')
+        ->can('Blog: Post - Edit');
+
+    Route::delete('{id}', [PostController::class, 'destroy'])
+        ->name('destroy')
+        ->can('Blog: Post - Delete');
+});
 
 // Categories
-Route::post('blog-category/upload-editor-image', [
-    CategoryController::class, 'uploadEditorImage',
-])
-    ->name('blogCategory.uploadEditorImage')
-    ->can('Blog: Category - Create')
-    ->can('Blog: Category - Edit');
+Route::prefix('blog-category')->name('blogCategory.')->group(function () {
+    Route::post('upload-editor-image', [CategoryController::class, 'uploadEditorImage'])
+        ->name('uploadEditorImage')
+        ->can('Blog: Category - Create')
+        ->can('Blog: Category - Edit');
 
-Route::get('blog-category', [
-    CategoryController::class, 'index',
-])
-    ->name('blogCategory.index')
-    ->can('Blog: Category - List');
+    Route::get('/', [CategoryController::class, 'index'])
+        ->name('index')
+        ->can('Blog: Category - List');
 
-Route::get('blog-category/create', [
-    CategoryController::class, 'create',
-])
-    ->name('blogCategory.create')
-    ->can('Blog: Category - Create');
+    Route::get('create', [CategoryController::class, 'create'])
+        ->name('create')
+        ->can('Blog: Category - Create');
 
-Route::post('blog-category', [
-    CategoryController::class, 'store',
-])
-    ->name('blogCategory.store')
-    ->can('Blog: Category - Create');
+    Route::post('/', [CategoryController::class, 'store'])
+        ->name('store')
+        ->can('Blog: Category - Create');
 
-Route::get('blog-category/{id}/edit', [
-    CategoryController::class, 'edit',
-])
-    ->name('blogCategory.edit')
-    ->can('Blog: Category - Edit');
+    // Recycle Bin Routes
+    Route::prefix('recycle-bin')->name('recycleBin.')->group(function () {
+        Route::get('/', [CategoryController::class, 'recycleBin'])
+            ->name('index')
+            ->can('Blog: Category - Recycle Bin List');
 
-Route::put('blog-category/{id}', [
-    CategoryController::class, 'update',
-])
-    ->name('blogCategory.update')
-    ->can('Blog: Category - Edit');
+        Route::get('{id}/restore', [CategoryController::class, 'restore'])
+            ->name('restore')
+            ->can('Blog: Category - Recycle Bin Restore');
 
-Route::delete('blog-category/{id}', [
-    CategoryController::class, 'destroy',
-])
-    ->name('blogCategory.destroy')
-    ->can('Blog: Category - Delete');
+        Route::delete('{id}/destroy', [CategoryController::class, 'destroyForce'])
+            ->name('destroyForce')
+            ->can('Blog: Category - Recycle Bin Delete');
+
+        Route::delete('empty', [CategoryController::class, 'emptyRecycleBin'])
+            ->name('empty')
+            ->can('Blog: Category - Recycle Bin Delete');
+
+        Route::get('restore', [CategoryController::class, 'restoreRecycleBin'])
+            ->name('restoreAll')
+            ->can('Blog: Category - Recycle Bin Restore');
+    });
+
+    Route::get('{id}/edit', [CategoryController::class, 'edit'])
+        ->name('edit')
+        ->can('Blog: Category - Edit');
+
+    Route::put('{id}', [CategoryController::class, 'update'])
+        ->name('update')
+        ->can('Blog: Category - Edit');
+
+    Route::delete('{id}', [CategoryController::class, 'destroy'])
+        ->name('destroy')
+        ->can('Blog: Category - Delete');
+});
 
 // Tags
-Route::get('blog-tag', [
-    TagController::class, 'index',
-])
-    ->name('blogTag.index')
-    ->can('Blog: Tag - List');
+Route::prefix('blog-tag')->name('blogTag.')->group(function () {
+    Route::get('/', [TagController::class, 'index'])
+        ->name('index')
+        ->can('Blog: Tag - List');
 
-Route::get('blog-tag/create', [
-    TagController::class, 'create',
-])
-    ->name('blogTag.create')
-    ->can('Blog: Tag - Create');
+    Route::get('create', [TagController::class, 'create'])
+        ->name('create')
+        ->can('Blog: Tag - Create');
 
-Route::post('blog-tag', [
-    TagController::class, 'store',
-])
-    ->name('blogTag.store')
-    ->can('Blog: Tag - Create');
+    Route::post('/', [TagController::class, 'store'])
+        ->name('store')
+        ->can('Blog: Tag - Create');
 
-Route::get('blog-tag/{id}/edit', [
-    TagController::class, 'edit',
-])
-    ->name('blogTag.edit')
-    ->can('Blog: Tag - Edit');
+    // Recycle Bin Routes
+    Route::prefix('recycle-bin')->name('recycleBin.')->group(function () {
+        Route::get('/', [TagController::class, 'recycleBin'])
+            ->name('index')
+            ->can('Blog: Tag - Recycle Bin List');
 
-Route::put('blog-tag/{id}', [
-    TagController::class, 'update',
-])
-    ->name('blogTag.update')
-    ->can('Blog: Tag - Edit');
+        Route::get('{id}/restore', [TagController::class, 'restore'])
+            ->name('restore')
+            ->can('Blog: Tag - Recycle Bin Restore');
 
-Route::delete('blog-tag/{id}', [
-    TagController::class, 'destroy',
-])
-    ->name('blogTag.destroy')
-    ->can('Blog: Tag - Delete');
+        Route::delete('{id}/destroy', [TagController::class, 'destroyForce'])
+            ->name('destroyForce')
+            ->can('Blog: Tag - Recycle Bin Delete');
+
+        Route::delete('empty', [TagController::class, 'emptyRecycleBin'])
+            ->name('empty')
+            ->can('Blog: Tag - Recycle Bin Delete');
+
+        Route::get('restore', [TagController::class, 'restoreRecycleBin'])
+            ->name('restoreAll')
+            ->can('Blog: Tag - Recycle Bin Restore');
+    });
+
+    Route::get('{id}/edit', [TagController::class, 'edit'])
+        ->name('edit')
+        ->can('Blog: Tag - Edit');
+
+    Route::put('{id}', [TagController::class, 'update'])
+        ->name('update')
+        ->can('Blog: Tag - Edit');
+
+    Route::delete('{id}', [TagController::class, 'destroy'])
+        ->name('destroy')
+        ->can('Blog: Tag - Delete');
+});
 
 // Authors
-Route::get('blog-author', [
-    AuthorController::class, 'index',
-])
-    ->name('blogAuthor.index')
-    ->can('Blog: Author - List');
+Route::prefix('blog-author')->name('blogAuthor.')->group(function () {
+    Route::get('/', [AuthorController::class, 'index'])
+        ->name('index')
+        ->can('Blog: Author - List');
 
-Route::get('blog-author/create', [
-    AuthorController::class, 'create',
-])
-    ->name('blogAuthor.create')
-    ->can('Blog: Author - Create');
+    Route::get('create', [AuthorController::class, 'create'])
+        ->name('create')
+        ->can('Blog: Author - Create');
 
-Route::post('blog-author', [
-    AuthorController::class, 'store',
-])
-    ->name('blogAuthor.store')
-    ->can('Blog: Author - Create');
+    Route::post('/', [AuthorController::class, 'store'])
+        ->name('store')
+        ->can('Blog: Author - Create');
 
-Route::get('blog-author/{id}/edit', [
-    AuthorController::class, 'edit',
-])
-    ->name('blogAuthor.edit')
-    ->can('Blog: Author - Edit');
+    // Recycle Bin Routes
+    Route::prefix('recycle-bin')->name('recycleBin.')->group(function () {
+        Route::get('/', [AuthorController::class, 'recycleBin'])
+            ->name('index')
+            ->can('Blog: Author - Recycle Bin List');
 
-Route::put('blog-author/{id}', [
-    AuthorController::class, 'update',
-])
-    ->name('blogAuthor.update')
-    ->can('Blog: Author - Edit');
+        Route::get('{id}/restore', [AuthorController::class, 'restore'])
+            ->name('restore')
+            ->can('Blog: Author - Recycle Bin Restore');
 
-Route::delete('blog-author/{id}', [
-    AuthorController::class, 'destroy',
-])
-    ->name('blogAuthor.destroy')
-    ->can('Blog: Author - Delete');
+        Route::delete('{id}/destroy', [AuthorController::class, 'destroyForce'])
+            ->name('destroyForce')
+            ->can('Blog: Author - Recycle Bin Delete');
+
+        Route::delete('empty', [AuthorController::class, 'emptyRecycleBin'])
+            ->name('empty')
+            ->can('Blog: Author - Recycle Bin Delete');
+
+        Route::get('restore', [AuthorController::class, 'restoreRecycleBin'])
+            ->name('restoreAll')
+            ->can('Blog: Author - Recycle Bin Restore');
+    });
+
+    Route::get('{id}/edit', [AuthorController::class, 'edit'])
+        ->name('edit')
+        ->can('Blog: Author - Edit');
+
+    Route::put('{id}', [AuthorController::class, 'update'])
+        ->name('update')
+        ->can('Blog: Author - Edit');
+
+    Route::delete('{id}', [AuthorController::class, 'destroy'])
+        ->name('destroy')
+        ->can('Blog: Author - Delete');
+});

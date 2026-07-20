@@ -108,3 +108,41 @@ test('tag can be deleted', function () {
 
     $this->assertCount(0, Tag::all());
 });
+
+test('tag recycle bin can be rendered', function () {
+    $this->tag->delete();
+
+    $response = $this->loggedRequest->get('/admin/blog-tag/recycle-bin');
+
+    $response->assertStatus(200);
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('BlogTag/TagRecycleBin')
+            ->has(
+                'tags.data',
+                1,
+                fn (Assert $page) => $page
+                    ->where('id', $this->tag->id)
+                    ->where('name', $this->tag->name)
+                    ->etc()
+            )
+    );
+});
+
+test('tag can be restored from recycle bin', function () {
+    $this->tag->delete();
+
+    $response = $this->loggedRequest->get('/admin/blog-tag/recycle-bin/'.$this->tag->id.'/restore');
+
+    $response->assertRedirect('/admin/blog-tag/recycle-bin');
+    $this->assertCount(1, Tag::all());
+});
+
+test('tag can be force deleted from recycle bin', function () {
+    $this->tag->delete();
+
+    $response = $this->loggedRequest->delete('/admin/blog-tag/recycle-bin/'.$this->tag->id.'/destroy');
+
+    $response->assertRedirect('/admin/blog-tag/recycle-bin');
+    $this->assertCount(0, Tag::withTrashed()->get());
+});

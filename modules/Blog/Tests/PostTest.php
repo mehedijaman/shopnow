@@ -139,3 +139,43 @@ test('post can be deleted', function () {
 
     $this->assertCount(0, Post::all());
 });
+
+test('post recycle bin can be rendered', function () {
+    $this->post->delete();
+
+    $response = $this->loggedRequest->get('/admin/blog-post/recycle-bin');
+
+    $response->assertStatus(200);
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('BlogPost/PostRecycleBin')
+            ->has(
+                'posts.data',
+                1,
+                fn (Assert $page) => $page
+                    ->where('id', $this->post->id)
+                    ->where('image_url', $this->post->image_url)
+                    ->where('title', $this->post->title)
+                    ->where('status', $this->post->status)
+                    ->etc()
+            )
+    );
+});
+
+test('post can be restored from recycle bin', function () {
+    $this->post->delete();
+
+    $response = $this->loggedRequest->get('/admin/blog-post/recycle-bin/'.$this->post->id.'/restore');
+
+    $response->assertRedirect('/admin/blog-post/recycle-bin');
+    $this->assertCount(1, Post::all());
+});
+
+test('post can be force deleted from recycle bin', function () {
+    $this->post->delete();
+
+    $response = $this->loggedRequest->delete('/admin/blog-post/recycle-bin/'.$this->post->id.'/destroy');
+
+    $response->assertRedirect('/admin/blog-post/recycle-bin');
+    $this->assertCount(0, Post::withTrashed()->get());
+});

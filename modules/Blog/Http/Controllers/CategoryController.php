@@ -89,4 +89,61 @@ class CategoryController extends BackendController
         return redirect()->route('blogCategory.index')
             ->with('success', 'Category deleted.');
     }
+
+    public function recycleBin(): Response
+    {
+        $categories = Category::onlyTrashed()
+            ->orderBy('name')
+            ->search(request('searchContext'), request('searchTerm'))
+            ->paginate(request('rowsPerPage', 10))
+            ->withQueryString()
+            ->through(fn ($category) => [
+                'id' => $category->id,
+                'image_url' => $category->image_url,
+                'name' => Str::limit($category->name, 50),
+                'is_visible' => $category->is_visible,
+                'deleted_at' => $category->deleted_at ? $category->deleted_at->format('d/m/Y') : null,
+            ]);
+
+        return inertia('BlogCategory/CategoryRecycleBin', [
+            'categories' => $categories,
+        ]);
+    }
+
+    public function restore(int $id): RedirectResponse
+    {
+        Category::onlyTrashed()->findOrFail($id)->restore();
+
+        return redirect()->route('blogCategory.recycleBin.index')
+            ->with('success', 'Category restored.');
+    }
+
+    public function destroyForce(int $id): RedirectResponse
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->forceDelete();
+
+        return redirect()->route('blogCategory.recycleBin.index')
+            ->with('success', 'Category deleted.');
+    }
+
+    public function emptyRecycleBin(): RedirectResponse
+    {
+        $categories = Category::onlyTrashed()->get();
+
+        foreach ($categories as $category) {
+            $category->forceDelete();
+        }
+
+        return redirect()->route('blogCategory.recycleBin.index')
+            ->with('success', 'Recycle bin emptied.');
+    }
+
+    public function restoreRecycleBin(): RedirectResponse
+    {
+        Category::onlyTrashed()->restore();
+
+        return redirect()->route('blogCategory.recycleBin.index')
+            ->with('success', 'Categories restored.');
+    }
 }
