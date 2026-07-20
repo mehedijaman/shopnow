@@ -11,7 +11,7 @@ class SliderValidate extends Request
         return [
             'title' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:5120',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp|max:5120',
             'bg_color' => 'nullable|string|regex:/^#[0-9A-Fa-f]{6}$/',
             'url' => 'nullable|string',
             'button_text' => 'nullable|string|max:100',
