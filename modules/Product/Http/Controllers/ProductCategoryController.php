@@ -20,7 +20,8 @@ class ProductCategoryController extends BackendController
 
     public function index(): Response
     {
-        $categories = ProductCategory::orderBy('sort_order')->orderBy('name')
+        $categories = ProductCategory::withCount('products')
+            ->orderBy('sort_order')->orderBy('name')
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 15))
             ->withQueryString()
@@ -31,6 +32,7 @@ class ProductCategoryController extends BackendController
                 'active' => $category->active,
                 'featured' => $category->featured,
                 'sort_order' => $category->sort_order,
+                'products_count' => $category->products_count,
             ]);
 
         return inertia('ProductCategory/ProductCategoryIndex', [
@@ -88,7 +90,14 @@ class ProductCategoryController extends BackendController
 
     public function destroy(int $id): RedirectResponse
     {
-        ProductCategory::findOrFail($id)->delete();
+        $category = ProductCategory::findOrFail($id);
+
+        if ($category->products()->count() > 0) {
+            return redirect()->back()
+                ->with('error', 'Cannot delete category that has products.');
+        }
+
+        $category->delete();
 
         return redirect()->route('productCategory.index')
             ->with('success', 'Product Category deleted.');

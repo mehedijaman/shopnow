@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Inertia\Testing\AssertableInertia as Assert;
+use Modules\Product\Models\Product;
 use Modules\Product\Models\ProductTag;
 use Modules\User\Models\User;
 use Spatie\Permission\Models\Role;
@@ -108,6 +109,18 @@ test('product tag can be deleted', function () {
     $response->assertRedirect('/admin/product-tag');
 
     $this->assertCount(0, ProductTag::all());
+});
+
+test('product tag cannot be deleted if it has products', function () {
+    $product = Product::factory()->create();
+    $product->tags()->attach($this->productTag->id);
+
+    $response = $this->loggedRequest->delete('/admin/product-tag/'.$this->productTag->id);
+
+    $response->assertRedirect();
+    $response->assertSessionHas('error', 'Cannot delete tag that has products.');
+
+    $this->assertCount(1, ProductTag::all());
 });
 
 test('product tag recycle bin can be rendered', function () {

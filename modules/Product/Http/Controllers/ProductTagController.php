@@ -13,13 +13,15 @@ class ProductTagController extends BackendController
 {
     public function index(): Response
     {
-        $tags = ProductTag::orderBy('name')
+        $tags = ProductTag::withCount('products')
+            ->orderBy('name')
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
             ->through(fn ($tag) => [
                 'id' => $tag->id,
                 'name' => Str::limit($tag->name, 50),
+                'products_count' => $tag->products_count,
             ]);
 
         return inertia('ProductTag/ProductTagIndex', [
@@ -61,7 +63,14 @@ class ProductTagController extends BackendController
 
     public function destroy(int $id): RedirectResponse
     {
-        ProductTag::findOrFail($id)->delete();
+        $tag = ProductTag::findOrFail($id);
+
+        if ($tag->products()->count() > 0) {
+            return redirect()->back()
+                ->with('error', 'Cannot delete tag that has products.');
+        }
+
+        $tag->delete();
 
         return redirect()->route('productTag.index')
             ->with('success', 'Tag deleted.');

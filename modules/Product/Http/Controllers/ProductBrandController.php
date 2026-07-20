@@ -19,7 +19,8 @@ class ProductBrandController extends BackendController
 
     public function index(): Response
     {
-        $brands = ProductBrand::orderBy('name')
+        $brands = ProductBrand::withCount('products')
+            ->orderBy('name')
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
@@ -29,6 +30,7 @@ class ProductBrandController extends BackendController
                 'name' => Str::limit($brand->name, 50),
                 'active' => $brand->active,
                 'featured' => $brand->featured,
+                'products_count' => $brand->products_count,
             ]);
 
         return inertia('ProductBrand/ProductBrandIndex', [
@@ -86,7 +88,14 @@ class ProductBrandController extends BackendController
 
     public function destroy(int $id): RedirectResponse
     {
-        ProductBrand::findOrFail($id)->delete();
+        $brand = ProductBrand::findOrFail($id);
+
+        if ($brand->products()->count() > 0) {
+            return redirect()->back()
+                ->with('error', 'Cannot delete brand that has products.');
+        }
+
+        $brand->delete();
 
         return redirect()->route('productBrand.index')
             ->with('success', 'Product Brand deleted.');

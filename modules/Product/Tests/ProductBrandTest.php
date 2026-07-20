@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Inertia\Testing\AssertableInertia as Assert;
+use Modules\Product\Models\Product;
 use Modules\Product\Models\ProductBrand;
 use Modules\User\Models\User;
 use Spatie\Permission\Models\Role;
@@ -126,6 +127,19 @@ test('product brand can be deleted', function () {
     $response->assertRedirect('/admin/product-brand');
 
     $this->assertCount(0, ProductBrand::all());
+});
+
+test('product brand cannot be deleted if it has products', function () {
+    Product::factory()->create([
+        'brand_id' => $this->productBrand->id,
+    ]);
+
+    $response = $this->loggedRequest->delete('/admin/product-brand/'.$this->productBrand->id);
+
+    $response->assertRedirect();
+    $response->assertSessionHas('error', 'Cannot delete brand that has products.');
+
+    $this->assertCount(1, ProductBrand::all());
 });
 
 test('product brand recycle bin can be rendered', function () {

@@ -35,6 +35,10 @@
                     </AppDataTableData>
 
                     <AppDataTableData>
+                        {{ item.products_count }}
+                    </AppDataTableData>
+
+                    <AppDataTableData>
                         <!-- edit tag -->
                         <AppTooltip
                             v-if="can('product-tag-edit')"
@@ -104,7 +108,7 @@ const breadCrumb = [
     { label: 'Product Tags', last: true }
 ]
 
-const headers = ['Name', 'Actions']
+const headers = ['Name', 'Products', 'Actions']
 
 const confirmDialogRef = ref(null)
 const confirmDelete = (deleteRoute) => {

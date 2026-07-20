@@ -51,16 +51,18 @@
                             </AppDataTableData>
 
                             <AppDataTableData>
-                                <img
-                                    v-if="item.image_url"
-                                    :src="item.image_url"
-                                    class="h-12 w-20 rounded-sm"
-                                />
-                                <AppImageNotAvailable v-else class="h-12! w-20!" />
+                                <div class="flex items-center gap-3">
+                                    <img
+                                        v-if="item.image_url"
+                                        :src="item.image_url"
+                                        class="h-12 w-20 rounded-sm object-cover"
+                                    />
+                                    <span class="font-medium text-skin-neutral-12">{{ item.name }}</span>
+                                </div>
                             </AppDataTableData>
 
                             <AppDataTableData>
-                                {{ item.name }}
+                                {{ item.products_count }}
                             </AppDataTableData>
 
                             <AppDataTableData>
@@ -125,7 +127,6 @@ import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
 import Draggable from 'vuedraggable'
 import useAuthCan from '@/Composables/useAuthCan'
-import AppImageNotAvailable from '@/Components/Modules/Blog/AppImageNotAvailable.vue'
 
 const props = defineProps({
     categories: {
@@ -139,7 +140,7 @@ const breadCrumb = [
     { label: 'Categories', last: true }
 ]
 
-const headers = ['', 'Image', 'Name', 'Status', 'Actions']
+const headers = ['', 'Category', 'Products', 'Status', 'Actions']
 
 const getStatusClass = (active) => {
     return active ? 'active' : 'inactive'

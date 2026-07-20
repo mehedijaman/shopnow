@@ -45,6 +45,10 @@
                     </AppDataTableData>
 
                     <AppDataTableData>
+                        {{ item.products_count }}
+                    </AppDataTableData>
+
+                    <AppDataTableData>
                         <div class="flex gap-2">
                             <span
                                 class="rounded-sm px-3 py-1 text-sm"
@@ -135,7 +139,7 @@ const breadCrumb = [
     { label: 'brands', last: true }
 ]
 
-const headers = ['Image', 'Name', 'Status', 'Actions']
+const headers = ['Image', 'Name', 'Products', 'Status', 'Actions']
 
 const getStatusClass = (active) => {
     return active ? 'active' : 'inactive'

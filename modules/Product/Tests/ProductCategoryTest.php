@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Inertia\Testing\AssertableInertia as Assert;
+use Modules\Product\Models\Product;
 use Modules\Product\Models\ProductCategory;
 use Modules\User\Models\User;
 use Spatie\Permission\Models\Role;
@@ -127,6 +128,19 @@ test('product category can be deleted', function () {
     $response->assertRedirect('/admin/product-category');
 
     $this->assertCount(0, ProductCategory::all());
+});
+
+test('product category cannot be deleted if it has products', function () {
+    Product::factory()->create([
+        'category_id' => $this->productCategory->id,
+    ]);
+
+    $response = $this->loggedRequest->delete('/admin/product-category/'.$this->productCategory->id);
+
+    $response->assertRedirect();
+    $response->assertSessionHas('error', 'Cannot delete category that has products.');
+
+    $this->assertCount(1, ProductCategory::all());
 });
 
 test('product category recycle bin can be rendered', function () {
