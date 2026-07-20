@@ -7,10 +7,17 @@
         $val = setting($key);
         return is_array($val) && !empty($val) ? $val[0] : (is_string($val) && !empty(trim($val)) ? trim($val) : null);
     };
+    
+    // Helper function to extract all repeater values
+    $getRepeaterArray = function($key) {
+        $val = setting($key);
+        if (is_array($val)) return array_filter($val, fn($v) => !empty(trim($v)));
+        if (is_string($val) && !empty(trim($val))) return [trim($val)];
+        return [];
+    };
 
-    $phone = $getRepeaterValue('contact.phone');
+    $phones = $getRepeaterArray('contact.phone');
     $email = $getRepeaterValue('contact.email');
-    $whatsapp = $getRepeaterValue('contact.whatsapp');
 
     $facebook = setting('social.facebook');
     $facebook = is_string($facebook) && !empty(trim($facebook)) ? trim($facebook) : null;
@@ -28,31 +35,23 @@
 {{-- ==============================================
      TOP ANNOUNCEMENT BAR
 ================================================ --}}
-@if($phone || $email || $whatsapp || $facebook || $twitter || $instagram || $youtube)
+@if(!empty($phones) || $email || $facebook || $twitter || $instagram || $youtube)
 <div class="bg-gray-900 text-[13px] font-medium tracking-wide text-white dark:bg-black">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         
         {{-- Left: Contact / Phone (Hidden on very small screens) --}}
         <div class="hidden items-center gap-4 sm:flex">
-            @if($phone)
+            @foreach($phones as $phone)
                 <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}" class="flex items-center gap-1.5 transition-colors hover:text-primary-400">
                     <i class="ri-phone-line text-[15px]"></i>
                     <span>{{ $phone }}</span>
                 </a>
-            @endif
+                @if(!$loop->last)
+                    <div class="h-3 w-px bg-gray-700"></div>
+                @endif
+            @endforeach
             
-            @if($phone && $whatsapp)
-                <div class="h-3 w-px bg-gray-700"></div>
-            @endif
-            
-            @if($whatsapp)
-                <a href="https://wa.me/{{ preg_replace('/[^0-9+]/', '', $whatsapp) }}" target="_blank" class="flex items-center gap-1.5 transition-colors hover:text-primary-400">
-                    <i class="ri-whatsapp-line text-[15px]"></i>
-                    <span>{{ $whatsapp }}</span>
-                </a>
-            @endif
-            
-            @if(($phone || $whatsapp) && $email)
+            @if(!empty($phones) && $email)
                 <div class="h-3 w-px bg-gray-700"></div>
             @endif
             
