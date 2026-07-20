@@ -17,13 +17,15 @@ class TagController extends BackendController
 
     public function index(): Response
     {
-        $tags = Tag::orderBy('name')
+        $tags = Tag::withCount('posts')
+            ->orderBy('name')
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
             ->through(fn ($tag) => [
                 'id' => $tag->id,
                 'name' => Str::limit($tag->name, 50),
+                'posts_count' => $tag->posts_count,
             ]);
 
         return inertia('BlogTag/TagIndex', [
@@ -65,7 +67,14 @@ class TagController extends BackendController
 
     public function destroy(int $id): RedirectResponse
     {
-        Tag::findOrFail($id)->delete();
+        $tag = Tag::findOrFail($id);
+
+        if ($tag->posts()->count() > 0) {
+            return redirect()->route('blogTag.index')
+                ->with('error', 'Cannot delete tag that has posts.');
+        }
+
+        $tag->delete();
 
         return redirect()->route('blogTag.index')
             ->with('success', 'Tag deleted.');

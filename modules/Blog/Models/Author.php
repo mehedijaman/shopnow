@@ -4,6 +4,7 @@ namespace Modules\Blog\Models;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Blog\Database\Factories\BlogAuthorFactory;
 use Modules\Support\Models\BaseModel;
@@ -27,6 +28,11 @@ class Author extends BaseModel
         }
 
         return null;
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class, 'blog_author_id');
     }
 
     protected static function newFactory(): Factory

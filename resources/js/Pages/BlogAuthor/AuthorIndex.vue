@@ -48,6 +48,10 @@
                     </AppDataTableData>
 
                     <AppDataTableData>
+                        {{ item.posts_count }}
+                    </AppDataTableData>
+
+                    <AppDataTableData>
                         <small class="text-skin-neutral-9 text-sm">
                             <i class="ri-github-fill mr-0 h-5 w-5"></i>
                             {{ item.github_handle }}<br />
@@ -129,7 +133,7 @@ const breadCrumb = [
     { label: 'Authors', last: true }
 ]
 
-const headers = ['Image', 'Name/Email', 'Social', 'Actions']
+const headers = ['Image', 'Name/Email', 'Posts', 'Social', 'Actions']
 
 const confirmDialogRef = ref(null)
 const confirmDelete = (deleteRoute) => {

@@ -45,6 +45,10 @@
                     </AppDataTableData>
 
                     <AppDataTableData>
+                        {{ item.posts_count }}
+                    </AppDataTableData>
+
+                    <AppDataTableData>
                         <span
                             class="rounded-sm px-3 py-1 text-sm"
                             :class="getCategoryVisibilityClass(item.is_visible)"
@@ -126,7 +130,7 @@ const breadCrumb = [
     { label: 'Categories', last: true }
 ]
 
-const headers = ['Image', 'Name', 'Visibility', 'Actions']
+const headers = ['Image', 'Name', 'Posts', 'Visibility', 'Actions']
 
 const getCategoryVisibilityClass = (isVisible) => {
     return isVisible ? 'category-visible' : 'category-invisible'

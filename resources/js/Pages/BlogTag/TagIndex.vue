@@ -35,6 +35,10 @@
                     </AppDataTableData>
 
                     <AppDataTableData>
+                        {{ item.posts_count }}
+                    </AppDataTableData>
+
+                    <AppDataTableData>
                         <!-- edit tag -->
                         <AppTooltip
                             v-if="can('Blog: Tag - Edit')"
@@ -104,7 +108,7 @@ const breadCrumb = [
     { label: 'Tags', last: true }
 ]
 
-const headers = ['Name', 'Actions']
+const headers = ['Name', 'Posts', 'Actions']
 
 const confirmDialogRef = ref(null)
 const confirmDelete = (deleteRoute) => {

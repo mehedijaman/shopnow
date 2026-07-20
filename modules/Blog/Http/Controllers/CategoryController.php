@@ -17,7 +17,8 @@ class CategoryController extends BackendController
 
     public function index(): Response
     {
-        $categories = Category::orderBy('name')
+        $categories = Category::withCount('posts')
+            ->orderBy('name')
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
@@ -26,6 +27,7 @@ class CategoryController extends BackendController
                 'image_url' => $category->image_url,
                 'name' => Str::limit($category->name, 50),
                 'is_visible' => $category->is_visible,
+                'posts_count' => $category->posts_count,
             ]);
 
         return inertia('BlogCategory/CategoryIndex', [
@@ -84,7 +86,14 @@ class CategoryController extends BackendController
 
     public function destroy(int $id): RedirectResponse
     {
-        Category::findOrFail($id)->delete();
+        $category = Category::findOrFail($id);
+
+        if ($category->posts()->count() > 0) {
+            return redirect()->route('blogCategory.index')
+                ->with('error', 'Cannot delete category that has posts.');
+        }
+
+        $category->delete();
 
         return redirect()->route('blogCategory.index')
             ->with('success', 'Category deleted.');

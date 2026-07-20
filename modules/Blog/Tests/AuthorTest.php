@@ -4,6 +4,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 use Modules\Blog\Models\Author;
+use Modules\Blog\Models\Post;
 use Modules\User\Models\User;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
@@ -44,6 +45,7 @@ test('author list can be rendered', function () {
                     ->where('image_url', $this->author->image_url)
                     ->where('github_handle', $this->author->github_handle)
                     ->where('twitter_handle', $this->author->twitter_handle)
+                    ->etc()
             )
     );
 });
@@ -120,6 +122,7 @@ test('author can be updated', function () {
                     ->where('image_url', $this->author->image_url)
                     ->where('github_handle', $this->author->github_handle)
                     ->where('twitter_handle', $this->author->twitter_handle)
+                    ->etc()
             )
     );
 });
@@ -172,4 +175,15 @@ test('author can be force deleted from recycle bin', function () {
 
     $response->assertRedirect('/admin/blog-author/recycle-bin');
     $this->assertCount(0, Author::withTrashed()->get());
+});
+
+test('author cannot be deleted if it has posts', function () {
+    Post::factory()->create([
+        'blog_author_id' => $this->author->id,
+    ]);
+
+    $response = $this->loggedRequest->delete('/admin/blog-author/'.$this->author->id);
+
+    $response->assertRedirect('/admin/blog-author');
+    $this->assertCount(1, Author::all());
 });

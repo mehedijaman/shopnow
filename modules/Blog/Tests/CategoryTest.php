@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Testing\AssertableInertia as Assert;
 use Modules\Blog\Models\Category;
+use Modules\Blog\Models\Post;
 use Modules\User\Models\User;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
@@ -43,6 +44,7 @@ test('category list can be rendered', function () {
                     ->where('image_url', $this->category->image_url)
                     ->where('name', Str::limit($this->category->name, 50))
                     ->where('is_visible', $this->category->is_visible)
+                    ->etc()
             )
     );
 });
@@ -118,6 +120,7 @@ test('category can be updated', function () {
                     ->where('name', 'New Name')
                     ->where('image_url', $this->category->image_url)
                     ->where('is_visible', true)
+                    ->etc()
             )
     );
 });
@@ -168,4 +171,15 @@ test('category can be force deleted from recycle bin', function () {
 
     $response->assertRedirect('/admin/blog-category/recycle-bin');
     $this->assertCount(0, Category::withTrashed()->get());
+});
+
+test('category cannot be deleted if it has posts', function () {
+    Post::factory()->create([
+        'blog_category_id' => $this->category->id,
+    ]);
+
+    $response = $this->loggedRequest->delete('/admin/blog-category/'.$this->category->id);
+
+    $response->assertRedirect('/admin/blog-category');
+    $this->assertCount(1, Category::all());
 });

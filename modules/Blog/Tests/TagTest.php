@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
+use Modules\Blog\Models\Post;
 use Modules\Blog\Models\Tag;
 use Modules\User\Models\User;
 use Spatie\Permission\Models\Role;
@@ -145,4 +146,14 @@ test('tag can be force deleted from recycle bin', function () {
 
     $response->assertRedirect('/admin/blog-tag/recycle-bin');
     $this->assertCount(0, Tag::withTrashed()->get());
+});
+
+test('tag cannot be deleted if it has posts', function () {
+    $post = Post::factory()->create();
+    $post->tags()->attach($this->tag->id);
+
+    $response = $this->loggedRequest->delete('/admin/blog-tag/'.$this->tag->id);
+
+    $response->assertRedirect('/admin/blog-tag');
+    $this->assertCount(1, Tag::all());
 });

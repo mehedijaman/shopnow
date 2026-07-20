@@ -16,7 +16,8 @@ class AuthorController extends BackendController
 
     public function index(): Response
     {
-        $authors = Author::orderBy('name')
+        $authors = Author::withCount('posts')
+            ->orderBy('name')
             ->search(request('searchContext'), request('searchTerm'))
             ->paginate(request('rowsPerPage', 10))
             ->withQueryString()
@@ -27,6 +28,7 @@ class AuthorController extends BackendController
                 'email' => $author->email,
                 'github_handle' => $author->github_handle,
                 'twitter_handle' => $author->twitter_handle,
+                'posts_count' => $author->posts_count,
             ]);
 
         return inertia('BlogAuthor/AuthorIndex', [
@@ -84,7 +86,14 @@ class AuthorController extends BackendController
 
     public function destroy(int $id): RedirectResponse
     {
-        Author::findOrFail($id)->delete();
+        $author = Author::findOrFail($id);
+
+        if ($author->posts()->count() > 0) {
+            return redirect()->route('blogAuthor.index')
+                ->with('error', 'Cannot delete author that has posts.');
+        }
+
+        $author->delete();
 
         return redirect()->route('blogAuthor.index')
             ->with('success', 'Author deleted.');
