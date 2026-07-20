@@ -39,7 +39,7 @@
 ================================================ --}}
 
 {{-- Top Row: Logo, Search, Actions (Not Sticky) --}}
-<div class="hidden lg:block w-full bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 relative z-40">
+<div class="hidden lg:block w-full bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 relative z-[60]">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between gap-10 py-5">
             {{-- Logo --}}
