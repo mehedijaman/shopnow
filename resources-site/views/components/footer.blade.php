@@ -28,10 +28,9 @@
             <div class="space-y-6">
                 <a href="{{ route('site.index') }}" class="inline-block">
                     @if ($footerLogo)
-                        {{-- brightness-0 invert makes the logo white --}}
-                        <img src="{{ $footerLogo }}" alt="{{ $footerSiteName }}" class="h-12 w-auto object-contain brightness-0 invert" />
+                        <img src="{{ $footerLogo }}" alt="{{ $footerSiteName }}" class="h-16 w-auto object-contain" />
                     @else
-                        <img src="{{ asset('logo.png') }}" alt="{{ $footerSiteName }}" class="h-12 w-auto object-contain brightness-0 invert" />
+                        <img src="{{ asset('logo.png') }}" alt="{{ $footerSiteName }}" class="h-16 w-auto object-contain" />
                     @endif
                 </a>
                 @if ($footerDescription)
