@@ -2,29 +2,33 @@
     $logoUrl = setting('branding.logo_url'); 
     $siteName = setting('branding.site_name', 'ShopNow'); 
     
-    $phone = setting('contact.phone');
-    $phone = is_string($phone) && !empty(trim($phone)) ? trim($phone) : null;
-    
-    $email = setting('contact.email');
-    $email = is_string($email) && !empty(trim($email)) ? trim($email) : null;
+    // Helper function to extract repeater value safely
+    $getRepeaterValue = function($key) {
+        $val = setting($key);
+        return is_array($val) && !empty($val) ? $val[0] : (is_string($val) && !empty(trim($val)) ? trim($val) : null);
+    };
+
+    $phone = $getRepeaterValue('contact.phone');
+    $email = $getRepeaterValue('contact.email');
+    $whatsapp = $getRepeaterValue('contact.whatsapp');
 
     $facebook = setting('social.facebook');
     $facebook = is_string($facebook) && !empty(trim($facebook)) ? trim($facebook) : null;
     
-    $twitter = setting('social.twitter');
+    $twitter = setting('social.x');
     $twitter = is_string($twitter) && !empty(trim($twitter)) ? trim($twitter) : null;
     
     $instagram = setting('social.instagram');
     $instagram = is_string($instagram) && !empty(trim($instagram)) ? trim($instagram) : null;
     
-    $pinterest = setting('social.pinterest');
-    $pinterest = is_string($pinterest) && !empty(trim($pinterest)) ? trim($pinterest) : null;
+    $youtube = setting('social.youtube');
+    $youtube = is_string($youtube) && !empty(trim($youtube)) ? trim($youtube) : null;
 @endphp
 
 {{-- ==============================================
      TOP ANNOUNCEMENT BAR
 ================================================ --}}
-@if($phone || $email || $facebook || $twitter || $instagram || $pinterest)
+@if($phone || $email || $whatsapp || $facebook || $twitter || $instagram || $youtube)
 <div class="bg-gray-900 text-[13px] font-medium tracking-wide text-white dark:bg-black">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         
@@ -37,7 +41,18 @@
                 </a>
             @endif
             
-            @if($phone && $email)
+            @if($phone && $whatsapp)
+                <div class="h-3 w-px bg-gray-700"></div>
+            @endif
+            
+            @if($whatsapp)
+                <a href="https://wa.me/{{ preg_replace('/[^0-9+]/', '', $whatsapp) }}" target="_blank" class="flex items-center gap-1.5 transition-colors hover:text-primary-400">
+                    <i class="ri-whatsapp-line text-[15px]"></i>
+                    <span>{{ $whatsapp }}</span>
+                </a>
+            @endif
+            
+            @if(($phone || $whatsapp) && $email)
                 <div class="h-3 w-px bg-gray-700"></div>
             @endif
             
@@ -64,7 +79,7 @@
             @endif
             
             @if($twitter)
-                <a href="{{ $twitter }}" target="_blank" aria-label="Twitter" class="transition-colors hover:text-primary-400">
+                <a href="{{ $twitter }}" target="_blank" aria-label="X (Twitter)" class="transition-colors hover:text-primary-400">
                     <i class="ri-twitter-x-line text-[16px]"></i>
                 </a>
             @endif
@@ -75,9 +90,9 @@
                 </a>
             @endif
             
-            @if($pinterest)
-                <a href="{{ $pinterest }}" target="_blank" aria-label="Pinterest" class="transition-colors hover:text-primary-400">
-                    <i class="ri-pinterest-fill text-[16px]"></i>
+            @if($youtube)
+                <a href="{{ $youtube }}" target="_blank" aria-label="YouTube" class="transition-colors hover:text-primary-400">
+                    <i class="ri-youtube-line text-[16px]"></i>
                 </a>
             @endif
         </div>
