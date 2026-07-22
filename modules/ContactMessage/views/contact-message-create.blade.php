@@ -11,142 +11,267 @@
         </li>
     </x-breadcrumb>
 
-    <div class="bg-gray-50 py-12 sm:py-16">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="relative overflow-hidden bg-slate-50/60 py-10 sm:py-14 lg:py-16">
+        <!-- Subtle decorative background blur shapes -->
+        <div class="pointer-events-none absolute -left-20 -top-20 h-72 w-72 rounded-full bg-primary-500/10 blur-3xl"></div>
+        <div class="pointer-events-none absolute -right-20 top-1/3 h-80 w-80 rounded-full bg-blue-500/10 blur-3xl"></div>
 
-            {{-- Page heading --}}
-            <div class="mb-10 text-center">
-                <div class="mb-3 flex items-center justify-center gap-3">
-                    <span class="h-1.5 w-8 rounded-full bg-primary-600"></span>
-                    <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">Contact Us</h1>
-                    <span class="h-1.5 w-8 rounded-full bg-primary-600"></span>
-                </div>
-                <p class="mx-auto max-w-xl text-sm text-gray-500">Have a question or need help? Fill out the form below and we'll get back to you as soon as possible.</p>
+        <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+            {{-- Header Section --}}
+            <div class="mx-auto mb-10 max-w-3xl text-center sm:mb-14">
+                <span class="inline-flex items-center gap-1.5 rounded-full bg-primary-50 px-3.5 py-1 text-xs font-semibold text-primary-700 ring-1 ring-inset ring-primary-600/20">
+                    <i class="ri-customer-service-2-line text-sm"></i> 24/7 Customer Support
+                </span>
+                <h1 class="mt-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
+                    Get in Touch With Us
+                </h1>
+                <p class="mt-3 text-base text-slate-600 sm:text-lg">
+                    Have a question, feedback, or need help with your order? Send us a message and our support team will respond promptly.
+                </p>
             </div>
 
-            <div class="mx-auto grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-3">
+            <div class="mx-auto grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
 
-                {{-- Contact info sidebar --}}
-                <div class="space-y-6 lg:col-span-1">
-                    <div class="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
-                        <h2 class="mb-4 text-sm font-semibold uppercase tracking-widest text-gray-400">Get in Touch</h2>
-                        <ul class="space-y-4">
-                            <li class="flex items-start gap-3">
-                                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary-600">
-                                    <i class="ri-map-pin-2-line text-lg"></i>
-                                </span>
-                                <div>
-                                    <p class="text-xs font-medium text-gray-500">Address</p>
-                                    <p class="text-sm text-gray-700">{{ implode(', ', (array) (setting('contact.address') ?: ['Dhaka, Bangladesh'])) }}</p>
+                {{-- Contact Info Cards Sidebar --}}
+                <div class="space-y-5 lg:col-span-4">
+
+                    <!-- Direct Contact Card -->
+                    <div class="overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition hover:shadow-md sm:p-7">
+                        <h2 class="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400">
+                            <span class="h-2 w-2 rounded-full bg-primary-600"></span>
+                            Reach Us Directly
+                        </h2>
+
+                        <div class="space-y-6">
+                            @php
+                                $addresses = collect((array) (setting('contact.address') ?: ['Dhaka, Bangladesh']))->filter()->values();
+                                $phones = collect((array) (setting('contact.phone') ?: ['+880 1700 000000']))->filter()->values();
+                                $emails = collect((array) (setting('contact.email') ?: ['hello@shopnow.com']))->filter()->values();
+                            @endphp
+
+                            <!-- Address -->
+                            <div class="group flex items-start gap-4">
+                                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600 ring-1 ring-primary-600/10 transition group-hover:scale-105 group-hover:bg-primary-600 group-hover:text-white">
+                                    <i class="ri-map-pin-2-fill text-xl"></i>
                                 </div>
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-xs font-medium text-slate-400">Our Location</p>
+                                    @foreach ($addresses as $address)
+                                        <p class="mt-0.5 text-sm font-semibold text-slate-800">{{ $address }}</p>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="group flex items-start gap-4">
+                                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600 ring-1 ring-primary-600/10 transition group-hover:scale-105 group-hover:bg-primary-600 group-hover:text-white">
+                                    <i class="ri-phone-fill text-xl"></i>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-xs font-medium text-slate-400">Call Us</p>
+                                    @foreach ($phones as $phone)
+                                        <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}" class="mt-0.5 block text-sm font-semibold text-slate-800 transition hover:text-primary-600">
+                                            {{ $phone }}
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="group flex items-start gap-4">
+                                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600 ring-1 ring-primary-600/10 transition group-hover:scale-105 group-hover:bg-primary-600 group-hover:text-white">
+                                    <i class="ri-mail-fill text-xl"></i>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-xs font-medium text-slate-400">Email Support</p>
+                                    @foreach ($emails as $email)
+                                        <a href="mailto:{{ $email }}" class="mt-0.5 block text-sm font-semibold text-slate-800 transition hover:text-primary-600 break-all">
+                                            {{ $email }}
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Business Hours Card -->
+                    <div class="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-7">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+                                <i class="ri-time-fill text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-slate-900">Working Hours</h3>
+                                <p class="text-xs text-slate-500">Support Availability</p>
+                            </div>
+                        </div>
+                        <ul class="mt-4 space-y-2 border-t border-slate-100 pt-4 text-xs">
+                            <li class="flex items-center justify-between text-slate-600">
+                                <span>Saturday - Thursday</span>
+                                <span class="font-semibold text-slate-900">9:00 AM - 9:00 PM</span>
                             </li>
-                            <li class="flex items-start gap-3">
-                                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary-600">
-                                    <i class="ri-phone-line text-lg"></i>
-                                </span>
-                                <div>
-                                    <p class="text-xs font-medium text-gray-500">Phone</p>
-                                    <p class="text-sm text-gray-700">{{ implode(', ', (array) (setting('contact.phone') ?: ['+880 1700 000000'])) }}</p>
-                                </div>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary-600">
-                                    <i class="ri-mail-line text-lg"></i>
-                                </span>
-                                <div>
-                                    <p class="text-xs font-medium text-gray-500">Email</p>
-                                    <p class="text-sm text-gray-700">{{ implode(', ', (array) (setting('contact.email') ?: ['hello@shopnow.com'])) }}</p>
-                                </div>
+                            <li class="flex items-center justify-between text-slate-600">
+                                <span>Friday</span>
+                                <span class="font-semibold text-primary-600">2:00 PM - 9:00 PM</span>
                             </li>
                         </ul>
                     </div>
+
+                    <!-- Quick Guarantee Card -->
+                    <div class="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-800 p-6 text-white shadow-lg shadow-primary-600/20">
+                        <div class="flex items-center gap-3">
+                            <i class="ri-shield-check-fill text-2xl text-primary-200"></i>
+                            <h3 class="text-sm font-bold">Fast & Friendly Support</h3>
+                        </div>
+                        <p class="mt-2 text-xs leading-relaxed text-primary-100">
+                            We aim to respond to all inquiries within 2 to 4 business hours. Thank you for choosing {{ setting('branding.site_name', config('app.name')) }}!
+                        </p>
+                    </div>
+
                 </div>
 
-                {{-- Contact form --}}
-                <div class="lg:col-span-2">
-                    <div class="rounded-xl border border-gray-100 bg-white p-6 shadow-sm sm:p-8">
+                {{-- Contact Form Section --}}
+                <div class="lg:col-span-8">
+                    <div class="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-8 lg:p-10">
 
+                        <div class="mb-6 border-b border-slate-100 pb-5">
+                            <h2 class="text-xl font-bold text-slate-900 sm:text-2xl">Send Us a Message</h2>
+                            <p class="mt-1 text-xs text-slate-500 sm:text-sm">
+                                Please fill out all required fields below marked with an asterisk (<span class="text-red-500 font-bold">*</span>).
+                            </p>
+                        </div>
+
+                        {{-- Success Alert --}}
                         @if (session('success'))
-                            <div class="mb-6 flex items-center gap-3 rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-700">
-                                <i class="ri-checkbox-circle-line text-xl text-green-500"></i>
-                                {{ session('success') }}
+                            <div class="mb-6 flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50/80 p-4 text-sm text-emerald-900 shadow-xs">
+                                <i class="ri-checkbox-circle-fill text-xl text-emerald-600 shrink-0"></i>
+                                <div class="flex-1">
+                                    <p class="font-semibold text-emerald-900">Message Sent Successfully!</p>
+                                    <p class="mt-0.5 text-xs text-emerald-700">{{ session('success') }}</p>
+                                </div>
                             </div>
                         @endif
 
-                        <form action="{{ route('site.contact.store') }}" method="POST" class="space-y-5">
+                        <form action="{{ route('site.contact.store') }}" method="POST" class="space-y-6">
                             @csrf
 
-                            <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                                <!-- Name -->
                                 <div>
-                                    <label for="name" class="mb-1.5 block text-sm font-medium text-gray-700">Your Name <span class="text-red-500">*</span></label>
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        name="name"
-                                        value="{{ old('name') }}"
-                                        placeholder="e.g. Mehedi Hasan"
-                                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 @error('name') border-red-400 bg-red-50 @enderror"
-                                    />
-                                    @error('name') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                                    <label for="name" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                        Your Name <span class="text-red-500">*</span>
+                                    </label>
+                                    <div class="relative">
+                                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                                            <i class="ri-user-3-line text-base"></i>
+                                        </div>
+                                        <input
+                                            type="text"
+                                            id="name"
+                                            name="name"
+                                            value="{{ old('name') }}"
+                                            placeholder="e.g. Mehedi Hasan"
+                                            required
+                                            class="block w-full rounded-xl border border-slate-200 bg-slate-50/50 py-3 pl-10 pr-4 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 @error('name') border-red-400 bg-red-50/50 focus:border-red-500 focus:ring-red-500/20 @enderror"
+                                        />
+                                    </div>
+                                    @error('name') <p class="mt-1.5 text-xs font-medium text-red-600">{{ $message }}</p> @enderror
                                 </div>
 
+                                <!-- Phone -->
                                 <div>
-                                    <label for="phone" class="mb-1.5 block text-sm font-medium text-gray-700">Phone</label>
-                                    <input
-                                        type="text"
-                                        id="phone"
-                                        name="phone"
-                                        value="{{ old('phone') }}"
-                                        placeholder="e.g. 01712345678"
-                                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                                    />
+                                    <label for="phone" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                        Phone Number
+                                    </label>
+                                    <div class="relative">
+                                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                                            <i class="ri-phone-line text-base"></i>
+                                        </div>
+                                        <input
+                                            type="text"
+                                            id="phone"
+                                            name="phone"
+                                            value="{{ old('phone') }}"
+                                            placeholder="e.g. 01712345678"
+                                            class="block w-full rounded-xl border border-slate-200 bg-slate-50/50 py-3 pl-10 pr-4 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                                        />
+                                    </div>
                                 </div>
                             </div>
 
-                            <div>
-                                <label for="email" class="mb-1.5 block text-sm font-medium text-gray-700">Email Address</label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    value="{{ old('email') }}"
-                                    placeholder="e.g. you@example.com"
-                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 @error('email') border-red-400 bg-red-50 @enderror"
-                                />
-                                @error('email') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                                <!-- Email -->
+                                <div>
+                                    <label for="email" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                        Email Address
+                                    </label>
+                                    <div class="relative">
+                                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                                            <i class="ri-mail-line text-base"></i>
+                                        </div>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            value="{{ old('email') }}"
+                                            placeholder="e.g. you@example.com"
+                                            class="block w-full rounded-xl border border-slate-200 bg-slate-50/50 py-3 pl-10 pr-4 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 @error('email') border-red-400 bg-red-50/50 focus:border-red-500 focus:ring-red-500/20 @enderror"
+                                        />
+                                    </div>
+                                    @error('email') <p class="mt-1.5 text-xs font-medium text-red-600">{{ $message }}</p> @enderror
+                                </div>
+
+                                <!-- Subject -->
+                                <div>
+                                    <label for="subject" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                        Subject
+                                    </label>
+                                    <div class="relative">
+                                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                                            <i class="ri-chat-3-line text-base"></i>
+                                        </div>
+                                        <input
+                                            type="text"
+                                            id="subject"
+                                            name="subject"
+                                            value="{{ old('subject') }}"
+                                            placeholder="e.g. Order Inquiry / Support"
+                                            class="block w-full rounded-xl border border-slate-200 bg-slate-50/50 py-3 pl-10 pr-4 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                                        />
+                                    </div>
+                                </div>
                             </div>
 
+                            <!-- Message -->
                             <div>
-                                <label for="subject" class="mb-1.5 block text-sm font-medium text-gray-700">Subject</label>
-                                <input
-                                    type="text"
-                                    id="subject"
-                                    name="subject"
-                                    value="{{ old('subject') }}"
-                                    placeholder="How can we help?"
-                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                                />
+                                <label for="message" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                    Message <span class="text-red-500">*</span>
+                                </label>
+                                <div class="relative">
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        rows="5"
+                                        required
+                                        placeholder="Write your message here... Please include order details if applicable."
+                                        class="block w-full rounded-xl border border-slate-200 bg-slate-50/50 p-4 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 @error('message') border-red-400 bg-red-50/50 focus:border-red-500 focus:ring-red-500/20 @enderror"
+                                    >{{ old('message') }}</textarea>
+                                </div>
+                                @error('message') <p class="mt-1.5 text-xs font-medium text-red-600">{{ $message }}</p> @enderror
                             </div>
 
+                            <!-- Submit Button -->
                             <div>
-                                <label for="message" class="mb-1.5 block text-sm font-medium text-gray-700">Message <span class="text-red-500">*</span></label>
-                                <textarea
-                                    id="message"
-                                    name="message"
-                                    rows="5"
-                                    placeholder="Write your message here..."
-                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 @error('message') border-red-400 bg-red-50 @enderror"
-                                >{{ old('message') }}</textarea>
-                                @error('message') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                                <button
+                                    type="submit"
+                                    class="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-primary-600/25 transition-all duration-200 hover:from-primary-700 hover:to-primary-800 hover:shadow-xl hover:shadow-primary-600/30 focus:outline-none focus:ring-4 focus:ring-primary-600/20 active:scale-[0.99] sm:w-auto"
+                                >
+                                    <span>Send Message</span>
+                                    <i class="ri-send-plane-fill text-base transition-transform group-hover:translate-x-1"></i>
+                                </button>
                             </div>
 
-                            <button
-                                type="submit"
-                                class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary-700 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300"
-                            >
-                                <i class="ri-send-plane-line text-base"></i>
-                                Send Message
-                            </button>
                         </form>
                     </div>
                 </div>
@@ -155,3 +280,4 @@
         </div>
     </div>
 @endsection
+
