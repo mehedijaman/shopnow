@@ -104,6 +104,10 @@
                     @endif
 
                     <!-- Business Hours Card -->
+                    @php
+                        $workingHours = collect((array) setting('contact.working_hours'))->filter()->values();
+                    @endphp
+                    @if ($workingHours->isNotEmpty())
                     <div class="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-7">
                         <div class="flex items-center gap-3">
                             <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
@@ -115,16 +119,17 @@
                             </div>
                         </div>
                         <ul class="mt-4 space-y-2 border-t border-slate-100 pt-4 text-xs">
-                            <li class="flex items-center justify-between text-slate-600">
-                                <span>Saturday - Thursday</span>
-                                <span class="font-semibold text-slate-900">9:00 AM - 9:00 PM</span>
-                            </li>
-                            <li class="flex items-center justify-between text-slate-600">
-                                <span>Friday</span>
-                                <span class="font-semibold text-primary-600">2:00 PM - 9:00 PM</span>
-                            </li>
+                            @foreach ($workingHours as $wh)
+                                <li class="flex items-center justify-between text-slate-700 font-medium">
+                                    <span class="flex items-center gap-1.5">
+                                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                                        {{ $wh }}
+                                    </span>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
+                    @endif
 
                     <!-- Quick Guarantee Card -->
                     <div class="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-800 p-6 text-white shadow-lg shadow-primary-600/20">

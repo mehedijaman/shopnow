@@ -28,6 +28,13 @@
             :add-label="__('Add WhatsApp')"
         />
 
+        <RepeaterField
+            v-model="form.working_hours"
+            :label="__('Working Hours')"
+            :placeholder="__('e.g. Saturday - Thursday: 9:00 AM - 9:00 PM')"
+            :add-label="__('Add Working Hours')"
+        />
+
         <div>
             <AppLabel for="google_map" :value="__('Google Map Embed Code')" />
             <p class="mb-2 text-xs text-skin-neutral-9">

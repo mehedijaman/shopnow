@@ -57,6 +57,8 @@ class SettingsGroupValidate extends Request
             'address.*' => 'nullable|string|max:300',
             'whatsapp' => 'nullable|array',
             'whatsapp.*' => 'nullable|string|max:20',
+            'working_hours' => 'nullable|array',
+            'working_hours.*' => 'nullable|string|max:250',
             'google_map' => 'nullable|string|max:2000',
         ];
     }

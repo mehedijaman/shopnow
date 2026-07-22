@@ -55,7 +55,8 @@ class SettingSeeder extends Seeder
             ['group' => 'contact', 'key' => 'email', 'value' => '[]', 'type' => 'repeater', 'label' => 'Email Addresses', 'is_public' => true, 'sort_order' => 2],
             ['group' => 'contact', 'key' => 'address', 'value' => '[]', 'type' => 'repeater', 'label' => 'Office Addresses', 'is_public' => true, 'sort_order' => 3],
             ['group' => 'contact', 'key' => 'whatsapp', 'value' => '[]', 'type' => 'repeater', 'label' => 'WhatsApp Numbers', 'is_public' => true, 'sort_order' => 4],
-            ['group' => 'contact', 'key' => 'google_map', 'value' => null, 'type' => 'textarea', 'label' => 'Google Map Embed', 'is_public' => true, 'sort_order' => 5],
+            ['group' => 'contact', 'key' => 'working_hours', 'value' => '[]', 'type' => 'repeater', 'label' => 'Working Hours', 'is_public' => true, 'sort_order' => 5],
+            ['group' => 'contact', 'key' => 'google_map', 'value' => null, 'type' => 'textarea', 'label' => 'Google Map Embed', 'is_public' => true, 'sort_order' => 6],
 
             // Social
             ['group' => 'social', 'key' => 'facebook', 'value' => null, 'type' => 'text', 'label' => 'Facebook', 'is_public' => true, 'sort_order' => 1],
