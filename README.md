@@ -166,6 +166,48 @@ shopnow/
 
 ---
 
+## ⏰ Cron Job Setup Guide (cPanel / Shared Hosting)
+
+ShopNow utilizes Laravel's task scheduler and queue system to handle asynchronous tasks such as sending customer order confirmation emails, administrative notifications, processing Meta Conversions API events, and periodic background maintenance.
+
+To ensure these tasks run automatically on cPanel or shared hosting, configure a server Cron Job to execute Laravel's `schedule:run` command every minute.
+
+### 1. Access Cron Jobs in cPanel
+1. Log in to your **cPanel Dashboard**.
+2. Navigate to the **Advanced** section and click on **Cron Jobs**.
+
+### 2. Add New Cron Job
+1. Under **Common Settings**, select **Once Per Minute** (`* * * * *`).
+2. In the **Command** field, enter the following command (adjust paths for your server):
+
+```bash
+/usr/local/bin/php /home/your_username/public_html/artisan schedule:run >> /dev/null 2>&1
+```
+
+> 💡 **Note**: Replace `/home/your_username/public_html` with your actual project root path where the `artisan` file is located.
+
+### 3. PHP Binary Path Variations
+Depending on your hosting provider and PHP version, use the specific PHP 8.4 binary path:
+
+- **cPanel EasyApache (ea-php)**:
+  ```bash
+  /opt/cpanel/ea-php84/root/usr/bin/php /home/your_username/public_html/artisan schedule:run >> /dev/null 2>&1
+  ```
+- **CloudLinux PHP Selector (alt-php)**:
+  ```bash
+  /opt/alt/php84/usr/bin/php /home/your_username/public_html/artisan schedule:run >> /dev/null 2>&1
+  ```
+- **Custom/Standard Path**: Find your exact PHP path by running `which php` in the cPanel Terminal.
+
+### 4. Optional Queue Worker Cron (for Database Queue Driver)
+If your `.env` has `QUEUE_CONNECTION=database` and you want background jobs (like emails) to process automatically on shared hosting without a persistent daemon, add a second cron job running every minute:
+
+```bash
+/usr/local/bin/php /home/your_username/public_html/artisan queue:work --stop-when-empty >> /dev/null 2>&1
+```
+
+---
+
 ## 🧪 Testing & Code Quality
 
 ShopNow enforces high coding standards with integrated linting and automated tests:

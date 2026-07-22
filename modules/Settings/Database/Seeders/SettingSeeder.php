@@ -16,7 +16,7 @@ class SettingSeeder extends Seeder
 
     private function seedPermissions(): void
     {
-        $permissions = ['settings-list', 'settings-edit', 'pixel-settings-edit'];
+        $permissions = ['settings-list', 'settings-edit', 'pixel-settings-edit', 'analytics-settings-edit'];
 
         foreach ($permissions as $name) {
             Permission::firstOrCreate(
@@ -105,6 +105,10 @@ class SettingSeeder extends Seeder
             ['group' => 'pixel', 'key' => 'capi_access_token', 'value' => null, 'type' => 'text', 'label' => 'CAPI Access Token', 'description' => 'System user token for server-side Meta events.', 'is_public' => false, 'sort_order' => 6],
             ['group' => 'pixel', 'key' => 'api_version', 'value' => 'v23.0', 'type' => 'text', 'label' => 'Meta Graph API Version', 'description' => 'Meta Graph API version used for CAPI calls (e.g. v23.0).', 'is_public' => false, 'sort_order' => 7],
             ['group' => 'pixel', 'key' => 'test_event_code', 'value' => null, 'type' => 'text', 'label' => 'Test Event Code', 'description' => 'Optional Meta test_event_code for non-production verification.', 'is_public' => false, 'sort_order' => 8],
+
+            // Analytics
+            ['group' => 'analytics', 'key' => 'enabled', 'value' => '0', 'type' => 'boolean', 'label' => 'Enable Google Analytics', 'description' => 'Turn Google Analytics (GA4) tracking on for storefront pages.', 'is_public' => false, 'sort_order' => 1],
+            ['group' => 'analytics', 'key' => 'ga_measurement_id', 'value' => null, 'type' => 'text', 'label' => 'GA Measurement ID', 'description' => 'Measurement ID from GA4 (e.g. G-XXXXXXXXXX).', 'is_public' => false, 'sort_order' => 2],
         ];
     }
 }

@@ -168,7 +168,7 @@
             </div>
 
             <!-- Payment Method -->
-            <div class="space-y-4">
+            <!-- <div class="space-y-4">
                 <h2 class="border-b border-gray-200 pb-2 text-xl font-semibold text-gray-900">
                     Payment Method <span class="text-red-500 text-base">*</span>
                 </h2>
@@ -202,7 +202,7 @@
                         </div>
                     </button>
 
-                    <!-- <button
+                    <button
                         type="button"
                         @click="selectPayment('sslcommerz')"
                         :class="[
@@ -230,10 +230,10 @@
                                 </svg>
                             </div>
                         </div>
-                    </button> -->
+                    </button>
                 </div>
                 <p v-if="errors.payment_method" class="text-xs text-red-600">{{ errors.payment_method }}</p>
-            </div>
+            </div> -->
         </div>
 
         <!-- Right: Order Summary -->
@@ -360,7 +360,7 @@ const form = reactive({
     union: '',
     address: '',
     note: '',
-    payment_method: null,
+    payment_method: 'cod',
 })
 
 const selectedAddressId = ref(null)
@@ -409,6 +409,17 @@ onMounted(async () => {
         num_items: cartStore.items.reduce((total, cartItem) => total + Number(cartItem.quantity || 0), 0),
         value: Number(orderTotal.value || 0),
         currency: 'BDT',
+    })
+    window.ShopNowTracking.trackGa('begin_checkout', {
+        currency: 'BDT',
+        value: Number(orderTotal.value || 0),
+        items: cartStore.items.map((cartItem) => ({
+            item_id: String(cartItem.item.id),
+            item_name: cartItem.item.name,
+            price: Number(cartItem.item.price || 0),
+            item_variant: cartItem.variation_label || undefined,
+            quantity: Number(cartItem.quantity || 1),
+        }))
     })
 })
 

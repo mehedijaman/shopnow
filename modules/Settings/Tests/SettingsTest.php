@@ -8,7 +8,10 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 use Modules\Settings\Models\Setting;
+use Modules\Settings\Services\SettingService;
+use Modules\Settings\SettingsServiceProvider;
 use Modules\User\Models\User;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -32,12 +35,16 @@ beforeEach(function () {
         ['group' => 'social', 'key' => 'facebook', 'value' => null, 'type' => 'text', 'label' => 'Facebook', 'sort_order' => 1, 'is_public' => true, 'created_at' => now(), 'updated_at' => now()],
         ['group' => 'pixel', 'key' => 'enabled', 'value' => '0', 'type' => 'boolean', 'label' => 'Enable Meta Pixel', 'sort_order' => 1, 'is_public' => false, 'created_at' => now(), 'updated_at' => now()],
         ['group' => 'pixel', 'key' => 'meta_pixel_id', 'value' => null, 'type' => 'text', 'label' => 'Meta Pixel ID', 'sort_order' => 2, 'is_public' => false, 'created_at' => now(), 'updated_at' => now()],
+        ['group' => 'analytics', 'key' => 'enabled', 'value' => '0', 'type' => 'boolean', 'label' => 'Enable GA', 'sort_order' => 1, 'is_public' => false, 'created_at' => now(), 'updated_at' => now()],
+        ['group' => 'analytics', 'key' => 'ga_measurement_id', 'value' => null, 'type' => 'text', 'label' => 'GA ID', 'sort_order' => 2, 'is_public' => false, 'created_at' => now(), 'updated_at' => now()],
     ])->each(function (array $setting): void {
         Setting::updateOrCreate(
             ['group' => $setting['group'], 'key' => $setting['key']],
             $setting,
         );
     });
+
+    Permission::firstOrCreate(['name' => 'analytics-settings-edit', 'guard_name' => 'user']);
 });
 
 afterEach(function () {
@@ -133,6 +140,36 @@ test('social settings can be updated', function () {
         'group' => 'social',
         'key' => 'facebook',
         'value' => 'https://facebook.com/testshop',
+    ]);
+});
+
+test('shipping settings can be updated', function () {
+    Setting::updateOrCreate(
+        ['group' => 'shipping', 'key' => 'flat_rate'],
+        ['value' => '60', 'type' => 'text', 'label' => 'Flat Rate', 'is_public' => true]
+    );
+    Setting::updateOrCreate(
+        ['group' => 'shipping', 'key' => 'free_shipping_threshold'],
+        ['value' => '1000', 'type' => 'text', 'label' => 'Free Shipping Threshold', 'is_public' => true]
+    );
+
+    $response = $this->loggedRequest->post('/admin/settings/shipping', [
+        'flat_rate' => 120,
+        'free_shipping_threshold' => 1500,
+    ]);
+
+    $response->assertRedirect();
+    $response->assertSessionHas('success');
+
+    $this->assertDatabaseHas('settings', [
+        'group' => 'shipping',
+        'key' => 'flat_rate',
+        'value' => '120',
+    ]);
+    $this->assertDatabaseHas('settings', [
+        'group' => 'shipping',
+        'key' => 'free_shipping_threshold',
+        'value' => '1500',
     ]);
 });
 
@@ -309,4 +346,96 @@ test('send test email endpoint validates input fields', function () {
     ]);
 
     $response->assertSessionHasErrors(['recipient', 'message']);
+});
+
+test('analytics settings page can be rendered for root user', function () {
+    $response = $this->loggedRequest->get('/admin/settings/analytics');
+
+    $response->assertStatus(200);
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('Settings/SettingsForm', false)
+            ->where('group', 'analytics')
+            ->has('settings.enabled')
+            ->has('groups')
+    );
+});
+
+test('analytics settings page is forbidden without analytics-settings-edit permission', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->get('/admin/settings/analytics');
+
+    $response->assertStatus(403);
+});
+
+test('analytics settings can be saved and read through SettingService and respects cache', function () {
+    $response = $this->loggedRequest->post('/admin/settings/analytics', [
+        'enabled' => '1',
+        'ga_measurement_id' => 'G-ABC1234567',
+    ]);
+
+    $response->assertRedirect();
+    $response->assertSessionHas('success');
+
+    $this->assertEquals('1', setting('analytics.enabled'));
+    $this->assertEquals('G-ABC1234567', setting('analytics.ga_measurement_id'));
+
+    $service = app(SettingService::class);
+    $group = $service->getGroup('analytics');
+    $this->assertEquals('1', $group['enabled']);
+    $this->assertEquals('G-ABC1234567', $group['ga_measurement_id']);
+});
+
+test('analytics settings rejects invalid ga_measurement_id format', function () {
+    $response = $this->loggedRequest->post('/admin/settings/analytics', [
+        'enabled' => true,
+        'ga_measurement_id' => 'INVALID-ID',
+    ]);
+
+    $response->assertSessionHasErrors('ga_measurement_id');
+});
+
+test('site-layout renders gtag snippet when analytics is enabled and measurement ID set', function () {
+    Setting::updateOrCreate(['group' => 'analytics', 'key' => 'enabled'], ['value' => '1']);
+    Setting::updateOrCreate(['group' => 'analytics', 'key' => 'ga_measurement_id'], ['value' => 'G-TEST123456']);
+    Cache::forget('settings');
+
+    $view = $this->view('site-layout', ['seo' => []]);
+
+    $view->assertSee('googletagmanager.com/gtag/js?id=', false);
+    $view->assertSee('G-TEST123456', false);
+});
+
+test('mail settings configures smtp when enabled and falls back to env when disabled', function () {
+    // When enable_smtp is 1
+    Setting::updateOrCreate(['group' => 'mail', 'key' => 'enable_smtp'], ['value' => '1', 'type' => 'boolean']);
+    Setting::updateOrCreate(['group' => 'mail', 'key' => 'host'], ['value' => 'smtp.customhost.com', 'type' => 'text']);
+    Setting::updateOrCreate(['group' => 'mail', 'key' => 'port'], ['value' => '587', 'type' => 'text']);
+    Cache::forget('settings');
+
+    $provider = new SettingsServiceProvider(app());
+    $provider->boot();
+
+    $this->assertEquals('smtp', config('mail.default'));
+    $this->assertEquals('smtp.customhost.com', config('mail.mailers.smtp.host'));
+    $this->assertEquals('587', config('mail.mailers.smtp.port'));
+
+    // When enable_smtp is 0
+    Setting::updateOrCreate(['group' => 'mail', 'key' => 'enable_smtp'], ['value' => '0', 'type' => 'boolean']);
+    Cache::forget('settings');
+
+    $provider->boot();
+
+    $this->assertEquals(env('MAIL_HOST', '127.0.0.1'), config('mail.mailers.smtp.host'));
+});
+
+test('site-layout does not render gtag snippet when analytics is disabled or measurement ID empty', function () {
+    Setting::updateOrCreate(['group' => 'analytics', 'key' => 'enabled'], ['value' => '0']);
+    Setting::updateOrCreate(['group' => 'analytics', 'key' => 'ga_measurement_id'], ['value' => 'G-TEST123456']);
+    Cache::forget('settings');
+
+    $view = $this->view('site-layout', ['seo' => []]);
+
+    $view->assertDontSee('https://www.googletagmanager.com/gtag/js?id=G-TEST123456', false);
 });

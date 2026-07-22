@@ -2,7 +2,9 @@
 
 namespace Modules\Order\Http\Controllers;
 
+use App\Jobs\SendCustomerOrderConfirmationMail;
 use App\Jobs\SendOrderPlacedMail;
+use App\Models\User;
 use Devfaysal\BangladeshGeocode\Models\District;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -154,8 +156,24 @@ class SiteOrderController extends SiteController
 
             // Dispatch admin notification email (async via queue)
             $adminEmail = setting('general.admin_email');
-            if ($adminEmail) {
+            if (! $this->isValidRealEmail($adminEmail)) {
+                $adminEmail = config('mail.from.address');
+            }
+            if (! $this->isValidRealEmail($adminEmail)) {
+                $adminEmail = env('ADMIN_EMAIL');
+            }
+            if (! $this->isValidRealEmail($adminEmail)) {
+                $userEmail = User::first()?->email;
+                $adminEmail = $this->isValidRealEmail($userEmail) ? $userEmail : null;
+            }
+
+            if ($adminEmail && $this->isValidRealEmail($adminEmail)) {
                 SendOrderPlacedMail::dispatch($order->id, $adminEmail);
+            }
+
+            // Dispatch customer order confirmation email (async via queue)
+            if ($order->email) {
+                SendCustomerOrderConfirmationMail::dispatch($order->id);
             }
 
             $orderProductsData = $createdOrderProducts->map(fn ($op) => [
@@ -241,5 +259,21 @@ class SiteOrderController extends SiteController
             ->paginate(10);
 
         return view('order::my-orders', compact('orders', 'customer'));
+    }
+
+    private function isValidRealEmail(?string $email): bool
+    {
+        if (! $email || ! filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+
+        if (in_array(config('mail.default'), ['log', 'array'], true)) {
+            return true;
+        }
+
+        $domain = strtolower(substr(strrchr($email, '@'), 1));
+        $dummyDomains = ['example.com', 'example.org', 'example.net', 'localhost', 'test.com'];
+
+        return ! in_array($domain, $dummyDomains, true);
     }
 }

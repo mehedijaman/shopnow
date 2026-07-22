@@ -18,6 +18,15 @@
                 currency: 'BDT',
                 category: @json($product->category?->name),
             })
+            window.ShopNowTracking.trackGa('view_item', {
+                currency: 'BDT',
+                value: Number(@json($product->sale_price ?? $product->price ?? 0)),
+                items: [{
+                    item_id: String(@json($product->id)),
+                    item_name: @json($product->name),
+                    price: Number(@json($product->sale_price ?? $product->price ?? 0)),
+                }]
+            })
         }
     </script>
 @endsection

@@ -120,11 +120,32 @@
                             <tbody>
                                 @foreach ($order->orderProducts as $item)
                                 <tr>
-                                    <td style="padding:10px 10px;border-bottom:1px solid #f1f5f9;color:#1e293b;">{{ $item->product?->name ?? 'Product #'.$item->product_id }}</td>
+                                    <td style="padding:10px 10px;border-bottom:1px solid #f1f5f9;color:#1e293b;">
+                                        <strong style="font-size:14px;color:#1e293b;display:block;">{{ $item->product?->name ?? 'Product #'.$item->product_id }}</strong>
+                                        @if ($item->variation_label)
+                                            <span style="font-size:12px;color:#2563eb;display:block;margin-top:2px;">Variation: {{ $item->variation_label }}</span>
+                                        @elseif ($item->productVariation && $item->productVariation->name)
+                                            <span style="font-size:12px;color:#2563eb;display:block;margin-top:2px;">Variation: {{ $item->productVariation->name }}</span>
+                                        @endif
+                                    </td>
                                     <td style="padding:10px 10px;border-bottom:1px solid #f1f5f9;text-align:center;color:#475569;">{{ $item->quantity }}</td>
                                     <td style="padding:10px 10px;border-bottom:1px solid #f1f5f9;text-align:right;color:#475569;">{{ number_format($item->unit_price, 2) }} Tk</td>
-                                    <td style="padding:10px 10px;border-bottom:1px solid #f1f5f9;text-align:right;color:#1e293b;">{{ number_format($item->total_price, 2) }} Tk</td>
+                                    <td style="padding:10px 10px;border-bottom:1px solid #f1f5f9;text-align:right;color:#1e293b;font-weight:700;">{{ number_format($item->total_price, 2) }} Tk</td>
                                 </tr>
+
+                                {{-- Bundle child items --}}
+                                @if ($item->bundleItems && $item->bundleItems->count())
+                                    @foreach ($item->bundleItems as $bi)
+                                        <tr style="background:#f8fafc;">
+                                            <td style="padding:6px 10px 6px 20px;font-size:12px;color:#64748b;border-bottom:1px solid #f1f5f9;">
+                                                └ {{ $bi->name ?? 'Bundle Item' }}
+                                            </td>
+                                            <td style="padding:6px 10px;font-size:12px;color:#64748b;text-align:center;border-bottom:1px solid #f1f5f9;">{{ $bi->quantity }}</td>
+                                            <td style="padding:6px 10px;font-size:12px;color:#64748b;text-align:right;border-bottom:1px solid #f1f5f9;">{{ number_format($bi->unit_price, 2) }} Tk</td>
+                                            <td style="padding:6px 10px;font-size:12px;color:#64748b;text-align:right;border-bottom:1px solid #f1f5f9;">{{ number_format($bi->total_price, 2) }} Tk</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                                 @endforeach
                             </tbody>
                         </table>

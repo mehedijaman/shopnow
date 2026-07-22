@@ -15,8 +15,10 @@ class SettingsGroupValidate extends Request
             'social' => $this->socialRules(),
             'seo' => $this->seoRules(),
             'mail' => $this->mailRules(),
+            'shipping' => $this->shippingRules(),
             'homepage' => $this->homepageRules(),
             'pixel' => $this->pixelRules(),
+            'analytics' => $this->analyticsRules(),
             'downloads' => $this->downloadsRules(),
             default => [],
         };
@@ -113,6 +115,14 @@ class SettingsGroupValidate extends Request
         ];
     }
 
+    private function shippingRules(): array
+    {
+        return [
+            'flat_rate' => 'nullable|numeric|min:0',
+            'free_shipping_threshold' => 'nullable|numeric|min:0',
+        ];
+    }
+
     private function pixelRules(): array
     {
         return [
@@ -124,6 +134,14 @@ class SettingsGroupValidate extends Request
             'capi_access_token' => 'nullable|string|max:500',
             'api_version' => ['nullable', 'regex:/^v\d+\.\d+$/'],
             'test_event_code' => 'nullable|string|max:100',
+        ];
+    }
+
+    private function analyticsRules(): array
+    {
+        return [
+            'enabled' => 'nullable|boolean',
+            'ga_measurement_id' => ['nullable', 'string', 'regex:/^G-[A-Z0-9]+$/i'],
         ];
     }
 }

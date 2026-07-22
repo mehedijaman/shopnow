@@ -98,9 +98,16 @@
             $pixelEnableNonProduction = (bool) setting('pixel.enable_non_production', false);
             $pixelCanLoadInEnv = app()->environment('production') || $pixelEnableNonProduction;
             $pixelCanLoad = $pixelEnabled && $pixelCanLoadInEnv && $pixelId !== '';
+
+            $gaEnabled = (bool) setting('analytics.enabled', false);
+            $gaId = (string) setting('analytics.ga_measurement_id', '');
+            $gaCanLoad = $gaEnabled && $gaId !== '';
+
+            $trackingCanLoad = $pixelCanLoad || $gaCanLoad;
+            $showConsentBanner = $trackingCanLoad && ($pixelCanLoad ? $pixelRequireConsent : true);
         @endphp
 
-        @if ($pixelCanLoad)
+        @if ($trackingCanLoad)
         <script>
             (function () {
                 var consentKey = 'tracking_consent'
@@ -139,18 +146,25 @@
                 }
 
                 var pixelConfig = {
+                    enabled: @json($pixelCanLoad),
                     pixelId: @json($pixelId),
                     requireConsent: @json($pixelRequireConsent),
                 }
 
-                var initialized = false
+                var gaConfig = {
+                    enabled: @json($gaCanLoad),
+                    gaId: @json($gaId),
+                }
+
+                var initializedPixel = false
+                var initializedGa = false
 
                 function initPixel() {
-                    if (initialized || !pixelConfig.pixelId) {
+                    if (!pixelConfig.enabled || initializedPixel || !pixelConfig.pixelId) {
                         return
                     }
 
-                    initialized = true
+                    initializedPixel = true
 
                     !function(f,b,e,v,n,t,s)
                     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -165,8 +179,27 @@
                     fbq('track', 'PageView')
                 }
 
+                function initGa() {
+                    if (!gaConfig.enabled || initializedGa || !gaConfig.gaId) {
+                        return
+                    }
+
+                    initializedGa = true
+
+                    var script = document.createElement('script')
+                    script.async = true
+                    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(gaConfig.gaId)
+                    document.head.appendChild(script)
+
+                    window.dataLayer = window.dataLayer || []
+                    function gtag(){ dataLayer.push(arguments); }
+                    window.gtag = gtag
+                    gtag('js', new Date())
+                    gtag('config', gaConfig.gaId)
+                }
+
                 function hasConsent() {
-                    if (!pixelConfig.requireConsent) {
+                    if (pixelConfig.enabled && !pixelConfig.requireConsent) {
                         return true
                     }
 
@@ -181,6 +214,7 @@
 
                         if (granted) {
                             initPixel()
+                            initGa()
                         }
 
                         var banner = document.getElementById(bannerId)
@@ -202,11 +236,19 @@
 
                         window.fbq('trackCustom', eventName, payload || {})
                     },
+                    trackGa: function (eventName, payload) {
+                        if (!hasConsent() || typeof window.gtag !== 'function') {
+                            return
+                        }
+
+                        window.gtag('event', eventName, payload || {})
+                    },
                 }
 
                 var consent = getConsentValue()
-                if (!pixelConfig.requireConsent || consent === 'granted') {
+                if (hasConsent()) {
                     initPixel()
+                    initGa()
                 }
 
                 document.addEventListener('DOMContentLoaded', function () {
@@ -215,7 +257,7 @@
                         return
                     }
 
-                    var shouldShowBanner = pixelConfig.requireConsent && consent !== 'granted' && consent !== 'denied'
+                    var shouldShowBanner = (pixelConfig.enabled ? pixelConfig.requireConsent : true) && consent !== 'granted' && consent !== 'denied'
                     if (shouldShowBanner) {
                         banner.classList.remove('hidden')
                     }
@@ -238,17 +280,6 @@
             })();
         </script>
         @endif
-
-        {{-- Google Analytics (only when ID is configured) --}}
-        @if (!empty($seo['google_analytics_id']))
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $seo['google_analytics_id'] }}"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '{{ $seo['google_analytics_id'] }}', { anonymize_ip: true });
-        </script>
-        @endif
     </head>
 
     <body>
@@ -260,14 +291,14 @@
             <x-footer></x-footer>
         </div>
 
-        @if ($pixelCanLoad && $pixelRequireConsent)
+        @if ($showConsentBanner)
         <div
             id="tracking-consent-banner"
             class="fixed bottom-0 left-0 right-0 z-50 hidden border-t border-skin-neutral-4 bg-white/95 p-4 shadow-lg backdrop-blur"
         >
             <div class="mx-auto flex w-full max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <p class="text-sm text-skin-neutral-11">
-                    We use Meta Pixel to measure campaign performance and improve your shopping experience. You can accept or decline tracking.
+                    We use cookies and tracking tools to measure campaign performance and improve your shopping experience. You can accept or decline tracking.
                 </p>
                 <div class="flex shrink-0 items-center gap-2">
                     <button

@@ -17,7 +17,7 @@ class SettingsController extends BackendController
 {
     use UploadFile;
 
-    private const GROUPS = ['general', 'branding', 'contact', 'social', 'seo', 'mail', 'shipping', 'homepage', 'pixel', 'downloads'];
+    private const GROUPS = ['general', 'branding', 'contact', 'social', 'seo', 'mail', 'shipping', 'homepage', 'pixel', 'downloads', 'analytics'];
 
     /** @var array<string, string[]> */
     private const IMAGE_FIELDS = [
@@ -38,7 +38,10 @@ class SettingsController extends BackendController
         $groups = self::GROUPS;
         $user = Auth::guard('user')->user();
         if (! $user || ! $user->can('pixel-settings-edit')) {
-            $groups = array_values(array_filter(self::GROUPS, static fn ($item) => $item !== 'pixel'));
+            $groups = array_values(array_filter($groups, static fn ($item) => $item !== 'pixel'));
+        }
+        if (! $user || ! $user->can('analytics-settings-edit')) {
+            $groups = array_values(array_filter($groups, static fn ($item) => $item !== 'analytics'));
         }
 
         return inertia('Settings/SettingsForm', [
@@ -150,11 +153,14 @@ class SettingsController extends BackendController
 
     private function authorizeGroupAccess(string $group): void
     {
-        if ($group !== 'pixel') {
-            return;
+        if ($group === 'pixel') {
+            $user = Auth::guard('user')->user();
+            abort_unless($user && $user->can('pixel-settings-edit'), 403);
         }
 
-        $user = Auth::guard('user')->user();
-        abort_unless($user && $user->can('pixel-settings-edit'), 403);
+        if ($group === 'analytics') {
+            $user = Auth::guard('user')->user();
+            abort_unless($user && $user->can('analytics-settings-edit'), 403);
+        }
     }
 }

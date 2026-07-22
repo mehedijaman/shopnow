@@ -4,8 +4,34 @@
 
 @section('robots', 'noindex, follow')
 
+@php
+    $purchaseItems = $order->orderProducts->map(function ($item) {
+        $data = [
+            'item_id' => (string) $item->product_id,
+            'item_name' => $item->product?->name ?? ('Product #'.$item->product_id),
+            'price' => (float) $item->unit_price,
+            'quantity' => (int) $item->quantity,
+        ];
+        if (! empty($item->variation_label)) {
+            $data['item_variant'] = $item->variation_label;
+        }
+
+        return $data;
+    })->values()->all();
+@endphp
+
 @section('bodyEndScripts')
     @vite('resources-site/js/index-app.js')
+    <script>
+        if (window.ShopNowTracking) {
+            window.ShopNowTracking.trackGa('purchase', {
+                transaction_id: @json((string) $order->id),
+                value: Number(@json((float) $order->total)),
+                currency: 'BDT',
+                items: @json($purchaseItems)
+            });
+        }
+    </script>
 @endsection
 
 @section('content')

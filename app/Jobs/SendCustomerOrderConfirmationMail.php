@@ -2,20 +2,19 @@
 
 namespace App\Jobs;
 
-use App\Mail\OrderPlacedMail;
+use App\Mail\CustomerOrderConfirmationMail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Modules\Order\Models\Order;
 
-class SendOrderPlacedMail implements ShouldQueue
+class SendCustomerOrderConfirmationMail implements ShouldQueue
 {
     use Queueable;
 
     public function __construct(
         public readonly int $orderId,
-        public readonly string $adminEmail,
     ) {}
 
     public function handle(): void
@@ -26,17 +25,17 @@ class SendOrderPlacedMail implements ShouldQueue
             'orderProducts.bundleItems',
         ])->find($this->orderId);
 
-        if (! $order) {
+        if (! $order || ! $order->email) {
             return;
         }
 
-        if (! $this->isValidRealEmail($this->adminEmail)) {
-            Log::warning("SendOrderPlacedMail skipped: '{$this->adminEmail}' is an invalid or placeholder email address for order #{$order->id}.");
+        if (! $this->isValidRealEmail($order->email)) {
+            Log::warning("SendCustomerOrderConfirmationMail skipped: '{$order->email}' is an invalid or placeholder email address for order #{$order->id}.");
 
             return;
         }
 
-        Mail::to($this->adminEmail)->send(new OrderPlacedMail($order));
+        Mail::to($order->email)->send(new CustomerOrderConfirmationMail($order));
     }
 
     private function isValidRealEmail(?string $email): bool
@@ -50,7 +49,7 @@ class SendOrderPlacedMail implements ShouldQueue
         }
 
         $domain = strtolower(substr(strrchr($email, '@'), 1));
-        $dummyDomains = [];
+        $dummyDomains = ['example.com', 'example.org', 'example.net', 'localhost', 'test.com'];
 
         return ! in_array($domain, $dummyDomains, true);
     }

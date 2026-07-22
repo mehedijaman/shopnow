@@ -8,8 +8,8 @@
             :class="[
                 isActive(menuItem.link)
                     ? (depth > 0
-                        ? 'bg-red-500 text-white shadow-md shadow-blue-500/20'
-                        : 'bg-linear-to-r from-red-600 to-red-500 text-white shadow-lg shadow-red-500/25')
+                        ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20'
+                        : 'bg-linear-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/25')
                     : 'text-slate-400 hover:text-white',
                 depth > 0 ? 'py-2 text-[13px]' : ''
             ]">
