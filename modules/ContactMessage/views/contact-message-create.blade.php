@@ -283,8 +283,26 @@
                         </form>
                     </div>
                 </div>
-
             </div>
+
+            {{-- Google Map Embed Section --}}
+            @php
+                $googleMapEmbed = setting('contact.google_map');
+            @endphp
+            @if (!empty($googleMapEmbed))
+                <div class="mx-auto mt-10 max-w-6xl sm:mt-12">
+                    <div class="overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-2 shadow-sm sm:p-3">
+                        <div class="relative h-80 w-full overflow-hidden rounded-xl bg-slate-100 sm:h-96 [&_iframe]:h-full [&_iframe]:w-full [&_iframe]:border-0 [&_iframe]:rounded-xl">
+                            @if (str_contains($googleMapEmbed, '<iframe'))
+                                {!! $googleMapEmbed !!}
+                            @else
+                                <iframe src="{{ $googleMapEmbed }}" class="h-full w-full border-0 rounded-xl" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            @endif
+
         </div>
     </div>
 @endsection
