@@ -36,6 +36,13 @@
                 {{-- Contact Info Cards Sidebar --}}
                 <div class="space-y-5 lg:col-span-4">
 
+                    @php
+                        $addresses = collect((array) setting('contact.address'))->filter()->values();
+                        $phones = collect((array) setting('contact.phone'))->filter()->values();
+                        $emails = collect((array) setting('contact.email'))->filter()->values();
+                    @endphp
+
+                    @if ($addresses->isNotEmpty() || $phones->isNotEmpty() || $emails->isNotEmpty())
                     <!-- Direct Contact Card -->
                     <div class="overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition hover:shadow-md sm:p-7">
                         <h2 class="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400">
@@ -44,13 +51,8 @@
                         </h2>
 
                         <div class="space-y-6">
-                            @php
-                                $addresses = collect((array) (setting('contact.address') ?: ['Dhaka, Bangladesh']))->filter()->values();
-                                $phones = collect((array) (setting('contact.phone') ?: ['+880 1700 000000']))->filter()->values();
-                                $emails = collect((array) (setting('contact.email') ?: ['hello@shopnow.com']))->filter()->values();
-                            @endphp
-
                             <!-- Address -->
+                            @if ($addresses->isNotEmpty())
                             <div class="group flex items-start gap-4">
                                 <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600 ring-1 ring-primary-600/10 transition group-hover:scale-105 group-hover:bg-primary-600 group-hover:text-white">
                                     <i class="ri-map-pin-2-fill text-xl"></i>
@@ -62,8 +64,10 @@
                                     @endforeach
                                 </div>
                             </div>
+                            @endif
 
                             <!-- Phone -->
+                            @if ($phones->isNotEmpty())
                             <div class="group flex items-start gap-4">
                                 <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600 ring-1 ring-primary-600/10 transition group-hover:scale-105 group-hover:bg-primary-600 group-hover:text-white">
                                     <i class="ri-phone-fill text-xl"></i>
@@ -77,8 +81,10 @@
                                     @endforeach
                                 </div>
                             </div>
+                            @endif
 
                             <!-- Email -->
+                            @if ($emails->isNotEmpty())
                             <div class="group flex items-start gap-4">
                                 <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600 ring-1 ring-primary-600/10 transition group-hover:scale-105 group-hover:bg-primary-600 group-hover:text-white">
                                     <i class="ri-mail-fill text-xl"></i>
@@ -92,8 +98,10 @@
                                     @endforeach
                                 </div>
                             </div>
+                            @endif
                         </div>
                     </div>
+                    @endif
 
                     <!-- Business Hours Card -->
                     <div class="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-7">
