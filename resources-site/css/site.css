@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-@config "../../tailwind.config.cjs";
+@config '../../tailwind.config.cjs';
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
@@ -11,17 +11,17 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentcolor);
+    }
 }
 
 @utility input-error {
-  @apply ring-skin-error!;
+    @apply ring-skin-error!;
 }
 
 @layer base {
@@ -77,60 +77,6 @@
         --color-error: 229 72 77; /* #e5484d 9*/
         --color-error-dark: 220 62 66; /* #dc3e42 10*/
         --color-error-light: 254 235 236; /* #feebec 3*/
-    }
-
-    .dark-theme, html.dark {
-        --color-indigo-1: 17 19 31; /* #11131f */
-        --color-indigo-2: 20 23 38; /* #141726 */
-        --color-indigo-3: 24 36 73; /* #182449 */
-        --color-indigo-4: 29 46 98; /* #1d2e62 */
-        --color-indigo-5: 37 57 116; /* #253974 */
-        --color-indigo-6: 48 67 132; /* #304384 */
-        --color-indigo-7: 58 79 151; /* #3a4f97 */
-        --color-indigo-8: 67 93 177; /* #435db1 */
-        --color-indigo-9: 62 99 221; /* #3e63dd */
-        --color-indigo-10: 84 114 228; /* #5472e4 */
-        --color-indigo-11: 158 177 255; /* #9eb1ff */
-        --color-indigo-12: 214 225 255; /* #d6e1ff */
-
-        /* 1 - App background, 2 - Subtle background */
-        --color-neutral-1: 17 17 19; /* #111113 */
-        --color-neutral-2: 24 25 27; /* #18191b */
-
-        /* 3 - UI element background, 4 - Hovered UI element background, 5 - Active / Selected UI element background */
-        --color-neutral-3: 33 34 37; /* #212225 */
-        --color-neutral-4: 39 42 45; /* #272a2d */
-        --color-neutral-5: 46 49 53; /* #2e3135 */
-
-        /* 6 - Subtle borders and separators, 7 - UI element border and focus rings, 8 - Hovered UI element border */
-        --color-neutral-6: 54 58 63; /* #363a3f */
-        --color-neutral-7: 67 72 78; /* #43484e */
-        --color-neutral-8: 90 97 105; /* #5a6169 */
-
-        /* 9 - Solid backgrounds, 10 - Hovered solid backgrounds */
-        --color-neutral-9: 105 110 119; /* #696e77 */
-        --color-neutral-10: 119 123 132; /* #777b84 */
-
-        /* 11 - Low-contrast text, 12 - High-contrast text */
-        --color-neutral-11: 176 180 186; /* #b0b4ba */
-        --color-neutral-12: 237 238 240; /* #edeef0 */
-
-        /* Semantic Colors */
-        --color-info: 0 144 255; /* #0090ff 9*/
-        --color-info-dark: 59 158 255; /* #3b9eff 10*/
-        --color-info-light: 13 40 71; /* #0d2847 3*/
-
-        --color-success: 48 164 108; /* #30a46c 9*/
-        --color-success-dark: 51 176 116; /* #33b074 10*/
-        --color-success-light: 19 45 33; /* #132d21 3*/
-
-        --color-warning: 255 230 41; /* #ffe629 9*/
-        --color-warning-dark: 255 255 87; /* #ffff57 10*/
-        --color-warning-light: 45 35 5; /* #2d2305 3*/
-
-        --color-error: 229 72 77; /* #e5484d 9*/
-        --color-error-dark: 236 93 94; /* #ec5d5e 10*/
-        --color-error-light: 59 18 25; /* #3b1219 3*/
     }
 
     html {

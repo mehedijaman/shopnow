@@ -1,66 +1,45 @@
 <template>
   <div class="space-y-4">
     <div v-for="attr in attributes" :key="attr.id" class="space-y-2">
-      <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">{{ attr.name }}</label>
+
+      <label class="block text-sm font-medium text-gray-700">{{ attr.name }}
+
+      </label>
 
       <!-- Color swatches -->
-      <div v-if="attr.input_type === 'color'" class="flex flex-wrap gap-2.5">
-        <button
-          v-for="val in attr.values"
-          :key="val.id"
-          type="button"
-          :title="val.value"
-          :class="[
-            'h-10 w-10 rounded-full border-2 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
-            selectedIds.includes(val.id)
-              ? 'border-primary-600 ring-2 ring-primary-600 ring-offset-2 scale-105'
-              : 'border-slate-200 hover:border-slate-400 dark:border-slate-700',
-            !isAvailable(val.id) ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer',
-          ]"
-          :style="{ backgroundColor: val.swatch || '#ccc' }"
-          :disabled="!isAvailable(val.id)"
-          @click="selectValue(attr.id, val.id)"
-          :aria-label="val.value"
-        ></button>
+      <div v-if="attr.input_type === 'color'" class="flex flex-wrap gap-2">
+        <button v-for="val in attr.values" :key="val.id" type="button" :title="val.value" :class="[
+          'h-8 w-8 rounded-full border-2 transition-all',
+          selectedIds.includes(val.id)
+            ? 'border-gray-900 ring-2 ring-gray-900 ring-offset-2'
+            : 'border-gray-200 hover:border-gray-400',
+          !isAvailable(val.id) ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer',
+        ]" :style="{ backgroundColor: val.swatch || '#ccc' }" :disabled="!isAvailable(val.id)"
+          @click="selectValue(attr.id, val.id)"></button>
       </div>
 
       <!-- Image swatches -->
-      <div v-else-if="attr.input_type === 'image'" class="flex flex-wrap gap-2.5">
-        <button
-          v-for="val in attr.values"
-          :key="val.id"
-          type="button"
-          :title="val.value"
-          :class="[
-            'h-12 w-12 overflow-hidden rounded-xl border-2 bg-cover bg-center shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
-            selectedIds.includes(val.id)
-              ? 'border-primary-600 ring-2 ring-primary-600 ring-offset-1 scale-105'
-              : 'border-slate-200 hover:border-slate-400 dark:border-slate-700',
-            !isAvailable(val.id) ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer',
-          ]"
-          :style="val.swatch ? { backgroundImage: `url(${val.swatch})` } : {}"
-          :disabled="!isAvailable(val.id)"
-          @click="selectValue(attr.id, val.id)"
-          :aria-label="val.value"
-        >
-          <span v-if="!val.swatch" class="flex h-full w-full items-center justify-center text-xs font-bold text-slate-500 dark:text-slate-400">{{ val.value.charAt(0) }}</span>
+      <div v-else-if="attr.input_type === 'image'" class="flex flex-wrap gap-2">
+        <button v-for="val in attr.values" :key="val.id" type="button" :title="val.value" :class="[
+          'h-12 w-12 overflow-hidden rounded-lg border-2 bg-cover bg-center transition-all',
+          selectedIds.includes(val.id)
+            ? 'border-gray-900 ring-2 ring-gray-900 ring-offset-1'
+            : 'border-gray-200 hover:border-gray-400',
+          !isAvailable(val.id) ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer',
+        ]" :style="val.swatch ? { backgroundImage: `url(${val.swatch})` } : {}" :disabled="!isAvailable(val.id)"
+          @click="selectValue(attr.id, val.id)">
+          <span v-if="!val.swatch" class="flex h-full w-full items-center justify-center text-xs text-gray-400">{{
+            val.value.charAt(0) }}</span>
         </button>
       </div>
 
       <!-- Select dropdown -->
       <div v-else>
-        <select
-          :value="selectedValueForAttr(attr.id)"
-          class="block min-h-[44px] w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-semibold text-slate-900 shadow-sm transition hover:border-slate-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
-          @change="selectValue(attr.id, Number($event.target.value))"
-        >
+        <select :value="selectedValueForAttr(attr.id)"
+          class="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+          @change="selectValue(attr.id, Number($event.target.value))">
           <option value="">Select {{ attr.name }}</option>
-          <option
-            v-for="val in attr.values"
-            :key="val.id"
-            :value="val.id"
-            :disabled="!isAvailable(val.id)"
-          >
+          <option v-for="val in attr.values" :key="val.id" :value="val.id" :disabled="!isAvailable(val.id)">
             {{ val.value }}
           </option>
         </select>
@@ -68,29 +47,31 @@
     </div>
 
     <!-- Selected state display -->
-    <div v-if="variation" class="rounded-2xl border border-slate-100 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/50">
+    <div v-if="variation">
       <div class="flex items-center gap-3">
-        <div class="text-xl font-black text-slate-900 dark:text-white">
+        <div class="text-lg font-bold text-gray-900">
           <template v-if="variation.sale_price && variation.sale_price < variation.price">
-            <span class="text-slate-400 line-through text-sm font-normal">৳{{ variation.price }}</span>
-            <span class="ml-2 text-primary-600 dark:text-primary-400">৳{{ variation.sale_price }}</span>
+            <span class="text-gray-400 line-through">৳{{ variation.price }}</span>
+            <span class="ml-2">৳{{ variation.sale_price }}</span>
           </template>
           <template v-else>
             ৳{{ variation.price }}
           </template>
         </div>
-        <span v-if="variation.quantity <= 0" class="inline-flex items-center rounded-full bg-rose-50 px-3 py-1 text-xs font-bold text-rose-700 ring-1 ring-inset ring-rose-600/20 dark:bg-rose-950/50 dark:text-rose-400">Out of Stock</span>
-        <span v-else-if="variation.quantity < 10" class="inline-flex items-center rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700 ring-1 ring-inset ring-amber-600/20 dark:bg-amber-950/50 dark:text-amber-400">Only {{ variation.quantity }} left in stock</span>
-        <span v-else class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 ring-1 ring-inset ring-emerald-600/20 dark:bg-emerald-950/50 dark:text-emerald-400">
-          <i class="ri-checkbox-circle-line"></i>
-          <span>In Stock</span>
-        </span>
+        <span v-if="variation.quantity <= 0"
+          class="rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-medium text-red-600">Out
+          of Stock</span>
+        <span v-else-if="variation.quantity < 10"
+          class="rounded-full bg-orange-50 px-2.5 py-0.5 text-xs font-medium text-orange-600">Only {{ variation.quantity
+          }}
+          left</span>
+        <span v-else class="rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-600">In Stock</span>
       </div>
-      <p v-if="variation.sku" class="mt-1 text-xs font-medium text-slate-400">SKU: {{ variation.sku }}</p>
+      <p v-if="variation.sku" class="mt-1 text-xs text-gray-400">SKU: {{ variation.sku }}</p>
     </div>
 
-    <div v-else-if="Object.keys(allAttributes).length > 0" class="text-xs font-medium text-slate-500 dark:text-slate-400">
-      Please select all product options to view pricing and stock.
+    <div v-else-if="Object.keys(allAttributes).length > 0" class="text-sm text-gray-500">
+      Select all options to see pricing and availability.
     </div>
   </div>
 </template>

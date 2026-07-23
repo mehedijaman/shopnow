@@ -10,72 +10,100 @@
     $addresses = is_array($contactSettings['address'] ?? null) ? array_filter($contactSettings['address'], fn($v) => !empty(trim($v))) : [];
 
     $socials = [
-        'facebook'  => ['icon' => 'ri-facebook-fill'],
-        'x'         => ['icon' => 'ri-twitter-x-line'],
-        'instagram' => ['icon' => 'ri-instagram-line'],
-        'youtube'   => ['icon' => 'ri-youtube-fill'],
-        'linkedin'  => ['icon' => 'ri-linkedin-fill'],
-        'tiktok'    => ['icon' => 'ri-tiktok-fill'],
-        'github'    => ['icon' => 'ri-github-fill'],
+        'facebook'  => ['icon' => 'ri-facebook-fill', 'label' => 'Facebook'],
+        'x'         => ['icon' => 'ri-twitter-x-line', 'label' => 'X (Twitter)'],
+        'instagram' => ['icon' => 'ri-instagram-line', 'label' => 'Instagram'],
+        'youtube'   => ['icon' => 'ri-youtube-fill', 'label' => 'YouTube'],
+        'linkedin'  => ['icon' => 'ri-linkedin-fill', 'label' => 'LinkedIn'],
+        'tiktok'    => ['icon' => 'ri-tiktok-fill', 'label' => 'TikTok'],
+        'github'    => ['icon' => 'ri-github-fill', 'label' => 'GitHub'],
     ];
+
+    $activeSocials = array_filter($socials, fn($key) => !empty($socialSettings[$key] ?? null), ARRAY_FILTER_USE_KEY);
 @endphp
 
-<footer class="bg-gray-900 pb-8 pt-16 font-sans text-gray-300 dark:bg-black">
+<footer class="border-t border-slate-900 bg-slate-950 pb-10 pt-16 font-sans text-slate-400 dark:bg-black">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+        <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
             
             {{-- Column 1: Brand & Description --}}
-            <div class="space-y-6">
+            <div class="space-y-5">
                 <a href="{{ route('site.index') }}" class="inline-block">
                     @if ($footerLogo)
-                        <img src="{{ $footerLogo }}" alt="{{ $footerSiteName }}" class="h-16 w-auto object-contain" />
+                        <img src="{{ $footerLogo }}" alt="{{ $footerSiteName }}" class="h-12 w-auto max-w-[180px] object-contain" onerror="this.src='/logo.png'" />
                     @else
-                        <img src="{{ asset('logo.png') }}" alt="{{ $footerSiteName }}" class="h-16 w-auto object-contain" />
+                        <img src="{{ asset('logo.png') }}" alt="{{ $footerSiteName }}" class="h-12 w-auto max-w-[180px] object-contain" />
                     @endif
                 </a>
+
                 @if ($footerDescription)
-                    <p class="text-[15px] leading-relaxed text-gray-400">
+                    <p class="text-xs leading-relaxed text-slate-400">
                         {{ $footerDescription }}
+                    </p>
+                @else
+                    <p class="text-xs leading-relaxed text-slate-400">
+                        Your trusted online store for high-quality products, fast delivery, and exceptional customer experience.
                     </p>
                 @endif
 
+                @if (count($activeSocials))
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        @foreach ($activeSocials as $key => $meta)
+                            <a
+                                href="{{ $socialSettings[$key] }}"
+                                target="_blank"
+                                rel="noopener noreferrer" 
+                                aria-label="{{ $meta['label'] }}"
+                                class="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-slate-400 transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-600 hover:text-white shadow-sm"
+                            >
+                                <i class="{{ $meta['icon'] }} text-base"></i>
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
             </div>
 
-            {{-- Column 2: Quick Links --}}
+            {{-- Column 2: Navigation --}}
             <div>
-                <h3 class="mb-6 text-sm font-bold uppercase tracking-wider text-white">Quick Links</h3>
-                <ul class="space-y-4">
-                    <li><a href="{{ route('site.index') }}" class="text-[15px] text-gray-400 transition-colors hover:text-primary-400">Home</a></li>
-                    <li><a href="{{ route('shop.index') }}" class="text-[15px] text-gray-400 transition-colors hover:text-primary-400">Shop</a></li>
-                    <li><a href="/blog" class="text-[15px] text-gray-400 transition-colors hover:text-primary-400">Blog</a></li>
-                    <li><a href="{{ route('site.about') }}" class="text-[15px] text-gray-400 transition-colors hover:text-primary-400">About Us</a></li>
-                    <li><a href="{{ route('site.contact') }}" class="text-[15px] text-gray-400 transition-colors hover:text-primary-400">Contact</a></li>
+                <h3 class="mb-5 text-xs font-extrabold uppercase tracking-wider text-white">
+                    <span>Quick Links</span>
+                </h3>
+                <ul class="space-y-3 text-xs font-medium">
+                    <li><a href="{{ route('site.index') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Home</a></li>
+                    <li><a href="{{ route('shop.index') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Shop Products</a></li>
+                    <li><a href="/blog" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Latest Blog</a></li>
+                    <li><a href="{{ route('site.about') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> About Us</a></li>
+                    <li><a href="{{ route('site.contact') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Contact Support</a></li>
                 </ul>
             </div>
 
-            {{-- Column 3: Legal & Support --}}
+            {{-- Column 3: Legal & Account --}}
             <div>
-                <h3 class="mb-6 text-sm font-bold uppercase tracking-wider text-white">Legal & Support</h3>
-                <ul class="space-y-4">
-                    <li><a href="{{ route('site.termsOfService') }}" class="text-[15px] text-gray-400 transition-colors hover:text-primary-400">Terms of Service</a></li>
-                    <li><a href="{{ route('site.privacyPolicy') }}" class="text-[15px] text-gray-400 transition-colors hover:text-primary-400">Privacy Policy</a></li>
-                    <li><a href="{{ route('site.refundPolicy') }}" class="text-[15px] text-gray-400 transition-colors hover:text-primary-400">Refund Policy</a></li>
-                    <li><a href="{{ route('customerAuth.loginForm') }}" class="text-[15px] text-gray-400 transition-colors hover:text-primary-400">My Account</a></li>
+                <h3 class="mb-5 text-xs font-extrabold uppercase tracking-wider text-white">
+                    <span>Legal & Policy</span>
+                </h3>
+                <ul class="space-y-3 text-xs font-medium">
+                    <li><a href="{{ route('site.termsOfService') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Terms of Service</a></li>
+                    <li><a href="{{ route('site.privacyPolicy') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Privacy Policy</a></li>
+                    <li><a href="{{ route('site.refundPolicy') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Refund & Return Policy</a></li>
+                    <li><a href="{{ route('customerAuth.loginForm') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> My Account</a></li>
                 </ul>
             </div>
 
             {{-- Column 4: Contact Info --}}
             <div>
-                <h3 class="mb-6 text-sm font-bold uppercase tracking-wider text-white">Contact Info</h3>
-                <ul class="space-y-5">
+                <h3 class="mb-5 text-xs font-extrabold uppercase tracking-wider text-white">
+                    <span>Get in Touch</span>
+                </h3>
+                <ul class="space-y-4 text-xs font-medium">
                     @if (count($addresses))
                         <li class="flex items-start gap-3">
-                            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-800 dark:bg-gray-800/50">
-                                <i class="ri-map-pin-line text-lg text-primary-400"></i>
+                            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-slate-900 text-primary-400">
+                                <i class="ri-map-pin-line text-sm"></i>
                             </div>
-                            <div class="flex-1 pt-1 text-[15px] text-gray-400">
+                            <div class="flex-1 pt-1 text-slate-300">
                                 @foreach ($addresses as $address)
-                                    <p>{{ $address }}</p>
+                                    <p class="leading-relaxed">{{ $address }}</p>
                                 @endforeach
                             </div>
                         </li>
@@ -83,10 +111,10 @@
 
                     @if (count($phones))
                         <li class="flex items-start gap-3">
-                            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-800 dark:bg-gray-800/50">
-                                <i class="ri-phone-line text-lg text-primary-400"></i>
+                            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-slate-900 text-primary-400">
+                                <i class="ri-phone-line text-sm"></i>
                             </div>
-                            <div class="flex-1 pt-1 text-[15px] text-gray-400">
+                            <div class="flex-1 pt-1 text-slate-300">
                                 @foreach ($phones as $phone)
                                     <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}" class="transition-colors hover:text-primary-400">{{ $phone }}</a>@if(!$loop->last), @endif
                                 @endforeach
@@ -96,44 +124,32 @@
 
                     @if (count($emails))
                         <li class="flex items-start gap-3">
-                            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-800 dark:bg-gray-800/50">
-                                <i class="ri-mail-line text-lg text-primary-400"></i>
+                            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-slate-900 text-primary-400">
+                                <i class="ri-mail-send-line text-sm"></i>
                             </div>
-                            <div class="flex-1 pt-1 text-[15px] text-gray-400">
+                            <div class="flex-1 pt-1 text-slate-300">
                                 @foreach ($emails as $email)
-                                    <a href="mailto:{{ $email }}" class="block transition-colors hover:text-primary-400">{{ $email }}</a>
+                                    <a href="mailto:{{ $email }}" class="block truncate transition-colors hover:text-primary-400">{{ $email }}</a>
                                 @endforeach
                             </div>
                         </li>
                     @endif
                 </ul>
-                
-                {{-- Social Icons --}}
-                @php
-                    $activeSocials = array_filter($socials, fn($key) => !empty($socialSettings[$key] ?? null), ARRAY_FILTER_USE_KEY);
-                @endphp
-                @if (count($activeSocials))
-                    <div class="mt-6 flex flex-wrap gap-3">
-                        @foreach ($activeSocials as $key => $meta)
-                            <a href="{{ $socialSettings[$key] }}" target="_blank" rel="noopener noreferrer" 
-                               class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 transition-all hover:-translate-y-1 hover:bg-primary-600 hover:text-white hover:shadow-lg dark:bg-gray-800/50 dark:hover:bg-primary-600">
-                                <i class="{{ $meta['icon'] }} text-lg"></i>
-                            </a>
-                        @endforeach
-                    </div>
-                @endif
             </div>
 
         </div>
 
-        <div class="mt-16 flex flex-col items-center justify-between border-t border-gray-800 pt-8 sm:flex-row">
-            <p class="text-sm text-gray-500">
-                &copy; {{ date('Y') }} {{ $footerSiteName }}. All rights reserved.
+        {{-- Bottom Copyright Bar --}}
+        <div class="mt-14 flex flex-col items-center justify-between gap-4 border-t border-slate-900 pt-8 text-xs text-slate-500 sm:flex-row">
+            <p>
+                &copy; {{ date('Y') }} <span class="font-bold text-slate-300">{{ $footerSiteName }}</span>. All rights reserved.
             </p>
             
-            <p class="mt-4 text-sm text-gray-500 sm:mt-0">
-                Developed by <a href="#" class="font-medium text-gray-400 hover:text-white transition-colors">Developer</a>
-            </p>
+            <div class="flex items-center gap-6">
+                <a href="{{ route('site.privacyPolicy') }}" class="transition-colors hover:text-slate-300">Privacy</a>
+                <a href="{{ route('site.termsOfService') }}" class="transition-colors hover:text-slate-300">Terms</a>
+                <a href="{{ route('site.contact') }}" class="transition-colors hover:text-slate-300">Support</a>
+            </div>
         </div>
     </div>
 </footer>

@@ -1,56 +1,36 @@
 <template>
-    <div class="space-y-4">
+    <div class="space-y-3">
         <!-- Variation selector (shown only for variable products) -->
-        <ProductVariationSelector
-            v-if="hasVariations"
-            ref="variationSelector"
-            :all-attributes="variationAttributes"
-            :variations="variations"
-            :parent-product="product"
-            @variation-change="onVariationChange"
-        />
+        <ProductVariationSelector v-if="hasVariations" ref="variationSelector" :all-attributes="variationAttributes"
+            :variations="variations" :parent-product="product" @variation-change="onVariationChange" />
 
-        <div class="flex flex-wrap items-center gap-4">
-            {{-- Quantity counter --}}
-            <div class="inline-flex items-center rounded-xl border border-slate-200 bg-slate-50 p-1 dark:border-slate-800 dark:bg-slate-900">
-                <button
-                    type="button"
-                    @click="decreaseQuantity"
-                    class="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-slate-700 shadow-sm transition hover:bg-slate-100 hover:text-slate-900 active:scale-95 disabled:opacity-40 dark:bg-slate-800 dark:text-slate-200"
-                    :disabled="!canAddToCart || quantity <= 1"
-                    aria-label="Decrease quantity"
-                >
-                    <i class="ri-subtract-line text-base"></i>
+        <div class="flex flex-wrap items-center gap-3">
+            <div class="inline-flex items-center">
+                <button @click="decreaseQuantity"
+                    class="inline-flex items-center rounded-l border border-r border-gray-200 bg-white px-2 py-1 text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+                    :disabled="!canAddToCart">
+                    <i class="ri-subtract-line"></i>
                 </button>
-                <div class="w-10 select-none text-center text-sm font-bold text-slate-900 dark:text-white">
+                <div
+                    class="inline-flex select-none items-center border-b border-t border-gray-100 bg-gray-100 px-4 py-1 text-gray-600 hover:bg-gray-100">
                     {{ quantity }}
                 </div>
-                <button
-                    type="button"
-                    @click="increaseQuantity"
-                    class="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-slate-700 shadow-sm transition hover:bg-slate-100 hover:text-slate-900 active:scale-95 disabled:opacity-40 dark:bg-slate-800 dark:text-slate-200"
-                    :disabled="!canAddToCart"
-                    aria-label="Increase quantity"
-                >
-                    <i class="ri-add-line text-base"></i>
+                <button @click="increaseQuantity"
+                    class="inline-flex items-center rounded-r border border-r border-gray-200 bg-white px-2 py-1 text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+                    :disabled="!canAddToCart">
+                    <i class="ri-add-line"></i>
                 </button>
             </div>
 
-            {{-- Add to Cart button --}}
-            <button
-                type="button"
-                @click="addToCart"
-                :disabled="!canAddToCart"
-                class="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-primary-600 px-6 py-3 text-sm font-bold text-white shadow-md transition-all duration-200 hover:bg-primary-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50 dark:bg-primary-600 dark:hover:bg-primary-700"
-            >
-                <i class="ri-shopping-cart-fill text-lg"></i>
-                <span>Add to Cart</span>
+            <button @click="addToCart" :disabled="!canAddToCart"
+                class="flex items-center justify-center rounded-sm bg-blue-500 px-2 py-1 text-white hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50">
+                <i class="ri-shopping-cart-fill mr-1"></i>
+                Add to Cart
             </button>
         </div>
 
-        <p v-if="hasVariations && !selectedVariation && product.type === 'variable'" class="flex items-center gap-1.5 text-xs font-semibold text-amber-700 dark:text-amber-400">
-            <i class="ri-information-line text-sm"></i>
-            <span>Please select all product options.</span>
+        <p v-if="hasVariations && !selectedVariation && product.type === 'variable'" class="text-xs text-amber-600">
+            Please select all options.
         </p>
     </div>
 </template>
@@ -92,7 +72,7 @@ const effectivePrice = computed(() => {
 
 const onVariationChange = (variation) => {
     selectedVariation.value = variation
-    
+
     const mainImgEl = document.getElementById('mainImage')
     if (mainImgEl) {
         if (variation && variation.image_url) {
