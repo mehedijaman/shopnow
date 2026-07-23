@@ -6,7 +6,7 @@
         <input
             v-model="searchText"
             type="text"
-            placeholder="Search for products, brands and more..."
+            placeholder="Search products..."
             class="block w-full rounded-full border border-gray-200 bg-gray-50/50 py-3 pl-11 pr-28 text-[15px] font-medium text-gray-900 shadow-sm transition-all focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-500/10 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:border-primary-500"
             @keyup.enter="search"
         />

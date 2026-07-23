@@ -38,35 +38,25 @@
     @endphp
 
     <!-- Breadcrumb -->
-    <div class="border-b border-gray-100 bg-gray-50">
-        <div class="mx-auto max-w-7xl px-4 py-3 sm:px-6">
-            <nav aria-label="Breadcrumb">
-                <ol class="flex min-w-0 flex-wrap items-center gap-x-1 gap-y-1 text-sm text-gray-500">
-                    <li class="flex shrink-0 items-center gap-1">
-                        <a href="{{ route('site.index') }}" class="hover:text-primary-600 hover:underline">Home</a>
-                        <i class="ri-arrow-right-s-line text-gray-400"></i>
-                    </li>
-                    <li class="flex shrink-0 items-center gap-1">
-                        <a href="{{ route('shop.index') }}" class="hover:text-primary-600 hover:underline">Shop</a>
-                        @if ($product->category)
-                            <i class="ri-arrow-right-s-line text-gray-400"></i>
-                        @endif
-                    </li>
-                    @if ($product->category)
-                        <li class="flex shrink-0 items-center gap-1">
-                            <a href="{{ route('shop.category', [$product->category->id, $product->category->slug]) }}" class="hover:text-primary-600 hover:underline">
-                                {{ $product->category->name }}
-                            </a>
-                            <i class="ri-arrow-right-s-line text-gray-400"></i>
-                        </li>
-                    @endif
-                    <li class="min-w-0">
-                        <span class="block truncate font-semibold text-gray-800" title="{{ $product->name }}">{{ $product->name }}</span>
-                    </li>
-                </ol>
-            </nav>
-        </div>
-    </div>
+    <x-breadcrumb>
+        <li class="flex shrink-0 items-center gap-1">
+            <a href="{{ route('shop.index') }}" class="hover:text-primary-600 hover:underline">Shop</a>
+            @if ($product->category)
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+            @endif
+        </li>
+        @if ($product->category)
+            <li class="flex shrink-0 items-center gap-1">
+                <a href="{{ route('shop.category', [$product->category->id, $product->category->slug]) }}" class="hover:text-primary-600 hover:underline">
+                    {{ $product->category->name }}
+                </a>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+            </li>
+        @endif
+        <li class="min-w-0">
+            <span class="block truncate font-semibold text-gray-800 dark:text-gray-200" title="{{ $product->name }}">{{ $product->name }}</span>
+        </li>
+    </x-breadcrumb>
 
     <!-- Product Section -->
     <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:py-12">
@@ -75,7 +65,7 @@
             <!-- Left: Image Gallery -->
             <div>
                 <!-- Main Image -->
-                <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+                <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <img
                         id="mainImage"
                         src="{{ $allImages->first() ?? 'https://placehold.co/800x800/f3f4f6/9ca3af?text=No+Image' }}"
@@ -86,12 +76,12 @@
 
                 <!-- Thumbnails -->
                 @if ($allImages->count() > 1)
-                    <div class="mt-3 flex gap-2 overflow-x-auto pb-1">
+                    <div class="mt-3 flex gap-2.5 overflow-x-auto pb-1">
                         @foreach ($allImages as $index => $imgUrl)
                             <button
                                 type="button"
                                 onclick="setMainImage(this, '{{ $imgUrl }}')"
-                                class="gallery-thumb shrink-0 overflow-hidden rounded-lg border-2 border-transparent transition hover:border-blue-500 focus:outline-none {{ $index === 0 ? 'border-blue-500' : '' }}"
+                                class="gallery-thumb shrink-0 overflow-hidden rounded-xl border-2 border-transparent transition-all duration-200 hover:border-primary-500 focus:outline-none {{ $index === 0 ? 'border-primary-600 ring-2 ring-primary-600/20' : '' }}"
                             >
                                 <img
                                     src="{{ $imgUrl }}"
@@ -108,37 +98,37 @@
             <div class="flex flex-col">
 
                 <!-- Category + Featured badge -->
-                <div class="mb-2 flex flex-wrap items-center gap-2">
+                <div class="mb-3 flex flex-wrap items-center gap-2">
                     @if ($product->category)
                         <a
                             href="{{ route('shop.category', [$product->category->id, $product->category->slug]) }}"
-                            class="rounded-full bg-blue-50 px-3 py-0.5 text-xs font-medium text-blue-600 hover:bg-blue-100"
+                            class="inline-flex items-center rounded-full bg-primary-50 px-3 py-1 text-xs font-bold text-primary-700 ring-1 ring-inset ring-primary-600/20 transition hover:bg-primary-100 dark:bg-primary-950/50 dark:text-primary-300"
                         >
                             {{ $product->category->name }}
                         </a>
                     @endif
                     @if ($product->featured)
-                        <span class="rounded-full bg-amber-50 px-3 py-0.5 text-xs font-medium text-amber-600">
-                            <i class="ri-star-fill mr-0.5"></i> Featured
+                        <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700 ring-1 ring-inset ring-amber-600/20 dark:bg-amber-950/50 dark:text-amber-400">
+                            <i class="ri-star-fill text-amber-500"></i> Featured
                         </span>
                     @endif
                     @if ($product->type?->value === 'variable')
-                        <span class="rounded-full bg-purple-50 px-3 py-0.5 text-xs font-medium text-purple-600">
-                            Variable
+                        <span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                            Variable Product
                         </span>
                     @elseif ($product->type?->value === 'bundle')
-                        <span class="rounded-full bg-indigo-50 px-3 py-0.5 text-xs font-medium text-indigo-600">
-                            Bundle
+                        <span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                            Product Bundle
                         </span>
                     @endif
                     @if ($product->is_virtual)
-                        <span class="rounded-full bg-teal-50 px-3 py-0.5 text-xs font-medium text-teal-600">
-                            <i class="ri-wifi-line mr-0.5"></i> Virtual
+                        <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                            <i class="ri-wifi-line"></i> Virtual
                         </span>
                     @endif
                     @if ($product->is_downloadable)
-                        <span class="rounded-full bg-cyan-50 px-3 py-0.5 text-xs font-medium text-cyan-600">
-                            <i class="ri-download-line mr-0.5"></i> Downloadable
+                        <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                            <i class="ri-download-line"></i> Downloadable
                         </span>
                     @endif
                     @if ($product->type?->value === 'variable')
@@ -146,25 +136,25 @@
                             $hasStock = $variations->contains(fn($v) => $v['active'] && $v['quantity'] > 0);
                         @endphp
                         @if ($hasStock)
-                            <span class="rounded-full bg-green-50 px-3 py-0.5 text-xs font-medium text-green-600">
-                                <i class="ri-checkbox-circle-line mr-0.5"></i> Available in Variations
+                            <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 ring-1 ring-inset ring-emerald-600/20 dark:bg-emerald-950/50 dark:text-emerald-400">
+                                <i class="ri-checkbox-circle-line"></i> In Stock
                             </span>
                         @else
-                            <span class="rounded-full bg-red-50 px-3 py-0.5 text-xs font-medium text-red-600">
+                            <span class="inline-flex items-center rounded-full bg-rose-50 px-3 py-1 text-xs font-bold text-rose-700 ring-1 ring-inset ring-rose-600/20 dark:bg-rose-950/50 dark:text-rose-400">
                                 Out of Stock
                             </span>
                         @endif
                     @elseif ($product->quantity <= 0)
-                        <span class="rounded-full bg-red-50 px-3 py-0.5 text-xs font-medium text-red-600">
+                        <span class="inline-flex items-center rounded-full bg-rose-50 px-3 py-1 text-xs font-bold text-rose-700 ring-1 ring-inset ring-rose-600/20 dark:bg-rose-950/50 dark:text-rose-400">
                             Out of Stock
                         </span>
                     @elseif ($product->quantity < 10)
-                        <span class="rounded-full bg-orange-50 px-3 py-0.5 text-xs font-medium text-orange-600">
-                            Only {{ $product->quantity }} left
+                        <span class="inline-flex items-center rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700 ring-1 ring-inset ring-amber-600/20 dark:bg-amber-950/50 dark:text-amber-400">
+                            Only {{ $product->quantity }} left in stock
                         </span>
                     @else
-                        <span class="rounded-full bg-green-50 px-3 py-0.5 text-xs font-medium text-green-600">
-                            <i class="ri-checkbox-circle-line mr-0.5"></i> In Stock
+                        <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 ring-1 ring-inset ring-emerald-600/20 dark:bg-emerald-950/50 dark:text-emerald-400">
+                            <i class="ri-checkbox-circle-line"></i> In Stock
                         </span>
                     @endif
                 </div>

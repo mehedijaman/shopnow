@@ -11,7 +11,7 @@
             ></i>
             <span
                 v-show="cartStore.totalQuantity > 0"
-                class="absolute left-auto top-0 -ml-1 rounded-full bg-red-500 px-1 py-0 text-xs text-white"
+                class="absolute -right-2 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary-600 px-1 text-[11px] font-bold leading-none text-white shadow-sm"
             >
                 {{ cartStore.totalQuantity }}
             </span>
