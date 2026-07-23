@@ -49,8 +49,14 @@ class Product extends BaseModel implements HasMedia
 
     public function getImageUrlAttribute(): ?string
     {
-        if ($this->image) {
-            return asset("storage/product/{$this->image}");
+        $url = $this->getFirstMediaUrl('image');
+        if ($url) {
+            return $url;
+        }
+
+        $galleryUrl = $this->getFirstMediaUrl('gallery');
+        if ($galleryUrl) {
+            return $galleryUrl;
         }
 
         return null;
@@ -73,6 +79,7 @@ class Product extends BaseModel implements HasMedia
 
     public function registerMediaCollections(): void
     {
+        $this->addMediaCollection('image')->singleFile();
         $this->addMediaCollection('gallery');
         $this->addMediaCollection('downloads');
     }

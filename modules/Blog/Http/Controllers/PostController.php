@@ -50,12 +50,13 @@ class PostController extends BackendController
     public function store(PostValidate $request, SyncPostTags $syncPostTags): RedirectResponse
     {
         $postData = $request->validated();
-
-        if ($request->hasFile('image')) {
-            $postData = array_merge($postData, $this->uploadFile('image', 'blog', 'originalUUID', 'public'));
-        }
+        unset($postData['image']);
 
         $post = Post::create($postData);
+
+        if ($request->hasFile('image')) {
+            $post->addMediaFromRequest('image')->toMediaCollection('image');
+        }
 
         if (is_array($request->input('tags')) and count($request->input('tags'))) {
             $syncPostTags->sync($post, $request->input('tags'));
@@ -79,20 +80,18 @@ class PostController extends BackendController
 
     public function update(PostValidate $request, SyncPostTags $syncPostTags, int $id): RedirectResponse
     {
-
         $post = Post::findOrFail($id);
 
         $postData = $request->validated();
-
-        if ($request->hasFile('image')) {
-            $postData = array_merge($postData, $this->uploadFile('image', 'blog', 'originalUUID', 'public'));
-        } elseif ($request->input('remove_previous_image')) {
-            $postData['image'] = null;
-        } else {
-            unset($postData['image']);
-        }
+        unset($postData['image']);
 
         $post->update($postData);
+
+        if ($request->hasFile('image')) {
+            $post->addMediaFromRequest('image')->toMediaCollection('image');
+        } elseif ($request->boolean('remove_previous_image')) {
+            $post->clearMediaCollection('image');
+        }
 
         if ($request->has('tagsHasChanged')) {
             $syncPostTags->sync($post, $request->input('tags'));

@@ -82,7 +82,6 @@ test('product brand edit page can be rendered', function () {
                     ->where('id', $this->productBrand->id)
                     ->where('name', $this->productBrand->name)
                     ->where('description', $this->productBrand->description)
-                    ->where('image', $this->productBrand->image)
                     ->where('image_url', $this->productBrand->image_url)
                     ->where('active', true)
                     ->where('featured', false)

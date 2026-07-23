@@ -92,10 +92,10 @@ test('author edit page can be rendered', function () {
                     ->where('name', $this->author->name)
                     ->where('bio', $this->author->bio)
                     ->where('email', $this->author->email)
-                    ->where('image', $this->author->image)
                     ->where('image_url', $this->author->image_url)
                     ->where('github_handle', $this->author->github_handle)
                     ->where('twitter_handle', $this->author->twitter_handle)
+                    ->etc()
             )
     );
 });

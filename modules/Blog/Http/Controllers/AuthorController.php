@@ -44,12 +44,13 @@ class AuthorController extends BackendController
     public function store(AuthorValidate $request): RedirectResponse
     {
         $authorData = $request->validated();
+        unset($authorData['image']);
+
+        $author = Author::create($authorData);
 
         if ($request->hasFile('image')) {
-            $authorData = array_merge($authorData, $this->uploadFile('image', 'blog', 'originalUUID', 'public'));
+            $author->addMediaFromRequest('image')->toMediaCollection('image');
         }
-
-        Author::create($authorData);
 
         return redirect()->route('blogAuthor.index')
             ->with('success', 'Author created.');
@@ -69,16 +70,15 @@ class AuthorController extends BackendController
         $author = Author::findOrFail($id);
 
         $authorData = $request->validated();
-
-        if ($request->hasFile('image')) {
-            $authorData = array_merge($authorData, $this->uploadFile('image', 'blog', 'originalUUID', 'public'));
-        } elseif ($request->input('remove_previous_image')) {
-            $authorData['image'] = null;
-        } else {
-            unset($authorData['image']);
-        }
+        unset($authorData['image']);
 
         $author->update($authorData);
+
+        if ($request->hasFile('image')) {
+            $author->addMediaFromRequest('image')->toMediaCollection('image');
+        } elseif ($request->boolean('remove_previous_image')) {
+            $author->clearMediaCollection('image');
+        }
 
         return redirect()->route('blogAuthor.index')
             ->with('success', 'Author updated.');

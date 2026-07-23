@@ -10,10 +10,12 @@ use Modules\Product\Database\Factories\ProductCategoryFactory;
 use Modules\Support\Models\BaseModel;
 use Modules\Support\Traits\ActivityLog;
 use Modules\Support\Traits\Searchable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class ProductCategory extends BaseModel
+class ProductCategory extends BaseModel implements HasMedia
 {
-    use ActivityLog, HasFactory, Searchable, Sluggable, SoftDeletes;
+    use ActivityLog, HasFactory, InteractsWithMedia, Searchable, Sluggable, SoftDeletes;
 
     protected $table = 'product_categories';
 
@@ -37,11 +39,12 @@ class ProductCategory extends BaseModel
 
     public function getImageUrlAttribute(): ?string
     {
-        if ($this->image) {
-            return asset("storage/product-category/{$this->image}");
-        }
+        return $this->getFirstMediaUrl('image') ?: null;
+    }
 
-        return null;
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image')->singleFile();
     }
 
     protected static function newFactory(): Factory

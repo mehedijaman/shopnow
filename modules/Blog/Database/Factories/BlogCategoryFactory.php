@@ -17,7 +17,6 @@ class BlogCategoryFactory extends Factory
         return [
             'name' => $name,
             'description' => $this->faker->realText(),
-            'image' => $this->faker->imageUrl(),
             'is_visible' => $this->faker->boolean(),
             'slug' => Str::slug($name),
             'meta_tag_title' => Str::limit($name, 60, ''),

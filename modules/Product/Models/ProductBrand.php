@@ -11,10 +11,12 @@ use Modules\Product\Database\Factories\ProductBrandFactory;
 use Modules\Support\Models\BaseModel;
 use Modules\Support\Traits\ActivityLog;
 use Modules\Support\Traits\Searchable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class ProductBrand extends BaseModel
+class ProductBrand extends BaseModel implements HasMedia
 {
-    use ActivityLog, HasFactory, Searchable, Sluggable, SoftDeletes;
+    use ActivityLog, HasFactory, InteractsWithMedia, Searchable, Sluggable, SoftDeletes;
 
     protected $table = 'product_brands';
 
@@ -43,11 +45,12 @@ class ProductBrand extends BaseModel
 
     public function getImageUrlAttribute(): ?string
     {
-        if ($this->image) {
-            return asset("storage/brand/{$this->image}");
-        }
+        return $this->getFirstMediaUrl('image') ?: null;
+    }
 
-        return null;
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image')->singleFile();
     }
 
     protected static function newFactory(): Factory

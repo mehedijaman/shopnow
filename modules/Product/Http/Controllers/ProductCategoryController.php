@@ -48,12 +48,13 @@ class ProductCategoryController extends BackendController
     public function store(ProductCategoryValidate $request)
     {
         $categoryData = $request->validated();
+        unset($categoryData['image']);
+
+        $category = ProductCategory::create($categoryData);
 
         if ($request->hasFile('image')) {
-            $categoryData = array_merge($categoryData, $this->uploadFile('image', 'product-category', 'originalUUID', 'public'));
+            $category->addMediaFromRequest('image')->toMediaCollection('image');
         }
-
-        ProductCategory::create($categoryData);
 
         return redirect()->route('productCategory.index')
             ->with('success', 'Product Category created.');
@@ -73,16 +74,15 @@ class ProductCategoryController extends BackendController
         $category = ProductCategory::findOrFail($id);
 
         $categoryData = $request->validated();
-
-        if ($request->hasFile('image')) {
-            $categoryData = array_merge($categoryData, $this->uploadFile('image', 'product-category', 'originalUUID', 'public'));
-        } elseif ($request->input('remove_previous_image')) {
-            $categoryData['image'] = null;
-        } else {
-            unset($categoryData['image']);
-        }
+        unset($categoryData['image']);
 
         $category->update($categoryData);
+
+        if ($request->hasFile('image')) {
+            $category->addMediaFromRequest('image')->toMediaCollection('image');
+        } elseif ($request->boolean('remove_previous_image')) {
+            $category->clearMediaCollection('image');
+        }
 
         return redirect()->route('productCategory.index')
             ->with('success', 'Product Category updated.');

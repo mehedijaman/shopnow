@@ -74,7 +74,7 @@ class SitemapController extends SiteController
         $xml = Cache::remember('sitemap.blog', self::CACHE_TTL_SECONDS, function () {
             $posts = Post::query()
                 ->where('published_at', '<=', Carbon::now())
-                ->select(['id', 'slug', 'image', 'title', 'published_at', 'updated_at'])
+                ->select(['id', 'slug', 'title', 'published_at', 'updated_at'])
                 ->orderByDesc('published_at')
                 ->get();
 

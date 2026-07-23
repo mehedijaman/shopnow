@@ -45,12 +45,13 @@ class SliderController extends BackendController
     public function store(SliderValidate $request): RedirectResponse
     {
         $validated = $request->validated();
+        unset($validated['image']);
+
+        $slider = Slider::create($validated);
 
         if ($request->hasFile('image')) {
-            $validated = array_merge($validated, $this->uploadFile('image', 'slider', 'originalUUID', 'public'));
+            $slider->addMediaFromRequest('image')->toMediaCollection('image');
         }
-
-        Slider::create($validated);
 
         return redirect()->route('slider.index')
             ->with('success', 'Slider created.');
@@ -70,16 +71,15 @@ class SliderController extends BackendController
         $slider = Slider::findOrFail($id);
 
         $validated = $request->validated();
-
-        if ($request->hasFile('image')) {
-            $validated = array_merge($validated, $this->uploadFile('image', 'slider', 'originalUUID', 'public'));
-        } elseif ($request->input('remove_previous_image')) {
-            $validated['image'] = null;
-        } else {
-            unset($validated['image']);
-        }
+        unset($validated['image']);
 
         $slider->update($validated);
+
+        if ($request->hasFile('image')) {
+            $slider->addMediaFromRequest('image')->toMediaCollection('image');
+        } elseif ($request->boolean('remove_previous_image')) {
+            $slider->clearMediaCollection('image');
+        }
 
         return redirect()->route('slider.index')
             ->with('success', 'Slider updated.');

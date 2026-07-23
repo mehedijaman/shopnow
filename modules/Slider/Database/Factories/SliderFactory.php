@@ -15,7 +15,6 @@ class SliderFactory extends Factory
         return [
             'title' => $this->faker->sentence(3), // Generates a 3-word sentence
             'description' => $this->faker->paragraph, // Generates a random paragraph
-            'image' => $this->faker->imageUrl(640, 480, 'sliders'), // Generates a fake image URL
             'url' => $this->faker->url, // Generates a random URL
             'order' => $this->faker->numberBetween(1, 10), // Generates a random number between 1 and 10
             'active' => $this->faker->boolean(90), // 90% chance of being true

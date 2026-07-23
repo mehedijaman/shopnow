@@ -11,15 +11,17 @@ use Modules\Page\Database\Factories\PageFactory;
 use Modules\Support\Models\BaseModel;
 use Modules\Support\Traits\ActivityLog;
 use Modules\Support\Traits\Searchable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Page extends BaseModel
+class Page extends BaseModel implements HasMedia
 {
-    use ActivityLog, HasFactory, Searchable, Sluggable, SoftDeletes;
+    use ActivityLog, HasFactory, InteractsWithMedia, Searchable, Sluggable, SoftDeletes;
 
     protected $table = 'pages';
 
     protected $fillable = [
-        'parent_id', 'title', 'slug', 'content', 'image', 'meta_tag_title', 'meta_tag_description',
+        'parent_id', 'title', 'slug', 'content', 'meta_tag_title', 'meta_tag_description',
         'published_at', 'active', 'is_system',
     ];
 
@@ -57,11 +59,12 @@ class Page extends BaseModel
 
     public function getImageUrlAttribute(): ?string
     {
-        if ($this->image) {
-            return asset("storage/page/{$this->image}");
-        }
+        return $this->getFirstMediaUrl('image') ?: null;
+    }
 
-        return null;
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image')->singleFile();
     }
 
     protected static function newFactory(): Factory

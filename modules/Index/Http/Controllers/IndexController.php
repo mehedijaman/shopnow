@@ -22,7 +22,7 @@ class IndexController extends SiteController
         $sliders = $showSlider
             ? Slider::where('active', true)
                 ->orderBy('order')
-                ->get(['id', 'title', 'description', 'image', 'bg_color', 'url', 'button_text'])
+                ->get(['id', 'title', 'description', 'bg_color', 'url', 'button_text'])
                 ->map(fn ($slider) => [
                     'id' => $slider->id,
                     'title' => $slider->title,
@@ -57,7 +57,7 @@ class IndexController extends SiteController
             : collect();
 
         $brands = $showBrands
-            ? ProductBrand::where('active', true)->orderBy('name')->get(['id', 'name', 'image', 'slug'])
+            ? ProductBrand::where('active', true)->orderBy('name')->get(['id', 'name', 'slug'])
             : collect();
 
         $seo = $seoService->build([

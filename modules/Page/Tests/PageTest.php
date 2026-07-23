@@ -83,7 +83,6 @@ test('page edit page can be rendered', function () {
                     ->where('title', $this->page->title)
                     ->where('slug', $this->page->slug)
                     ->where('content', $this->page->content)
-                    ->where('image', $this->page->image)
                     ->where('image_url', $this->page->image_url)
                     ->where('meta_tag_title', $this->page->meta_tag_title)
                     ->where('meta_tag_description', $this->page->meta_tag_description)

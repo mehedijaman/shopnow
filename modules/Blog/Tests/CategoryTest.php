@@ -90,12 +90,12 @@ test('category edit page can be rendered', function () {
                     ->where('id', $this->category->id)
                     ->where('name', $this->category->name)
                     ->where('description', $this->category->description)
-                    ->where('image', $this->category->image)
                     ->where('image_url', $this->category->image_url)
                     ->where('is_visible', $this->category->is_visible)
                     ->where('slug', $this->category->slug)
                     ->where('meta_tag_title', $this->category->meta_tag_title)
                     ->where('meta_tag_description', $this->category->meta_tag_description)
+                    ->etc()
             )
     );
 });

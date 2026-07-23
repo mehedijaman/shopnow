@@ -33,7 +33,6 @@ class ProductFactory extends Factory
             'type' => ProductType::Simple,
             'is_virtual' => false,
             'is_downloadable' => false,
-            'image' => $this->faker->imageUrl(640, 480, 'product'),
             'summary' => $this->faker->sentence(12),
             'description' => $this->faker->paragraphs(3, true),
             'meta_tag_title' => Str::limit($name, 60, ''),

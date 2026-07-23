@@ -18,7 +18,6 @@ class ProductCategoryFactory extends Factory
             'parent_id' => null,
             'name' => $name,
             'description' => $this->faker->realText(200),
-            'image' => $this->faker->imageUrl(640, 480, 'product-category'),
             'active' => true,
             'featured' => false,
             'slug' => Str::slug($name),

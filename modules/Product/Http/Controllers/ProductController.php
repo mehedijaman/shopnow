@@ -132,12 +132,13 @@ class ProductController extends BackendController
     public function store(ProductValidate $request, SyncProductTags $syncProductTags)
     {
         $productData = $request->validated();
-
-        if ($request->hasFile('image')) {
-            $productData = array_merge($productData, $this->uploadFile('image', 'product', 'originalUUID', 'public'));
-        }
+        unset($productData['image']);
 
         $product = Product::create($productData);
+
+        if ($request->hasFile('image')) {
+            $product->addMediaFromRequest('image')->toMediaCollection('image');
+        }
 
         if (is_array($request->input('tags')) and count($request->input('tags'))) {
             $syncProductTags->sync($product, $request->input('tags'));
@@ -196,16 +197,15 @@ class ProductController extends BackendController
         $product = Product::findOrFail($id);
 
         $productData = $request->validated();
-
-        if ($request->hasFile('image')) {
-            $productData = array_merge($productData, $this->uploadFile('image', 'product', 'originalUUID', 'public'));
-        } elseif ($request->input('remove_previous_image')) {
-            $productData['image'] = null;
-        } else {
-            unset($productData['image']);
-        }
+        unset($productData['image']);
 
         $product->update($productData);
+
+        if ($request->hasFile('image')) {
+            $product->addMediaFromRequest('image')->toMediaCollection('image');
+        } elseif ($request->boolean('remove_previous_image')) {
+            $product->clearMediaCollection('image');
+        }
 
         if ($request->has('tagsHasChanged')) {
             $syncProductTags->sync($product, $request->input('tags'));

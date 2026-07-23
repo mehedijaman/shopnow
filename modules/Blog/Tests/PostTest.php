@@ -93,12 +93,12 @@ test('post edit page can be rendered', function () {
                     ->where('title', $this->post->title)
                     ->where('slug', $this->post->slug)
                     ->where('content', $this->post->content)
-                    ->where('image', $this->post->image)
                     ->where('image_url', $this->post->image_url)
                     ->where('meta_tag_title', $this->post->meta_tag_title)
                     ->where('meta_tag_description', $this->post->meta_tag_description)
                     ->where('tags', [])
                     ->where('published_at', $this->post->published_at->toDateString())
+                    ->etc()
             )
     );
 });

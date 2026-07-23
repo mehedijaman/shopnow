@@ -10,10 +10,12 @@ use Modules\Blog\Database\Factories\BlogAuthorFactory;
 use Modules\Support\Models\BaseModel;
 use Modules\Support\Traits\ActivityLog;
 use Modules\Support\Traits\Searchable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Author extends BaseModel
+class Author extends BaseModel implements HasMedia
 {
-    use ActivityLog, HasFactory, Searchable, SoftDeletes;
+    use ActivityLog, HasFactory, InteractsWithMedia, Searchable, SoftDeletes;
 
     protected $table = 'blog_authors';
 
@@ -23,11 +25,12 @@ class Author extends BaseModel
 
     public function getImageUrlAttribute(): ?string
     {
-        if ($this->image) {
-            return asset("storage/blog/{$this->image}");
-        }
+        return $this->getFirstMediaUrl('image') ?: null;
+    }
 
-        return null;
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image')->singleFile();
     }
 
     public function posts(): HasMany

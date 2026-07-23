@@ -83,7 +83,6 @@ test('product category edit page can be rendered', function () {
                     ->where('id', $this->productCategory->id)
                     ->where('name', $this->productCategory->name)
                     ->where('description', $this->productCategory->description)
-                    ->where('image', $this->productCategory->image)
                     ->where('image_url', $this->productCategory->image_url)
                     ->where('active', true)
                     ->where('featured', false)

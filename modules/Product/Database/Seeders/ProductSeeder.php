@@ -53,7 +53,6 @@ class ProductSeeder extends Seeder
             ->create([
                 'category_id' => fn () => $categories[array_rand($categories)],
                 'brand_id' => fn () => $brands[array_rand($brands)],
-                'image' => fn () => $this->getRandomProductImage(),
             ]);
 
         // Create global attributes for variable products
@@ -79,7 +78,6 @@ class ProductSeeder extends Seeder
             ->create([
                 'category_id' => fn () => $categories[array_rand($categories)],
                 'brand_id' => fn () => $brands[array_rand($brands)],
-                'image' => fn () => $this->getRandomProductImage(),
             ]);
 
         foreach ($variableProducts as $vp) {
@@ -114,7 +112,6 @@ class ProductSeeder extends Seeder
             ->create([
                 'category_id' => fn () => $categories[array_rand($categories)],
                 'brand_id' => fn () => $brands[array_rand($brands)],
-                'image' => fn () => $this->getRandomProductImage(),
                 'price' => 999,
             ]);
 
@@ -127,7 +124,6 @@ class ProductSeeder extends Seeder
             ->create([
                 'category_id' => fn () => $categories[array_rand($categories)],
                 'brand_id' => fn () => $brands[array_rand($brands)],
-                'image' => fn () => $this->getRandomProductImage(),
                 'summary' => 'Digital product — instant download after purchase.',
                 'description' => 'This is a digital product. You will receive download access immediately after completing your order.',
             ]);

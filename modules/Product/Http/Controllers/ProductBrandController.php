@@ -46,12 +46,13 @@ class ProductBrandController extends BackendController
     public function store(ProductBrandValidate $request)
     {
         $brandData = $request->validated();
+        unset($brandData['image']);
+
+        $brand = ProductBrand::create($brandData);
 
         if ($request->hasFile('image')) {
-            $brandData = array_merge($brandData, $this->uploadFile('image', 'brand', 'originalUUID', 'public'));
+            $brand->addMediaFromRequest('image')->toMediaCollection('image');
         }
-
-        ProductBrand::create($brandData);
 
         return redirect()->route('productBrand.index')
             ->with('success', 'Product Brand created.');
@@ -71,16 +72,15 @@ class ProductBrandController extends BackendController
         $brand = ProductBrand::findOrFail($id);
 
         $brandData = $request->validated();
-
-        if ($request->hasFile('image')) {
-            $brandData = array_merge($brandData, $this->uploadFile('image', 'brand', 'originalUUID', 'public'));
-        } elseif ($request->input('remove_previous_image')) {
-            $brandData['image'] = null;
-        } else {
-            unset($brandData['image']);
-        }
+        unset($brandData['image']);
 
         $brand->update($brandData);
+
+        if ($request->hasFile('image')) {
+            $brand->addMediaFromRequest('image')->toMediaCollection('image');
+        } elseif ($request->boolean('remove_previous_image')) {
+            $brand->clearMediaCollection('image');
+        }
 
         return redirect()->route('productBrand.index')
             ->with('success', 'Product Brand updated.');

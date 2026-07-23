@@ -11,10 +11,12 @@ use Modules\Blog\Database\Factories\BlogCategoryFactory;
 use Modules\Support\Models\BaseModel;
 use Modules\Support\Traits\ActivityLog;
 use Modules\Support\Traits\Searchable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Category extends BaseModel
+class Category extends BaseModel implements HasMedia
 {
-    use ActivityLog, HasFactory, Searchable, Sluggable, SoftDeletes;
+    use ActivityLog, HasFactory, InteractsWithMedia, Searchable, Sluggable, SoftDeletes;
 
     protected $table = 'blog_categories';
 
@@ -37,11 +39,12 @@ class Category extends BaseModel
 
     public function getImageUrlAttribute(): ?string
     {
-        if ($this->image) {
-            return asset("storage/blog/{$this->image}");
-        }
+        return $this->getFirstMediaUrl('image') ?: null;
+    }
 
-        return null;
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image')->singleFile();
     }
 
     public function posts(): HasMany

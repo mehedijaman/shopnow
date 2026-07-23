@@ -20,7 +20,6 @@ class PageFactory extends Factory
             'content' => $this->faker->paragraphs(5, true),
             'meta_tag_title' => Str::limit($name, 60, ''),
             'meta_tag_description' => Str::limit($this->faker->sentence(10), 160, ''),
-            'image' => $this->faker->imageUrl(),
 
             'published_at' => $this->faker->dateTimeBetween('-6 month', '+3 month'),
 

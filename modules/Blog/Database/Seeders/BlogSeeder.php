@@ -2,7 +2,6 @@
 
 namespace Modules\Blog\Database\Seeders;
 
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Schema;
@@ -81,21 +80,15 @@ class BlogSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
 
         info('Creating blog categories...');
-        Category::factory()->count(12)
-            ->sequence(fn (Sequence $sequence) => ['image' => $this->blogCategoriesImages[$sequence->index]])
-            ->create();
+        Category::factory()->count(12)->create();
         info('Blog categories created.');
 
         info('Creating blog authors...');
-        Author::factory()->count(12)
-            ->sequence(fn (Sequence $sequence) => ['image' => $this->blogAuthorsImages[$sequence->index]])
-            ->create();
+        Author::factory()->count(12)->create();
         info('Blog authors created.');
 
         info('Creating blog posts...');
-        Post::factory()->count(24)
-            ->sequence(fn (Sequence $sequence) => ['image' => $this->blogPostsImages[$sequence->index]])
-            ->create();
+        Post::factory()->count(24)->create();
         info('Blog posts created.');
 
         Schema::enableForeignKeyConstraints();

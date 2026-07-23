@@ -45,12 +45,13 @@ class PageController extends BackendController
     public function store(PageValidate $request): RedirectResponse
     {
         $validated = $request->validated();
-
-        if ($request->hasFile('image')) {
-            $validated = array_merge($validated, $this->uploadFile('image', 'page', 'originalUUID', 'public'));
-        }
+        unset($validated['image']);
 
         $page = Page::create($validated);
+
+        if ($request->hasFile('image')) {
+            $page->addMediaFromRequest('image')->toMediaCollection('image');
+        }
 
         return redirect()->route('page.edit', $page)
             ->with('success', 'page created.');
@@ -70,16 +71,15 @@ class PageController extends BackendController
         $page = Page::findOrFail($id);
 
         $validated = $request->validated();
-
-        if ($request->hasFile('image')) {
-            $validated = array_merge($validated, $this->uploadFile('image', 'page', 'originalUUID', 'public'));
-        } elseif ($request->input('remove_previous_image')) {
-            $validated['image'] = null;
-        } else {
-            unset($validated['image']);
-        }
+        unset($validated['image']);
 
         $page->update($validated);
+
+        if ($request->hasFile('image')) {
+            $page->addMediaFromRequest('image')->toMediaCollection('image');
+        } elseif ($request->boolean('remove_previous_image')) {
+            $page->clearMediaCollection('image');
+        }
 
         return redirect()->route('page.index')
             ->with('success', 'page updated.');

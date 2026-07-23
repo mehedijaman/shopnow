@@ -18,7 +18,6 @@ class ProductBrandFactory extends Factory
             'parent_id' => null,
             'name' => $name,
             'description' => $this->faker->realText(200),
-            'image' => $this->faker->imageUrl(640, 480, 'brand'),
             'active' => true,
             'featured' => false,
             'slug' => Str::slug($name),

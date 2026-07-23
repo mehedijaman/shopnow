@@ -86,7 +86,6 @@ test('slider edit page can be rendered', function () {
                     ->where('id', $this->slider->id)
                     ->where('title', $this->slider->title)
                     ->where('description', $this->slider->description)
-                    ->where('image', $this->slider->image)
                     ->where('image_url', $this->slider->image_url)
                     ->where('bg_color', $this->slider->bg_color)
                     ->where('url', $this->slider->url)

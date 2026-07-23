@@ -42,14 +42,14 @@ class CategoryController extends BackendController
 
     public function store(CategoryValidate $request): RedirectResponse
     {
-
         $categoryData = $request->validated();
+        unset($categoryData['image']);
+
+        $category = Category::create($categoryData);
 
         if ($request->hasFile('image')) {
-            $categoryData = array_merge($categoryData, $this->uploadFile('image', 'blog', 'originalUUID', 'public'));
+            $category->addMediaFromRequest('image')->toMediaCollection('image');
         }
-
-        Category::create($categoryData);
 
         return redirect()->route('blogCategory.index')
             ->with('success', 'Category created.');
@@ -69,16 +69,15 @@ class CategoryController extends BackendController
         $category = Category::findOrFail($id);
 
         $categoryData = $request->validated();
-
-        if ($request->hasFile('image')) {
-            $categoryData = array_merge($categoryData, $this->uploadFile('image', 'blog', 'originalUUID', 'public'));
-        } elseif ($request->input('remove_previous_image')) {
-            $categoryData['image'] = null;
-        } else {
-            unset($categoryData['image']);
-        }
+        unset($categoryData['image']);
 
         $category->update($categoryData);
+
+        if ($request->hasFile('image')) {
+            $category->addMediaFromRequest('image')->toMediaCollection('image');
+        } elseif ($request->boolean('remove_previous_image')) {
+            $category->clearMediaCollection('image');
+        }
 
         return redirect()->route('blogCategory.index')
             ->with('success', 'Category updated.');
