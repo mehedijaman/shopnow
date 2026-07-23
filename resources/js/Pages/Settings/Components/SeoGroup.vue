@@ -85,17 +85,6 @@
             </div>
 
             <div>
-                <AppLabel for="google_analytics_id" :value="__('Google Analytics ID')" />
-                <p class="mb-1 text-xs text-skin-neutral-9">{{ __('Your GA4 measurement ID (e.g. G-XXXXXXXXXX).') }}</p>
-                <AppInputText
-                    id="google_analytics_id"
-                    v-model="form.google_analytics_id"
-                    placeholder="G-XXXXXXXXXX"
-                    :class="{ 'input-error': errorsFields.includes('google_analytics_id') }"
-                />
-            </div>
-
-            <div>
                 <AppLabel for="robots_default" :value="__('Default Robots Directive')" />
                 <p class="mb-1 text-xs text-skin-neutral-9">{{ __('Controls how search engines index your site by default.') }}</p>
                 <select

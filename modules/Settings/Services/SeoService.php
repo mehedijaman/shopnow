@@ -67,7 +67,7 @@ class SeoService
             'published_time' => $overrides['published_time'] ?? null,
             'modified_time' => $overrides['modified_time'] ?? null,
             'author' => $overrides['author'] ?? null,
-            'google_analytics_id' => $this->seoSettings['google_analytics_id'] ?? null,
+            'google_analytics_id' => setting('analytics.ga_measurement_id'),
         ];
     }
 
