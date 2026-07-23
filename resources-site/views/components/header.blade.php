@@ -52,19 +52,22 @@
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         
         {{-- Left: Contact / Phone (Hidden on very small screens) --}}
-        <div class="hidden items-center gap-4 sm:flex">
-            @foreach($phones as $phone)
-                <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}" class="flex items-center gap-1.5 transition-colors hover:text-primary-400">
+        <div class="hidden items-center gap-2 sm:flex">
+            @if(!empty($phones))
+                <div class="flex items-center gap-1.5">
                     <i class="ri-phone-line text-[15px]"></i>
-                    <span>{{ $phone }}</span>
-                </a>
-                @if(!$loop->last)
-                    <div class="h-3 w-px bg-gray-700"></div>
-                @endif
-            @endforeach
+                    <span>
+                        @foreach($phones as $phone)
+                            <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}" class="transition-colors hover:text-primary-400">
+                                {{ $phone }}
+                            </a>@if(!$loop->last), @endif
+                        @endforeach
+                    </span>
+                </div>
+            @endif
             
             @if(!empty($phones) && $email)
-                <div class="h-3 w-px bg-gray-700"></div>
+                <div class="mx-2 h-3 w-px bg-gray-700"></div>
             @endif
             
             @if($email)

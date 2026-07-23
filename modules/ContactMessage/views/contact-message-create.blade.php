@@ -74,11 +74,13 @@
                                 </div>
                                 <div class="min-w-0 flex-1">
                                     <p class="text-xs font-medium text-slate-400">Call Us</p>
-                                    @foreach ($phones as $phone)
-                                        <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}" class="mt-0.5 block text-sm font-semibold text-slate-800 transition hover:text-primary-600">
-                                            {{ $phone }}
-                                        </a>
-                                    @endforeach
+                                    <p class="mt-0.5 text-sm font-semibold text-slate-800">
+                                        @foreach ($phones as $phone)
+                                            <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}" class="transition hover:text-primary-600">
+                                                {{ $phone }}
+                                            </a>@if(!$loop->last), @endif
+                                        @endforeach
+                                    </p>
                                 </div>
                             </div>
                             @endif

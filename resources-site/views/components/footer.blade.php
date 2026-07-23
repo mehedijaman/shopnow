@@ -88,7 +88,7 @@
                             </div>
                             <div class="flex-1 pt-1 text-[15px] text-gray-400">
                                 @foreach ($phones as $phone)
-                                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}" class="block transition-colors hover:text-primary-400">{{ $phone }}</a>
+                                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}" class="transition-colors hover:text-primary-400">{{ $phone }}</a>@if(!$loop->last), @endif
                                 @endforeach
                             </div>
                         </li>
