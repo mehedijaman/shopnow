@@ -107,9 +107,9 @@
 
         <a href="{{ route('site.index') }}" class="flex items-center justify-center">
             @if ($logoUrl)
-                <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-9 w-auto max-w-[150px] object-contain" onerror="this.src='/logo.png'" />
+                <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-14 w-auto max-w-[220px] sm:h-16 sm:max-w-[280px] object-contain" onerror="this.src='/logo.png'" />
             @else
-                <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-9 w-auto max-w-[150px] object-contain" />
+                <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-14 w-auto max-w-[220px] sm:h-16 sm:max-w-[280px] object-contain" />
             @endif
         </a>
 
@@ -131,13 +131,13 @@
 {{-- Top Row: Logo, Search, User & Cart Actions --}}
 <div class="relative z-[60] hidden w-full border-b border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-900 lg:block">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between gap-8 py-4">
+        <div class="flex items-center justify-between gap-8 py-5">
             {{-- Logo --}}
             <a href="{{ route('site.index') }}" class="flex shrink-0 items-center">
                 @if ($logoUrl)
-                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-12 w-auto max-w-[200px] object-contain xl:h-14" onerror="this.src='/logo.png'" />
+                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-20 w-auto max-w-[300px] object-contain xl:h-28 xl:max-w-[380px]" onerror="this.src='/logo.png'" />
                 @else
-                    <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-12 w-auto max-w-[200px] object-contain xl:h-14" />
+                    <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-20 w-auto max-w-[300px] object-contain xl:h-28 xl:max-w-[380px]" />
                 @endif
             </a>
 
@@ -258,9 +258,9 @@
         <div class="flex h-16 shrink-0 items-center justify-between border-b border-slate-100 px-5 dark:border-slate-800">
             <a href="{{ route('site.index') }}">
                 @if ($logoUrl)
-                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-9 w-auto max-w-[130px] object-contain" onerror="this.src='/logo.png'" />
+                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-14 w-auto max-w-[200px] object-contain" onerror="this.src='/logo.png'" />
                 @else
-                    <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-9 w-auto max-w-[130px] object-contain" />
+                    <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-14 w-auto max-w-[200px] object-contain" />
                 @endif
             </a>
             <button id="toggleCloseBtn" aria-label="Close Menu" class="flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800">
