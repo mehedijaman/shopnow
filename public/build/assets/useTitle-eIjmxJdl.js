@@ -1,0 +1,1 @@
+import{A as e,_ as t,k as n}from"./_plugin-vue_export-helper-BK0muNU-.js";import{t as r}from"./useFormContext-slS8hoXt.js";n();function i(n){let i=e(`translate`),{isCreate:a,isEdit:o}=r();return{title:t(()=>{let e=``;return a.value&&(e=`Create`),o.value&&(e=`Edit`),e=i(e),e+` `+i(n)})}}export{i as t};

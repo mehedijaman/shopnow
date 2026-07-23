@@ -1,0 +1,1 @@
+import{I as e,k as t,t as n,v as r,x as i}from"./_plugin-vue_export-helper-BK0muNU-.js";t();var a={},o={class:`from-skin-neutral-3 to-skin-neutral-6 flex h-10 w-10 items-center justify-center rounded-sm bg-linear-to-bl`};function s(t,n){return e(),i(`div`,o,[...n[0]||=[r(`span`,{class:`text-skin-neutral-9 text-xs`},`N/A`,-1)]])}var c=n(a,[[`render`,s]]);export{c as t};

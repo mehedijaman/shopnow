@@ -1,0 +1,1 @@
+import{B as e,Et as t,I as n,St as r,k as i,lt as a,w as o,x as s}from"./_plugin-vue_export-helper-BK0muNU-.js";a(),i();var c={__name:`AppLabel`,props:{value:{type:String,default:``}},setup(i){return(a,c)=>(n(),s(`label`,{class:r([`block text-sm font-medium text-skin-neutral-12`,a.$attrs.class])},[o(t(i.value),1),e(a.$slots,`default`)],2))}};export{c as t};
