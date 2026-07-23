@@ -20,23 +20,34 @@
     $email = $getRepeaterValue('contact.email');
     $whatsapp = $getRepeaterValue('contact.whatsapp');
 
-    $facebook = setting('social.facebook');
-    $facebook = is_string($facebook) && !empty(trim($facebook)) ? trim($facebook) : null;
-    
-    $twitter = setting('social.x');
-    $twitter = is_string($twitter) && !empty(trim($twitter)) ? trim($twitter) : null;
-    
-    $instagram = setting('social.instagram');
-    $instagram = is_string($instagram) && !empty(trim($instagram)) ? trim($instagram) : null;
-    
-    $youtube = setting('social.youtube');
-    $youtube = is_string($youtube) && !empty(trim($youtube)) ? trim($youtube) : null;
+    $socialSettings = settings_group('social');
+    $socialMeta = [
+        'facebook'  => ['icon' => 'ri-facebook-circle-fill', 'label' => 'Facebook'],
+        'x'         => ['icon' => 'ri-twitter-x-line', 'label' => 'X (Twitter)'],
+        'instagram' => ['icon' => 'ri-instagram-line', 'label' => 'Instagram'],
+        'youtube'   => ['icon' => 'ri-youtube-line', 'label' => 'YouTube'],
+        'linkedin'  => ['icon' => 'ri-linkedin-fill', 'label' => 'LinkedIn'],
+        'tiktok'    => ['icon' => 'ri-tiktok-fill', 'label' => 'TikTok'],
+        'github'    => ['icon' => 'ri-github-fill', 'label' => 'GitHub'],
+    ];
+
+    $activeSocials = [];
+    foreach ($socialMeta as $key => $meta) {
+        $val = $socialSettings[$key] ?? null;
+        if (is_string($val) && !empty(trim($val))) {
+            $activeSocials[$key] = [
+                'url'   => trim($val),
+                'icon'  => $meta['icon'],
+                'label' => $meta['label'],
+            ];
+        }
+    }
 @endphp
 
 {{-- ==============================================
      TOP ANNOUNCEMENT BAR
 ================================================ --}}
-@if(!empty($phones) || $email || $facebook || $twitter || $instagram || $youtube)
+@if(!empty($phones) || $email || !empty($activeSocials))
 <div class="bg-gray-900 text-[13px] font-medium tracking-wide text-white dark:bg-black">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         
@@ -70,32 +81,16 @@
             <a href="{{ route('shop.index') }}" class="ml-1 underline underline-offset-2 transition-colors hover:text-gray-300">Shop Now</a>
         </div> -->
 
-        {{-- Right: Social Icons (Hidden on mobile) --}}
-        <div class="hidden items-center gap-3.5 md:flex">
-            @if($facebook)
-                <a href="{{ $facebook }}" target="_blank" aria-label="Facebook" class="transition-colors hover:text-primary-400">
-                    <i class="ri-facebook-circle-fill text-[16px]"></i>
+        {{-- Right: Social Icons --}}
+        @if(!empty($activeSocials))
+        <div class="flex items-center gap-3.5">
+            @foreach($activeSocials as $social)
+                <a href="{{ $social['url'] }}" target="_blank" rel="noopener noreferrer" aria-label="{{ $social['label'] }}" class="transition-colors hover:text-primary-400">
+                    <i class="{{ $social['icon'] }} text-[16px]"></i>
                 </a>
-            @endif
-            
-            @if($twitter)
-                <a href="{{ $twitter }}" target="_blank" aria-label="X (Twitter)" class="transition-colors hover:text-primary-400">
-                    <i class="ri-twitter-x-line text-[16px]"></i>
-                </a>
-            @endif
-            
-            @if($instagram)
-                <a href="{{ $instagram }}" target="_blank" aria-label="Instagram" class="transition-colors hover:text-primary-400">
-                    <i class="ri-instagram-line text-[16px]"></i>
-                </a>
-            @endif
-            
-            @if($youtube)
-                <a href="{{ $youtube }}" target="_blank" aria-label="YouTube" class="transition-colors hover:text-primary-400">
-                    <i class="ri-youtube-line text-[16px]"></i>
-                </a>
-            @endif
+            @endforeach
         </div>
+        @endif
 
     </div>
 </div>
@@ -324,6 +319,19 @@
                     </div>
                 @endif
             </div>
+
+            @if(!empty($activeSocials))
+                <div class="mt-6 border-t border-gray-100 px-4 pt-6 dark:border-gray-800">
+                    <p class="mb-3 text-xs font-bold uppercase tracking-widest text-gray-400">Follow Us</p>
+                    <div class="flex flex-wrap gap-2.5">
+                        @foreach($activeSocials as $social)
+                            <a href="{{ $social['url'] }}" target="_blank" rel="noopener noreferrer" aria-label="{{ $social['label'] }}" class="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-100 text-gray-700 transition-colors hover:bg-primary-600 hover:text-white dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-primary-600 dark:hover:text-white">
+                                <i class="{{ $social['icon'] }} text-base"></i>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 </div>
