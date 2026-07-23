@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Inertia\Response;
 use Modules\Settings\Http\Requests\SettingsGroupValidate;
 use Modules\Settings\Services\SettingService;
+use Modules\Settings\SettingsServiceProvider;
 use Modules\Support\Http\Controllers\BackendController;
 use Modules\Support\Traits\UploadFile;
 
