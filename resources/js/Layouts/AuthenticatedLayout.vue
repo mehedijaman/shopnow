@@ -1,12 +1,18 @@
 <template>
 
-    <Head title="Modular"></Head>
+    <Head>
+        <link rel="icon" :href="branding.favicon_url || '/favicon.svg'" />
+    </Head>
 
     <AppSideBar ref="sidebarRef" :backdrop="isMobile" :body-scrolling="!isMobile" @sidebar:toggle="sidebarToggle">
 
-        <Link :href="route('dashboard.index')" class="flex items-center">
-        <img :src="branding.logo_url || '/logo.png'" :alt="branding.site_name" class="max-h-16 w-full object-contain" />
-
+        <Link :href="route('dashboard.index')" class="flex items-center justify-center px-4 py-4">
+            <img
+                :src="logoSrc"
+                :alt="branding.site_name"
+                class="max-h-12 w-auto max-w-full object-contain"
+                @error="onLogoError"
+            />
         </Link>
 
         <AppMenu :items="items" />
@@ -27,14 +33,31 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
 import { Head, usePage } from '@inertiajs/vue3'
 import useIsMobile from '@/Composables/useIsMobile'
 import menu from '@/Configs/menu'
 
 const page = usePage()
 
-const branding = computed(() => page.props.branding ?? { site_name: 'ShopNow', logo_url: null })
+const branding = computed(() => page.props.branding ?? { site_name: 'ShopNow', logo_url: null, favicon_url: null })
+
+const imageError = ref(false)
+
+watch(() => branding.value.logo_url, () => {
+    imageError.value = false
+})
+
+const logoSrc = computed(() => {
+    if (imageError.value || !branding.value.logo_url) {
+        return '/logo.png'
+    }
+    return branding.value.logo_url
+})
+
+const onLogoError = () => {
+    imageError.value = true
+}
 
 const isSideBarOpen = ref(true)
 const sidebarRef = ref()

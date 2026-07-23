@@ -69,6 +69,8 @@ class HandleInertiaRequests extends Middleware
             'branding' => fn () => [
                 'site_name' => setting('branding.site_name', 'ShopNow'),
                 'logo_url' => setting('branding.logo_url'),
+                'dark_logo_url' => setting('branding.dark_logo_url'),
+                'favicon_url' => setting('branding.favicon_url'),
             ],
         ]);
     }
