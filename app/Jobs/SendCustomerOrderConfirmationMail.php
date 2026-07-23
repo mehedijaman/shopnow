@@ -8,6 +8,7 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Modules\Order\Models\Order;
+use Modules\Settings\SettingsServiceProvider;
 
 class SendCustomerOrderConfirmationMail implements ShouldQueue
 {
@@ -19,6 +20,8 @@ class SendCustomerOrderConfirmationMail implements ShouldQueue
 
     public function handle(): void
     {
+        SettingsServiceProvider::configureMailFromSettings();
+
         $order = Order::with([
             'orderProducts.product',
             'orderProducts.productVariation',

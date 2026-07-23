@@ -81,6 +81,10 @@ class SettingsController extends BackendController
         $service->updateGroup($group, $settingsToUpdate);
         $service->clearCache();
 
+        if ($group === 'mail') {
+            SettingsServiceProvider::configureMailFromSettings();
+        }
+
         return back()->with('success', 'Settings updated.');
     }
 
@@ -101,23 +105,35 @@ class SettingsController extends BackendController
 
         try {
             if ($request->boolean('enable_smtp')) {
+                $port = (int) ($request->input('port') ?: 587);
+                $encryption = (string) ($request->input('encryption') ?: 'tls');
+                $scheme = match (true) {
+                    $port === 465 || in_array(strtolower($encryption), ['ssl', 'smtps'], true) => 'smtps',
+                    default => 'smtp',
+                };
+
                 config([
+                    'mail.default' => 'smtp',
+                    'mail.mailers.smtp.transport' => 'smtp',
+                    'mail.mailers.smtp.scheme' => $scheme,
                     'mail.mailers.smtp.host' => $request->input('host'),
-                    'mail.mailers.smtp.port' => $request->input('port') ?? 587,
-                    'mail.mailers.smtp.username' => $request->input('username') ?? null,
-                    'mail.mailers.smtp.password' => $request->input('password') ?? null,
-                    'mail.mailers.smtp.encryption' => $request->input('encryption') ?? 'tls',
+                    'mail.mailers.smtp.port' => $port,
+                    'mail.mailers.smtp.username' => $request->input('username') ?: null,
+                    'mail.mailers.smtp.password' => $request->input('password') ?: null,
+                    'mail.mailers.smtp.encryption' => $encryption,
                 ]);
+
                 if ($request->filled('from_address')) {
                     config([
                         'mail.from.address' => $request->input('from_address'),
-                        'mail.from.name' => $request->input('from_name') ?? config('mail.from.name'),
+                        'mail.from.name' => $request->input('from_name') ?: config('mail.from.name'),
                     ]);
                 }
             } else {
                 config([
+                    'mail.default' => env('MAIL_MAILER', 'smtp'),
                     'mail.mailers.smtp.host' => env('MAIL_HOST', '127.0.0.1'),
-                    'mail.mailers.smtp.port' => env('MAIL_PORT', 2525),
+                    'mail.mailers.smtp.port' => (int) env('MAIL_PORT', 2525),
                     'mail.mailers.smtp.username' => env('MAIL_USERNAME'),
                     'mail.mailers.smtp.password' => env('MAIL_PASSWORD'),
                     'mail.mailers.smtp.encryption' => env('MAIL_ENCRYPTION', 'tls'),
@@ -126,9 +142,15 @@ class SettingsController extends BackendController
                 ]);
             }
 
-            if (! app()->runningUnitTests()) {
-                Mail::purge();
+            if (app()->runningUnitTests()) {
+                config([
+                    'mail.default' => 'smtp',
+                    'mail.mailers.smtp.transport' => 'array',
+                ]);
             }
+
+            Mail::purge('smtp');
+            Mail::purge();
 
             $siteName = setting('branding.site_name', config('app.name'));
             $recipient = $request->input('recipient');
