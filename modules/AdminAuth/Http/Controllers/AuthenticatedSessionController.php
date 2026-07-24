@@ -19,6 +19,10 @@ class AuthenticatedSessionController extends AppController
      */
     public function loginForm()
     {
+        if (Auth::guard('user')->check()) {
+            return redirect()->intended(route(config('modular.default-logged-route')));
+        }
+
         return inertia('AdminAuth/LoginForm');
     }
 

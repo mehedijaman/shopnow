@@ -22,6 +22,10 @@ class AuthenticatedSessionController extends AppController
      */
     public function loginForm()
     {
+        if (Auth::guard('customer')->check()) {
+            return redirect()->intended(route(config('modular.default-customer-logged-route')));
+        }
+
         return view('customer-auth::login');
     }
 
