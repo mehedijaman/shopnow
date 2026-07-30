@@ -33,16 +33,18 @@
         </button>
       </div>
 
-      <!-- Select dropdown -->
-      <div v-else>
-        <select :value="selectedValueForAttr(attr.id)"
-          class="block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-          @change="selectValue(attr.id, Number($event.target.value))">
-          <option value="">Select {{ attr.name }}</option>
-          <option v-for="val in attr.values" :key="val.id" :value="val.id" :disabled="!isAvailable(val.id)">
-            {{ val.value }}
-          </option>
-        </select>
+      <!-- Clickable option chips -->
+      <div v-else class="flex flex-wrap gap-2">
+        <button v-for="val in attr.values" :key="val.id" type="button" :class="[
+          'rounded-lg border px-3.5 py-2 text-sm font-medium transition-all',
+          selectedIds.includes(val.id)
+            ? 'border-primary-600 bg-primary-600 text-white shadow-sm ring-2 ring-primary-600 ring-offset-1'
+            : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50',
+          !isAvailable(val.id) ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer',
+        ]" :disabled="!isAvailable(val.id)"
+          @click="selectValue(attr.id, val.id)">
+          {{ val.value }}
+        </button>
       </div>
     </div>
 
