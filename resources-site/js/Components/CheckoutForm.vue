@@ -113,139 +113,64 @@
 
                         <!-- District -->
                         <div ref="districtContainerRef" class="relative">
-                            <div class="mb-1.5 flex items-center justify-between">
-                                <label for="district" class="block text-sm font-medium text-gray-700">
-                                    District <span class="text-red-500">*</span>
-                                </label>
-                                <button type="button" @click="toggleManualDistrict"
-                                    class="text-xs font-medium text-primary-600 hover:text-primary-800 hover:underline focus:outline-none">
-                                    {{ isManualDistrict ? 'Select from list' : "Can't find district?" }}
-                                </button>
-                            </div>
-                            <template v-if="!isManualDistrict">
-                                <div class="relative">
-                                    <button type="button" @click="toggleDistrictDropdown"
-                                        :class="[inputClass('district'), 'flex items-center justify-between text-left cursor-pointer bg-white']">
-                                        <span :class="selectedDistrictName ? 'text-gray-900 font-medium' : 'text-gray-500'">
-                                            {{ selectedDistrictName || 'Select District' }}
-                                        </span>
-                                        <svg class="h-4 w-4 text-gray-400 transition-transform" :class="{ 'rotate-180': isDistrictDropdownOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                        </svg>
-                                    </button>
-
-                                    <!-- Dropdown Menu -->
-                                    <div v-if="isDistrictDropdownOpen"
-                                        class="absolute z-30 mt-1 w-full rounded-lg border border-gray-200 bg-white p-2 shadow-lg">
-                                        <!-- Search Input -->
-                                        <div class="relative mb-2">
-                                            <input v-model="districtSearchQuery" type="text" placeholder="Type to search district..." ref="districtSearchInput"
-                                                class="w-full rounded-md border border-gray-300 px-3 py-1.5 pl-8 text-xs text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500" />
-                                            <svg class="absolute left-2.5 top-2 h-3.5 w-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                            </svg>
-                                        </div>
-
-                                        <!-- Options List -->
-                                        <ul class="max-h-48 overflow-y-auto divide-y divide-gray-50 text-xs">
-                                            <li v-for="d in filteredDistricts" :key="d.id"
-                                                @click="selectDistrictItem(d)"
-                                                :class="[
-                                                    'cursor-pointer px-3 py-2 transition-colors rounded-md hover:bg-primary-50 hover:text-primary-700',
-                                                    selectedDistrictId == d.id ? 'bg-primary-50 font-semibold text-primary-700' : 'text-gray-700'
-                                                ]">
-                                                {{ d.name }}
-                                            </li>
-                                            <li v-if="filteredDistricts.length === 0" class="px-3 py-3 text-center text-gray-500">
-                                                No district found matching "{{ districtSearchQuery }}".
-                                                <button type="button" @click="toggleManualDistrict" class="mt-1 block w-full text-center text-xs font-semibold text-primary-600 hover:underline">
-                                                    Enter manually
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </template>
-                            <template v-else>
+                            <label for="district" class="mb-1.5 block text-sm font-medium text-gray-700">
+                                District <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
                                 <input v-model="form.district" type="text" id="district"
-                                    placeholder="Enter district name" :class="inputClass('district')"
-                                    @input="clearError('district')" />
-                            </template>
+                                    placeholder="Enter or select district name"
+                                    :class="inputClass('district')"
+                                    @focus="onDistrictFocus"
+                                    @input="onDistrictInput"
+                                    autocomplete="off" />
+
+                                <!-- Dropdown Menu -->
+                                <div v-if="isDistrictDropdownOpen && filteredDistricts.length > 0"
+                                    class="absolute z-30 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white p-1 shadow-lg text-xs">
+                                    <ul class="divide-y divide-gray-50">
+                                        <li v-for="d in filteredDistricts" :key="d.id"
+                                            @click="selectDistrictItem(d)"
+                                            :class="[
+                                                'cursor-pointer px-3 py-2 transition-colors rounded-md hover:bg-primary-50 hover:text-primary-700',
+                                                selectedDistrictId == d.id ? 'bg-primary-50 font-semibold text-primary-700' : 'text-gray-700'
+                                            ]">
+                                            {{ d.name }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                             <p v-if="errors.district" class="mt-1.5 text-xs text-red-600">{{ errors.district }}</p>
                         </div>
 
                         <!-- Upazila (optional) -->
                         <div ref="upazilaContainerRef" class="relative">
-                            <div class="mb-1.5 flex items-center justify-between">
-                                <label for="upazila" class="block text-sm font-medium text-gray-700">
-                                    Upazila / Thana
-                                    <span class="text-xs text-gray-400">(Optional)</span>
-                                </label>
-                                <button v-if="!isManualDistrict && selectedDistrictId" type="button"
-                                    @click="toggleManualUpazila"
-                                    class="text-xs font-medium text-primary-600 hover:text-primary-800 hover:underline focus:outline-none">
-                                    {{ isManualUpazila ? 'Select from list' : "Can't find upazila?" }}
-                                </button>
-                            </div>
-                            <template v-if="!isManualUpazila && !isManualDistrict">
-                                <div class="relative">
-                                    <button type="button" 
-                                        @click="toggleUpazilaDropdown"
-                                        :disabled="!selectedDistrictId"
-                                        :class="[
-                                            inputClass('upazila'), 
-                                            'flex items-center justify-between text-left bg-white',
-                                            !selectedDistrictId ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
-                                        ]">
-                                        <span :class="selectedUpazilaName ? 'text-gray-900 font-medium' : 'text-gray-500'">
-                                            {{ selectedUpazilaName || (selectedDistrictId ? 'Select Upazila' : 'Select District First') }}
-                                        </span>
-                                        <svg class="h-4 w-4 text-gray-400 transition-transform" :class="{ 'rotate-180': isUpazilaDropdownOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                        </svg>
-                                    </button>
-
-                                    <!-- Dropdown Menu -->
-                                    <div v-if="isUpazilaDropdownOpen && selectedDistrictId"
-                                        class="absolute z-30 mt-1 w-full rounded-lg border border-gray-200 bg-white p-2 shadow-lg">
-                                        <!-- Search Input -->
-                                        <div class="relative mb-2">
-                                            <input v-model="upazilaSearchQuery" type="text" placeholder="Type to search upazila..." ref="upazilaSearchInput"
-                                                class="w-full rounded-md border border-gray-300 px-3 py-1.5 pl-8 text-xs text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500" />
-                                            <svg class="absolute left-2.5 top-2 h-3.5 w-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                            </svg>
-                                        </div>
-
-                                        <!-- Options List -->
-                                        <ul class="max-h-48 overflow-y-auto divide-y divide-gray-50 text-xs">
-                                            <li @click="selectUpazilaItem({ id: '', name: '' })"
-                                                class="cursor-pointer px-3 py-2 transition-colors rounded-md text-gray-400 hover:bg-gray-50">
-                                                None / Clear Selection
-                                            </li>
-                                            <li v-for="u in filteredUpazilas" :key="u.id"
-                                                @click="selectUpazilaItem(u)"
-                                                :class="[
-                                                    'cursor-pointer px-3 py-2 transition-colors rounded-md hover:bg-primary-50 hover:text-primary-700',
-                                                    selectedUpazilaId == u.id ? 'bg-primary-50 font-semibold text-primary-700' : 'text-gray-700'
-                                                ]">
-                                                {{ u.name }}
-                                            </li>
-                                            <li v-if="filteredUpazilas.length === 0" class="px-3 py-3 text-center text-gray-500">
-                                                No upazila found matching "{{ upazilaSearchQuery }}".
-                                                <button type="button" @click="toggleManualUpazila" class="mt-1 block w-full text-center text-xs font-semibold text-primary-600 hover:underline">
-                                                    Enter manually
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </template>
-                            <template v-else>
+                            <label for="upazila" class="mb-1.5 block text-sm font-medium text-gray-700">
+                                Upazila / Thana
+                                <span class="text-xs text-gray-400">(Optional)</span>
+                            </label>
+                            <div class="relative">
                                 <input v-model="form.upazila" type="text" id="upazila"
-                                    placeholder="Enter upazila/thana name" :class="inputClass('upazila')"
-                                    @input="clearError('upazila')" />
-                            </template>
+                                    placeholder="Enter or select upazila/thana name"
+                                    :class="inputClass('upazila')"
+                                    @focus="onUpazilaFocus"
+                                    @input="onUpazilaInput"
+                                    autocomplete="off" />
+
+                                <!-- Dropdown Menu -->
+                                <div v-if="isUpazilaDropdownOpen && filteredUpazilas.length > 0"
+                                    class="absolute z-30 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white p-1 shadow-lg text-xs">
+                                    <ul class="divide-y divide-gray-50">
+                                        <li v-for="u in filteredUpazilas" :key="u.id"
+                                            @click="selectUpazilaItem(u)"
+                                            :class="[
+                                                'cursor-pointer px-3 py-2 transition-colors rounded-md hover:bg-primary-50 hover:text-primary-700',
+                                                selectedUpazilaId == u.id ? 'bg-primary-50 font-semibold text-primary-700' : 'text-gray-700'
+                                            ]">
+                                            {{ u.name }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                             <p v-if="errors.upazila" class="mt-1.5 text-xs text-red-600">{{ errors.upazila }}</p>
                         </div>
 
@@ -485,42 +410,22 @@ const selectedDistrictId = ref('')
 const selectedUpazilaId = ref('')
 const selectedUnionId = ref('')
 
-const isManualDistrict = ref(false)
-const isManualUpazila = ref(false)
-
 const districtContainerRef = ref(null)
 const upazilaContainerRef = ref(null)
-const districtSearchInput = ref(null)
-const upazilaSearchInput = ref(null)
 
 const isDistrictDropdownOpen = ref(false)
 const isUpazilaDropdownOpen = ref(false)
 
-const districtSearchQuery = ref('')
-const upazilaSearchQuery = ref('')
-
 const filteredDistricts = computed(() => {
-    if (!districtSearchQuery.value.trim()) return districts.value
-    const q = districtSearchQuery.value.toLowerCase().trim()
+    if (!form.district || !form.district.trim()) return districts.value
+    const q = form.district.toLowerCase().trim()
     return districts.value.filter(d => d.name.toLowerCase().includes(q))
 })
 
 const filteredUpazilas = computed(() => {
-    if (!upazilaSearchQuery.value.trim()) return upazilas.value
-    const q = upazilaSearchQuery.value.toLowerCase().trim()
+    if (!form.upazila || !form.upazila.trim()) return upazilas.value
+    const q = form.upazila.toLowerCase().trim()
     return upazilas.value.filter(u => u.name.toLowerCase().includes(q))
-})
-
-const selectedDistrictName = computed(() => {
-    if (!selectedDistrictId.value) return ''
-    const found = districts.value.find(d => d.id == selectedDistrictId.value)
-    return found ? found.name : form.district || ''
-})
-
-const selectedUpazilaName = computed(() => {
-    if (!selectedUpazilaId.value) return ''
-    const found = upazilas.value.find(u => u.id == selectedUpazilaId.value)
-    return found ? found.name : form.upazila || ''
 })
 
 const cachedDivisions = ref([])
@@ -585,8 +490,6 @@ async function selectCustomAddress() {
     selectedDistrictId.value = ''
     selectedUpazilaId.value = ''
     selectedUnionId.value = ''
-    isManualDistrict.value = false
-    isManualUpazila.value = false
     upazilas.value = []
     unions.value = []
     if (districts.value.length === 0) {
@@ -629,129 +532,106 @@ function handleOutsideClick(event) {
     }
 }
 
-function toggleDistrictDropdown() {
-    isDistrictDropdownOpen.value = !isDistrictDropdownOpen.value
-    if (isDistrictDropdownOpen.value) {
-        isUpazilaDropdownOpen.value = false
-        districtSearchQuery.value = ''
-        nextTick(() => {
-            districtSearchInput.value?.focus()
-        })
+async function onDistrictFocus() {
+    isDistrictDropdownOpen.value = true
+    isUpazilaDropdownOpen.value = false
+    if (districts.value.length === 0) {
+        await loadDistricts()
     }
 }
 
-function toggleUpazilaDropdown() {
-    if (!selectedDistrictId.value) return
-    isUpazilaDropdownOpen.value = !isUpazilaDropdownOpen.value
-    if (isUpazilaDropdownOpen.value) {
-        isDistrictDropdownOpen.value = false
-        upazilaSearchQuery.value = ''
-        nextTick(() => {
-            upazilaSearchInput.value?.focus()
-        })
+function onDistrictInput() {
+    isDistrictDropdownOpen.value = true
+    clearError('district')
+
+    const q = (form.district || '').trim().toLowerCase()
+    if (!q) {
+        selectedDistrictId.value = ''
+        upazilas.value = []
+        selectedUpazilaId.value = ''
+        form.upazila = ''
+        return
+    }
+
+    const matched = districts.value.find(d => d.name.toLowerCase() === q)
+    if (matched) {
+        if (selectedDistrictId.value != matched.id) {
+            selectedDistrictId.value = matched.id
+            fetchUpazilasForDistrict(matched.id)
+            if (matched.division_id && cachedDivisions.value.length) {
+                const divObj = cachedDivisions.value.find(div => div.id == matched.division_id)
+                form.division = divObj ? divObj.name : ''
+            }
+        }
+    } else {
+        if (selectedDistrictId.value) {
+            selectedDistrictId.value = ''
+            upazilas.value = []
+            selectedUpazilaId.value = ''
+            form.upazila = ''
+        }
     }
 }
 
 function selectDistrictItem(d) {
+    form.district = d.name
     selectedDistrictId.value = d.id
     isDistrictDropdownOpen.value = false
-    districtSearchQuery.value = ''
-    handleDistrictChange()
-}
+    clearError('district')
 
-function selectUpazilaItem(u) {
-    selectedUpazilaId.value = u.id
-    isUpazilaDropdownOpen.value = false
-    upazilaSearchQuery.value = ''
-    handleUpazilaChange()
-}
-
-function toggleManualDistrict() {
-    isManualDistrict.value = !isManualDistrict.value
-    isDistrictDropdownOpen.value = false
-    isUpazilaDropdownOpen.value = false
-    delete errors.district
-    delete errors.upazila
-    if (isManualDistrict.value) {
-        selectedDistrictId.value = ''
-        selectedUpazilaId.value = ''
-        form.district = ''
-        form.upazila = ''
-        upazilas.value = []
-        isManualUpazila.value = true
-    } else {
-        form.district = ''
-        form.upazila = ''
-        isManualUpazila.value = false
+    if (d.division_id && cachedDivisions.value.length) {
+        const divObj = cachedDivisions.value.find(div => div.id == d.division_id)
+        form.division = divObj ? divObj.name : ''
     }
+
+    fetchUpazilasForDistrict(d.id)
 }
 
-function toggleManualUpazila() {
-    isManualUpazila.value = !isManualUpazila.value
-    isUpazilaDropdownOpen.value = false
-    delete errors.upazila
-    if (isManualUpazila.value) {
-        selectedUpazilaId.value = ''
-        form.upazila = ''
-    } else {
-        form.upazila = ''
-    }
-}
-
-async function handleDistrictChange() {
-    isManualDistrict.value = false
-    isManualUpazila.value = false
+async function fetchUpazilasForDistrict(districtId) {
     selectedUpazilaId.value = ''
     selectedUnionId.value = ''
     upazilas.value = []
     unions.value = []
     form.upazila = ''
     form.union = ''
-    delete errors.district
-
-    if (!selectedDistrictId.value) {
-        form.district = ''
-        form.division = ''
-        return
-    }
-
-    const districtObj = districts.value.find(d => d.id == selectedDistrictId.value)
-    form.district = districtObj ? districtObj.name : ''
-    // Auto-derive division name from district's division_id using cached divisions
-    if (districtObj?.division_id && cachedDivisions.value.length) {
-        const divObj = cachedDivisions.value.find(d => d.id == districtObj.division_id)
-        form.division = divObj ? divObj.name : ''
-    }
+    delete errors.upazila
 
     try {
-        const response = await axios.get(`/geocode/upazilas?district_id=${selectedDistrictId.value}`)
+        const response = await axios.get(`/geocode/upazilas?district_id=${districtId}`)
         upazilas.value = response.data
     } catch (e) {
         console.error(e)
     }
 }
 
-async function handleUpazilaChange() {
-    isManualUpazila.value = false
-    selectedUnionId.value = ''
-    unions.value = []
-    form.union = ''
-    delete errors.upazila
+function onUpazilaFocus() {
+    isUpazilaDropdownOpen.value = true
+    isDistrictDropdownOpen.value = false
+}
 
-    if (!selectedUpazilaId.value) {
-        form.upazila = ''
+function onUpazilaInput() {
+    isUpazilaDropdownOpen.value = true
+    clearError('upazila')
+
+    const q = (form.upazila || '').trim().toLowerCase()
+    if (!q) {
+        selectedUpazilaId.value = ''
         return
     }
 
-    const upazilaObj = upazilas.value.find(u => u.id == selectedUpazilaId.value)
-    form.upazila = upazilaObj ? upazilaObj.name : ''
-
-    try {
-        const response = await axios.get(`/geocode/unions?upazila_id=${selectedUpazilaId.value}`)
-        unions.value = response.data
-    } catch (e) {
-        console.error(e)
+    const matched = upazilas.value.find(u => u.name.toLowerCase() === q)
+    if (matched) {
+        selectedUpazilaId.value = matched.id
+    } else {
+        selectedUpazilaId.value = ''
     }
+}
+
+function selectUpazilaItem(u) {
+    form.upazila = u.name
+    selectedUpazilaId.value = u.id
+    isUpazilaDropdownOpen.value = false
+    clearError('upazila')
 }
 
 function handleUnionChange() {
@@ -844,9 +724,9 @@ async function submitForm() {
         const payload = {
             ...form,
             selected_address_id: selectedAddressId.value || null,
-            division_id: isManualDistrict.value ? null : (districts.value.find(d => d.id == selectedDistrictId.value)?.division_id || null),
-            district_id: isManualDistrict.value ? null : (selectedDistrictId.value || null),
-            upazila_id: (isManualDistrict.value || isManualUpazila.value) ? null : (selectedUpazilaId.value || null),
+            division_id: selectedDistrictId.value ? (districts.value.find(d => d.id == selectedDistrictId.value)?.division_id || null) : null,
+            district_id: selectedDistrictId.value || null,
+            upazila_id: selectedUpazilaId.value || null,
             union_id: selectedUnionId.value || null,
             items: items,
             subtotal: cartStore.subtotal,
