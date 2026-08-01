@@ -3,7 +3,9 @@
     $variationAttributesData = (object) [];
 
     if ($product->type?->value === 'variable') {
-        $variationsData = $product->variations->map(function ($v) {
+        $activeVariations = $product->variations->where('active', true);
+
+        $variationsData = $activeVariations->map(function ($v) {
             return [
                 'id' => $v->id,
                 'sku' => $v->sku,
@@ -17,29 +19,33 @@
         })->values()->toArray();
 
         $attrMap = [];
-        // 1. Extract attribute values directly linked to product
+        $activeValueIds = $activeVariations->flatMap(fn($v) => $v->attributeValues->pluck('id'))->unique()->toArray();
+
+        // 1. Extract attribute values directly linked to product that belong to active variations
         foreach ($product->attributeValues as $value) {
-            $attr = $value->attribute;
-            if ($attr) {
-                $attrMap[$attr->id] ??= [
-                    'id' => $attr->id,
-                    'name' => $attr->name,
-                    'input_type' => $attr->input_type,
-                    'values' => [],
-                ];
-                $existingValIds = array_column($attrMap[$attr->id]['values'], 'id');
-                if (! in_array($value->id, $existingValIds)) {
-                    $attrMap[$attr->id]['values'][] = [
-                        'id' => $value->id,
-                        'value' => $value->value,
-                        'swatch' => $value->swatch,
+            if (in_array($value->id, $activeValueIds)) {
+                $attr = $value->attribute;
+                if ($attr) {
+                    $attrMap[$attr->id] ??= [
+                        'id' => $attr->id,
+                        'name' => $attr->name,
+                        'input_type' => $attr->input_type,
+                        'values' => [],
                     ];
+                    $existingValIds = array_column($attrMap[$attr->id]['values'], 'id');
+                    if (! in_array($value->id, $existingValIds)) {
+                        $attrMap[$attr->id]['values'][] = [
+                            'id' => $value->id,
+                            'value' => $value->value,
+                            'swatch' => $value->swatch,
+                        ];
+                    }
                 }
             }
         }
 
-        // 2. Extract attribute values linked to product variations
-        foreach ($product->variations as $v) {
+        // 2. Extract attribute values linked to active variations
+        foreach ($activeVariations as $v) {
             foreach ($v->attributeValues as $value) {
                 $attr = $value->attribute;
                 if ($attr) {

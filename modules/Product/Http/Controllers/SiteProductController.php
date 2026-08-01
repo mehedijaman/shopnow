@@ -185,11 +185,13 @@ class SiteProductController extends SiteController
             ];
         }
 
+        $activeVariations = $product->variations->where('active', true);
+
         // Fallback: if product has variations but no linked attribute values,
-        // load only the attributes used by this product's variations.
-        if (empty($variationAttributes) && $product->variations->isNotEmpty()) {
-            // Collect attribute value IDs from all variations
-            $usedAttributeValueIds = $product->variations
+        // load only the attributes used by this product's active variations.
+        if (empty($variationAttributes) && $activeVariations->isNotEmpty()) {
+            // Collect attribute value IDs from active variations
+            $usedAttributeValueIds = $activeVariations
                 ->flatMap(fn ($v) => $v->attributeValues->pluck('id'))
                 ->unique()
                 ->toArray();
@@ -216,7 +218,7 @@ class SiteProductController extends SiteController
             }
         }
 
-        $variations = $product->variations->map(fn ($v) => [
+        $variations = $activeVariations->map(fn ($v) => [
             'id' => $v->id,
             'price' => (float) $v->price,
             'sale_price' => (float) $v->sale_price,
@@ -225,7 +227,7 @@ class SiteProductController extends SiteController
             'sku' => $v->sku,
             'attribute_value_ids' => $v->attributeValues->pluck('id'),
             'image_url' => $v->getFirstMediaUrl('image'),
-        ]);
+        ])->values();
 
         $bundleItems = [];
         if ($product->type === ProductType::Bundle) {

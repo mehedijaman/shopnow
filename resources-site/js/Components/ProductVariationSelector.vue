@@ -13,7 +13,7 @@
       <div v-if="attr.input_type === 'color'" class="flex flex-wrap gap-1">
         <button v-for="val in attr.values" :key="val.id" type="button" :title="val.value" :class="[
           'h-5 w-5 sm:h-6 sm:w-6 rounded-full border transition-all duration-200 focus:outline-none',
-          selectedIds.includes(val.id)
+          selectedIds.includes(Number(val.id))
             ? 'border-primary-600 ring-2 ring-primary-500/40 ring-offset-1 scale-110 shadow-sm dark:border-primary-400'
             : 'border-gray-200 hover:border-gray-400 hover:scale-105 dark:border-gray-700',
           !isAvailable(val.id) ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer',
@@ -25,7 +25,7 @@
       <div v-else-if="attr.input_type === 'image'" class="flex flex-wrap gap-1">
         <button v-for="val in attr.values" :key="val.id" type="button" :title="val.value" :class="[
           'h-8 w-8 sm:h-9 sm:w-9 overflow-hidden rounded-md border bg-cover bg-center transition-all duration-200 focus:outline-none',
-          selectedIds.includes(val.id)
+          selectedIds.includes(Number(val.id))
             ? 'border-primary-600 ring-2 ring-primary-500/40 ring-offset-1 scale-105 shadow-sm dark:border-primary-400'
             : 'border-gray-200 hover:border-gray-400 dark:border-gray-700',
           !isAvailable(val.id) ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer',
@@ -40,7 +40,7 @@
       <div v-else class="flex flex-wrap gap-1">
         <button v-for="val in attr.values" :key="val.id" type="button" :class="[
           'rounded-md border px-2 py-0.5 text-[10px] sm:px-2.5 sm:py-1 sm:text-xs font-semibold transition-all duration-200 focus:outline-none',
-          selectedIds.includes(val.id)
+          selectedIds.includes(Number(val.id))
             ? 'border-primary-600 bg-primary-600 text-white shadow-sm ring-1 ring-primary-500/30'
             : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-750',
           !isAvailable(val.id) ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer',
@@ -63,7 +63,7 @@
             ৳{{ variation.price }}
           </template>
         </div>
-        <span v-if="variation.quantity <= 0"
+        <span v-if="!variation.active || variation.quantity <= 0"
           class="rounded-full bg-red-50 px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-red-600 dark:bg-red-950/40 dark:text-red-400">Out of Stock</span>
         <span v-else-if="variation.quantity < 10"
           class="rounded-full bg-amber-50 px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:bg-amber-950/40 dark:text-amber-400">Only {{ variation.quantity }} left</span>
@@ -90,22 +90,23 @@ const attributes = computed(() => {
   return Object.values(props.allAttributes).filter((a) => a.values?.length)
 })
 
-const selectedIds = computed(() => Object.values(selected.value).filter(Boolean))
+const selectedIds = computed(() => Object.values(selected.value).filter(Boolean).map(Number))
 
 const isAvailable = (valueId) => {
+  const targetId = Number(valueId)
   return props.variations.some((v) => {
-    if (!v.attribute_value_ids?.includes(valueId)) return false
-    return true
+    const vIds = (v.attribute_value_ids || []).map(Number)
+    return vIds.includes(targetId)
   })
 }
 
 const matchedVariation = computed(() => {
-  const ids = Object.values(selected.value).filter(Boolean).sort()
-  if (ids.length === 0 || ids.length !== attributes.value.length) return null
+  const selectedValues = Object.values(selected.value).filter(Boolean).map(Number).sort((a, b) => a - b)
+  if (selectedValues.length === 0 || selectedValues.length !== attributes.value.length) return null
 
   return props.variations.find((v) => {
-    const vIds = [...(v.attribute_value_ids || [])].sort()
-    return JSON.stringify(vIds) === JSON.stringify(ids)
+    const vIds = (v.attribute_value_ids || []).map(Number).sort((a, b) => a - b)
+    return vIds.length === selectedValues.length && vIds.every((id, index) => id === selectedValues[index])
   }) || null
 })
 
@@ -118,10 +119,11 @@ watch(variation, (v) => {
 })
 
 const selectValue = (attrId, valId) => {
-  if (selected.value[attrId] === valId) {
+  const current = selected.value[attrId]
+  if (current != null && Number(current) === Number(valId)) {
     selected.value[attrId] = null
   } else {
-    selected.value[attrId] = valId
+    selected.value[attrId] = Number(valId)
   }
 }
 
@@ -131,9 +133,9 @@ const selectedValueForAttr = (attrId) => {
 
 const getSelectedValueName = (attrId) => {
   const valId = selected.value[attrId]
-  if (!valId) return ''
-  const attr = attributes.value.find((a) => a.id === attrId)
-  const val = attr?.values?.find((v) => v.id === valId)
+  if (valId == null) return ''
+  const attr = attributes.value.find((a) => Number(a.id) === Number(attrId))
+  const val = attr?.values?.find((v) => Number(v.id) === Number(valId))
   return val?.value || ''
 }
 
