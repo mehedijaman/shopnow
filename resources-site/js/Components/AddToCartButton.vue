@@ -69,7 +69,7 @@ const canAddToCart = computed(() => {
     if (hasBundle.value && props.product.quantity <= 0) return false
     if (props.product.quantity <= 0 && !hasVariations.value && !hasBundle.value) return false
     if (hasVariations.value && !selectedVariation.value) return false
-    if (hasVariations.value && selectedVariation.value && selectedVariation.value.quantity <= 0) return false
+    if (hasVariations.value && selectedVariation.value && (!selectedVariation.value.active || selectedVariation.value.quantity <= 0)) return false
     return true
 })
 

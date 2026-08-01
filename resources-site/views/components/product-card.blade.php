@@ -3,8 +3,7 @@
     $variationAttributesData = (object) [];
 
     if ($product->type?->value === 'variable') {
-        $activeVariations = $product->variations->where('active', true);
-        $variationsData = $activeVariations->map(function ($v) {
+        $variationsData = $product->variations->map(function ($v) {
             return [
                 'id' => $v->id,
                 'sku' => $v->sku,
@@ -18,6 +17,7 @@
         })->values()->toArray();
 
         $attrMap = [];
+        // 1. Extract attribute values directly linked to product
         foreach ($product->attributeValues as $value) {
             $attr = $value->attribute;
             if ($attr) {
@@ -37,6 +37,30 @@
                 }
             }
         }
+
+        // 2. Extract attribute values linked to product variations
+        foreach ($product->variations as $v) {
+            foreach ($v->attributeValues as $value) {
+                $attr = $value->attribute;
+                if ($attr) {
+                    $attrMap[$attr->id] ??= [
+                        'id' => $attr->id,
+                        'name' => $attr->name,
+                        'input_type' => $attr->input_type,
+                        'values' => [],
+                    ];
+                    $existingValIds = array_column($attrMap[$attr->id]['values'], 'id');
+                    if (! in_array($value->id, $existingValIds)) {
+                        $attrMap[$attr->id]['values'][] = [
+                            'id' => $value->id,
+                            'value' => $value->value,
+                            'swatch' => $value->swatch,
+                        ];
+                    }
+                }
+            }
+        }
+
         $variationAttributesData = $attrMap;
     }
 @endphp
