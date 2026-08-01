@@ -106,30 +106,28 @@
                     <div v-if="selectedAddressId === 'new'"
                         class="col-span-2 grid grid-cols-1 gap-4 md:grid-cols-2 border border-gray-150 rounded-xl p-4 bg-gray-50/55">
                         <div class="col-span-2">
-                            <h3 class="text-sm font-semibold text-gray-900">Custom Shipping Address</h3>
+                            <h3 class="text-sm font-semibold text-gray-900">Shipping Address</h3>
                         </div>
 
 
 
                         <!-- District -->
-                        <div ref="districtContainerRef" class="relative">
+                        <div ref="districtContainerRef" class="relative col-span-2 md:col-span-1">
+
                             <label for="district" class="mb-1.5 block text-sm font-medium text-gray-700">
                                 District <span class="text-red-500">*</span>
+
                             </label>
                             <div class="relative">
                                 <input v-model="form.district" type="text" id="district"
-                                    placeholder="Enter or select district name"
-                                    :class="inputClass('district')"
-                                    @focus="onDistrictFocus"
-                                    @input="onDistrictInput"
-                                    autocomplete="off" />
+                                    placeholder="Enter or select district name" :class="inputClass('district')"
+                                    @focus="onDistrictFocus" @input="onDistrictInput" autocomplete="off" />
 
                                 <!-- Dropdown Menu -->
                                 <div v-if="isDistrictDropdownOpen && filteredDistricts.length > 0"
                                     class="absolute z-30 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white p-1 shadow-lg text-xs">
                                     <ul class="divide-y divide-gray-50">
-                                        <li v-for="d in filteredDistricts" :key="d.id"
-                                            @click="selectDistrictItem(d)"
+                                        <li v-for="d in filteredDistricts" :key="d.id" @click="selectDistrictItem(d)"
                                             :class="[
                                                 'cursor-pointer px-3 py-2 transition-colors rounded-md hover:bg-primary-50 hover:text-primary-700',
                                                 selectedDistrictId == d.id ? 'bg-primary-50 font-semibold text-primary-700' : 'text-gray-700'
@@ -143,25 +141,23 @@
                         </div>
 
                         <!-- Upazila (optional) -->
-                        <div ref="upazilaContainerRef" class="relative">
+                        <div ref="upazilaContainerRef" class="relative col-span-2 md:col-span-1">
+
                             <label for="upazila" class="mb-1.5 block text-sm font-medium text-gray-700">
                                 Upazila / Thana
                                 <span class="text-xs text-gray-400">(Optional)</span>
+
                             </label>
                             <div class="relative">
                                 <input v-model="form.upazila" type="text" id="upazila"
-                                    placeholder="Enter or select upazila/thana name"
-                                    :class="inputClass('upazila')"
-                                    @focus="onUpazilaFocus"
-                                    @input="onUpazilaInput"
-                                    autocomplete="off" />
+                                    placeholder="Enter or select upazila/thana name" :class="inputClass('upazila')"
+                                    @focus="onUpazilaFocus" @input="onUpazilaInput" autocomplete="off" />
 
                                 <!-- Dropdown Menu -->
                                 <div v-if="isUpazilaDropdownOpen && filteredUpazilas.length > 0"
                                     class="absolute z-30 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white p-1 shadow-lg text-xs">
                                     <ul class="divide-y divide-gray-50">
-                                        <li v-for="u in filteredUpazilas" :key="u.id"
-                                            @click="selectUpazilaItem(u)"
+                                        <li v-for="u in filteredUpazilas" :key="u.id" @click="selectUpazilaItem(u)"
                                             :class="[
                                                 'cursor-pointer px-3 py-2 transition-colors rounded-md hover:bg-primary-50 hover:text-primary-700',
                                                 selectedUpazilaId == u.id ? 'bg-primary-50 font-semibold text-primary-700' : 'text-gray-700'

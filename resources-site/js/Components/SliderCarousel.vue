@@ -1,12 +1,13 @@
 <template>
     <div v-if="parsedSliders.length" class="mx-auto max-w-7xl px-6 pt-6 sm:pt-8 lg:px-6">
-        <div class="group relative w-full overflow-hidden rounded-sm bg-gray-900 h-[125px] lg:h-[285px]"
+        <div class="group relative w-full overflow-hidden rounded-sm bg-gray-900 h-[200px] lg:h-[380px]"
             @mouseenter="pauseTimer" @mouseleave="startTimer">
             <!-- Slides -->
             <div class="flex h-full transition-transform duration-700 ease-out"
                 :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
                 <div v-for="(slide, index) in parsedSliders" :key="index"
-                    class="relative h-full w-full shrink-0 overflow-hidden">
+                    class="relative flex h-full w-full shrink-0 items-center justify-center overflow-hidden"
+                    :style="{ backgroundColor: slide.bg_color || undefined }">
                     <!-- Background: image or color fallback -->
                     <img v-if="slide.image_url" :src="slide.image_url" :alt="slide.title ?? ''"
                         class="h-full w-full object-cover transition-transform duration-10000 ease-linear"
