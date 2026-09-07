@@ -113,7 +113,10 @@
             @endif
         </a>
 
-        <div class="flex items-center">
+        <div class="flex items-center gap-1">
+            <a href="{{ route('site.index') }}" aria-label="Home" class="flex h-10 w-10 items-center justify-center rounded-xl text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
+                <i class="ri-home-5-line text-xl"></i>
+            </a>
             <navbar-cart-menu></navbar-cart-menu>
         </div>
     </header>
@@ -199,6 +202,11 @@
                 
                 {{-- Separator --}}
                 <div class="h-6 w-px bg-slate-200 dark:bg-slate-800"></div>
+
+                {{-- Home Link --}}
+                <a href="{{ route('site.index') }}" aria-label="Home" class="flex h-10 w-10 items-center justify-center rounded-xl text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
+                    <i class="ri-home-5-line text-xl"></i>
+                </a>
 
                 {{-- Cart Menu Island --}}
                 <navbar-cart-menu></navbar-cart-menu>
