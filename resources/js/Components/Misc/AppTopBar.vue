@@ -22,6 +22,14 @@
                 <i :class="iconThemeClass"></i>
             </AppButton>
 
+            <Link
+                :href="route('site.index')"
+                class="btn btn-icon hover:bg-skin-neutral-4"
+                target="_blank"
+            >
+                <i class="ri-home-5-line"></i>
+            </Link>
+
             <!-- User avatar dropdown -->
             <div ref="dropdownRef" class="relative">
                 <button
