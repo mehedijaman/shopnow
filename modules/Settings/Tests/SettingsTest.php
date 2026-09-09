@@ -396,15 +396,14 @@ test('analytics settings rejects invalid ga_measurement_id format', function () 
     $response->assertSessionHasErrors('ga_measurement_id');
 });
 
-test('site-layout renders gtag snippet when analytics is enabled and measurement ID set', function () {
-    Setting::updateOrCreate(['group' => 'analytics', 'key' => 'enabled'], ['value' => '1']);
-    Setting::updateOrCreate(['group' => 'analytics', 'key' => 'ga_measurement_id'], ['value' => 'G-TEST123456']);
+test('site-layout renders GTM container script when gtm_container_id is set', function () {
+    Setting::updateOrCreate(['group' => 'analytics', 'key' => 'gtm_container_id'], ['value' => 'GTM-TEST123']);
     Cache::forget('settings');
 
     $view = $this->view('site-layout', ['seo' => []]);
 
-    $view->assertSee('googletagmanager.com/gtag/js?id=', false);
-    $view->assertSee('G-TEST123456', false);
+    $view->assertSee('googletagmanager.com/gtm.js?id=', false);
+    $view->assertSee('GTM-TEST123', false);
 });
 
 test('mail settings configures smtp when enabled and falls back to env when disabled', function () {

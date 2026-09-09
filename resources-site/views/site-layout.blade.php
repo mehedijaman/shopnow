@@ -99,14 +99,10 @@
             $pixelCanLoadInEnv = app()->environment('production') || $pixelEnableNonProduction;
             $pixelCanLoad = $pixelEnabled && $pixelCanLoadInEnv && $pixelId !== '';
 
-            $gaEnabled = (bool) setting('analytics.enabled', false);
-            $gaId = (string) setting('analytics.ga_measurement_id', '');
-            $gaCanLoad = $gaEnabled && $gaId !== '';
-
             $gtmContainerId = (string) setting('analytics.gtm_container_id', '');
             $gtmCanLoad = $gtmContainerId !== '';
 
-            $trackingCanLoad = $pixelCanLoad || $gaCanLoad || $gtmCanLoad;
+            $trackingCanLoad = $pixelCanLoad || $gtmCanLoad;
             $showConsentBanner = $trackingCanLoad && ($pixelCanLoad ? $pixelRequireConsent : true);
         @endphp
 
@@ -154,18 +150,12 @@
                     requireConsent: @json($pixelRequireConsent),
                 }
 
-                var gaConfig = {
-                    enabled: @json($gaCanLoad),
-                    gaId: @json($gaId),
-                }
-
                 var gtmConfig = {
                     enabled: @json($gtmCanLoad),
                     containerId: @json($gtmContainerId),
                 }
 
                 var initializedPixel = false
-                var initializedGa = false
                 var initializedGtm = false
 
                 function initPixel() {
@@ -186,25 +176,6 @@
 
                     fbq('init', pixelConfig.pixelId)
                     fbq('track', 'PageView')
-                }
-
-                function initGa() {
-                    if (!gaConfig.enabled || initializedGa || !gaConfig.gaId) {
-                        return
-                    }
-
-                    initializedGa = true
-
-                    var script = document.createElement('script')
-                    script.async = true
-                    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(gaConfig.gaId)
-                    document.head.appendChild(script)
-
-                    window.dataLayer = window.dataLayer || []
-                    function gtag(){ dataLayer.push(arguments); }
-                    window.gtag = gtag
-                    gtag('js', new Date())
-                    gtag('config', gaConfig.gaId)
                 }
 
                 function initGtm() {
@@ -242,7 +213,6 @@
 
                         if (granted) {
                             initPixel()
-                            initGa()
                             initGtm()
                         }
 
@@ -266,18 +236,21 @@
                         window.fbq('trackCustom', eventName, payload || {})
                     },
                     trackGa: function (eventName, payload) {
-                        if (!hasConsent() || typeof window.gtag !== 'function') {
+                        if (!hasConsent()) {
                             return
                         }
 
-                        window.gtag('event', eventName, payload || {})
+                        window.dataLayer = window.dataLayer || []
+                        window.dataLayer.push({
+                            event: eventName,
+                            ecommerce: payload || {},
+                        })
                     },
                 }
 
                 var consent = getConsentValue()
                 if (hasConsent()) {
                     initPixel()
-                    initGa()
                     initGtm()
                 }
 
