@@ -31,6 +31,26 @@
                 items: @json($purchaseItems)
             });
         }
+
+        window.dataLayer = window.dataLayer || []
+        var purchaseTransactionId = @json((string) $order->id)
+        var purchaseStorageKey = 'purchase_' + purchaseTransactionId
+        var purchaseAlreadyFired = false
+        try { purchaseAlreadyFired = sessionStorage.getItem(purchaseStorageKey) === '1' } catch (e) {}
+        if (!purchaseAlreadyFired) {
+            window.dataLayer.push({
+                event: 'purchase',
+                ecommerce: {
+                    transaction_id: purchaseTransactionId,
+                    value: Number(@json((float) $order->total)),
+                    tax: Number(@json((float) $order->tax)),
+                    shipping: Number(@json((float) $order->shipping)),
+                    currency: 'BDT',
+                    items: @json($purchaseItems)
+                }
+            })
+            try { sessionStorage.setItem(purchaseStorageKey, '1') } catch (e) {}
+        }
     </script>
 @endsection
 

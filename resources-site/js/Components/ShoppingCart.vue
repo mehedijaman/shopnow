@@ -252,6 +252,24 @@ const trackViewCart = () => {
             }))
         })
     }
+
+    if (cartStore.items && cartStore.items.length > 0) {
+        window.dataLayer = window.dataLayer || []
+        window.dataLayer.push({
+            event: 'view_cart',
+            ecommerce: {
+                currency: 'BDT',
+                value: Number(cartStore.subtotal || 0),
+                items: cartStore.items.map((cartItem) => ({
+                    item_id: String(cartItem.item.id),
+                    item_name: cartItem.item.name,
+                    price: Number(cartItem.item.price || 0),
+                    item_variant: cartItem.variation_label || undefined,
+                    quantity: Number(cartItem.quantity || 1),
+                }))
+            }
+        })
+    }
 }
 
 onMounted(() => {

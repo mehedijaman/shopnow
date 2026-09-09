@@ -63,6 +63,22 @@ export const useCartStore = defineStore('CartStore', {
                 })
             }
 
+            window.dataLayer = window.dataLayer || []
+            window.dataLayer.push({
+                event: 'remove_from_cart',
+                ecommerce: {
+                    currency: 'BDT',
+                    value: Number(item.item?.price || item.price || 0) * Number(item.quantity || 1),
+                    items: [{
+                        item_id: String(item.item?.id || item.product_id || item.id),
+                        item_name: item.item?.name || item.name || '',
+                        price: Number(item.item?.price || item.price || 0),
+                        item_variant: item.variation_label || undefined,
+                        quantity: Number(item.quantity || 1),
+                    }]
+                }
+            })
+
             try {
                 const response = await axios.delete(`/cart/items/${item.id}`)
                 this.setCartFromResponse(response.data)

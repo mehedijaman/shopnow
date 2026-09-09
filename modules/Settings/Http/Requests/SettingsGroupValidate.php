@@ -144,6 +144,7 @@ class SettingsGroupValidate extends Request
         return [
             'enabled' => 'nullable|boolean',
             'ga_measurement_id' => ['nullable', 'string', 'regex:/^G-[A-Z0-9]+$/i'],
+            'gtm_container_id' => ['nullable', 'string', 'regex:/^GTM-[A-Z0-9]+$/i'],
         ];
     }
 }

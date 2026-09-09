@@ -162,5 +162,45 @@
         })
     }
     @endif
+
+    window.dataLayer = window.dataLayer || []
+    @php
+        $listName = isset($category) ? $category->name : (isset($searchText) ? 'Search: '.$searchText : 'All Products');
+        $viewItemListProducts = $products->map(fn($p) => [
+            'id' => $p->id,
+            'name' => $p->name,
+            'price' => (float) ($p->sale_price ?? $p->price),
+            'category' => $p->category?->name,
+            'brand' => $p->brand?->name,
+        ])->values()->all();
+    @endphp
+    @if ($products->count())
+    ;(function () {
+        var listName = {!! json_encode($listName) !!}
+        var products = {!! json_encode($viewItemListProducts) !!}
+        if (products.length > 0) {
+            window.dataLayer.push({
+                event: 'view_item_list',
+                ecommerce: {
+                    currency: 'BDT',
+                    value: products.reduce(function (s, p) { return s + (p.price || 0) }, 0),
+                    item_list_name: listName,
+                    items: products.map(function (p, i) {
+                        return {
+                            item_id: String(p.id),
+                            item_name: p.name,
+                            price: Number(p.price || 0),
+                            item_category: p.category || undefined,
+                            item_brand: p.brand || undefined,
+                            item_list_id: listName,
+                            index: i,
+                            quantity: 1,
+                        }
+                    })
+                }
+            })
+        }
+    })()
+    @endif
 </script>
 @endpush

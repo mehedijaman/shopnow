@@ -103,7 +103,10 @@
             $gaId = (string) setting('analytics.ga_measurement_id', '');
             $gaCanLoad = $gaEnabled && $gaId !== '';
 
-            $trackingCanLoad = $pixelCanLoad || $gaCanLoad;
+            $gtmContainerId = (string) setting('analytics.gtm_container_id', '');
+            $gtmCanLoad = $gtmContainerId !== '';
+
+            $trackingCanLoad = $pixelCanLoad || $gaCanLoad || $gtmCanLoad;
             $showConsentBanner = $trackingCanLoad && ($pixelCanLoad ? $pixelRequireConsent : true);
         @endphp
 
@@ -156,8 +159,14 @@
                     gaId: @json($gaId),
                 }
 
+                var gtmConfig = {
+                    enabled: @json($gtmCanLoad),
+                    containerId: @json($gtmContainerId),
+                }
+
                 var initializedPixel = false
                 var initializedGa = false
+                var initializedGtm = false
 
                 function initPixel() {
                     if (!pixelConfig.enabled || initializedPixel || !pixelConfig.pixelId) {
@@ -198,6 +207,25 @@
                     gtag('config', gaConfig.gaId)
                 }
 
+                function initGtm() {
+                    if (!gtmConfig.enabled || initializedGtm || !gtmConfig.containerId) {
+                        return
+                    }
+
+                    initializedGtm = true
+
+                    window.dataLayer = window.dataLayer || []
+                    window.dataLayer.push({
+                        'gtm.start': new Date().getTime(),
+                        event: 'gtm.js',
+                    })
+
+                    var script = document.createElement('script')
+                    script.async = true
+                    script.src = 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(gtmConfig.containerId)
+                    document.head.appendChild(script)
+                }
+
                 function hasConsent() {
                     if (pixelConfig.enabled && !pixelConfig.requireConsent) {
                         return true
@@ -215,6 +243,7 @@
                         if (granted) {
                             initPixel()
                             initGa()
+                            initGtm()
                         }
 
                         var banner = document.getElementById(bannerId)
@@ -249,6 +278,7 @@
                 if (hasConsent()) {
                     initPixel()
                     initGa()
+                    initGtm()
                 }
 
                 document.addEventListener('DOMContentLoaded', function () {
@@ -283,6 +313,13 @@
     </head>
 
     <body>
+        @if ($gtmCanLoad)
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id={{ urlencode($gtmContainerId) }}"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+        @endif
+
         <div id="app">
             <x-header></x-header>
 

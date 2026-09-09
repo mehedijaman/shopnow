@@ -40,6 +40,20 @@
                     {{ errors.ga_measurement_id }}
                 </p>
             </div>
+
+            <div class="sm:col-span-2">
+                <AppLabel for="gtm_container_id" :value="__('Google Tag Manager Container ID')" />
+                <p class="mb-1 text-xs text-skin-neutral-9">Find this in your GTM admin under Container &gt; Container ID (e.g. GTM-XXXXXXX). Leave empty to disable GTM.</p>
+                <AppInputText
+                    id="gtm_container_id"
+                    v-model="form.gtm_container_id"
+                    placeholder="GTM-XXXXXXX"
+                    :class="{ 'input-error': errorsFields.includes('gtm_container_id') }"
+                />
+                <p v-if="errorsFields.includes('gtm_container_id')" class="mt-1 text-sm text-red-500">
+                    {{ errors.gtm_container_id }}
+                </p>
+            </div>
         </div>
     </div>
 </template>

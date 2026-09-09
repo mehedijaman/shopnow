@@ -1,1 +1,0 @@
-import{_ as e,k as t}from"./_plugin-vue_export-helper-DdJra6bM.js";import{s as n}from"./app-CCD7QZv-.js";t();function r(){let t=e(()=>n().props.errors);return{errors:t,errorsFields:e(()=>Object.keys(t.value))}}export{r as t};

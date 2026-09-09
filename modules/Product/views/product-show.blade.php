@@ -28,6 +28,23 @@
                 }]
             })
         }
+
+        window.dataLayer = window.dataLayer || []
+        window.dataLayer.push({
+            event: 'view_item',
+            ecommerce: {
+                currency: 'BDT',
+                value: Number(@json($product->sale_price ?? $product->price ?? 0)),
+                items: [{
+                    item_id: String(@json($product->id)),
+                    item_name: @json($product->name),
+                    price: Number(@json($product->sale_price ?? $product->price ?? 0)),
+                    item_category: @json($product->category?->name),
+                    item_brand: @json($product->brand?->name),
+                    quantity: 1,
+                }]
+            }
+        })
     </script>
 @endsection
 
