@@ -46,6 +46,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useCartStore } from '../Stores/CartStore'
+import { pushAddToCart } from '../analytics/datalayer'
 import ProductVariationSelector from './ProductVariationSelector.vue'
 
 const cartStore = useCartStore()
@@ -144,21 +145,7 @@ function addToCart() {
         })
     }
 
-    window.dataLayer = window.dataLayer || []
-    window.dataLayer.push({
-        event: 'add_to_cart',
-        ecommerce: {
-            currency: 'BDT',
-            value: Number(item.price || 0) * Number(quantity.value || 1),
-            items: [{
-                item_id: String(item.id),
-                item_name: item.name,
-                price: Number(item.price || 0),
-                item_variant: item.variation_label || undefined,
-                quantity: Number(quantity.value || 1),
-            }]
-        }
-    })
+    pushAddToCart(item, quantity.value)
 }
 
 const generateVariationLabel = () => {

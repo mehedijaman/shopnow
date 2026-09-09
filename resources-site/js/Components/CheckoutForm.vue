@@ -347,6 +347,7 @@
 <script setup>
 import { ref, reactive, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useCartStore } from '../Stores/CartStore'
+import { pushBeginCheckout } from '../analytics/datalayer'
 import axios from 'axios'
 
 const cartStore = useCartStore()
@@ -475,21 +476,7 @@ onMounted(async () => {
         }))
     })
 
-    window.dataLayer = window.dataLayer || []
-    window.dataLayer.push({
-        event: 'begin_checkout',
-        ecommerce: {
-            currency: 'BDT',
-            value: Number(orderTotal.value || 0),
-            items: cartStore.items.map((cartItem) => ({
-                item_id: String(cartItem.item.id),
-                item_name: cartItem.item.name,
-                price: Number(cartItem.item.price || 0),
-                item_variant: cartItem.variation_label || undefined,
-                quantity: Number(cartItem.quantity || 1),
-            }))
-        }
-    })
+    pushBeginCheckout(cartStore.items, orderTotal.value)
 })
 
 async function selectCustomAddress() {
