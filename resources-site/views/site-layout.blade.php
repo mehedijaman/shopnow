@@ -235,17 +235,6 @@
 
                         window.fbq('trackCustom', eventName, payload || {})
                     },
-                    trackGa: function (eventName, payload) {
-                        if (!hasConsent()) {
-                            return
-                        }
-
-                        window.dataLayer = window.dataLayer || []
-                        window.dataLayer.push({
-                            event: eventName,
-                            ecommerce: payload || {},
-                        })
-                    },
                 }
 
                 var consent = getConsentValue()

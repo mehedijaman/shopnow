@@ -23,15 +23,6 @@
 @section('bodyEndScripts')
     @vite('resources-site/js/index-app.js')
     <script>
-        if (window.ShopNowTracking) {
-            window.ShopNowTracking.trackGa('purchase', {
-                transaction_id: @json((string) $order->id),
-                value: Number(@json((float) $order->total)),
-                currency: 'BDT',
-                items: @json($purchaseItems)
-            });
-        }
-
         window.dataLayer = window.dataLayer || []
         var purchaseTransactionId = @json((string) $order->id)
         var purchaseStorageKey = 'purchase_' + purchaseTransactionId

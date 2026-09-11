@@ -451,32 +451,19 @@ onMounted(async () => {
         }
     }
 
-    if (!window.ShopNowTracking) {
-        return
-    }
-
     window.addEventListener('click', handleOutsideClick)
 
-    window.ShopNowTracking.track('InitiateCheckout', {
-        content_ids: cartStore.items.map((cartItem) => String(cartItem.item.id)),
-        content_type: 'product',
-        num_items: cartStore.items.reduce((total, cartItem) => total + Number(cartItem.quantity || 0), 0),
-        value: Number(orderTotal.value || 0),
-        currency: 'BDT',
-    })
-    window.ShopNowTracking.trackGa('begin_checkout', {
-        currency: 'BDT',
-        value: Number(orderTotal.value || 0),
-        items: cartStore.items.map((cartItem) => ({
-            item_id: String(cartItem.item.id),
-            item_name: cartItem.item.name,
-            price: Number(cartItem.item.price || 0),
-            item_variant: cartItem.variation_label || undefined,
-            quantity: Number(cartItem.quantity || 1),
-        }))
-    })
-
     pushBeginCheckout(cartStore.items, orderTotal.value)
+
+    if (window.ShopNowTracking) {
+        window.ShopNowTracking.track('InitiateCheckout', {
+            content_ids: cartStore.items.map((cartItem) => String(cartItem.item.id)),
+            content_type: 'product',
+            num_items: cartStore.items.reduce((total, cartItem) => total + Number(cartItem.quantity || 0), 0),
+            value: Number(orderTotal.value || 0),
+            currency: 'BDT',
+        })
+    }
 })
 
 async function selectCustomAddress() {

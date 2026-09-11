@@ -240,20 +240,6 @@ const props = defineProps({
 const cartStore = useCartStore()
 
 const trackViewCart = () => {
-    if (window.ShopNowTracking && cartStore.items && cartStore.items.length > 0) {
-        window.ShopNowTracking.trackGa('view_cart', {
-            currency: 'BDT',
-            value: Number(cartStore.subtotal || 0),
-            items: cartStore.items.map((cartItem) => ({
-                item_id: String(cartItem.item.id),
-                item_name: cartItem.item.name,
-                price: Number(cartItem.item.price || 0),
-                item_variant: cartItem.variation_label || undefined,
-                quantity: Number(cartItem.quantity || 1),
-            }))
-        })
-    }
-
     if (cartStore.items && cartStore.items.length > 0) {
         pushViewCart(cartStore.items, cartStore.subtotal)
     }
