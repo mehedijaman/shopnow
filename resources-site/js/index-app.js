@@ -4,6 +4,7 @@ import NavbarCartMenu from './Components/NavbarCartMenu.vue'
 import AddToCartButton from './Components/AddToCartButton.vue'
 import ShopSearch from './Components/ShopSearch.vue'
 import CheckoutForm from './Components/CheckoutForm.vue'
+import CartCheckout from './Components/CartCheckout.vue'
 import SliderCarousel from './Components/SliderCarousel.vue'
 import BrandsCarousel from './Components/BrandsCarousel.vue'
 import WhatsappFloatingButton from './Components/WhatsappFloatingButton.vue'
@@ -14,6 +15,7 @@ createVueApp({
     NavbarCartMenu,
     AddToCartButton,
     CheckoutForm,
+    CartCheckout,
     SliderCarousel,
     BrandsCarousel,
     WhatsappFloatingButton

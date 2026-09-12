@@ -16,10 +16,12 @@
     </x-breadcrumb>
 
     <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <shopping-cart
+        <cart-checkout
             :shipping-flat-rate="{{ $shippingFlatRate }}"
             :free-shipping-threshold="{{ $freeShippingThreshold }}"
             :requires-shipping="{{ $totals['requiresShipping'] ? 'true' : 'false' }}"
-        ></shopping-cart>
+            :customer="{{ json_encode($customer ?? null) }}"
+            :addresses="{{ json_encode($addresses ?? []) }}"
+        ></cart-checkout>
     </div>
 @endsection

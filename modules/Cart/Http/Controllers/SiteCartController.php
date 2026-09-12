@@ -25,10 +25,33 @@ class SiteCartController extends SiteController
         $shippingFlatRate = (int) setting('shipping.flat_rate', 60);
         $freeShippingThreshold = (int) setting('shipping.free_shipping_threshold', 1000);
 
+        $customer = Auth::guard('customer')->user();
+        $addresses = [];
+        if ($customer) {
+            $addresses = $customer->addresses()
+                ->with(['division', 'district', 'upazila', 'union'])
+                ->get()
+                ->map(fn ($addr) => [
+                    'id' => $addr->id,
+                    'address' => $addr->address,
+                    'division_id' => $addr->division_id,
+                    'division_name' => $addr->division?->name,
+                    'district_id' => $addr->district_id,
+                    'district_name' => $addr->district?->name,
+                    'upazilla_id' => $addr->upazilla_id,
+                    'upazilla_name' => $addr->upazila?->name,
+                    'union_id' => $addr->union_id,
+                    'union_name' => $addr->union?->name,
+                    'default' => $addr->default,
+                ]);
+        }
+
         return view('cart::index', compact([
             'totals',
             'shippingFlatRate',
             'freeShippingThreshold',
+            'customer',
+            'addresses',
         ]));
     }
 

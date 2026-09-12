@@ -37,10 +37,10 @@ test('site cart page loads', function () {
     $response->assertStatus(200);
 });
 
-test('checkout page loads', function () {
+test('checkout page redirects to cart', function () {
     $response = $this->get('/checkout');
 
-    $response->assertStatus(200);
+    $response->assertRedirect(route('shop.cart'));
 });
 
 test('adding an item as a guest creates a cart with guest_token', function () {

@@ -24,7 +24,7 @@
     @vite('resources-site/js/index-app.js')
     <script>
         window.dataLayer = window.dataLayer || []
-        var purchaseTransactionId = @json((string) $order->id)
+        var purchaseTransactionId = @json((string) $order->id);
         var purchaseStorageKey = 'purchase_' + purchaseTransactionId
         var purchaseAlreadyFired = false
         try { purchaseAlreadyFired = sessionStorage.getItem(purchaseStorageKey) === '1' } catch (e) {}

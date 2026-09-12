@@ -5,7 +5,7 @@ use Modules\Cart\Http\Controllers\SiteCartController;
 
 Route::middleware('resolve.cart')->group(function () {
     Route::get('cart', [SiteCartController::class, 'index'])->name('shop.cart');
-    Route::get('checkout', [SiteCartController::class, 'checkout'])->name('shop.checkout');
+    Route::get('checkout', fn () => redirect()->route('shop.cart'))->name('shop.checkout');
 
     Route::get('cart/fetch', [SiteCartController::class, 'fetch'])->name('shop.cart.fetch');
     Route::post('cart/items', [SiteCartController::class, 'store'])->name('shop.cart.items.store');
