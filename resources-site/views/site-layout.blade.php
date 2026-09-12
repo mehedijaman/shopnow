@@ -222,14 +222,14 @@
                         }
                     },
                     track: function (eventName, payload, options) {
-                        if (!hasConsent() || typeof window.fbq !== 'function') {
+                        if (typeof window.fbq !== 'function') {
                             return
                         }
 
                         window.fbq('track', eventName, payload || {}, options || {})
                     },
                     trackCustom: function (eventName, payload) {
-                        if (!hasConsent() || typeof window.fbq !== 'function') {
+                        if (typeof window.fbq !== 'function') {
                             return
                         }
 
@@ -238,9 +238,7 @@
                 }
 
                 var consent = getConsentValue()
-                if (hasConsent()) {
-                    initPixel()
-                }
+                initPixel()
                 initGtm()
 
                 document.addEventListener('DOMContentLoaded', function () {
