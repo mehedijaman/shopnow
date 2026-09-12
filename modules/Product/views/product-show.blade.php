@@ -9,7 +9,7 @@
             btn.classList.add('border-blue-500')
         }
 
-        if (window.ShopNowTracking) {
+        if (window.ShopNowTracking && window.ShopNowTracking.pixelEnabled && !window.ShopNowTracking.gtmEnabled) {
             window.ShopNowTracking.track('ViewContent', {
                 content_ids: [String(@json($product->id))],
                 content_type: 'product',
@@ -20,24 +20,26 @@
             })
         }
 
-        window.dataLayer = window.dataLayer || []
-        var viewItemPayload = {
-            event: 'view_item',
-            ecommerce: {
-                currency: 'BDT',
-                value: Number(@json($product->sale_price ?? $product->price ?? 0)),
-                items: [{
-                    item_id: String(@json($product->id)),
-                    item_name: @json($product->name),
-                    price: Number(@json($product->sale_price ?? $product->price ?? 0)),
-                    item_category: @json($product->category?->name),
-                    item_brand: @json($product->brand?->name),
-                    quantity: 1,
-                }]
+        if (window.ShopNowTracking && window.ShopNowTracking.gtmEnabled) {
+            window.dataLayer = window.dataLayer || []
+            var viewItemPayload = {
+                event: 'view_item',
+                ecommerce: {
+                    currency: 'BDT',
+                    value: Number(@json($product->sale_price ?? $product->price ?? 0)),
+                    items: [{
+                        item_id: String(@json($product->id)),
+                        item_name: @json($product->name),
+                        price: Number(@json($product->sale_price ?? $product->price ?? 0)),
+                        item_category: @json($product->category?->name),
+                        item_brand: @json($product->brand?->name),
+                        quantity: 1,
+                    }]
+                }
             }
+            console.log('[GTM] view_item', viewItemPayload)
+            window.dataLayer.push(viewItemPayload)
         }
-        console.log('[GTM] view_item', viewItemPayload)
-        window.dataLayer.push(viewItemPayload)
     </script>
 @endsection
 

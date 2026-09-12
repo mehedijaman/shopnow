@@ -155,7 +155,7 @@
     })
 
     @if (isset($searchText))
-    if (window.ShopNowTracking) {
+    if (window.ShopNowTracking && window.ShopNowTracking.pixelEnabled && !window.ShopNowTracking.gtmEnabled) {
         window.ShopNowTracking.track('Search', {
             search_string: @json($searchText),
             content_category: 'shop',
@@ -178,7 +178,7 @@
     ;(function () {
         var listName = {!! json_encode($listName) !!}
         var products = {!! json_encode($viewItemListProducts) !!}
-        if (products.length > 0) {
+        if (products.length > 0 && window.ShopNowTracking && window.ShopNowTracking.gtmEnabled) {
             var viewItemListPayload = {
                 event: 'view_item_list',
                 ecommerce: {

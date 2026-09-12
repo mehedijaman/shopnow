@@ -29,19 +29,33 @@
         var purchaseAlreadyFired = false
         try { purchaseAlreadyFired = sessionStorage.getItem(purchaseStorageKey) === '1' } catch (e) {}
         if (!purchaseAlreadyFired) {
-            var purchasePayload = {
-                event: 'purchase',
-                ecommerce: {
-                    transaction_id: purchaseTransactionId,
-                    value: Number(@json((float) $order->total)),
-                    tax: Number(@json((float) $order->tax)),
-                    shipping: Number(@json((float) $order->shipping)),
-                    currency: 'BDT',
-                    items: @json($purchaseItems)
+            if (window.ShopNowTracking && window.ShopNowTracking.gtmEnabled) {
+                var purchasePayload = {
+                    event: 'purchase',
+                    ecommerce: {
+                        transaction_id: purchaseTransactionId,
+                        value: Number(@json((float) $order->total)),
+                        tax: Number(@json((float) $order->tax)),
+                        shipping: Number(@json((float) $order->shipping)),
+                        currency: 'BDT',
+                        items: @json($purchaseItems)
+                    }
                 }
+                console.log('[GTM] purchase', purchasePayload)
+                window.dataLayer.push(purchasePayload)
             }
-            console.log('[GTM] purchase', purchasePayload)
-            window.dataLayer.push(purchasePayload)
+
+            if (window.ShopNowTracking && window.ShopNowTracking.pixelEnabled && !window.ShopNowTracking.gtmEnabled) {
+                window.ShopNowTracking.track('Purchase', {
+                    value: Number(@json((float) $order->total)),
+                    currency: 'BDT',
+                    content_ids: @json(collect($purchaseItems)->pluck('item_id')),
+                    content_type: 'product',
+                }, {
+                    eventID: 'purchase_' + purchaseTransactionId,
+                })
+            }
+
             try { sessionStorage.setItem(purchaseStorageKey, '1') } catch (e) {}
         }
     </script>

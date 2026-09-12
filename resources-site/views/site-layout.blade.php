@@ -206,6 +206,8 @@
                 }
 
                 window.ShopNowTracking = {
+                    pixelEnabled: pixelConfig.enabled,
+                    gtmEnabled: gtmConfig.enabled,
                     hasConsent: hasConsent,
                     setConsent: function (granted) {
                         var value = granted ? 'granted' : 'denied'

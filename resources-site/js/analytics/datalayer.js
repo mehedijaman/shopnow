@@ -10,12 +10,22 @@ function ensureDataLayer() {
 }
 
 /**
+ * Whether GTM is configured as the dataLayer consumer.
+ */
+function isGtmEnabled() {
+    return !!(window.ShopNowTracking && window.ShopNowTracking.gtmEnabled)
+}
+
+/**
  * Push an ecommerce event to dataLayer for GTM consumption.
+ * Only fires when GTM is configured — otherwise dataLayer has no consumer.
  *
  * @param {string} eventName - GTM custom event name (e.g. 'view_item')
  * @param {object} ecommerceData - Ecommerce payload with currency, value, items[]
  */
 export function pushEvent(eventName, ecommerceData) {
+    if (!isGtmEnabled()) return
+
     ensureDataLayer()
 
     const payload = {
@@ -195,6 +205,20 @@ export function pushPurchase(order, items) {
     })
 }
 
+/**
+ * Fire a Meta Pixel event directly.
+ * Only when pixel is enabled AND GTM is not handling it (to avoid double-fire).
+ *
+ * @param {string} eventName - Meta Pixel standard event name
+ * @param {object} payload - event parameters
+ * @param {object} options - fbq options (e.g. { eventID })
+ */
+export function trackMetaPixel(eventName, payload, options) {
+    const st = window.ShopNowTracking
+    if (!st || !st.pixelEnabled || st.gtmEnabled) return
+    st.track(eventName, payload, options)
+}
+
 export default {
     pushEvent,
     pushViewItem,
@@ -204,4 +228,5 @@ export default {
     pushViewCart,
     pushBeginCheckout,
     pushPurchase,
+    trackMetaPixel,
 }
