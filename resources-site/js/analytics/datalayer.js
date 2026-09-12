@@ -2,15 +2,8 @@
  * Centralized dataLayer abstraction for GTM/GA4 ecommerce events.
  *
  * All ecommerce events go through this module so GTM can read them
- * from dataLayer. Consent is checked before every push.
+ * from dataLayer. GTM handles consent internally via Google Consent Mode v2.
  */
-
-function hasConsent() {
-    if (typeof window.ShopNowTracking === 'object' && typeof window.ShopNowTracking.hasConsent === 'function') {
-        return window.ShopNowTracking.hasConsent()
-    }
-    return false
-}
 
 function ensureDataLayer() {
     window.dataLayer = window.dataLayer || []
@@ -23,8 +16,6 @@ function ensureDataLayer() {
  * @param {object} ecommerceData - Ecommerce payload with currency, value, items[]
  */
 export function pushEvent(eventName, ecommerceData) {
-    if (!hasConsent()) return
-
     ensureDataLayer()
 
     const payload = {

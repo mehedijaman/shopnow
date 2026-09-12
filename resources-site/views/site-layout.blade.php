@@ -240,8 +240,8 @@
                 var consent = getConsentValue()
                 if (hasConsent()) {
                     initPixel()
-                    initGtm()
                 }
+                initGtm()
 
                 document.addEventListener('DOMContentLoaded', function () {
                     var banner = document.getElementById(bannerId)
