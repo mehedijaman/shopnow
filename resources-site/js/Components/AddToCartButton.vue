@@ -123,17 +123,6 @@ function addToCart() {
         isJustAdded.value = false
     }, 1800)
 
-    if (window.ShopNowTracking) {
-        window.ShopNowTracking.track('AddToCart', {
-            content_ids: [String(item.id)],
-            content_type: 'product',
-            content_name: item.name,
-            value: Number(item.price || 0),
-            currency: 'BDT',
-            quantity: Number(quantity.value || 1),
-        })
-    }
-
     pushAddToCart(item, quantity.value)
 }
 

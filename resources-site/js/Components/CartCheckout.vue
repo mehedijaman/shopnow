@@ -529,16 +529,6 @@ onMounted(async () => {
     window.addEventListener('click', handleOutsideClick)
 
     pushBeginCheckout(cartStore.items, orderTotal.value)
-
-    if (window.ShopNowTracking) {
-        window.ShopNowTracking.track('InitiateCheckout', {
-            content_ids: cartStore.items.map((cartItem) => String(cartItem.item.id)),
-            content_type: 'product',
-            num_items: cartStore.items.reduce((total, cartItem) => total + Number(cartItem.quantity || 0), 0),
-            value: Number(orderTotal.value || 0),
-            currency: 'BDT',
-        })
-    }
 })
 
 onUnmounted(() => {
@@ -776,18 +766,6 @@ async function submitForm() {
         }
 
         const response = await axios.post('/site-order-store', payload)
-
-        if (window.ShopNowTracking) {
-            window.ShopNowTracking.track('Purchase', {
-                content_ids: cartStore.items.map((cartItem) => String(cartItem.item.id)),
-                content_type: 'product',
-                num_items: cartStore.items.reduce((total, cartItem) => total + Number(cartItem.quantity || 0), 0),
-                value: Number(orderTotal.value || 0),
-                currency: 'BDT',
-            }, {
-                eventID: 'purchase_' + response.data.order_id,
-            })
-        }
 
         await cartStore.clearCart()
 
