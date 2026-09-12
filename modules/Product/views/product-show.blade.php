@@ -21,7 +21,7 @@
         }
 
         window.dataLayer = window.dataLayer || []
-        window.dataLayer.push({
+        var viewItemPayload = {
             event: 'view_item',
             ecommerce: {
                 currency: 'BDT',
@@ -35,7 +35,9 @@
                     quantity: 1,
                 }]
             }
-        })
+        }
+        console.log('[GTM] view_item', viewItemPayload)
+        window.dataLayer.push(viewItemPayload)
     </script>
 @endsection
 

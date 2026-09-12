@@ -29,7 +29,7 @@
         var purchaseAlreadyFired = false
         try { purchaseAlreadyFired = sessionStorage.getItem(purchaseStorageKey) === '1' } catch (e) {}
         if (!purchaseAlreadyFired) {
-            window.dataLayer.push({
+            var purchasePayload = {
                 event: 'purchase',
                 ecommerce: {
                     transaction_id: purchaseTransactionId,
@@ -39,7 +39,9 @@
                     currency: 'BDT',
                     items: @json($purchaseItems)
                 }
-            })
+            }
+            console.log('[GTM] purchase', purchasePayload)
+            window.dataLayer.push(purchasePayload)
             try { sessionStorage.setItem(purchaseStorageKey, '1') } catch (e) {}
         }
     </script>

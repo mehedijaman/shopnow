@@ -27,7 +27,7 @@ export function pushEvent(eventName, ecommerceData) {
 
     ensureDataLayer()
 
-    window.dataLayer.push({
+    const payload = {
         event: eventName,
         ecommerce: {
             currency: ecommerceData.currency || 'BDT',
@@ -37,7 +37,11 @@ export function pushEvent(eventName, ecommerceData) {
             ...(ecommerceData.shipping != null ? { shipping: ecommerceData.shipping } : {}),
             items: ecommerceData.items || [],
         },
-    })
+    }
+
+    console.log('[GTM]', eventName, payload)
+
+    window.dataLayer.push(payload)
 }
 
 /**

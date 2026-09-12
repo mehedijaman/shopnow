@@ -179,7 +179,7 @@
         var listName = {!! json_encode($listName) !!}
         var products = {!! json_encode($viewItemListProducts) !!}
         if (products.length > 0) {
-            window.dataLayer.push({
+            var viewItemListPayload = {
                 event: 'view_item_list',
                 ecommerce: {
                     currency: 'BDT',
@@ -198,7 +198,9 @@
                         }
                     })
                 }
-            })
+            }
+            console.log('[GTM] view_item_list', viewItemListPayload)
+            window.dataLayer.push(viewItemListPayload)
         }
     })()
     @endif
