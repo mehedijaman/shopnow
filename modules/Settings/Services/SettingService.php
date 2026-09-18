@@ -41,11 +41,21 @@ class SettingService
     public function updateGroup(string $group, array $data): void
     {
         foreach ($data as $key => $value) {
-            Setting::where('group', $group)
-                ->where('key', $key)
-                ->update([
-                    'value' => is_array($value) ? json_encode($value) : $value,
+            $isArray = is_array($value);
+            $encoded = $isArray ? json_encode($value) : $value;
+
+            $existing = Setting::where('group', $group)->where('key', $key)->first();
+
+            if ($existing) {
+                $existing->update(['value' => $encoded]);
+            } else {
+                Setting::create([
+                    'group' => $group,
+                    'key' => $key,
+                    'value' => $encoded,
+                    'type' => $isArray ? 'repeater' : 'text',
                 ]);
+            }
         }
     }
 

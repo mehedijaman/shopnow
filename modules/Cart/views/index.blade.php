@@ -17,7 +17,7 @@
 
     <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <cart-checkout
-            :shipping-flat-rate="{{ $shippingFlatRate }}"
+            :shipping-options="{{ json_encode($shippingOptions) }}"
             :free-shipping-threshold="{{ $freeShippingThreshold }}"
             :requires-shipping="{{ $totals['requiresShipping'] ? 'true' : 'false' }}"
             :customer="{{ json_encode($customer ?? null) }}"

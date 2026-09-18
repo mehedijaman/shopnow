@@ -145,16 +145,21 @@ test('social settings can be updated', function () {
 
 test('shipping settings can be updated', function () {
     Setting::updateOrCreate(
-        ['group' => 'shipping', 'key' => 'flat_rate'],
-        ['value' => '60', 'type' => 'text', 'label' => 'Flat Rate', 'is_public' => true]
+        ['group' => 'shipping', 'key' => 'options'],
+        ['value' => json_encode([['id' => 'opt_1', 'name' => 'Standard', 'price' => 60, 'enabled' => true]]), 'type' => 'json', 'label' => 'Shipping Options', 'is_public' => true]
     );
     Setting::updateOrCreate(
         ['group' => 'shipping', 'key' => 'free_shipping_threshold'],
         ['value' => '1000', 'type' => 'text', 'label' => 'Free Shipping Threshold', 'is_public' => true]
     );
 
+    $newOptions = [
+        ['id' => 'opt_1', 'name' => 'Standard', 'price' => 120, 'enabled' => true],
+        ['id' => 'opt_2', 'name' => 'Express', 'price' => 200, 'enabled' => true],
+    ];
+
     $response = $this->loggedRequest->post('/admin/settings/shipping', [
-        'flat_rate' => 120,
+        'options' => $newOptions,
         'free_shipping_threshold' => 1500,
     ]);
 
@@ -163,8 +168,8 @@ test('shipping settings can be updated', function () {
 
     $this->assertDatabaseHas('settings', [
         'group' => 'shipping',
-        'key' => 'flat_rate',
-        'value' => '120',
+        'key' => 'options',
+        'value' => json_encode($newOptions),
     ]);
     $this->assertDatabaseHas('settings', [
         'group' => 'shipping',

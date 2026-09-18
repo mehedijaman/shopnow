@@ -120,7 +120,11 @@ class SettingsGroupValidate extends Request
     private function shippingRules(): array
     {
         return [
-            'flat_rate' => 'nullable|numeric|min:0',
+            'options' => 'nullable|array',
+            'options.*.id' => 'nullable|string|max:100',
+            'options.*.name' => 'required|string|max:255',
+            'options.*.price' => 'required|numeric|min:0',
+            'options.*.enabled' => 'nullable|boolean',
             'free_shipping_threshold' => 'nullable|numeric|min:0',
         ];
     }

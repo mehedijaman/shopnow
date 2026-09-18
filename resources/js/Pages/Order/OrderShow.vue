@@ -188,6 +188,10 @@
                             <span v-if="order.shipping == 0" class="inline-flex items-center rounded-md bg-green-50 px-2 py-0.5 text-xs font-bold text-green-700 ring-1 ring-inset ring-green-600/20">Free</span>
                             <span v-else class="font-bold text-skin-neutral-12">{{ Number(order.shipping).toFixed(2) }} Tk</span>
                         </div>
+                        <div v-if="order.shipping_method" class="flex justify-between">
+                            <span class="font-semibold text-skin-neutral-9">Delivery Method</span>
+                            <span class="text-sm font-semibold text-skin-neutral-12">{{ order.shipping_method }}</span>
+                        </div>
                         <div v-if="order.tax > 0" class="flex justify-between">
                             <span class="font-semibold text-skin-neutral-9">Tax</span>
                             <span class="font-bold text-skin-neutral-12">{{ Number(order.tax).toFixed(2) }} Tk</span>

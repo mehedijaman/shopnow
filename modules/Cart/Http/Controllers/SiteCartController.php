@@ -22,7 +22,7 @@ class SiteCartController extends SiteController
 
         $totals = $getCartTotals->run($cart);
 
-        $shippingFlatRate = (int) setting('shipping.flat_rate', 60);
+        $shippingOptions = $this->resolveShippingOptions();
         $freeShippingThreshold = (int) setting('shipping.free_shipping_threshold', 1000);
 
         $customer = Auth::guard('customer')->user();
@@ -48,7 +48,7 @@ class SiteCartController extends SiteController
 
         return view('cart::index', compact([
             'totals',
-            'shippingFlatRate',
+            'shippingOptions',
             'freeShippingThreshold',
             'customer',
             'addresses',
@@ -71,7 +71,7 @@ class SiteCartController extends SiteController
             }
         }
 
-        $shippingFlatRate = (int) setting('shipping.flat_rate', 60);
+        $shippingOptions = $this->resolveShippingOptions();
         $freeShippingThreshold = (int) setting('shipping.free_shipping_threshold', 1000);
 
         $customer = Auth::guard('customer')->user();
@@ -97,7 +97,7 @@ class SiteCartController extends SiteController
 
         return view('cart::checkout', compact([
             'totals',
-            'shippingFlatRate',
+            'shippingOptions',
             'freeShippingThreshold',
             'customer',
             'addresses',
@@ -159,5 +159,16 @@ class SiteCartController extends SiteController
         $totals = $getCartTotals->run($cart);
 
         return response()->json($totals);
+    }
+
+    private function resolveShippingOptions(): array
+    {
+        $raw = setting('shipping.options', '[]');
+        $options = is_array($raw) ? $raw : (json_decode($raw, true) ?? []);
+
+        return collect($options)
+            ->filter(fn ($opt) => $opt['enabled'] ?? true)
+            ->values()
+            ->all();
     }
 }

@@ -40,6 +40,7 @@ class SiteOrderValidate extends Request
             'subtotal' => 'nullable|numeric',
             'tax' => 'nullable|numeric',
             'shipping' => 'nullable|numeric',
+            'shipping_method' => 'nullable|string|max:255',
             'total' => 'nullable|numeric',
             'paid' => 'nullable|numeric',
             'due' => 'nullable|numeric',

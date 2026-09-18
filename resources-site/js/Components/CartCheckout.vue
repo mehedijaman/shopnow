@@ -287,6 +287,44 @@
                             </div>
                         </div>
 
+                        <!-- Shipping Options -->
+                        <div v-if="shippingOptions.length > 0" class="col-span-2 space-y-3 pt-2">
+                            <label class="block text-sm font-medium text-gray-700">
+                                Delivery Option <span class="text-red-500">*</span>
+                            </label>
+                            <div class="space-y-2">
+                                <label
+                                    v-for="option in shippingOptions"
+                                    :key="option.id || option.name"
+                                    :class="[
+                                        'flex items-center justify-between rounded-xl border-2 p-4 transition-all cursor-pointer',
+                                        selectedShippingOption?.name === option.name
+                                            ? 'border-primary-500 bg-primary-50'
+                                            : 'border-gray-200 bg-white hover:border-gray-300'
+                                    ]"
+                                >
+                                    <div class="flex items-center gap-3">
+                                        <div :class="[
+                                            'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2',
+                                            selectedShippingOption?.name === option.name
+                                                ? 'border-primary-500 bg-primary-500'
+                                                : 'border-gray-300'
+                                        ]">
+                                            <div v-if="selectedShippingOption?.name === option.name" class="h-2 w-2 rounded-full bg-white"></div>
+                                        </div>
+                                        <span class="text-sm font-semibold text-gray-900">{{ option.name }}</span>
+                                    </div>
+                                    <span v-if="isFreeShipping" class="text-sm font-bold text-green-600">Free</span>
+                                    <span v-else class="text-sm font-bold text-gray-900">{{ option.price }} Tk.</span>
+                                    <input
+                                        type="radio"
+                                        :value="option"
+                                        v-model="selectedShippingOption"
+                                        class="sr-only"
+                                    />
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -412,9 +450,9 @@ import axios from 'axios'
 const cartStore = useCartStore()
 
 const props = defineProps({
-    shippingFlatRate: {
-        type: Number,
-        default: 60,
+    shippingOptions: {
+        type: Array,
+        default: () => [],
     },
     freeShippingThreshold: {
         type: Number,
@@ -434,11 +472,16 @@ const props = defineProps({
     },
 })
 
+const selectedShippingOption = ref(props.shippingOptions[0] || null)
+
+const isFreeShipping = computed(() => {
+    return props.freeShippingThreshold > 0 && cartStore.subtotal >= props.freeShippingThreshold
+})
+
 const shippingCharge = computed(() => {
-    if (props.freeShippingThreshold > 0 && cartStore.subtotal >= props.freeShippingThreshold) {
-        return 0
-    }
-    return cartStore.subtotal > 0 ? props.shippingFlatRate : 0
+    if (!selectedShippingOption.value) return 0
+    if (isFreeShipping.value) return 0
+    return cartStore.subtotal > 0 ? Number(selectedShippingOption.value.price || 0) : 0
 })
 
 const orderTotal = computed(() => cartStore.subtotal + shippingCharge.value + cartStore.tax)
@@ -760,6 +803,7 @@ async function submitForm() {
             subtotal: cartStore.subtotal,
             tax: cartStore.tax,
             shipping: shippingCharge.value,
+            shipping_method: selectedShippingOption.value?.name || null,
             total: orderTotal.value,
             paid: 0,
             due: orderTotal.value,

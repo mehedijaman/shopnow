@@ -43,10 +43,32 @@ class SiteOrderController extends SiteController
 
             $requiresShipping = $determineShippingRequirement->run($items);
 
+            // Resolve shipping cost server-side from settings
+            $subtotal = (float) ($orderData['subtotal'] ?? 0);
+            $rawOptions = setting('shipping.options', '[]');
+            $shippingOptions = collect(is_array($rawOptions) ? $rawOptions : (json_decode($rawOptions, true) ?? []));
+            $selectedOption = ($orderData['shipping_method'] ?? null)
+                ? $shippingOptions->firstWhere('name', $orderData['shipping_method'])
+                : null;
+            $freeShippingThreshold = (float) setting('shipping.free_shipping_threshold', 1000);
+
+            $shippingCost = 0;
+            if ($selectedOption && $requiresShipping) {
+                $shippingCost = ($freeShippingThreshold > 0 && $subtotal >= $freeShippingThreshold)
+                    ? 0
+                    : (float) $selectedOption['price'];
+            }
+
             $order = Order::create(array_merge($orderData, [
                 'requires_shipping' => $requiresShipping,
+                'shipping' => $shippingCost,
+                'shipping_method' => $selectedOption ? $selectedOption['name'] : null,
                 'customer_id' => Auth::guard('customer')->id(),
             ]));
+
+            // Recalculate total with server-resolved shipping
+            $tax = (float) ($orderData['tax'] ?? 0);
+            $order->updateQuietly(['total' => $subtotal + $tax + $shippingCost]);
 
             $createdOrderProducts = collect($items)->map(function ($item) use ($order) {
                 $quantity = $item['quantity'];

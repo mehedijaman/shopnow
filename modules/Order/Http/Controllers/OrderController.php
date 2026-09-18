@@ -100,6 +100,7 @@ class OrderController extends BackendController
                 'subtotal' => $order->subtotal,
                 'tax' => $order->tax,
                 'shipping' => $order->shipping,
+                'shipping_method' => $order->shipping_method,
                 'total' => $order->total,
                 'paid' => $order->paid,
                 'due' => $order->due,

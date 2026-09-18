@@ -87,7 +87,7 @@ class SettingSeeder extends Seeder
             ['group' => 'mail', 'key' => 'encryption', 'value' => 'tls', 'type' => 'text', 'label' => 'Encryption', 'is_public' => false, 'sort_order' => 7],
 
             // Shipping
-            ['group' => 'shipping', 'key' => 'flat_rate', 'value' => '60', 'type' => 'text', 'label' => 'Flat Rate Shipping (Tk)', 'description' => 'Default shipping charge added to every order.', 'is_public' => true, 'sort_order' => 1],
+            ['group' => 'shipping', 'key' => 'options', 'value' => json_encode([['id' => 'standard', 'name' => 'Standard Delivery', 'price' => 60, 'enabled' => true]]), 'type' => 'repeater', 'label' => 'Shipping Options', 'description' => 'Available delivery options for customers.', 'is_public' => true, 'sort_order' => 1],
             ['group' => 'shipping', 'key' => 'free_shipping_threshold', 'value' => '1000', 'type' => 'text', 'label' => 'Free Shipping Threshold (Tk)', 'description' => 'Orders above this amount get free shipping. Set 0 to disable.', 'is_public' => true, 'sort_order' => 2],
 
             // Homepage

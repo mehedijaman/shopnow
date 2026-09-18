@@ -227,9 +227,9 @@ import { useCartStore } from '../Stores/CartStore'
 import { pushViewCart } from '../analytics/datalayer'
 
 const props = defineProps({
-    shippingFlatRate: {
-        type: Number,
-        default: 60,
+    shippingOptions: {
+        type: Array,
+        default: () => [],
     },
     freeShippingThreshold: {
         type: Number,
@@ -259,10 +259,12 @@ onMounted(() => {
 })
 
 const shippingCharge = computed(() => {
+    const firstOption = props.shippingOptions[0]
+    if (!firstOption) return 0
     if (props.freeShippingThreshold > 0 && cartStore.subtotal >= props.freeShippingThreshold) {
         return 0
     }
-    return cartStore.subtotal > 0 ? props.shippingFlatRate : 0
+    return cartStore.subtotal > 0 ? Number(firstOption.price || 0) : 0
 })
 
 const orderTotal = computed(() => cartStore.subtotal + shippingCharge.value + cartStore.tax)
