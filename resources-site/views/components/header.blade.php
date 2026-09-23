@@ -342,6 +342,14 @@
 
 @push('scripts')
 <script>
+    function toggleMobileMenu() {
+        var menu = document.getElementById('collapseMenu')
+        if (menu) {
+            menu.classList.remove('hidden')
+            document.body.style.overflow = 'hidden'
+        }
+    }
+
     document.addEventListener('click', function (e) {
         var menu = document.getElementById('collapseMenu')
         if (!menu) { return }
