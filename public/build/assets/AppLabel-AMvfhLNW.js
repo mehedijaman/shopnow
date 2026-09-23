@@ -1,0 +1,1 @@
+import{A as e,Ct as t,Dt as n,L as r,S as i,T as a,V as o,ut as s}from"./_plugin-vue_export-helper-BNqgHn1T.js";s(),e();var c={__name:`AppLabel`,props:{value:{type:String,default:``}},setup(e){return(s,c)=>(r(),i(`label`,{class:t([`block text-sm font-medium text-skin-neutral-12`,s.$attrs.class])},[a(n(e.value),1),o(s.$slots,`default`)],2))}};export{c as t};

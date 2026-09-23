@@ -102,7 +102,7 @@
     {{-- Top Sticky Header Bar --}}
     <header class="sticky top-0 z-50 flex h-16 w-full items-center justify-between border-b border-slate-200/80 bg-white/95 px-4 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95">
         <button id="toggleOpen" aria-label="Open Menu" class="flex h-10 w-10 items-center justify-center rounded-xl text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
-            <i class="ri-menu-line text-2xl"></i>
+            <i class="ri-menu-3-line text-2xl"></i>
         </button>
 
         <a href="{{ route('site.index') }}" class="flex items-center justify-center">

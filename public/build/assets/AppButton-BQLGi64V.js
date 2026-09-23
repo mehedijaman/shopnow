@@ -1,0 +1,1 @@
+import{A as e,L as t,S as n,V as r,t as i}from"./_plugin-vue_export-helper-BNqgHn1T.js";e();var a=i({__name:`AppButton`,emits:[`click`],setup(e){return(e,i)=>(t(),n(`button`,{type:`button`,onClick:i[0]||=t=>e.$emit(`click`)},[r(e.$slots,`default`,{},void 0,!0)]))}},[[`__scopeId`,`data-v-75539d46`]]);export{a as t};

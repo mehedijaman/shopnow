@@ -28,7 +28,7 @@
                     <div class="col-span-2">
 
                         <label for="name" class="mb-1.5 block text-sm font-medium text-gray-700">
-                            Full Name <span class="text-red-500">*</span>
+                            আপনার নাম <span class="text-red-500">*</span>
 
                         </label>
                         <input v-model="form.name" type="text" id="name" placeholder="e.g. Mehedi Hasan"

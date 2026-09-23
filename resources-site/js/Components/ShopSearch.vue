@@ -30,7 +30,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import AppModal from '@resources/js/Components/Overlay/AppModal.vue'
+// import AppModal from '@resources/js/Components/Overlay/AppModal.vue'
 
 const isOpen = ref(false)
 const searchText = ref('')
