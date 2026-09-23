@@ -134,7 +134,7 @@
                     @endif
 
                     <!-- Quick Guarantee Card -->
-                    <div class="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-800 p-6 text-white shadow-lg shadow-primary-600/20">
+                    {{-- <div class="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-800 p-6 text-white shadow-lg shadow-primary-600/20">
                         <div class="flex items-center gap-3">
                             <i class="ri-shield-check-fill text-2xl text-primary-200"></i>
                             <h3 class="text-sm font-bold">Fast & Friendly Support</h3>
@@ -142,7 +142,7 @@
                         <p class="mt-2 text-xs leading-relaxed text-primary-100">
                             We aim to respond to all inquiries within 2 to 4 business hours. Thank you for choosing {{ setting('branding.site_name', config('app.name')) }}!
                         </p>
-                    </div>
+                    </div> --}}
 
                 </div>
 
@@ -186,7 +186,6 @@
                                             id="name"
                                             name="name"
                                             value="{{ old('name') }}"
-                                            placeholder="e.g. Mehedi Hasan"
                                             required
                                             class="block w-full rounded-xl border border-slate-200 bg-slate-50/50 py-3 pl-10 pr-4 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 @error('name') border-red-400 bg-red-50/50 focus:border-red-500 focus:ring-red-500/20 @enderror"
                                         />
@@ -208,7 +207,6 @@
                                             id="phone"
                                             name="phone"
                                             value="{{ old('phone') }}"
-                                            placeholder="e.g. 01712345678"
                                             class="block w-full rounded-xl border border-slate-200 bg-slate-50/50 py-3 pl-10 pr-4 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                                         />
                                     </div>
@@ -230,7 +228,6 @@
                                             id="email"
                                             name="email"
                                             value="{{ old('email') }}"
-                                            placeholder="e.g. you@example.com"
                                             class="block w-full rounded-xl border border-slate-200 bg-slate-50/50 py-3 pl-10 pr-4 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 @error('email') border-red-400 bg-red-50/50 focus:border-red-500 focus:ring-red-500/20 @enderror"
                                         />
                                     </div>

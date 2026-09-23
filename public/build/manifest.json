@@ -254,13 +254,21 @@
       "resources/js/app.js"
     ]
   },
-  "_NavbarCartMenu-C1T2C1E_.js": {
-    "file": "assets/NavbarCartMenu-C1T2C1E_.js",
-    "name": "NavbarCartMenu",
+  "_MobileBottomNav-BWIgsoe9.js": {
+    "file": "assets/MobileBottomNav-BWIgsoe9.js",
+    "name": "MobileBottomNav",
     "imports": [
       "__plugin-vue_export-helper-BNqgHn1T.js",
-      "_compiler-dom.esm-bundler-DMvNHUia.js"
+      "_compiler-dom.esm-bundler-DMvNHUia.js",
+      "_AppModal-BjYQCbnQ.js"
+    ],
+    "css": [
+      "assets/MobileBottomNav-Bu18MYqa.css"
     ]
+  },
+  "_MobileBottomNav-Bu18MYqa.css": {
+    "file": "assets/MobileBottomNav-Bu18MYqa.css",
+    "src": "_MobileBottomNav-Bu18MYqa.css"
   },
   "_PostStore-DkSDnQL2.js": {
     "file": "assets/PostStore-DkSDnQL2.js",
@@ -386,29 +394,25 @@
     "isEntry": true
   },
   "resources-site/js/blog-app.js": {
-    "file": "assets/blog-app-BbYbtYyW.js",
+    "file": "assets/blog-app-DnZtgSRv.js",
     "name": "blog-app",
     "src": "resources-site/js/blog-app.js",
     "isEntry": true,
     "imports": [
       "__plugin-vue_export-helper-BNqgHn1T.js",
-      "_NavbarCartMenu-C1T2C1E_.js",
+      "_MobileBottomNav-BWIgsoe9.js",
       "_AppInputText-yb1s83XF.js",
       "_AppCombobox-BJBnFuz7.js"
     ]
   },
   "resources-site/js/index-app.js": {
-    "file": "assets/index-app-cM6MmGOo.js",
+    "file": "assets/index-app-gq42viRI.js",
     "name": "index-app",
     "src": "resources-site/js/index-app.js",
     "isEntry": true,
     "imports": [
       "__plugin-vue_export-helper-BNqgHn1T.js",
-      "_NavbarCartMenu-C1T2C1E_.js",
-      "_AppModal-BjYQCbnQ.js"
-    ],
-    "css": [
-      "assets/index-app-Bu18MYqa.css"
+      "_MobileBottomNav-BWIgsoe9.js"
     ]
   },
   "resources/js/Pages/AclPermission/PermissionForm.vue": {
