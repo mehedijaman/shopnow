@@ -124,7 +124,7 @@
 {{-- Top Row: Logo, Search, User & Cart Actions --}}
 <div class="relative z-[60] hidden w-full border-b border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-900 lg:block">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between gap-8 py-5">
+        <div class="flex items-center justify-center py-5">
             {{-- Logo --}}
             <a href="{{ route('site.index') }}" class="flex shrink-0 items-center">
                 @if ($logoUrl)
