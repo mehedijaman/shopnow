@@ -113,9 +113,7 @@
             @endif
         </a>
 
-        <div class="flex items-center">
-            <navbar-cart-menu></navbar-cart-menu>
-        </div>
+        <div class="w-10"></div>
     </header>
 </div>
 
@@ -186,12 +184,6 @@
                         </div>
                     </a>
                 @endif
-                
-                {{-- Separator --}}
-                <div class="h-6 w-px bg-slate-200 dark:bg-slate-800"></div>
-
-                {{-- Cart Menu Island --}}
-                <navbar-cart-menu></navbar-cart-menu>
             </div>
         </div>
     </div>
@@ -234,6 +226,7 @@
             <button type="button" onclick="window.toggleSearchModal()" aria-label="Search" class="ml-auto flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-primary-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-primary-400">
                 <i class="ri-search-2-line text-lg"></i>
             </button>
+            <navbar-cart-menu></navbar-cart-menu>
         </nav>
     </div>
 </div>
