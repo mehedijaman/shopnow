@@ -17,7 +17,7 @@
                 <span v-show="cartStore.totalQuantity > 0" class="absolute -top-1 right-0 rounded-full bg-red-500 px-1 py-0 text-xs text-white">{{ cartStore.totalQuantity }}</span>
                 <span class="mt-0.5 text-[10px] font-medium text-skin-neutral-9">কার্ট</span>
             </a>
-            <a href="javascript:void(0)" @click="window.toggleSearchModal()" class="flex flex-col items-center justify-center py-2 text-center">
+            <a href="javascript:void(0)" @click="window.toggleSearchModal && window.toggleSearchModal()" class="flex flex-col items-center justify-center py-2 text-center">
                 <i class="ri-search-2-line text-xl text-skin-neutral-9"></i>
                 <span class="mt-0.5 text-[10px] font-medium text-skin-neutral-9">অনুসন্ধান</span>
             </a>

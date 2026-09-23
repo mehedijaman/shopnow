@@ -120,7 +120,7 @@
     
     {{-- Mobile Search Field --}}
     <div class="relative z-40 border-b border-slate-100 bg-slate-50 px-4 py-2.5 lg:hidden dark:border-slate-800 dark:bg-slate-900/60">
-        <button type="button" @click="window.toggleSearchModal()" class="flex w-full items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm text-slate-400 shadow-sm transition hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-500/10 dark:bg-slate-800 dark:text-slate-400">
+        <button type="button" onclick="window.toggleSearchModal()" class="flex w-full items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm text-slate-400 shadow-sm transition hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-500/10 dark:bg-slate-800 dark:text-slate-400">
             <i class="ri-search-2-line"></i>
             <span>Search for products, brands and more...</span>
         </button>
@@ -146,7 +146,7 @@
 
             {{-- Search Button --}}
             <div class="w-full max-w-2xl flex-1">
-                <button type="button" @click="window.toggleSearchModal()" class="flex w-full items-center gap-2 rounded-full bg-gray-50 px-4 py-2.5 text-sm text-slate-400 shadow-sm transition hover:border-slate-300 hover:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/10 dark:bg-slate-800 dark:text-slate-400">
+                <button type="button" onclick="window.toggleSearchModal()" class="flex w-full items-center gap-2 rounded-full bg-gray-50 px-4 py-2.5 text-sm text-slate-400 shadow-sm transition hover:border-slate-300 hover:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/10 dark:bg-slate-800 dark:text-slate-400">
                     <i class="ri-search-2-line"></i>
                     <span>Search for products, brands and more...</span>
                 </button>
