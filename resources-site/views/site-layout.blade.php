@@ -190,6 +190,7 @@
             <x-footer></x-footer>
 
             <mobile-bottom-nav :is-logged-in="{{ Auth::guard('customer')->check() ? 'true' : 'false' }}"></mobile-bottom-nav>
+            <shop-search></shop-search>
         </div>
 
         @yield('bodyEndScripts')
