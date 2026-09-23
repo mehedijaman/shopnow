@@ -21,31 +21,33 @@
             </button>
         </div>
 
-        <!-- Add to Cart CTA Button (full width) -->
-        <button @click="addToCart" :disabled="!canAddToCart" type="button"
-            :class="[
-                'flex w-full items-center justify-center gap-1.5 rounded-lg sm:rounded-xl px-2.5 py-2 sm:px-4 sm:py-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1',
-                isJustAdded
-                    ? 'bg-emerald-600 text-white ring-2 ring-emerald-500/50 scale-[1.02] shadow-md'
-                    : canAddToCart
-                        ? 'bg-gray-900 text-white hover:bg-primary-600 hover:shadow-md active:scale-[0.98] dark:bg-white dark:text-gray-900 dark:hover:bg-primary-500 dark:hover:text-white focus:ring-primary-500'
-                        : 'bg-gray-200 text-gray-400 cursor-not-allowed dark:bg-gray-800 dark:text-gray-600'
-            ]">
-            <i :class="isJustAdded ? 'ri-checkbox-circle-fill text-xs sm:text-sm animate-bounce' : 'ri-shopping-bag-3-line text-xs sm:text-sm'"></i>
-            <span class="truncate">{{ isJustAdded ? 'Added!' : (hasVariations && !selectedVariation ? 'Select Options' : 'Add to Cart') }}</span>
-        </button>
+        <div class="flex w-full flex gap-2 sm:gap-2.5">
+            <!-- Add to Cart CTA Button (full width) -->
+            <button @click="addToCart" :disabled="!canAddToCart" type="button"
+                :class="[
+                    'flex w-full items-center justify-center gap-1.5 rounded-lg sm:rounded-xl px-2.5 py-2 sm:px-4 sm:py-2.5 text-[10px] sm:text-xs font-bold  transition-all duration-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1',
+                    isJustAdded
+                        ? 'bg-emerald-600 text-white ring-2 ring-emerald-500/50 scale-[1.02] shadow-md'
+                        : canAddToCart
+                            ? 'bg-gray-900 text-white hover:bg-primary-600 hover:shadow-md active:scale-[0.98] dark:bg-white dark:text-gray-900 dark:hover:bg-primary-500 dark:hover:text-white focus:ring-primary-500'
+                            : 'bg-gray-200 text-gray-400 cursor-not-allowed dark:bg-gray-800 dark:text-gray-600'
+                ]">
+                <i :class="isJustAdded ? 'ri-checkbox-circle-fill text-xs sm:text-sm animate-bounce' : 'ri-shopping-bag-3-line text-xs sm:text-sm'"></i>
+                <span class="truncate">{{ isJustAdded ? 'Added!' : (hasVariations && !selectedVariation ? 'Select Options' : 'Add to Cart') }}</span>
+            </button>
 
-        <!-- Order Now Button (full width) -->
-        <button @click="orderNow" :disabled="!canAddToCart" type="button"
-            :class="[
-                'flex w-full items-center justify-center gap-1.5 rounded-lg sm:rounded-xl px-2.5 py-2 sm:px-4 sm:py-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1',
-                canAddToCart
-                    ? 'bg-primary-600 text-white hover:bg-primary-700 hover:shadow-md active:scale-[0.98] focus:ring-primary-500'
-                    : 'bg-gray-200 text-gray-400 cursor-not-allowed dark:bg-gray-800 dark:text-gray-600'
-            ]">
-            <i class="ri-flashlight-line text-xs sm:text-sm"></i>
-            <span class="truncate">Order Now</span>
-        </button>
+            <!-- Order Now Button (full width) -->
+            <button @click="orderNow" :disabled="!canAddToCart" type="button"
+                :class="[
+                    'flex w-full items-center justify-center gap-1.5 rounded-lg sm:rounded-xl px-2.5 py-2 sm:px-4 sm:py-2.5 text-[10px] sm:text-xs font-bold  transition-all duration-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1',
+                    canAddToCart
+                        ? 'bg-primary-600 text-white hover:bg-primary-700 hover:shadow-md active:scale-[0.98] focus:ring-primary-500'
+                        : 'bg-gray-200 text-gray-400 cursor-not-allowed dark:bg-gray-800 dark:text-gray-600'
+                ]">
+                <i class="ri-flashlight-line text-xs sm:text-sm"></i>
+                <span class="truncate">Order Now</span>
+            </button>
+        </div>
 
         <p v-if="hasVariations && !selectedVariation" class="text-[10px] sm:text-[11px] font-medium text-amber-600 dark:text-amber-400">
             Select options above to add to cart.
