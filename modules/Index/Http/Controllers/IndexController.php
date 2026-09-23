@@ -4,6 +4,7 @@ namespace Modules\Index\Http\Controllers;
 
 use Modules\Blog\Models\Post;
 use Modules\Page\Models\Page;
+use Modules\Product\Models\Product;
 use Modules\Product\Models\ProductBrand;
 use Modules\Product\Models\ProductCategory;
 use Modules\Settings\Services\SeoService;
@@ -15,6 +16,7 @@ class IndexController extends SiteController
     public function index(SeoService $seoService)
     {
         $showSlider = setting('homepage.show_slider', true) !== false;
+        $showFeaturedProducts = setting('homepage.show_featured_products', true) !== false;
         $showFeaturedCategories = setting('homepage.show_featured_categories', true) !== false;
         $showBlog = setting('homepage.show_blog', true) !== false;
         $showBrands = setting('homepage.show_brands', true) !== false;
@@ -32,6 +34,15 @@ class IndexController extends SiteController
                     'url' => $slider->url,
                     'button_text' => $slider->button_text,
                 ])
+            : collect();
+
+        $featuredProducts = $showFeaturedProducts
+            ? Product::where('featured', true)
+                ->where('active', true)
+                ->with('category')
+                ->latest()
+                ->limit(8)
+                ->get()
             : collect();
 
         $featuredCategories = $showFeaturedCategories
@@ -68,7 +79,7 @@ class IndexController extends SiteController
             ],
         ]);
 
-        return view('index::index', compact('sliders', 'featuredCategories', 'latestPosts', 'brands', 'seo'));
+        return view('index::index', compact('sliders', 'featuredProducts', 'featuredCategories', 'latestPosts', 'brands', 'seo'));
     }
 
     public function about(SeoService $seoService)

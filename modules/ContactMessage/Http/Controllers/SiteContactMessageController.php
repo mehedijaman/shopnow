@@ -27,7 +27,7 @@ class SiteContactMessageController extends SiteController
         ], [
             'event_id' => 'lead_'.$contactMessage->id,
             'event_source_url' => url('/contact'),
-            'consent_granted' => $request->cookie('tracking_consent') === 'granted',
+            'consent_granted' => true,
             'client_ip_address' => $request->ip(),
             'client_user_agent' => $request->userAgent(),
             'fbp' => $request->cookie('_fbp'),

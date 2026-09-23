@@ -260,7 +260,7 @@ class SiteOrderController extends SiteController
         ], [
             'event_id' => 'purchase_'.$order->id,
             'event_source_url' => url('/order-confirm/'.$order->id),
-            'consent_granted' => $request->cookie('tracking_consent') === 'granted',
+            'consent_granted' => true,
             'client_ip_address' => $request->ip(),
             'client_user_agent' => $request->userAgent(),
             'fbp' => $request->cookie('_fbp'),

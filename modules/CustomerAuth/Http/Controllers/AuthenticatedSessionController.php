@@ -64,7 +64,7 @@ class AuthenticatedSessionController extends AppController
         ], [
             'event_id' => 'registration_'.$customer->id,
             'event_source_url' => url('/signup'),
-            'consent_granted' => $request->cookie('tracking_consent') === 'granted',
+            'consent_granted' => true,
             'client_ip_address' => $request->ip(),
             'client_user_agent' => $request->userAgent(),
             'fbp' => $request->cookie('_fbp'),

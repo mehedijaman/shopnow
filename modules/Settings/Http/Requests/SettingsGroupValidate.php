@@ -103,6 +103,7 @@ class SettingsGroupValidate extends Request
     {
         return [
             'show_slider' => 'nullable|boolean',
+            'show_featured_products' => 'nullable|boolean',
             'show_featured_categories' => 'nullable|boolean',
             'show_blog' => 'nullable|boolean',
             'show_brands' => 'nullable|boolean',

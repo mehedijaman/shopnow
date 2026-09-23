@@ -71,7 +71,6 @@ class MetaConversionApiService
     {
         $enabled = (bool) setting('pixel.enabled', false);
         $capiEnabled = (bool) setting('pixel.capi_enabled', true);
-        $requireConsent = (bool) setting('pixel.require_consent', true);
         $allowNonProduction = (bool) setting('pixel.enable_non_production', false);
         $pixelId = (string) setting('pixel.meta_pixel_id', '');
         $accessToken = (string) setting('pixel.capi_access_token', '');
@@ -81,10 +80,6 @@ class MetaConversionApiService
         }
 
         if (! app()->environment('production') && ! $allowNonProduction) {
-            return false;
-        }
-
-        if ($requireConsent && ! ($context['consent_granted'] ?? false)) {
             return false;
         }
 

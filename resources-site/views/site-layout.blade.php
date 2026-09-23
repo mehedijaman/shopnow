@@ -94,60 +94,20 @@
         @php
             $pixelEnabled = (bool) setting('pixel.enabled', false);
             $pixelId = (string) setting('pixel.meta_pixel_id', '');
-            $pixelRequireConsent = (bool) setting('pixel.require_consent', true);
             $pixelEnableNonProduction = (bool) setting('pixel.enable_non_production', false);
             $pixelCanLoadInEnv = app()->environment('production') || $pixelEnableNonProduction;
             $pixelCanLoad = $pixelEnabled && $pixelCanLoadInEnv && $pixelId !== '';
 
             $gtmContainerId = (string) setting('analytics.gtm_container_id', '');
             $gtmCanLoad = $gtmContainerId !== '';
-
-            $trackingCanLoad = $pixelCanLoad || $gtmCanLoad;
-            $showConsentBanner = $trackingCanLoad && ($pixelCanLoad ? $pixelRequireConsent : true);
         @endphp
 
-        @if ($trackingCanLoad)
+        @if ($pixelCanLoad || $gtmCanLoad)
         <script>
             (function () {
-                var consentKey = 'tracking_consent'
-                var bannerId = 'tracking-consent-banner'
-
-                function getConsentValue() {
-                    var fromStorage = null
-
-                    try {
-                        fromStorage = window.localStorage.getItem(consentKey)
-                    } catch (e) {
-                        fromStorage = null
-                    }
-
-                    if (fromStorage === 'granted' || fromStorage === 'denied') {
-                        return fromStorage
-                    }
-
-                    var cookieMatch = document.cookie.match(new RegExp('(?:^|; )' + consentKey + '=([^;]*)'))
-                    return cookieMatch ? decodeURIComponent(cookieMatch[1]) : null
-                }
-
-                function persistConsent(value) {
-                    var oneYear = 60 * 60 * 24 * 365
-
-                    try {
-                        window.localStorage.setItem(consentKey, value)
-                    } catch (e) {
-                        // Ignore storage failures; cookie still persists consent.
-                    }
-
-                    document.cookie = consentKey + '=' + encodeURIComponent(value)
-                        + '; path=/'
-                        + '; max-age=' + oneYear
-                        + '; samesite=lax'
-                }
-
                 var pixelConfig = {
                     enabled: @json($pixelCanLoad),
                     pixelId: @json($pixelId),
-                    requireConsent: @json($pixelRequireConsent),
                 }
 
                 var gtmConfig = {
@@ -155,15 +115,10 @@
                     containerId: @json($gtmContainerId),
                 }
 
-                var initializedPixel = false
-                var initializedGtm = false
-
                 function initPixel() {
-                    if (!pixelConfig.enabled || initializedPixel || !pixelConfig.pixelId) {
+                    if (!pixelConfig.enabled || !pixelConfig.pixelId) {
                         return
                     }
-
-                    initializedPixel = true
 
                     !function(f,b,e,v,n,t,s)
                     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -179,11 +134,9 @@
                 }
 
                 function initGtm() {
-                    if (!gtmConfig.enabled || initializedGtm || !gtmConfig.containerId) {
+                    if (!gtmConfig.enabled || !gtmConfig.containerId) {
                         return
                     }
-
-                    initializedGtm = true
 
                     window.dataLayer = window.dataLayer || []
                     window.dataLayer.push({
@@ -197,78 +150,25 @@
                     document.head.appendChild(script)
                 }
 
-                function hasConsent() {
-                    if (pixelConfig.enabled && !pixelConfig.requireConsent) {
-                        return true
-                    }
-
-                    return getConsentValue() === 'granted'
-                }
-
                 window.ShopNowTracking = {
                     pixelEnabled: pixelConfig.enabled,
                     gtmEnabled: gtmConfig.enabled,
-                    hasConsent: hasConsent,
-                    setConsent: function (granted) {
-                        var value = granted ? 'granted' : 'denied'
-                        persistConsent(value)
-
-                        if (granted) {
-                            initPixel()
-                            initGtm()
-                        }
-
-                        var banner = document.getElementById(bannerId)
-                        if (banner) {
-                            banner.classList.add('hidden')
-                        }
-                    },
                     track: function (eventName, payload, options) {
                         if (typeof window.fbq !== 'function') {
                             return
                         }
-
                         window.fbq('track', eventName, payload || {}, options || {})
                     },
                     trackCustom: function (eventName, payload) {
                         if (typeof window.fbq !== 'function') {
                             return
                         }
-
                         window.fbq('trackCustom', eventName, payload || {})
                     },
                 }
 
-                var consent = getConsentValue()
                 initPixel()
                 initGtm()
-
-                document.addEventListener('DOMContentLoaded', function () {
-                    var banner = document.getElementById(bannerId)
-                    if (!banner) {
-                        return
-                    }
-
-                    var shouldShowBanner = (pixelConfig.enabled ? pixelConfig.requireConsent : true) && consent !== 'granted' && consent !== 'denied'
-                    if (shouldShowBanner) {
-                        banner.classList.remove('hidden')
-                    }
-
-                    var acceptButton = document.getElementById('tracking-consent-accept')
-                    var declineButton = document.getElementById('tracking-consent-decline')
-
-                    if (acceptButton) {
-                        acceptButton.addEventListener('click', function () {
-                            window.ShopNowTracking.setConsent(true)
-                        })
-                    }
-
-                    if (declineButton) {
-                        declineButton.addEventListener('click', function () {
-                            window.ShopNowTracking.setConsent(false)
-                        })
-                    }
-                })
             })();
         </script>
         @endif
@@ -289,35 +189,6 @@
 
             <x-footer></x-footer>
         </div>
-
-        @if ($showConsentBanner)
-        <div
-            id="tracking-consent-banner"
-            class="fixed bottom-0 left-0 right-0 z-50 hidden border-t border-skin-neutral-4 bg-white/95 p-4 shadow-lg backdrop-blur"
-        >
-            <div class="mx-auto flex w-full max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <p class="text-sm text-skin-neutral-11">
-                    We use cookies and tracking tools to measure campaign performance and improve your shopping experience. You can accept or decline tracking.
-                </p>
-                <div class="flex shrink-0 items-center gap-2">
-                    <button
-                        id="tracking-consent-decline"
-                        type="button"
-                        class="rounded-md border border-skin-neutral-6 px-3 py-2 text-sm font-medium text-skin-neutral-11 hover:bg-skin-neutral-2"
-                    >
-                        Decline
-                    </button>
-                    <button
-                        id="tracking-consent-accept"
-                        type="button"
-                        class="rounded-md bg-skin-primary-10 px-3 py-2 text-sm font-medium text-skin-neutral-1 hover:opacity-90"
-                    >
-                        Accept
-                    </button>
-                </div>
-            </div>
-        </div>
-        @endif
 
         @yield('bodyEndScripts')
         @stack('scripts')
