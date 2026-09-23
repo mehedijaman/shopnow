@@ -12,7 +12,10 @@
                 <i class="ri-shopping-bag-line text-xl text-skin-neutral-9"></i>
                 <span class="mt-0.5 text-[10px] font-medium text-skin-neutral-9">Shop</span>
             </a>
-            <navbar-cart-menu></navbar-cart-menu>
+            <a href="/cart" class="flex flex-col items-center justify-center py-2 text-center relative">
+    <i :class="cartStore.totalQuantity > 0 ? 'ri-shopping-cart-fill' : 'ri-shopping-cart-line'" class="cursor-pointer text-xl text-skin-neutral-9"></i>
+    <span v-show="cartStore.totalQuantity > 0" class="absolute -top-1 right-0 rounded-full bg-red-500 px-1 py-0 text-xs text-white">{{ cartStore.totalQuantity }}</span>
+</a>
             <a href="/shop/search" class="flex flex-col items-center justify-center py-2 text-center">
                 <i class="ri-search-2-line text-xl text-skin-neutral-9"></i>
                 <span class="mt-0.5 text-[10px] font-medium text-skin-neutral-9">অনুসন্ধান</span>
@@ -26,6 +29,7 @@
 </template>
 
 <script setup>
+import { useCartStore } from '../Stores/CartStore'
 import { defineProps } from 'vue'
 
 const props = defineProps({
@@ -34,4 +38,6 @@ const props = defineProps({
         default: false,
     },
 })
+
+const cartStore = useCartStore()
 </script>
