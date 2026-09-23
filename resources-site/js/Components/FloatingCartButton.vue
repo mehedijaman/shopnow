@@ -1,26 +1,25 @@
 <template>
-    <a
-        href="/cart"
-        class="fixed right-6 top-1/2 z-50 flex -translate-y-1/2 items-center gap-2 rounded-full border-2 border-primary-9 bg-white px-4 py-3 shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-primary-8/30"
-        aria-label="Shopping cart"
-        title="View cart"
-    >
-        <i class="ri-shopping-cart-fill text-xl text-primary-9"></i>
-        <span class="text-sm font-semibold text-primary-9">গোটা কার্ট</span>
+    <a href="/cart" class="fixed bottom-24 right-6 z-50 flex items-center gap-2 rounded-full border-2 border-skin-primary-9 bg-white px-4 py-3 text-skin-primary-9 shadow-lg transition-colors hover:bg-primary-50">
+        <i
+            :class="
+                cartStore.totalQuantity > 0
+                    ? 'ri-shopping-cart-fill'
+                    : 'ri-shopping-cart-line'
+            "
+            class="text-2xl"
+        ></i>
+        <span class="text-sm font-semibold">কার্টে যান</span>
         <span
-            v-if="totalItems > 0"
-            class="rounded-full bg-primary-9 px-2 py-0.5 text-xs font-bold text-white"
+            v-show="cartStore.totalQuantity > 0"
+            class="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 px-1 py-0 text-xs text-white"
         >
-            {{ totalItems }}
+            {{ cartStore.totalQuantity }}
         </span>
     </a>
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import { useCartStore } from '../Stores/CartStore'
 
 const cartStore = useCartStore()
-
-const totalItems = computed(() => cartStore.totalItems)
 </script>

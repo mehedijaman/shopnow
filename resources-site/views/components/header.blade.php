@@ -334,11 +334,11 @@
     </div>
 </div>
 
-{{-- Floating WhatsApp Button --}}
-<whatsapp-floating-button :number="'{{ $whatsapp ?? '' }}'"></whatsapp-floating-button>
-
 {{-- Floating Cart Button --}}
 <floating-cart-button></floating-cart-button>
+
+{{-- Floating WhatsApp Button --}}
+<whatsapp-floating-button :number="'{{ $whatsapp ?? '' }}'"></whatsapp-floating-button>
 
 @push('scripts')
 <script>
