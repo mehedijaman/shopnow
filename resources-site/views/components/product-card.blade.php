@@ -71,26 +71,21 @@
     }
 @endphp
 
-<div class="group relative flex w-full flex-col overflow-hidden rounded-xl sm:rounded-2xl bg-white shadow-sm ring-1 ring-gray-200/80 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg dark:bg-gray-900 dark:ring-gray-800">
+<div class="group relative  flex w-full flex-col overflow-hidden rounded-xl sm:rounded-2xl bg-white shadow-sm ring-1 ring-gray-200/80 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg dark:bg-gray-900 dark:ring-gray-800">
     {{-- Image --}}
     <a href="{{ route('shop.product', [$product->id, $product->slug]) }}" class="relative block aspect-[4/5] w-full overflow-hidden bg-gray-50 dark:bg-gray-800/50">
         <img
             src="{{ $product->image_url ?? 'https://placehold.co/600x800/f3f4f6/9ca3af?text=No+Image' }}"
             alt="{{ $product->name }}"
             loading="lazy"
-            class="h-full w-full object-contain p-2 sm:p-3 transition-transform duration-500 ease-out group-hover:scale-105"
+            class="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
         >
 
         {{-- Badges --}}
-        <div class="absolute left-2 top-2 sm:left-3 sm:top-3 z-10 flex flex-col gap-1">
+        <div class="absolute left-2 top-1 z-10 flex flex-col gap-1 sm:left-3 sm:top-1.5">
             @if ($product->featured)
                 <span class="rounded-md bg-amber-500/90 backdrop-blur-sm px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white shadow-sm">
                     Featured
-                </span>
-            @endif
-            @if ($product->sale_price)
-                <span class="rounded-md bg-red-600/90 backdrop-blur-sm px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white shadow-sm">
-                    Sale
                 </span>
             @endif
             @if ($product->type?->value === 'variable')
@@ -118,14 +113,12 @@
             @endif
         </div>
 
-        {{-- Wishlist button --}}
-        @if (auth('customer')->check())
-            <button
-                class="absolute right-2 top-2 sm:right-3 sm:top-3 z-10 flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white/90 text-gray-400 backdrop-blur-sm shadow-md transition-all duration-300 hover:scale-110 hover:text-red-500 dark:bg-gray-800/90 dark:text-gray-300 dark:hover:text-red-400"
-                aria-label="Add to wishlist"
-            >
-                <i class="ri-heart-line text-sm sm:text-base leading-none"></i>
-            </button>
+        @if ($product->sale_price)
+            <div class="absolute right-2 top-1 z-10 sm:right-3 sm:top-1.5">
+                <span class="rounded-md bg-red-600/90 backdrop-blur-sm px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white shadow-sm">
+                    Sale
+                </span>
+            </div>
         @endif
     </a>
 
@@ -192,6 +185,7 @@
                     :product="{{ json_encode($product) }}"
                     :variations="{{ json_encode($variationsData) }}"
                     :variation-attributes="{{ json_encode($variationAttributesData) }}"
+                    :show-wishlist="{{ auth('customer')->check() ? 'true' : 'false' }}"
                 ></add-to-cart-button>
             </div>
         </div>

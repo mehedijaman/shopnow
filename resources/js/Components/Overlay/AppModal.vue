@@ -2,8 +2,7 @@
     <transition name="fade">
         <div v-show="isModalOpen" :class="backdropClasses" @click="hideModal">
             <div
-                class="mx-auto my-auto min-w-[360px] rounded-lg bg-skin-neutral-2 p-4 text-skin-neutral-11 lg:w-1/3"
-                :class="[placementClass, 'absolute']"
+                :class="[placementClass, 'absolute', panelClasses]"
                 @click.stop
             >
                 <!-- Modal Header Slot -->
@@ -34,6 +33,10 @@ const props = defineProps({
     isModalOpen: {
         type: Boolean,
         default: false
+    },
+    panelClasses: {
+        type: String,
+        default: 'mx-auto my-auto min-w-[360px] rounded-lg bg-skin-neutral-2 p-4 text-skin-neutral-11 lg:w-1/3'
     }
 })
 

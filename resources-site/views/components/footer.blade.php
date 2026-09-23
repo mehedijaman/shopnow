@@ -28,7 +28,7 @@
             
             {{-- Column 1: Brand & Description --}}
             <div class="space-y-5">
-                <a href="{{ route('site.index') }}" class="inline-block">
+                <a href="{{ route('site.index') }}" class="block text-center sm:inline-block">
                     @if ($footerLogo)
                         <img src="{{ $footerLogo }}" alt="{{ $footerSiteName }}" class="h-16 w-auto max-w-[240px] sm:h-20 sm:max-w-[280px] object-contain" onerror="this.src='/logo.png'" />
                     @else

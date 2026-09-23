@@ -4,20 +4,31 @@
         <ProductVariationSelector v-if="hasVariations" ref="variationSelector" :all-attributes="variationAttributes"
             :variations="variations" :parent-product="product" @variation-change="onVariationChange" />
 
-        <!-- Quantity control (full width) -->
-        <div class="flex w-full items-center rounded-lg border border-gray-200 bg-gray-50/80 p-0.5 shadow-inner dark:border-gray-700 dark:bg-gray-800">
-            <button @click="decreaseQuantity" type="button"
-                class="flex h-8 flex-1 items-center justify-center rounded-md text-gray-600 transition-colors hover:bg-white hover:text-gray-900 active:scale-95 disabled:opacity-30 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
-                :disabled="!canAddToCart || quantity <= 1" aria-label="Decrease quantity">
-                <i class="ri-subtract-line text-xs sm:text-sm"></i>
-            </button>
-            <span class="flex-1 text-center text-xs font-extrabold text-gray-900 select-none dark:text-white">
-                {{ quantity }}
-            </span>
-            <button @click="increaseQuantity" type="button"
-                class="flex h-8 flex-1 items-center justify-center rounded-md text-gray-600 transition-colors hover:bg-white hover:text-gray-900 active:scale-95 disabled:opacity-30 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
-                :disabled="!canAddToCart" aria-label="Increase quantity">
-                <i class="ri-add-line text-xs sm:text-sm"></i>
+        <!-- Quantity + Wishlist -->
+        <div class="flex w-full items-center gap-2">
+            <div class="flex min-w-0 flex-1 items-center rounded-lg border border-gray-200 bg-gray-50/80 p-0.5 shadow-inner dark:border-gray-700 dark:bg-gray-800">
+                <button @click="decreaseQuantity" type="button"
+                    class="flex h-8 flex-1 items-center justify-center rounded-md text-gray-600 transition-colors hover:bg-white hover:text-gray-900 active:scale-95 disabled:opacity-30 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
+                    :disabled="!canAddToCart || quantity <= 1" aria-label="Decrease quantity">
+                    <i class="ri-subtract-line text-xs sm:text-sm"></i>
+                </button>
+                <span class="flex-1 text-center text-xs font-extrabold text-gray-900 select-none dark:text-white">
+                    {{ quantity }}
+                </span>
+                <button @click="increaseQuantity" type="button"
+                    class="flex h-8 flex-1 items-center justify-center rounded-md text-gray-600 transition-colors hover:bg-white hover:text-gray-900 active:scale-95 disabled:opacity-30 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
+                    :disabled="!canAddToCart" aria-label="Increase quantity">
+                    <i class="ri-add-line text-xs sm:text-sm"></i>
+                </button>
+            </div>
+
+            <button
+                v-if="showWishlist"
+                type="button"
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-400 shadow-sm transition-all duration-300 hover:border-red-200 hover:text-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-red-500/30 dark:hover:text-red-400"
+                aria-label="Add to wishlist"
+            >
+                <i class="ri-heart-line text-base leading-none"></i>
             </button>
         </div>
 
@@ -67,6 +78,7 @@ const props = defineProps({
     variations: { type: Array, default: () => [] },
     variationAttributes: { type: Object, default: () => ({}) },
     bundleItems: { type: Array, default: () => [] },
+    showWishlist: { type: Boolean, default: false },
 })
 
 const variationSelector = ref(null)
