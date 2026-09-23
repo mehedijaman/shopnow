@@ -142,11 +142,46 @@
 
                 <!-- Delivery Details -->
                 <div v-if="requiresShipping" class="space-y-4">
-                    <h2 class="border-b border-gray-200 pb-2 text-xl font-semibold text-gray-900">
-                        Delivery Details
-                    </h2>
 
                     <div class="flex flex-col gap-4 md:grid md:grid-cols-2">
+                        <!-- Shipping Options -->
+                        <div v-if="shippingOptions.length > 0" class="col-span-2 space-y-3 pt-2">
+                            <label class="block text-sm font-medium text-gray-700">
+                                Delivery Option <span class="text-red-500">*</span>
+                            </label>
+                            <div class="space-y-2">
+                                <label
+                                    v-for="option in shippingOptions"
+                                    :key="option.id || option.name"
+                                    :class="[
+                                        'flex items-center justify-between rounded-xl border-2 p-4 transition-all cursor-pointer',
+                                        selectedShippingOption?.name === option.name
+                                            ? 'border-primary-500 bg-primary-50'
+                                            : 'border-gray-200 bg-white hover:border-gray-300'
+                                    ]"
+                                >
+                                    <div class="flex items-center gap-3">
+                                        <div :class="[
+                                            'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2',
+                                            selectedShippingOption?.name === option.name
+                                                ? 'border-primary-500 bg-primary-500'
+                                                : 'border-gray-300'
+                                        ]">
+                                            <div v-if="selectedShippingOption?.name === option.name" class="h-2 w-2 rounded-full bg-white"></div>
+                                        </div>
+                                        <span class="text-sm font-semibold text-gray-900">{{ option.name }}</span>
+                                    </div>
+                                    <span v-if="isFreeShipping" class="text-sm font-bold text-green-600">Free</span>
+                                    <span v-else class="text-sm font-bold text-gray-900">{{ option.price }} Tk.</span>
+                                    <input
+                                        type="radio"
+                                        :value="option"
+                                        v-model="selectedShippingOption"
+                                        class="sr-only"
+                                    />
+                                </label>
+                            </div>
+                        </div>
 
                         <!-- Name -->
                         <div>
@@ -216,44 +251,7 @@
                             </div>
                         </div>
 
-                        <!-- Shipping Options -->
-                        <div v-if="shippingOptions.length > 0" class="col-span-2 space-y-3 pt-2">
-                            <label class="block text-sm font-medium text-gray-700">
-                                Delivery Option <span class="text-red-500">*</span>
-                            </label>
-                            <div class="space-y-2">
-                                <label
-                                    v-for="option in shippingOptions"
-                                    :key="option.id || option.name"
-                                    :class="[
-                                        'flex items-center justify-between rounded-xl border-2 p-4 transition-all cursor-pointer',
-                                        selectedShippingOption?.name === option.name
-                                            ? 'border-primary-500 bg-primary-50'
-                                            : 'border-gray-200 bg-white hover:border-gray-300'
-                                    ]"
-                                >
-                                    <div class="flex items-center gap-3">
-                                        <div :class="[
-                                            'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2',
-                                            selectedShippingOption?.name === option.name
-                                                ? 'border-primary-500 bg-primary-500'
-                                                : 'border-gray-300'
-                                        ]">
-                                            <div v-if="selectedShippingOption?.name === option.name" class="h-2 w-2 rounded-full bg-white"></div>
-                                        </div>
-                                        <span class="text-sm font-semibold text-gray-900">{{ option.name }}</span>
-                                    </div>
-                                    <span v-if="isFreeShipping" class="text-sm font-bold text-green-600">Free</span>
-                                    <span v-else class="text-sm font-bold text-gray-900">{{ option.price }} Tk.</span>
-                                    <input
-                                        type="radio"
-                                        :value="option"
-                                        v-model="selectedShippingOption"
-                                        class="sr-only"
-                                    />
-                                </label>
-                            </div>
-                        </div>
+                        
 
                         <!-- Special Note, Place Order, Trust badges (mobile: under Shipping Options) -->
                         <div class="col-span-2 mt-2 space-y-4 lg:hidden">
