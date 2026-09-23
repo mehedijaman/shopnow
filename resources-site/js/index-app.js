@@ -9,6 +9,7 @@ import SliderCarousel from './Components/SliderCarousel.vue'
 import BrandsCarousel from './Components/BrandsCarousel.vue'
 import WhatsappFloatingButton from './Components/WhatsappFloatingButton.vue'
 import FloatingCartButton from './Components/FloatingCartButton.vue'
+import MobileBottomNav from './Components/MobileBottomNav.vue'
 
 createVueApp({
     ShopSearch,
@@ -20,5 +21,6 @@ createVueApp({
     SliderCarousel,
     BrandsCarousel,
     WhatsappFloatingButton,
-    FloatingCartButton
+    FloatingCartButton,
+    MobileBottomNav
 }).mount('#app')

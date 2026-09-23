@@ -83,3 +83,7 @@
         @apply bg-skin-neutral-1 text-skin-neutral-12;
     }
 }
+
+body {
+    @apply pb-16 lg:pb-0;
+}

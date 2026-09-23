@@ -188,6 +188,8 @@
             @yield('content')
 
             <x-footer></x-footer>
+
+            <mobile-bottom-nav :is-logged-in="{{ Auth::guard('customer')->check() ? 'true' : 'false' }}"></mobile-bottom-nav>
         </div>
 
         @yield('bodyEndScripts')
