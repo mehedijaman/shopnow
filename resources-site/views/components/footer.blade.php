@@ -141,10 +141,21 @@
 
         {{-- Bottom Copyright Bar --}}
         <div class="mt-14 flex flex-col items-center justify-between gap-4 border-t border-slate-900 pt-8 text-xs text-slate-500 sm:flex-row">
-            <p>
-                &copy; {{ date('Y') }} <span class="font-bold text-slate-300">{{ $footerSiteName }}</span>. All rights reserved.
-            </p>
-            
+            <div class="text-center sm:text-left">
+                <p>
+                    &copy; {{ date('Y') }} <span class="font-bold text-slate-300">{{ $footerSiteName }}</span>. All rights reserved.
+                </p>
+                <p class="mt-1.5">
+                    Development and Maintenance by
+                    <a
+                        href="https://www.gtechservice.net"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="font-semibold text-slate-300 transition-colors hover:text-primary-400"
+                    >gTechService</a>
+                </p>
+            </div>
+
             <div class="flex items-center gap-6">
                 <a href="{{ route('site.privacyPolicy') }}" class="transition-colors hover:text-slate-300">Privacy</a>
                 <a href="{{ route('site.termsOfService') }}" class="transition-colors hover:text-slate-300">Terms</a>
