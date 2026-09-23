@@ -30,9 +30,9 @@
             <div class="space-y-5">
                 <a href="{{ route('site.index') }}" class="block text-center sm:inline-block">
                     @if ($footerLogo)
-                        <img src="{{ $footerLogo }}" alt="{{ $footerSiteName }}" class="h-16 w-auto max-w-[240px] sm:h-20 sm:max-w-[280px] object-contain" onerror="this.src='/logo.png'" />
+                        <img src="{{ $footerLogo }}" alt="{{ $footerSiteName }}" class="h-24 w-auto max-w-[300px] sm:h-20 sm:max-w-[280px] object-contain" onerror="this.src='/logo.png'" />
                     @else
-                        <img src="{{ asset('logo.png') }}" alt="{{ $footerSiteName }}" class="h-16 w-auto max-w-[240px] sm:h-20 sm:max-w-[280px] object-contain" />
+                        <img src="{{ asset('logo.png') }}" alt="{{ $footerSiteName }}" class="h-24 w-auto max-w-[300px] sm:h-20 sm:max-w-[280px] object-contain" />
                     @endif
                 </a>
 
