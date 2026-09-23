@@ -123,10 +123,10 @@
         </div>
 
         <!-- ── Delivery Details + Order Summary ── -->
-        <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+        <div class="flex flex-col lg:grid lg:grid-cols-12 lg:gap-8">
 
-            <!-- Left: Delivery Form -->
-            <div class="lg:col-span-8">
+            <!-- Left: Delivery Form (below summary on mobile) -->
+            <div class="order-2 lg:order-1 lg:col-span-8">
 
                 <!-- General error banner -->
                 <div v-if="generalError"
@@ -146,7 +146,7 @@
                         Delivery Details
                     </h2>
 
-                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div class="flex flex-col gap-4 md:grid md:grid-cols-2">
 
                         <!-- Name -->
                         <div>
@@ -258,8 +258,8 @@
                 </div>
             </div>
 
-            <!-- Right: Order Summary -->
-            <div class="mt-6 lg:col-span-4 lg:mt-0">
+            <!-- Right: Order Summary (above form on mobile) -->
+            <div class="order-1 mt-6 lg:order-2 lg:col-span-4 lg:mt-0">
                 <div class="sticky top-6 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
 
                     <!-- Shipping progress -->
