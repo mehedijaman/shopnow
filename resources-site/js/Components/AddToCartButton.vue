@@ -56,7 +56,7 @@
                         : 'bg-gray-200 text-gray-400 cursor-not-allowed dark:bg-gray-800 dark:text-gray-600'
                 ]">
                 <i class="ri-flashlight-line text-xs sm:text-sm"></i>
-                <span class="truncate">Order Now</span>
+                <span class="truncate">Buy Now</span>
             </button>
         </div>
 
