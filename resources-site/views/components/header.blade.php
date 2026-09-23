@@ -117,14 +117,6 @@
             <navbar-cart-menu></navbar-cart-menu>
         </div>
     </header>
-    
-    {{-- Mobile Search Field --}}
-    <div class="relative z-40 border-b border-slate-100 bg-slate-50 px-4 py-2.5 lg:hidden dark:border-slate-800 dark:bg-slate-900/60">
-        <button type="button" onclick="window.toggleSearchModal()" class="flex w-full items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm text-slate-400 shadow-sm transition hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-500/10 dark:bg-slate-800 dark:text-slate-400">
-            <i class="ri-search-2-line"></i>
-            <span>Search for products, brands and more...</span>
-        </button>
-    </div>
 </div>
 
 {{-- ==============================================
@@ -143,14 +135,6 @@
                     <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-20 w-auto max-w-[300px] object-contain xl:h-28 xl:max-w-[380px]" />
                 @endif
             </a>
-
-            {{-- Search Button --}}
-            <div class="w-full max-w-2xl flex-1">
-                <button type="button" onclick="window.toggleSearchModal()" class="flex w-full items-center gap-2 rounded-full bg-gray-50 px-4 py-2.5 text-sm text-slate-400 shadow-sm transition hover:border-slate-300 hover:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/10 dark:bg-slate-800 dark:text-slate-400">
-                    <i class="ri-search-2-line"></i>
-                    <span>Search for products, brands and more...</span>
-                </button>
-            </div>
 
             {{-- Customer Account & Cart Actions --}}
             <div class="flex shrink-0 items-center gap-4">
@@ -247,6 +231,9 @@
                     <span class="absolute inset-x-0 bottom-0 h-[2.5px] rounded-full bg-primary-600"></span>
                 @endif
             </a>
+            <button type="button" onclick="window.toggleSearchModal()" aria-label="Search" class="ml-auto flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-primary-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-primary-400">
+                <i class="ri-search-2-line text-lg"></i>
+            </button>
         </nav>
     </div>
 </div>
