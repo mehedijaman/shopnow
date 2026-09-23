@@ -168,10 +168,21 @@
                             <p v-if="errors.phone" class="mt-1.5 text-xs text-red-600">{{ errors.phone }}</p>
                         </div>
 
+                        <!-- Street Address -->
+                        <div class="col-span-2">
+                            <label for="address" class="mb-1.5 block text-sm font-medium text-gray-700">
+                                ঠিকানা <span class="text-red-500">*</span>
+                            </label>
+                            <textarea v-model="form.address" id="address" rows="3"
+                                placeholder="House/flat number, road, area..."
+                                :class="inputClass('address')" @input="clearError('address')"></textarea>
+                            <p v-if="errors.address" class="mt-1.5 text-xs text-red-600">{{ errors.address }}</p>
+                        </div>
+
                         <!-- Saved Addresses -->
                         <div v-if="addresses.length > 0" class="col-span-2 space-y-2">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700">
-                                ঠিকানা <span class="text-red-500">*</span>
+                                Saved Addresses
                             </label>
                             <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                                 <button v-for="addr in addresses" :key="addr.id" type="button" @click="selectAddress(addr)"
@@ -202,25 +213,6 @@
                                     <span class="text-lg font-bold">+</span>
                                     <span class="text-xs font-semibold">Use Custom Address</span>
                                 </button>
-                            </div>
-                        </div>
-
-                        <!-- Custom address fields -->
-                        <div v-if="selectedAddressId === 'new'"
-                            class="col-span-2 grid grid-cols-1 gap-4 border border-gray-150 rounded-xl p-4 bg-gray-50/55">
-                            <div class="col-span-2">
-                                <h3 class="text-sm font-semibold text-gray-900">Shipping Address</h3>
-                            </div>
-
-                            <!-- Street Address -->
-                            <div class="col-span-2">
-                                <label for="address" class="mb-1.5 block text-sm font-medium text-gray-700">
-                                    Street Address <span class="text-red-500">*</span>
-                                </label>
-                                <textarea v-model="form.address" id="address" rows="3"
-                                    placeholder="House/flat number, road, area..."
-                                    :class="inputClass('address')"></textarea>
-                                <p v-if="errors.address" class="mt-1.5 text-xs text-red-600">{{ errors.address }}</p>
                             </div>
                         </div>
 
