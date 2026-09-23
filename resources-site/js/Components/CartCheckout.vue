@@ -254,6 +254,41 @@
                                 </label>
                             </div>
                         </div>
+
+                        <!-- Special Note, Place Order, Trust badges (mobile: under Shipping Options) -->
+                        <div class="col-span-2 mt-2 space-y-4 lg:hidden">
+                            <div>
+                                <label for="note-mobile" class="mb-1.5 block text-sm font-medium text-gray-700">Special Note</label>
+                                <textarea v-model="form.note" id="note-mobile" rows="2" placeholder="Any instructions for your order..."
+                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"></textarea>
+                            </div>
+
+                            <button @click="submitForm" type="button" :disabled="submitting"
+                                class="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 py-3.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-primary-700 hover:shadow-md active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60">
+                                <svg v-if="submitting" class="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                </svg>
+                                <i v-else class="ri-lock-line"></i>
+                                {{ submitting ? 'Placing Order...' : 'Place Order' }}
+                            </button>
+
+                            <div class="flex items-center justify-center gap-3 text-xs text-gray-400">
+                                <span class="flex items-center gap-1">
+                                    <i class="ri-shield-check-line"></i> Secure
+                                </span>
+                                <span class="text-gray-200">|</span>
+                                <span class="flex items-center gap-1">
+                                    <i class="ri-refresh-line"></i> Easy Returns
+                                </span>
+                                <span class="text-gray-200">|</span>
+                                <span class="flex items-center gap-1">
+                                    <i class="ri-headphone-line"></i> Support
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -314,39 +349,40 @@
                             </div>
                         </div>
 
-                        <!-- Special Note -->
-                        <div class="mt-4">
-                            <label for="note" class="mb-1.5 block text-sm font-medium text-gray-700">Special Note</label>
-                            <textarea v-model="form.note" id="note" rows="2" placeholder="Any instructions for your order..."
-                                class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"></textarea>
-                        </div>
+                        <!-- Special Note, Place Order, Trust badges (desktop only) -->
+                        <div class="hidden lg:block">
+                            <div class="mt-4">
+                                <label for="note" class="mb-1.5 block text-sm font-medium text-gray-700">Special Note</label>
+                                <textarea v-model="form.note" id="note" rows="2" placeholder="Any instructions for your order..."
+                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"></textarea>
+                            </div>
 
-                        <button @click="submitForm" type="button" :disabled="submitting"
-                            class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 py-3.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-primary-700 hover:shadow-md active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60">
-                            <svg v-if="submitting" class="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                                </circle>
-                                <path class="opacity-75" fill="currentColor"
-                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                            </svg>
-                            <i v-else class="ri-lock-line"></i>
-                            {{ submitting ? 'Placing Order...' : 'Place Order' }}
-                        </button>
+                            <button @click="submitForm" type="button" :disabled="submitting"
+                                class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 py-3.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-primary-700 hover:shadow-md active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60">
+                                <svg v-if="submitting" class="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                                    </circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                </svg>
+                                <i v-else class="ri-lock-line"></i>
+                                {{ submitting ? 'Placing Order...' : 'Place Order' }}
+                            </button>
 
-                        <!-- Trust badges -->
-                        <div class="mt-4 flex items-center justify-center gap-3 text-xs text-gray-400">
-                            <span class="flex items-center gap-1">
-                                <i class="ri-shield-check-line"></i> Secure
-                            </span>
-                            <span class="text-gray-200">|</span>
-                            <span class="flex items-center gap-1">
-                                <i class="ri-refresh-line"></i> Easy Returns
-                            </span>
-                            <span class="text-gray-200">|</span>
-                            <span class="flex items-center gap-1">
-                                <i class="ri-headphone-line"></i> Support
-                            </span>
+                            <div class="mt-4 flex items-center justify-center gap-3 text-xs text-gray-400">
+                                <span class="flex items-center gap-1">
+                                    <i class="ri-shield-check-line"></i> Secure
+                                </span>
+                                <span class="text-gray-200">|</span>
+                                <span class="flex items-center gap-1">
+                                    <i class="ri-refresh-line"></i> Easy Returns
+                                </span>
+                                <span class="text-gray-200">|</span>
+                                <span class="flex items-center gap-1">
+                                    <i class="ri-headphone-line"></i> Support
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
