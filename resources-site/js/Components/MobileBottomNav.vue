@@ -1,6 +1,6 @@
 <template>
     <nav
-        class="fixed bottom-0 left-0 right-0 z-50 border-t border-skin-neutral-4 bg-white"
+        class="fixed bottom-0 left-0 right-0 z-40 border-t border-skin-neutral-4 bg-white"
         aria-label="Mobile navigation"
     >
         <div class="mx-auto flex w-full max-w-7xl justify-around">
