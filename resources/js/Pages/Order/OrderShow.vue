@@ -18,11 +18,11 @@
                     <i class="ri-printer-line text-lg"></i>
                     <span>Print Invoice</span>
                 </button>
-                <a :href="route('order.downloadInvoice', order.id)"
+                <!-- <a :href="route('order.downloadInvoice', order.id)"
                     class="btn btn-primary inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold shadow-xs transition duration-150 ease-in-out sm:px-4">
                     <i class="ri-download-cloud-line text-lg"></i>
                     <span>Download PDF</span>
-                </a>
+                </a> -->
             </div>
         </template>
     </AppSectionHeader>
@@ -191,15 +191,18 @@
                     class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b-2 border-black pb-3">
                     <!-- Company Logo & Details -->
                     <div class="flex items-center gap-3">
-                        <div v-if="companyInfo.logo" class="flex h-11 w-11 shrink-0 items-center justify-center shadow-2xs overflow-hidden">
+                        <div v-if="companyInfo.logo"
+                            class="flex h-11 w-11 shrink-0 items-center justify-center shadow-2xs overflow-hidden">
                             <img :src="companyInfo.logo" :alt="companyInfo.name || 'Company Logo'"
                                 class="h-8 w-auto max-w-full object-contain"
                                 @error="(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'block'; }" />
                             <i class="ri-store-2-fill text-2xl text-black" style="display:none"></i>
                         </div>
                         <div class="min-w-0">
-                            <h1 v-if="companyInfo.name" class="text-lg sm:text-xl font-black text-black tracking-tight leading-none break-words">{{
-                                companyInfo.name }}</h1>
+                            <h1 v-if="companyInfo.name"
+                                class="text-lg sm:text-xl font-black text-black tracking-tight leading-none break-words">
+                                {{
+                                    companyInfo.name }}</h1>
                             <div v-if="companyInfo.address"
                                 class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs font-semibold text-black">
                                 <span class="flex items-center gap-1">
@@ -224,7 +227,8 @@
                     <!-- Invoice Ref Badge -->
                     <div class="flex flex-col items-start sm:items-end gap-1 w-full sm:w-auto">
                         <div class="text-left sm:text-right">
-                            <span class="inline-block py-0.5 text-base sm:text-lg font-black tracking-widest text-black">
+                            <span
+                                class="inline-block py-0.5 text-base sm:text-lg font-black tracking-widest text-black">
                                 Invoice
                             </span>
                             <p class="font-mono font-extrabold text-black mt-0.5 text-xs sm:text-sm">#{{ order.id }}</p>
@@ -233,37 +237,37 @@
                 </div>
 
                 <!-- Customer Details & Order Metadata Box (Name, Phone, Address Only) -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 border border-black rounded-lg p-3 bg-neutral-50 text-black printable-customer-box">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-black printable-customer-box">
                     <div class="space-y-1 text-xs">
                         <div class="flex items-start gap-2">
-                            <span class="w-16 shrink-0 font-bold uppercase tracking-wider text-black">Name:</span>
+                            <span class="w-16 shrink-0 font-bold tracking-wider text-black">Name:</span>
                             <span class="font-extrabold text-black break-words">{{ order.name || 'N/A' }}</span>
                         </div>
                         <div class="flex items-start gap-2">
-                            <span class="w-16 shrink-0 font-bold uppercase tracking-wider text-black">Phone:</span>
+                            <span class="w-16 shrink-0 font-bold tracking-wider text-black">Phone:</span>
                             <a v-if="order.phone" :href="`tel:${order.phone}`"
                                 class="font-bold text-black hover:underline break-all">{{ order.phone }}</a>
                             <span v-else>N/A</span>
                         </div>
                         <div class="flex items-start gap-2">
-                            <span class="w-16 shrink-0 font-bold uppercase tracking-wider text-black">Address:</span>
+                            <span class="w-16 shrink-0 font-bold  tracking-wider text-black">Address:</span>
                             <span class="font-semibold text-black leading-tight break-words">{{ order.address || 'N/A'
                             }}</span>
                         </div>
                     </div>
                     <div class="space-y-1 sm:border-l sm:border-black sm:pl-3 text-xs">
                         <div class="flex items-center justify-between gap-2 text-xs">
-                            <span class="font-bold uppercase tracking-wider text-black shrink-0">Invoice Date:</span>
+                            <span class="font-bold tracking-wider text-black shrink-0">Invoice Date:</span>
                             <span class="font-semibold text-black text-right">{{ order.created_at }}</span>
                         </div>
                         <div class="flex items-center justify-between gap-2 text-xs">
-                            <span class="font-bold uppercase tracking-wider text-black shrink-0">Payment Method:</span>
+                            <span class="font-bold tracking-wider text-black shrink-0">Payment Method:</span>
                             <span class="font-bold text-black text-right">{{ formatPaymentMethod(order.payment_method)
                             }}</span>
                         </div>
 
                         <div class="flex items-center justify-between gap-2 text-xs">
-                            <span class="font-bold uppercase tracking-wider text-black shrink-0">Payment Status:</span>
+                            <span class="font-bold tracking-wider text-black shrink-0">Payment Status:</span>
                             <span
                                 class="rounded-full px-2 py-0.5 text-[11px] font-bold capitalize ring-1 ring-black border border-black text-black bg-neutral-100 shrink-0">
                                 {{ order.payment_status }}
@@ -301,8 +305,10 @@
                                     }}</td>
                                     <td class="px-3 py-2 text-right font-semibold text-black whitespace-nowrap">{{
                                         formatMoney(item.unit_price) }} Tk</td>
-                                    <td class="px-3 py-2 text-right font-extrabold text-black text-xs whitespace-nowrap">{{
-                                        formatMoney(item.total_price) }} Tk</td>
+                                    <td
+                                        class="px-3 py-2 text-right font-extrabold text-black text-xs whitespace-nowrap">
+                                        {{
+                                            formatMoney(item.total_price) }} Tk</td>
                                 </tr>
 
                                 <!-- Bundle child items snapshot -->
@@ -379,7 +385,9 @@
 
                 <!-- Printable Footer -->
                 <div class="border-t pt-2 text-center text-[11px] text-black no-print-footer">
-                    Thank you for your order!<span v-if="companyInfo.email"> For support or inquiries, please contact us at {{ companyInfo.email }}.</span>
+                    Thank you for your order!<span v-if="companyInfo.email"> For support or inquiries, please contact us
+                        at
+                        {{ companyInfo.email }}.</span>
                 </div>
             </div>
 
@@ -757,7 +765,7 @@ const getStepState = (stepKey) => {
         gap: 0.75rem !important;
     }
 
-    .printable-customer-box > div:nth-child(2) {
+    .printable-customer-box>div:nth-child(2) {
         border-left: 1px solid #000000 !important;
         padding-left: 0.75rem !important;
     }
