@@ -184,7 +184,7 @@
 
             <!-- Printable Invoice Document Card with Corporate Letterhead -->
             <div
-                class="printable-invoice overflow-hidden rounded-sm bg-white border border-black shadow-xs p-4 sm:p-5 space-y-4 text-black">
+                class="printable-invoice overflow-hidden rounded-sm bg-white border border-skin-neutral-4/80 shadow-xs p-4 sm:p-5 space-y-4 text-black">
 
                 <!-- Invoice Corporate Letterhead Header -->
                 <div
