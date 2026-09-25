@@ -454,7 +454,7 @@
                             <select id="order-status" v-model="statusForm.status"
                                 class="block w-full rounded-xl border border-skin-neutral-6 bg-skin-neutral-2 px-3.5 py-2.5 text-sm font-bold text-skin-neutral-12 focus:border-skin-primary-9 focus:outline-hidden focus:ring-1 focus:ring-skin-primary-9 transition duration-150">
                                 <option v-for="s in statuses" :key="s" :value="s" class="capitalize font-semibold">
-                                    {{ s.charAt(0).to() + s.slice(1) }}
+                                    {{ s.charAt(0).toUpperCase() + s.slice(1) }}
                                 </option>
                             </select>
                         </div>
