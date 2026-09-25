@@ -14,6 +14,7 @@
     <!-- Filter Card -->
     <OrderFilterCard
         :statuses="statuses"
+        :payment-methods="paymentMethods"
         :initial-filters="filters"
         @apply="applyFilters"
         @clear="clearFilters"
@@ -153,6 +154,7 @@ const props = defineProps({
     orders: { type: Object, default: () => ({}) },
     statuses: { type: Array, default: () => [] },
     statusCounts: { type: Object, default: () => ({}) },
+    paymentMethods: { type: Array, default: () => [] },
     filters: { type: Object, default: () => ({}) },
 })
 
@@ -171,6 +173,9 @@ const additionalParams = computed(() => {
     if (props.filters?.payment_status !== undefined && props.filters?.payment_status !== '') {
         params.payment_status = props.filters.payment_status
     }
+    if (props.filters?.payment_method !== undefined && props.filters?.payment_method !== '') {
+        params.payment_method = props.filters.payment_method
+    }
     return params
 })
 
@@ -182,6 +187,7 @@ function applyFilters(newFilters) {
 
     if (newFilters.status !== '') { params.status = newFilters.status }
     if (newFilters.payment_status !== '') { params.payment_status = newFilters.payment_status }
+    if (newFilters.payment_method !== '') { params.payment_method = newFilters.payment_method }
     router.get(route('order.index'), params, { preserveState: true, replace: true })
 }
 

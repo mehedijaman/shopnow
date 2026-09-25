@@ -22,11 +22,13 @@ class OrderController extends BackendController
     {
         $statusFilter = $request->input('status');
         $paymentFilter = $request->input('payment_status');
+        $paymentMethodFilter = $request->input('payment_method');
 
         $orders = Order::orderBy('id', 'desc')
             ->search($request->input('searchContext'), $request->input('searchTerm'))
             ->when($statusFilter, fn ($q) => $q->where('status', $statusFilter))
             ->when($paymentFilter, fn ($q) => $q->where('payment_status', $paymentFilter))
+            ->when($paymentMethodFilter, fn ($q) => $q->where('payment_method', $paymentMethodFilter))
             ->paginate($request->input('rowsPerPage', 15))
             ->withQueryString()
             ->through(fn ($order) => [
@@ -52,9 +54,15 @@ class OrderController extends BackendController
             'orders' => $orders,
             'statuses' => OrderStatus::values(),
             'statusCounts' => $statusCounts,
+            'paymentMethods' => Order::whereNotNull('payment_method')
+                ->distinct()
+                ->pluck('payment_method')
+                ->sort()
+                ->values(),
             'filters' => [
                 'status' => $statusFilter,
                 'payment_status' => $paymentFilter,
+                'payment_method' => $paymentMethodFilter,
                 'searchTerm' => $request->input('searchTerm'),
             ],
         ]);
