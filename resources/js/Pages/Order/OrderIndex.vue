@@ -101,23 +101,26 @@
                         >
                             {{ item.payment_status === 'paid' ? 'Paid' : 'Unpaid' }}
                         </span>
-                        <p v-if="item.payment_method" class="mt-0.5 text-xs text-skin-neutral-7">
+                    </AppDataTableData>
+                    <AppDataTableData class="text-sm">
+                        <span v-if="item.payment_method" class="rounded-full bg-skin-neutral-3 px-2.5 py-0.5 text-xs font-medium text-skin-neutral-11">
                             {{ item.payment_method === 'cod' ? 'COD' : item.payment_method }}
-                        </p>
+                        </span>
+                        <span v-else class="text-skin-neutral-7">—</span>
                     </AppDataTableData>
                     <AppDataTableData class="text-right font-semibold text-skin-neutral-12">
                         {{ formatMoney(item.total) }}
                     </AppDataTableData>
                     <AppDataTableData class="text-right">
                         <div class="flex justify-end gap-1.5">
-                            <AppTooltip text="View Details">
+                            <!-- <AppTooltip text="View Details"> -->
                                 <AppButton
                                     class="btn btn-icon btn-primary"
                                     @click="$inertia.visit(route('order.show', item.id))"
                                 >
                                     <i class="ri-eye-line"></i>
                                 </AppButton>
-                            </AppTooltip>
+                            <!-- </AppTooltip> -->
                         </div>
                     </AppDataTableData>
                 </AppDataTableRow>
@@ -163,7 +166,7 @@ const breadCrumb = [
     { label: 'Orders', last: true },
 ]
 
-const headers = ['Order No.', 'Date', 'Name', 'Phone', 'Status', 'Payment', 'Total', 'Actions']
+const headers = ['Order No.', 'Date', 'Name', 'Phone', 'Status', 'Payment', 'Method', 'Total', 'Actions']
 
 const additionalParams = computed(() => {
     const params = {}
