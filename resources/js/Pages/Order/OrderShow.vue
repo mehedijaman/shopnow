@@ -184,7 +184,7 @@
 
             <!-- Printable Invoice Document Card with Corporate Letterhead -->
             <div
-                class="printable-invoice overflow-hidden rounded-md bg-white border border-black shadow-xs p-4 sm:p-5 space-y-4 text-black">
+                class="printable-invoice overflow-hidden rounded-sm bg-white border border-black shadow-xs p-4 sm:p-5 space-y-4 text-black">
 
                 <!-- Invoice Corporate Letterhead Header -->
                 <div
@@ -233,7 +233,7 @@
                 </div>
 
                 <!-- Customer Details & Order Metadata Box (Name, Phone, Address Only) -->
-                <div class="grid grid-cols-2 gap-3 border border-black rounded-lg p-3 bg-neutral-50 text-black">
+                <div class="grid grid-cols-2 gap-3  text-black">
                     <div class="space-y-1 text-xs">
                         <div class="flex items-start gap-2">
                             <span class="w-16 shrink-0 font-bold  tracking-wider text-black">Name:</span>
