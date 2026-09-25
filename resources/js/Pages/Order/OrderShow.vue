@@ -483,55 +483,6 @@
                 </form>
             </OrderSectionCard>
 
-            <!-- 2. Order Parameters Summary Card -->
-            <OrderSectionCard title="Order Parameters" description="Core metadata & financial parameters"
-                icon="ri-file-list-3-line" icon-class="bg-purple-50 text-purple-600 ring-1 ring-purple-500/10">
-                <div class="divide-y divide-skin-neutral-3/70">
-                    <div class="flex items-center justify-between py-3">
-                        <span class="text-xs font-semibold text-skin-neutral-9  tracking-wider">Order
-                            No.</span>
-                        <span class="font-mono text-sm font-extrabold text-skin-neutral-12">#{{ order.id }}</span>
-                    </div>
-                    <div class="flex items-center justify-between py-3">
-                        <span class="text-xs font-semibold text-skin-neutral-9  tracking-wider">Payment
-                            Method</span>
-                        <span class="text-sm font-bold text-skin-neutral-12 flex items-center gap-1.5">
-                            <i class="ri-bank-card-2-line text-blue-600"></i>
-                            {{ formatPaymentMethod(order.payment_method) }}
-                        </span>
-                    </div>
-                    <div class="flex items-center justify-between py-3">
-                        <span class="text-xs font-semibold text-skin-neutral-9  tracking-wider">Payment
-                            Status</span>
-                        <span :class="paymentStatusClass(order.payment_status)"
-                            class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold capitalize ring-1 ring-inset">
-                            {{ order.payment_status }}
-                        </span>
-                    </div>
-                    <div class="flex items-center justify-between py-3">
-                        <span class="text-xs font-semibold text-skin-neutral-9  tracking-wider">Order
-                            Status</span>
-                        <span :class="statusClass(order.status)"
-                            class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold capitalize ring-1 ring-inset">
-                            {{ order.status }}
-                        </span>
-                    </div>
-                    <div class="flex items-center justify-between py-3">
-                        <span class="text-xs font-semibold text-skin-neutral-9  tracking-wider">Fulfillment
-                            Type</span>
-                        <span
-                            :class="order.requires_shipping ? 'text-blue-700 bg-blue-50 ring-blue-600/20' : 'text-purple-700 bg-purple-50 ring-purple-600/20'"
-                            class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold capitalize ring-1 ring-inset">
-                            {{ order.requires_shipping ? 'Physical Order' : 'Virtual / Digital' }}
-                        </span>
-                    </div>
-                    <div class="flex items-center justify-between py-3.5">
-                        <span class="text-xs font-bold text-skin-neutral-9  tracking-wider">Grand Total</span>
-                        <span class="text-lg font-black text-skin-primary-9">{{ formatMoney(order.total) }} Tk</span>
-                    </div>
-                </div>
-            </OrderSectionCard>
-
             <!-- 3. Logistics & Shipment Details Card -->
             <OrderSectionCard v-if="order.requires_shipping && order.orderShipments?.length"
                 title="Logistics & Shipment Details" description="Carrier assignments & parcel tracking"
