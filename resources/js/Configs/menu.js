@@ -37,6 +37,12 @@ export default {
             permission: 'product-menu',
             children: [
                 {
+                    label: 'New Product',
+                    permission: 'product-create',
+                    icon: 'ri-add-line',
+                    link: route('product.create')
+                },
+                {
                     label: 'Products',
                     permission: 'product-list',
                     icon: 'ri-draft-line',
@@ -174,7 +180,9 @@ export default {
         {
             label: 'My Profile',
             icon: 'ri-user-settings-line',
-            get link() { return route('profile.show') }
+            get link() {
+                return route('profile.show')
+            }
         }
     ]
 }
