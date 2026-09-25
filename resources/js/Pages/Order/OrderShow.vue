@@ -180,11 +180,11 @@
         </div>
 
         <!-- ── Center Column: Invoice & Payment Log ── -->
-        <div class="space-y-6 col-span-2">
+        <div class="space-y-6 col-span-1 lg:col-span-2">
 
             <!-- Printable Invoice Document Card with Corporate Letterhead -->
             <div
-                class="printable-invoice overflow-hidden rounded-sm bg-white border border-skin-neutral-4/80 shadow-xs p-4 sm:p-5 space-y-4 text-black">
+                class="printable-invoice overflow-hidden rounded-sm bg-white border border-skin-neutral-4/80 shadow-xs p-3.5 sm:p-5 space-y-4 text-black">
 
                 <!-- Invoice Corporate Letterhead Header -->
                 <div
@@ -197,25 +197,25 @@
                                 @error="(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'block'; }" />
                             <i class="ri-store-2-fill text-2xl text-black" style="display:none"></i>
                         </div>
-                        <div>
-                            <h1 v-if="companyInfo.name" class="text-xl font-black text-black tracking-tight leading-none">{{
+                        <div class="min-w-0">
+                            <h1 v-if="companyInfo.name" class="text-lg sm:text-xl font-black text-black tracking-tight leading-none break-words">{{
                                 companyInfo.name }}</h1>
                             <div v-if="companyInfo.address"
                                 class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs font-semibold text-black">
                                 <span class="flex items-center gap-1">
-                                    <i class="ri-map-pin-line text-black"></i>
-                                    <span>{{ companyInfo.address }}</span>
+                                    <i class="ri-map-pin-line text-black shrink-0"></i>
+                                    <span class="break-words">{{ companyInfo.address }}</span>
                                 </span>
                             </div>
                             <div v-if="companyInfo.phone || companyInfo.email"
                                 class="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs font-semibold text-black">
                                 <span v-if="companyInfo.phone" class="flex items-center gap-1">
-                                    <i class="ri-phone-line text-black"></i>
+                                    <i class="ri-phone-line text-black shrink-0"></i>
                                     <span>{{ companyInfo.phone }}</span>
                                 </span>
                                 <span v-if="companyInfo.email" class="flex items-center gap-1">
-                                    <i class="ri-mail-line text-black"></i>
-                                    <span>{{ companyInfo.email }}</span>
+                                    <i class="ri-mail-line text-black shrink-0"></i>
+                                    <span class="break-all">{{ companyInfo.email }}</span>
                                 </span>
                             </div>
                         </div>
@@ -224,48 +224,48 @@
                     <!-- Invoice Ref Badge -->
                     <div class="flex flex-col items-start sm:items-end gap-1 w-full sm:w-auto">
                         <div class="text-left sm:text-right">
-                            <span class="inline-block py-0.5 text-lg font-black  tracking-widest text-black">
+                            <span class="inline-block py-0.5 text-base sm:text-lg font-black tracking-widest text-black">
                                 Invoice
                             </span>
-                            <p class="font-mono font-extrabold text-black mt-0.5">#{{ order.id }}</p>
+                            <p class="font-mono font-extrabold text-black mt-0.5 text-xs sm:text-sm">#{{ order.id }}</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Customer Details & Order Metadata Box (Name, Phone, Address Only) -->
-                <div class="grid grid-cols-2 gap-3  text-black">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 border border-black rounded-lg p-3 bg-neutral-50 text-black printable-customer-box">
                     <div class="space-y-1 text-xs">
                         <div class="flex items-start gap-2">
-                            <span class="w-16 shrink-0 font-bold  tracking-wider text-black">Name:</span>
-                            <span class="font-extrabold text-black">{{ order.name || 'N/A' }}</span>
+                            <span class="w-16 shrink-0 font-bold uppercase tracking-wider text-black">Name:</span>
+                            <span class="font-extrabold text-black break-words">{{ order.name || 'N/A' }}</span>
                         </div>
                         <div class="flex items-start gap-2">
-                            <span class="w-16 shrink-0 font-bold  tracking-wider text-black">Phone:</span>
+                            <span class="w-16 shrink-0 font-bold uppercase tracking-wider text-black">Phone:</span>
                             <a v-if="order.phone" :href="`tel:${order.phone}`"
-                                class="font-bold text-black hover:underline">{{ order.phone }}</a>
+                                class="font-bold text-black hover:underline break-all">{{ order.phone }}</a>
                             <span v-else>N/A</span>
                         </div>
                         <div class="flex items-start gap-2">
-                            <span class="w-16 shrink-0 font-bold  tracking-wider text-black">Address:</span>
-                            <span class="font-semibold text-black leading-tight">{{ order.address || 'N/A'
-                                }}</span>
+                            <span class="w-16 shrink-0 font-bold uppercase tracking-wider text-black">Address:</span>
+                            <span class="font-semibold text-black leading-tight break-words">{{ order.address || 'N/A'
+                            }}</span>
                         </div>
                     </div>
-                    <div class="space-y-1 border-l border-black pl-3 text-xs">
-                        <div class="flex items-center justify-between text-xs">
-                            <span class="font-bold  tracking-wider text-black">Invoice Date:</span>
-                            <span class="font-semibold text-black">{{ order.created_at }}</span>
+                    <div class="space-y-1 sm:border-l sm:border-black sm:pl-3 text-xs">
+                        <div class="flex items-center justify-between gap-2 text-xs">
+                            <span class="font-bold uppercase tracking-wider text-black shrink-0">Invoice Date:</span>
+                            <span class="font-semibold text-black text-right">{{ order.created_at }}</span>
                         </div>
-                        <div class="flex items-center justify-between text-xs">
-                            <span class="font-bold  tracking-wider text-black">Payment Method:</span>
-                            <span class="font-bold text-black">{{ formatPaymentMethod(order.payment_method)
-                                }}</span>
+                        <div class="flex items-center justify-between gap-2 text-xs">
+                            <span class="font-bold uppercase tracking-wider text-black shrink-0">Payment Method:</span>
+                            <span class="font-bold text-black text-right">{{ formatPaymentMethod(order.payment_method)
+                            }}</span>
                         </div>
 
-                        <div class="flex items-center justify-between text-xs">
-                            <span class="font-bold  tracking-wider text-black">Payment Status:</span>
+                        <div class="flex items-center justify-between gap-2 text-xs">
+                            <span class="font-bold uppercase tracking-wider text-black shrink-0">Payment Status:</span>
                             <span
-                                class="rounded-full px-2 py-0.5 text-[11px] font-bold capitalize ring-1 ring-black border border-black text-black bg-neutral-100">
+                                class="rounded-full px-2 py-0.5 text-[11px] font-bold capitalize ring-1 ring-black border border-black text-black bg-neutral-100 shrink-0">
                                 {{ order.payment_status }}
                             </span>
                         </div>
@@ -273,11 +273,11 @@
                 </div>
 
                 <!-- Invoice Itemized Products Table -->
-                <div class="overflow-x-auto">
-                    <table class="w-full text-xs text-left border-collapse text-black">
+                <div class="overflow-x-auto -mx-1 sm:mx-0">
+                    <table class="w-full text-xs text-left border-collapse text-black min-w-[440px] sm:min-w-full">
                         <thead>
                             <tr
-                                class="border-y border-black bg-neutral-100 text-[11px] font-bold  tracking-wider text-black">
+                                class="border-y border-black bg-neutral-100 text-[11px] font-bold uppercase tracking-wider text-black">
                                 <th class="px-2.5 py-2 w-8 text-center">#</th>
                                 <th class="px-3 py-2">Item Description</th>
                                 <th class="px-3 py-2 text-center">Qty</th>
@@ -291,17 +291,17 @@
                                     <td class="px-2.5 py-2 text-center font-bold text-black">{{ index + 1 }}
                                     </td>
                                     <td class="px-3 py-2">
-                                        <p class="font-bold text-black text-xs">{{ item.product_name }}</p>
+                                        <p class="font-bold text-black text-xs break-words">{{ item.product_name }}</p>
                                         <p v-if="item.variation_label"
                                             class="mt-0.5 inline-flex items-center gap-1 rounded-md bg-neutral-100 px-1.5 py-0.5 text-[10px] font-semibold text-black ring-1 ring-inset ring-black/20">
                                             {{ item.variation_label }}
                                         </p>
                                     </td>
                                     <td class="px-3 py-2 text-center font-black text-black">{{ item.quantity
-                                        }}</td>
-                                    <td class="px-3 py-2 text-right font-semibold text-black">{{
+                                    }}</td>
+                                    <td class="px-3 py-2 text-right font-semibold text-black whitespace-nowrap">{{
                                         formatMoney(item.unit_price) }} Tk</td>
-                                    <td class="px-3 py-2 text-right font-extrabold text-black text-xs">{{
+                                    <td class="px-3 py-2 text-right font-extrabold text-black text-xs whitespace-nowrap">{{
                                         formatMoney(item.total_price) }} Tk</td>
                                 </tr>
 
@@ -310,16 +310,16 @@
                                     class="bg-neutral-50 text-[11px] text-black">
                                     <td class="px-2.5 py-1 text-center text-black">↳</td>
                                     <td class="px-3 py-1 pl-5">
-                                        <span class="font-bold text-black">{{ bi.name }}</span>
+                                        <span class="font-bold text-black break-words">{{ bi.name }}</span>
                                         <span v-if="bi.sku"
                                             class="ml-2 font-mono text-[9px] bg-neutral-200 px-1 py-0.5 rounded text-black">SKU:
                                             {{ bi.sku }}</span>
                                     </td>
                                     <td class="px-3 py-1 text-center font-bold text-black">{{ bi.quantity }}
                                     </td>
-                                    <td class="px-3 py-1 text-right font-semibold text-black">{{
+                                    <td class="px-3 py-1 text-right font-semibold text-black whitespace-nowrap">{{
                                         formatMoney(bi.unit_price) }} Tk</td>
-                                    <td class="px-3 py-1 text-right font-bold text-black">{{
+                                    <td class="px-3 py-1 text-right font-bold text-black whitespace-nowrap">{{
                                         formatMoney(bi.total_price) }} Tk</td>
                                 </tr>
                             </template>
@@ -329,21 +329,21 @@
 
                 <!-- Totals Financial Ledger & Paid Stamp Banner -->
                 <div
-                    class="relative flex flex-row justify-between items-center pt-3 border-t border-black gap-4 text-black">
+                    class="relative flex flex-col sm:flex-row justify-between items-center pt-3 border-t border-black gap-4 text-black printable-totals-banner">
                     <!-- Paid / Unpaid Rubber Stamp (Centered on Left Side) -->
-                    <div class="flex items-center justify-center flex-1 my-auto py-2">
+                    <div class="flex items-center justify-center flex-1 my-auto py-2 w-full sm:w-auto">
                         <div v-if="order.payment_status === 'paid'"
-                            class="inline-block transform -rotate-6 border-2 border-dashed border-black px-4 py-1.5 text-base font-black  text-black tracking-widest bg-neutral-100 shadow-2xs">
+                            class="inline-block transform -rotate-6 border-2 border-dashed border-black px-4 py-1.5 text-base font-black uppercase text-black tracking-widest bg-neutral-100 shadow-2xs">
                             PAID
                         </div>
                         <div v-else-if="Number(order.due) > 0"
-                            class="inline-block transform -rotate-6 border-2 border-dashed border-black px-4 py-1.5 text-base font-black  text-black tracking-widest bg-neutral-100 shadow-2xs">
+                            class="inline-block transform -rotate-6 border-2 border-dashed border-black px-4 py-1.5 text-base font-black uppercase text-black tracking-widest bg-neutral-100 shadow-2xs">
                             DUE
                         </div>
                     </div>
 
                     <!-- Invoice Calculation Ledger -->
-                    <div class="w-64 sm:w-72 shrink-0 space-y-1 text-xs text-black">
+                    <div class="w-full sm:w-72 totals-ledger shrink-0 space-y-1 text-xs text-black">
                         <div class="flex justify-between">
                             <span class="font-semibold text-black">Subtotal Amount:</span>
                             <span class="font-bold text-black">{{ formatMoney(order.subtotal) }} Tk</span>
@@ -748,6 +748,29 @@ const getStepState = (stepKey) => {
         box-shadow: none !important;
         background: #ffffff !important;
         color: #000000 !important;
+    }
+
+    /* Force 2-column side-by-side row layouts for A4 portrait print */
+    .printable-customer-box {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 0.75rem !important;
+    }
+
+    .printable-customer-box > div:nth-child(2) {
+        border-left: 1px solid #000000 !important;
+        padding-left: 0.75rem !important;
+    }
+
+    .printable-totals-banner {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+
+    .printable-totals-banner .totals-ledger {
+        width: 18rem !important;
     }
 }
 </style>
