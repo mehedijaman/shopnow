@@ -148,14 +148,14 @@
                                             {{ item.quantity }}
                                         </span>
                                     </td>
-                                    <td class="px-4 py-4 text-right font-medium text-skin-neutral-10">{{ Number(item.unit_price).toFixed(2) }} Tk</td>
+                                    <td class="px-4 py-4 text-right font-medium text-skin-neutral-10">{{ formatMoney(item.unit_price) }} Tk</td>
                                     <td class="px-4 py-4 text-right">
                                         <span v-if="Number(item.discount) > 0" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-bold text-green-700 ring-1 ring-inset ring-green-600/10">
-                                            -{{ Number(item.discount).toFixed(2) }} Tk
+                                            -{{ formatMoney(item.discount) }} Tk
                                         </span>
                                         <span v-else class="text-skin-neutral-6">—</span>
                                     </td>
-                                    <td class="px-6 py-4 text-right font-bold text-skin-neutral-12 text-base">{{ Number(item.total_price).toFixed(2) }} Tk</td>
+                                    <td class="px-6 py-4 text-right font-bold text-skin-neutral-12 text-base">{{ formatMoney(item.total_price) }} Tk</td>
                                 </tr>
                                 <!-- Bundle child items snapshot -->
                                 <tr v-if="item.bundle_items?.length" v-for="bi in item.bundle_items" :key="bi.id" class="bg-skin-neutral-2/20">
@@ -167,9 +167,9 @@
                                         </div>
                                     </td>
                                     <td class="px-4 py-2.5 text-center text-xs font-semibold text-skin-neutral-8">{{ bi.quantity }}</td>
-                                    <td class="px-4 py-2.5 text-right text-xs font-semibold text-skin-neutral-8">{{ Number(bi.unit_price).toFixed(2) }} Tk</td>
+                                    <td class="px-4 py-2.5 text-right text-xs font-semibold text-skin-neutral-8">{{ formatMoney(bi.unit_price) }} Tk</td>
                                     <td class="px-4 py-2.5 text-right text-xs text-skin-neutral-6">—</td>
-                                    <td class="px-6 py-2.5 text-right text-xs font-bold text-skin-neutral-9">{{ Number(bi.total_price).toFixed(2) }} Tk</td>
+                                    <td class="px-6 py-2.5 text-right text-xs font-bold text-skin-neutral-9">{{ formatMoney(bi.total_price) }} Tk</td>
                                 </tr>
                             </template>
                         </tbody>
@@ -181,12 +181,12 @@
                     <div class="ml-auto max-w-sm space-y-3 text-sm">
                         <div class="flex justify-between">
                             <span class="font-semibold text-skin-neutral-9">Subtotal</span>
-                            <span class="font-bold text-skin-neutral-12">{{ Number(order.subtotal).toFixed(2) }} Tk</span>
+                            <span class="font-bold text-skin-neutral-12">{{ formatMoney(order.subtotal) }} Tk</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="font-semibold text-skin-neutral-9">Shipping</span>
                             <span v-if="order.shipping == 0" class="inline-flex items-center rounded-md bg-green-50 px-2 py-0.5 text-xs font-bold text-green-700 ring-1 ring-inset ring-green-600/20">Free</span>
-                            <span v-else class="font-bold text-skin-neutral-12">{{ Number(order.shipping).toFixed(2) }} Tk</span>
+                            <span v-else class="font-bold text-skin-neutral-12">{{ formatMoney(order.shipping) }} Tk</span>
                         </div>
                         <div v-if="order.shipping_method" class="flex justify-between">
                             <span class="font-semibold text-skin-neutral-9">Delivery Method</span>
@@ -194,19 +194,19 @@
                         </div>
                         <div v-if="order.tax > 0" class="flex justify-between">
                             <span class="font-semibold text-skin-neutral-9">Tax</span>
-                            <span class="font-bold text-skin-neutral-12">{{ Number(order.tax).toFixed(2) }} Tk</span>
+                            <span class="font-bold text-skin-neutral-12">{{ formatMoney(order.tax) }} Tk</span>
                         </div>
                         <div class="flex justify-between border-t border-skin-neutral-4 pt-3 text-base font-extrabold">
                             <span class="text-skin-neutral-12">Total</span>
-                            <span class="text-skin-primary-7 text-lg">{{ Number(order.total).toFixed(2) }} Tk</span>
+                            <span class="text-skin-primary-7 text-lg">{{ formatMoney(order.total) }} Tk</span>
                         </div>
                         <div class="flex justify-between border-t border-skin-neutral-3 pt-2 text-xs font-bold">
                             <span class="text-skin-neutral-8">Paid</span>
-                            <span class="text-green-600 font-extrabold text-sm">{{ Number(order.paid).toFixed(2) }} Tk</span>
+                            <span class="text-green-600 font-extrabold text-sm">{{ formatMoney(order.paid) }} Tk</span>
                         </div>
                         <div class="flex justify-between text-xs font-bold">
                             <span class="text-skin-neutral-8">Due</span>
-                            <span class="font-extrabold text-sm" :class="order.due > 0 ? 'text-red-500' : 'text-green-600'">{{ Number(order.due).toFixed(2) }} Tk</span>
+                            <span class="font-extrabold text-sm" :class="order.due > 0 ? 'text-red-500' : 'text-green-600'">{{ formatMoney(order.due) }} Tk</span>
                         </div>
                     </div>
                 </div>
@@ -243,7 +243,7 @@
                                         {{ payment.payment_status }}
                                     </span>
                                 </td>
-                                <td class="px-4 py-3.5 text-right font-extrabold text-skin-neutral-12 text-sm">{{ Number(payment.amount_paid).toFixed(2) }} Tk</td>
+                                <td class="px-4 py-3.5 text-right font-extrabold text-skin-neutral-12 text-sm">{{ formatMoney(payment.amount_paid) }} Tk</td>
                                 <td class="px-6 py-3.5 font-mono text-xs font-semibold text-skin-neutral-9">{{ payment.transaction_id ?? '—' }}</td>
                             </tr>
                         </tbody>
@@ -418,7 +418,7 @@
                     </div>
                     <div class="flex items-center justify-between py-4">
                         <span class="text-xs font-semibold text-skin-neutral-8 uppercase tracking-wider">Grand Total</span>
-                        <span class="text-lg font-extrabold text-skin-primary-7">{{ Number(order.total).toFixed(2) }} Tk</span>
+                        <span class="text-lg font-extrabold text-skin-primary-7">{{ formatMoney(order.total) }} Tk</span>
                     </div>
                 </div>
                 <div class="bg-skin-neutral-2/30 px-6 py-4 border-t border-skin-neutral-3">
@@ -478,7 +478,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { formatMoney } from '@/Utils/formatMoney'
 import { Head, useForm } from '@inertiajs/vue3'
 import useTitle from '@/Composables/useTitle'
 

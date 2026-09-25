@@ -37,15 +37,18 @@
                     :key="item.id"
                     class="group hover:bg-skin-neutral-1"
                 >
-                    <AppDataTableData class="font-mono text-xs font-semibold text-skin-neutral-9">
-                        #{{ item.id }}
+                    <AppDataTableData class="font-mono text-sm font-semibold">
+                        {{ item.id }}
                     </AppDataTableData>
-                    <AppDataTableData class="text-xs text-skin-neutral-9">
+                    <AppDataTableData class="text-sm">
                         {{ item.created_at }}
                     </AppDataTableData>
                     <AppDataTableData>
-                        <p class="font-medium text-skin-neutral-12">{{ item.name }}</p>
-                        <p class="text-xs text-skin-neutral-8">{{ item.phone }}</p>
+                        {{ item.name }}
+                    </AppDataTableData>
+
+                    <AppDataTableData class="text-sm">
+                        {{ item.phone }}
                     </AppDataTableData>
                     <AppDataTableData>
                         <!-- Quick status update -->
@@ -102,7 +105,7 @@
                         </p>
                     </AppDataTableData>
                     <AppDataTableData class="text-right font-semibold text-skin-neutral-12">
-                        ৳{{ Number(item.total).toFixed(2) }}
+                        {{ formatMoney(item.total) }}
                     </AppDataTableData>
                     <AppDataTableData class="text-right">
                         <div class="flex justify-end gap-1.5">
@@ -140,6 +143,7 @@ import { ref, computed } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import useTitle from '@/Composables/useTitle'
 import useAuthCan from '@/Composables/useAuthCan'
+import { formatMoney } from '@/Utils/formatMoney'
 import OrderFilterCard from './Components/OrderFilterCard.vue'
 
 const { title } = useTitle('Orders')
@@ -157,7 +161,7 @@ const breadCrumb = [
     { label: 'Orders', last: true },
 ]
 
-const headers = ['#', 'Date', 'Customer', 'Status', 'Payment', 'Total', 'Actions']
+const headers = ['Order No.', 'Date', 'Name', 'Phone', 'Status', 'Payment', 'Total', 'Actions']
 
 const additionalParams = computed(() => {
     const params = {}
