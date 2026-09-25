@@ -191,23 +191,23 @@
                     class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b-2 border-black pb-3">
                     <!-- Company Logo & Details -->
                     <div class="flex items-center gap-3">
-                        <div class="flex h-11 w-11 shrink-0 items-center justify-center shadow-2xs overflow-hidden">
-                            <img :src="companyInfo.logo" :alt="companyInfo.name"
+                        <div v-if="companyInfo.logo" class="flex h-11 w-11 shrink-0 items-center justify-center shadow-2xs overflow-hidden">
+                            <img :src="companyInfo.logo" :alt="companyInfo.name || 'Company Logo'"
                                 class="h-8 w-auto max-w-full object-contain"
                                 @error="(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'block'; }" />
                             <i class="ri-store-2-fill text-2xl text-black" style="display:none"></i>
                         </div>
                         <div>
-                            <h1 class="text-xl font-black text-black tracking-tight leading-none">{{
+                            <h1 v-if="companyInfo.name" class="text-xl font-black text-black tracking-tight leading-none">{{
                                 companyInfo.name }}</h1>
-                            <div
+                            <div v-if="companyInfo.address"
                                 class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs font-semibold text-black">
-                                <span v-if="companyInfo.address" class="flex items-center gap-1">
+                                <span class="flex items-center gap-1">
                                     <i class="ri-map-pin-line text-black"></i>
                                     <span>{{ companyInfo.address }}</span>
                                 </span>
                             </div>
-                            <div
+                            <div v-if="companyInfo.phone || companyInfo.email"
                                 class="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs font-semibold text-black">
                                 <span v-if="companyInfo.phone" class="flex items-center gap-1">
                                     <i class="ri-phone-line text-black"></i>
@@ -379,7 +379,7 @@
 
                 <!-- Printable Footer -->
                 <div class="border-t pt-2 text-center text-[11px] text-black no-print-footer">
-                    Thank you for your order! For support or inquiries, please contact us at {{ companyInfo.email }}.
+                    Thank you for your order!<span v-if="companyInfo.email"> For support or inquiries, please contact us at {{ companyInfo.email }}.</span>
                 </div>
             </div>
 
@@ -563,12 +563,23 @@ const page = usePage()
 const companyInfo = computed(() => {
     const branding = page.props.branding || {}
     const contact = page.props.contact || {}
+
+    const getFirstOrValue = (val) => {
+        if (!val) return null
+        if (Array.isArray(val)) {
+            const first = val.find((item) => item && String(item).trim() !== '')
+            return first ? String(first).trim() : null
+        }
+        const str = String(val).trim()
+        return str !== '' ? str : null
+    }
+
     return {
-        name: branding.site_name || 'ShopNow E-Commerce',
-        logo: branding.logo_url || '/logo.png',
-        phone: Array.isArray(contact.phone) ? contact.phone[0] : (contact.phone || '+880 1700-000000'),
-        email: Array.isArray(contact.email) ? contact.email[0] : (contact.email || 'support@shopnow.com'),
-        address: Array.isArray(contact.address) ? contact.address[0] : (contact.address || 'Dhaka, Bangladesh'),
+        name: branding.site_name || null,
+        logo: branding.logo_url || null,
+        phone: getFirstOrValue(contact.phone),
+        email: getFirstOrValue(contact.email),
+        address: getFirstOrValue(contact.address),
     }
 })
 

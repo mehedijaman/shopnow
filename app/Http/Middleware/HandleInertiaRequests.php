@@ -72,6 +72,7 @@ class HandleInertiaRequests extends Middleware
                 'dark_logo_url' => setting('branding.dark_logo_url'),
                 'favicon_url' => setting('branding.favicon_url'),
             ],
+            'contact' => fn () => settings_group('contact'),
         ]);
     }
 }
