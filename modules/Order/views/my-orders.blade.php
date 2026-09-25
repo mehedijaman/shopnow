@@ -75,17 +75,17 @@
                                         Status
                                     </dt>
                                     <dd class="mt-1">
-                                        @if($order->status === 'completed')
+                                        @if($order->status === \Modules\Order\Enums\OrderStatus::Completed)
                                             <span class="inline-flex rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-800">
                                                 Completed
                                             </span>
-                                        @elseif($order->status === 'cancelled')
+                                        @elseif($order->status === \Modules\Order\Enums\OrderStatus::Cancelled)
                                             <span class="inline-flex rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-semibold text-red-800">
                                                 Cancelled
                                             </span>
                                         @else
                                             <span class="inline-flex rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-semibold text-yellow-800">
-                                                {{ ucfirst($order->status) }}
+                                                {{ $order->status->label() }}
                                             </span>
                                         @endif
                                     </dd>

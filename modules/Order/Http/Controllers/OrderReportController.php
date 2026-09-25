@@ -5,6 +5,7 @@ namespace Modules\Order\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Response;
+use Modules\Order\Enums\OrderStatus;
 use Modules\Order\Models\Order;
 use Modules\Support\Http\Controllers\BackendController;
 
@@ -24,15 +25,15 @@ class OrderReportController extends BackendController
         $summary = [
             'totalOrders' => Order::whereBetween('created_at', [$from, $to])->count(),
             'totalRevenue' => round(Order::whereBetween('created_at', [$from, $to])
-                ->whereNotIn('status', ['cancelled'])->sum('total'), 2),
+                ->where('status', '!=', OrderStatus::Cancelled)->sum('total'), 2),
             'avgOrderValue' => round(Order::whereBetween('created_at', [$from, $to])
-                ->whereNotIn('status', ['cancelled'])->avg('total') ?? 0, 2),
+                ->where('status', '!=', OrderStatus::Cancelled)->avg('total') ?? 0, 2),
             'pendingCount' => Order::whereBetween('created_at', [$from, $to])
-                ->where('status', 'pending')->count(),
+                ->where('status', OrderStatus::Pending)->count(),
             'completedCount' => Order::whereBetween('created_at', [$from, $to])
-                ->whereIn('status', ['delivered', 'completed'])->count(),
+                ->whereIn('status', [OrderStatus::Delivered, OrderStatus::Completed])->count(),
             'cancelledCount' => Order::whereBetween('created_at', [$from, $to])
-                ->where('status', 'cancelled')->count(),
+                ->where('status', OrderStatus::Cancelled)->count(),
         ];
 
         // Daily breakdown using DB grouping
@@ -44,7 +45,9 @@ class OrderReportController extends BackendController
             ->groupBy(fn ($o) => Carbon::parse($o->created_at)->format('Y-m-d'))
             ->map(fn ($orders) => [
                 'count' => $orders->count(),
-                'revenue' => round($orders->where('status', '!=', 'cancelled')->sum('total'), 2),
+                'revenue' => round($orders
+                    ->filter(fn ($o) => $o->status !== OrderStatus::Cancelled)
+                    ->sum('total'), 2),
             ]);
 
         $period = [];
@@ -65,9 +68,9 @@ class OrderReportController extends BackendController
             ->selectRaw('status, count(*) as count, sum(total) as revenue')
             ->groupBy('status')
             ->get()
-            ->keyBy('status');
+            ->keyBy(fn ($row) => $row->status->value);
 
-        $byStatus = collect(['pending', 'processing', 'shipped', 'delivered', 'completed', 'cancelled'])
+        $byStatus = collect(OrderStatus::values())
             ->mapWithKeys(fn ($status) => [
                 $status => [
                     'count' => $statusGroups->get($status)?->count ?? 0,
@@ -83,8 +86,8 @@ class OrderReportController extends BackendController
                 'id' => $o->id,
                 'name' => $o->name,
                 'phone' => $o->phone,
-                'status' => $o->status,
-                'payment_status' => $o->payment_status,
+                'status' => $o->status->value,
+                'payment_status' => $o->payment_status->value,
                 'total' => $o->total,
                 'created_at' => Carbon::parse($o->created_at)->format('d M Y'),
             ]);

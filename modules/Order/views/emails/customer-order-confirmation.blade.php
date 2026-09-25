@@ -58,7 +58,7 @@
                                     <p style="margin:0;font-size:13px;color:#1e293b;">
                                         <strong>Status:</strong>
                                         <span style="display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;background:#dcfce7;color:#15803d;">
-                                            {{ ucfirst($order->payment_status ?? 'Pending') }}
+                                            {{ $order->payment_status?->label() ?? 'Pending' }}
                                         </span>
                                     </p>
                                 </td>

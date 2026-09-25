@@ -6,6 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Inertia\Inertia;
 use Modules\Customer\Models\Customer;
+use Modules\Order\Enums\OrderStatus;
 use Modules\Order\Models\Order;
 use Modules\Order\Models\OrderProduct;
 use Modules\Product\Models\Product;
@@ -24,14 +25,14 @@ class DashboardController extends BackendController
         $monthStart = $now->copy()->startOfMonth();
 
         // Aggregate queries for performance
-        $totalRevenue = Order::whereNotIn('status', ['cancelled'])->sum('total');
-        $monthlyRevenue = Order::whereNotIn('status', ['cancelled'])
+        $totalRevenue = Order::where('status', '!=', OrderStatus::Cancelled)->sum('total');
+        $monthlyRevenue = Order::where('status', '!=', OrderStatus::Cancelled)
             ->where('created_at', '>=', $monthStart)
             ->sum('total');
 
         // Build last-12-months revenue array using DB grouping
         $twelveMonthsAgo = $now->copy()->subMonths(11)->startOfMonth();
-        $monthlyRevenueRows = Order::whereNotIn('status', ['cancelled'])
+        $monthlyRevenueRows = Order::where('status', '!=', OrderStatus::Cancelled)
             ->where('created_at', '>=', $twelveMonthsAgo)
             ->selectRaw('created_at, total')
             ->get();
@@ -63,8 +64,8 @@ class DashboardController extends BackendController
                 'id' => $o->id,
                 'name' => $o->name,
                 'phone' => $o->phone,
-                'status' => $o->status,
-                'payment_status' => $o->payment_status,
+                'status' => $o->status->value,
+                'payment_status' => $o->payment_status->value,
                 'total' => $o->total,
                 'created_at' => Carbon::parse($o->created_at)->format('d M Y'),
             ]);

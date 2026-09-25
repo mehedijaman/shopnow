@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Modules\Order\Enums\ShipmentStatus;
 use Modules\Order\Http\Requests\SiteOrderValidate;
 use Modules\Order\Models\Order;
 use Modules\Order\Services\DetermineShippingRequirement;
@@ -144,7 +145,7 @@ class SiteOrderController extends SiteController
 
             if ($requiresShipping) {
                 $order->orderShipments()->create([
-                    'shopment_status' => 'pending',
+                    'shopment_status' => ShipmentStatus::Pending,
                 ]);
             }
 

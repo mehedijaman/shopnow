@@ -7,6 +7,9 @@ use Devfaysal\BangladeshGeocode\Models\Upazila;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Modules\Customer\Models\Customer;
+use Modules\Order\Enums\OrderStatus;
+use Modules\Order\Enums\ShipmentStatus;
+use Modules\Order\Enums\TransactionStatus;
 use Modules\Order\Models\Order;
 use Modules\Order\Models\OrderPayment;
 use Modules\Order\Services\RecordOrderPayment;
@@ -126,7 +129,7 @@ test('mixed cart sets requires_shipping true and creates shipment', function () 
     expect($order)->not->toBeNull();
     expect($order->requires_shipping)->toBe(1);
     expect($order->orderShipments()->count())->toBe(1);
-    expect($order->orderShipments()->first()->shopment_status)->toBe('pending');
+    expect($order->orderShipments()->first()->shopment_status)->toBe(ShipmentStatus::Pending);
 });
 
 test('physical-only order sets requires_shipping true and creates shipment', function () {
@@ -176,7 +179,7 @@ test('RecordOrderPayment creates OrderPayment row and fires event on success', f
     ]);
 
     expect($payment)->toBeInstanceOf(OrderPayment::class);
-    expect($payment->payment_status)->toBe('success');
+    expect($payment->payment_status)->toBe(TransactionStatus::Success);
     expect((float) $payment->amount_paid)->toBe(99.99);
 
     $this->assertDatabaseHas('order_payments', [
@@ -208,7 +211,7 @@ test('RecordOrderPayment does not fire event on failed payment', function () {
         'payment_method' => 'cod',
     ]);
 
-    expect($payment->payment_status)->toBe('failed');
+    expect($payment->payment_status)->toBe(TransactionStatus::Failed);
 
     Event::assertNotDispatched(OrderPaymentConfirmed::class);
 });
@@ -230,7 +233,7 @@ test('RecordOrderPayment auto-completes order when requires_shipping is false', 
 
     $order->refresh();
 
-    expect($order->status)->toBe('completed');
+    expect($order->status)->toBe(OrderStatus::Completed);
 });
 
 test('RecordOrderPayment does not auto-complete order when requires_shipping is true', function () {
@@ -250,7 +253,7 @@ test('RecordOrderPayment does not auto-complete order when requires_shipping is 
 
     $order->refresh();
 
-    expect($order->status)->toBe('pending');
+    expect($order->status)->toBe(OrderStatus::Pending);
 });
 
 test('OrderPaymentConfirmed event payload has correct structure', function () {

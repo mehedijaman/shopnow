@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Inertia\Response;
+use Modules\Order\Enums\OrderStatus;
+use Modules\Order\Enums\PaymentStatus;
+use Modules\Order\Enums\TransactionStatus;
 use Modules\Order\Http\Requests\OrderValidate;
 use Modules\Order\Models\Order;
 use Modules\Order\Services\RecordOrderPayment;
@@ -15,8 +18,6 @@ use Modules\Support\Http\Controllers\BackendController;
 
 class OrderController extends BackendController
 {
-    private const STATUSES = ['pending', 'processing', 'shipped', 'delivered', 'completed', 'cancelled'];
-
     public function index(Request $request): Response
     {
         $statusFilter = $request->input('status');
@@ -34,8 +35,8 @@ class OrderController extends BackendController
                 'email' => $order->email,
                 'phone' => $order->phone,
                 'address' => $order->address,
-                'status' => $order->status,
-                'payment_status' => $order->payment_status,
+                'status' => $order->status->value,
+                'payment_status' => $order->payment_status->value,
                 'payment_method' => $order->payment_method,
                 'total' => $order->total,
                 'created_at' => $order->created_at->format('d M Y'),
@@ -43,13 +44,13 @@ class OrderController extends BackendController
 
         // Single grouped query for all status counts
         $statusCounts = Order::selectRaw('status, count(*) as count')
-            ->whereIn('status', self::STATUSES)
+            ->whereIn('status', OrderStatus::values())
             ->groupBy('status')
             ->pluck('count', 'status');
 
         return inertia('Order/OrderIndex', [
             'orders' => $orders,
-            'statuses' => self::STATUSES,
+            'statuses' => OrderStatus::values(),
             'statusCounts' => $statusCounts,
             'filters' => [
                 'status' => $statusFilter,
@@ -93,8 +94,8 @@ class OrderController extends BackendController
                 'upazila' => $order->upazila,
                 'union' => $order->union,
                 'country' => $order->country,
-                'status' => $order->status,
-                'payment_status' => $order->payment_status,
+                'status' => $order->status->value,
+                'payment_status' => $order->payment_status->value,
                 'payment_method' => $order->payment_method,
                 'requires_shipping' => $order->requires_shipping,
                 'subtotal' => $order->subtotal,
@@ -126,8 +127,8 @@ class OrderController extends BackendController
                 ]),
                 'orderPayments' => $order->orderPayments->map(fn ($p) => [
                     'id' => $p->id,
-                    'payment_method' => $p->payment_method,
-                    'payment_status' => $p->payment_status,
+                    'payment_method' => $p->payment_method?->value,
+                    'payment_status' => $p->payment_status->value,
                     'amount_paid' => $p->amount_paid,
                     'payment_date' => $p->payment_date ? date('d M Y, h:i A', strtotime($p->payment_date)) : null,
                     'transaction_id' => $p->transaction_id,
@@ -137,7 +138,7 @@ class OrderController extends BackendController
                     'tracking_number' => $shipment->tracking_number,
                     'tracking_url' => $shipment->tracking_url,
                     'carrier' => $shipment->carrier,
-                    'shopment_status' => $shipment->shopment_status,
+                    'shopment_status' => $shipment->shopment_status->value,
                     'shipment_date' => $shipment->shipment_date,
                     'estimated_delivery' => $shipment->estimated_delivery,
                     'actual_delivery' => $shipment->actual_delivery,
@@ -170,7 +171,7 @@ class OrderController extends BackendController
                         'created_at' => date('d M Y', strtotime($dp->created_at)),
                     ]),
             ],
-            'statuses' => self::STATUSES,
+            'statuses' => OrderStatus::values(),
         ]);
     }
 
@@ -215,13 +216,13 @@ class OrderController extends BackendController
         $order = Order::findOrFail($id);
 
         $validated = $request->validate([
-            'status' => ['required', Rule::in(self::STATUSES)],
-            'payment_status' => ['nullable', Rule::in(['paid', 'unpaid'])],
+            'status' => ['required', Rule::enum(OrderStatus::class)],
+            'payment_status' => ['nullable', Rule::enum(PaymentStatus::class)],
         ]);
 
-        if (($validated['payment_status'] ?? null) === 'paid') {
+        if (PaymentStatus::tryFrom($validated['payment_status'] ?? '') === PaymentStatus::Paid) {
             $recordOrderPayment->run($order, [
-                'payment_status' => 'success',
+                'payment_status' => TransactionStatus::Success->value,
             ]);
         }
 

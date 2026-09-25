@@ -96,10 +96,10 @@
                                             'completed'  => 'background:#dcfce7;color:#166534;',
                                             'cancelled'  => 'background:#fee2e2;color:#991b1b;',
                                         ];
-                                        $style = $statusStyles[$order->status] ?? 'background:#f1f5f9;color:#475569;';
+                                        $style = $statusStyles[$order->status?->value ?? 'pending'] ?? 'background:#f1f5f9;color:#475569;';
                                     @endphp
                                     <span style="display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;text-transform:capitalize;{{ $style }}">
-                                        {{ ucfirst($order->status) }}
+                                        {{ $order->status?->label() ?? 'Pending' }}
                                     </span>
                                 </td>
                             </tr>

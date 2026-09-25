@@ -3,6 +3,8 @@
 namespace Modules\Order\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Order\Enums\OrderStatus;
+use Modules\Order\Enums\PaymentStatus;
 use Modules\Support\Models\BaseModel;
 use Modules\Support\Traits\ActivityLog;
 use Modules\Support\Traits\Searchable;
@@ -17,6 +19,11 @@ class Order extends BaseModel
         'customer_id', 'name', 'email', 'phone', 'division', 'district', 'upazila', 'union', 'address',
         'country', 'status', 'subtotal', 'tax', 'shipping', 'shipping_method', 'total', 'paid', 'due',
         'payment_status', 'payment_method', 'notes', 'requires_shipping', 'created_by', 'updated_by', 'deleted_by',
+    ];
+
+    protected $casts = [
+        'status' => OrderStatus::class,
+        'payment_status' => PaymentStatus::class,
     ];
 
     public function orderProducts()

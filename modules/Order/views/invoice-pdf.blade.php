@@ -346,16 +346,16 @@
                         <tr>
                             <td class="label">Payment Status:</td>
                             <td class="value">
-                                <span class="badge {{ $order->payment_status === 'paid' ? 'badge-success' : 'badge-pending' }}">
-                                    {{ $order->payment_status }}
+                                <span class="badge {{ $order->payment_status === \Modules\Order\Enums\PaymentStatus::Paid ? 'badge-success' : 'badge-pending' }}">
+                                    {{ $order->payment_status->label() }}
                                 </span>
                             </td>
                         </tr>
                         <tr>
                             <td class="label">Delivery Status:</td>
                             <td class="value">
-                                <span class="badge {{ $order->status === 'completed' || $order->status === 'delivered' ? 'badge-success' : ($order->status === 'cancelled' ? 'badge-danger' : 'badge-pending') }}">
-                                    {{ $order->status }}
+                                <span class="badge {{ $order->status->isComplete() ? 'badge-success' : ($order->status->isCancelled() ? 'badge-danger' : 'badge-pending') }}">
+                                    {{ $order->status->label() }}
                                 </span>
                             </td>
                         </tr>
@@ -427,7 +427,7 @@
                     @endif
                     
                     <div class="stamp-container">
-                        @if($order->payment_status === 'paid')
+                        @if($order->payment_status === \Modules\Order\Enums\PaymentStatus::Paid)
                             <div class="stamp stamp-paid">PAID IN FULL</div>
                         @else
                             <div class="stamp stamp-unpaid">AMOUNT DUE</div>

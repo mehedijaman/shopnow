@@ -2,6 +2,8 @@
 
 namespace Modules\Order\Models;
 
+use Modules\Order\Enums\PaymentMethod;
+use Modules\Order\Enums\TransactionStatus;
 use Modules\Support\Models\BaseModel;
 
 class OrderPayment extends BaseModel
@@ -15,6 +17,11 @@ class OrderPayment extends BaseModel
         'amount_paid',
         'payment_date',
         'transaction_id',
+    ];
+
+    protected $casts = [
+        'payment_method' => PaymentMethod::class,
+        'payment_status' => TransactionStatus::class,
     ];
 
     public function order()

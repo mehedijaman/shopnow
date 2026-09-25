@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
+use Modules\Order\Enums\OrderStatus;
 use Modules\Order\Models\Order;
 use Modules\User\Models\User;
 use Spatie\Permission\Models\Role;
@@ -36,8 +37,8 @@ test('order list can be rendered', function () {
                 fn (Assert $page) => $page
                     ->where('id', $this->order->id)
                     ->where('name', $this->order->name)
-                    ->where('status', $this->order->status)
-                    ->where('payment_status', $this->order->payment_status)
+                    ->where('status', $this->order->status->value)
+                    ->where('payment_status', $this->order->payment_status->value)
                     ->where('total', $this->order->total)
                     ->etc()
             )
@@ -129,7 +130,7 @@ test('order status can be updated', function () {
 
     $response->assertRedirect('/admin/order');
 
-    $this->assertEquals('processing', Order::find($this->order->id)->status);
+    $this->assertEquals(OrderStatus::Processing, Order::find($this->order->id)->status);
 });
 
 test('order invoice can be downloaded', function () {
@@ -139,4 +140,3 @@ test('order invoice can be downloaded', function () {
     $response->assertHeader('content-type', 'application/pdf');
     $response->assertHeader('content-disposition', 'attachment; filename=invoice-'.$this->order->id.'.pdf');
 });
-

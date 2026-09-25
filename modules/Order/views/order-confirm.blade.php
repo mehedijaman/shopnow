@@ -115,8 +115,8 @@
                         <dt class="mb-1 font-normal text-gray-500 sm:mb-0">Payment Status</dt>
                         <dd class="sm:text-end">
                             <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
-                                {{ $order->payment_status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                                {{ ucfirst($order->payment_status) }}
+                                {{ $order->payment_status === \Modules\Order\Enums\PaymentStatus::Paid ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                                {{ $order->payment_status->label() }}
                             </span>
                         </dd>
                     </dl>
