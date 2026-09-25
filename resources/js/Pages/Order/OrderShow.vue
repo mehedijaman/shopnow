@@ -82,7 +82,7 @@
 
                 <!-- Status Timeline Stepper (Vertical Timeline) -->
                 <div v-if="order.status !== 'cancelled'" class="py-1">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-skin-neutral-9 mb-4">Status Timeline</h3>
+                    <h3 class="text-xs font-bold  tracking-wider text-skin-neutral-9 mb-4">Status Timeline</h3>
                     <div class="relative space-y-6 pl-1">
                         <div v-for="(step, idx) in pipelineSteps" :key="step.key"
                             class="relative flex items-start gap-3.5 group">
@@ -104,7 +104,7 @@
 
                             <!-- Step Labels -->
                             <div class="pt-0.5">
-                                <p class="text-xs font-bold uppercase tracking-wider"
+                                <p class="text-xs font-bold  tracking-wider"
                                     :class="getStepState(step.key) === 'upcoming' ? 'text-skin-neutral-9' : 'text-skin-neutral-12'">
                                     {{ step.label }}
                                 </p>
@@ -148,7 +148,7 @@
                     <table class="w-full text-xs text-left">
                         <thead>
                             <tr
-                                class="border-b border-skin-neutral-4/80 bg-skin-neutral-2/60 font-bold uppercase tracking-wider text-skin-neutral-9">
+                                class="border-b border-skin-neutral-4/80 bg-skin-neutral-2/60 font-bold  tracking-wider text-skin-neutral-9">
                                 <th class="px-3 py-2.5">Item</th>
                                 <th class="px-2 py-2.5 text-center">Downloads</th>
                                 <th class="px-3 py-2.5 text-center">Action</th>
@@ -184,15 +184,14 @@
 
             <!-- Printable Invoice Document Card with Corporate Letterhead -->
             <div
-                class="printable-invoice overflow-hidden rounded-2xl bg-white border border-black shadow-xs p-4 sm:p-5 space-y-4 text-black">
+                class="printable-invoice overflow-hidden rounded-md bg-white border border-black shadow-xs p-4 sm:p-5 space-y-4 text-black">
 
                 <!-- Invoice Corporate Letterhead Header -->
                 <div
                     class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b-2 border-black pb-3">
                     <!-- Company Logo & Details -->
                     <div class="flex items-center gap-3">
-                        <div
-                            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-neutral-100 border border-black shadow-2xs overflow-hidden">
+                        <div class="flex h-11 w-11 shrink-0 items-center justify-center shadow-2xs overflow-hidden">
                             <img :src="companyInfo.logo" :alt="companyInfo.name"
                                 class="h-8 w-auto max-w-full object-contain"
                                 @error="(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'block'; }" />
@@ -225,51 +224,46 @@
                     <!-- Invoice Ref Badge -->
                     <div class="flex flex-col items-start sm:items-end gap-1 w-full sm:w-auto">
                         <div class="text-left sm:text-right">
-                            <span
-                                class="inline-block rounded-md bg-neutral-100 border border-black px-2 py-0.5 text-[10px] font-black uppercase tracking-widest text-black">
+                            <span class="inline-block py-0.5 text-lg font-black  tracking-widest text-black">
                                 Invoice
                             </span>
-                            <p class="font-mono text-xs font-extrabold text-black mt-0.5">#{{ order.id }}</p>
+                            <p class="font-mono font-extrabold text-black mt-0.5">#{{ order.id }}</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Customer Details & Order Metadata Box (Name, Phone, Address Only) -->
-                <div
-                    class="grid grid-cols-1 md:grid-cols-2 gap-3 border border-black rounded-xl p-3 bg-neutral-50 text-black">
+                <div class="grid grid-cols-2 gap-3 border border-black rounded-lg p-3 bg-neutral-50 text-black">
                     <div class="space-y-1 text-xs">
                         <div class="flex items-start gap-2">
-                            <span
-                                class="w-16 shrink-0 font-bold uppercase tracking-wider text-black">Name:</span>
+                            <span class="w-16 shrink-0 font-bold  tracking-wider text-black">Name:</span>
                             <span class="font-extrabold text-black">{{ order.name || 'N/A' }}</span>
                         </div>
                         <div class="flex items-start gap-2">
-                            <span
-                                class="w-16 shrink-0 font-bold uppercase tracking-wider text-black">Phone:</span>
+                            <span class="w-16 shrink-0 font-bold  tracking-wider text-black">Phone:</span>
                             <a v-if="order.phone" :href="`tel:${order.phone}`"
                                 class="font-bold text-black hover:underline">{{ order.phone }}</a>
                             <span v-else>N/A</span>
                         </div>
                         <div class="flex items-start gap-2">
-                            <span
-                                class="w-16 shrink-0 font-bold uppercase tracking-wider text-black">Address:</span>
+                            <span class="w-16 shrink-0 font-bold  tracking-wider text-black">Address:</span>
                             <span class="font-semibold text-black leading-tight">{{ order.address || 'N/A'
                                 }}</span>
                         </div>
                     </div>
-                    <div class="space-y-1 md:border-l md:border-black md:pl-3 text-xs">
+                    <div class="space-y-1 border-l border-black pl-3 text-xs">
                         <div class="flex items-center justify-between text-xs">
-                            <span class="font-bold uppercase tracking-wider text-black">Invoice Date:</span>
+                            <span class="font-bold  tracking-wider text-black">Invoice Date:</span>
                             <span class="font-semibold text-black">{{ order.created_at }}</span>
                         </div>
                         <div class="flex items-center justify-between text-xs">
-                            <span class="font-bold uppercase tracking-wider text-black">Payment Method:</span>
+                            <span class="font-bold  tracking-wider text-black">Payment Method:</span>
                             <span class="font-bold text-black">{{ formatPaymentMethod(order.payment_method)
                                 }}</span>
                         </div>
 
                         <div class="flex items-center justify-between text-xs">
-                            <span class="font-bold uppercase tracking-wider text-black">Payment Status:</span>
+                            <span class="font-bold  tracking-wider text-black">Payment Status:</span>
                             <span
                                 class="rounded-full px-2 py-0.5 text-[11px] font-bold capitalize ring-1 ring-black border border-black text-black bg-neutral-100">
                                 {{ order.payment_status }}
@@ -283,7 +277,7 @@
                     <table class="w-full text-xs text-left border-collapse text-black">
                         <thead>
                             <tr
-                                class="border-y border-black bg-neutral-100 text-[11px] font-bold uppercase tracking-wider text-black">
+                                class="border-y border-black bg-neutral-100 text-[11px] font-bold  tracking-wider text-black">
                                 <th class="px-2.5 py-2 w-8 text-center">#</th>
                                 <th class="px-3 py-2">Item Description</th>
                                 <th class="px-3 py-2 text-center">Qty</th>
@@ -335,21 +329,21 @@
 
                 <!-- Totals Financial Ledger & Paid Stamp Banner -->
                 <div
-                    class="relative flex flex-col md:flex-row justify-between items-center pt-3 border-t border-black gap-4 text-black">
+                    class="relative flex flex-row justify-between items-center pt-3 border-t border-black gap-4 text-black">
                     <!-- Paid / Unpaid Rubber Stamp (Centered on Left Side) -->
-                    <div class="flex items-center justify-center flex-1 w-full md:w-auto my-auto py-2">
+                    <div class="flex items-center justify-center flex-1 my-auto py-2">
                         <div v-if="order.payment_status === 'paid'"
-                            class="inline-block transform -rotate-6 border-2 border-dashed border-black px-4 py-1.5 text-base font-black uppercase text-black tracking-widest bg-neutral-100 shadow-2xs">
+                            class="inline-block transform -rotate-6 border-2 border-dashed border-black px-4 py-1.5 text-base font-black  text-black tracking-widest bg-neutral-100 shadow-2xs">
                             PAID
                         </div>
                         <div v-else-if="Number(order.due) > 0"
-                            class="inline-block transform -rotate-6 border-2 border-dashed border-black px-4 py-1.5 text-base font-black uppercase text-black tracking-widest bg-neutral-100 shadow-2xs">
+                            class="inline-block transform -rotate-6 border-2 border-dashed border-black px-4 py-1.5 text-base font-black  text-black tracking-widest bg-neutral-100 shadow-2xs">
                             DUE
                         </div>
                     </div>
 
                     <!-- Invoice Calculation Ledger -->
-                    <div class="w-full md:w-72 space-y-1 text-xs text-black">
+                    <div class="w-64 sm:w-72 shrink-0 space-y-1 text-xs text-black">
                         <div class="flex justify-between">
                             <span class="font-semibold text-black">Subtotal Amount:</span>
                             <span class="font-bold text-black">{{ formatMoney(order.subtotal) }} Tk</span>
@@ -364,8 +358,7 @@
                             <span class="font-semibold text-black">Tax / VAT:</span>
                             <span class="font-bold text-black">{{ formatMoney(order.tax) }} Tk</span>
                         </div>
-                        <div
-                            class="flex justify-between text-xs font-extrabold border-t border-black pt-1.5">
+                        <div class="flex justify-between text-xs font-extrabold border-t border-black pt-1.5">
                             <span>Net Grand Total:</span>
                             <span class="text-black text-sm font-black">{{ formatMoney(order.total) }}
                                 Tk</span>
@@ -385,8 +378,7 @@
                 </div>
 
                 <!-- Printable Footer -->
-                <div
-                    class="border-t border-black pt-2 text-center text-[11px] text-black no-print-footer">
+                <div class="border-t pt-2 text-center text-[11px] text-black no-print-footer">
                     Thank you for your order! For support or inquiries, please contact us at {{ companyInfo.email }}.
                 </div>
             </div>
@@ -399,7 +391,7 @@
                     <table class="w-full text-xs text-left">
                         <thead>
                             <tr
-                                class="border-b border-skin-neutral-4/80 bg-skin-neutral-2/60 font-bold uppercase tracking-wider text-skin-neutral-9">
+                                class="border-b border-skin-neutral-4/80 bg-skin-neutral-2/60 font-bold  tracking-wider text-skin-neutral-9">
                                 <th class="px-4 py-3">Date</th>
                                 <th class="px-3 py-3">Method</th>
                                 <th class="px-3 py-3">Status</th>
@@ -454,7 +446,7 @@
                     <div>
 
                         <label for="order-status"
-                            class="mb-1.5 block text-xs font-bold uppercase tracking-wider text-skin-neutral-9">
+                            class="mb-1.5 block text-xs font-bold  tracking-wider text-skin-neutral-9">
                             Order Status Pipeline
 
                         </label>
@@ -462,7 +454,7 @@
                             <select id="order-status" v-model="statusForm.status"
                                 class="block w-full rounded-xl border border-skin-neutral-6 bg-skin-neutral-2 px-3.5 py-2.5 text-sm font-bold text-skin-neutral-12 focus:border-skin-primary-9 focus:outline-hidden focus:ring-1 focus:ring-skin-primary-9 transition duration-150">
                                 <option v-for="s in statuses" :key="s" :value="s" class="capitalize font-semibold">
-                                    {{ s.charAt(0).toUpperCase() + s.slice(1) }}
+                                    {{ s.charAt(0).to() + s.slice(1) }}
                                 </option>
                             </select>
                         </div>
@@ -471,7 +463,7 @@
                     <div>
 
                         <label for="order-payment-status"
-                            class="mb-1.5 block text-xs font-bold uppercase tracking-wider text-skin-neutral-9">
+                            class="mb-1.5 block text-xs font-bold  tracking-wider text-skin-neutral-9">
                             Payment Settlement
 
                         </label>
@@ -496,12 +488,12 @@
                 icon="ri-file-list-3-line" icon-class="bg-purple-50 text-purple-600 ring-1 ring-purple-500/10">
                 <div class="divide-y divide-skin-neutral-3/70">
                     <div class="flex items-center justify-between py-3">
-                        <span class="text-xs font-semibold text-skin-neutral-9 uppercase tracking-wider">Order
+                        <span class="text-xs font-semibold text-skin-neutral-9  tracking-wider">Order
                             No.</span>
                         <span class="font-mono text-sm font-extrabold text-skin-neutral-12">#{{ order.id }}</span>
                     </div>
                     <div class="flex items-center justify-between py-3">
-                        <span class="text-xs font-semibold text-skin-neutral-9 uppercase tracking-wider">Payment
+                        <span class="text-xs font-semibold text-skin-neutral-9  tracking-wider">Payment
                             Method</span>
                         <span class="text-sm font-bold text-skin-neutral-12 flex items-center gap-1.5">
                             <i class="ri-bank-card-2-line text-blue-600"></i>
@@ -509,7 +501,7 @@
                         </span>
                     </div>
                     <div class="flex items-center justify-between py-3">
-                        <span class="text-xs font-semibold text-skin-neutral-9 uppercase tracking-wider">Payment
+                        <span class="text-xs font-semibold text-skin-neutral-9  tracking-wider">Payment
                             Status</span>
                         <span :class="paymentStatusClass(order.payment_status)"
                             class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold capitalize ring-1 ring-inset">
@@ -517,7 +509,7 @@
                         </span>
                     </div>
                     <div class="flex items-center justify-between py-3">
-                        <span class="text-xs font-semibold text-skin-neutral-9 uppercase tracking-wider">Order
+                        <span class="text-xs font-semibold text-skin-neutral-9  tracking-wider">Order
                             Status</span>
                         <span :class="statusClass(order.status)"
                             class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold capitalize ring-1 ring-inset">
@@ -525,7 +517,7 @@
                         </span>
                     </div>
                     <div class="flex items-center justify-between py-3">
-                        <span class="text-xs font-semibold text-skin-neutral-9 uppercase tracking-wider">Fulfillment
+                        <span class="text-xs font-semibold text-skin-neutral-9  tracking-wider">Fulfillment
                             Type</span>
                         <span
                             :class="order.requires_shipping ? 'text-blue-700 bg-blue-50 ring-blue-600/20' : 'text-purple-700 bg-purple-50 ring-purple-600/20'"
@@ -534,7 +526,7 @@
                         </span>
                     </div>
                     <div class="flex items-center justify-between py-3.5">
-                        <span class="text-xs font-bold text-skin-neutral-9 uppercase tracking-wider">Grand Total</span>
+                        <span class="text-xs font-bold text-skin-neutral-9  tracking-wider">Grand Total</span>
                         <span class="text-lg font-black text-skin-primary-9">{{ formatMoney(order.total) }} Tk</span>
                     </div>
                 </div>
@@ -548,7 +540,7 @@
                     <div v-for="shipment in order.orderShipments" :key="shipment.id"
                         class="space-y-3 py-3 first:pt-0 last:pb-0">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold uppercase tracking-wider text-skin-neutral-9">Status:</span>
+                            <span class="text-xs font-bold  tracking-wider text-skin-neutral-9">Status:</span>
                             <span
                                 class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold capitalize ring-1 ring-inset"
                                 :class="shipmentStatusClass(shipment.shopment_status)">
@@ -556,11 +548,11 @@
                             </span>
                         </div>
                         <div v-if="shipment.carrier" class="flex items-center justify-between text-xs">
-                            <span class="font-bold text-skin-neutral-9 uppercase">Carrier:</span>
+                            <span class="font-bold text-skin-neutral-9 ">Carrier:</span>
                             <span class="font-bold text-skin-neutral-12">{{ shipment.carrier }}</span>
                         </div>
                         <div v-if="shipment.tracking_number" class="flex items-center justify-between text-xs">
-                            <span class="font-bold text-skin-neutral-9 uppercase">Tracking:</span>
+                            <span class="font-bold text-skin-neutral-9 ">Tracking:</span>
                             <div class="flex items-center gap-1.5 font-mono font-bold">
                                 <a v-if="shipment.tracking_url" :href="shipment.tracking_url" target="_blank"
                                     rel="noopener noreferrer" class="text-blue-600 hover:underline">
@@ -576,15 +568,15 @@
                             </div>
                         </div>
                         <div v-if="shipment.shipment_date" class="flex items-center justify-between text-xs">
-                            <span class="font-bold text-skin-neutral-9 uppercase">Dispatch Date:</span>
+                            <span class="font-bold text-skin-neutral-9 ">Dispatch Date:</span>
                             <span class="font-semibold text-skin-neutral-12">{{ shipment.shipment_date }}</span>
                         </div>
                         <div v-if="shipment.estimated_delivery" class="flex items-center justify-between text-xs">
-                            <span class="font-bold text-skin-neutral-9 uppercase">Est. Delivery:</span>
+                            <span class="font-bold text-skin-neutral-9 ">Est. Delivery:</span>
                             <span class="font-semibold text-skin-neutral-12">{{ shipment.estimated_delivery }}</span>
                         </div>
                         <div v-if="shipment.actual_delivery" class="flex items-center justify-between text-xs">
-                            <span class="font-bold text-skin-neutral-9 uppercase">Actual Delivery:</span>
+                            <span class="font-bold text-skin-neutral-9 ">Actual Delivery:</span>
                             <span class="font-bold text-emerald-600">{{ shipment.actual_delivery }}</span>
                         </div>
                     </div>
