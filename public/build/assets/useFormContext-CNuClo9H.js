@@ -1,0 +1,1 @@
+import{$ as e,Y as t}from"./_plugin-vue_export-helper-BKCaGXzq.js";t();function n(){let t=e(),n=e();return t.value=route().current().includes(`.create`),n.value=route().current().includes(`.edit`),{isCreate:t,isEdit:n}}export{n as t};
