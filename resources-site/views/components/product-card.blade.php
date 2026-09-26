@@ -73,7 +73,7 @@
 
 <div class="group relative  flex w-full flex-col overflow-hidden rounded-xl sm:rounded-2xl bg-white shadow-sm ring-1 ring-gray-200/80 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg dark:bg-gray-900 dark:ring-gray-800">
     {{-- Image --}}
-    <a href="{{ route('shop.product', [$product->id, $product->slug]) }}" class="relative block aspect-[4/5] w-full overflow-hidden {{ !$product->image_url ? 'bg-gray-100 dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-800/50' }}">
+    <a href="{{ route('shop.product', [$product->id, $product->slug]) }}" class="relative block aspect-square w-full overflow-hidden {{ !$product->image_url ? 'bg-gray-100 dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-800/50' }}">
         @php
             $defaultLogo = setting('branding.logo_url') ?: asset('logo.png');
         @endphp
@@ -88,8 +88,8 @@
         {{-- Badges --}}
         <div class="absolute left-2 top-1 z-10 flex flex-col gap-1 sm:left-3 sm:top-1.5">
             @if ($product->featured)
-                <span class="rounded-md bg-amber-500/90 backdrop-blur-sm px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white shadow-sm">
-                    Featured
+                <span class="rounded-md bg-amber-500/90 backdrop-blur-sm px-1.5 py-0.5  text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white shadow-sm">
+                    <i class="ri-star-fill"></i>
                 </span>
             @endif
             @if ($product->type?->value === 'bundle')
