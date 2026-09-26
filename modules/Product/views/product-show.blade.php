@@ -88,13 +88,13 @@
             <!-- Left: Image Gallery -->
             <div>
                 <!-- Main Image -->
-                <div class="overflow-hidden rounded-xl border border-gray-200 {{ !$product->image_url ? 'bg-gray-100 dark:bg-gray-800 p-6' : 'bg-white' }} shadow-sm">
+                <div class="flex items-center justify-center overflow-hidden rounded-xl border border-gray-200 bg-gray-50/50 p-2 shadow-sm dark:bg-gray-800/50 sm:p-4">
                     <img
                         id="mainImage"
                         src="{{ $allImages->first() ?? $defaultLogo }}"
                         alt="{{ $product->name }}"
-                        class="aspect-square w-full max-h-[520px] {{ !$product->image_url ? 'object-contain' : 'object-cover' }} rounded-xl"
-                        onerror="this.src='{{ $defaultLogo }}'; this.classList.remove('object-cover'); this.classList.add('object-contain');"
+                        class="h-auto max-h-[520px] w-full rounded-lg object-contain mx-auto transition-all duration-300"
+                        onerror="this.src='{{ $defaultLogo }}';"
                     />
                 </div>
 
