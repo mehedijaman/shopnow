@@ -338,6 +338,7 @@ class SiteOrderController extends SiteController
     {
         $customer = Auth::guard('customer')->user();
         $orders = Order::where('customer_id', $customer->id)
+            ->with('orderShipments')
             ->orderByDesc('id')
             ->paginate(10);
 
