@@ -28,7 +28,9 @@
                 </div>
 
                 <div>
+                    <AppLabel for="image">Slider Image <span class="text-xs font-normal text-skin-neutral-7">(Recommended size: 1920 × 600 px or ~3:1 aspect ratio)</span></AppLabel>
                     <AppInputFile
+                        id="image"
                         v-model="form.image"
                         :image-preview-url="getImagePreviewURL()"
                         @remove-file="form.remove_previous_image = true"
