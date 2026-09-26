@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Modules\Courier\Jobs\CheckOrderFraud;
+use Modules\Order\Enums\PaymentMethod;
 use Modules\Order\Enums\ShipmentStatus;
 use Modules\Order\Http\Requests\SiteOrderValidate;
 use Modules\Order\Models\Order;
@@ -222,6 +224,14 @@ class SiteOrderController extends SiteController
             }
 
             DB::commit();
+
+            $normalizedPhone = preg_replace('/[^0-9]/', '', (string) ($order->phone ?? ''));
+            if ($order->payment_method === PaymentMethod::Cod->value
+                && $order->requires_shipping
+                && setting('courier.fraud_enabled')
+                && preg_match('/^01[3-9][0-9]{8}$/', $normalizedPhone)) {
+                CheckOrderFraud::dispatch($order->id);
+            }
 
             // Dispatch admin notification email (async via queue)
             $adminEmail = setting('general.admin_email');
