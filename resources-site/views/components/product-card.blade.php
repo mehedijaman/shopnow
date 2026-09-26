@@ -71,7 +71,7 @@
     }
 @endphp
 
-<div class="group relative  flex w-full flex-col overflow-hidden rounded-xl sm:rounded-2xl bg-white shadow-sm ring-1 ring-gray-200/80 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg dark:bg-gray-900 dark:ring-gray-800">
+<div class="group relative  flex w-full flex-col overflow-hidden rounded-md sm:rounded-md bg-white shadow-sm ring-1 ring-gray-200/80 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg dark:bg-gray-900 dark:ring-gray-800">
     {{-- Image --}}
     <a href="{{ route('shop.product', [$product->id, $product->slug]) }}" class="relative block aspect-square w-full overflow-hidden {{ !$product->image_url ? 'bg-gray-100 dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-800/50' }}">
         @php
