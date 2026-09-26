@@ -16,7 +16,7 @@ class SettingSeeder extends Seeder
 
     private function seedPermissions(): void
     {
-        $permissions = ['settings-list', 'settings-edit', 'pixel-settings-edit', 'analytics-settings-edit'];
+        $permissions = ['settings-list', 'settings-edit', 'pixel-settings-edit', 'analytics-settings-edit', 'courier-settings-edit'];
 
         foreach ($permissions as $name) {
             Permission::firstOrCreate(

@@ -2,6 +2,8 @@
 
 namespace Modules\Settings\Http\Requests;
 
+use Illuminate\Validation\Rule;
+use Modules\Courier\Enums\CourierProvider;
 use Modules\Support\Http\Requests\Request;
 
 class SettingsGroupValidate extends Request
@@ -16,6 +18,7 @@ class SettingsGroupValidate extends Request
             'seo' => $this->seoRules(),
             'mail' => $this->mailRules(),
             'shipping' => $this->shippingRules(),
+            'courier' => $this->courierRules(),
             'homepage' => $this->homepageRules(),
             'pixel' => $this->pixelRules(),
             'analytics' => $this->analyticsRules(),
@@ -128,6 +131,49 @@ class SettingsGroupValidate extends Request
             'options.*.enabled' => 'nullable|boolean',
             'free_shipping_threshold' => 'nullable|numeric|min:0',
         ];
+    }
+
+    private function courierRules(): array
+    {
+        $booleans = [
+            'pathao_enabled', 'pathao_sandbox',
+            'steadfast_enabled',
+            'redx_enabled', 'redx_sandbox',
+            'ecourier_enabled', 'ecourier_sandbox',
+            'paperfly_enabled',
+            'fraud_enabled',
+        ];
+
+        $texts = [
+            'pathao_client_id', 'pathao_client_secret', 'pathao_username', 'pathao_password', 'pathao_store_id',
+            'pathao_webhook_secret', 'pathao_tracking_url',
+            'steadfast_api_key', 'steadfast_secret_key', 'steadfast_webhook_secret', 'steadfast_tracking_url',
+            'redx_access_token', 'redx_webhook_secret', 'redx_tracking_url',
+            'ecourier_api_key', 'ecourier_api_secret', 'ecourier_user_id', 'ecourier_webhook_secret', 'ecourier_tracking_url',
+            'paperfly_username', 'paperfly_password', 'paperfly_api_key', 'paperfly_webhook_secret', 'paperfly_tracking_url',
+            'fraud_steadfast_user', 'fraud_steadfast_password',
+            'fraud_pathao_user', 'fraud_pathao_password',
+            'fraud_redx_phone', 'fraud_redx_password',
+            'fraud_paperfly_user', 'fraud_paperfly_password',
+            'fraud_carrybee_phone', 'fraud_carrybee_password',
+        ];
+
+        $rules = [
+            'default_courier' => ['nullable', Rule::in(CourierProvider::values())],
+            'default_weight_kg' => 'nullable|numeric|min:0.1|max:100',
+            'fraud_min_deliveries' => 'nullable|integer|min:0|max:10000',
+            'fraud_cancel_ratio_threshold' => 'nullable|numeric|min:0|max:100',
+        ];
+
+        foreach ($booleans as $key) {
+            $rules[$key] = 'nullable|boolean';
+        }
+
+        foreach ($texts as $key) {
+            $rules[$key] = 'nullable|string|max:500';
+        }
+
+        return $rules;
     }
 
     private function pixelRules(): array

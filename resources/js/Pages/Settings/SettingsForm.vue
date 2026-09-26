@@ -70,6 +70,7 @@ import SocialGroup from './Components/SocialGroup.vue'
 import SeoGroup from './Components/SeoGroup.vue'
 import MailGroup from './Components/MailGroup.vue'
 import ShippingGroup from './Components/ShippingGroup.vue'
+import CourierGroup from './Components/CourierGroup.vue'
 import HomepageGroup from './Components/HomepageGroup.vue'
 import PixelGroup from './Components/PixelGroup.vue'
 import AnalyticsGroup from './Components/AnalyticsGroup.vue'
@@ -91,6 +92,7 @@ const groupComponents = {
     seo: markRaw(SeoGroup),
     mail: markRaw(MailGroup),
     shipping: markRaw(ShippingGroup),
+    courier: markRaw(CourierGroup),
     homepage: markRaw(HomepageGroup),
     pixel: markRaw(PixelGroup),
     analytics: markRaw(AnalyticsGroup),
@@ -148,6 +150,7 @@ const groupLabel = (g) => {
         seo: 'SEO',
         mail: 'Mail',
         shipping: 'Shipping',
+        courier: 'Courier',
         homepage: 'Homepage',
         pixel: 'Pixel',
         analytics: 'Analytics',
@@ -165,6 +168,7 @@ const groupIcon = (g) => {
         seo: 'ri-search-2-line',
         mail: 'ri-mail-line',
         shipping: 'ri-truck-line',
+        courier: 'ri-route-line',
         homepage: 'ri-home-line',
         pixel: 'ri-radar-line',
         analytics: 'ri-bar-chart-box-line',
@@ -182,6 +186,7 @@ const groupDescription = (g) => {
         seo: 'Control meta title, description, and keywords for search engine visibility.',
         mail: 'Configure the SMTP server used to send outgoing emails.',
         shipping: 'Set flat rate shipping charge and free shipping threshold.',
+        courier: 'Configure courier APIs, webhook secrets and COD fraud checks.',
         homepage: 'Control which sections are visible on the homepage.',
         pixel: 'Configure Meta Pixel and Conversions API tracking settings.',
         analytics: 'Configure Google Analytics 4 (GA4) measurement ID and tracking settings.',

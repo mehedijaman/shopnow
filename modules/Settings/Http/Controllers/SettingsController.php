@@ -18,7 +18,7 @@ class SettingsController extends BackendController
 {
     use UploadFile;
 
-    private const GROUPS = ['general', 'branding', 'contact', 'social', 'seo', 'mail', 'shipping', 'homepage', 'pixel', 'downloads', 'analytics'];
+    private const GROUPS = ['general', 'branding', 'contact', 'social', 'seo', 'mail', 'shipping', 'courier', 'homepage', 'pixel', 'downloads', 'analytics'];
 
     /** @var array<string, string[]> */
     private const IMAGE_FIELDS = [
@@ -43,6 +43,9 @@ class SettingsController extends BackendController
         }
         if (! $user || ! $user->can('analytics-settings-edit')) {
             $groups = array_values(array_filter($groups, static fn ($item) => $item !== 'analytics'));
+        }
+        if (! $user || ! $user->can('courier-settings-edit')) {
+            $groups = array_values(array_filter($groups, static fn ($item) => $item !== 'courier'));
         }
 
         return inertia('Settings/SettingsForm', [
@@ -184,6 +187,11 @@ class SettingsController extends BackendController
         if ($group === 'analytics') {
             $user = Auth::guard('user')->user();
             abort_unless($user && $user->can('analytics-settings-edit'), 403);
+        }
+
+        if ($group === 'courier') {
+            $user = Auth::guard('user')->user();
+            abort_unless($user && $user->can('courier-settings-edit'), 403);
         }
     }
 }
