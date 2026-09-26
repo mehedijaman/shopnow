@@ -9,5 +9,6 @@ class ClearCart
     public function run(Cart $cart): void
     {
         $cart->items()->delete();
+        $cart->updateQuietly(['coupon_code' => null]);
     }
 }

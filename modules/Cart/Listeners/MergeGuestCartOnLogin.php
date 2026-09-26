@@ -50,6 +50,11 @@ class MergeGuestCartOnLogin
         }
 
         $guestCart->items()->delete();
+
+        if ($guestCart->coupon_code && ! $customerCart->coupon_code) {
+            $customerCart->updateQuietly(['coupon_code' => $guestCart->coupon_code]);
+        }
+
         $guestCart->delete();
 
         Cookie::queue(Cookie::forget('cart_token'));

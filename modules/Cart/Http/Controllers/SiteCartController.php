@@ -5,6 +5,7 @@ namespace Modules\Cart\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Modules\Cart\Http\Requests\CartItemValidate;
+use Modules\Cart\Http\Requests\CouponValidate;
 use Modules\Cart\Models\Cart;
 use Modules\Cart\Models\CartItem;
 use Modules\Cart\Services\AddItemToCart;
@@ -12,6 +13,7 @@ use Modules\Cart\Services\ClearCart;
 use Modules\Cart\Services\GetCartTotals;
 use Modules\Cart\Services\RemoveCartItem;
 use Modules\Cart\Services\UpdateCartItemQuantity;
+use Modules\PromoCode\Services\ValidatePromoCode;
 use Modules\Support\Http\Controllers\SiteController;
 
 class SiteCartController extends SiteController
@@ -155,6 +157,36 @@ class SiteCartController extends SiteController
     public function fetch(GetCartTotals $getCartTotals): JsonResponse
     {
         $cart = app(Cart::class);
+
+        $totals = $getCartTotals->run($cart);
+
+        return response()->json($totals);
+    }
+
+    public function applyCoupon(CouponValidate $request, ValidatePromoCode $validatePromoCode, GetCartTotals $getCartTotals): JsonResponse
+    {
+        $cart = app(Cart::class);
+
+        $totals = $getCartTotals->run($cart);
+
+        $promoCode = $validatePromoCode->run(
+            $request->validated('code'),
+            (float) $totals['subtotal'],
+            $cart->customer_id,
+        );
+
+        $cart->updateQuietly(['coupon_code' => $promoCode->code]);
+
+        $totals = $getCartTotals->run($cart);
+
+        return response()->json($totals);
+    }
+
+    public function removeCoupon(GetCartTotals $getCartTotals): JsonResponse
+    {
+        $cart = app(Cart::class);
+
+        $cart->updateQuietly(['coupon_code' => null]);
 
         $totals = $getCartTotals->run($cart);
 

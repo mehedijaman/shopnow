@@ -10,6 +10,8 @@ export const useCartStore = defineStore('CartStore', {
         subtotal: 0,
         tax: 0,
         shipping: 0,
+        discount: 0,
+        coupon: null,
         requiresShipping: true,
         loaded: false
     }),
@@ -24,6 +26,8 @@ export const useCartStore = defineStore('CartStore', {
                 this.totalItems = 0
                 this.totalQuantity = 0
                 this.subtotal = 0
+                this.discount = 0
+                this.coupon = null
             }
             this.loaded = true
         },
@@ -116,12 +120,28 @@ export const useCartStore = defineStore('CartStore', {
             }
         },
 
+        async applyCoupon(code) {
+            const response = await axios.post('/cart/coupon', { code })
+            this.setCartFromResponse(response.data)
+        },
+
+        async removeCoupon() {
+            try {
+                const response = await axios.delete('/cart/coupon')
+                this.setCartFromResponse(response.data)
+            } catch {
+                // silently fail
+            }
+        },
+
         setCartFromResponse(data) {
             this.items = data.items || []
             this.totalItems = data.totalItems || 0
             this.totalQuantity = data.totalQuantity || 0
             this.subtotal = data.subtotal || 0
             this.tax = data.tax || 0
+            this.discount = data.discount || 0
+            this.coupon = data.coupon || null
             this.requiresShipping = data.requiresShipping ?? true
         }
     },

@@ -3,9 +3,12 @@
 namespace Modules\Cart\Services;
 
 use Modules\Cart\Models\Cart;
+use Modules\PromoCode\Services\CalculatePromoDiscount;
 
 class GetCartTotals
 {
+    public function __construct(private CalculatePromoDiscount $calculatePromoDiscount) {}
+
     public function run(Cart $cart): array
     {
         $items = $cart->items()->with(['product', 'productVariation.attributeValues.attribute'])->get();
@@ -66,14 +69,51 @@ class GetCartTotals
             ];
         });
 
+        [$discount, $coupon] = $this->resolveCoupon($cart, (float) $subtotal);
+
         return [
             'items' => $formattedItems,
             'totalItems' => $formattedItems->count(),
             'totalQuantity' => $totalQuantity,
             'subtotal' => $subtotal,
             'tax' => 0,
+            'discount' => $discount,
+            'coupon' => $coupon,
             'requiresShipping' => $requiresShipping,
             'is_downloadable' => $isDownloadable,
         ];
+    }
+
+    /**
+     * Detach codes that are no longer valid (changed cart, expired, exhausted, …)
+     * and expose the applied code + discount for the checkout summary.
+     *
+     * @return array{0: float, 1: array<string, mixed>|null}
+     */
+    private function resolveCoupon(Cart $cart, float $subtotal): array
+    {
+        if (! $cart->coupon_code) {
+            return [0, null];
+        }
+
+        $promoCode = $cart->coupon()
+            ->where('code', $cart->coupon_code)
+            ->first();
+
+        if (! $promoCode || $promoCode->validationError($subtotal, $cart->customer_id) !== null) {
+            $cart->updateQuietly(['coupon_code' => null]);
+
+            return [0, null];
+        }
+
+        $discount = $this->calculatePromoDiscount->run($promoCode, $subtotal);
+
+        return [$discount, [
+            'code' => $promoCode->code,
+            'discount_type' => $promoCode->discount_type->value,
+            'discount' => $discount,
+            'waives_shipping' => $promoCode->discount_type->isFreeShipping(),
+            'minimum_order_amount' => (float) $promoCode->minimum_order_amount,
+        ]];
     }
 }

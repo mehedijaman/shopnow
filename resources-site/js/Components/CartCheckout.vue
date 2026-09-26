@@ -315,7 +315,7 @@
                     <div v-else-if="shippingCharge === 0 && cartStore.subtotal > 0"
                         class="flex items-center gap-2 bg-green-50 px-5 py-3">
                         <i class="ri-checkbox-circle-fill text-base text-green-500"></i>
-                        <p class="text-xs font-semibold text-green-700">You unlocked FREE shipping!</p>
+                        <p class="text-xs font-semibold text-green-700">{{ cartStore.coupon?.waives_shipping ? 'Shipping waived by promo code!' : 'You unlocked FREE shipping!' }}</p>
                     </div>
 
                     <div class="p-5">
@@ -334,6 +334,36 @@
                             <div class="flex items-center justify-between text-sm">
                                 <span class="text-gray-500">Tax</span>
                                 <span class="font-semibold text-gray-900">{{ cartStore.tax }} Tk.</span>
+                            </div>
+                            <div v-if="cartStore.discount > 0" class="flex items-center justify-between text-sm">
+                                <span class="text-gray-500">Discount <span v-if="cartStore.coupon" class="text-xs font-semibold text-green-600">({{ cartStore.coupon.code }})</span></span>
+                                <span class="font-semibold text-green-600">-{{ cartStore.discount }} Tk.</span>
+                            </div>
+                        </div>
+
+                        <!-- Promo code -->
+                        <div class="mt-4">
+                            <div v-if="!cartStore.coupon">
+                                <label for="promo-code" class="mb-1.5 block text-sm font-medium text-gray-700">Promo / Voucher Code</label>
+                                <div class="flex gap-2">
+                                    <input id="promo-code" v-model="promoInput" type="text" placeholder="Enter code"
+                                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm uppercase text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                                        @keyup.enter="applyPromo" />
+                                    <button type="button" @click="applyPromo" :disabled="applyingPromo || !promoInput.trim()"
+                                        class="shrink-0 rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-60">
+                                        {{ applyingPromo ? '...' : 'Apply' }}
+                                    </button>
+                                </div>
+                                <p v-if="promoError" class="mt-1.5 text-xs font-medium text-red-500">{{ promoError }}</p>
+                            </div>
+
+                            <div v-else class="flex items-center justify-between rounded-xl bg-green-50 px-3.5 py-3 ring-1 ring-green-100">
+                                <span class="flex items-center gap-1.5 text-sm font-bold text-green-700">
+                                    <i class="ri-price-tag-3-line"></i>{{ cartStore.coupon.code }}
+                                    <span class="text-xs font-semibold text-green-600">applied</span>
+                                </span>
+                                <button type="button" @click="removePromo" :disabled="removingPromo"
+                                    class="text-xs font-bold text-red-500 transition-colors hover:text-red-600 disabled:opacity-60">Remove</button>
                             </div>
                         </div>
 
@@ -438,6 +468,7 @@ const props = defineProps({
 const selectedShippingOption = ref(props.shippingOptions[0] || null)
 
 const isFreeShipping = computed(() => {
+    if (cartStore.coupon?.waives_shipping) return true
     return props.freeShippingThreshold > 0 && cartStore.subtotal >= props.freeShippingThreshold
 })
 
@@ -447,7 +478,42 @@ const shippingCharge = computed(() => {
     return cartStore.subtotal > 0 ? Number(selectedShippingOption.value.price || 0) : 0
 })
 
-const orderTotal = computed(() => cartStore.subtotal + shippingCharge.value + cartStore.tax)
+const orderTotal = computed(() => cartStore.subtotal + shippingCharge.value + cartStore.tax - cartStore.discount)
+
+// ── Promo code ──
+const promoInput = ref('')
+const applyingPromo = ref(false)
+const removingPromo = ref(false)
+const promoError = ref('')
+
+async function applyPromo() {
+    const code = promoInput.value.trim()
+    if (!code || applyingPromo.value) return
+
+    applyingPromo.value = true
+    promoError.value = ''
+
+    try {
+        await cartStore.applyCoupon(code)
+        promoInput.value = ''
+    } catch (error) {
+        const serverErrors = error.response?.data?.errors
+        const message = serverErrors?.coupon_code
+            ? (Array.isArray(serverErrors.coupon_code) ? serverErrors.coupon_code[0] : serverErrors.coupon_code)
+            : error.response?.data?.message
+        promoError.value = message || 'Could not apply this promo code.'
+    } finally {
+        applyingPromo.value = false
+    }
+}
+
+async function removePromo() {
+    if (removingPromo.value) return
+
+    removingPromo.value = true
+    await cartStore.removeCoupon()
+    removingPromo.value = false
+}
 
 // ── Analytics ──
 const trackViewCart = () => {
@@ -598,6 +664,7 @@ async function submitForm() {
             tax: cartStore.tax,
             shipping: shippingCharge.value,
             shipping_method: selectedShippingOption.value?.name || null,
+            coupon_code: cartStore.coupon?.code ?? null,
             total: orderTotal.value,
             paid: 0,
             due: orderTotal.value,
