@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Modules\Order\Enums\ShipmentStatus;
 use Modules\Order\Http\Requests\SiteOrderValidate;
 use Modules\Order\Models\Order;
@@ -17,6 +18,8 @@ use Modules\Order\Services\DetermineShippingRequirement;
 use Modules\Product\Enums\ProductType;
 use Modules\Product\Models\Product;
 use Modules\Product\Models\ProductVariation;
+use Modules\PromoCode\Services\CalculatePromoDiscount;
+use Modules\PromoCode\Services\ValidatePromoCode;
 use Modules\Settings\Services\MetaConversionApiService;
 use Modules\Support\Http\Controllers\SiteController;
 
@@ -25,6 +28,8 @@ class SiteOrderController extends SiteController
     public function store(
         SiteOrderValidate $request,
         DetermineShippingRequirement $determineShippingRequirement,
+        ValidatePromoCode $validatePromoCode,
+        CalculatePromoDiscount $calculatePromoDiscount,
         MetaConversionApiService $metaConversionApiService,
     ) {
         DB::beginTransaction();
@@ -44,44 +49,14 @@ class SiteOrderController extends SiteController
 
             $requiresShipping = $determineShippingRequirement->run($items);
 
-            // Resolve shipping cost server-side from settings
-            $subtotal = (float) ($orderData['subtotal'] ?? 0);
-            $rawOptions = setting('shipping.options', '[]');
-            $shippingOptions = collect(is_array($rawOptions) ? $rawOptions : (json_decode($rawOptions, true) ?? []));
-            $selectedOption = ($orderData['shipping_method'] ?? null)
-                ? $shippingOptions->firstWhere('name', $orderData['shipping_method'])
-                : null;
-            $freeShippingThreshold = (float) setting('shipping.free_shipping_threshold', 1000);
-
-            $shippingCost = 0;
-            if ($selectedOption && $requiresShipping) {
-                $shippingCost = ($freeShippingThreshold > 0 && $subtotal >= $freeShippingThreshold)
-                    ? 0
-                    : (float) $selectedOption['price'];
-            }
-
-            $order = Order::create(array_merge($orderData, [
-                'requires_shipping' => $requiresShipping,
-                'shipping' => $shippingCost,
-                'shipping_method' => $selectedOption ? $selectedOption['name'] : null,
-                'customer_id' => Auth::guard('customer')->id(),
-            ]));
-
-            // Recalculate total with server-resolved shipping
-            $tax = (float) ($orderData['tax'] ?? 0);
-            $order->updateQuietly(['total' => $subtotal + $tax + $shippingCost]);
-
-            $createdOrderProducts = collect($items)->map(function ($item) use ($order) {
-                $quantity = $item['quantity'];
-                $discount = 0;
-                $variationId = null;
-                $variationLabel = null;
-
+            // Resolve unit prices server-side and recompute the trusted subtotal
+            $lines = collect($items)->map(function ($item) {
                 $productId = $item['item']['id'];
                 $productVariationId = $item['item']['product_variation_id'] ?? null;
 
                 $product = Product::find($productId);
                 $isBundle = $product && $product->type === ProductType::Bundle;
+                $variation = null;
 
                 if ($isBundle) {
                     $unitPrice = (float) ($item['item']['price'] ?? $product?->sale_price ?? $product?->price ?? 0);
@@ -91,22 +66,93 @@ class SiteOrderController extends SiteController
                         ->where('active', true)
                         ->first();
 
-                    if ($variation) {
-                        $unitPrice = $variation->sale_price ? (float) $variation->sale_price : (float) $variation->price;
-                        $variationId = $variation->id;
-                        $variationLabel = $item['item']['variation_label'] ?? null;
-
-                        if ($variation->quantity >= $quantity) {
-                            $variation->decrement('quantity', $quantity);
-                        }
-                    } else {
-                        $unitPrice = (float) ($product?->sale_price ?? $product?->price ?? 0);
-                    }
+                    $unitPrice = $variation
+                        ? ($variation->sale_price ? (float) $variation->sale_price : (float) $variation->price)
+                        : (float) ($product?->sale_price ?? $product?->price ?? 0);
                 } else {
                     $unitPrice = (float) ($product?->sale_price ?? $product?->price ?? 0);
                 }
 
-                $totalPrice = ($unitPrice * $quantity) - $discount;
+                return [
+                    'item' => $item,
+                    'product' => $product,
+                    'is_bundle' => $isBundle,
+                    'variation' => $variation,
+                    'unit_price' => $unitPrice,
+                ];
+            });
+
+            $subtotal = round($lines->sum(fn ($line) => $line['unit_price'] * (int) $line['item']['quantity']), 2);
+
+            // Promo code — locked for the duration of the order transaction
+            $promoCode = null;
+            $discount = 0;
+            if ($orderData['coupon_code'] ?? null) {
+                $promoCode = $validatePromoCode->run(
+                    $orderData['coupon_code'],
+                    $subtotal,
+                    Auth::guard('customer')->id(),
+                    lock: true,
+                );
+                $discount = $calculatePromoDiscount->run($promoCode, $subtotal);
+            }
+
+            // Resolve shipping cost server-side from settings
+            $rawOptions = setting('shipping.options', '[]');
+            $shippingOptions = collect(is_array($rawOptions) ? $rawOptions : (json_decode($rawOptions, true) ?? []));
+            $selectedOption = ($orderData['shipping_method'] ?? null)
+                ? $shippingOptions->firstWhere('name', $orderData['shipping_method'])
+                : null;
+            $freeShippingThreshold = (float) setting('shipping.free_shipping_threshold', 1000);
+
+            $shippingCost = 0;
+            if ($selectedOption && $requiresShipping) {
+                $waivesShipping = $promoCode && $promoCode->discount_type->isFreeShipping();
+                $shippingCost = ($waivesShipping || ($freeShippingThreshold > 0 && $subtotal >= $freeShippingThreshold))
+                    ? 0
+                    : (float) $selectedOption['price'];
+            }
+
+            $tax = (float) ($orderData['tax'] ?? 0);
+            $total = round($subtotal + $tax + $shippingCost - $discount, 2);
+            $paid = (float) ($orderData['paid'] ?? 0);
+            $due = max(0, round($total - $paid, 2));
+
+            $order = Order::create(array_merge($orderData, [
+                'requires_shipping' => $requiresShipping,
+                'shipping' => $shippingCost,
+                'shipping_method' => $selectedOption ? $selectedOption['name'] : null,
+                'customer_id' => Auth::guard('customer')->id(),
+                'subtotal' => $subtotal,
+                'discount' => $discount,
+                'coupon_code' => $promoCode?->code,
+                'total' => $total,
+                'paid' => $paid,
+                'due' => $due,
+            ]));
+
+            $createdOrderProducts = $lines->map(function ($line) use ($order) {
+                $item = $line['item'];
+                $quantity = $item['quantity'];
+                $itemDiscount = 0;
+                $variationLabel = null;
+
+                $productId = $item['item']['id'];
+                $unitPrice = $line['unit_price'];
+                $product = $line['product'];
+                $isBundle = $line['is_bundle'];
+                $variation = $line['variation'];
+                $variationId = $variation?->id;
+
+                if ($variation) {
+                    $variationLabel = $item['item']['variation_label'] ?? null;
+
+                    if ($variation->quantity >= $quantity) {
+                        $variation->decrement('quantity', $quantity);
+                    }
+                }
+
+                $totalPrice = ($unitPrice * $quantity) - $itemDiscount;
 
                 $orderProduct = $order->orderProducts()->create([
                     'product_id' => $productId,
@@ -114,7 +160,7 @@ class SiteOrderController extends SiteController
                     'variation_label' => $variationLabel,
                     'quantity' => $quantity,
                     'unit_price' => $unitPrice,
-                    'discount' => $discount,
+                    'discount' => $itemDiscount,
                     'total_price' => $totalPrice,
                 ]);
 
@@ -211,6 +257,10 @@ class SiteOrderController extends SiteController
                 'message' => 'Order placed successfully.',
                 'order_id' => $order->id,
             ], 201);
+        } catch (ValidationException $e) {
+            DB::rollBack();
+
+            throw $e;
         } catch (\Exception $e) {
             DB::rollBack();
 

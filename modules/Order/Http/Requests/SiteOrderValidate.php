@@ -41,6 +41,7 @@ class SiteOrderValidate extends Request
             'tax' => 'nullable|numeric',
             'shipping' => 'nullable|numeric',
             'shipping_method' => 'nullable|string|max:255',
+            'coupon_code' => 'nullable|string|max:50',
             'total' => 'nullable|numeric',
             'paid' => 'nullable|numeric',
             'due' => 'nullable|numeric',
