@@ -41,6 +41,7 @@ class SitemapController extends SiteController
                 ['loc' => $baseUrl.'/privacy-policy', 'changefreq' => 'yearly', 'priority' => '0.3'],
                 ['loc' => $baseUrl.'/terms-of-service', 'changefreq' => 'yearly', 'priority' => '0.3'],
                 ['loc' => $baseUrl.'/contact', 'changefreq' => 'monthly', 'priority' => '0.5'],
+                ['loc' => $baseUrl.'/track', 'changefreq' => 'monthly', 'priority' => '0.6'],
             ];
 
             return view('index::sitemaps.urlset', compact('pages'))->render();

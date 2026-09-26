@@ -74,6 +74,7 @@
                     <li><a href="/blog" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Latest Blog</a></li>
                     <li><a href="{{ route('site.about') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> About Us</a></li>
                     <li><a href="{{ route('site.contact') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Contact Support</a></li>
+                    <li><a href="{{ route('site.track') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Track Your Parcel</a></li>
                 </ul>
             </div>
 

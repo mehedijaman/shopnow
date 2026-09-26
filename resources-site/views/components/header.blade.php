@@ -171,6 +171,12 @@
                     <span class="absolute inset-x-0 bottom-0 h-[2.5px] rounded-full bg-primary-600"></span>
                 @endif
             </a>
+            <a href="{{ route('site.track') }}" class="relative flex items-center py-3 text-sm font-extrabold text-slate-700 transition hover:text-primary-600 dark:text-slate-300 dark:hover:text-primary-400 {{ request()->routeIs('site.track*') ? 'text-primary-600 dark:text-primary-400' : '' }}">
+                <span>Track</span>
+                @if(request()->routeIs('site.track*'))
+                    <span class="absolute inset-x-0 bottom-0 h-[2.5px] rounded-full bg-primary-600"></span>
+                @endif
+            </a>
             <button type="button" onclick="window.toggleSearchModal()" aria-label="Search" class="ml-auto flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-primary-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-primary-400">
                 <i class="ri-search-2-line text-lg"></i>
             </button>
@@ -255,6 +261,9 @@
                 </a>
                 <a href="{{ route('site.contact') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50 hover:text-primary-600 dark:text-slate-200 dark:hover:bg-slate-800">
                     <i class="ri-mail-send-line text-lg text-slate-400"></i> Contact
+                </a>
+                <a href="{{ route('site.track') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50 hover:text-primary-600 dark:text-slate-200 dark:hover:bg-slate-800">
+                    <i class="ri-truck-line text-lg text-slate-400"></i> Track Parcel
                 </a>
             </nav>
 

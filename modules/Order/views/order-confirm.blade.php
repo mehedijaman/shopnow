@@ -141,6 +141,18 @@
                             <dd class="font-medium text-gray-900 sm:text-end">{{ $order->address }}</dd>
                         </dl>
                     @endif
+
+                    @if ($order->requires_shipping)
+                        <dl class="items-center justify-between gap-4 sm:flex">
+                            <dt class="mb-1 font-normal text-gray-500 sm:mb-0">Track Parcel</dt>
+                            <dd class="sm:text-end">
+                                <a href="{{ route('site.track', ['tracking' => $order->id]) }}" class="font-semibold text-primary-600 hover:underline">
+                                    Track this order <i class="ri-arrow-right-line"></i>
+                                </a>
+                                <p class="mt-0.5 text-xs font-normal text-gray-400">Use your order number and phone number.</p>
+                            </dd>
+                        </dl>
+                    @endif
                 </div>
 
                 {{-- Items Table --}}

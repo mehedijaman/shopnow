@@ -2,7 +2,8 @@
 
 @section('seo_title', 'Track Your Parcel — ' . setting('branding.site_name', config('app.name')))
 
-@section('robots', 'noindex, follow')
+{{-- Form page is an indexable utility; results are PII-gated behind the phone match. --}}
+@section('robots', !empty($notFound) || !empty($awaitingShipment) || isset($shipment) ? 'noindex, follow' : 'index, follow')
 
 @section('content')
     @php
@@ -24,7 +25,7 @@
             </div>
             <h1 class="text-2xl font-bold text-slate-900 sm:text-3xl">Track Your Parcel</h1>
             <p class="mt-2 text-sm text-slate-500">
-                Enter your tracking number and the phone number you used for the order.
+                Enter your tracking or order number, and the phone number you used for the order.
             </p>
         </div>
 
@@ -32,7 +33,7 @@
             <form action="{{ route('site.track.result') }}" method="GET" class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div>
                     <label for="tracking" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
-                        Tracking Number <span class="text-red-500">*</span>
+                        Tracking or Order Number <span class="text-red-500">*</span>
                     </label>
                     <div class="relative">
                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
@@ -45,7 +46,7 @@
                             value="{{ old('tracking', $tracking ?? '') }}"
                             maxlength="64"
                             required
-                            placeholder="e.g. STF123456789"
+                            placeholder="e.g. STF123456789 or 1042"
                             class="block w-full rounded-xl border border-slate-200 bg-slate-50/50 py-3 pl-10 pr-4 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 @error('tracking') border-red-400 bg-red-50/50 focus:border-red-500 focus:ring-red-500/20 @enderror"
                         />
                     </div>
@@ -64,7 +65,7 @@
                             type="tel"
                             id="phone"
                             name="phone"
-                            value="{{ old('phone', $phone ?? '') }}"
+                            value="{{ old('phone', $phone ?? $prefillPhone ?? '') }}"
                             maxlength="14"
                             required
                             placeholder="e.g. 01712345678"
@@ -98,6 +99,35 @@
             @endif
         </div>
 
+        @if (!empty($awaitingShipment))
+            <div class="mt-6 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-8">
+                <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-100 pb-5">
+                    <div>
+                        <p class="text-xs font-medium uppercase tracking-wider text-slate-400">Order</p>
+                        <p class="mt-0.5 text-lg font-bold text-slate-900">#{{ $order->id }}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs font-medium uppercase tracking-wider text-slate-400">Order Status</p>
+                        <p class="mt-0.5 text-lg font-bold text-slate-900">{{ $order->status->label() }}</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-3 pt-5">
+                    <i class="ri-time-line mt-0.5 shrink-0 text-xl text-amber-500"></i>
+                    <div>
+                        <p class="text-sm font-bold text-slate-900">
+                            {{ $order->requires_shipping ? 'This order hasn\'t been shipped yet.' : 'This order doesn\'t include a parcel to track.' }}
+                        </p>
+                        <p class="mt-0.5 text-xs text-slate-500">
+                            {{ $order->requires_shipping
+                                ? 'Tracking will appear here once the courier picks up your parcel. Placed on '.$order->created_at->format('d M Y, h:i A').' — keep this page or check back later.'
+                                : 'Placed on '.$order->created_at->format('d M Y, h:i A').'.' }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         @isset($shipment)
             @php
                 $courierLabel = CourierProvider::tryFrom((string) $shipment->carrier)?->label()
@@ -116,6 +146,13 @@
                         <p class="mt-0.5 text-lg font-bold text-slate-900">{{ $courierLabel }}</p>
                     </div>
                 </div>
+
+                @if (!empty($refreshing))
+                    <div class="mt-4 flex items-center gap-2 rounded-xl border border-primary-100 bg-primary-50/70 px-3.5 py-2.5 text-xs font-semibold text-primary-700">
+                        <i class="ri-refresh-line animate-spin text-sm"></i>
+                        <span>Requesting the latest status from the courier — refresh in a few seconds.</span>
+                    </div>
+                @endif
 
                 <dl class="grid grid-cols-1 gap-x-6 gap-y-4 pt-5 sm:grid-cols-2">
                     <div class="flex items-center justify-between sm:block">
