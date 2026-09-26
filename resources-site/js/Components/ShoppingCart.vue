@@ -48,7 +48,15 @@
                                     class="line-clamp-2 text-sm font-semibold leading-snug text-gray-900 hover:text-primary-600"
                                 >{{ item.item.name }}</a>
                                 <p v-if="item.variation_label" class="mt-0.5 text-xs text-gray-400">{{ item.variation_label }}</p>
-                                <p class="mt-0.5 text-sm font-bold text-primary-600">{{ item.item.price }} Tk.</p>
+                                <div class="mt-0.5 flex flex-wrap items-baseline gap-1.5">
+                                    <template v-if="getItemSalePrice(item)">
+                                        <span class="text-xs text-gray-400 line-through">{{ getItemRegularPrice(item) }} Tk.</span>
+                                        <span class="text-sm font-bold text-primary-600">{{ getItemSalePrice(item) }} Tk.</span>
+                                    </template>
+                                    <template v-else>
+                                        <span class="text-sm font-bold text-primary-600">{{ getItemRegularPrice(item) }} Tk.</span>
+                                    </template>
+                                </div>
 
                                 <div class="mt-2 flex items-center justify-between">
                                     <div class="flex items-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
@@ -62,7 +70,12 @@
                                             <i class="ri-add-line text-xs"></i>
                                         </button>
                                     </div>
-                                    <span class="text-sm font-extrabold text-gray-900">{{ item.item.price * item.quantity }} Tk.</span>
+                                    <div class="text-right">
+                                        <span v-if="getItemSalePrice(item)" class="block text-xs text-gray-400 line-through">
+                                            {{ getItemRegularPrice(item) * item.quantity }} Tk.
+                                        </span>
+                                        <span class="text-sm font-extrabold text-gray-900">{{ getItemEffectivePrice(item) * item.quantity }} Tk.</span>
+                                    </div>
                                     <button @click="cartStore.removeItem(item.item)" type="button"
                                         class="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500 focus:outline-none">
                                         <i class="ri-delete-bin-line"></i>
@@ -94,8 +107,14 @@
                                 </div>
                             </div>
                             <!-- Unit price -->
-                            <div class="col-span-2 text-center text-sm font-medium text-gray-600">
-                                {{ item.item.price }} Tk.
+                            <div class="col-span-2 text-center text-sm font-medium">
+                                <template v-if="getItemSalePrice(item)">
+                                    <span class="block text-xs text-gray-400 line-through">{{ getItemRegularPrice(item) }} Tk.</span>
+                                    <span class="font-bold text-primary-600">{{ getItemSalePrice(item) }} Tk.</span>
+                                </template>
+                                <template v-else>
+                                    <span class="text-gray-600">{{ getItemRegularPrice(item) }} Tk.</span>
+                                </template>
                             </div>
                             <!-- Qty stepper -->
                             <div class="col-span-2 flex justify-center">
@@ -113,7 +132,10 @@
                             </div>
                             <!-- Line total -->
                             <div class="col-span-2 text-right text-base font-extrabold text-gray-900">
-                                {{ item.item.price * item.quantity }} Tk.
+                                <span v-if="getItemSalePrice(item)" class="block text-xs font-normal text-gray-400 line-through">
+                                    {{ getItemRegularPrice(item) * item.quantity }} Tk.
+                                </span>
+                                <span>{{ getItemEffectivePrice(item) * item.quantity }} Tk.</span>
                             </div>
                         </div>
                     </div>
@@ -238,6 +260,33 @@ const props = defineProps({
 })
 
 const cartStore = useCartStore()
+
+function getItemRegularPrice(item) {
+    if (item.regular_price !== undefined && item.regular_price !== null) {
+        return Number(item.regular_price)
+    }
+    return Number(item.item?.price || 0)
+}
+
+function getItemSalePrice(item) {
+    const reg = getItemRegularPrice(item)
+    if (item.sale_price !== undefined && item.sale_price !== null && Number(item.sale_price) > 0 && Number(item.sale_price) < reg) {
+        return Number(item.sale_price)
+    }
+    if (item.item?.sale_price && Number(item.item.sale_price) > 0 && Number(item.item.sale_price) < reg) {
+        return Number(item.item.sale_price)
+    }
+    return null
+}
+
+function getItemEffectivePrice(item) {
+    const sale = getItemSalePrice(item)
+    if (sale !== null) return sale
+    if (item.unit_price !== undefined && item.unit_price !== null) {
+        return Number(item.unit_price)
+    }
+    return getItemRegularPrice(item)
+}
 
 const trackViewCart = () => {
     if (cartStore.items && cartStore.items.length > 0) {

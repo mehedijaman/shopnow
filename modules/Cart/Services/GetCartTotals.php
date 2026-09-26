@@ -43,12 +43,20 @@ class GetCartTotals
                 $variationLabel = implode(', ', $labels);
             }
 
+            $regularPrice = (float) ($item->productVariation?->price ?? $item->product->price);
+            $rawSalePrice = $item->productVariation?->sale_price ?? $item->product->sale_price;
+            $salePrice = ($rawSalePrice !== null && (float) $rawSalePrice > 0 && (float) $rawSalePrice < $regularPrice)
+                ? (float) $rawSalePrice
+                : null;
+
             return [
                 'id' => $item->id,
                 'product_id' => $item->product_id,
                 'product_variation_id' => $item->product_variation_id,
                 'quantity' => $item->quantity,
                 'unit_price' => $unitPrice,
+                'regular_price' => $regularPrice,
+                'sale_price' => $salePrice,
                 'total_price' => $lineTotal,
                 'bundle_selection' => $item->bundle_selection,
                 'variation_label' => $variationLabel,
@@ -56,8 +64,8 @@ class GetCartTotals
                     'id' => $item->product->id,
                     'name' => $item->product->name,
                     'slug' => $item->product->slug,
-                    'price' => $item->product->price,
-                    'sale_price' => $item->product->sale_price,
+                    'price' => $regularPrice,
+                    'sale_price' => $salePrice,
                     'image_url' => $item->product->image_url,
                     'quantity' => $item->product->quantity,
                     'unit' => $item->product->unit,

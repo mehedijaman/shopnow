@@ -1,5 +1,5 @@
 <template>
-    <div v-if="parsedSliders.length" class="mx-auto max-w-7xl ">
+    <div v-if="parsedSliders.length" class="mx-auto max-w-7xl px-4 pt-4 sm:px-6 sm:pt-4 lg:px-6">
         <div class="group relative w-full overflow-hidden rounded-sm bg-gray-900 h-[180px] sm:h-[260px] md:h-[340px] lg:h-[420px] xl:h-[460px] shadow-sm"
             @mouseenter="pauseTimer" @mouseleave="startTimer">
             <!-- Slides -->
