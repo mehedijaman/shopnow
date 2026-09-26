@@ -23,7 +23,7 @@ beforeEach(function () {
 });
 
 test('permission list can be rendered', function () {
-    $response = $this->loggedRequest->get('/admin/acl-permission');
+    $response = $this->loggedRequest->get('/admin/acl-permission?rowsPerPage=100');
 
     $response->assertStatus(200);
 
@@ -88,7 +88,7 @@ test('updated permission appears correctly in the list', function () {
         'name' => 'z Permission Name',
     ]);
 
-    $redirectResponse = $this->loggedRequest->get('/admin/acl-permission');
+    $redirectResponse = $this->loggedRequest->get('/admin/acl-permission?rowsPerPage=100');
     $redirectResponse->assertInertia(
         fn (Assert $page) => $page
             ->component('AclPermission/PermissionIndex')

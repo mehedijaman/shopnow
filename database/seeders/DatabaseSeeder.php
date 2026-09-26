@@ -11,6 +11,7 @@ use Modules\Blog\Database\Seeders\BlogSeeder;
 use Modules\Page\Database\Seeders\PageSeeder;
 use Modules\Product\Database\Seeders\ProductAclSeeder;
 use Modules\Product\Database\Seeders\ProductSeeder;
+use Modules\PromoCode\Database\Seeders\PromoCodeAclSeeder;
 use Modules\Settings\Database\Seeders\SettingSeeder;
 use Modules\User\Database\Seeders\UserSeeder;
 
@@ -30,6 +31,8 @@ class DatabaseSeeder extends Seeder
 
             ProductAclSeeder::class,
             ProductSeeder::class,
+
+            PromoCodeAclSeeder::class,
 
             SettingSeeder::class,
         ]);

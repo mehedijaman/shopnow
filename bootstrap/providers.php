@@ -14,6 +14,7 @@ use Modules\Order\OrderServiceProvider;
 use Modules\Page\PageServiceProvider;
 use Modules\Product\ProductServiceProvider;
 use Modules\Profile\ProfileServiceProvider;
+use Modules\PromoCode\PromoCodeServiceProvider;
 use Modules\Settings\SettingsServiceProvider;
 use Modules\Slider\SliderServiceProvider;
 use Modules\Support\SupportServiceProvider;
@@ -36,6 +37,7 @@ return [
     CustomerServiceProvider::class,
     OrderServiceProvider::class,
     CartServiceProvider::class,
+    PromoCodeServiceProvider::class,
 
     ContactMessageServiceProvider::class,
     SliderServiceProvider::class,
