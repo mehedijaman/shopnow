@@ -45,7 +45,8 @@
 
 @section('content')
     @php
-        $featuredImage = $product->image_url ?: 'https://placehold.co/800x800/f3f4f6/9ca3af?text=No+Image';
+        $defaultLogo = setting('branding.logo_url') ?: asset('logo.png');
+        $featuredImage = $product->image_url ?: $defaultLogo;
         $allImages = collect([$featuredImage])->merge($gallery)->filter()->values();
     @endphp
 
@@ -87,12 +88,13 @@
             <!-- Left: Image Gallery -->
             <div>
                 <!-- Main Image -->
-                <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+                <div class="overflow-hidden rounded-xl border border-gray-200 {{ !$product->image_url ? 'bg-gray-100 dark:bg-gray-800 p-6' : 'bg-white' }} shadow-sm">
                     <img
                         id="mainImage"
-                        src="{{ $allImages->first() ?? 'https://placehold.co/800x800/f3f4f6/9ca3af?text=No+Image' }}"
+                        src="{{ $allImages->first() ?? $defaultLogo }}"
                         alt="{{ $product->name }}"
                         class="h-auto max-h-[480px] w-full object-contain"
+                        onerror="this.src='{{ $defaultLogo }}'"
                     />
                 </div>
 

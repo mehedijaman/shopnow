@@ -1,11 +1,7 @@
 <template>
     <AppLink href="#">
-        <img
-            :src="logoSrc"
-            :alt="branding.site_name"
-            class="h-20 w-auto max-w-full object-contain mx-auto"
-            @error="onImageError"
-        />
+        <img :src="logoSrc" :alt="branding.site_name" class="h-50 w-auto max-w-full object-contain mx-auto"
+            @error="onImageError" />
     </AppLink>
 </template>
 

@@ -73,12 +73,16 @@
 
 <div class="group relative  flex w-full flex-col overflow-hidden rounded-xl sm:rounded-2xl bg-white shadow-sm ring-1 ring-gray-200/80 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg dark:bg-gray-900 dark:ring-gray-800">
     {{-- Image --}}
-    <a href="{{ route('shop.product', [$product->id, $product->slug]) }}" class="relative block aspect-[4/5] w-full overflow-hidden bg-gray-50 dark:bg-gray-800/50">
+    <a href="{{ route('shop.product', [$product->id, $product->slug]) }}" class="relative block aspect-[4/5] w-full overflow-hidden {{ !$product->image_url ? 'bg-gray-100 dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-800/50' }}">
+        @php
+            $defaultLogo = setting('branding.logo_url') ?: asset('logo.png');
+        @endphp
         <img
-            src="{{ $product->image_url ?? 'https://placehold.co/600x800/f3f4f6/9ca3af?text=No+Image' }}"
+            src="{{ $product->image_url ?: $defaultLogo }}"
             alt="{{ $product->name }}"
             loading="lazy"
-            class="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
+            class="h-full w-full {{ !$product->image_url ? 'object-contain p-4' : 'object-contain' }} transition-transform duration-500 ease-out group-hover:scale-105"
+            onerror="this.src='{{ $defaultLogo }}'; this.classList.add('p-4');"
         >
 
         {{-- Badges --}}

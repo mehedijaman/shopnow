@@ -113,7 +113,8 @@ const onVariationChange = (variation) => {
         if (variation && variation.image_url) {
             mainImgEl.src = variation.image_url
         } else {
-            mainImgEl.src = props.product.image_url || 'https://placehold.co/800x800/f3f4f6/9ca3af?text=No+Image'
+            const fallbackLogo = document.querySelector('header img')?.src || '/logo.png'
+            mainImgEl.src = props.product.image_url || fallbackLogo
         }
     }
 }
