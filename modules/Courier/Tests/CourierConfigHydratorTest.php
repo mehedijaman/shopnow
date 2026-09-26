@@ -26,12 +26,14 @@ test('hydrates enabled courier credentials from settings', function () {
     ($this->setSetting)('steadfast_api_key', 'api-key-1');
     ($this->setSetting)('steadfast_secret_key', 'secret-key-1');
     ($this->setSetting)('steadfast_webhook_secret', 'whsec-1');
+    ($this->setSetting)('steadfast_base_url', 'https://portal.packzy.com/api/v1');
 
     $this->hydrator->hydrate();
 
     expect(config('courierhub.couriers.steadfast.enabled'))->toBeTrue()
         ->and(config('courierhub.couriers.steadfast.api_key'))->toBe('api-key-1')
         ->and(config('courierhub.couriers.steadfast.secret_key'))->toBe('secret-key-1')
+        ->and(config('courierhub.couriers.steadfast.base_url'))->toBe('https://portal.packzy.com/api/v1')
         ->and(config('courierhub.webhook.secrets.steadfast'))->toBe('whsec-1')
         ->and(config('courierhub.couriers.pathao.enabled'))->toBeFalse();
 });

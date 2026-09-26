@@ -79,6 +79,15 @@ test('writes a courier event only when the status changes', function () {
     expect(CourierEvent::where('tracking_id', 'STF-123')->count())->toBe(1);
 });
 
+test('records an event when only the raw courier status changes', function () {
+    expect($this->sync->apply($this->shipment, CourierStatus::Pending, ['status' => 'in review']))->toBeTrue()
+        ->and($this->sync->apply($this->shipment, CourierStatus::Pending, ['status' => 'approved']))->toBeFalse()
+        ->and(CourierEvent::where('tracking_id', 'STF-123')->count())->toBe(2);
+
+    expect($this->sync->apply($this->shipment, CourierStatus::Pending, ['status' => 'approved']))->toBeFalse()
+        ->and(CourierEvent::where('tracking_id', 'STF-123')->count())->toBe(2);
+});
+
 test('parses estimated delivery and keeps the previous date on garbage input', function () {
     $this->sync->apply($this->shipment, CourierStatus::InTransit, [], '2026-10-05');
 

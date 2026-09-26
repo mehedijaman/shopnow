@@ -252,15 +252,16 @@ const couriers = [
             { key: 'store_id', label: 'Store ID' },
         ],
     },
-    {
-        key: 'steadfast',
-        label: 'Steadfast',
-        sandbox: false,
-        fields: [
-            { key: 'api_key', label: 'API Key' },
-            { key: 'secret_key', label: 'Secret Key', type: 'password' },
-        ],
-    },
+        {
+            key: 'steadfast',
+            label: 'Steadfast',
+            sandbox: false,
+            fields: [
+                { key: 'api_key', label: 'API Key' },
+                { key: 'secret_key', label: 'Secret Key', type: 'password' },
+                { key: 'base_url', label: 'API Base URL' },
+            ],
+        },
     {
         key: 'redx',
         label: 'RedX',

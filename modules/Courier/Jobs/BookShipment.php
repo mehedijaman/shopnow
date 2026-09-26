@@ -2,6 +2,7 @@
 
 namespace Modules\Courier\Jobs;
 
+use CourierHub\Exceptions\CourierApiException;
 use CourierHub\Exceptions\CourierDisabledException;
 use CourierHub\Exceptions\CourierNotFoundException;
 use CourierHub\Exceptions\InvalidConfigurationException;
@@ -10,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Modules\Courier\Exceptions\InvalidShipmentDataException;
 use Modules\Courier\Services\BookCourierShipment;
 use Modules\Courier\Services\CourierConfigHydrator;
 use Modules\Order\Enums\OrderStatus;
@@ -64,12 +66,30 @@ class BookShipment implements ShouldQueue
 
         try {
             $booker->book($shipment);
-        } catch (CourierDisabledException|CourierNotFoundException|InvalidConfigurationException $e) {
+        } catch (CourierDisabledException|CourierNotFoundException|InvalidConfigurationException|InvalidShipmentDataException $e) {
             $shipment->update(['booking_error' => $e->getMessage()]);
+        } catch (CourierApiException $e) {
+            $shipment->update(['booking_error' => $this->apiErrorMessage($e)]);
+
+            // Auth failures and lockouts must not be retried: each attempt
+            // adds to the courier's auth-failure budget (10 in 5 minutes
+            // locks the key out for an hour), so record and stop.
+            if (! in_array($e->getCode(), [401, 403, 429], true)) {
+                throw $e;
+            }
         } catch (\Throwable $e) {
             $shipment->update(['booking_error' => $e->getMessage()]);
 
             throw $e;
         }
+    }
+
+    private function apiErrorMessage(CourierApiException $e): string
+    {
+        return match (true) {
+            in_array($e->getCode(), [401, 403], true) => 'Courier authentication failed. Check the API keys in Settings → Courier.',
+            $e->getCode() === 429 => 'Courier rejected the request (rate limited or locked out). Wait for the lockout to clear, then retry.',
+            default => $e->getMessage(),
+        };
     }
 }

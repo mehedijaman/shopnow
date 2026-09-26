@@ -7,6 +7,7 @@ use CourierHub\DTOs\OrderResponse;
 use CourierHub\Exceptions\CourierDisabledException;
 use CourierHub\Facades\Courier;
 use Illuminate\Support\Str;
+use Modules\Courier\Exceptions\InvalidShipmentDataException;
 use Modules\Courier\Models\CourierEvent;
 use Modules\Order\Enums\PaymentMethod;
 use Modules\Order\Models\Order;
@@ -15,13 +16,20 @@ use Modules\Order\Models\OrderShipment;
 /**
  * Books an order shipment with the configured courier and persists the
  * returned tracking details onto the shipment.
+ *
+ * Recipient data is normalized to the documented courier constraints
+ * (11-digit BD phone, address ≤ 490, name ≤ 100, COD ≤ 1,000,000) before the
+ * API is called, so bad input fails fast without spending an API request.
  */
 class BookCourierShipment
 {
+    private const MAX_COD = 1_000_000;
+
     public function __construct(private CourierConfigHydrator $hydrator) {}
 
     /**
      * @throws CourierDisabledException when the configured courier is off
+     * @throws InvalidShipmentDataException when recipient data violates the courier's constraints
      * @throws \Throwable when the courier API call fails or returns no tracking ID
      */
     public function book(OrderShipment $shipment): OrderResponse
@@ -51,7 +59,7 @@ class BookCourierShipment
             'tracking_number' => $response->tracking_id,
             'consignment_id' => $response->consignment_id,
             'courier_status' => $response->status->value,
-            'tracking_url' => $this->trackingUrl($provider, $response->tracking_id),
+            'tracking_url' => $this->trackingUrl($provider, $response->tracking_id, $response->raw_response),
             'booked_at' => now(),
             'shipment_date' => now(),
             'last_synced_at' => now(),
@@ -75,6 +83,9 @@ class BookCourierShipment
         return (string) (setting('courier.default_courier') ?: config('courierhub.default'));
     }
 
+    /**
+     * @throws InvalidShipmentDataException
+     */
     private function orderData(Order $order): OrderData
     {
         $address = implode(', ', array_filter([
@@ -84,14 +95,22 @@ class BookCourierShipment
             $order->division,
         ]));
 
+        $codAmount = $order->payment_method === PaymentMethod::Cod->value
+            ? (float) $order->due
+            : 0.0;
+
+        if ($codAmount > self::MAX_COD) {
+            throw new InvalidShipmentDataException(
+                'The COD amount ('.$codAmount.') exceeds the courier limit of '.self::MAX_COD.' BDT.'
+            );
+        }
+
         return OrderData::from([
             'merchant_order_id' => (string) $order->id,
-            'recipient_name' => $order->name,
-            'recipient_phone' => $order->phone,
-            'recipient_address' => $address,
-            'amount_to_collect' => $order->payment_method === PaymentMethod::Cod->value
-                ? (float) $order->due
-                : 0.0,
+            'recipient_name' => mb_substr((string) $order->name, 0, 100),
+            'recipient_phone' => $this->recipientPhone($order),
+            'recipient_address' => mb_substr($address, 0, 490),
+            'amount_to_collect' => $codAmount,
             'weight' => (float) (setting('courier.default_weight_kg') ?: 1),
             'item_description' => "Order #{$order->id}",
             'item_quantity' => max(1, (int) $order->orderProducts()->sum('quantity')),
@@ -99,8 +118,36 @@ class BookCourierShipment
         ]);
     }
 
-    private function trackingUrl(string $provider, string $trackingId): ?string
+    /**
+     * @throws InvalidShipmentDataException
+     */
+    private function recipientPhone(Order $order): string
     {
+        $phone = PhoneNormalizer::normalize($order->phone);
+
+        if (! preg_match('/^01[0-9]{9}$/', $phone)) {
+            throw new InvalidShipmentDataException(
+                "Recipient phone [{$order->phone}] is not a valid 11-digit BD mobile number."
+            );
+        }
+
+        return $phone;
+    }
+
+    /**
+     * Prefers the tracking link returned by the courier over the configured
+     * {tracking} template when both are available.
+     *
+     * @param  array<string, mixed>  $rawResponse
+     */
+    private function trackingUrl(string $provider, string $trackingId, array $rawResponse = []): ?string
+    {
+        $apiLink = $rawResponse['consignment']['tracking_link'] ?? null;
+
+        if (is_string($apiLink) && filter_var($apiLink, FILTER_VALIDATE_URL)) {
+            return $apiLink;
+        }
+
         $template = setting("courier.{$provider}_tracking_url");
 
         if (blank($template)) {

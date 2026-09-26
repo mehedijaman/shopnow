@@ -179,3 +179,105 @@ test('refresh requires an existing tracking number', function () {
 
     expect($this->shipment->fresh()->tracking_number)->toBeNull();
 });
+
+test('booking payload follows the documented field constraints', function () {
+    ($this->fakeCreateOrder)();
+
+    BookShipment::dispatchSync($this->order->id);
+
+    $orderId = $this->order->id;
+
+    Http::assertSent(fn ($request) => str_contains($request->url(), 'create_order')
+        && $request['invoice'] === (string) $orderId
+        && $request['recipient_name'] === 'Test Buyer'
+        && $request['recipient_phone'] === '01712345678'
+        && $request['item_description'] === "Order #{$orderId}"
+        && $request['total_lot'] === 1);
+});
+
+test('normalizes international phone formats to the required 11 digits', function () {
+    $this->order->update(['phone' => '+880 1712-345678']);
+    ($this->fakeCreateOrder)();
+
+    BookShipment::dispatchSync($this->order->id);
+
+    Http::assertSent(fn ($request) => $request['recipient_phone'] === '01712345678');
+    expect($this->shipment->fresh()->tracking_number)->toBe('STF-999');
+});
+
+test('rejects orders whose phone is not a valid BD mobile number', function () {
+    $this->order->update(['phone' => '12345']);
+    ($this->fakeCreateOrder)();
+
+    expect(fn () => BookShipment::dispatchSync($this->order->id))->not->toThrow(Throwable::class);
+
+    expect($this->shipment->fresh()->tracking_number)->toBeNull()
+        ->and($this->shipment->fresh()->booking_error)->toContain('valid 11-digit');
+    Http::assertNothingSent();
+});
+
+test('rejects cod amounts above the courier limit', function () {
+    $this->order->update(['due' => 2_000_000]);
+    ($this->fakeCreateOrder)();
+
+    expect(fn () => BookShipment::dispatchSync($this->order->id))->not->toThrow(Throwable::class);
+
+    expect($this->shipment->fresh()->booking_error)->toContain('exceeds the courier limit');
+    Http::assertNothingSent();
+});
+
+test('records authentication failures without retrying the booking', function () {
+    Http::fake([
+        '*create_order*' => Http::response(['message' => 'Unauthorized'], 401),
+    ]);
+
+    expect(fn () => BookShipment::dispatchSync($this->order->id))->not->toThrow(Throwable::class);
+
+    expect($this->shipment->fresh()->tracking_number)->toBeNull()
+        ->and($this->shipment->fresh()->booking_error)->toContain('authentication failed');
+});
+
+test('prefers the tracking link returned by the courier', function () {
+    Http::fake([
+        '*create_order*' => Http::response([
+            'consignment' => [
+                'tracking_code' => 'STF-777',
+                'consignment_id' => '7777',
+                'status' => 'in review',
+                'tracking_link' => 'https://portal.packzy.com/tracking/STF-777',
+            ],
+        ]),
+    ]);
+
+    BookShipment::dispatchSync($this->order->id);
+
+    $shipment = $this->shipment->fresh();
+
+    expect($shipment->tracking_url)->toBe('https://portal.packzy.com/tracking/STF-777')
+        ->and($shipment->tracking_number)->toBe('STF-777')
+        ->and($shipment->courier_status)->toBe(CourierStatus::Pending->value);
+});
+
+test('refresh queries the consignment id instead of the tracking code', function () {
+    $this->shipment->update([
+        'tracking_number' => 'STF-999',
+        'consignment_id' => '4242',
+        'carrier' => 'steadfast',
+    ]);
+
+    Http::fake([
+        '*status_by_cid*' => Http::response([
+            'delivery_status' => 'delivered',
+            'tracking_code' => 'STF-999',
+        ]),
+    ]);
+
+    $this->post(route('order.refreshShipment', $this->order->id))
+        ->assertRedirect()
+        ->assertSessionHas('success');
+
+    Http::assertSent(fn ($request) => str_contains($request->url(), 'status_by_cid/4242')
+        && ! str_contains($request->url(), 'STF-999'));
+
+    expect($this->shipment->fresh()->courier_status)->toBe(CourierStatus::Delivered->value);
+});

@@ -3,10 +3,12 @@
 namespace Modules\Courier\Console;
 
 use CourierHub\Enums\CourierStatus;
+use CourierHub\Exceptions\CourierApiException;
 use CourierHub\Facades\Courier;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Modules\Courier\Services\CourierConfigHydrator;
+use Modules\Courier\Services\CourierTrackingId;
 use Modules\Courier\Services\SyncShipmentStatus;
 use Modules\Order\Models\OrderShipment;
 
@@ -55,7 +57,7 @@ class CourierPollCommand extends Command
                     continue;
                 }
 
-                $tracking = Courier::driver($shipment->carrier)->trackOrder($shipment->tracking_number);
+                $tracking = Courier::driver($shipment->carrier)->trackOrder(CourierTrackingId::for($shipment));
 
                 $sync->apply($shipment, $tracking->current_status, $tracking->raw_response, $tracking->estimated_delivery);
 
@@ -68,6 +70,15 @@ class CourierPollCommand extends Command
                     'carrier' => $shipment->carrier,
                     'error' => $e->getMessage(),
                 ]);
+
+                // Bad credentials or a lockout would fail every remaining
+                // shipment the same way and add to the courier's auth-failure
+                // budget, so stop the run instead of hammering the API.
+                if ($e instanceof CourierApiException && in_array($e->getCode(), [401, 403, 429], true)) {
+                    $this->error("Aborting poll: courier returned HTTP {$e->getCode()} (auth failure or lockout).");
+
+                    break;
+                }
             }
         }
 

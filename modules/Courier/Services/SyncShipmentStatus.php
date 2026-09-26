@@ -95,7 +95,14 @@ class SyncShipmentStatus
 
         $this->advanceOrder($shipment->order, $shipment->shopment_status);
 
-        if ($changed) {
+        // Log when either the normalized status or the raw courier status
+        // changed. Distinct raw statuses can normalize to the same enum case
+        // (e.g. "in review" and "pending" both become Pending), and those
+        // transitions still belong in the audit trail.
+        $rawStatus = self::extractRawStatus($payload);
+        $rawChanged = $rawStatus !== null && $rawStatus !== $this->lastLoggedRawStatus($shipment);
+
+        if ($changed || $rawChanged) {
             CourierEvent::create([
                 'courier' => (string) $shipment->carrier,
                 'order_id' => $shipment->order_id,
@@ -128,6 +135,52 @@ class SyncShipmentStatus
         }
 
         return self::SHIPMENT_RANK[$next->value] > self::SHIPMENT_RANK[$current->value];
+    }
+
+    /**
+     * Raw courier status from a status response, webhook payload or booking
+     * payload, normalized for comparison. Null when the payload carries none.
+     *
+     * @param  array<string, mixed>  $payload
+     */
+    private static function extractRawStatus(array $payload): ?string
+    {
+        $deliveryStatus = $payload['delivery_status'] ?? null;
+
+        if (is_scalar($deliveryStatus) && $deliveryStatus !== '') {
+            return strtolower(trim((string) $deliveryStatus));
+        }
+
+        $status = $payload['status'] ?? null;
+
+        // Booking responses reuse "status" for the HTTP-ish code (200), so
+        // only string-like values count as a courier status there.
+        if (is_scalar($status) && $status !== '' && ! is_numeric($status)) {
+            return strtolower(trim((string) $status));
+        }
+
+        $consignment = $payload['consignment'] ?? null;
+
+        if (is_array($consignment) && isset($consignment['status']) && is_scalar($consignment['status']) && $consignment['status'] !== '') {
+            return strtolower(trim((string) $consignment['status']));
+        }
+
+        return null;
+    }
+
+    private function lastLoggedRawStatus(OrderShipment $shipment): ?string
+    {
+        if ($shipment->tracking_number === null) {
+            return null;
+        }
+
+        $last = CourierEvent::query()
+            ->where('order_id', $shipment->order_id)
+            ->where('tracking_id', $shipment->tracking_number)
+            ->latest('id')
+            ->first();
+
+        return $last === null ? null : self::extractRawStatus((array) $last->payload);
     }
 
     private function advanceOrder(?Order $order, ShipmentStatus $shipmentStatus): void

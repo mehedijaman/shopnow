@@ -10,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Modules\Courier\Services\CourierConfigHydrator;
 use Modules\Courier\Services\FraudChecker;
+use Modules\Courier\Services\PhoneNormalizer;
 use Modules\Order\Models\Order;
 
 /**
@@ -41,7 +42,7 @@ class CheckOrderFraud implements ShouldQueue
             return;
         }
 
-        $phone = preg_replace('/[^0-9]/', '', (string) $order->phone);
+        $phone = PhoneNormalizer::normalize($order->phone);
 
         if (! preg_match('/^01[3-9][0-9]{8}$/', $phone)) {
             return;
@@ -66,10 +67,39 @@ class CheckOrderFraud implements ShouldQueue
             $risk = 'high';
         }
 
+        if ($this->reportedFraud($payload)) {
+            $risk = 'high';
+        }
+
         $order->update([
             'fraud_checked_at' => now(),
             'fraud_risk' => $risk,
             'fraud_details' => $payload,
         ]);
+    }
+
+    /**
+     * True when any courier reported fraud reports or fraud categories
+     * against the phone, regardless of the delivery/cancel thresholds.
+     *
+     * @param  array<string, mixed>  $payload
+     */
+    private function reportedFraud(array $payload): bool
+    {
+        foreach ($payload as $key => $portal) {
+            if ($key === 'aggregate' || ! is_array($portal)) {
+                continue;
+            }
+
+            if ((int) ($portal['total_reports'] ?? 0) > 0) {
+                return true;
+            }
+
+            if (! empty($portal['fraud_categories']) && is_array($portal['fraud_categories'])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

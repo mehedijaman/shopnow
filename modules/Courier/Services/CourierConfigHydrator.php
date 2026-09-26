@@ -27,6 +27,7 @@ class CourierConfigHydrator
         'steadfast' => [
             'steadfast_api_key' => 'api_key',
             'steadfast_secret_key' => 'secret_key',
+            'steadfast_base_url' => 'base_url',
         ],
         'redx' => [
             'redx_sandbox' => 'sandbox',

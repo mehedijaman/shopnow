@@ -163,6 +163,7 @@ class SettingsGroupValidate extends Request
             'default_weight_kg' => 'nullable|numeric|min:0.1|max:100',
             'fraud_min_deliveries' => 'nullable|integer|min:0|max:10000',
             'fraud_cancel_ratio_threshold' => 'nullable|numeric|min:0|max:100',
+            'steadfast_base_url' => ['nullable', 'url', 'max:500'],
         ];
 
         foreach ($booleans as $key) {

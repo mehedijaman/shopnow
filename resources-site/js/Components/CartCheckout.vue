@@ -6,7 +6,8 @@
         <div class="mb-6 flex items-start justify-between">
             <div>
                 <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">Checkout</h1>
-                <p class="mt-1 text-sm text-gray-500">{{ cartStore.totalQuantity }} item{{ cartStore.totalQuantity !== 1 ? 's' : '' }} in your cart</p>
+                <p class="mt-1 text-sm text-gray-500">{{ cartStore.totalQuantity }} item{{ cartStore.totalQuantity !== 1
+                    ? 's' : '' }} in your cart</p>
             </div>
             <a href="/shop" class="hidden items-center gap-1.5 text-sm text-primary-600 hover:underline sm:inline-flex">
                 <i class="ri-arrow-left-line"></i>
@@ -18,7 +19,8 @@
         <div class="mb-8">
 
             <!-- Desktop column headers -->
-            <div class="mb-2 hidden grid-cols-12 gap-4 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-gray-400 sm:grid">
+            <div
+                class="mb-2 hidden grid-cols-12 gap-4 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-gray-400 sm:grid">
                 <div class="col-span-6">Product</div>
                 <div class="col-span-2 text-center">Price</div>
                 <div class="col-span-2 text-center">Qty</div>
@@ -27,52 +29,54 @@
 
             <!-- Items list -->
             <div class="divide-y divide-gray-100 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
-                <div
-                    v-for="item in cartStore.items"
-                    :key="item.id"
-                    class="transition-colors hover:bg-gray-50/60"
-                >
+                <div v-for="item in cartStore.items" :key="item.id" class="transition-colors hover:bg-gray-50/60">
                     <!-- Mobile card -->
                     <div class="flex gap-3 p-4 sm:hidden">
-                        <a
-                            :href="`/shop/product/${item.item.id}/${item.item.slug}`"
-                            class="flex h-[72px] w-[72px] shrink-0 overflow-hidden rounded-xl border border-gray-100 bg-gray-50"
-                        >
-                            <img :src="item.item.image_url" :alt="item.item.name" class="h-full w-full object-contain p-1" />
+                        <a :href="`/shop/product/${item.item.id}/${item.item.slug}`"
+                            class="flex h-[72px] w-[72px] shrink-0 overflow-hidden rounded-xl border border-gray-100 bg-gray-50">
+                            <img :src="item.item.image_url" :alt="item.item.name"
+                                class="h-full w-full object-contain p-1" />
                         </a>
                         <div class="min-w-0 flex-1">
-                            <a
-                                :href="`/shop/product/${item.item.id}/${item.item.slug}`"
-                                class="line-clamp-2 text-sm font-semibold leading-snug text-gray-900 hover:text-primary-600"
-                            >{{ item.item.name }}</a>
-                            <p v-if="item.variation_label" class="mt-0.5 text-xs text-gray-400">{{ item.variation_label }}</p>
+                            <a :href="`/shop/product/${item.item.id}/${item.item.slug}`"
+                                class="line-clamp-2 text-sm font-semibold leading-snug text-gray-900 hover:text-primary-600">{{
+                                    item.item.name }}</a>
+                            <p v-if="item.variation_label" class="mt-0.5 text-xs text-gray-400">{{ item.variation_label
+                            }}</p>
                             <div class="mt-0.5 flex flex-wrap items-baseline gap-1.5">
                                 <template v-if="getItemSalePrice(item)">
-                                    <span class="text-xs text-gray-400 line-through">{{ getItemRegularPrice(item) }} Tk.</span>
-                                    <span class="text-sm font-bold text-primary-600">{{ getItemSalePrice(item) }} Tk.</span>
+                                    <span class="text-xs text-gray-400 line-through">{{ getItemRegularPrice(item) }}
+                                        Tk.</span>
+                                    <span class="text-sm font-bold text-primary-600">{{ getItemSalePrice(item) }}
+                                        Tk.</span>
                                 </template>
                                 <template v-else>
-                                    <span class="text-sm font-bold text-primary-600">{{ getItemRegularPrice(item) }} Tk.</span>
+                                    <span class="text-sm font-bold text-primary-600">{{ getItemRegularPrice(item) }}
+                                        Tk.</span>
                                 </template>
                             </div>
 
                             <div class="mt-2 flex items-center justify-between">
-                                <div class="flex items-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+                                <div
+                                    class="flex items-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
                                     <button @click="cartStore.decreaseQuantity(item.item)" type="button"
                                         class="flex h-8 w-8 items-center justify-center text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-600 active:bg-gray-200 focus:outline-none">
                                         <i class="ri-subtract-line text-xs"></i>
                                     </button>
-                                    <span class="w-8 text-center text-sm font-bold text-gray-900">{{ item.quantity }}</span>
+                                    <span class="w-8 text-center text-sm font-bold text-gray-900">{{ item.quantity
+                                    }}</span>
                                     <button @click="cartStore.increaseQuantity(item.item)" type="button"
                                         class="flex h-8 w-8 items-center justify-center text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-600 active:bg-gray-200 focus:outline-none">
                                         <i class="ri-add-line text-xs"></i>
                                     </button>
                                 </div>
                                 <div class="text-right">
-                                    <span v-if="getItemSalePrice(item)" class="block text-xs text-gray-400 line-through">
+                                    <span v-if="getItemSalePrice(item)"
+                                        class="block text-xs text-gray-400 line-through">
                                         {{ getItemRegularPrice(item) * item.quantity }} Tk.
                                     </span>
-                                    <span class="text-sm font-extrabold text-gray-900">{{ getItemEffectivePrice(item) * item.quantity }} Tk.</span>
+                                    <span class="text-sm font-extrabold text-gray-900">{{ getItemEffectivePrice(item) *
+                                        item.quantity }} Tk.</span>
                                 </div>
                                 <button @click="cartStore.removeItem(item.item)" type="button"
                                     class="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500 focus:outline-none">
@@ -85,18 +89,17 @@
                     <!-- Desktop row -->
                     <div class="hidden grid-cols-12 items-center gap-4 p-4 sm:grid sm:p-5">
                         <div class="col-span-6 flex items-center gap-4">
-                            <a
-                                :href="`/shop/product/${item.item.id}/${item.item.slug}`"
-                                class="flex h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-gray-100 bg-gray-50"
-                            >
-                                <img :src="item.item.image_url" :alt="item.item.name" class="h-full w-full object-contain p-1.5" />
+                            <a :href="`/shop/product/${item.item.id}/${item.item.slug}`"
+                                class="flex h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-gray-100 bg-gray-50">
+                                <img :src="item.item.image_url" :alt="item.item.name"
+                                    class="h-full w-full object-contain p-1.5" />
                             </a>
                             <div class="min-w-0">
-                                <a
-                                    :href="`/shop/product/${item.item.id}/${item.item.slug}`"
-                                    class="line-clamp-2 text-sm font-semibold leading-snug text-gray-900 hover:text-primary-600"
-                                >{{ item.item.name }}</a>
-                                <p v-if="item.variation_label" class="mt-0.5 text-xs text-gray-400">{{ item.variation_label }}</p>
+                                <a :href="`/shop/product/${item.item.id}/${item.item.slug}`"
+                                    class="line-clamp-2 text-sm font-semibold leading-snug text-gray-900 hover:text-primary-600">{{
+                                        item.item.name }}</a>
+                                <p v-if="item.variation_label" class="mt-0.5 text-xs text-gray-400">{{
+                                    item.variation_label }}</p>
                                 <button @click="cartStore.removeItem(item.item)" type="button"
                                     class="mt-1.5 flex items-center gap-1 text-xs text-gray-400 transition-colors hover:text-red-500">
                                     <i class="ri-delete-bin-line"></i> Remove
@@ -105,7 +108,8 @@
                         </div>
                         <div class="col-span-2 text-center text-sm font-medium">
                             <template v-if="getItemSalePrice(item)">
-                                <span class="block text-xs text-gray-400 line-through">{{ getItemRegularPrice(item) }} Tk.</span>
+                                <span class="block text-xs text-gray-400 line-through">{{ getItemRegularPrice(item) }}
+                                    Tk.</span>
                                 <span class="font-bold text-primary-600">{{ getItemSalePrice(item) }} Tk.</span>
                             </template>
                             <template v-else>
@@ -126,7 +130,8 @@
                             </div>
                         </div>
                         <div class="col-span-2 text-right text-base font-extrabold text-gray-900">
-                            <span v-if="getItemSalePrice(item)" class="block text-xs font-normal text-gray-400 line-through">
+                            <span v-if="getItemSalePrice(item)"
+                                class="block text-xs font-normal text-gray-400 line-through">
                                 {{ getItemRegularPrice(item) * item.quantity }} Tk.
                             </span>
                             <span>{{ getItemEffectivePrice(item) * item.quantity }} Tk.</span>
@@ -153,8 +158,8 @@
                 <!-- General error banner -->
                 <div v-if="generalError"
                     class="mb-6 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-5 w-5 shrink-0 text-red-500" viewBox="0 0 20 20"
-                        fill="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-5 w-5 shrink-0 text-red-500"
+                        viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"
                             d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
                             clip-rule="evenodd" />
@@ -168,20 +173,19 @@
                     <div class="flex flex-col gap-4 md:grid md:grid-cols-2">
                         <!-- Shipping Options -->
                         <div v-if="shippingOptions.length > 0" class="col-span-2 space-y-3 pt-2">
+
                             <label class="block text-sm font-medium text-gray-700">
                                 Delivery Option <span class="text-red-500">*</span>
+
                             </label>
                             <div class="space-y-2">
-                                <label
-                                    v-for="option in shippingOptions"
-                                    :key="option.id || option.name"
-                                    :class="[
-                                        'flex items-center justify-between rounded-xl border-2 p-4 transition-all cursor-pointer',
-                                        selectedShippingOption?.name === option.name
-                                            ? 'border-primary-500 bg-primary-50'
-                                            : 'border-gray-200 bg-white hover:border-gray-300'
-                                    ]"
-                                >
+
+                                <label v-for="option in shippingOptions" :key="option.id || option.name" :class="[
+                                    'flex items-center justify-between rounded-xl border-2 p-4 transition-all cursor-pointer',
+                                    selectedShippingOption?.name === option.name
+                                        ? 'border-primary-500 bg-primary-50'
+                                        : 'border-gray-200 bg-white hover:border-gray-300'
+                                ]">
                                     <div class="flex items-center gap-3">
                                         <div :class="[
                                             'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2',
@@ -189,61 +193,67 @@
                                                 ? 'border-primary-500 bg-primary-500'
                                                 : 'border-gray-300'
                                         ]">
-                                            <div v-if="selectedShippingOption?.name === option.name" class="h-2 w-2 rounded-full bg-white"></div>
+                                            <div v-if="selectedShippingOption?.name === option.name"
+                                                class="h-2 w-2 rounded-full bg-white"></div>
                                         </div>
                                         <span class="text-sm font-semibold text-gray-900">{{ option.name }}</span>
                                     </div>
                                     <span v-if="isFreeShipping" class="text-sm font-bold text-green-600">Free</span>
                                     <span v-else class="text-sm font-bold text-gray-900">{{ option.price }} Tk.</span>
-                                    <input
-                                        type="radio"
-                                        :value="option"
-                                        v-model="selectedShippingOption"
-                                        class="sr-only"
-                                    />
+                                    <input type="radio" :value="option" v-model="selectedShippingOption"
+                                        class="sr-only" />
+
                                 </label>
                             </div>
                         </div>
 
                         <!-- Name -->
                         <div>
+
                             <label for="name" class="mb-1.5 block text-sm font-medium text-gray-700">
                                 আপনার নাম <span class="text-red-500">*</span>
+
                             </label>
-                            <input v-model="form.name" type="text" id="name"
-                                :class="inputClass('name')" @input="clearError('name')" />
+                            <input v-model="form.name" type="text" id="name" :class="inputClass('name')"
+                                @input="clearError('name')" />
                             <p v-if="errors.name" class="mt-1.5 text-xs text-red-600">{{ errors.name }}</p>
                         </div>
 
                         <!-- Phone -->
                         <div>
+
                             <label for="phone" class="mb-1.5 block text-sm font-medium text-gray-700">
                                 ফোন নম্বর <span class="text-red-500">*</span>
+
                             </label>
-                            <input v-model="form.phone" type="tel" id="phone"
-                                :class="inputClass('phone')" @input="clearError('phone')" />
+                            <input v-model="form.phone" type="tel" id="phone" :class="inputClass('phone')"
+                                @input="clearError('phone')" />
                             <p v-if="errors.phone" class="mt-1.5 text-xs text-red-600">{{ errors.phone }}</p>
                         </div>
 
                         <!-- Street Address -->
                         <div class="col-span-2">
+
                             <label for="address" class="mb-1.5 block text-sm font-medium text-gray-700">
                                 ঠিকানা <span class="text-red-500">*</span>
+
                             </label>
                             <textarea v-model="form.address" id="address" rows="3"
-                                placeholder="House/flat number, road, area..."
-                                :class="inputClass('address')" @input="clearError('address')"></textarea>
+                                placeholder="House/flat number, road, area..." :class="inputClass('address')"
+                                @input="clearError('address')"></textarea>
                             <p v-if="errors.address" class="mt-1.5 text-xs text-red-600">{{ errors.address }}</p>
                         </div>
 
                         <!-- Saved Addresses -->
                         <div v-if="addresses.length > 0" class="col-span-2 space-y-2">
+
                             <label class="mb-1.5 block text-sm font-medium text-gray-700">
                                 Saved Addresses
+
                             </label>
                             <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                                <button v-for="addr in addresses" :key="addr.id" type="button" @click="selectAddress(addr)"
-                                    :class="[
+                                <button v-for="addr in addresses" :key="addr.id" type="button"
+                                    @click="selectAddress(addr)" :class="[
                                         'flex flex-col justify-between rounded-xl border-2 p-4 text-left transition-all',
                                         selectedAddressId === addr.id
                                             ? 'border-primary-500 bg-primary-50 text-primary-700'
@@ -273,13 +283,18 @@
                             </div>
                         </div>
 
-                        
+
 
                         <!-- Special Note, Place Order, Trust badges (mobile: under Shipping Options) -->
                         <div class="col-span-2 mt-2 space-y-4 lg:hidden">
                             <div>
-                                <label for="note-mobile" class="mb-1.5 block text-sm font-medium text-gray-700">Special Note</label>
-                                <textarea v-model="form.note" id="note-mobile" rows="2" placeholder="Any instructions for your order..."
+
+                                <label for="note-mobile" class="mb-1.5 block text-sm font-medium text-gray-700">Special
+                                    Note
+
+                                </label>
+                                <textarea v-model="form.note" id="note-mobile" rows="2"
+                                    placeholder="Any instructions for your order..."
                                     class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"></textarea>
                             </div>
 
@@ -287,7 +302,9 @@
                                 class="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 py-3.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-primary-700 hover:shadow-md active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60">
                                 <svg v-if="submitting" class="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg"
                                     fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4">
+                                    </circle>
                                     <path class="opacity-75" fill="currentColor"
                                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
                                 </svg>
@@ -329,7 +346,9 @@
                             </div>
                         </div>
                         <p class="mt-1.5 text-xs text-amber-600">
-                            Add <span class="font-bold">{{ freeShippingThreshold - cartStore.subtotal }} Tk.</span> more to unlock <span class="font-bold">FREE shipping</span>
+                            Add <span class="font-bold">{{ freeShippingThreshold - cartStore.subtotal }} Tk.</span> more
+                            to
+                            unlock <span class="font-bold">FREE shipping</span>
                         </p>
                     </div>
 
@@ -337,7 +356,9 @@
                     <div v-else-if="shippingCharge === 0 && cartStore.subtotal > 0"
                         class="flex items-center gap-2 bg-green-50 px-5 py-3">
                         <i class="ri-checkbox-circle-fill text-base text-green-500"></i>
-                        <p class="text-xs font-semibold text-green-700">{{ cartStore.coupon?.waives_shipping ? 'Shipping waived by promo code!' : 'You unlocked FREE shipping!' }}</p>
+                        <p class="text-xs font-semibold text-green-700">
+                            {{ cartStore.coupon?.waives_shipping ? 'Shipping waived by promo code!' : 'You unlocked FREE shipping!' }}
+                        </p>
                     </div>
 
                     <div class="p-5">
@@ -345,7 +366,8 @@
 
                         <div class="space-y-3">
                             <div class="flex items-center justify-between text-sm">
-                                <span class="text-gray-500">Subtotal <span class="text-xs text-gray-400">({{ cartStore.totalQuantity }} items)</span></span>
+                                <span class="text-gray-500">Subtotal <span class="text-xs text-gray-400">({{
+                                    cartStore.totalQuantity }} items)</span></span>
                                 <span class="font-semibold text-gray-900">{{ cartStore.subtotal }} Tk.</span>
                             </div>
                             <div class="flex items-center justify-between text-sm">
@@ -353,12 +375,10 @@
                                 <span v-if="shippingCharge === 0" class="font-semibold text-green-600">Free</span>
                                 <span v-else class="font-semibold text-gray-900">{{ shippingCharge }} Tk.</span>
                             </div>
-                            <div class="flex items-center justify-between text-sm">
-                                <span class="text-gray-500">Tax</span>
-                                <span class="font-semibold text-gray-900">{{ cartStore.tax }} Tk.</span>
-                            </div>
                             <div v-if="cartStore.discount > 0" class="flex items-center justify-between text-sm">
-                                <span class="text-gray-500">Discount <span v-if="cartStore.coupon" class="text-xs font-semibold text-green-600">({{ cartStore.coupon.code }})</span></span>
+                                <span class="text-gray-500">Discount <span v-if="cartStore.coupon"
+                                        class="text-xs font-semibold text-green-600">({{ cartStore.coupon.code
+                                        }})</span></span>
                                 <span class="font-semibold text-green-600">-{{ cartStore.discount }} Tk.</span>
                             </div>
                         </div>
@@ -366,20 +386,28 @@
                         <!-- Promo code -->
                         <div class="mt-4">
                             <div v-if="!cartStore.coupon">
-                                <label for="promo-code" class="mb-1.5 block text-sm font-medium text-gray-700">Promo / Voucher Code</label>
+
+                                <label for="promo-code" class="mb-1.5 block text-sm font-medium text-gray-700">Promo /
+                                    Voucher
+                                    Code
+
+                                </label>
                                 <div class="flex gap-2">
                                     <input id="promo-code" v-model="promoInput" type="text" placeholder="Enter code"
                                         class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm uppercase text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                                         @keyup.enter="applyPromo" />
-                                    <button type="button" @click="applyPromo" :disabled="applyingPromo || !promoInput.trim()"
+                                    <button type="button" @click="applyPromo"
+                                        :disabled="applyingPromo || !promoInput.trim()"
                                         class="shrink-0 rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-60">
                                         {{ applyingPromo ? '...' : 'Apply' }}
                                     </button>
                                 </div>
-                                <p v-if="promoError" class="mt-1.5 text-xs font-medium text-red-500">{{ promoError }}</p>
+                                <p v-if="promoError" class="mt-1.5 text-xs font-medium text-red-500">{{ promoError }}
+                                </p>
                             </div>
 
-                            <div v-else class="flex items-center justify-between rounded-xl bg-green-50 px-3.5 py-3 ring-1 ring-green-100">
+                            <div v-else
+                                class="flex items-center justify-between rounded-xl bg-green-50 px-3.5 py-3 ring-1 ring-green-100">
                                 <span class="flex items-center gap-1.5 text-sm font-bold text-green-700">
                                     <i class="ri-price-tag-3-line"></i>{{ cartStore.coupon.code }}
                                     <span class="text-xs font-semibold text-green-600">applied</span>
@@ -402,8 +430,12 @@
                         <!-- Special Note, Place Order, Trust badges (desktop only) -->
                         <div class="hidden lg:block">
                             <div class="mt-4">
-                                <label for="note" class="mb-1.5 block text-sm font-medium text-gray-700">Special Note</label>
-                                <textarea v-model="form.note" id="note" rows="2" placeholder="Any instructions for your order..."
+
+                                <label for="note" class="mb-1.5 block text-sm font-medium text-gray-700">Special Note
+
+                                </label>
+                                <textarea v-model="form.note" id="note" rows="2"
+                                    placeholder="Any instructions for your order..."
                                     class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"></textarea>
                             </div>
 
@@ -411,7 +443,8 @@
                                 class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 py-3.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-primary-700 hover:shadow-md active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60">
                                 <svg v-if="submitting" class="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg"
                                     fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4">
                                     </circle>
                                     <path class="opacity-75" fill="currentColor"
                                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
@@ -447,7 +480,9 @@
             <i class="ri-shopping-cart-2-line text-5xl text-gray-300"></i>
         </div>
         <h2 class="mb-2 text-2xl font-bold text-gray-900">Your cart is empty</h2>
-        <p class="mb-8 max-w-xs text-sm text-gray-500">Looks like you haven't added anything yet. Browse our products and find something you love!</p>
+        <p class="mb-8 max-w-xs text-sm text-gray-500">Looks like you haven't added anything yet. Browse our products
+            and
+            find something you love!</p>
         <a href="/shop"
             class="inline-flex items-center gap-2 rounded-xl bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary-700">
             <i class="ri-store-2-line"></i>

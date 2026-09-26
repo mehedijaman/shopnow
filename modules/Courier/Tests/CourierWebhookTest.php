@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Modules\Courier\Listeners\HandleCourierWebhook;
 use Modules\Courier\Models\CourierEvent;
+use Modules\Courier\Services\Steadfast\StatusMapper;
 use Modules\Order\Enums\OrderStatus;
 use Modules\Order\Enums\ShipmentStatus;
 use Modules\Order\Models\Order;
@@ -136,4 +137,42 @@ test('listener records an orphan event for an unknown tracking number', function
 
     expect($this->shipment->fresh()->courier_status)->toBeNull()
         ->and(CourierEvent::whereNull('order_id')->where('tracking_id', 'UNKNOWN-1')->count())->toBe(1);
+});
+
+test('webhook parses approval-pending statuses as non-final', function () {
+    Event::fake([CourierWebhookReceived::class]);
+
+    $payload = ['tracking_code' => 'STF-123', 'status' => 'delivered_approval_pending'];
+    $signature = hash_hmac('sha256', json_encode($payload), 'top-secret');
+
+    $response = ($this->postWebhook)($payload, $signature);
+
+    expect($response->getStatusCode())->toBe(200);
+
+    Event::assertDispatched(
+        CourierWebhookReceived::class,
+        fn (CourierWebhookReceived $event) => $event->webhook->status === CourierStatus::OutForDelivery,
+    );
+});
+
+test('approval-pending webhooks advance the shipment without settling it', function () {
+    $webhook = new WebhookEvent(
+        courier_name: 'steadfast',
+        tracking_id: 'STF-123',
+        status: StatusMapper::map('delivered_approval_pending'),
+        raw_payload: ['status' => 'delivered_approval_pending'],
+        timestamp: now()->toIso8601String(),
+        merchant_order_id: (string) $this->order->id,
+    );
+
+    app(HandleCourierWebhook::class)->handle(new CourierWebhookReceived($webhook));
+
+    $shipment = $this->shipment->fresh();
+
+    expect($shipment->courier_status)->toBe(CourierStatus::OutForDelivery->value)
+        ->and($shipment->shopment_status)->toBe(ShipmentStatus::Shipped)
+        ->and($this->order->fresh()->status)->toBe(OrderStatus::Shipped)
+        ->and($this->order->fresh()->status)->not->toBe(OrderStatus::Delivered);
+
+    expect(CourierEvent::where('order_id', $this->order->id)->count())->toBe(1);
 });

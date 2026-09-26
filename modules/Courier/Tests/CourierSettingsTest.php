@@ -41,6 +41,7 @@ test('root sees the courier settings group', function () {
             ->component('Settings/SettingsForm')
             ->where('group', 'courier')
             ->has('settings.steadfast_api_key')
+            ->has('settings.steadfast_base_url')
             ->has('settings.fraud_enabled')
             ->has('settings.fraud_cancel_ratio_threshold'));
 });
@@ -49,6 +50,7 @@ test('courier settings update persists values', function () {
     $this->actingAs($this->root)->post('/admin/settings/courier', [
         'default_courier' => 'pathao',
         'default_weight_kg' => '2',
+        'steadfast_base_url' => 'https://portal.packzy.com/api/v1',
         'fraud_enabled' => true,
         'fraud_min_deliveries' => '8',
         'fraud_cancel_ratio_threshold' => '35',
@@ -60,7 +62,14 @@ test('courier settings update persists values', function () {
 
     expect($settings['default_courier'])->toBe('pathao')
         ->and($settings['default_weight_kg'])->toBe('2')
+        ->and($settings['steadfast_base_url'])->toBe('https://portal.packzy.com/api/v1')
         ->and((string) $settings['fraud_enabled'])->toBe('1')
         ->and($settings['fraud_min_deliveries'])->toBe('8')
         ->and($settings['fraud_cancel_ratio_threshold'])->toBe('35');
+});
+
+test('courier settings reject an invalid base url', function () {
+    $this->actingAs($this->root)->post('/admin/settings/courier', [
+        'steadfast_base_url' => 'not-a-url',
+    ])->assertSessionHasErrors('steadfast_base_url');
 });

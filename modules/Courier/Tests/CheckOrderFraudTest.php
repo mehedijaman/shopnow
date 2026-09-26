@@ -111,6 +111,16 @@ test('flags low risk below the minimum delivery count', function () {
     expect($this->order->fresh()->fraud_risk)->toBe('low');
 });
 
+test('flags high risk when couriers report fraud against the phone', function () {
+    $payload = fraudPayload(10, 10);
+    $payload['steadfast']['total_reports'] = 2;
+    $payload['steadfast']['fraud_categories'] = ['cod_abuse'];
+
+    ($this->runFraudJob)($payload);
+
+    expect($this->order->fresh()->fraud_risk)->toBe('high');
+});
+
 test('skips the check when fraud checks are disabled', function () {
     Setting::where('group', 'courier')->where('key', 'fraud_enabled')->update(['value' => '0']);
     Cache::forget('settings');
