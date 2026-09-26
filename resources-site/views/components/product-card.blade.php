@@ -81,8 +81,8 @@
             src="{{ $product->image_url ?: $defaultLogo }}"
             alt="{{ $product->name }}"
             loading="lazy"
-            class="h-full w-full {{ !$product->image_url ? 'object-contain p-4' : 'object-contain' }} transition-transform duration-500 ease-out group-hover:scale-105"
-            onerror="this.src='{{ $defaultLogo }}'; this.classList.add('p-4');"
+            class="h-full w-full {{ !$product->image_url ? 'object-contain p-4' : 'object-cover' }} transition-transform duration-500 ease-out group-hover:scale-105"
+            onerror="this.src='{{ $defaultLogo }}'; this.classList.remove('object-cover'); this.classList.add('object-contain', 'p-4');"
         >
 
         {{-- Badges --}}
@@ -92,11 +92,7 @@
                     Featured
                 </span>
             @endif
-            @if ($product->type?->value === 'variable')
-                <span class="rounded-md bg-purple-600/90 backdrop-blur-sm px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white shadow-sm">
-                    Variable
-                </span>
-            @elseif ($product->type?->value === 'bundle')
+            @if ($product->type?->value === 'bundle')
                 <span class="rounded-md bg-indigo-600/90 backdrop-blur-sm px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white shadow-sm">
                     Bundle
                 </span>
