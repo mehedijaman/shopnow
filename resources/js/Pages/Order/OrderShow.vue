@@ -27,6 +27,8 @@
         </template>
     </AppSectionHeader>
 
+    <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
+
     <!-- ── Main Grid Layout (3 Columns) ── -->
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-4">
 
@@ -82,6 +84,12 @@
                             <i class="ri-price-tag-3-line"></i>
                             <span>{{ order.coupon_code }}<template v-if="Number(order.discount) > 0">
                                     (-{{ formatMoney(order.discount) }} Tk)</template></span>
+                        </div>
+                        <div v-if="order.fraud_risk === 'high'"
+                            class="flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1 text-xs font-bold text-rose-700 ring-1 ring-rose-200 ring-inset"
+                            :title="fraudSummary">
+                            <i class="ri-shield-star-line"></i>
+                            <span>High Fraud Risk</span>
                         </div>
                     </div>
                 </div>
@@ -519,7 +527,17 @@
                         </div>
                         <div v-if="shipment.carrier" class="flex items-center justify-between text-xs">
                             <span class="font-bold text-skin-neutral-9 ">Carrier:</span>
-                            <span class="font-bold text-skin-neutral-12">{{ shipment.carrier }}</span>
+                            <span class="font-bold text-skin-neutral-12">{{ courierLabel(shipment.carrier) }}</span>
+                        </div>
+                        <div v-if="shipment.courier_status" class="flex items-center justify-between text-xs">
+                            <span class="font-bold text-skin-neutral-9 ">Courier Status:</span>
+                            <span class="font-semibold capitalize text-skin-neutral-12">
+                                {{ shipment.courier_status.replaceAll('_', ' ') }}
+                            </span>
+                        </div>
+                        <div v-if="shipment.consignment_id" class="flex items-center justify-between text-xs">
+                            <span class="font-bold text-skin-neutral-9 ">Consignment ID:</span>
+                            <span class="font-mono font-bold text-skin-neutral-12">{{ shipment.consignment_id }}</span>
                         </div>
                         <div v-if="shipment.tracking_number" class="flex items-center justify-between text-xs">
                             <span class="font-bold text-skin-neutral-9 ">Tracking:</span>
@@ -549,7 +567,37 @@
                             <span class="font-bold text-skin-neutral-9 ">Actual Delivery:</span>
                             <span class="font-bold text-emerald-600">{{ shipment.actual_delivery }}</span>
                         </div>
+                        <div v-if="shipment.booked_at" class="flex items-center justify-between text-xs">
+                            <span class="font-bold text-skin-neutral-9 ">Booked At:</span>
+                            <span class="font-semibold text-skin-neutral-12">{{ shipment.booked_at }}</span>
+                        </div>
+                        <div v-if="shipment.last_synced_at" class="flex items-center justify-between text-xs">
+                            <span class="font-bold text-skin-neutral-9 ">Last Synced:</span>
+                            <span class="font-semibold text-skin-neutral-12">{{ shipment.last_synced_at }}</span>
+                        </div>
+                        <div v-if="shipment.booking_error"
+                            class="rounded-xl bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700 ring-1 ring-rose-200 ring-inset">
+                            <div class="flex items-start gap-2">
+                                <i class="ri-error-warning-line mt-0.5 shrink-0"></i>
+                                <span>{{ shipment.booking_error }}</span>
+                            </div>
+                        </div>
                     </div>
+                </div>
+
+                <div class="mt-3 flex flex-wrap gap-2 border-t border-skin-neutral-3/70 pt-3">
+                    <AppButton v-if="!hasTracking" type="button"
+                        class="btn btn-primary inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold shadow-xs transition duration-150 ease-in-out"
+                        :loading="booking" @click="requestBooking">
+                        <i class="ri-truck-line text-base"></i>
+                        <span>Book with {{ courierLabel(defaultCourier) }}</span>
+                    </AppButton>
+                    <AppButton v-if="hasTracking" type="button"
+                        class="btn btn-neutral inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold shadow-xs transition duration-150 ease-in-out"
+                        :loading="refreshing" @click="refreshStatus">
+                        <i class="ri-refresh-line text-base"></i>
+                        <span>Refresh Status</span>
+                    </AppButton>
                 </div>
             </OrderSectionCard>
 
@@ -560,7 +608,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { formatMoney } from '@/Utils/formatMoney'
-import { Head, useForm, usePage } from '@inertiajs/vue3'
+import { Head, router, useForm, usePage } from '@inertiajs/vue3'
 import useTitle from '@/Composables/useTitle'
 import OrderSectionCard from './Components/OrderSectionCard.vue'
 
@@ -574,6 +622,10 @@ const props = defineProps({
     statuses: {
         type: Array,
         default: () => [],
+    },
+    defaultCourier: {
+        type: String,
+        default: 'steadfast',
     },
 })
 
@@ -616,6 +668,74 @@ const statusForm = useForm({
 const submitStatus = () => {
     statusForm.patch(route('order.updateStatus', props.order.id), {
         preserveScroll: true,
+    })
+}
+
+const courierLabels = {
+    pathao: 'Pathao',
+    steadfast: 'Steadfast',
+    redx: 'RedX',
+    ecourier: 'ECourier',
+    paperfly: 'Paperfly',
+}
+
+const courierLabel = (provider) => courierLabels[provider] || provider || 'courier'
+
+const hasTracking = computed(() =>
+    (props.order.orderShipments || []).some((shipment) => shipment.tracking_number))
+
+const fraudSummary = computed(() => {
+    const aggregate = props.order.fraud_details?.aggregate
+    if (!aggregate) {
+        return 'Flagged as high risk by the fraud check.'
+    }
+    const ratio = aggregate.cancel_ratio != null ? Number(aggregate.cancel_ratio).toFixed(1) : '?'
+    return `${ratio}% cancel ratio across ${aggregate.total_deliveries ?? 0} deliveries`
+})
+
+const confirmDialogRef = ref(null)
+const booking = ref(false)
+const refreshing = ref(false)
+
+const bookShipment = (force = false) => {
+    booking.value = true
+    router.visit(route('order.bookShipment', props.order.id), {
+        method: 'post',
+        data: { force },
+        preserveScroll: true,
+        onFinish: () => {
+            booking.value = false
+        },
+    })
+}
+
+const requestBooking = () => {
+    if (props.order.fraud_risk === 'high') {
+        confirmDialogRef.value?.openCustomModal({
+            title: 'High Fraud Risk',
+            message: 'This customer has a high courier cancel ratio. Book this shipment anyway?',
+            buttonText: 'Book Anyway',
+            buttonClass: 'btn btn-primary',
+            method: 'post',
+            modalType: 'danger',
+            helpText: fraudSummary.value,
+            onConfirm: () => bookShipment(true),
+        })
+
+        return
+    }
+
+    bookShipment(false)
+}
+
+const refreshStatus = () => {
+    refreshing.value = true
+    router.visit(route('order.refreshShipment', props.order.id), {
+        method: 'post',
+        preserveScroll: true,
+        onFinish: () => {
+            refreshing.value = false
+        },
     })
 }
 

@@ -116,6 +116,9 @@ class OrderController extends BackendController
                 'paid' => $order->paid,
                 'due' => $order->due,
                 'notes' => $order->notes,
+                'fraud_risk' => $order->fraud_risk,
+                'fraud_checked_at' => $order->fraud_checked_at?->format('d M Y, h:i A'),
+                'fraud_details' => $order->fraud_details,
                 'created_at' => $order->created_at->format('d M Y, h:i A'),
                 'orderProducts' => $order->orderProducts->map(fn ($item) => [
                     'id' => $item->id,
@@ -152,6 +155,11 @@ class OrderController extends BackendController
                     'shipment_date' => $shipment->shipment_date,
                     'estimated_delivery' => $shipment->estimated_delivery,
                     'actual_delivery' => $shipment->actual_delivery,
+                    'consignment_id' => $shipment->consignment_id,
+                    'courier_status' => $shipment->courier_status,
+                    'booked_at' => $shipment->booked_at?->format('d M Y, h:i A'),
+                    'last_synced_at' => $shipment->last_synced_at?->format('d M Y, h:i A'),
+                    'booking_error' => $shipment->booking_error,
                 ]),
                 'downloadPermissions' => DB::table('download_permissions')
                     ->leftJoin('product_files', 'download_permissions.product_file_id', '=', 'product_files.id')
@@ -182,6 +190,7 @@ class OrderController extends BackendController
                     ]),
             ],
             'statuses' => OrderStatus::values(),
+            'defaultCourier' => (string) (setting('courier.default_courier') ?: 'steadfast'),
         ]);
     }
 

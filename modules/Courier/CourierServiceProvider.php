@@ -13,6 +13,8 @@ class CourierServiceProvider extends BaseServiceProvider
 {
     public function register()
     {
+        parent::register();
+
         config([
             'courierhub.webhook.middleware' => [HydrateCourierConfig::class],
         ]);
