@@ -77,6 +77,12 @@
                                 class="text-sm"></i>
                             <span class="capitalize">Payment: {{ order.payment_status }}</span>
                         </div>
+                        <div v-if="order.coupon_code"
+                            class="flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 ring-1 ring-emerald-200 ring-inset">
+                            <i class="ri-price-tag-3-line"></i>
+                            <span>{{ order.coupon_code }}<template v-if="Number(order.discount) > 0">
+                                    (-{{ formatMoney(order.discount) }} Tk)</template></span>
+                        </div>
                     </div>
                 </div>
 
@@ -363,6 +369,11 @@
                         <div v-if="Number(order.tax) > 0" class="flex justify-between">
                             <span class="font-semibold text-black">Tax / VAT:</span>
                             <span class="font-bold text-black">{{ formatMoney(order.tax) }} Tk</span>
+                        </div>
+                        <div v-if="Number(order.discount) > 0" class="flex justify-between">
+                            <span class="font-semibold text-black">Discount<span v-if="order.coupon_code"
+                                    class="font-normal"> ({{ order.coupon_code }})</span>:</span>
+                            <span class="font-bold text-black">-{{ formatMoney(order.discount) }} Tk</span>
                         </div>
                         <div class="flex justify-between text-xs font-extrabold border-t border-black pt-1.5">
                             <span>Net Grand Total:</span>

@@ -211,6 +211,16 @@
                                         <td class="px-4 py-2 text-right text-sm text-gray-900">{{ number_format($order->tax, 2) }} Tk</td>
                                     </tr>
                                 @endif
+                                @if ($order->discount > 0)
+                                    <tr>
+                                        <td colspan="3" class="px-4 py-2 text-right text-sm text-gray-500">Discount
+                                            @if ($order->coupon_code)
+                                                <span class="text-xs text-emerald-600">({{ $order->coupon_code }})</span>
+                                            @endif
+                                        </td>
+                                        <td class="px-4 py-2 text-right text-sm font-semibold text-emerald-600">-{{ number_format($order->discount, 2) }} Tk</td>
+                                    </tr>
+                                @endif
                                 <tr class="border-t border-gray-200">
                                     <td colspan="3" class="px-4 py-3 text-right font-semibold text-gray-900">Total</td>
                                     <td class="px-4 py-3 text-right font-bold text-gray-900">{{ number_format($order->total, 2) }} Tk</td>

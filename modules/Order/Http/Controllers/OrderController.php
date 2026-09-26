@@ -110,6 +110,8 @@ class OrderController extends BackendController
                 'tax' => $order->tax,
                 'shipping' => $order->shipping,
                 'shipping_method' => $order->shipping_method,
+                'discount' => $order->discount,
+                'coupon_code' => $order->coupon_code,
                 'total' => $order->total,
                 'paid' => $order->paid,
                 'due' => $order->due,

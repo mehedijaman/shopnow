@@ -142,6 +142,12 @@
                                     <td style="padding:4px 12px;text-align:right;color:#1e293b;font-weight:600;">{{ number_format($order->tax, 2) }} Tk</td>
                                 </tr>
                             @endif
+                            @if ($order->discount > 0)
+                                <tr>
+                                    <td style="padding:4px 12px;color:#64748b;text-align:right;">Discount @if ($order->coupon_code)<span style="color:#16a34a;">({{ $order->coupon_code }})</span>@endif</td>
+                                    <td style="padding:4px 12px;text-align:right;color:#16a34a;font-weight:600;">-{{ number_format($order->discount, 2) }} Tk</td>
+                                </tr>
+                            @endif
                             <tr>
                                 <td style="padding:10px 12px 4px;text-align:right;font-weight:700;font-size:15px;color:#0f172a;border-top:2px solid #e2e8f0;">Total Amount</td>
                                 <td style="padding:10px 12px 4px;text-align:right;font-weight:800;font-size:16px;color:#2563eb;border-top:2px solid #e2e8f0;">{{ number_format($order->total, 2) }} Tk</td>

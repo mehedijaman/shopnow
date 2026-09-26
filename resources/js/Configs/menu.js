@@ -28,6 +28,12 @@ export default {
                     permission: 'order-list',
                     icon: 'ri-bar-chart-2-line',
                     link: route('order.report')
+                },
+                {
+                    label: 'Promo Codes',
+                    permission: 'promo-code-list',
+                    icon: 'ri-coupon-3-line',
+                    link: route('promoCode.index')
                 }
             ]
         },

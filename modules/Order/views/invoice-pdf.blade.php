@@ -457,6 +457,12 @@
                                     <td class="value">{{ number_format($order->tax, 2) }} Tk</td>
                                 </tr>
                             @endif
+                            @if($order->discount > 0)
+                                <tr>
+                                    <td class="label">Discount: @if($order->coupon_code)<span style="color:#16a34a;">({{ $order->coupon_code }})</span>@endif</td>
+                                    <td class="value" style="color:#16a34a;">-{{ number_format($order->discount, 2) }} Tk</td>
+                                </tr>
+                            @endif
                             <tr class="total-row">
                                 <td class="label">Grand Total:</td>
                                 <td class="value">{{ number_format($order->total, 2) }} Tk</td>
