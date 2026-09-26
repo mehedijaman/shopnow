@@ -88,7 +88,7 @@
             <!-- Left: Image Gallery -->
             <div>
                 <!-- Main Image -->
-                <div class="flex items-center justify-center overflow-hidden rounded-xl border border-gray-200 bg-gray-50/50 p-2 shadow-sm dark:bg-gray-800/50 sm:p-4">
+                <div class="flex items-center justify-center overflow-hidden rounded-xl bg-gray-50/50 dark:bg-gray-800/50">
                     <img
                         id="mainImage"
                         src="{{ $allImages->first() ?? $defaultLogo }}"
