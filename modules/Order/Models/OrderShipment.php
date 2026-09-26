@@ -20,10 +20,17 @@ class OrderShipment extends BaseModel
         'shipment_date',
         'estimated_delivery',
         'actual_delivery',
+        'consignment_id',
+        'courier_status',
+        'booked_at',
+        'last_synced_at',
+        'booking_error',
     ];
 
     protected $casts = [
         'shopment_status' => ShipmentStatus::class,
+        'booked_at' => 'datetime',
+        'last_synced_at' => 'datetime',
     ];
 
     public function order()

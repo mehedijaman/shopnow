@@ -6,6 +6,7 @@ use Modules\AdminAuth\AdminAuthServiceProvider;
 use Modules\Blog\BlogServiceProvider;
 use Modules\Cart\CartServiceProvider;
 use Modules\ContactMessage\ContactMessageServiceProvider;
+use Modules\Courier\CourierServiceProvider;
 use Modules\Customer\CustomerServiceProvider;
 use Modules\CustomerAuth\CustomerAuthServiceProvider;
 use Modules\Dashboard\DashboardServiceProvider;
@@ -38,6 +39,7 @@ return [
     OrderServiceProvider::class,
     CartServiceProvider::class,
     PromoCodeServiceProvider::class,
+    CourierServiceProvider::class,
 
     ContactMessageServiceProvider::class,
     SliderServiceProvider::class,
