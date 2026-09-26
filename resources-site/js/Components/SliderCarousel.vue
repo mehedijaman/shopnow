@@ -1,6 +1,6 @@
 <template>
-    <div v-if="parsedSliders.length" class="mx-auto max-w-7xl px-4 pt-4 sm:px-6 sm:pt-6 lg:px-6">
-        <div class="group relative w-full overflow-hidden rounded-xl bg-gray-900 h-[180px] sm:h-[260px] md:h-[340px] lg:h-[420px] xl:h-[460px] shadow-sm"
+    <div v-if="parsedSliders.length" class="mx-auto max-w-7xl ">
+        <div class="group relative w-full overflow-hidden rounded-sm bg-gray-900 h-[180px] sm:h-[260px] md:h-[340px] lg:h-[420px] xl:h-[460px] shadow-sm"
             @mouseenter="pauseTimer" @mouseleave="startTimer">
             <!-- Slides -->
             <div class="flex h-full transition-transform duration-700 ease-out"
@@ -14,7 +14,8 @@
                     <div v-else class="h-full w-full" :style="{ backgroundColor: slide.bg_color || '#1e3a5f' }"></div>
 
                     <!-- Slide Link Overlay (when no explicit button text) -->
-                    <a v-if="slide.url && !slide.button_text" :href="slide.url" class="absolute inset-0 z-10" :aria-label="slide.title || 'Slide link'"></a>
+                    <a v-if="slide.url && !slide.button_text" :href="slide.url" class="absolute inset-0 z-10"
+                        :aria-label="slide.title || 'Slide link'"></a>
 
                     <!-- Caption Container -->
                     <div v-if="slide.title || slide.description || (slide.url && slide.button_text)"
@@ -68,7 +69,8 @@
             </button>
 
             <!-- Dot indicators -->
-            <div v-if="parsedSliders.length > 1" class="absolute bottom-3 left-1/2 z-30 flex -translate-x-1/2 gap-1.5 sm:bottom-4 sm:gap-2">
+            <div v-if="parsedSliders.length > 1"
+                class="absolute bottom-3 left-1/2 z-30 flex -translate-x-1/2 gap-1.5 sm:bottom-4 sm:gap-2">
                 <button v-for="(_, index) in parsedSliders" :key="index"
                     class="h-1.5 rounded-full transition-all duration-300 focus:outline-none sm:h-2"
                     :class="index === currentIndex ? 'w-6 bg-white sm:w-8' : 'w-1.5 bg-white/40 hover:bg-white/70 sm:w-2'"
