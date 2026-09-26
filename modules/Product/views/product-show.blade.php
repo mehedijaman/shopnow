@@ -93,7 +93,7 @@
                         id="mainImage"
                         src="{{ $allImages->first() ?? $defaultLogo }}"
                         alt="{{ $product->name }}"
-                        class="aspect-square sm:aspect-[4/3] w-full max-h-[520px] {{ !$product->image_url ? 'object-contain' : 'object-cover' }} rounded-xl"
+                        class="aspect-[4/5] w-full max-h-[600px] {{ !$product->image_url ? 'object-contain' : 'object-cover' }} rounded-xl"
                         onerror="this.src='{{ $defaultLogo }}'; this.classList.remove('object-cover'); this.classList.add('object-contain');"
                     />
                 </div>

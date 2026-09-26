@@ -251,7 +251,7 @@
                     </div>
                 </template>
                 <template #content>
-                    <p class="mb-2 text-xs text-skin-neutral-9">Used as thumbnail on listing pages (Recommended size: 800 × 800 px or 1:1 square ratio)</p>
+                    <p class="mb-2 text-xs text-skin-neutral-9">Used as thumbnail on listing pages (Recommended size: 800 × 1000 px portrait mode or 4:5 ratio)</p>
                     <ProductImage />
                 </template>
             </AppCard>
@@ -265,7 +265,7 @@
                     </div>
                 </template>
                 <template #content>
-                    <p class="mb-2 text-xs text-skin-neutral-9">Additional images shown on the product detail page (Recommended size: 800 × 800 px)</p>
+                    <p class="mb-2 text-xs text-skin-neutral-9">Additional images shown on the product detail page (Recommended size: 800 × 1000 px portrait mode)</p>
                     <ProductGallery :gallery="gallery" :product-id="props.product?.id ?? null" />
                 </template>
             </AppCard>
