@@ -30,7 +30,7 @@
             </button>
         </div>
 
-        <div class="flex w-full flex gap-2 sm:gap-2.5">
+        <div class="flex w-full flex-col gap-2 sm:flex-row sm:gap-2.5">
             <!-- Add to Cart CTA Button (full width) -->
             <button @click="addToCart" :disabled="!canAddToCart" type="button" :class="[
                 'flex w-full items-center justify-center gap-1.5 rounded-lg sm:rounded-lg px-2.5 py-2 sm:px-4 sm:py-2.5 text-[10px] sm:text-xs font-bold  transition-all duration-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1',
