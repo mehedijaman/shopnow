@@ -121,14 +121,17 @@ test('skips shipments that are already booked', function () {
     Http::assertNothingSent();
 });
 
-test('admin can queue a booking for an order', function () {
+test('admin books the shipment synchronously without the queue', function () {
     Queue::fake();
+    ($this->fakeCreateOrder)();
 
     $this->post(route('order.bookShipment', $this->order->id))
         ->assertRedirect()
         ->assertSessionHas('success');
 
-    Queue::assertPushed(BookShipment::class, 1);
+    Queue::assertNothingPushed();
+
+    expect($this->shipment->fresh()->tracking_number)->toBe('STF-999');
 });
 
 test('booking is rejected for high fraud orders without confirmation', function () {
@@ -141,10 +144,32 @@ test('booking is rejected for high fraud orders without confirmation', function 
 
     Queue::assertNothingPushed();
 
+    expect($this->shipment->fresh()->tracking_number)->toBeNull();
+
+    ($this->fakeCreateOrder)();
+
     $this->post(route('order.bookShipment', $this->order->id), ['force' => true])
         ->assertSessionHas('success');
 
-    Queue::assertPushed(BookShipment::class, 1);
+    Queue::assertNothingPushed();
+
+    expect($this->shipment->fresh()->tracking_number)->toBe('STF-999');
+});
+
+test('booking failures are reported immediately without a queue retry', function () {
+    Queue::fake();
+
+    Http::fake([
+        '*create_order*' => Http::response(['message' => 'Bad gateway'], 500),
+    ]);
+
+    $this->post(route('order.bookShipment', $this->order->id))
+        ->assertRedirect()
+        ->assertSessionHas('error');
+
+    Queue::assertNothingPushed();
+
+    expect($this->shipment->fresh()->booking_error)->not->toBeNull();
 });
 
 test('refresh pulls the latest courier status onto the shipment', function () {

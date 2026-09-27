@@ -6,10 +6,13 @@ use CourierHub\Exceptions\CourierApiException;
 use CourierHub\Facades\Courier;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Bus;
+use Modules\Courier\Enums\CourierProvider;
 use Modules\Courier\Jobs\BookShipment as BookShipmentJob;
 use Modules\Courier\Services\CourierConfigHydrator;
 use Modules\Courier\Services\CourierTrackingId;
 use Modules\Courier\Services\SyncShipmentStatus;
+use Modules\Order\Enums\OrderStatus;
 use Modules\Order\Models\Order;
 use Modules\Support\Http\Controllers\BackendController;
 
@@ -32,15 +35,36 @@ class BookShipmentController extends BackendController
             return back()->with('success', 'This shipment is already booked with the courier.');
         }
 
+        if (in_array($order->status, [OrderStatus::Cancelled, OrderStatus::Completed], true)) {
+            return back()->with('error', 'Cancelled or completed orders cannot be booked.');
+        }
+
         $force = (bool) $request->boolean('force');
 
         if ($order->fraud_risk === 'high' && ! $force) {
             return back()->with('error', 'High fraud risk — confirm booking to override.');
         }
 
-        BookShipmentJob::dispatch($order->id, $force);
+        // Call the courier API directly — dispatchNow runs the handler in
+        // this request without touching the queue — so the admin sees the
+        // tracking number or the exact error immediately after the click.
+        try {
+            Bus::dispatchNow(new BookShipmentJob($order->id, $force));
+        } catch (CourierApiException $e) {
+            return back()->with('error', 'Booking failed: '.$this->apiErrorMessage($e));
+        } catch (\Throwable $e) {
+            return back()->with('error', 'Booking failed: '.$e->getMessage());
+        }
 
-        return back()->with('success', 'Booking queued with the courier. Refresh the page shortly for the tracking number.');
+        $shipment->refresh();
+
+        if (filled($shipment->tracking_number)) {
+            $courier = CourierProvider::tryFrom((string) $shipment->carrier)?->label() ?? 'the courier';
+
+            return back()->with('success', 'Booked with '.$courier.' — tracking number '.$shipment->tracking_number.'.');
+        }
+
+        return back()->with('error', $shipment->booking_error ?? 'Booking did not complete. Check the courier settings and try again.');
     }
 
     public function refresh(int $id, CourierConfigHydrator $hydrator, SyncShipmentStatus $sync): RedirectResponse
