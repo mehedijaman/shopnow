@@ -34,6 +34,21 @@ class ProductVariation extends BaseModel implements HasMedia
         return $this->belongsToMany(ProductAttributeValue::class, 'pivot_var_attr_value', 'product_variation_id', 'product_attribute_value_id');
     }
 
+    /**
+     * Human readable option label ("Color: Red, Size: L"), same format as the cart.
+     * Requires the attributeValues.attribute relation for non-empty results.
+     */
+    public function label(): ?string
+    {
+        $labels = [];
+
+        foreach ($this->attributeValues as $av) {
+            $labels[] = ($av->attribute?->name ?? 'Option').': '.$av->value;
+        }
+
+        return $labels === [] ? null : implode(', ', $labels);
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('image')->singleFile();

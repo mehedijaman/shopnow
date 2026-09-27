@@ -36,6 +36,11 @@ Route::get('order/{id}/edit', [
     'edit',
 ])->name('order.edit');
 
+Route::put('order/{id}/coupon', [
+    OrderController::class,
+    'applyCoupon',
+])->name('order.applyCoupon');
+
 Route::put('order/{id}', [
     OrderController::class,
     'update',

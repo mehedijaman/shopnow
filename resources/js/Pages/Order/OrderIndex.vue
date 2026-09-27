@@ -113,6 +113,13 @@
                     </AppDataTableData>
                     <AppDataTableData class="text-right">
                         <div class="flex justify-end gap-1.5">
+                            <AppButton
+                                class="btn btn-icon btn-neutral"
+                                title="Edit order"
+                                @click="$inertia.visit(route('order.edit', item.id))"
+                            >
+                                <i class="ri-pencil-line"></i>
+                            </AppButton>
                             <!-- <AppTooltip text="View Details"> -->
                                 <AppButton
                                     class="btn btn-icon btn-primary"

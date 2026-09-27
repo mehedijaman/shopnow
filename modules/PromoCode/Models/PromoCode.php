@@ -52,10 +52,13 @@ class PromoCode extends BaseModel
 
     /**
      * Orders (excluding deleted ones) that used this code.
+     *
+     * @param  int|null  $excludeOrderId  exclude one order (editing an order that already uses this code)
      */
-    public function usedCount(bool $lock = false): int
+    public function usedCount(bool $lock = false, ?int $excludeOrderId = null): int
     {
         return $this->orders()
+            ->when($excludeOrderId, fn ($query) => $query->whereKeyNot($excludeOrderId))
             ->when($lock, fn ($query) => $query->lockForUpdate())
             ->count();
     }
@@ -63,7 +66,7 @@ class PromoCode extends BaseModel
     /**
      * Orders placed by the given customer that used this code.
      */
-    public function usedCountForCustomer(?int $customerId, bool $lock = false): int
+    public function usedCountForCustomer(?int $customerId, bool $lock = false, ?int $excludeOrderId = null): int
     {
         if (! $customerId) {
             return 0;
@@ -71,6 +74,7 @@ class PromoCode extends BaseModel
 
         return $this->orders()
             ->where('customer_id', $customerId)
+            ->when($excludeOrderId, fn ($query) => $query->whereKeyNot($excludeOrderId))
             ->when($lock, fn ($query) => $query->lockForUpdate())
             ->count();
     }
@@ -85,18 +89,18 @@ class PromoCode extends BaseModel
         return $this->expires_at && $this->expires_at->isPast();
     }
 
-    public function hasReachedUsageLimit(bool $lock = false): bool
+    public function hasReachedUsageLimit(bool $lock = false, ?int $excludeOrderId = null): bool
     {
-        return $this->usage_limit !== null && $this->usedCount($lock) >= $this->usage_limit;
+        return $this->usage_limit !== null && $this->usedCount($lock, $excludeOrderId) >= $this->usage_limit;
     }
 
-    public function hasReachedCustomerLimit(?int $customerId, bool $lock = false): bool
+    public function hasReachedCustomerLimit(?int $customerId, bool $lock = false, ?int $excludeOrderId = null): bool
     {
         if ($this->per_customer_limit === null) {
             return false;
         }
 
-        return $this->usedCountForCustomer($customerId, $lock) >= $this->per_customer_limit;
+        return $this->usedCountForCustomer($customerId, $lock, $excludeOrderId) >= $this->per_customer_limit;
     }
 
     public function meetsMinimumOrder(float $subtotal): bool
@@ -107,8 +111,10 @@ class PromoCode extends BaseModel
     /**
      * Why this code cannot be applied right now, or null when it is valid.
      * Shared by checkout validation and the cart preview (which detaches stale codes).
+     *
+     * @param  int|null  $excludeOrderId  exclude one order from usage counts (order edit revalidation)
      */
-    public function validationError(float $subtotal, ?int $customerId = null, bool $lock = false): ?string
+    public function validationError(float $subtotal, ?int $customerId = null, bool $lock = false, ?int $excludeOrderId = null): ?string
     {
         if (! $this->active) {
             return 'This promo code is no longer active.';
@@ -129,11 +135,11 @@ class PromoCode extends BaseModel
             );
         }
 
-        if ($this->hasReachedUsageLimit($lock)) {
+        if ($this->hasReachedUsageLimit($lock, $excludeOrderId)) {
             return 'This promo code has reached its usage limit.';
         }
 
-        if ($this->hasReachedCustomerLimit($customerId, $lock)) {
+        if ($this->hasReachedCustomerLimit($customerId, $lock, $excludeOrderId)) {
             return 'You have already used this promo code the maximum number of times.';
         }
 

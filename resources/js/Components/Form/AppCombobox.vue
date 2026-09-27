@@ -18,7 +18,12 @@
         </AppButton>
 
         <transition name="slide-fade">
-            <div v-show="isOpen" class="absolute z-50 mt-1 w-full">
+            <div
+                v-show="isOpen"
+                ref="dropdownRef"
+                class="fixed z-[999]"
+                :style="dropdownStyle"
+            >
                 <div v-show="useSearch" class="bg-skin-neutral-1 p-1 shadow-sm">
                     <!-- search input -->
                     <label :for="getElementId()" class="sr-only">Search</label>
@@ -45,7 +50,7 @@
                 </div>
 
                 <!-- combo options -->
-                <ul class="bg-skin-neutral-1 p-1 shadow-sm" role="listbox">
+                <ul class="max-h-64 overflow-y-auto bg-skin-neutral-1 p-1 shadow-sm" role="listbox">
                     <li
                         v-for="(option, index) in filteredOptions"
                         :key="option.value"
@@ -67,7 +72,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import slug from '@resources/js/Utils/slug.js'
 import useClickOutside from '@resources/js/Composables/useClickOutside'
 
@@ -95,6 +100,39 @@ const props = defineProps({
 })
 
 const wrapperRef = ref(null)
+const dropdownRef = ref(null)
+const dropdownStyle = ref({ top: '0px', left: '0px', width: '0px' })
+const isOpen = ref(false)
+
+const positionDropdown = () => {
+    const rect = wrapperRef.value.getBoundingClientRect()
+    const spaceBelow = window.innerHeight - rect.bottom
+    const openUp = spaceBelow < 240 && rect.top > spaceBelow
+    const base = { left: `${rect.left}px`, width: `${rect.width}px` }
+    dropdownStyle.value = openUp
+        ? { ...base, bottom: `${window.innerHeight - rect.top + 4}px` }
+        : { ...base, top: `${rect.bottom + 4}px` }
+}
+
+const onViewportChange = (event) => {
+    if (event && dropdownRef.value?.contains(event.target)) return
+    isOpen.value = false
+}
+
+watch(isOpen, (open) => {
+    if (open) {
+        window.addEventListener('scroll', onViewportChange, true)
+        window.addEventListener('resize', onViewportChange)
+    } else {
+        window.removeEventListener('scroll', onViewportChange, true)
+        window.removeEventListener('resize', onViewportChange)
+    }
+})
+
+onBeforeUnmount(() => {
+    window.removeEventListener('scroll', onViewportChange, true)
+    window.removeEventListener('resize', onViewportChange)
+})
 
 const { isClickOutside } = useClickOutside(wrapperRef)
 
@@ -114,13 +152,15 @@ const getElementId = () => {
 
 const emit = defineEmits(['update:modelValue'])
 
-const isOpen = ref(false)
-
 const searchInputRef = ref(null)
 const toggleState = () => {
     isOpen.value = !isOpen.value
 
     highlightedIndex.value = 0
+
+    if (isOpen.value) {
+        positionDropdown()
+    }
 
     window.setTimeout(() => {
         if (isOpen.value) {
