@@ -19,7 +19,7 @@
                 </a>
             </div>
 
-            <div class="grid grid-cols-1 justify-items-center gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="grid grid-cols-2 justify-items-center gap-x-4 gap-y-8 sm:gap-x-8 sm:gap-y-10 lg:grid-cols-4">
                 @foreach ($category->products as $product)
                     <x-product-card :product="$product" />
                 @endforeach

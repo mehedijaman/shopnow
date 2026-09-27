@@ -110,7 +110,7 @@
                             </p>
                         </div>
 
-                        <section class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3">
+                        <section class="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 xl:grid-cols-3">
                             @foreach ($products as $product)
                                 <x-product-card :product="$product" />
                             @endforeach
