@@ -142,6 +142,8 @@ class SettingsGroupValidate extends Request
             'ecourier_enabled', 'ecourier_sandbox',
             'paperfly_enabled',
             'fraud_enabled',
+            'fraud_steadfast_enabled',
+            'fraud_bdcourier_enabled',
         ];
 
         $texts = [
@@ -151,11 +153,7 @@ class SettingsGroupValidate extends Request
             'redx_access_token', 'redx_webhook_secret', 'redx_tracking_url',
             'ecourier_api_key', 'ecourier_api_secret', 'ecourier_user_id', 'ecourier_webhook_secret', 'ecourier_tracking_url',
             'paperfly_username', 'paperfly_password', 'paperfly_api_key', 'paperfly_webhook_secret', 'paperfly_tracking_url',
-            'fraud_steadfast_user', 'fraud_steadfast_password',
-            'fraud_pathao_user', 'fraud_pathao_password',
-            'fraud_redx_phone', 'fraud_redx_password',
-            'fraud_paperfly_user', 'fraud_paperfly_password',
-            'fraud_carrybee_phone', 'fraud_carrybee_password',
+            'bdcourier_api_key',
         ];
 
         $rules = [
@@ -164,6 +162,7 @@ class SettingsGroupValidate extends Request
             'fraud_min_deliveries' => 'nullable|integer|min:0|max:10000',
             'fraud_cancel_ratio_threshold' => 'nullable|numeric|min:0|max:100',
             'steadfast_base_url' => ['nullable', 'url', 'max:500'],
+            'bdcourier_endpoint' => ['nullable', 'url', 'max:500'],
         ];
 
         foreach ($booleans as $key) {

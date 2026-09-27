@@ -6,7 +6,7 @@ use Modules\Courier\Enums\CourierProvider;
 
 /**
  * Applies courier settings (admin Settings page) onto the CourierHub and
- * fraud-checker config repositories at runtime. Must run before any courier
+ * fraud config repositories at runtime. Must run before any courier
  * driver or fraud service is resolved, including inside queued jobs where the
  * application was booted before settings changed.
  */
@@ -47,19 +47,21 @@ class CourierConfigHydrator
     ];
 
     /**
-     * @var array<string, string> setting key => config path under fraud-checker-bd-courier
+     * @var array<string, string> setting key => config path under fraud
      */
     private const FRAUD_MAP = [
-        'fraud_steadfast_user' => 'steadfast.user',
-        'fraud_steadfast_password' => 'steadfast.password',
-        'fraud_pathao_user' => 'pathao.user',
-        'fraud_pathao_password' => 'pathao.password',
-        'fraud_redx_phone' => 'redx.phone',
-        'fraud_redx_password' => 'redx.password',
-        'fraud_paperfly_user' => 'paperfly.user',
-        'fraud_paperfly_password' => 'paperfly.password',
-        'fraud_carrybee_phone' => 'carrybee.phone',
-        'fraud_carrybee_password' => 'carrybee.password',
+        'fraud_steadfast_enabled' => 'fraud.steadfast.enabled',
+        'fraud_bdcourier_enabled' => 'fraud.bdcourier.enabled',
+        'bdcourier_api_key' => 'fraud.bdcourier.api_key',
+        'bdcourier_endpoint' => 'fraud.bdcourier.base_url',
+    ];
+
+    /**
+     * @var array<int, string> fraud setting keys stored as booleans
+     */
+    private const FRAUD_BOOLEAN_KEYS = [
+        'fraud_steadfast_enabled',
+        'fraud_bdcourier_enabled',
     ];
 
     public function hydrate(): void
@@ -87,7 +89,15 @@ class CourierConfigHydrator
         }
 
         foreach (self::FRAUD_MAP as $settingKey => $configKey) {
-            $this->setWhenPresent("fraud-checker-bd-courier.{$configKey}", $settings[$settingKey] ?? null);
+            $value = $settings[$settingKey] ?? null;
+
+            if ($value === null) {
+                continue;
+            }
+
+            config([$configKey => in_array($settingKey, self::FRAUD_BOOLEAN_KEYS, true)
+                ? $this->isTruthy($value)
+                : $value]);
         }
     }
 

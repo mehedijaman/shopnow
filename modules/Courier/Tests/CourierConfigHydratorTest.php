@@ -46,14 +46,18 @@ test('applies the default courier from settings', function () {
     expect(config('courierhub.default'))->toBe('pathao');
 });
 
-test('hydrates fraud checker portal credentials', function () {
-    ($this->setSetting)('fraud_steadfast_user', 'fraud@example.com');
-    ($this->setSetting)('fraud_steadfast_password', 'pw-1');
+test('hydrates fraud source settings', function () {
+    ($this->setSetting)('fraud_steadfast_enabled', '0');
+    ($this->setSetting)('fraud_bdcourier_enabled', '1');
+    ($this->setSetting)('bdcourier_api_key', 'bd-key-1');
+    ($this->setSetting)('bdcourier_endpoint', 'https://api.bdcourier.com');
 
     $this->hydrator->hydrate();
 
-    expect(config('fraud-checker-bd-courier.steadfast.user'))->toBe('fraud@example.com')
-        ->and(config('fraud-checker-bd-courier.steadfast.password'))->toBe('pw-1');
+    expect(config('fraud.steadfast.enabled'))->toBeFalse()
+        ->and(config('fraud.bdcourier.enabled'))->toBeTrue()
+        ->and(config('fraud.bdcourier.api_key'))->toBe('bd-key-1')
+        ->and(config('fraud.bdcourier.base_url'))->toBe('https://api.bdcourier.com');
 });
 
 test('skips hydration when the courier settings group is missing', function () {

@@ -4,82 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4259c1b93a7bd63d35f6e9e8a2b83d27",
+    "content-hash": "66b939740112c415dd24f71c010ca02d",
     "packages": [
-        {
-            "name": "azmolla/fraud-checker-bd-courier-laravel",
-            "version": "v0.1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/AbiruzzamanMolla/Fraud-Checker-BD-Courier-Laravel.git",
-                "reference": "f90310401c028c03334fe7351083651db5875f86"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/AbiruzzamanMolla/Fraud-Checker-BD-Courier-Laravel/zipball/f90310401c028c03334fe7351083651db5875f86",
-                "reference": "f90310401c028c03334fe7351083651db5875f86",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "^7.8",
-                "illuminate/http": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
-                "php": "^8.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
-                "phpunit/phpunit": "^10.5|^11.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "FraudCheckerBdCourier": "Azmolla\\FraudCheckerBdCourier\\Facade\\FraudCheckerBdCourierFacade"
-                    },
-                    "providers": [
-                        "Azmolla\\FraudCheckerBdCourier\\FraudCheckerBdCourierServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Azmolla\\FraudCheckerBdCourier\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Abiruzzaman Molla",
-                    "email": "abiruzzaman.molla@gmail.com",
-                    "role": "Backend Developer"
-                }
-            ],
-            "description": "A fraud detection tool for e-commerce platforms to analyze customer order behavior across Steadfast, RedX, Pathao, Paperfly, and Carrybee couriers.",
-            "homepage": "https://github.com/AbiruzzamanMolla/Fraud-Checker-BD-Courier-Laravel",
-            "keywords": [
-                "Order Status",
-                "api integration",
-                "carrybee",
-                "courier bangladesh",
-                "e-commerce fraud",
-                "fraud checker",
-                "fraud detection",
-                "fraud prevention",
-                "paperfly",
-                "pathao",
-                "redx",
-                "steadfast courier"
-            ],
-            "support": {
-                "issues": "https://github.com/AbiruzzamanMolla/Fraud-Checker-BD-Courier-Laravel/issues",
-                "source": "https://github.com/AbiruzzamanMolla/Fraud-Checker-BD-Courier-Laravel/tree/v0.1.3"
-            },
-            "abandoned": true,
-            "time": "2026-03-17T03:12:08+00:00"
-        },
         {
             "name": "barryvdh/laravel-dompdf",
             "version": "v3.1.2",

@@ -10,6 +10,8 @@ use Modules\Order\Models\Order;
 use Modules\Product\Models\Product;
 use Modules\Product\Models\ProductCategory;
 use Modules\Settings\Models\Setting;
+use Modules\User\Models\User;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);
@@ -34,10 +36,7 @@ function fraudPayload(int $deliveries, float $cancelRatio): array
             'cancel' => $cancel,
             'total' => $deliveries,
         ],
-        'pathao' => null,
-        'redx' => null,
-        'paperfly' => null,
-        'carrybee' => null,
+        'bdcourier' => ['error' => 'Disabled'],
         'aggregate' => [
             'total_success' => $deliveries - $cancel,
             'total_cancel' => $cancel,
@@ -111,6 +110,44 @@ test('flags low risk below the minimum delivery count', function () {
     expect($this->order->fresh()->fraud_risk)->toBe('low');
 });
 
+test('flags high risk when any single source meets the thresholds', function () {
+    $payload = fraudPayload(10, 10);
+    $payload['bdcourier'] = [
+        'success' => 4,
+        'cancel' => 6,
+        'total' => 10,
+        'success_ratio' => 40.0,
+    ];
+    $payload['aggregate'] = [
+        'total_success' => 13,
+        'total_cancel' => 7,
+        'total_deliveries' => 20,
+        'success_ratio' => 65.0,
+        'cancel_ratio' => 35.0,
+    ];
+
+    ($this->runFraudJob)($payload);
+
+    expect($this->order->fresh()->fraud_risk)->toBe('high');
+});
+
+test('flags high risk when bdcourier returns fraud reports', function () {
+    $payload = fraudPayload(10, 10);
+    $payload['bdcourier'] = [
+        'success' => 9,
+        'cancel' => 1,
+        'total' => 10,
+        'success_ratio' => 90.0,
+        'reports' => [
+            ['id' => 'abc123', 'name' => 'John Doe', 'details' => 'Fraud reported by merchant'],
+        ],
+    ];
+
+    ($this->runFraudJob)($payload);
+
+    expect($this->order->fresh()->fraud_risk)->toBe('high');
+});
+
 test('flags high risk when couriers report fraud against the phone', function () {
     $payload = fraudPayload(10, 10);
     $payload['steadfast']['total_reports'] = 2;
@@ -130,13 +167,10 @@ test('skips the check when fraud checks are disabled', function () {
     expect($this->order->fresh()->fraud_checked_at)->toBeNull();
 });
 
-test('skips the check when no portal answered', function () {
+test('skips the check when no fraud source answered', function () {
     ($this->runFraudJob)([
         'steadfast' => ['error' => 'Not configured'],
-        'pathao' => ['error' => 'Not configured'],
-        'redx' => ['error' => 'Not configured'],
-        'paperfly' => ['error' => 'Not configured'],
-        'carrybee' => ['error' => 'Not configured'],
+        'bdcourier' => ['error' => 'Disabled'],
         'aggregate' => [
             'total_success' => 0,
             'total_cancel' => 0,
@@ -198,4 +232,81 @@ test('placing an order with fraud checks disabled does not queue the check', fun
     $response->assertStatus(201);
 
     Queue::assertNotPushed(CheckOrderFraud::class);
+});
+
+test('posting the fraud check endpoint runs the check and returns the verdict', function () {
+    $user = User::factory()->create();
+    Role::create(['name' => 'root']);
+    $user->assignRole('root');
+    $this->actingAs($user);
+
+    app()->bind(FraudChecker::class, fn () => new FakeFraudChecker(fraudPayload(10, 50)));
+
+    $this->post(route('order.fraudCheck', $this->order->id))
+        ->assertRedirect()
+        ->assertSessionHas('success');
+
+    expect($this->order->fresh()->fraud_risk)->toBe('high');
+});
+
+test('posting the fraud check endpoint reports when no source answered', function () {
+    $user = User::factory()->create();
+    Role::create(['name' => 'root']);
+    $user->assignRole('root');
+    $this->actingAs($user);
+
+    app()->bind(FraudChecker::class, fn () => new FakeFraudChecker([
+        'steadfast' => ['error' => 'Not configured'],
+        'bdcourier' => ['error' => 'Disabled'],
+        'aggregate' => [
+            'total_success' => 0,
+            'total_cancel' => 0,
+            'total_deliveries' => 0,
+            'success_ratio' => 0,
+            'cancel_ratio' => 0,
+        ],
+    ]));
+
+    $this->post(route('order.fraudCheck', $this->order->id))
+        ->assertRedirect()
+        ->assertSessionHas('error');
+
+    expect($this->order->fresh()->fraud_checked_at)->toBeNull();
+});
+
+test('posting the fraud check endpoint rejects when fraud checks are disabled', function () {
+    $user = User::factory()->create();
+    Role::create(['name' => 'root']);
+    $user->assignRole('root');
+    $this->actingAs($user);
+
+    Setting::where('group', 'courier')->where('key', 'fraud_enabled')->update(['value' => '0']);
+    Cache::forget('settings');
+
+    $this->post(route('order.fraudCheck', $this->order->id))
+        ->assertRedirect()
+        ->assertSessionHas('error');
+
+    expect($this->order->fresh()->fraud_checked_at)->toBeNull();
+});
+
+test('posting the fraud check endpoint rejects orders that do not require shipping', function () {
+    $user = User::factory()->create();
+    Role::create(['name' => 'root']);
+    $user->assignRole('root');
+    $this->actingAs($user);
+
+    $digitalOrder = Order::create([
+        'name' => 'Digital Buyer',
+        'phone' => '01712345678',
+        'status' => OrderStatus::Pending,
+        'payment_method' => 'cod',
+        'requires_shipping' => false,
+    ]);
+
+    $this->post(route('order.fraudCheck', $digitalOrder->id))
+        ->assertRedirect()
+        ->assertSessionHas('error');
+
+    expect($digitalOrder->fresh()->fraud_checked_at)->toBeNull();
 });

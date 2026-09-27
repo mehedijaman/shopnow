@@ -43,7 +43,11 @@ test('root sees the courier settings group', function () {
             ->has('settings.steadfast_api_key')
             ->has('settings.steadfast_base_url')
             ->has('settings.fraud_enabled')
-            ->has('settings.fraud_cancel_ratio_threshold'));
+            ->has('settings.fraud_cancel_ratio_threshold')
+            ->has('settings.fraud_steadfast_enabled')
+            ->has('settings.fraud_bdcourier_enabled')
+            ->has('settings.bdcourier_api_key')
+            ->has('settings.bdcourier_endpoint'));
 });
 
 test('courier settings update persists values', function () {
@@ -54,6 +58,10 @@ test('courier settings update persists values', function () {
         'fraud_enabled' => true,
         'fraud_min_deliveries' => '8',
         'fraud_cancel_ratio_threshold' => '35',
+        'fraud_steadfast_enabled' => true,
+        'fraud_bdcourier_enabled' => true,
+        'bdcourier_api_key' => 'bd-key-123',
+        'bdcourier_endpoint' => 'https://api.bdcourier.com',
     ])->assertRedirect();
 
     Cache::forget('settings');
@@ -65,11 +73,21 @@ test('courier settings update persists values', function () {
         ->and($settings['steadfast_base_url'])->toBe('https://portal.packzy.com/api/v1')
         ->and((string) $settings['fraud_enabled'])->toBe('1')
         ->and($settings['fraud_min_deliveries'])->toBe('8')
-        ->and($settings['fraud_cancel_ratio_threshold'])->toBe('35');
+        ->and($settings['fraud_cancel_ratio_threshold'])->toBe('35')
+        ->and((string) $settings['fraud_steadfast_enabled'])->toBe('1')
+        ->and((string) $settings['fraud_bdcourier_enabled'])->toBe('1')
+        ->and($settings['bdcourier_api_key'])->toBe('bd-key-123')
+        ->and($settings['bdcourier_endpoint'])->toBe('https://api.bdcourier.com');
 });
 
 test('courier settings reject an invalid base url', function () {
     $this->actingAs($this->root)->post('/admin/settings/courier', [
         'steadfast_base_url' => 'not-a-url',
     ])->assertSessionHasErrors('steadfast_base_url');
+});
+
+test('courier settings reject an invalid bdcourier endpoint', function () {
+    $this->actingAs($this->root)->post('/admin/settings/courier', [
+        'bdcourier_endpoint' => 'not-a-url',
+    ])->assertSessionHasErrors('bdcourier_endpoint');
 });

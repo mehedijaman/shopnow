@@ -2,71 +2,29 @@
 
 namespace Modules\Courier\Services;
 
-use Azmolla\FraudCheckerBdCourier\Contracts\CourierServiceInterface;
-use Azmolla\FraudCheckerBdCourier\Services\CarrybeeService;
-use Azmolla\FraudCheckerBdCourier\Services\PaperflyService;
-use Azmolla\FraudCheckerBdCourier\Services\PathaoService;
-use Azmolla\FraudCheckerBdCourier\Services\RedxService;
-use Azmolla\FraudCheckerBdCourier\Services\SteadfastService;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Modules\Courier\Services\Fraud\Contracts\FraudProviderInterface;
+use Modules\Courier\Services\Fraud\Providers\BdCourierFraudProvider;
+use Modules\Courier\Services\Fraud\Providers\SteadfastFraudProvider;
 
 /**
- * Aggregates COD cancel history from the configured fraud portals.
+ * Aggregates COD cancel history from the configured fraud sources.
  *
- * Unlike the package's FraudCheckerBdCourierManager — which resolves all five
- * courier services eagerly and therefore explodes when a single portal lacks
- * credentials — this builds each service on demand, skips unconfigured
- * portals, and always returns the same payload shape.
- *
- * SteadFast is queried through the documented authenticated API
- * (GET /fraud_check/score/{phone} with the existing API keys) instead of the
- * package's portal scraper: the older fraud-count endpoint stops returning
- * counts on 27 September 2026, and the web-portal scrape depends on separate
- * credentials that the API keys already replace. The other couriers still
- * use their portal scrapers.
+ * Each source implements FraudProviderInterface: disabled or unconfigured
+ * sources are reported as an error entry and excluded from the aggregate,
+ * so the payload shape is always the same. Risk is decided per source by
+ * the CheckOrderFraud job — one clean source must never mask a bad one.
  */
 class FraudChecker
 {
     /**
-     * Portal key => package service class.
-     *
-     * @var array<string, class-string<CourierServiceInterface>>
-     */
-    private const PORTALS = [
-        'steadfast' => SteadfastService::class,
-        'pathao' => PathaoService::class,
-        'redx' => RedxService::class,
-        'paperfly' => PaperflyService::class,
-        'carrybee' => CarrybeeService::class,
-    ];
-
-    /**
-     * Representative parcel counts per documented volume band, used because
-     * the score endpoint reports bands instead of exact delivery counts.
-     *
-     * @var array<string, int>
-     */
-    private const VOLUME_BAND_DELIVERIES = [
-        'none' => 0,
-        'low' => 5,
-        'medium' => 20,
-        'high' => 200,
-        'very_high' => 250,
-    ];
-
-    /**
-     * @return array<string, mixed> per-portal stats plus an aggregate summary,
-     *                              shaped like the package manager's payload
+     * @return array<string, mixed> per-source stats plus an aggregate summary
      */
     public function check(string $phone): array
     {
         $payload = [
             'steadfast' => null,
-            'pathao' => null,
-            'redx' => null,
-            'paperfly' => null,
-            'carrybee' => null,
+            'bdcourier' => null,
             'aggregate' => [
                 'total_success' => 0,
                 'total_cancel' => 0,
@@ -79,29 +37,15 @@ class FraudChecker
         $totalSuccess = 0;
         $totalCancel = 0;
 
-        foreach (self::PORTALS as $key => $class) {
-            try {
-                $stats = $key === 'steadfast'
-                    ? $this->steadfastApiScore($phone)
-                    : (new $class)->getDeliveryStats($phone);
-                $payload[$key] = $stats;
+        foreach ($this->providers() as $provider) {
+            $stats = $this->runProvider($provider, $phone);
+            $payload[$provider->name()] = $stats;
 
-                if (isset($stats['success'], $stats['cancel'])
-                    && is_numeric($stats['success'])
-                    && is_numeric($stats['cancel'])) {
-                    $totalSuccess += (int) $stats['success'];
-                    $totalCancel += (int) $stats['cancel'];
-                }
-            } catch (\Throwable $e) {
-                Log::error("FraudChecker: {$key} portal failed.", [
-                    'message' => $e->getMessage(),
-                    'phone' => $phone,
-                ]);
-
-                $payload[$key] = [
-                    'error' => 'Service unavailable or failed to process',
-                    'message' => $e->getMessage(),
-                ];
+            if (isset($stats['success'], $stats['cancel'])
+                && is_numeric($stats['success'])
+                && is_numeric($stats['cancel'])) {
+                $totalSuccess += (int) $stats['success'];
+                $totalCancel += (int) $stats['cancel'];
             }
         }
 
@@ -120,95 +64,65 @@ class FraudChecker
     }
 
     /**
-     * Number of portals that actually answered with stats (configured and reachable).
+     * Per-source stats that actually answered (enabled, configured, reachable).
      *
      * @param  array<string, mixed>  $payload
+     * @return array<string, array<string, mixed>>
      */
-    public static function answeredPortals(array $payload): int
+    public static function answeredStats(array $payload): array
     {
         return collect($payload)
             ->except('aggregate')
             ->filter(fn ($value) => is_array($value) && ! array_key_exists('error', $value))
-            ->count();
+            ->all();
     }
 
     /**
-     * GET /fraud_check/score/{phone} using the courier API keys — no portal
-     * login required. Deliberately sent without HTTP retries so a rejected
-     * key can never contribute to the courier's auth-failure lockout budget.
+     * Number of sources that actually answered with stats.
      *
-     * @return array<string, mixed> package-shaped stats or an error entry
+     * @param  array<string, mixed>  $payload
      */
-    private function steadfastApiScore(string $phone): array
+    public static function answeredProviders(array $payload): int
     {
-        $baseUrl = (string) config('courierhub.couriers.steadfast.base_url');
-        $apiKey = (string) config('courierhub.couriers.steadfast.api_key');
-        $secretKey = (string) config('courierhub.couriers.steadfast.secret_key');
+        return count(self::answeredStats($payload));
+    }
 
-        if ($baseUrl === '' || $apiKey === '' || $secretKey === '') {
+    /**
+     * @return array<int, FraudProviderInterface>
+     */
+    private function providers(): array
+    {
+        return [
+            new SteadfastFraudProvider,
+            new BdCourierFraudProvider,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed> normalized stats or an error entry
+     */
+    private function runProvider(FraudProviderInterface $provider, string $phone): array
+    {
+        if (! $provider->enabled()) {
+            return ['error' => 'Disabled'];
+        }
+
+        if (! $provider->configured()) {
             return ['error' => 'Not configured'];
         }
 
         try {
-            $response = Http::withHeaders([
-                'Api-Key' => $apiKey,
-                'Secret-Key' => $secretKey,
-            ])
-                ->acceptJson()
-                ->timeout(15)
-                ->get(rtrim($baseUrl, '/').'/fraud_check/score/'.$phone);
+            return $provider->check($phone);
         } catch (\Throwable $e) {
+            Log::error("FraudChecker: {$provider->name()} source failed.", [
+                'message' => $e->getMessage(),
+                'phone' => $phone,
+            ]);
+
             return [
                 'error' => 'Service unavailable or failed to process',
                 'message' => $e->getMessage(),
             ];
         }
-
-        if ($response->failed()) {
-            return [
-                'error' => 'Service unavailable or failed to process',
-                'status' => $response->status(),
-            ];
-        }
-
-        return $this->mapScoreResponse((array) $response->json());
-    }
-
-    /**
-     * Converts the score endpoint's band/ratio vocabulary into the
-     * success/cancel counts the aggregate expects, while keeping the raw
-     * score fields for the order's fraud_details.
-     *
-     * @return array<string, mixed>
-     */
-    private function mapScoreResponse(array $data): array
-    {
-        $deliveryRatio = is_numeric($data['delivery_ratio'] ?? null) ? (float) $data['delivery_ratio'] : null;
-        $cancellationRatio = is_numeric($data['cancellation_ratio'] ?? null) ? (float) $data['cancellation_ratio'] : null;
-
-        // The documented ratios are percentages; a pair summing to at most
-        // 1.5 can only be a 0–1 fraction, so scale it up to percent.
-        if ($deliveryRatio !== null && $cancellationRatio !== null && ($deliveryRatio + $cancellationRatio) <= 1.5) {
-            $deliveryRatio *= 100;
-            $cancellationRatio *= 100;
-        }
-
-        $band = strtolower((string) ($data['volume_band'] ?? 'none'));
-        $total = self::VOLUME_BAND_DELIVERIES[$band] ?? 0;
-        $cancellationRatio = min(max($cancellationRatio ?? 0.0, 0.0), 100.0);
-        $cancel = (int) round($total * $cancellationRatio / 100);
-
-        return [
-            'success' => max(0, $total - $cancel),
-            'cancel' => $cancel,
-            'total' => $total,
-            'success_ratio' => $total > 0 ? round(((max(0, $total - $cancel)) / $total) * 100, 2) : 0.0,
-            'cancellation_ratio' => $cancellationRatio,
-            'delivery_ratio' => $deliveryRatio,
-            'volume_band' => $data['volume_band'] ?? null,
-            'total_reports' => (int) ($data['total_reports'] ?? 0),
-            'fraud_categories' => is_array($data['fraud_categories'] ?? null) ? $data['fraud_categories'] : [],
-            'source' => 'steadfast-api',
-        ];
     }
 }

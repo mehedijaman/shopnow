@@ -50,21 +50,35 @@ class CheckOrderFraud implements ShouldQueue
 
         $payload = $checker->check($phone);
 
-        if (FraudChecker::answeredPortals($payload) === 0) {
-            Log::info('Fraud check skipped: no courier portal answered.', [
+        $answered = FraudChecker::answeredStats($payload);
+
+        if ($answered === []) {
+            Log::info('Fraud check skipped: no fraud source answered.', [
                 'order_id' => $order->id,
             ]);
 
             return;
         }
 
-        $aggregate = $payload['aggregate'];
+        $minDeliveries = (int) setting('courier.fraud_min_deliveries', 5);
+        $threshold = (float) setting('courier.fraud_cancel_ratio_threshold', 40);
 
         $risk = 'low';
 
-        if ($aggregate['total_deliveries'] >= (int) setting('courier.fraud_min_deliveries', 5)
-            && $aggregate['cancel_ratio'] >= (float) setting('courier.fraud_cancel_ratio_threshold', 40)) {
-            $risk = 'high';
+        // Risk is decided per source: one clean source must never mask
+        // another source's red flags.
+        foreach ($answered as $stats) {
+            $total = (int) ($stats['total'] ?? 0);
+
+            if ($total < $minDeliveries) {
+                continue;
+            }
+
+            $cancelRatio = round(((int) ($stats['cancel'] ?? 0)) / $total * 100, 2);
+
+            if ($cancelRatio >= $threshold) {
+                $risk = 'high';
+            }
         }
 
         if ($this->reportedFraud($payload)) {
@@ -79,23 +93,28 @@ class CheckOrderFraud implements ShouldQueue
     }
 
     /**
-     * True when any courier reported fraud reports or fraud categories
-     * against the phone, regardless of the delivery/cancel thresholds.
+     * True when any fraud source reported fraud reports, fraud categories,
+     * or courier fraud reports against the phone, regardless of the
+     * delivery/cancel thresholds.
      *
      * @param  array<string, mixed>  $payload
      */
     private function reportedFraud(array $payload): bool
     {
-        foreach ($payload as $key => $portal) {
-            if ($key === 'aggregate' || ! is_array($portal)) {
+        foreach ($payload as $key => $stats) {
+            if ($key === 'aggregate' || ! is_array($stats)) {
                 continue;
             }
 
-            if ((int) ($portal['total_reports'] ?? 0) > 0) {
+            if ((int) ($stats['total_reports'] ?? 0) > 0) {
                 return true;
             }
 
-            if (! empty($portal['fraud_categories']) && is_array($portal['fraud_categories'])) {
+            if (! empty($stats['fraud_categories']) && is_array($stats['fraud_categories'])) {
+                return true;
+            }
+
+            if (! empty($stats['reports']) && is_array($stats['reports'])) {
                 return true;
             }
         }
