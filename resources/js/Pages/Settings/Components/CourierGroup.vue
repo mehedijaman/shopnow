@@ -1,235 +1,336 @@
 <template>
     <div class="space-y-6">
-        <div class="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-            Courier credentials are stored server-side and never exposed to customers. Enable sandbox mode for new
-            integrations and register https://your-domain/webhooks/courier/{provider} in each courier dashboard to
-            receive status updates.
-        </div>
+        <!-- Security notice -->
+        <AppAlert type="warning">
+            <span class="text-sm leading-6">
+                <span class="font-semibold">{{ __('Credentials are stored server-side') }}</span>
+                {{ __('and never exposed to customers. Enable sandbox mode while testing, and register') }}
+                <code class="rounded bg-skin-neutral-1 px-1 py-0.5 text-xs font-semibold">{{ __('/webhooks/courier/{provider}') }}</code>
+                {{ __('in each courier dashboard to receive status updates.') }}
+            </span>
+        </AppAlert>
 
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-                <AppLabel for="default_courier" :value="__('Default Courier')" />
-                <p class="mb-1 text-xs text-skin-neutral-9">Courier provider used for shipment booking.</p>
-                <select
-                    id="default_courier"
-                    v-model="form.default_courier"
-                    class="block w-full rounded-md bg-skin-neutral-1 px-3 py-2 text-sm ring-1 ring-skin-neutral-7 focus:outline-hidden focus:ring-2 focus:ring-skin-primary-10"
-                    :class="{ 'input-error': errorsFields.includes('default_courier') }"
-                >
-                    <option v-for="c in couriers" :key="c.key" :value="c.key">{{ c.label }}</option>
-                </select>
-                <p v-if="errorsFields.includes('default_courier')" class="mt-1 text-sm text-red-500">
-                    {{ errors.default_courier }}
+        <!-- ── Shipment defaults ── -->
+        <section>
+            <div class="mb-3">
+                <h3 class="text-sm font-semibold text-skin-neutral-12">{{ __('Shipment Defaults') }}</h3>
+                <p class="mt-0.5 text-xs text-skin-neutral-9">
+                    {{ __('Applied to every booking when no per-order value is provided.') }}
                 </p>
             </div>
 
-            <div>
-                <AppLabel for="default_weight_kg" :value="__('Default Parcel Weight (kg)')" />
-                <p class="mb-1 text-xs text-skin-neutral-9">Sent to couriers when booking. Products do not store weight.</p>
-                <AppInputText
-                    id="default_weight_kg"
-                    v-model="form.default_weight_kg"
-                    type="number"
-                    step="0.1"
-                    min="0.1"
-                    placeholder="1"
-                    :class="{ 'input-error': errorsFields.includes('default_weight_kg') }"
-                />
-                <p v-if="errorsFields.includes('default_weight_kg')" class="mt-1 text-sm text-red-500">
-                    {{ errors.default_weight_kg }}
-                </p>
-            </div>
-        </div>
-
-        <div
-            v-for="courier in couriers"
-            :key="courier.key"
-            class="divide-y divide-skin-neutral-3 rounded-lg border border-skin-neutral-4"
-        >
-            <div class="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
+            <div class="grid grid-cols-1 gap-5 rounded-lg border border-skin-neutral-4 bg-skin-neutral-2/40 p-4 sm:grid-cols-2">
                 <div>
-                    <p class="text-sm font-semibold text-skin-neutral-12">{{ courier.label }}</p>
-                    <p class="mt-0.5 text-xs text-skin-neutral-9">API credentials for booking and tracking.</p>
+                    <AppLabel for="default_courier" :value="__('Default Courier')" />
+                    <p class="mb-1 text-xs text-skin-neutral-9">{{ __('Courier provider used for shipment booking.') }}</p>
+                    <select
+                        id="default_courier"
+                        v-model="form.default_courier"
+                        class="block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-sm text-skin-neutral-12 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-primary-9"
+                        :class="{ 'input-error': errorsFields.includes('default_courier') }"
+                    >
+                        <option v-for="c in couriers" :key="c.key" :value="c.key">{{ c.label }}</option>
+                    </select>
+                    <p v-if="errorsFields.includes('default_courier')" class="mt-1 text-sm text-red-500">
+                        {{ errors.default_courier }}
+                    </p>
                 </div>
-                <div class="flex items-center gap-5">
-                    <label v-if="courier.sandbox" class="flex items-center gap-2 text-sm text-skin-neutral-11">
-                        <input
-                            v-model="form[`${courier.key}_sandbox`]"
-                            type="checkbox"
-                            class="h-4 w-4 rounded border-skin-neutral-7 text-skin-primary-9 focus:ring-skin-primary-8"
-                        />
-                        {{ __('Sandbox') }}
-                    </label>
-                    <button
-                        type="button"
-                        role="switch"
-                        :aria-checked="form[`${courier.key}_enabled`]"
-                        class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-skin-primary-8 focus:ring-offset-2"
-                        :class="form[`${courier.key}_enabled`] ? 'bg-skin-primary-10' : 'bg-skin-neutral-5'"
-                        @click="form[`${courier.key}_enabled`] = !form[`${courier.key}_enabled`]"
+
+                <div>
+                    <AppLabel for="default_weight_kg" :value="__('Default Parcel Weight (kg)')" />
+                    <p class="mb-1 text-xs text-skin-neutral-9">
+                        {{ __('Sent to couriers when booking. Products do not store weight.') }}
+                    </p>
+                    <AppInputText
+                        id="default_weight_kg"
+                        v-model="form.default_weight_kg"
+                        type="number"
+                        step="0.1"
+                        min="0.1"
+                        placeholder="1"
+                        :class="{ 'input-error': errorsFields.includes('default_weight_kg') }"
+                    />
+                    <p v-if="errorsFields.includes('default_weight_kg')" class="mt-1 text-sm text-red-500">
+                        {{ errors.default_weight_kg }}
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Courier providers ── -->
+        <section>
+            <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+                <div>
+                    <h3 class="text-sm font-semibold text-skin-neutral-12">{{ __('Courier Providers') }}</h3>
+                    <p class="mt-0.5 text-xs text-skin-neutral-9">
+                        {{ __('Connect the courier accounts you book shipments with.') }}
+                    </p>
+                </div>
+                <span
+                    class="rounded-full border border-skin-neutral-4 bg-skin-neutral-2 px-2.5 py-1 text-[11px] font-semibold text-skin-neutral-11"
+                >
+                    {{ enabledCount }} / {{ couriers.length }} {{ __('enabled') }}
+                </span>
+            </div>
+
+            <div class="space-y-4">
+                <article
+                    v-for="courier in couriers"
+                    :key="courier.key"
+                    class="overflow-hidden rounded-lg border transition-colors"
+                    :class="isEnabled(courier.key) ? 'border-skin-neutral-5' : 'border-skin-neutral-4 bg-skin-neutral-2/40'"
+                >
+                    <header
+                        class="flex flex-wrap items-center gap-3 border-b px-4 py-3"
+                        :class="isEnabled(courier.key) ? 'border-skin-neutral-4 bg-skin-neutral-2' : 'border-skin-neutral-4 bg-skin-neutral-3/60'"
                     >
                         <span
-                            class="inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform duration-200"
-                            :class="form[`${courier.key}_enabled`] ? 'translate-x-6' : 'translate-x-1'"
-                        />
-                    </button>
-                </div>
-            </div>
+                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-skin-neutral-1 text-skin-neutral-11 ring-1 ring-skin-neutral-4"
+                        >
+                            <i :class="courier.icon" class="text-lg"></i>
+                        </span>
 
-            <div class="grid grid-cols-1 gap-6 px-4 py-4 sm:grid-cols-2">
-                <div v-for="field in courier.fields" :key="field.key">
-                    <AppLabel :for="`${courier.key}_${field.key}`" :value="__(field.label)" />
-                    <AppInputText
-                        :id="`${courier.key}_${field.key}`"
-                        v-model="form[`${courier.key}_${field.key}`]"
-                        :type="field.type || 'text'"
-                        :class="{ 'input-error': errorsFields.includes(`${courier.key}_${field.key}`) }"
-                    />
-                    <p
-                        v-if="errorsFields.includes(`${courier.key}_${field.key}`)"
-                        class="mt-1 text-sm text-red-500"
-                    >
-                        {{ errors[`${courier.key}_${field.key}`] }}
-                    </p>
-                </div>
+                        <div class="min-w-0 flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <p class="text-sm font-semibold text-skin-neutral-12">{{ courier.label }}</p>
+                                <span
+                                    v-if="form.default_courier === courier.key"
+                                    class="rounded-full bg-skin-primary-10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-skin-neutral-1"
+                                >
+                                    {{ __('Default') }}
+                                </span>
+                            </div>
+                            <p class="mt-0.5 text-xs text-skin-neutral-9">{{ courier.description }}</p>
+                        </div>
 
-                <div>
-                    <AppLabel :for="`${courier.key}_webhook_secret`" :value="__('Webhook Secret')" />
-                    <p class="mb-1 text-xs text-skin-neutral-9">Verifies incoming status webhooks via HMAC signature.</p>
-                    <AppInputText
-                        :id="`${courier.key}_webhook_secret`"
-                        v-model="form[`${courier.key}_webhook_secret`]"
-                        type="password"
-                        autocomplete="new-password"
-                        :class="{ 'input-error': errorsFields.includes(`${courier.key}_webhook_secret`) }"
-                    />
-                    <p
-                        v-if="errorsFields.includes(`${courier.key}_webhook_secret`)"
-                        class="mt-1 text-sm text-red-500"
-                    >
-                        {{ errors[`${courier.key}_webhook_secret`] }}
-                    </p>
-                </div>
-
-                <div>
-                    <AppLabel :for="`${courier.key}_tracking_url`" :value="__('Tracking URL Template')" />
-                    <p class="mb-1 text-xs text-skin-neutral-9">Tracking link containing {tracking}, e.g. https://…/track?code={tracking}</p>
-                    <AppInputText
-                        :id="`${courier.key}_tracking_url`"
-                        v-model="form[`${courier.key}_tracking_url`]"
-                        placeholder="https://…/track/{tracking}"
-                        :class="{ 'input-error': errorsFields.includes(`${courier.key}_tracking_url`) }"
-                    />
-                    <p
-                        v-if="errorsFields.includes(`${courier.key}_tracking_url`)"
-                        class="mt-1 text-sm text-red-500"
-                    >
-                        {{ errors[`${courier.key}_tracking_url`] }}
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="rounded-lg border border-skin-neutral-4">
-            <div class="flex items-center justify-between gap-4 border-b border-skin-neutral-4 px-4 py-3">
-                <div>
-                    <p class="text-sm font-semibold text-skin-neutral-12">{{ __('COD Fraud Checks') }}</p>
-                    <p class="mt-0.5 text-xs text-skin-neutral-9">
-                        Check a customer's cancel history across couriers after placing an order. High-risk orders are
-                        flagged and require confirmation before booking.
-                    </p>
-                </div>
-                <button
-                    type="button"
-                    role="switch"
-                    :aria-checked="form.fraud_enabled"
-                    class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-skin-primary-8 focus:ring-offset-2"
-                    :class="form.fraud_enabled ? 'bg-skin-primary-10' : 'bg-skin-neutral-5'"
-                    @click="form.fraud_enabled = !form.fraud_enabled"
-                >
-                    <span
-                        class="inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform duration-200"
-                        :class="form.fraud_enabled ? 'translate-x-6' : 'translate-x-1'"
-                    />
-                </button>
-            </div>
-
-            <div class="grid grid-cols-1 gap-6 px-4 py-4 sm:grid-cols-2">
-                <div>
-                    <AppLabel for="fraud_min_deliveries" :value="__('Minimum Deliveries Before Flagging')" />
-                    <p class="mb-1 text-xs text-skin-neutral-9">Customers below this delivery count are never flagged.</p>
-                    <AppInputText
-                        id="fraud_min_deliveries"
-                        v-model="form.fraud_min_deliveries"
-                        type="number"
-                        min="0"
-                        :class="{ 'input-error': errorsFields.includes('fraud_min_deliveries') }"
-                    />
-                    <p v-if="errorsFields.includes('fraud_min_deliveries')" class="mt-1 text-sm text-red-500">
-                        {{ errors.fraud_min_deliveries }}
-                    </p>
-                </div>
-
-                <div>
-                    <AppLabel for="fraud_cancel_ratio_threshold" :value="__('Cancel Ratio Threshold (%)')" />
-                    <p class="mb-1 text-xs text-skin-neutral-9">Flag as high risk at or above this cancel ratio.</p>
-                    <AppInputText
-                        id="fraud_cancel_ratio_threshold"
-                        v-model="form.fraud_cancel_ratio_threshold"
-                        type="number"
-                        min="0"
-                        max="100"
-                        :class="{ 'input-error': errorsFields.includes('fraud_cancel_ratio_threshold') }"
-                    />
-                    <p v-if="errorsFields.includes('fraud_cancel_ratio_threshold')" class="mt-1 text-sm text-red-500">
-                        {{ errors.fraud_cancel_ratio_threshold }}
-                    </p>
-                </div>
-
-                <div v-for="portal in fraudPortals" :key="portal.key" class="sm:col-span-2">
-                    <p class="mb-2 text-sm font-medium text-skin-neutral-12">{{ portal.label }}</p>
-                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                        <div>
-                            <AppLabel :for="`fraud_${portal.key}_${portal.userKey}`" :value="portal.userLabel" />
-                            <AppInputText
-                                :id="`fraud_${portal.key}_${portal.userKey}`"
-                                v-model="form[`fraud_${portal.key}_${portal.userKey}`]"
-                                :class="{
-                                    'input-error': errorsFields.includes(`fraud_${portal.key}_${portal.userKey}`),
-                                }"
-                            />
-                            <p
-                                v-if="errorsFields.includes(`fraud_${portal.key}_${portal.userKey}`)"
-                                class="mt-1 text-sm text-red-500"
+                        <div class="flex items-center gap-3">
+                            <label
+                                v-if="courier.sandbox"
+                                class="flex cursor-pointer items-center gap-2 text-xs font-medium text-skin-neutral-11"
                             >
-                                {{ errors[`fraud_${portal.key}_${portal.userKey}`] }}
+                                <AppCheckbox v-model="form[`${courier.key}_sandbox`]" />
+                                {{ __('Sandbox') }}
+                            </label>
+                            <span
+                                class="rounded-full px-2 py-1 text-[11px] font-semibold"
+                                :class="isEnabled(courier.key) ? 'bg-skin-success-light text-skin-success' : 'bg-skin-neutral-4 text-skin-neutral-11'"
+                            >
+                                {{ isEnabled(courier.key) ? __('Enabled') : __('Disabled') }}
+                            </span>
+                            <AppSwitch v-model="form[`${courier.key}_enabled`]" />
+                        </div>
+                    </header>
+
+                    <div class="p-4">
+                        <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-skin-neutral-9">
+                            {{ __('API Credentials') }}
+                        </p>
+                        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                            <div v-for="field in courier.fields" :key="field.key">
+                                <AppLabel :for="`${courier.key}_${field.key}`" :value="__(field.label)" />
+                                <p v-if="field.hint" class="mb-1 text-xs text-skin-neutral-9">{{ field.hint }}</p>
+                                <AppInputText
+                                    :id="`${courier.key}_${field.key}`"
+                                    v-model="form[`${courier.key}_${field.key}`]"
+                                    :type="field.type || 'text'"
+                                    :placeholder="field.placeholder || ''"
+                                    :autocomplete="field.type === 'password' ? 'new-password' : undefined"
+                                    :class="{ 'input-error': errorsFields.includes(`${courier.key}_${field.key}`) }"
+                                />
+                                <p
+                                    v-if="errorsFields.includes(`${courier.key}_${field.key}`)"
+                                    class="mt-1 text-sm text-red-500"
+                                >
+                                    {{ errors[`${courier.key}_${field.key}`] }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 border-t border-skin-neutral-4 pt-4">
+                            <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-skin-neutral-9">
+                                <i class="ri-webhook-line mr-1"></i>{{ __('Webhooks & Tracking') }}
+                            </p>
+                            <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                                <div>
+                                    <AppLabel :for="`${courier.key}_webhook_secret`" :value="__('Webhook Secret')" />
+                                    <p class="mb-1 text-xs text-skin-neutral-9">
+                                        {{ __('Verifies incoming status webhooks via HMAC signature.') }}
+                                    </p>
+                                    <AppInputText
+                                        :id="`${courier.key}_webhook_secret`"
+                                        v-model="form[`${courier.key}_webhook_secret`]"
+                                        type="password"
+                                        autocomplete="new-password"
+                                        :class="{ 'input-error': errorsFields.includes(`${courier.key}_webhook_secret`) }"
+                                    />
+                                    <p
+                                        v-if="errorsFields.includes(`${courier.key}_webhook_secret`)"
+                                        class="mt-1 text-sm text-red-500"
+                                    >
+                                        {{ errors[`${courier.key}_webhook_secret`] }}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <AppLabel :for="`${courier.key}_tracking_url`" :value="__('Tracking URL Template')" />
+                                    <p class="mb-1 text-xs text-skin-neutral-9">
+                                        {{ __('Tracking link containing {tracking}, e.g. https://…/track?code={tracking}') }}
+                                    </p>
+                                    <AppInputText
+                                        :id="`${courier.key}_tracking_url`"
+                                        v-model="form[`${courier.key}_tracking_url`]"
+                                        placeholder="https://…/track/{tracking}"
+                                        :class="{ 'input-error': errorsFields.includes(`${courier.key}_tracking_url`) }"
+                                    />
+                                    <p
+                                        v-if="errorsFields.includes(`${courier.key}_tracking_url`)"
+                                        class="mt-1 text-sm text-red-500"
+                                    >
+                                        {{ errors[`${courier.key}_tracking_url`] }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- ── COD fraud checks ── -->
+        <section>
+            <div class="mb-3">
+                <h3 class="text-sm font-semibold text-skin-neutral-12">{{ __('COD Fraud Checks') }}</h3>
+                <p class="mt-0.5 text-xs text-skin-neutral-9">
+                    {{ __('Flag high-risk COD customers and confirm them before booking.') }}
+                </p>
+            </div>
+
+            <div class="overflow-hidden rounded-lg border border-skin-neutral-4 bg-skin-neutral-2/40">
+                <header
+                    class="flex flex-wrap items-center justify-between gap-4 border-b border-skin-neutral-4 bg-skin-neutral-3/60 px-4 py-3"
+                >
+                    <div class="flex min-w-0 items-center gap-3">
+                        <span
+                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-skin-neutral-1 text-skin-neutral-11 ring-1 ring-skin-neutral-4"
+                        >
+                            <i class="ri-shield-check-line text-lg"></i>
+                        </span>
+                        <p class="max-w-2xl text-xs text-skin-neutral-9">
+                            {{ __('Check a customer\'s cancel history across couriers after placing an order. High-risk orders are flagged and require confirmation before booking.') }}
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span
+                            class="rounded-full px-2 py-1 text-[11px] font-semibold"
+                            :class="form.fraud_enabled ? 'bg-skin-success-light text-skin-success' : 'bg-skin-neutral-4 text-skin-neutral-11'"
+                        >
+                            {{ form.fraud_enabled ? __('Enabled') : __('Disabled') }}
+                        </span>
+                        <AppSwitch v-model="form.fraud_enabled" />
+                    </div>
+                </header>
+
+                <div class="space-y-5 p-4">
+                    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                        <div>
+                            <AppLabel for="fraud_min_deliveries" :value="__('Minimum Deliveries Before Flagging')" />
+                            <p class="mb-1 text-xs text-skin-neutral-9">
+                                {{ __('Customers below this delivery count are never flagged.') }}
+                            </p>
+                            <AppInputText
+                                id="fraud_min_deliveries"
+                                v-model="form.fraud_min_deliveries"
+                                type="number"
+                                min="0"
+                                :class="{ 'input-error': errorsFields.includes('fraud_min_deliveries') }"
+                            />
+                            <p v-if="errorsFields.includes('fraud_min_deliveries')" class="mt-1 text-sm text-red-500">
+                                {{ errors.fraud_min_deliveries }}
                             </p>
                         </div>
+
                         <div>
-                            <AppLabel :for="`fraud_${portal.key}_password`" :value="__('Password')" />
-                            <AppInputText
-                                :id="`fraud_${portal.key}_password`"
-                                v-model="form[`fraud_${portal.key}_password`]"
-                                type="password"
-                                autocomplete="new-password"
-                                :class="{ 'input-error': errorsFields.includes(`fraud_${portal.key}_password`) }"
-                            />
-                            <p
-                                v-if="errorsFields.includes(`fraud_${portal.key}_password`)"
-                                class="mt-1 text-sm text-red-500"
-                            >
-                                {{ errors[`fraud_${portal.key}_password`] }}
+                            <AppLabel for="fraud_cancel_ratio_threshold" :value="__('Cancel Ratio Threshold (%)')" />
+                            <p class="mb-1 text-xs text-skin-neutral-9">
+                                {{ __('Flag as high risk at or above this cancel ratio.') }}
                             </p>
+                            <AppInputText
+                                id="fraud_cancel_ratio_threshold"
+                                v-model="form.fraud_cancel_ratio_threshold"
+                                type="number"
+                                min="0"
+                                max="100"
+                                :class="{ 'input-error': errorsFields.includes('fraud_cancel_ratio_threshold') }"
+                            />
+                            <p v-if="errorsFields.includes('fraud_cancel_ratio_threshold')" class="mt-1 text-sm text-red-500">
+                                {{ errors.fraud_cancel_ratio_threshold }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-skin-neutral-4 pt-4">
+                        <p class="text-xs font-semibold uppercase tracking-wide text-skin-neutral-9">
+                            {{ __('Portal Credentials') }}
+                        </p>
+                        <p class="mb-3 mt-0.5 text-xs text-skin-neutral-9">
+                            {{ __('Portal logins used to check cancel history — not your API keys.') }}
+                        </p>
+
+                        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                            <div
+                                v-for="portal in fraudPortals"
+                                :key="portal.key"
+                                class="rounded-lg border border-skin-neutral-4 bg-skin-neutral-1 p-4"
+                            >
+                                <p class="mb-3 flex items-center gap-2 text-sm font-semibold text-skin-neutral-12">
+                                    <i class="ri-user-settings-line text-base text-skin-neutral-9"></i>
+                                    {{ portal.label }}
+                                </p>
+                                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                    <div>
+                                        <AppLabel :for="`fraud_${portal.key}_${portal.userKey}`" :value="portal.userLabel" />
+                                        <AppInputText
+                                            :id="`fraud_${portal.key}_${portal.userKey}`"
+                                            v-model="form[`fraud_${portal.key}_${portal.userKey}`]"
+                                            :class="{
+                                                'input-error': errorsFields.includes(`fraud_${portal.key}_${portal.userKey}`),
+                                            }"
+                                        />
+                                        <p
+                                            v-if="errorsFields.includes(`fraud_${portal.key}_${portal.userKey}`)"
+                                            class="mt-1 text-sm text-red-500"
+                                        >
+                                            {{ errors[`fraud_${portal.key}_${portal.userKey}`] }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <AppLabel :for="`fraud_${portal.key}_password`" :value="__('Password')" />
+                                        <AppInputText
+                                            :id="`fraud_${portal.key}_password`"
+                                            v-model="form[`fraud_${portal.key}_password`]"
+                                            type="password"
+                                            autocomplete="new-password"
+                                            :class="{ 'input-error': errorsFields.includes(`fraud_${portal.key}_password`) }"
+                                        />
+                                        <p
+                                            v-if="errorsFields.includes(`fraud_${portal.key}_password`)"
+                                            class="mt-1 text-sm text-red-500"
+                                        >
+                                            {{ errors[`fraud_${portal.key}_password`] }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 </template>
 
 <script setup>
-import { inject } from 'vue'
+import { computed, inject } from 'vue'
 import useFormErrors from '@/Composables/useFormErrors'
 
 defineProps({
@@ -243,49 +344,64 @@ const couriers = [
     {
         key: 'pathao',
         label: 'Pathao',
+        icon: 'ri-e-bike-line',
+        description: 'City and nationwide delivery — requires Pathao store credentials.',
         sandbox: true,
         fields: [
-            { key: 'client_id', label: 'Client ID' },
-            { key: 'client_secret', label: 'Client Secret', type: 'password' },
-            { key: 'username', label: 'Username' },
-            { key: 'password', label: 'Password', type: 'password' },
-            { key: 'store_id', label: 'Store ID' },
+            { key: 'client_id', label: 'Client ID', placeholder: 'Pathao client ID' },
+            { key: 'client_secret', label: 'Client Secret', type: 'password', placeholder: '••••••••' },
+            { key: 'username', label: 'Username', placeholder: 'Portal username' },
+            { key: 'password', label: 'Password', type: 'password', placeholder: '••••••••' },
+            { key: 'store_id', label: 'Store ID', placeholder: 'Store ID' },
         ],
     },
-        {
-            key: 'steadfast',
-            label: 'Steadfast',
-            sandbox: false,
-            fields: [
-                { key: 'api_key', label: 'API Key' },
-                { key: 'secret_key', label: 'Secret Key', type: 'password' },
-                { key: 'base_url', label: 'API Base URL' },
-            ],
-        },
+    {
+        key: 'steadfast',
+        label: 'Steadfast',
+        icon: 'ri-flashlight-line',
+        description: 'Nationwide COD delivery — requires an API key and secret key.',
+        sandbox: false,
+        fields: [
+            { key: 'api_key', label: 'API Key', placeholder: 'Steadfast API key' },
+            { key: 'secret_key', label: 'Secret Key', type: 'password', placeholder: '••••••••' },
+            {
+                key: 'base_url',
+                label: 'API Base URL',
+                hint: 'Leave empty to use the default Steadfast endpoint.',
+                placeholder: 'https://portal.steadfast.com.bd/api/v1',
+            },
+        ],
+    },
     {
         key: 'redx',
         label: 'RedX',
+        icon: 'ri-flight-takeoff-line',
+        description: 'Nationwide parcel delivery — requires an access token.',
         sandbox: true,
-        fields: [{ key: 'access_token', label: 'Access Token', type: 'password' }],
+        fields: [{ key: 'access_token', label: 'Access Token', type: 'password', placeholder: '••••••••' }],
     },
     {
         key: 'ecourier',
         label: 'eCourier',
+        icon: 'ri-truck-line',
+        description: 'Corporate courier service — requires API key, secret and user ID.',
         sandbox: true,
         fields: [
-            { key: 'api_key', label: 'API Key' },
-            { key: 'api_secret', label: 'API Secret', type: 'password' },
-            { key: 'user_id', label: 'User ID' },
+            { key: 'api_key', label: 'API Key', placeholder: 'eCourier API key' },
+            { key: 'api_secret', label: 'API Secret', type: 'password', placeholder: '••••••••' },
+            { key: 'user_id', label: 'User ID', placeholder: 'User ID' },
         ],
     },
     {
         key: 'paperfly',
         label: 'Paperfly',
+        icon: 'ri-send-plane-2-line',
+        description: 'Nationwide delivery — requires portal username, password and API key.',
         sandbox: false,
         fields: [
-            { key: 'username', label: 'Username' },
-            { key: 'password', label: 'Password', type: 'password' },
-            { key: 'api_key', label: 'API Key' },
+            { key: 'username', label: 'Username', placeholder: 'Portal username' },
+            { key: 'password', label: 'Password', type: 'password', placeholder: '••••••••' },
+            { key: 'api_key', label: 'API Key', placeholder: 'Paperfly API key' },
         ],
     },
 ]
@@ -297,4 +413,10 @@ const fraudPortals = [
     { key: 'paperfly', userKey: 'user', label: 'Paperfly Portal', userLabel: 'Username' },
     { key: 'carrybee', userKey: 'phone', label: 'Carrybee Portal', userLabel: 'Phone' },
 ]
+
+function isEnabled(key) {
+    return Boolean(form[`${key}_enabled`])
+}
+
+const enabledCount = computed(() => couriers.filter((courier) => isEnabled(courier.key)).length)
 </script>

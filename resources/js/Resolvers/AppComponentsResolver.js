@@ -19,6 +19,7 @@ const componentGroups = {
         'AppInputText',
         'AppLabel',
         'AppRadioButton',
+        'AppSwitch',
         'AppTextArea',
         'AppTipTapEditor'
     ],
