@@ -287,6 +287,20 @@
                                 {{ order.payment_status }}
                             </span>
                         </div>
+
+                        <div v-if="invoiceShipment?.tracking_number" class="flex items-center justify-between gap-2 text-xs">
+                            <span class="font-bold tracking-wider text-black shrink-0">Tracking No:</span>
+                            <a v-if="invoiceShipment.tracking_url" :href="invoiceShipment.tracking_url" target="_blank"
+                                rel="noopener noreferrer"
+                                class="font-mono font-bold text-black text-right hover:underline break-all">
+                                {{ invoiceShipment.tracking_number }}
+                            </a>
+                            <span v-else class="font-mono font-bold text-black text-right break-all">{{ invoiceShipment.tracking_number }}</span>
+                        </div>
+                        <div v-if="invoiceShipment?.consignment_id" class="flex items-center justify-between gap-2 text-xs">
+                            <span class="font-bold tracking-wider text-black shrink-0">Consignment ID:</span>
+                            <span class="font-mono font-bold text-black text-right break-all">{{ invoiceShipment.consignment_id }}</span>
+                        </div>
                     </div>
                 </div>
 
@@ -683,6 +697,9 @@ const courierLabel = (provider) => courierLabels[provider] || provider || 'couri
 
 const hasTracking = computed(() =>
     (props.order.orderShipments || []).some((shipment) => shipment.tracking_number))
+
+const invoiceShipment = computed(() =>
+    (props.order.orderShipments || []).find((shipment) => shipment.tracking_number || shipment.consignment_id) || null)
 
 const fraudSummary = computed(() => {
     const aggregate = props.order.fraud_details?.aggregate
