@@ -143,6 +143,165 @@
                 </div>
             </div>
 
+            <!-- Fraud Check Card -->
+            <OrderSectionCard v-if="order.requires_shipping" title="Fraud Check"
+                description="COD cancel history across courier sources" icon="ri-shield-check-line"
+                icon-class="bg-rose-50 text-rose-600 ring-1 ring-rose-500/10">
+                <template #badge>
+                    <span v-if="order.fraud_risk === 'high'"
+                        class="inline-flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1 text-xs font-bold text-rose-700 ring-1 ring-rose-200 ring-inset">
+                        <i class="ri-shield-star-line"></i> High Risk
+                    </span>
+                    <span v-else-if="order.fraud_risk"
+                        class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 ring-1 ring-emerald-200 ring-inset">
+                        <i class="ri-shield-check-line"></i> Low Risk
+                    </span>
+                    <span v-else
+                        class="inline-flex items-center gap-1.5 rounded-full bg-skin-neutral-3 px-3 py-1 text-xs font-bold text-skin-neutral-11 ring-1 ring-skin-neutral-4 ring-inset">
+                        <i class="ri-shield-line"></i> Not Checked
+                    </span>
+                </template>
+
+                <div class="space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <p v-if="order.fraud_checked_at" class="text-xs text-skin-neutral-9">
+                            <i class="ri-time-line mr-1"></i>Last checked {{ order.fraud_checked_at }}
+                        </p>
+                        <p v-else class="text-xs text-skin-neutral-9">
+                            {{ __('No fraud check has run for this order yet.') }}
+                        </p>
+                        <button type="button"
+                            class="inline-flex items-center gap-1.5 rounded-lg bg-skin-neutral-3 px-3 py-1.5 text-xs font-semibold text-skin-neutral-11 transition-colors hover:bg-skin-neutral-4 disabled:opacity-60"
+                            :disabled="fraudChecking" @click="runFraudCheck">
+                            <i :class="fraudChecking ? 'ri-loader-4-line animate-spin' : 'ri-search-eye-line'"></i>
+                            {{ fraudChecking ? __('Checking…') : (order.fraud_checked_at ? __('Re-run Check') : __('Run Check')) }}
+                        </button>
+                    </div>
+
+                    <div v-if="!order.fraud_checked_at"
+                        class="rounded-xl border border-dashed border-skin-neutral-4 bg-skin-neutral-2/40 p-4 text-xs text-skin-neutral-9">
+                        {{ __('The check runs automatically for COD orders at checkout, or use Run Check above. Results come from the fraud sources enabled in Settings → Courier.') }}
+                    </div>
+
+                    <template v-else>
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="rounded-xl border border-skin-neutral-4 bg-skin-neutral-2/40 p-3 text-center">
+                                <p class="text-lg font-extrabold text-skin-neutral-12">{{ fraudAggregate.total_deliveries ?? 0 }}</p>
+                                <p class="text-[11px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('Deliveries') }}</p>
+                            </div>
+                            <div class="rounded-xl border border-skin-neutral-4 bg-skin-neutral-2/40 p-3 text-center">
+                                <p class="text-lg font-extrabold"
+                                    :class="fraudCancelRatio >= 40 ? 'text-rose-600' : 'text-skin-neutral-12'">
+                                    {{ fraudCancelRatio.toFixed(1) }}%
+                                </p>
+                                <p class="text-[11px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('Cancel Ratio') }}</p>
+                            </div>
+                            <div class="rounded-xl border border-skin-neutral-4 bg-skin-neutral-2/40 p-3 text-center">
+                                <p class="text-lg font-extrabold text-skin-neutral-12">{{ Number(fraudAggregate.success_ratio ?? 0).toFixed(1) }}%</p>
+                                <p class="text-[11px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('Success Ratio') }}</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-skin-neutral-9">
+                                {{ __('Sources Checked') }}
+                            </p>
+
+                            <div v-for="source in fraudSources" :key="source.key"
+                                class="rounded-xl border border-skin-neutral-4 bg-skin-neutral-1 p-3">
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <p class="flex items-center gap-2 text-sm font-semibold text-skin-neutral-12">
+                                        <i :class="source.icon" class="text-skin-neutral-9"></i>
+                                        {{ source.label }}
+                                    </p>
+                                    <span v-if="source.answered"
+                                        class="rounded-full bg-skin-success-light px-2 py-0.5 text-[11px] font-semibold text-skin-success">
+                                        {{ __('Answered') }}
+                                    </span>
+                                    <span v-else
+                                        class="rounded-full bg-skin-neutral-3 px-2 py-0.5 text-[11px] font-semibold text-skin-neutral-11">
+                                        {{ source.error || __('No data') }}
+                                    </span>
+                                </div>
+
+                                <div v-if="source.answered" class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                                    <div class="rounded-lg bg-skin-neutral-2/60 p-2 text-center">
+                                        <p class="text-sm font-bold text-skin-neutral-12">{{ source.stats.total ?? 0 }}</p>
+                                        <p class="text-[10px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('Parcels') }}</p>
+                                    </div>
+                                    <div class="rounded-lg bg-skin-neutral-2/60 p-2 text-center">
+                                        <p class="text-sm font-bold"
+                                            :class="sourceCancelRatio(source.stats) >= 40 ? 'text-rose-600' : 'text-skin-neutral-12'">
+                                            {{ sourceCancelRatio(source.stats).toFixed(1) }}%
+                                        </p>
+                                        <p class="text-[10px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('Cancelled') }}</p>
+                                    </div>
+                                    <div v-if="source.stats.volume_band" class="rounded-lg bg-skin-neutral-2/60 p-2 text-center">
+                                        <p class="text-sm font-bold capitalize text-skin-neutral-12">{{ String(source.stats.volume_band).replace('_', ' ') }}</p>
+                                        <p class="text-[10px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('Volume Band') }}</p>
+                                    </div>
+                                    <div class="rounded-lg bg-skin-neutral-2/60 p-2 text-center">
+                                        <p class="text-sm font-bold"
+                                            :class="sourceReportCount(source.stats) > 0 ? 'text-rose-600' : 'text-skin-neutral-12'">
+                                            {{ sourceReportCount(source.stats) }}
+                                        </p>
+                                        <p class="text-[10px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('Fraud Reports') }}</p>
+                                    </div>
+                                </div>
+
+                                <div v-if="source.answered && source.key === 'bdcourier' && Object.keys(source.stats.couriers || {}).length"
+                                    class="mt-3 overflow-x-auto rounded-lg border border-skin-neutral-4">
+                                    <table class="w-full text-xs text-left">
+                                        <thead>
+                                            <tr
+                                                class="border-b border-skin-neutral-4/80 bg-skin-neutral-2/60 font-bold uppercase tracking-wide text-skin-neutral-9">
+                                                <th class="px-3 py-2">{{ __('Courier') }}</th>
+                                                <th class="px-3 py-2 text-right">{{ __('Parcels') }}</th>
+                                                <th class="px-3 py-2 text-right">{{ __('Delivered') }}</th>
+                                                <th class="px-3 py-2 text-right">{{ __('Cancelled') }}</th>
+                                                <th class="px-3 py-2 text-right">{{ __('Success') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(courier, courierKey) in source.stats.couriers" :key="courierKey"
+                                                class="border-b border-skin-neutral-4/60 last:border-0 text-skin-neutral-11">
+                                                <td class="px-3 py-2 font-semibold text-skin-neutral-12">{{ courier.name || courierKey }}</td>
+                                                <td class="px-3 py-2 text-right">{{ courier.total_parcel }}</td>
+                                                <td class="px-3 py-2 text-right">{{ courier.success_parcel }}</td>
+                                                <td class="px-3 py-2 text-right"
+                                                    :class="courier.cancelled_parcel > 0 ? 'font-semibold text-rose-600' : ''">
+                                                    {{ courier.cancelled_parcel }}
+                                                </td>
+                                                <td class="px-3 py-2 text-right">{{ Number(courier.success_ratio).toFixed(1) }}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-if="fraudReports.length" class="space-y-2">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-skin-neutral-9">
+                                {{ __('Reported Fraud Entries') }}
+                            </p>
+                            <div v-for="report in fraudReports" :key="report.id"
+                                class="flex items-start gap-3 rounded-xl border border-rose-200 bg-rose-50/50 p-3">
+                                <img v-if="report.courierLogo" :src="report.courierLogo" :alt="report.courierName || ''"
+                                    class="h-7 w-7 shrink-0 rounded-md object-contain" loading="lazy">
+                                <div class="min-w-0">
+                                    <p class="text-xs font-bold text-rose-800">
+                                        {{ report.name || __('Unknown') }}
+                                        <span v-if="report.courierName" class="font-semibold text-rose-600">· {{ report.courierName }}</span>
+                                    </p>
+                                    <p class="mt-0.5 text-xs text-rose-700">{{ report.details }}</p>
+                                    <p v-if="report.created_at" class="mt-0.5 text-[11px] text-rose-500">{{ report.created_at }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </OrderSectionCard>
+
             <!-- Customer Notes Card -->
             <OrderSectionCard v-if="order.notes" title="Customer Notes"
                 description="Instructions provided during checkout" icon="ri-sticky-note-line"
@@ -709,6 +868,55 @@ const fraudSummary = computed(() => {
     const ratio = aggregate.cancel_ratio != null ? Number(aggregate.cancel_ratio).toFixed(1) : '?'
     return `${ratio}% cancel ratio across ${aggregate.total_deliveries ?? 0} deliveries`
 })
+
+const fraudAggregate = computed(() => props.order.fraud_details?.aggregate || {})
+
+const fraudCancelRatio = computed(() => Number(fraudAggregate.value.cancel_ratio ?? 0))
+
+const fraudSourceLabels = {
+    steadfast: { label: 'SteadFast API', icon: 'ri-flashlight-line' },
+    bdcourier: { label: 'BD Courier API', icon: 'ri-search-eye-line' },
+    pathao: { label: 'Pathao Portal', icon: 'ri-e-bike-line' },
+    redx: { label: 'RedX Portal', icon: 'ri-flight-takeoff-line' },
+    paperfly: { label: 'Paperfly Portal', icon: 'ri-send-plane-2-line' },
+    carrybee: { label: 'Carrybee Portal', icon: 'ri-box-3-line' },
+}
+
+const fraudSources = computed(() =>
+    Object.entries(props.order.fraud_details || {})
+        .filter(([key, value]) => key !== 'aggregate' && value != null)
+        .map(([key, value]) => ({
+            key,
+            label: fraudSourceLabels[key]?.label || key,
+            icon: fraudSourceLabels[key]?.icon || 'ri-shield-line',
+            answered: Boolean(value) && !value.error,
+            error: value?.error || '',
+            stats: value || {},
+        })))
+
+const fraudReports = computed(() => props.order.fraud_details?.bdcourier?.reports || [])
+
+const sourceCancelRatio = (stats) => {
+    if (stats.cancellation_ratio != null) return Number(stats.cancellation_ratio)
+    const total = Number(stats.total || 0)
+    if (!total) return 0
+    return (Number(stats.cancel || 0) / total) * 100
+}
+
+const sourceReportCount = (stats) =>
+    Number(stats.total_reports || 0) + (stats.reports?.length || 0)
+
+const fraudChecking = ref(false)
+
+const runFraudCheck = () => {
+    fraudChecking.value = true
+    router.post(route('order.fraudCheck', props.order.id), {}, {
+        preserveScroll: true,
+        onFinish: () => {
+            fraudChecking.value = false
+        },
+    })
+}
 
 const confirmDialogRef = ref(null)
 const booking = ref(false)
