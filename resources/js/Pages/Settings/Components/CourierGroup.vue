@@ -270,53 +270,102 @@
 
                     <div class="border-t border-skin-neutral-4 pt-4">
                         <p class="text-xs font-semibold uppercase tracking-wide text-skin-neutral-9">
-                            {{ __('Portal Credentials') }}
+                            {{ __('Fraud Data Sources') }}
                         </p>
                         <p class="mb-3 mt-0.5 text-xs text-skin-neutral-9">
-                            {{ __('Portal logins used to check cancel history — not your API keys.') }}
+                            {{ __('Each enabled source is checked independently — a clean result from one never masks a risky result from another.') }}
                         </p>
 
                         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                            <div
-                                v-for="portal in fraudPortals"
-                                :key="portal.key"
-                                class="rounded-lg border border-skin-neutral-4 bg-skin-neutral-1 p-4"
-                            >
-                                <p class="mb-3 flex items-center gap-2 text-sm font-semibold text-skin-neutral-12">
-                                    <i class="ri-user-settings-line text-base text-skin-neutral-9"></i>
-                                    {{ portal.label }}
-                                </p>
-                                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                    <div>
-                                        <AppLabel :for="`fraud_${portal.key}_${portal.userKey}`" :value="portal.userLabel" />
-                                        <AppInputText
-                                            :id="`fraud_${portal.key}_${portal.userKey}`"
-                                            v-model="form[`fraud_${portal.key}_${portal.userKey}`]"
-                                            :class="{
-                                                'input-error': errorsFields.includes(`fraud_${portal.key}_${portal.userKey}`),
-                                            }"
-                                        />
-                                        <p
-                                            v-if="errorsFields.includes(`fraud_${portal.key}_${portal.userKey}`)"
-                                            class="mt-1 text-sm text-red-500"
+                            <div class="rounded-lg border border-skin-neutral-4 bg-skin-neutral-1">
+                                <header class="flex flex-wrap items-start justify-between gap-3 p-4">
+                                    <div class="flex min-w-0 items-start gap-3">
+                                        <span
+                                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-skin-neutral-2 text-skin-neutral-11 ring-1 ring-skin-neutral-4"
                                         >
-                                            {{ errors[`fraud_${portal.key}_${portal.userKey}`] }}
-                                        </p>
+                                            <i class="ri-flashlight-line text-lg"></i>
+                                        </span>
+                                        <div class="min-w-0">
+                                            <p class="text-sm font-semibold text-skin-neutral-12">
+                                                {{ __('SteadFast API') }}
+                                            </p>
+                                            <p class="mt-0.5 text-xs text-skin-neutral-9">
+                                                {{ __('Fraud score endpoint queried with the SteadFast API keys from the provider card above.') }}
+                                            </p>
+                                        </div>
                                     </div>
+                                    <div class="flex shrink-0 items-center gap-3">
+                                        <span
+                                            class="rounded-full px-2 py-1 text-[11px] font-semibold"
+                                            :class="steadfastFraudReady ? 'bg-skin-success-light text-skin-success' : 'bg-skin-neutral-4 text-skin-neutral-11'"
+                                        >
+                                            {{ steadfastFraudReady ? __('Ready') : __('Missing API keys') }}
+                                        </span>
+                                        <AppSwitch v-model="form.fraud_steadfast_enabled" />
+                                    </div>
+                                </header>
+                            </div>
+
+                            <div class="rounded-lg border border-skin-neutral-4 bg-skin-neutral-1">
+                                <header class="flex flex-wrap items-start justify-between gap-3 p-4">
+                                    <div class="flex min-w-0 items-start gap-3">
+                                        <span
+                                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-skin-neutral-2 text-skin-neutral-11 ring-1 ring-skin-neutral-4"
+                                        >
+                                            <i class="ri-search-eye-line text-lg"></i>
+                                        </span>
+                                        <div class="min-w-0">
+                                            <p class="text-sm font-semibold text-skin-neutral-12">
+                                                {{ __('BD Courier API') }}
+                                            </p>
+                                            <p class="mt-0.5 text-xs text-skin-neutral-9">
+                                                {{ __('Per-courier delivery stats and fraud reports for the customer\'s phone number.') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="flex shrink-0 items-center gap-3">
+                                        <span
+                                            class="rounded-full px-2 py-1 text-[11px] font-semibold"
+                                            :class="bdcourierFraudReady ? 'bg-skin-success-light text-skin-success' : 'bg-skin-neutral-4 text-skin-neutral-11'"
+                                        >
+                                            {{ bdcourierFraudReady ? __('Ready') : __('Missing API key') }}
+                                        </span>
+                                        <AppSwitch v-model="form.fraud_bdcourier_enabled" />
+                                    </div>
+                                </header>
+
+                                <div class="grid grid-cols-1 gap-4 border-t border-skin-neutral-4 p-4 sm:grid-cols-2">
                                     <div>
-                                        <AppLabel :for="`fraud_${portal.key}_password`" :value="__('Password')" />
+                                        <AppLabel for="bdcourier_api_key" :value="__('API Key')" />
+                                        <p class="mb-1 text-xs text-skin-neutral-9">
+                                            {{ __('Bearer key for /courier-check — never exposed to customers.') }}
+                                        </p>
                                         <AppInputText
-                                            :id="`fraud_${portal.key}_password`"
-                                            v-model="form[`fraud_${portal.key}_password`]"
+                                            id="bdcourier_api_key"
+                                            v-model="form.bdcourier_api_key"
                                             type="password"
                                             autocomplete="new-password"
-                                            :class="{ 'input-error': errorsFields.includes(`fraud_${portal.key}_password`) }"
+                                            placeholder="••••••••"
+                                            :class="{ 'input-error': errorsFields.includes('bdcourier_api_key') }"
                                         />
-                                        <p
-                                            v-if="errorsFields.includes(`fraud_${portal.key}_password`)"
-                                            class="mt-1 text-sm text-red-500"
-                                        >
-                                            {{ errors[`fraud_${portal.key}_password`] }}
+                                        <p v-if="errorsFields.includes('bdcourier_api_key')" class="mt-1 text-sm text-red-500">
+                                            {{ errors.bdcourier_api_key }}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <AppLabel for="bdcourier_endpoint" :value="__('API Endpoint')" />
+                                        <p class="mb-1 text-xs text-skin-neutral-9">
+                                            {{ __('Base URL of the BD Courier API.') }}
+                                        </p>
+                                        <AppInputText
+                                            id="bdcourier_endpoint"
+                                            v-model="form.bdcourier_endpoint"
+                                            placeholder="https://api.bdcourier.com"
+                                            :class="{ 'input-error': errorsFields.includes('bdcourier_endpoint') }"
+                                        />
+                                        <p v-if="errorsFields.includes('bdcourier_endpoint')" class="mt-1 text-sm text-red-500">
+                                            {{ errors.bdcourier_endpoint }}
                                         </p>
                                     </div>
                                 </div>
@@ -406,17 +455,13 @@ const couriers = [
     },
 ]
 
-const fraudPortals = [
-    { key: 'steadfast', userKey: 'user', label: 'Steadfast Portal', userLabel: 'Email' },
-    { key: 'pathao', userKey: 'user', label: 'Pathao Portal', userLabel: 'Email' },
-    { key: 'redx', userKey: 'phone', label: 'RedX Portal', userLabel: 'Phone' },
-    { key: 'paperfly', userKey: 'user', label: 'Paperfly Portal', userLabel: 'Username' },
-    { key: 'carrybee', userKey: 'phone', label: 'Carrybee Portal', userLabel: 'Phone' },
-]
-
 function isEnabled(key) {
     return Boolean(form[`${key}_enabled`])
 }
 
 const enabledCount = computed(() => couriers.filter((courier) => isEnabled(courier.key)).length)
+
+const steadfastFraudReady = computed(() => Boolean(form.steadfast_api_key && form.steadfast_secret_key))
+
+const bdcourierFraudReady = computed(() => Boolean(form.bdcourier_api_key && form.bdcourier_endpoint))
 </script>
