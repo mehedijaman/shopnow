@@ -34,7 +34,7 @@
                     <div class="flex gap-3 p-4 sm:hidden">
                         <a :href="`/shop/product/${item.item.id}/${item.item.slug}`"
                             class="flex h-[72px] w-[72px] shrink-0 overflow-hidden rounded-xl border border-gray-100 bg-gray-50">
-                            <img :src="item.item.image_url" :alt="item.item.name"
+                            <img :src="getItemImage(item)" :alt="item.item.name" @error="onItemImageError"
                                 class="h-full w-full object-contain p-1" />
                         </a>
                         <div class="min-w-0 flex-1">
@@ -91,7 +91,7 @@
                         <div class="col-span-6 flex items-center gap-4">
                             <a :href="`/shop/product/${item.item.id}/${item.item.slug}`"
                                 class="flex h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-gray-100 bg-gray-50">
-                                <img :src="item.item.image_url" :alt="item.item.name"
+                                <img :src="getItemImage(item)" :alt="item.item.name" @error="onItemImageError"
                                     class="h-full w-full object-contain p-1.5" />
                             </a>
                             <div class="min-w-0">
@@ -524,6 +524,21 @@ function getItemEffectivePrice(item) {
         return Number(item.unit_price)
     }
     return getItemRegularPrice(item)
+}
+
+function fallbackLogo() {
+    return document.querySelector('header img')?.src || '/logo.png'
+}
+
+function getItemImage(item) {
+    return item.item?.image_url || fallbackLogo()
+}
+
+function onItemImageError(event) {
+    const img = event.target
+    if (img.dataset.fallbackApplied) return
+    img.dataset.fallbackApplied = '1'
+    img.src = fallbackLogo()
 }
 
 const props = defineProps({
