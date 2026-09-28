@@ -22,7 +22,10 @@ const NEVER_TRANSLATED = [
     'TikTok',
     'GitHub',
     'WhatsApp',
-    'Tk.'
+    'Tk.',
+    'https://your-domain.com/product/',
+    'https://your-domain.com/product/brand/',
+    'https://your-domain.com/product/category/'
 ]
 
 /**

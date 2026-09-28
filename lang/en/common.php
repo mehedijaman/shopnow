@@ -88,6 +88,17 @@ return [
     ],
 
     'field' => [
+        'name' => 'Name',
+        'description' => 'Description',
+        'price' => 'Price',
+        'sale_price' => 'Sale Price',
+        'quantity' => 'Quantity',
+        'unit' => 'Unit',
+        'active' => 'Active',
+        'featured' => 'Featured',
+        'featured_brand' => 'Featured Brand',
+        'featured_category' => 'Featured Category',
+        'product_summary' => 'Product Summary',
         'email_address' => 'Email address',
         'password' => 'Password',
         'remember_me' => 'Remember me',
@@ -103,6 +114,16 @@ return [
 
     'status' => [
         'all' => 'All Statuses',
+    ],
+
+    'seo' => [
+        'preview_heading' => 'SEO - Preview of how it will be listed on Google',
+        'edit' => 'Edit SEO content',
+        'fill_hint' => '(fill the title and description to see a preview)',
+        'site_name' => 'Your Site Name',
+        'meta_tag_title' => 'Meta Tag Title',
+        'meta_tag_description' => 'Meta Tag Description',
+        'of_limit' => ':remaining of :limit',
     ],
 
 ];

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <AppLabel for="name">Name</AppLabel>
+        <AppLabel for="name">{{ __('common.field.name') }}</AppLabel>
         <AppInputText
             id="name"
             v-model="brandStore.brand.name"
@@ -13,7 +13,7 @@
     </div>
 
     <div class="mt-5">
-        <AppLabel for="description">Description</AppLabel>
+        <AppLabel for="description">{{ __('common.field.description') }}</AppLabel>
         <AppTipTapEditor
             v-model="brandStore.brand.description"
             editor-id="description"
@@ -31,7 +31,7 @@
             name="active"
             :value="true"
         />
-        <AppLabel for="active" class="ml-3"> Active </AppLabel>
+        <AppLabel for="active" class="ml-3"> {{ __('common.field.active') }} </AppLabel>
     </div>
 
     <div class="mt-5 flex items-center">
@@ -41,7 +41,7 @@
             name="featured"
             :value="true"
         />
-        <AppLabel for="featured" class="ml-3"> Featured Brand </AppLabel>
+        <AppLabel for="featured" class="ml-3"> {{ __('common.field.featured_brand') }} </AppLabel>
     </div>
 </template>
 

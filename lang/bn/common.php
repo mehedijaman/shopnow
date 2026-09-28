@@ -86,6 +86,17 @@ return [
     ],
 
     'field' => [
+        'name' => 'নাম',
+        'description' => 'বিবরণ',
+        'price' => 'মূল্য',
+        'sale_price' => 'সেল মূল্য',
+        'quantity' => 'পরিমাণ',
+        'unit' => 'ইউনিট',
+        'active' => 'সক্রিয়',
+        'featured' => 'ফিচার্ড',
+        'featured_brand' => 'ফিচার্ড ব্র্যান্ড',
+        'featured_category' => 'ফিচার্ড ক্যাটাগরি',
+        'product_summary' => 'পণ্য সারসংক্ষেপ',
         'email_address' => 'ইমেইল ঠিকানা',
         'password' => 'পাসওয়ার্ড',
         'remember_me' => 'আমাকে মনে রাখুন',
@@ -101,6 +112,16 @@ return [
 
     'status' => [
         'all' => 'সব স্ট্যাটাস',
+    ],
+
+    'seo' => [
+        'preview_heading' => 'SEO - গুগলে কীভাবে তালিকাভুক্ত হবে তার প্রিভিউ',
+        'edit' => 'SEO কন্টেন্ট সম্পাদনা করুন',
+        'fill_hint' => '(প্রিভিউ দেখতে শিরোনাম ও বিবরণ পূরণ করুন)',
+        'site_name' => 'আপনার সাইটের নাম',
+        'meta_tag_title' => 'মেটা ট্যাগ শিরোনাম',
+        'meta_tag_description' => 'মেটা ট্যাগ বিবরণ',
+        'of_limit' => ':limit এর মধ্যে :remaining',
     ],
 
 ];
