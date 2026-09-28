@@ -7,6 +7,8 @@ use Modules\Support\BaseServiceProvider;
 
 class SettingsServiceProvider extends BaseServiceProvider
 {
+    protected ?string $viewNamespace = 'settings';
+
     public function boot(): void
     {
         parent::boot();

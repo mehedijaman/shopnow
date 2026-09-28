@@ -7,7 +7,7 @@
                 @click="$inertia.visit(route('settings.create'))"
             >
                 <i class="ri-add-fill mr-1"></i>
-                Create Settings
+                {{ __('settings::admin.create_settings') }}
             </AppButton>
         </template>
     </AppSectionHeader>
@@ -35,7 +35,7 @@
 
                     <AppDataTableData>
                         <!-- Edit settings -->
-                        <AppTooltip text="Edit Settings" class="mr-2">
+                        <AppTooltip :text="__('settings::admin.edit_settings')" class="mr-2">
                             <AppButton
                                 class="btn btn-icon btn-primary"
                                 @click="
@@ -52,7 +52,7 @@
                         </AppTooltip>
 
                         <!-- Delete settings -->
-                        <AppTooltip text="Delete Settings">
+                        <AppTooltip :text="__('settings::admin.delete_settings')">
                             <AppButton
                                 class="btn btn-icon btn-destructive"
                                 @click="
@@ -82,19 +82,21 @@
     ></AppPaginator>
 
     <AppAlert v-if="!settings.data.length" class="mt-4">
-        No settings found.
+        {{ __('settings::admin.no_settings_found') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import useTitle from '@/Composables/useTitle'
 import useAuthCan from '@/Composables/useAuthCan'
 
-const { title } = useTitle('Settings')
+const translate = inject('translate')
+
+const { title } = useTitle(translate('settings::admin.settings'))
 const { can } = useAuthCan()
 
 const props = defineProps({
@@ -105,8 +107,8 @@ const props = defineProps({
 })
 
 const breadCrumb = [
-  { label: 'Home', href: route('dashboard.index') },
-  { label: 'Settings', last: true }
+  { label: translate('common.home'), href: route('dashboard.index') },
+  { label: translate('settings::admin.settings'), last: true }
 ]
 
 const headers = ['ID', 'Actions']

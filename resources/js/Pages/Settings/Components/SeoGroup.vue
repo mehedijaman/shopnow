@@ -92,10 +92,10 @@
                     v-model="form.robots_default"
                     class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-sm ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7"
                 >
-                    <option value="index, follow">index, follow (recommended)</option>
-                    <option value="noindex, follow">noindex, follow</option>
-                    <option value="index, nofollow">index, nofollow</option>
-                    <option value="noindex, nofollow">noindex, nofollow</option>
+                    <option value="index, follow">{{ __('settings::admin.index_follow') }}</option>
+                    <option value="noindex, follow">{{ __('settings::admin.noindex_follow') }}</option>
+                    <option value="index, nofollow">{{ __('settings::admin.index_nofollow') }}</option>
+                    <option value="noindex, nofollow">{{ __('settings::admin.noindex_nofollow') }}</option>
                 </select>
             </div>
 

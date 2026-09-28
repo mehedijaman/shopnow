@@ -4,7 +4,7 @@
         <!-- Avatar -->
         <div>
             <AppLabel value="Profile Photo" />
-            <p class="mb-3 text-xs text-skin-neutral-9">Upload a photo to personalise your account. JPG, PNG or GIF — max 2 MB.</p>
+            <p class="mb-3 text-xs text-skin-neutral-9">{{ __('profile::admin.avatar_hint') }}</p>
 
             <div class="flex items-center gap-5">
                 <!-- Preview -->
@@ -39,7 +39,7 @@
         <!-- Name -->
         <div>
             <AppLabel for="name" value="Full Name" />
-            <p class="mb-1 text-xs text-skin-neutral-9">Your display name across the admin panel.</p>
+            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('profile::admin.display_name_hint') }}</p>
             <AppInputText
                 id="name"
                 v-model="form.name"

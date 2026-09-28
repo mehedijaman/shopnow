@@ -7,7 +7,7 @@
                 @click="router.visit(route('profile.create'))"
             >
                 <i class="ri-add-fill mr-1"></i>
-                Create Profile
+                {{ __('profile::admin.create_profile') }}
             </AppButton>
         </template>
     </AppSectionHeader>
@@ -35,7 +35,7 @@
 
                     <AppDataTableData>
                         <!-- Edit profile -->
-                        <AppTooltip text="Edit Profile" class="mr-2">
+                        <AppTooltip :text="__('profile::admin.edit_profile')" class="mr-2">
                             <AppButton
                                 class="btn btn-icon btn-primary"
                                 @click="
@@ -52,7 +52,7 @@
                         </AppTooltip>
 
                         <!-- Delete profile -->
-                        <AppTooltip text="Delete Profile">
+                        <AppTooltip :text="__('profile::admin.delete_profile')">
                             <AppButton
                                 class="btn btn-icon btn-destructive"
                                 @click="
@@ -83,19 +83,21 @@
     ></AppPaginator>
 
     <AppAlert v-if="!profiles.data.length" class="mt-4">
-        No profiles found.
+        {{ __('profile::admin.no_profiles_found') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import useTitle from '@/Composables/useTitle'
 import useAuthCan from '@/Composables/useAuthCan'
 
-const { title } = useTitle('Profile')
+const translate = inject('translate')
+
+const { title } = useTitle(translate('profile::admin.profile'))
 const { can } = useAuthCan()
 
 const props = defineProps({
@@ -106,8 +108,8 @@ const props = defineProps({
 })
 
 const breadCrumb = [
-  { label: 'Home', href: route('dashboard.index') },
-  { label: 'Profiles', last: true }
+  { label: translate('common.home'), href: route('dashboard.index') },
+  { label: translate('profile::admin.profiles'), last: true }
 ]
 
 const headers = ['ID', 'Actions']

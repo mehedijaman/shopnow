@@ -1,14 +1,14 @@
 <template>
     <div class="space-y-6">
         <div class="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800">
-            Configure Google Analytics 4 (GA4) measurement ID and tracking toggle. Events fire automatically subject to user tracking consent.
+            {{ __('settings::admin.analytics_notice') }}
         </div>
 
         <div class="divide-y divide-skin-neutral-3">
             <div class="flex items-center justify-between gap-4 py-4">
                 <div>
-                    <p class="text-sm font-medium text-skin-neutral-12">Enable Google Analytics</p>
-                    <p class="mt-0.5 text-xs text-skin-neutral-9">Master switch for Google Analytics 4 storefront event tracking.</p>
+                    <p class="text-sm font-medium text-skin-neutral-12">{{ __('settings::admin.enable_analytics') }}</p>
+                    <p class="mt-0.5 text-xs text-skin-neutral-9">{{ __('settings::admin.enable_analytics_hint') }}</p>
                 </div>
                 <button
                     type="button"
@@ -29,7 +29,7 @@
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div class="sm:col-span-2">
                 <AppLabel for="ga_measurement_id" :value="__('Google Analytics Measurement ID')" />
-                <p class="mb-1 text-xs text-skin-neutral-9">Find this in your GA4 property under Admin &gt; Data Streams &gt; Measurement ID (e.g. G-XXXXXXXXXX).</p>
+                <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.ga_measurement_id_hint') }}</p>
                 <AppInputText
                     id="ga_measurement_id"
                     v-model="form.ga_measurement_id"
@@ -43,7 +43,7 @@
 
             <div class="sm:col-span-2">
                 <AppLabel for="gtm_container_id" :value="__('Google Tag Manager Container ID')" />
-                <p class="mb-1 text-xs text-skin-neutral-9">Find this in your GTM admin under Container &gt; Container ID (e.g. GTM-XXXXXXX). Leave empty to disable GTM.</p>
+                <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.gtm_container_hint') }}</p>
                 <AppInputText
                     id="gtm_container_id"
                     v-model="form.gtm_container_id"

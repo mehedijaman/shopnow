@@ -2,8 +2,8 @@
     <div class="divide-y divide-skin-neutral-3">
         <div class="flex items-center justify-between gap-4 py-4">
             <div>
-                <p class="text-sm font-medium text-skin-neutral-12">Slider</p>
-                <p class="mt-0.5 text-xs text-skin-neutral-9">Show the hero image carousel at the top of the homepage.</p>
+                <p class="text-sm font-medium text-skin-neutral-12">{{ __('settings::admin.slider') }}</p>
+                <p class="mt-0.5 text-xs text-skin-neutral-9">{{ __('settings::admin.slider_hint') }}</p>
             </div>
             <button
                 type="button"
@@ -22,8 +22,8 @@
 
         <div class="flex items-center justify-between gap-4 py-4">
             <div>
-                <p class="text-sm font-medium text-skin-neutral-12">Featured Products</p>
-                <p class="mt-0.5 text-xs text-skin-neutral-9">Show the featured products section on the homepage.</p>
+                <p class="text-sm font-medium text-skin-neutral-12">{{ __('settings::admin.featured_products') }}</p>
+                <p class="mt-0.5 text-xs text-skin-neutral-9">{{ __('settings::admin.featured_products_hint') }}</p>
             </div>
             <button
                 type="button"
@@ -42,8 +42,8 @@
 
         <div class="flex items-center justify-between gap-4 py-4">
             <div>
-                <p class="text-sm font-medium text-skin-neutral-12">Featured Categories</p>
-                <p class="mt-0.5 text-xs text-skin-neutral-9">Show the featured product categories section.</p>
+                <p class="text-sm font-medium text-skin-neutral-12">{{ __('settings::admin.featured_categories') }}</p>
+                <p class="mt-0.5 text-xs text-skin-neutral-9">{{ __('settings::admin.featured_categories_hint') }}</p>
             </div>
             <button
                 type="button"
@@ -62,8 +62,8 @@
 
         <div class="flex items-center justify-between gap-4 py-4">
             <div>
-                <p class="text-sm font-medium text-skin-neutral-12">Blog Section</p>
-                <p class="mt-0.5 text-xs text-skin-neutral-9">Show the latest blog posts section.</p>
+                <p class="text-sm font-medium text-skin-neutral-12">{{ __('settings::admin.blog_section') }}</p>
+                <p class="mt-0.5 text-xs text-skin-neutral-9">{{ __('settings::admin.blog_section_hint') }}</p>
             </div>
             <button
                 type="button"
@@ -82,8 +82,8 @@
 
         <div class="flex items-center justify-between gap-4 py-4">
             <div>
-                <p class="text-sm font-medium text-skin-neutral-12">Our Brands</p>
-                <p class="mt-0.5 text-xs text-skin-neutral-9">Show the brands carousel section on the homepage.</p>
+                <p class="text-sm font-medium text-skin-neutral-12">{{ __('settings::admin.our_brands') }}</p>
+                <p class="mt-0.5 text-xs text-skin-neutral-9">{{ __('settings::admin.our_brands_hint') }}</p>
             </div>
             <button
                 type="button"

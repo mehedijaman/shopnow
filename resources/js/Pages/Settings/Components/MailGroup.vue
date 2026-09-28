@@ -128,9 +128,9 @@
                         !form.enable_smtp ? 'opacity-50 cursor-not-allowed bg-skin-neutral-3' : ''
                     ]"
                 >
-                    <option value="tls">TLS</option>
-                    <option value="ssl">SSL</option>
-                    <option value="starttls">STARTTLS</option>
+                    <option value="tls">{{ __('settings::admin.tls') }}</option>
+                    <option value="ssl">{{ __('settings::admin.ssl') }}</option>
+                    <option value="starttls">{{ __('settings::admin.starttls') }}</option>
                 </select>
             </div>
         </div>

@@ -13,7 +13,7 @@
         <!-- Current password -->
         <div>
             <AppLabel for="current_password" value="Current Password" />
-            <p class="mb-1 text-xs text-skin-neutral-9">Enter your existing password to verify your identity.</p>
+            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('profile::admin.current_password_hint') }}</p>
             <AppInputPassword
                 id="current_password"
                 v-model="form.current_password"
@@ -28,7 +28,7 @@
             <div class="mb-1 flex items-center justify-between">
                 <div>
                     <AppLabel for="password" value="New Password" />
-                    <p class="text-xs text-skin-neutral-9">Minimum 8 characters. Choose something strong.</p>
+                    <p class="text-xs text-skin-neutral-9">{{ __('profile::admin.password_hint') }}</p>
                 </div>
                 <button
                     type="button"
@@ -36,7 +36,7 @@
                     @click="showGenerator = !showGenerator"
                 >
                     <i class="ri-magic-line text-sm"></i>
-                    Generate
+                    {{ __('profile::admin.generate') }}
                 </button>
             </div>
 
@@ -50,7 +50,7 @@
                 leave-to-class="opacity-0 -translate-y-1"
             >
                 <div v-if="showGenerator" class="mb-3 rounded-lg border border-skin-neutral-4 bg-skin-neutral-2 p-4">
-                    <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-skin-neutral-9">Password Generator</p>
+                    <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('profile::admin.password_generator') }}</p>
 
                     <!-- Generated password preview -->
                     <div class="mb-3 flex items-center gap-2">
@@ -78,7 +78,7 @@
                     <!-- Length slider -->
                     <div class="mb-3">
                         <div class="mb-1 flex items-center justify-between text-xs text-skin-neutral-10">
-                            <span>Length</span>
+                            <span>{{ __('profile::admin.length') }}</span>
                             <span class="font-semibold text-skin-neutral-12">{{ options.length }}</span>
                         </div>
                         <input
@@ -121,7 +121,7 @@
                         @click="applyGenerated"
                     >
                         <i class="ri-check-double-line"></i>
-                        Use This Password
+                        {{ __('profile::admin.use_this_password') }}
                     </button>
                 </div>
             </Transition>
@@ -137,7 +137,7 @@
             <!-- Strength meter -->
             <div v-if="form.password" class="mt-2">
                 <div class="mb-1 flex items-center justify-between text-xs">
-                    <span class="text-skin-neutral-9">Strength</span>
+                    <span class="text-skin-neutral-9">{{ __('profile::admin.strength') }}</span>
                     <span :class="strength.color" class="font-semibold">{{ strength.label }}</span>
                 </div>
                 <div class="flex gap-1">
@@ -154,7 +154,7 @@
         <!-- Confirm password -->
         <div>
             <AppLabel for="password_confirmation" value="Confirm New Password" />
-            <p class="mb-1 text-xs text-skin-neutral-9">Re-enter your new password to confirm.</p>
+            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('profile::admin.confirm_password_hint') }}</p>
             <AppInputPassword
                 id="password_confirmation"
                 v-model="form.password_confirmation"

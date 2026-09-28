@@ -25,7 +25,7 @@
                             :placeholder="__('Price')"
                             class="w-full rounded-lg border border-skin-neutral-4 bg-white px-3 py-2 pr-7 text-sm text-skin-neutral-12 focus:border-skin-primary-7 focus:outline-none focus:ring-1 focus:ring-skin-primary-7"
                         />
-                        <span class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-xs text-skin-neutral-8">Tk</span>
+                        <span class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-xs text-skin-neutral-8">{{ __('settings::admin.tk') }}</span>
                     </div>
                     <label class="flex items-center gap-1.5 text-xs text-skin-neutral-9" :title="option.enabled ? 'Enabled' : 'Disabled'">
                         <input

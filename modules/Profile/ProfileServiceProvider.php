@@ -6,6 +6,8 @@ use Modules\Support\BaseServiceProvider;
 
 class ProfileServiceProvider extends BaseServiceProvider
 {
+    protected ?string $viewNamespace = 'profile';
+
     public function boot()
     {
         parent::boot();

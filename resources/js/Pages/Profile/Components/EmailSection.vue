@@ -3,7 +3,7 @@
 
         <div>
             <AppLabel for="email" value="New Email Address" />
-            <p class="mb-1 text-xs text-skin-neutral-9">Enter the new email address you want to use for your account.</p>
+            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('profile::admin.email_hint') }}</p>
             <AppInputText
                 id="email"
                 v-model="form.email"
@@ -17,7 +17,7 @@
 
         <div>
             <AppLabel for="email_current_password" value="Current Password" />
-            <p class="mb-1 text-xs text-skin-neutral-9">Enter your current password to confirm the email change.</p>
+            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('profile::admin.email_password_hint') }}</p>
             <AppInputPassword
                 id="email_current_password"
                 v-model="form.current_password"

@@ -1,14 +1,14 @@
 <template>
     <div class="space-y-6">
         <div class="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-            Changes here affect production tracking and ad attribution. Update carefully and verify in Meta Events Manager.
+            {{ __('settings::admin.pixel_notice') }}
         </div>
 
         <div class="divide-y divide-skin-neutral-3">
             <div class="flex items-center justify-between gap-4 py-4">
                 <div>
-                    <p class="text-sm font-medium text-skin-neutral-12">Enable Meta Pixel</p>
-                    <p class="mt-0.5 text-xs text-skin-neutral-9">Master switch for browser and server Meta events.</p>
+                    <p class="text-sm font-medium text-skin-neutral-12">{{ __('settings::admin.enable_pixel') }}</p>
+                    <p class="mt-0.5 text-xs text-skin-neutral-9">{{ __('settings::admin.enable_pixel_hint') }}</p>
                 </div>
                 <button
                     type="button"
@@ -27,8 +27,8 @@
 
             <div class="flex items-center justify-between gap-4 py-4">
                 <div>
-                    <p class="text-sm font-medium text-skin-neutral-12">Require Consent</p>
-                    <p class="mt-0.5 text-xs text-skin-neutral-9">Pixel events are blocked until users grant consent.</p>
+                    <p class="text-sm font-medium text-skin-neutral-12">{{ __('settings::admin.require_consent') }}</p>
+                    <p class="mt-0.5 text-xs text-skin-neutral-9">{{ __('settings::admin.require_consent_hint') }}</p>
                 </div>
                 <button
                     type="button"
@@ -47,8 +47,8 @@
 
             <div class="flex items-center justify-between gap-4 py-4">
                 <div>
-                    <p class="text-sm font-medium text-skin-neutral-12">Enable in Non-Production</p>
-                    <p class="mt-0.5 text-xs text-skin-neutral-9">Allow tracking on local/staging environments for testing.</p>
+                    <p class="text-sm font-medium text-skin-neutral-12">{{ __('settings::admin.enable_non_production') }}</p>
+                    <p class="mt-0.5 text-xs text-skin-neutral-9">{{ __('settings::admin.enable_non_production_hint') }}</p>
                 </div>
                 <button
                     type="button"
@@ -67,8 +67,8 @@
 
             <div class="flex items-center justify-between gap-4 py-4">
                 <div>
-                    <p class="text-sm font-medium text-skin-neutral-12">Enable Conversions API (CAPI)</p>
-                    <p class="mt-0.5 text-xs text-skin-neutral-9">Send server-side events for resilient conversion measurement.</p>
+                    <p class="text-sm font-medium text-skin-neutral-12">{{ __('settings::admin.enable_capi') }}</p>
+                    <p class="mt-0.5 text-xs text-skin-neutral-9">{{ __('settings::admin.enable_capi_hint') }}</p>
                 </div>
                 <button
                     type="button"
@@ -89,7 +89,7 @@
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
                 <AppLabel for="meta_pixel_id" :value="__('Meta Pixel ID')" />
-                <p class="mb-1 text-xs text-skin-neutral-9">Numeric Pixel ID from Meta Events Manager.</p>
+                <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.meta_pixel_id_hint') }}</p>
                 <AppInputText
                     id="meta_pixel_id"
                     v-model="form.meta_pixel_id"
@@ -103,7 +103,7 @@
 
             <div>
                 <AppLabel for="api_version" :value="__('Meta Graph API Version')" />
-                <p class="mb-1 text-xs text-skin-neutral-9">Example: v23.0</p>
+                <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.example_v230') }}</p>
                 <AppInputText
                     id="api_version"
                     v-model="form.api_version"
@@ -117,7 +117,7 @@
 
             <div class="sm:col-span-2">
                 <AppLabel for="capi_access_token" :value="__('CAPI Access Token')" />
-                <p class="mb-1 text-xs text-skin-neutral-9">Stored server-side and used only for secure CAPI calls.</p>
+                <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.capi_token_hint') }}</p>
                 <AppInputText
                     id="capi_access_token"
                     v-model="form.capi_access_token"
@@ -132,7 +132,7 @@
 
             <div class="sm:col-span-2">
                 <AppLabel for="test_event_code" :value="__('Test Event Code (Optional)')" />
-                <p class="mb-1 text-xs text-skin-neutral-9">Used for validating events in non-production with Meta Test Events.</p>
+                <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.test_event_code_hint') }}</p>
                 <AppInputText
                     id="test_event_code"
                     v-model="form.test_event_code"
