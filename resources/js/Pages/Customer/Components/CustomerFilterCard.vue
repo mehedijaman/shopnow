@@ -3,30 +3,30 @@
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <!-- Status Filter -->
             <div>
-                <AppLabel for="status-filter">Status</AppLabel>
+                <AppLabel for="status-filter">{{ __('common.field.status') }}</AppLabel>
                 <select
                     id="status-filter"
                     v-model="filters.active"
                     class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-skin-neutral-12 placeholder-skin-neutral-9 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-primary-6 sm:text-sm sm:leading-6"
                 >
-                    <option value="">All Statuses</option>
-                    <option value="1">Active</option>
-                    <option value="0">Inactive</option>
+                    <option value="">{{ __('common.filter.all_status') }}</option>
+                    <option value="1">{{ __('common.field.active') }}</option>
+                    <option value="0">{{ __('common.field.inactive') }}</option>
                 </select>
             </div>
 
             <!-- Gender Filter -->
             <div>
-                <AppLabel for="gender-filter">Gender</AppLabel>
+                <AppLabel for="gender-filter">{{ __('customer::admin.gender') }}</AppLabel>
                 <select
                     id="gender-filter"
                     v-model="filters.gender"
                     class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-skin-neutral-12 placeholder-skin-neutral-9 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-primary-6 sm:text-sm sm:leading-6"
                 >
-                    <option value="">All Genders</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
+                    <option value="">{{ __('customer::admin.all_genders') }}</option>
+                    <option value="male">{{ __('customer::admin.male') }}</option>
+                    <option value="female">{{ __('customer::admin.female') }}</option>
+                    <option value="other">{{ __('customer::admin.other') }}</option>
                 </select>
             </div>
         </div>
@@ -38,14 +38,14 @@
                 class="btn btn-secondary text-sm"
                 @click="clear"
             >
-                Clear Filter
+                {{ __('common.clear_filter') }}
             </AppButton>
             <AppButton
                 type="button"
                 class="btn btn-primary text-sm"
                 @click="apply"
             >
-                Apply Filter
+                {{ __('common.apply_filter') }}
             </AppButton>
         </div>
     </div>

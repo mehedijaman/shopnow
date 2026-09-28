@@ -6,22 +6,22 @@
     <div class="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
         <div class="flex flex-col rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-4 shadow-sm">
             <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-blue-100"><i class="ri-group-line text-blue-600"></i></div>
-            <p class="text-xs text-gray-500">Total Customers</p>
+            <p class="text-xs text-gray-500">{{ __('customer::admin.total_customers') }}</p>
             <p class="mt-1 text-xl font-bold text-gray-800">{{ props.summary?.totalCustomers }}</p>
         </div>
         <div class="flex flex-col rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-4 shadow-sm">
             <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-green-100"><i class="ri-user-follow-line text-green-600"></i></div>
-            <p class="text-xs text-gray-500">Active</p>
+            <p class="text-xs text-gray-500">{{ __('common.field.active') }}</p>
             <p class="mt-1 text-xl font-bold text-gray-800">{{ props.summary?.activeCustomers }}</p>
         </div>
         <div class="flex flex-col rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-4 shadow-sm">
             <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-red-100"><i class="ri-user-unfollow-line text-red-600"></i></div>
-            <p class="text-xs text-gray-500">Inactive</p>
+            <p class="text-xs text-gray-500">{{ __('common.field.inactive') }}</p>
             <p class="mt-1 text-xl font-bold text-gray-800">{{ props.summary?.inactiveCustomers }}</p>
         </div>
         <div class="flex flex-col rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-4 shadow-sm">
             <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-green-100"><i class="ri-money-dollar-circle-line text-green-600"></i></div>
-            <p class="text-xs text-gray-500">Total Spent</p>
+            <p class="text-xs text-gray-500">{{ __('customer::admin.total_spent') }}</p>
             <p class="mt-1 text-xl font-bold text-gray-800">৳{{ formatNumber(props.summary?.totalSpent) }}</p>
         </div>
     </div>
@@ -29,13 +29,13 @@
     <!-- Charts + Top Spenders -->
     <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div class="col-span-2 rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-5 shadow-sm">
-            <h3 class="mb-4 font-semibold text-gray-700">New Customers — Last 12 Months</h3>
+            <h3 class="mb-4 font-semibold text-gray-700">{{ __('customer::admin.new_customers_12_months') }}</h3>
             <canvas ref="monthlyChartRef" height="100"></canvas>
         </div>
 
         <div class="rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 shadow-sm">
             <div class="border-b border-skin-neutral-4 px-5 py-4">
-                <h3 class="font-semibold text-gray-700">Top Spenders</h3>
+                <h3 class="font-semibold text-gray-700">{{ __('customer::admin.top_spenders') }}</h3>
             </div>
             <div class="divide-y divide-skin-neutral-4">
                 <div v-for="(c, i) in props.topSpenders" :key="c.id" class="flex items-center justify-between px-5 py-3 hover:bg-skin-neutral-1">
@@ -48,7 +48,7 @@
                     </div>
                     <span class="text-sm font-bold text-gray-800">৳{{ formatNumber(c.total_spent) }}</span>
                 </div>
-                <div v-if="!props.topSpenders?.length" class="px-5 py-6 text-center text-sm text-gray-400">No customers yet.</div>
+                <div v-if="!props.topSpenders?.length" class="px-5 py-6 text-center text-sm text-gray-400">{{ __('customer::admin.no_customers_yet') }}</div>
             </div>
         </div>
     </div>
@@ -56,9 +56,9 @@
     <!-- Paginated customer list -->
     <div class="mt-6 rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 shadow-sm">
         <div class="border-b border-skin-neutral-4 px-5 py-4">
-            <h3 class="font-semibold text-gray-700">All Customers by Spend</h3>
+            <h3 class="font-semibold text-gray-700">{{ __('customer::admin.all_customers_by_spend') }}</h3>
         </div>
-        <AppDataTable v-if="props.customers?.data?.length" :headers="['Name', 'Email', 'Phone', 'Total Spent', 'Status', 'Joined']">
+        <AppDataTable v-if="props.customers?.data?.length" :headers="headers">
             <template #TableBody>
                 <tbody>
                     <AppDataTableRow v-for="item in props.customers.data" :key="item.id">
@@ -68,7 +68,7 @@
                         <AppDataTableData class="font-semibold">৳{{ formatNumber(item.total_spent) }}</AppDataTableData>
                         <AppDataTableData>
                             <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="item.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'">
-                                {{ item.active ? 'Active' : 'Inactive' }}
+                                {{ item.active ? __('common.field.active') : __('common.field.inactive') }}
                             </span>
                         </AppDataTableData>
                         <AppDataTableData>{{ item.joined }}</AppDataTableData>
@@ -83,12 +83,12 @@
             :total="props.customers?.total ?? 0"
             class="mt-4 justify-center"
         ></AppPaginator>
-        <AppAlert v-if="!props.customers?.data?.length" class="m-4">No customers found.</AppAlert>
+        <AppAlert v-if="!props.customers?.data?.length" class="m-4">{{ __('customer::admin.no_customers_found') }}</AppAlert>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { computed, inject, onMounted, onUnmounted, ref } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { Chart, registerables } from 'chart.js'
 import useTitle from '@/Composables/useTitle'
@@ -96,7 +96,9 @@ import useAuthCan from '@/Composables/useAuthCan'
 
 Chart.register(...registerables)
 
-const { title } = useTitle('Customer Report')
+const translate = inject('translate')
+
+const { title } = useTitle(translate('customer::admin.customer_report'))
 const { can } = useAuthCan()
 
 const props = defineProps({
@@ -107,10 +109,19 @@ const props = defineProps({
 })
 
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Customers', href: route('customer.index') },
-    { label: 'Customer Report', last: true },
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('customer::admin.customers'), href: route('customer.index') },
+    { label: translate('customer::admin.customer_report'), last: true },
 ]
+
+const headers = computed(() => [
+    translate('common.header.name'),
+    translate('customer::admin.email'),
+    translate('common.header.phone'),
+    translate('customer::admin.total_spent'),
+    translate('common.field.status'),
+    translate('customer::admin.joined'),
+])
 
 function formatNumber(n) {
     if (!n) { return '0' }
@@ -127,7 +138,7 @@ onMounted(() => {
             data: {
                 labels: props.monthlyNew.labels,
                 datasets: [{
-                    label: 'New Customers',
+                    label: translate('customer::admin.new_customers'),
                     data: props.monthlyNew.data,
                     borderColor: '#8B5CF6',
                     backgroundColor: 'rgba(139,92,246,0.08)',

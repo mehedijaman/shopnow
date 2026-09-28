@@ -12,7 +12,7 @@
             <form class="grid grid-cols-1 gap-2 md:grid-cols-2">
                 <div>
                     <AppLabel for="name">
-                        {{ __('Name') }}
+                        {{ __('common.field.name') }}
                     </AppLabel>
                     <AppInputText
                         id="name"
@@ -25,7 +25,7 @@
                 </div>
 
                 <div>
-                    <AppLabel for="phone"> {{ __('Phone') }} </AppLabel>
+                    <AppLabel for="phone"> {{ __('common.header.phone') }} </AppLabel>
                     <AppInputText
                         id="phone"
                         v-model="form.phone"
@@ -37,7 +37,7 @@
                 </div>
 
                 <div>
-                    <AppLabel for="email"> {{ __('Email') }} </AppLabel>
+                    <AppLabel for="email"> {{ __('customer::admin.email') }} </AppLabel>
                     <AppInputText
                         id="email"
                         v-model="form.email"
@@ -49,7 +49,7 @@
                 </div>
 
                 <div>
-                    <AppLabel for="password"> {{ __('Password') }} </AppLabel>
+                    <AppLabel for="password"> {{ __('common.field.password') }} </AppLabel>
                     <AppInputText
                         id="password"
                         v-model="form.password"
@@ -62,7 +62,7 @@
 
                 <div>
                     <AppLabel for="confirm_password">
-                        {{ __('Confirm Password') }}
+                        {{ __('customer::admin.confirm_password') }}
                     </AppLabel>
                     <AppInputText
                         id="confirm_password"
@@ -82,25 +82,25 @@
                         name="active"
                         :value="true"
                     />
-                    <AppLabel for="active" class="ml-3"> Active </AppLabel>
+                    <AppLabel for="active" class="ml-3"> {{ __('common.field.active') }} </AppLabel>
                 </div>
 
                 <div>
-                    <AppLabel for="gender"> {{ __('Gender') }} </AppLabel>
+                    <AppLabel for="gender"> {{ __('customer::admin.gender') }} </AppLabel>
                     <select
                         id="gender"
                         v-model="form.gender"
                         class="input w-full"
                     >
-                        <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
+                        <option value="">{{ __('customer::admin.select_gender') }}</option>
+                        <option value="male">{{ __('customer::admin.male') }}</option>
+                        <option value="female">{{ __('customer::admin.female') }}</option>
+                        <option value="other">{{ __('customer::admin.other') }}</option>
                     </select>
                 </div>
 
                 <div>
-                    <AppLabel for="date_of_birth"> {{ __('Date of Birth') }} </AppLabel>
+                    <AppLabel for="date_of_birth"> {{ __('customer::admin.date_of_birth') }} </AppLabel>
                     <AppInputText
                         id="date_of_birth"
                         v-model="form.date_of_birth"
@@ -114,7 +114,7 @@
         </template>
         <template #footer>
             <AppButton class="btn btn-primary" @click="submitForm">
-                {{ __('Save') }}
+                {{ __('common.save') }}
             </AppButton>
         </template>
     </AppCard>
@@ -126,7 +126,7 @@ import { Head } from '@inertiajs/vue3'
 import useTitle from '@/Composables/useTitle'
 import useFormContext from '@/Composables/useFormContext'
 import useFormErrors from '@/Composables/useFormErrors'
-import { onMounted } from 'vue'
+import { inject, onMounted } from 'vue'
 
 const props = defineProps({
     customer: {
@@ -135,11 +135,13 @@ const props = defineProps({
     }
 })
 
-const { title } = useTitle('Customer')
+const translate = inject('translate')
+
+const { title } = useTitle(translate('customer::admin.customer'))
 
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Customers', href: route('customer.index') },
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('customer::admin.customers'), href: route('customer.index') },
     { label: title, last: true }
 ]
 

@@ -9,7 +9,7 @@
                     @click="$inertia.visit(route('customer.index'))"
                 >
                     <i class="ri-arrow-left-s-line mr-1"></i>
-                    Back to List
+                    {{ __('common.back_to_list') }}
                 </AppButton>
 
                 <AppButton
@@ -20,7 +20,7 @@
                     "
                 >
                     <i class="ri-recycle-fill mr-1"></i>
-                    Restore Recycle Bin
+                    {{ __('customer::admin.restore_recycle_bin') }}
                 </AppButton>
 
                 <AppButton
@@ -29,7 +29,7 @@
                     @click="confirmDelete(route('customer.recycleBin.empty'))"
                 >
                     <i class="ri-delete-bin-7-line mr-1"></i>
-                    Empty Recycle Bin
+                    {{ __('customer::admin.empty_recycle_bin') }}
                 </AppButton>
             </div>
         </template>
@@ -71,7 +71,7 @@
                         <!-- Restore -->
                         <AppTooltip
                             v-if="can('customer-recycle-bin-restore')"
-                            text="Restore"
+                            :text="__('common.restore')"
                             class="mr-2"
                         >
                             <AppButton
@@ -92,7 +92,7 @@
                         <!-- Delete -->
                         <AppTooltip
                             v-if="can('customer-recycle-bin-delete')"
-                            text="Permanently Delete"
+                            :text="__('common.delete_permanently')"
                         >
                             <AppButton
                                 class="btn btn-icon btn-destructive"
@@ -123,20 +123,22 @@
     ></AppPaginator>
 
     <AppAlert v-if="!customers.data.length" class="mt-4">
-        No data found.
+        {{ __('customer::admin.no_data_found') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, inject, ref } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import useTitle from '@/Composables/useTitle'
 import useAuthCan from '@/Composables/useAuthCan'
 
 const { can } = useAuthCan()
-const { title } = useTitle('Customer Recycle Bin')
+const translate = inject('translate')
+
+const { title } = useTitle(translate('customer::admin.customer_recycle_bin'))
 
 const props = defineProps({
     customers: {
@@ -146,12 +148,19 @@ const props = defineProps({
 })
 
 const breadCrumb = [
-    { label: 'Home', href: route('customer.index') },
-    { label: 'Customers', href: route('customer.index') },
+    { label: translate('common.home'), href: route('customer.index') },
+    { label: translate('customer::admin.customers'), href: route('customer.index') },
     { label: title, last: true }
 ]
 
-const headers = ['SL', 'Name', 'Phone', 'Email', 'Status', 'Actions']
+const headers = computed(() => [
+    translate('common.header.sl'),
+    translate('common.header.name'),
+    translate('common.header.phone'),
+    translate('customer::admin.email'),
+    translate('common.field.status'),
+    translate('common.header.actions'),
+])
 
 const confirmDialogRef = ref(null)
 const confirmDelete = (deleteRoute) => {

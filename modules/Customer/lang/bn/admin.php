@@ -1,0 +1,36 @@
+<?php
+
+return [
+
+    'customers' => 'ক্রেতা',
+    'customer' => 'ক্রেতা',
+    'new_customer' => 'নতুন ক্রেতা',
+    'id_colon' => 'আইডি:',
+    'contact' => 'যোগাযোগ',
+    'verified' => 'যাচাইকৃত',
+    'unverified' => 'অযাচাইকৃত',
+    'gender' => 'লিঙ্গ',
+    'joined' => 'যোগদান',
+    'email' => 'ইমেইল',
+    'confirm_password' => 'পাসওয়ার্ড নিশ্চিত করুন',
+    'select_gender' => 'লিঙ্গ নির্বাচন করুন',
+    'male' => 'পুরুষ',
+    'female' => 'নারী',
+    'other' => 'অন্যান্য',
+    'date_of_birth' => 'জন্ম তারিখ',
+    'all_genders' => 'সব লিঙ্গ',
+    'no_customers_found' => 'কোনো ক্রেতা পাওয়া যায়নি।',
+    'no_customers_yet' => 'এখনো কোনো ক্রেতা নেই।',
+    'no_data_found' => 'কোনো ডেটা পাওয়া যায়নি।',
+    'restore_recycle_bin' => 'রিসাইকেল বিন পুনরুদ্ধার করুন',
+    'empty_recycle_bin' => 'রিসাইকেল বিন খালি করুন',
+    'customer_report' => 'ক্রেতা রিপোর্ট',
+    'customer_recycle_bin' => 'ক্রেতা রিসাইকেল বিন',
+    'total_customers' => 'মোট ক্রেতা',
+    'total_spent' => 'মোট খরচ',
+    'new_customers_12_months' => 'নতুন ক্রেতা — গত ১২ মাস',
+    'top_spenders' => 'শীর্ষ ব্যয়কারী',
+    'all_customers_by_spend' => 'খরচ অনুযায়ী সব ক্রেতা',
+    'new_customers' => 'নতুন ক্রেতা',
+
+];

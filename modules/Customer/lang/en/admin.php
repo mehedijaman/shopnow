@@ -1,0 +1,36 @@
+<?php
+
+return [
+
+    'customers' => 'Customers',
+    'customer' => 'Customer',
+    'new_customer' => 'New Customer',
+    'id_colon' => 'ID:',
+    'contact' => 'Contact',
+    'verified' => 'Verified',
+    'unverified' => 'Unverified',
+    'gender' => 'Gender',
+    'joined' => 'Joined',
+    'email' => 'Email',
+    'confirm_password' => 'Confirm Password',
+    'select_gender' => 'Select Gender',
+    'male' => 'Male',
+    'female' => 'Female',
+    'other' => 'Other',
+    'date_of_birth' => 'Date of Birth',
+    'all_genders' => 'All Genders',
+    'no_customers_found' => 'No customers found.',
+    'no_customers_yet' => 'No customers yet.',
+    'no_data_found' => 'No data found.',
+    'restore_recycle_bin' => 'Restore Recycle Bin',
+    'empty_recycle_bin' => 'Empty Recycle Bin',
+    'customer_report' => 'Customer Report',
+    'customer_recycle_bin' => 'Customer Recycle Bin',
+    'total_customers' => 'Total Customers',
+    'total_spent' => 'Total Spent',
+    'new_customers_12_months' => 'New Customers — Last 12 Months',
+    'top_spenders' => 'Top Spenders',
+    'all_customers_by_spend' => 'All Customers by Spend',
+    'new_customers' => 'New Customers',
+
+];
