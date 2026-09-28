@@ -2,14 +2,24 @@
     <!-- Search Box -->
     <div class="mb-4">
         <div class="relative">
-            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <i class="ri-search-line text-slate-500 text-sm"></i>
+            <div
+                class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+            >
+                <i class="ri-search-line text-sm text-slate-500"></i>
             </div>
-            <input id="sidebar-search" v-model="searchTerm" type="text" :placeholder="__('Search menu...')"
-                class="w-full rounded-lg bg-slate-800/50 border border-slate-700/50 pl-9 pr-8 py-2 text-sm text-slate-300 placeholder-slate-500 focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/30 focus:outline-none transition-all duration-200" />
-            <button v-if="searchTerm" type="button"
-                class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-500 hover:text-slate-300 transition-colors duration-200"
-                @click="searchTerm = ''">
+            <input
+                id="sidebar-search"
+                v-model="searchTerm"
+                type="text"
+                :placeholder="__('Search menu...')"
+                class="w-full rounded-lg border border-slate-700/50 bg-slate-800/50 py-2 pl-9 pr-8 text-sm text-slate-300 placeholder-slate-500 transition-all duration-200 focus:border-blue-500/50 focus:outline-none focus:ring-1 focus:ring-blue-500/30"
+            />
+            <button
+                v-if="searchTerm"
+                type="button"
+                class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-500 transition-colors duration-200 hover:text-slate-300"
+                @click="searchTerm = ''"
+            >
                 <i class="ri-close-circle-fill"></i>
             </button>
         </div>
@@ -23,12 +33,19 @@
     </nav>
 
     <!-- No Results -->
-    <div v-if="searchTerm && filteredItems.length === 0" class="text-center py-8">
-        <div class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-slate-800/50 mb-3">
+    <div
+        v-if="searchTerm && filteredItems.length === 0"
+        class="py-8 text-center"
+    >
+        <div
+            class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-slate-800/50"
+        >
             <i class="ri-search-eye-line text-lg text-slate-500"></i>
         </div>
-        <p class="text-sm text-slate-400">No results found</p>
-        <p class="text-xs text-slate-500 mt-1">Try a different search term</p>
+        <p class="text-sm text-slate-400">{{ __('common.no_results') }}</p>
+        <p class="mt-1 text-xs text-slate-500">
+            {{ __('common.try_different_search') }}
+        </p>
     </div>
 </template>
 
@@ -62,7 +79,6 @@ const filteredItems = computed(() => {
             if (item.superAdminOnly && !isSuperAdmin.value) {
                 shouldShow = false
             }
-
 
             if (!shouldShow) {
                 return acc

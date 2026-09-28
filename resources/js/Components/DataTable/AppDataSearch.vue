@@ -1,6 +1,6 @@
 <template>
     <div class="rounded-tl rounded-tr bg-skin-neutral-3 pb-4 pl-3 pt-3">
-        <label for="search" class="sr-only">Search</label>
+        <label for="search" class="sr-only">{{ __('common.search') }}</label>
         <div class="flex items-center pr-4 align-middle">
             <div class="pointer-events-none absolute flex items-center pl-3">
                 <i class="ri-search-line"></i>
@@ -8,7 +8,7 @@
             <AppInputText
                 id="search"
                 v-model="searchTerm"
-                :placeholder="__('Search')"
+                :placeholder="__('common.search')"
                 name="search"
                 class="w-full py-2 pl-9 md:w-1/2"
             ></AppInputText>

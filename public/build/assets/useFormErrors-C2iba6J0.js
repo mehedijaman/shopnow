@@ -1,0 +1,1 @@
+import{N as e,x as t}from"./preload-helper-zzgU9aZX.js";import{s as n}from"./app-qj5o_1d2.js";e();function r(){let e=t(()=>n().props.errors);return{errors:e,errorsFields:t(()=>Object.keys(e.value))}}export{r as t};

@@ -1,7 +1,7 @@
 <template>
     <div ref="wrapperRef" class="relative w-full">
         <AppButton
-            class="mt-1 flex w-full justify-between rounded-md border-0 bg-skin-neutral-1 px-3 py-2 align-middle text-skin-neutral-12 placeholder-skin-neutral-9 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
+            class="shadow-xs mt-1 flex w-full justify-between rounded-md border-0 bg-skin-neutral-1 px-3 py-2 align-middle text-skin-neutral-12 placeholder-skin-neutral-9 ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
             aria-haspopup="true"
             :aria-expanded="isOpen"
             @click="toggleState"
@@ -26,7 +26,9 @@
             >
                 <div v-show="useSearch" class="bg-skin-neutral-1 p-1 shadow-sm">
                     <!-- search input -->
-                    <label :for="getElementId()" class="sr-only">Search</label>
+                    <label :for="getElementId()" class="sr-only">{{
+                        __('common.search')
+                    }}</label>
                     <div class="relative">
                         <div
                             class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
@@ -50,7 +52,10 @@
                 </div>
 
                 <!-- combo options -->
-                <ul class="max-h-64 overflow-y-auto bg-skin-neutral-1 p-1 shadow-sm" role="listbox">
+                <ul
+                    class="max-h-64 overflow-y-auto bg-skin-neutral-1 p-1 shadow-sm"
+                    role="listbox"
+                >
                     <li
                         v-for="(option, index) in filteredOptions"
                         :key="option.value"

@@ -13,7 +13,7 @@
 
         <div class="flex flex-row space-x-3">
             <AppButton class="btn btn-primary" @click="triggerFileInput">
-                <span v-if="!isLoading">Upload File</span>
+                <span v-if="!isLoading">{{ __('common.upload_file') }}</span>
 
                 <i v-if="isLoading" class="ri-loader-line animate-spin"></i>
             </AppButton>
@@ -23,18 +23,22 @@
                 class="btn btn-destructive"
                 @click="removeFile"
             >
-                Remove File
+                {{ __('common.remove_file') }}
             </AppButton>
         </div>
 
         <div v-if="file" class="text-center text-sm">
             <p>
-                <strong class="text-skin-neutral-12">File Name:</strong>
+                <strong class="text-skin-neutral-12">{{
+                    __('common.file_name')
+                }}</strong>
                 {{ file.name }}
             </p>
             <p>
-                <strong class="text-skin-neutral-12">File Size:</strong>
-                {{ file.size }} bytes
+                <strong class="text-skin-neutral-12">{{
+                    __('common.file_size')
+                }}</strong>
+                {{ file.size }} {{ __('common.bytes') }}
             </p>
         </div>
         <div v-if="imagePreview" class="flex w-full justify-center">

@@ -1,8 +1,13 @@
 <template>
     <div class="flex justify-between">
         <div class="pt-5">
-            Showing {{ from }} to {{ to }} of
-            <span class="font-bold">{{ total }}</span> results
+            {{
+                __('common.pagination_summary', {
+                    from: from,
+                    to: to,
+                    total: total
+                })
+            }}
         </div>
         <div v-if="links.length > 3">
             <div class="flex flex-wrap" :class="$attrs.class">
@@ -14,7 +19,7 @@
                     />
                     <Link
                         v-else
-                        class="mb-1 mr-1 rounded-sm border px-3 py-2 text-sm leading-4 hover:bg-skin-primary-10 hover:text-skin-primary-1 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2"
+                        class="focus-visible:outline-solid mb-1 mr-1 rounded-sm border px-3 py-2 text-sm leading-4 hover:bg-skin-primary-10 hover:text-skin-primary-1 focus-visible:outline-2 focus-visible:outline-offset-2"
                         :class="{
                             'bg-skin-primary-9 text-skin-primary-2': link.active
                         }"

@@ -3,6 +3,28 @@ import vueParser from 'vue-eslint-parser'
 import prettierConfig from 'eslint-config-prettier'
 
 /**
+ * Names the glossary marks as never translated (brands, couriers, social
+ * networks). They are deliberately left as raw text rather than wrapped in
+ * `__()`, so the rule has to be told about them.
+ */
+const NEVER_TRANSLATED = [
+    'ShopNow',
+    'Pathao',
+    'Steadfast',
+    'RedX',
+    'eCourier',
+    'Paperfly',
+    'Facebook',
+    'X',
+    'Instagram',
+    'YouTube',
+    'LinkedIn',
+    'TikTok',
+    'GitHub',
+    'WhatsApp'
+]
+
+/**
  * Text sitting directly in a template is invisible to `localization:check`,
  * which can only see calls that go through `__()`. Shipped as a local rule
  * because eslint-plugin-vue has no equivalent and adding an i18n plugin is not
@@ -40,6 +62,10 @@ const localization = {
                         }
 
                         if (text.trim() === '') {
+                            return
+                        }
+
+                        if (NEVER_TRANSLATED.includes(text.trim())) {
                             return
                         }
 

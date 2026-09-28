@@ -1,6 +1,6 @@
 <template>
     <div
-        class="sticky top-0 z-40 flex h-16 shrink-0 justify-between bg-skin-neutral-2 py-3 pl-3 pr-9 text-skin-neutral-11 shadow-xs"
+        class="shadow-xs sticky top-0 z-40 flex h-16 shrink-0 justify-between bg-skin-neutral-2 py-3 pl-3 pr-9 text-skin-neutral-11"
     >
         <div class="flex items-center">
             <AppButton
@@ -51,7 +51,10 @@
                     >
                         {{ initials }}
                     </div>
-                    <span class="hidden text-sm font-medium text-skin-neutral-11 sm:block">{{ authUser.name }}</span>
+                    <span
+                        class="hidden text-sm font-medium text-skin-neutral-11 sm:block"
+                        >{{ authUser.name }}</span
+                    >
                     <i
                         class="ri-arrow-down-s-line hidden text-sm text-skin-neutral-9 transition-transform duration-200 sm:block"
                         :class="{ 'rotate-180': dropdownOpen }"
@@ -86,8 +89,14 @@
                                 {{ initials }}
                             </div>
                             <div class="min-w-0">
-                                <p class="truncate text-sm font-semibold text-skin-neutral-12">{{ authUser.name }}</p>
-                                <p class="truncate text-xs text-skin-neutral-9">{{ authUser.email }}</p>
+                                <p
+                                    class="truncate text-sm font-semibold text-skin-neutral-12"
+                                >
+                                    {{ authUser.name }}
+                                </p>
+                                <p class="truncate text-xs text-skin-neutral-9">
+                                    {{ authUser.email }}
+                                </p>
                             </div>
                         </div>
 
@@ -101,7 +110,7 @@
                                 @click="dropdownOpen = false"
                             >
                                 <i class="ri-user-settings-line text-base"></i>
-                                Edit Profile
+                                {{ __('common.edit_profile') }}
                             </Link>
                         </div>
 
@@ -113,8 +122,10 @@
                                 class="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-red-600 transition-colors hover:bg-red-50 hover:text-red-700"
                                 @click="dropdownOpen = false"
                             >
-                                <i class="ri-logout-circle-r-line text-base"></i>
-                                Sign Out
+                                <i
+                                    class="ri-logout-circle-r-line text-base"
+                                ></i>
+                                {{ __('common.sign_out') }}
                             </Link>
                         </div>
                     </div>
