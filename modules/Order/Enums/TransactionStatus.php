@@ -11,9 +11,9 @@ enum TransactionStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::Pending => 'Pending',
-            self::Success => 'Success',
-            self::Failed => 'Failed',
+            self::Pending => __('order::enums.transaction_status.pending'),
+            self::Success => __('order::enums.transaction_status.success'),
+            self::Failed => __('order::enums.transaction_status.failed'),
         };
     }
 

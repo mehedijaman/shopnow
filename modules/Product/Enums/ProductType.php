@@ -11,9 +11,9 @@ enum ProductType: string
     public function label(): string
     {
         return match ($this) {
-            self::Simple => 'Simple Product',
-            self::Variable => 'Variable Product',
-            self::Bundle => 'Bundle Product',
+            self::Simple => __('product::admin.simple_product'),
+            self::Variable => __('product::admin.variable_product'),
+            self::Bundle => __('product::admin.bundle_product'),
         };
     }
 }

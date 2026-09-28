@@ -24,4 +24,9 @@ return [
         'cancelled' => 'Cancelled',
     ],
 
+    'transaction_status' => [
+        'pending' => 'Pending',
+        'success' => 'Success',
+        'failed' => 'Failed',
+    ],
 ];

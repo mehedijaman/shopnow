@@ -11,9 +11,9 @@ enum DiscountType: string
     public function label(): string
     {
         return match ($this) {
-            self::Percentage => 'Percentage',
-            self::FixedAmount => 'Fixed Amount',
-            self::FreeShipping => 'Free Shipping',
+            self::Percentage => __('promo-code::admin.percentage'),
+            self::FixedAmount => __('promo-code::admin.fixed_amount'),
+            self::FreeShipping => __('promo-code::admin.free_shipping'),
         };
     }
 

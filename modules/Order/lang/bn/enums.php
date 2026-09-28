@@ -24,4 +24,9 @@ return [
         'cancelled' => 'বাতিল',
     ],
 
+    'transaction_status' => [
+        'pending' => 'অপেক্ষমাণ',
+        'success' => 'সফল',
+        'failed' => 'ব্যর্থ',
+    ],
 ];
