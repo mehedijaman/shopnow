@@ -8,7 +8,7 @@
                     @click="$inertia.visit(route('contactMessage.index'))"
                 >
                     <i class="ri-arrow-left-s-line mr-1"></i>
-                    Back to List
+                    {{ __('common.back_to_list') }}
                 </AppButton>
 
                 <AppButton
@@ -20,7 +20,7 @@
                     "
                 >
                     <i class="ri-recycle-fill mr-1"></i>
-                    Restore Recycle Bin
+                    {{ __('contactMessage::admin.restore_recycle_bin') }}
                 </AppButton>
 
                 <AppButton
@@ -30,7 +30,7 @@
                     "
                 >
                     <i class="ri-delete-bin-7-line mr-1"></i>
-                    Empty Recycle Bin
+                    {{ __('contactMessage::admin.empty_recycle_bin') }}
                 </AppButton>
             </div>
         </template>
@@ -68,7 +68,7 @@
 
                     <AppDataTableData>
                         <!-- Edit -->
-                        <AppTooltip text="Restore" class="mr-2">
+                        <AppTooltip :text="__('common.restore')" class="mr-2">
                             <AppButton
                                 class="btn btn-icon btn-primary"
                                 @click="
@@ -85,7 +85,7 @@
                         </AppTooltip>
 
                         <!-- Delete -->
-                        <AppTooltip text="Permanently Delete">
+                        <AppTooltip :text="__('common.delete_permanently')">
                             <AppButton
                                 class="btn btn-icon btn-destructive"
                                 @click="
@@ -116,17 +116,19 @@
     ></AppPaginator>
 
     <AppAlert v-if="!messages.data.length" class="mt-4">
-        No data found.
+        {{ __('contactMessage::admin.no_data_found') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import useTitle from '@/Composables/useTitle'
-const { title } = useTitle('Contact Message Recycle Bin')
+const translate = inject('translate')
+
+const { title } = useTitle(translate('contactMessage::admin.contact_message_recycle_bin'))
 
 const props = defineProps({
     messages: {
@@ -136,12 +138,19 @@ const props = defineProps({
 })
 
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'messages', href: route('contactMessage.index') },
-    { label: 'Recycle Bin', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('contactMessage::admin.contact_messages'), href: route('contactMessage.index') },
+    { label: translate('common.recycle_bin'), last: true }
 ]
 
-const headers = ['Name', 'Phone', 'Email', 'Subject', 'Message', 'Actions']
+const headers = [
+    translate('common.header.name'),
+    translate('common.header.phone'),
+    translate('contactMessage::admin.email'),
+    translate('contactMessage::admin.subject'),
+    translate('contactMessage::admin.message'),
+    translate('common.header.actions'),
+]
 
 const confirmDialogRef = ref(null)
 const confirmDelete = (deleteRoute) => {

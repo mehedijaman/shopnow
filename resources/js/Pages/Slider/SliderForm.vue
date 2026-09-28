@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Sliders" :bread-crumb="breadCrumb"></AppSectionHeader>
+    <AppSectionHeader :title="__('slider::admin.sliders')" :bread-crumb="breadCrumb"></AppSectionHeader>
 
     <AppCard class="w-full md:w-3/4 xl:w-1/2">
         <template #title>{{ title }}</template>
@@ -7,7 +7,7 @@
             <AppFormErrors class="mb-4" />
             <form class="space-y-5 pt-4">
                 <div>
-                    <AppLabel for="title">Title</AppLabel>
+                    <AppLabel for="title">{{ __('slider::admin.title') }}</AppLabel>
                     <AppInputText
                         id="title"
                         v-model="form.title"
@@ -18,7 +18,7 @@
                 </div>
 
                 <div>
-                    <AppLabel for="description">Description</AppLabel>
+                    <AppLabel for="description">{{ __('common.field.description') }}</AppLabel>
                     <AppTextArea
                         id="description"
                         v-model="form.description"
@@ -28,7 +28,7 @@
                 </div>
 
                 <div>
-                    <AppLabel for="image">Slider Image <span class="text-xs font-normal text-skin-neutral-7">(Recommended size: 1920 × 600 px or ~3:1 aspect ratio)</span></AppLabel>
+                    <AppLabel for="image">{{ __('slider::admin.slider_image') }} <span class="text-xs font-normal text-skin-neutral-7">{{ __('slider::admin.recommended_size') }}</span></AppLabel>
                     <AppInputFile
                         id="image"
                         v-model="form.image"
@@ -38,7 +38,7 @@
                 </div>
 
                 <div>
-                    <AppLabel for="bg_color">Background Color <span class="text-xs font-normal text-skin-neutral-7">(used when no image)</span></AppLabel>
+                    <AppLabel for="bg_color">{{ __('slider::admin.background_color') }} <span class="text-xs font-normal text-skin-neutral-7">{{ __('slider::admin.used_when_no_image') }}</span></AppLabel>
                     <div class="mt-1 flex items-center gap-3">
                         <input
                             id="bg_color"
@@ -61,13 +61,13 @@
                             class="text-xs text-skin-neutral-7 hover:text-skin-neutral-11"
                             @click="form.bg_color = ''"
                         >
-                            Clear
+                            {{ __('slider::admin.clear') }}
                         </button>
                     </div>
                 </div>
 
                 <div>
-                    <AppLabel for="url">Link URL</AppLabel>
+                    <AppLabel for="url">{{ __('slider::admin.link_url') }}</AppLabel>
                     <AppInputText
                         id="url"
                         v-model="form.url"
@@ -79,7 +79,7 @@
                 </div>
 
                 <div>
-                    <AppLabel for="button_text">Button Text</AppLabel>
+                    <AppLabel for="button_text">{{ __('slider::admin.button_text') }}</AppLabel>
                     <AppInputText
                         id="button_text"
                         v-model="form.button_text"
@@ -91,7 +91,7 @@
                 </div>
 
                 <div>
-                    <AppLabel for="order">Display Order</AppLabel>
+                    <AppLabel for="order">{{ __('slider::admin.display_order') }}</AppLabel>
                     <AppInputText
                         id="order"
                         v-model="form.order"
@@ -110,7 +110,7 @@
                             name="active"
                             :value="true"
                         />
-                        <span class="text-sm font-medium">Active</span>
+                        <span class="text-sm font-medium">{{ __('common.field.active') }}</span>
                     </label>
                 </div>
             </form>
@@ -121,13 +121,14 @@
                 class="btn btn-primary"
                 @click="submitForm"
             >
-                {{ __('Save') }}
+                {{ __('common.save') }}
             </AppButton>
         </template>
     </AppCard>
 </template>
 
 <script setup>
+import { inject } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import useAuthCan from '@/Composables/useAuthCan'
 import useTitle from '@/Composables/useTitle'
@@ -138,13 +139,15 @@ const props = defineProps({
     slider: { type: Object, default: null },
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Sliders', href: route('slider.index') },
-    { label: 'Slider', last: true },
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('slider::admin.sliders'), href: route('slider.index') },
+    { label: translate('slider::admin.slider'), last: true },
 ]
 
-const { title } = useTitle('Slider')
+const { title } = useTitle(translate('slider::admin.slider'))
 const { isCreate } = useFormContext()
 const { can } = useAuthCan()
 

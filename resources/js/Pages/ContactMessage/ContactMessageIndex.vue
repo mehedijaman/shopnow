@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Contact Messages" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('contactMessage::admin.contact_messages')" :bread-crumb="breadCrumb">
         <template #right>
             <AppButton
                 v-if="can('recycle-bin-list')"
@@ -9,7 +9,7 @@
                 "
             >
                 <i class="ri-recycle-line mr-1"></i>
-                Recycle Bin
+                {{ __('common.recycle_bin') }}
             </AppButton>
         </template>
     </AppSectionHeader>
@@ -66,7 +66,7 @@
                         <!-- Delete -->
                         <AppTooltip
                             v-if="can('contact-message-delete')"
-                            text="Delete Post"
+                            :text="__('contactMessage::admin.delete_message')"
                         >
                             <AppButton
                                 class="btn btn-icon btn-destructive"
@@ -95,14 +95,14 @@
     ></AppPaginator>
 
     <AppAlert v-if="!messages.data.length" class="mt-4">
-        No messages found.
+        {{ __('contactMessage::admin.no_messages_found') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import useAuthCan from '@/Composables/useAuthCan'
 
 const props = defineProps({
@@ -112,12 +112,21 @@ const props = defineProps({
     }
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Contact Messages', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('contactMessage::admin.contact_messages'), last: true }
 ]
 
-const headers = ['Name', 'Phone', 'Email', 'Subject', 'Message', 'Actions']
+const headers = [
+    translate('common.header.name'),
+    translate('common.header.phone'),
+    translate('contactMessage::admin.email'),
+    translate('contactMessage::admin.subject'),
+    translate('contactMessage::admin.message'),
+    translate('common.header.actions'),
+]
 
 const confirmDialogRef = ref(null)
 const confirmDelete = (deleteRoute) => {

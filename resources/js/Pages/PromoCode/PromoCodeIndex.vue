@@ -1,6 +1,6 @@
 <template>
-    <Head title="Promo Codes"></Head>
-    <AppSectionHeader title="Promo Codes" :bread-crumb="breadCrumb">
+    <Head :title="__('promo-code::admin.promo_codes')"></Head>
+    <AppSectionHeader :title="__('promo-code::admin.promo_codes')" :bread-crumb="breadCrumb">
         <template #right>
             <div class="flex gap-2">
                 <AppButton
@@ -8,14 +8,14 @@
                     class="btn btn-secondary"
                     @click="$inertia.visit(route('promoCode.recycleBin.index'))"
                 >
-                    <i class="ri-delete-bin-2-line mr-1"></i> Recycle Bin
+                    <i class="ri-delete-bin-2-line mr-1"></i> {{ __('common.recycle_bin') }}
                 </AppButton>
                 <AppButton
                     v-if="can('promo-code-create')"
                     class="btn btn-primary"
                     @click="$inertia.visit(route('promoCode.create'))"
                 >
-                    <i class="ri-add-fill mr-1"></i> New Promo Code
+                    <i class="ri-add-fill mr-1"></i> {{ __('promo-code::admin.new_promo_code') }}
                 </AppButton>
             </div>
         </template>
@@ -56,13 +56,13 @@
                             class="rounded-full px-2.5 py-0.5 text-xs font-medium"
                             :class="statusClass(item.status)"
                         >
-                            {{ item.status }}
+                            {{ promoStatusText(item.status) }}
                         </span>
                     </AppDataTableData>
 
                     <AppDataTableData>
                         <div class="flex gap-1.5">
-                            <AppTooltip v-if="can('promo-code-edit')" text="Edit">
+                            <AppTooltip v-if="can('promo-code-edit')" :text="__('common.edit')">
                                 <AppButton
                                     class="btn btn-icon btn-primary"
                                     @click="$inertia.visit(route('promoCode.edit', item.id))"
@@ -70,7 +70,7 @@
                                     <i class="ri-edit-line"></i>
                                 </AppButton>
                             </AppTooltip>
-                            <AppTooltip v-if="can('promo-code-delete')" text="Delete">
+                            <AppTooltip v-if="can('promo-code-delete')" :text="__('common.delete')">
                                 <AppButton
                                     class="btn btn-icon btn-destructive"
                                     @click="confirmDelete(route('promoCode.destroy', item.id))"
@@ -93,15 +93,17 @@
         class="mt-4 justify-center"
     ></AppPaginator>
 
-    <AppAlert v-if="!promoCodes.data.length" class="mt-4">No promo codes found.</AppAlert>
+    <AppAlert v-if="!promoCodes.data.length" class="mt-4">{{ __('promo-code::admin.no_promo_codes_found') }}</AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import useAuthCan from '@/Composables/useAuthCan'
+
+const translate = inject('translate')
 
 const { can } = useAuthCan()
 
@@ -110,26 +112,43 @@ defineProps({
 })
 
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Promo Codes', last: true },
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('promo-code::admin.promo_codes'), last: true },
 ]
 
-const headers = ['Code', 'Discount', 'Min Order', 'Usage', 'Validity', 'Status', 'Actions']
+const headers = [
+    translate('promo-code::admin.code'),
+    translate('promo-code::admin.discount'),
+    translate('promo-code::admin.min_order'),
+    translate('promo-code::admin.usage'),
+    translate('promo-code::admin.validity'),
+    translate('common.field.status'),
+    translate('common.header.actions'),
+]
 
 const discountLabel = (item) => {
-    if (item.discount_type === 'free_shipping') return 'Free Shipping'
+    if (item.discount_type === 'free_shipping') return translate('promo-code::admin.free_shipping')
     if (item.discount_type === 'percentage') {
-        const cap = item.maximum_discount_amount ? ` (up to ${item.maximum_discount_amount} Tk)` : ''
+        const cap = item.maximum_discount_amount ? ' ' + translate('promo-code::admin.up_to', { amount: item.maximum_discount_amount }) : ''
         return `${item.discount_value}%${cap}`
     }
     return `${item.discount_value} Tk`
 }
 
 const validityLabel = (item) => {
-    if (!item.starts_at && !item.expires_at) return 'Always'
+    if (!item.starts_at && !item.expires_at) return translate('promo-code::admin.always')
     if (item.starts_at && item.expires_at) return `${item.starts_at} → ${item.expires_at}`
-    if (item.starts_at) return `From ${item.starts_at}`
-    return `Until ${item.expires_at}`
+    if (item.starts_at) return translate('promo-code::admin.from_date', { date: item.starts_at })
+    return translate('promo-code::admin.until_date', { date: item.expires_at })
+}
+
+const promoStatusText = (status) => {
+    if (status === 'active') return translate('promo-code::admin.status_active')
+    if (status === 'scheduled') return translate('promo-code::admin.status_scheduled')
+    if (status === 'expired') return translate('promo-code::admin.status_expired')
+    if (status === 'exhausted') return translate('promo-code::admin.status_exhausted')
+    if (status === 'disabled') return translate('promo-code::admin.status_disabled')
+    return status
 }
 
 const statusClass = (status) => ({

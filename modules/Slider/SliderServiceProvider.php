@@ -6,6 +6,8 @@ use Modules\Support\BaseServiceProvider;
 
 class SliderServiceProvider extends BaseServiceProvider
 {
+    protected ?string $viewNamespace = 'slider';
+
     public function boot()
     {
         parent::boot();

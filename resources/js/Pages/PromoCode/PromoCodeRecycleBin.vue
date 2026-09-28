@@ -1,24 +1,24 @@
 <template>
-    <Head title="Promo Codes Recycle Bin"></Head>
-    <AppSectionHeader title="Promo Codes — Recycle Bin" :bread-crumb="breadCrumb">
+    <Head :title="__('promo-code::admin.promo_codes_recycle_bin')"></Head>
+    <AppSectionHeader :title="__('promo-code::admin.promo_codes_recycle_bin')" :bread-crumb="breadCrumb">
         <template #right>
             <div class="flex gap-2">
                 <AppButton class="btn btn-secondary" @click="$inertia.visit(route('promoCode.index'))">
-                    <i class="ri-arrow-left-line mr-1"></i> Back
+                    <i class="ri-arrow-left-line mr-1"></i> {{ __('common.back') }}
                 </AppButton>
                 <AppButton
                     v-if="can('promo-code-recycle-bin-restore') && promoCodes.data.length"
                     class="btn btn-secondary"
                     @click="restoreAll"
                 >
-                    <i class="ri-arrow-go-back-line mr-1"></i> Restore All
+                    <i class="ri-arrow-go-back-line mr-1"></i> {{ __('common.restore_all') }}
                 </AppButton>
                 <AppButton
                     v-if="can('promo-code-recycle-bin-delete') && promoCodes.data.length"
                     class="btn btn-destructive"
                     @click="emptyBin"
                 >
-                    <i class="ri-delete-bin-line mr-1"></i> Empty Bin
+                    <i class="ri-delete-bin-line mr-1"></i> {{ __('common.empty_bin') }}
                 </AppButton>
             </div>
         </template>
@@ -43,7 +43,7 @@
                     <AppDataTableData class="w-40 text-right">
                         <AppTooltip
                             v-if="can('promo-code-recycle-bin-restore')"
-                            text="Restore"
+                            :text="__('common.restore')"
                             class="mr-3"
                         >
                             <AppButton
@@ -53,7 +53,7 @@
                                 <i class="ri-arrow-go-back-line"></i>
                             </AppButton>
                         </AppTooltip>
-                        <AppTooltip v-if="can('promo-code-recycle-bin-delete')" text="Delete Permanently">
+                        <AppTooltip v-if="can('promo-code-recycle-bin-delete')" :text="__('common.delete_permanently')">
                             <AppButton
                                 class="btn btn-icon btn-destructive"
                                 @click="confirmDelete(route('promoCode.recycleBin.destroyForce', item.id))"
@@ -77,14 +77,14 @@
     />
 
     <AppAlert v-if="!promoCodes.data.length" class="mt-4">
-        The recycle bin is empty.
+        {{ __('common.recycle_bin_empty') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef" />
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import useAuthCan from '@/Composables/useAuthCan'
 
@@ -92,16 +92,24 @@ const props = defineProps({
     promoCodes: { type: Object, default: () => ({}) },
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Promo Codes', href: route('promoCode.index') },
-    { label: 'Recycle Bin', last: true },
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('promo-code::admin.promo_codes'), href: route('promoCode.index') },
+    { label: translate('common.recycle_bin'), last: true },
 ]
 
-const headers = ['SL', 'Code', 'Discount', 'Deleted At', 'Actions']
+const headers = [
+    translate('common.header.sl'),
+    translate('promo-code::admin.code'),
+    translate('promo-code::admin.discount'),
+    translate('promo-code::admin.deleted_at'),
+    translate('common.header.actions'),
+]
 
 const discountLabel = (item) => {
-    if (item.discount_type === 'free_shipping') return 'Free Shipping'
+    if (item.discount_type === 'free_shipping') return translate('promo-code::admin.free_shipping')
     if (item.discount_type === 'percentage') return `${item.discount_value}%`
     return `${item.discount_value} Tk`
 }

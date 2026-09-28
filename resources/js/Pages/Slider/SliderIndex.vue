@@ -1,6 +1,6 @@
 <template>
-    <Head title="Sliders"></Head>
-    <AppSectionHeader title="Sliders" :bread-crumb="breadCrumb">
+    <Head :title="__('slider::admin.sliders')"></Head>
+    <AppSectionHeader :title="__('slider::admin.sliders')" :bread-crumb="breadCrumb">
         <template #right>
             <div class="flex gap-2">
                 <AppButton
@@ -8,14 +8,14 @@
                     class="btn btn-secondary"
                     @click="$inertia.visit(route('slider.recycleBin.index'))"
                 >
-                    <i class="ri-delete-bin-2-line mr-1"></i> Recycle Bin
+                    <i class="ri-delete-bin-2-line mr-1"></i> {{ __('common.recycle_bin') }}
                 </AppButton>
                 <AppButton
                     v-if="can('slider-create')"
                     class="btn btn-primary"
                     @click="$inertia.visit(route('slider.create'))"
                 >
-                    <i class="ri-add-fill mr-1"></i> New Slider
+                    <i class="ri-add-fill mr-1"></i> {{ __('slider::admin.new_slider') }}
                 </AppButton>
             </div>
         </template>
@@ -25,12 +25,12 @@
         <table class="w-full text-sm">
             <thead>
                 <tr class="border-b border-skin-neutral-4 text-left text-xs text-skin-neutral-9">
-                    <th class="px-4 py-3 font-medium">Image</th>
-                    <th class="px-4 py-3 font-medium">Title</th>
-                    <th class="px-4 py-3 font-medium">URL</th>
-                    <th class="px-4 py-3 text-center font-medium">Order</th>
-                    <th class="px-4 py-3 font-medium">Status</th>
-                    <th class="px-4 py-3 font-medium">Actions</th>
+                    <th class="px-4 py-3 font-medium">{{ __('slider::admin.image') }}</th>
+                    <th class="px-4 py-3 font-medium">{{ __('slider::admin.title') }}</th>
+                    <th class="px-4 py-3 font-medium">{{ __('slider::admin.url') }}</th>
+                    <th class="px-4 py-3 text-center font-medium">{{ __('slider::admin.order') }}</th>
+                    <th class="px-4 py-3 font-medium">{{ __('common.field.status') }}</th>
+                    <th class="px-4 py-3 font-medium">{{ __('common.header.actions') }}</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-skin-neutral-3">
@@ -63,12 +63,12 @@
                             class="rounded-full px-2.5 py-0.5 text-xs font-medium"
                             :class="item.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'"
                         >
-                            {{ item.active ? 'Active' : 'Inactive' }}
+                            {{ item.active ? __('common.field.active') : __('common.field.inactive') }}
                         </span>
                     </td>
                     <td class="px-4 py-3">
                         <div class="flex gap-1.5">
-                            <AppTooltip v-if="can('slider-edit')" text="Edit">
+                            <AppTooltip v-if="can('slider-edit')" :text="__('common.edit')">
                                 <AppButton
                                     class="btn btn-icon btn-primary"
                                     @click="$inertia.visit(route('slider.edit', item.id))"
@@ -76,7 +76,7 @@
                                     <i class="ri-edit-line"></i>
                                 </AppButton>
                             </AppTooltip>
-                            <AppTooltip v-if="can('slider-delete')" text="Delete">
+                            <AppTooltip v-if="can('slider-delete')" :text="__('common.delete')">
                                 <AppButton
                                     class="btn btn-icon btn-destructive"
                                     @click="confirmDelete(route('slider.destroy', item.id))"
@@ -100,15 +100,17 @@
         class="mt-4 justify-center"
     ></AppPaginator>
 
-    <AppAlert v-if="!sliders.data.length" class="mt-4">No sliders found.</AppAlert>
+    <AppAlert v-if="!sliders.data.length" class="mt-4">{{ __('slider::admin.no_sliders_found') }}</AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import useAuthCan from '@/Composables/useAuthCan'
+
+const translate = inject('translate')
 
 const { can } = useAuthCan()
 
@@ -117,8 +119,8 @@ defineProps({
 })
 
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Sliders', last: true },
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('slider::admin.sliders'), last: true },
 ]
 
 const confirmDialogRef = ref(null)

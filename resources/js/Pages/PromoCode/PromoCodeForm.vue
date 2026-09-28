@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Promo Codes" :bread-crumb="breadCrumb"></AppSectionHeader>
+    <AppSectionHeader :title="__('promo-code::admin.promo_codes')" :bread-crumb="breadCrumb"></AppSectionHeader>
 
     <AppCard class="w-full md:w-3/4 xl:w-1/2">
         <template #title>{{ title }}</template>
@@ -7,7 +7,7 @@
             <AppFormErrors class="mb-4" />
             <form class="space-y-5 pt-4" @submit.prevent="submitForm">
                 <div>
-                    <AppLabel for="code">Code</AppLabel>
+                    <AppLabel for="code">{{ __('promo-code::admin.code') }}</AppLabel>
                     <AppInputText
                         id="code"
                         v-model="form.code"
@@ -17,40 +17,40 @@
                         :class="{ 'input-error': errorsFields.includes('code') }"
                     />
                     <p class="mt-1 text-xs text-skin-neutral-7">
-                        Customers enter this code at checkout. Letters, numbers, dashes and underscores only.
+                        {{ __('promo-code::admin.code_hint') }}
                     </p>
                 </div>
 
                 <div>
-                    <AppLabel>Discount Type</AppLabel>
+                    <AppLabel>{{ __('promo-code::admin.discount_type') }}</AppLabel>
                     <div class="mt-1 flex flex-wrap gap-x-6">
                         <AppRadioButton
                             id="discount_type_percentage"
                             v-model="form.discount_type"
                             value="percentage"
                         >
-                            Percentage
+                            {{ __('promo-code::admin.percentage') }}
                         </AppRadioButton>
                         <AppRadioButton
                             id="discount_type_fixed"
                             v-model="form.discount_type"
                             value="fixed_amount"
                         >
-                            Fixed Amount
+                            {{ __('promo-code::admin.fixed_amount') }}
                         </AppRadioButton>
                         <AppRadioButton
                             id="discount_type_shipping"
                             v-model="form.discount_type"
                             value="free_shipping"
                         >
-                            Free Shipping
+                            {{ __('promo-code::admin.free_shipping') }}
                         </AppRadioButton>
                     </div>
                 </div>
 
                 <div v-if="form.discount_type !== 'free_shipping'">
                     <AppLabel for="discount_value">
-                        {{ form.discount_type === 'percentage' ? 'Discount (%)' : 'Discount Amount (Tk)' }}
+                        {{ form.discount_type === 'percentage' ? __('promo-code::admin.discount_percent') : __('promo-code::admin.discount_amount_tk') }}
                     </AppLabel>
                     <AppInputText
                         id="discount_value"
@@ -65,8 +65,8 @@
 
                 <div v-if="form.discount_type === 'percentage'">
                     <AppLabel for="maximum_discount_amount">
-                        Maximum Discount (Tk)
-                        <span class="text-xs font-normal text-skin-neutral-7">(optional cap)</span>
+                        {{ __('promo-code::admin.maximum_discount') }}
+                        <span class="text-xs font-normal text-skin-neutral-7">{{ __('promo-code::admin.optional_cap') }}</span>
                     </AppLabel>
                     <AppInputText
                         id="maximum_discount_amount"
@@ -80,8 +80,8 @@
 
                 <div>
                     <AppLabel for="minimum_order_amount">
-                        Minimum Order Amount (Tk)
-                        <span class="text-xs font-normal text-skin-neutral-7">(optional)</span>
+                        {{ __('promo-code::admin.minimum_order_amount') }}
+                        <span class="text-xs font-normal text-skin-neutral-7">{{ __('promo-code::admin.optional_hint') }}</span>
                     </AppLabel>
                     <AppInputText
                         id="minimum_order_amount"
@@ -96,8 +96,8 @@
                 <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div>
                         <AppLabel for="usage_limit">
-                            Total Usage Limit
-                            <span class="text-xs font-normal text-skin-neutral-7">(optional)</span>
+                            {{ __('promo-code::admin.total_usage_limit') }}
+                            <span class="text-xs font-normal text-skin-neutral-7">{{ __('promo-code::admin.optional_hint') }}</span>
                         </AppLabel>
                         <AppInputText
                             id="usage_limit"
@@ -105,14 +105,14 @@
                             type="number"
                             min="1"
                             step="1"
-                            placeholder="Unlimited"
+                            :placeholder="__('promo-code::admin.unlimited')"
                             :class="{ 'input-error': errorsFields.includes('usage_limit') }"
                         />
                     </div>
                     <div>
                         <AppLabel for="per_customer_limit">
-                            Per Customer Limit
-                            <span class="text-xs font-normal text-skin-neutral-7">(optional)</span>
+                            {{ __('promo-code::admin.per_customer_limit') }}
+                            <span class="text-xs font-normal text-skin-neutral-7">{{ __('promo-code::admin.optional_hint') }}</span>
                         </AppLabel>
                         <AppInputText
                             id="per_customer_limit"
@@ -120,7 +120,7 @@
                             type="number"
                             min="1"
                             step="1"
-                            placeholder="Unlimited"
+                            :placeholder="__('promo-code::admin.unlimited')"
                             :class="{ 'input-error': errorsFields.includes('per_customer_limit') }"
                         />
                     </div>
@@ -128,7 +128,7 @@
 
                 <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div>
-                        <AppLabel for="starts_at">Starts At</AppLabel>
+                        <AppLabel for="starts_at">{{ __('promo-code::admin.starts_at') }}</AppLabel>
                         <AppInputText
                             id="starts_at"
                             v-model="form.starts_at"
@@ -137,7 +137,7 @@
                         />
                     </div>
                     <div>
-                        <AppLabel for="expires_at">Expires At</AppLabel>
+                        <AppLabel for="expires_at">{{ __('promo-code::admin.expires_at') }}</AppLabel>
                         <AppInputText
                             id="expires_at"
                             v-model="form.expires_at"
@@ -149,24 +149,25 @@
 
                 <div class="flex items-center gap-2">
                     <AppCheckbox id="active" v-model="form.active" />
-                    <AppLabel for="active" class="mb-0 hover:cursor-pointer">Active</AppLabel>
+                    <AppLabel for="active" class="mb-0 hover:cursor-pointer">{{ __('common.field.active') }}</AppLabel>
                 </div>
 
                 <p v-if="promoCode" class="text-xs text-skin-neutral-7">
-                    Used in <span class="font-semibold">{{ promoCode.used_count }}</span> order{{ promoCode.used_count === 1 ? '' : 's' }}
-                    <template v-if="promoCode.usage_limit"> of {{ promoCode.usage_limit }} allowed</template>.
+                    {{ __('promo-code::admin.used_in', { count: promoCode.used_count }) }}
+                    <template v-if="promoCode.usage_limit">{{ __('promo-code::admin.of_allowed', { limit: promoCode.usage_limit }) }}</template>.
                 </p>
             </form>
         </template>
         <template #footer>
             <AppButton class="btn btn-primary" @click="submitForm">
-                {{ __('Save') }}
+                {{ __('common.save') }}
             </AppButton>
         </template>
     </AppCard>
 </template>
 
 <script setup>
+import { inject } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 
 import useTitle from '@/Composables/useTitle'
@@ -180,13 +181,15 @@ const props = defineProps({
     },
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Promo Codes', href: route('promoCode.index') },
-    { label: 'Promo Code', last: true },
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('promo-code::admin.promo_codes'), href: route('promoCode.index') },
+    { label: translate('promo-code::admin.promo_code'), last: true },
 ]
 
-const { title } = useTitle('Promo Code')
+const { title } = useTitle(translate('promo-code::admin.promo_code'))
 
 const form = useForm({
     code: props.promoCode?.code ?? '',
