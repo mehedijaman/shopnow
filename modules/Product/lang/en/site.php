@@ -38,8 +38,6 @@ return [
     ],
 
     'downloads' => [
-        'manage_heading' => 'Manage Account',
-        'manage_hint' => 'View your downloads and manage account settings.',
         'title' => 'My Downloads',
         'empty' => 'You have no downloads yet.',
         'col_product' => 'Product',

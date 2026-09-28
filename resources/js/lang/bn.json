@@ -27,5 +27,18 @@
     "common.sign_out": "সাইন আউট",
     "common.switch_language": "ভাষা পরিবর্তন করুন",
     "common.try_different_search": "অন্য কিছু লিখে সার্চ করুন",
-    "common.upload_file": "ফাইল আপলোড করুন"
+    "common.upload_file": "ফাইল আপলোড করুন",
+    "order::enums.order_status.cancelled": "বাতিল",
+    "order::enums.order_status.completed": "সম্পন্ন",
+    "order::enums.order_status.delivered": "ডেলিভার হয়েছে",
+    "order::enums.order_status.pending": "অপেক্ষমাণ",
+    "order::enums.order_status.processing": "প্রক্রিয়াধীন",
+    "order::enums.order_status.shipped": "পাঠানো হয়েছে",
+    "order::enums.payment_status.paid": "পেমেন্ট হয়েছে",
+    "order::enums.payment_status.unpaid": "অপরিশোধিত",
+    "order::enums.shipment_status.cancelled": "বাতিল",
+    "order::enums.shipment_status.delivered": "ডেলিভার হয়েছে",
+    "order::enums.shipment_status.pending": "অপেক্ষমাণ",
+    "order::enums.shipment_status.processing": "প্রক্রিয়াধীন",
+    "order::enums.shipment_status.shipped": "পাঠানো হয়েছে"
 }

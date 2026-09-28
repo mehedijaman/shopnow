@@ -6,6 +6,8 @@ use Modules\Support\BaseServiceProvider;
 
 class OrderServiceProvider extends BaseServiceProvider
 {
+    protected ?string $viewNamespace = 'order';
+
     public function boot()
     {
         parent::boot();

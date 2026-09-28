@@ -293,7 +293,7 @@ class LocalizationCheckCommand extends Command
      */
     protected function literalKeys(string $file): array
     {
-        $pattern = '/(?:\b__|\btrans|\btrans_choice|@lang)\(\s*([\'"])(.+?)\1/s';
+        $pattern = '/(?:\b__|\btranslate|\btrans|\btrans_choice|@lang)\(\s*([\'"])(.+?)\1/s';
 
         preg_match_all($pattern, $this->source($file), $matches);
 

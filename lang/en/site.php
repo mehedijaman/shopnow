@@ -46,6 +46,9 @@ return [
         'downloads' => 'Downloads',
         'my_account' => 'My Account',
         'sign_in_register' => 'Sign In / Register',
+        'manage_heading' => 'Manage Account',
+        'manage_hint_orders' => 'View your order history and manage downloads.',
+        'manage_hint_downloads' => 'View your downloads and manage account settings.',
     ],
 
     'search' => [

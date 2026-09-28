@@ -27,5 +27,18 @@
     "common.sign_out": "Sign Out",
     "common.switch_language": "Switch language",
     "common.try_different_search": "Try a different search term",
-    "common.upload_file": "Upload File"
+    "common.upload_file": "Upload File",
+    "order::enums.order_status.cancelled": "Cancelled",
+    "order::enums.order_status.completed": "Completed",
+    "order::enums.order_status.delivered": "Delivered",
+    "order::enums.order_status.pending": "Pending",
+    "order::enums.order_status.processing": "Processing",
+    "order::enums.order_status.shipped": "Shipped",
+    "order::enums.payment_status.paid": "Paid",
+    "order::enums.payment_status.unpaid": "Unpaid",
+    "order::enums.shipment_status.cancelled": "Cancelled",
+    "order::enums.shipment_status.delivered": "Delivered",
+    "order::enums.shipment_status.pending": "Pending",
+    "order::enums.shipment_status.processing": "Processing",
+    "order::enums.shipment_status.shipped": "Shipped"
 }

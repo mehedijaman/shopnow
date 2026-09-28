@@ -10,8 +10,8 @@
         <!-- Sidebar Navigation -->
         <div class="md:col-span-1">
             <div class="px-4 sm:px-0">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">{{ __('product::site.downloads.manage_heading') }}</h3>
-                <p class="mt-1 text-sm text-gray-600">{{ __('product::site.downloads.manage_hint') }}</p>
+                <h3 class="text-lg font-medium leading-6 text-gray-900">{{ __('site.account.manage_heading') }}</h3>
+                <p class="mt-1 text-sm text-gray-600">{{ __('site.account.manage_hint_downloads') }}</p>
                 
                 <nav class="mt-6 space-y-2">
                     <a href="{{ route('account.profile') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700">
