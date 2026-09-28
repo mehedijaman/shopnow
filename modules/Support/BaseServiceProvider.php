@@ -9,6 +9,30 @@ use ReflectionClass;
 class BaseServiceProvider extends ServiceProvider
 {
     /**
+     * The module's view namespace, e.g. "index" for `modules/Index/views`.
+     *
+     * Also used as the translation namespace for the module's own
+     * `modules/{Module}/lang/{locale}` files, so a module's views and its
+     * translation keys always share one prefix.
+     */
+    protected ?string $viewNamespace = null;
+
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        parent::register();
+
+        if ($this->viewNamespace !== null) {
+            $this->loadTranslationsFrom(
+                $this->getCurrentDir().'/lang',
+                $this->viewNamespace
+            );
+        }
+    }
+
+    /**
      * Bootstrap services.
      */
     public function boot()

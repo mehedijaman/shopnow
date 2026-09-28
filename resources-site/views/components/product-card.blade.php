@@ -94,7 +94,7 @@
             @endif
             @if ($product->type?->value === 'bundle')
                 <span class="rounded-md bg-indigo-600/90 backdrop-blur-sm px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white shadow-sm">
-                    Bundle
+                    {{ __('site.product.bundle') }}
                 </span>
             @endif
             @if ($product->type?->value === 'variable')
@@ -103,12 +103,12 @@
                 @endphp
                 @if (! $hasVariationStock)
                     <span class="rounded-md bg-gray-900/90 backdrop-blur-sm px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white shadow-sm dark:bg-gray-700">
-                        Out of Stock
+                        {{ __('site.product.out_of_stock') }}
                     </span>
                 @endif
             @elseif ($product->quantity <= 0)
                 <span class="rounded-md bg-gray-900/90 backdrop-blur-sm px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white shadow-sm dark:bg-gray-700">
-                    Out of Stock
+                    {{ __('site.product.out_of_stock') }}
                 </span>
             @endif
         </div>
@@ -116,7 +116,7 @@
         @if ($product->sale_price)
             <div class="absolute right-2 top-1 z-10 sm:right-3 sm:top-1.5">
                 <span class="rounded-md bg-red-600/90 backdrop-blur-sm px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white shadow-sm">
-                    Sale
+                    {{ __('site.product.sale') }}
                 </span>
             </div>
         @endif
@@ -148,14 +148,14 @@
                     @if ($minPrice)
                         <div class="flex items-baseline gap-1">
                             @if ($maxPrice && $maxPrice > $minPrice)
-                                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">From</span>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">{{ __('site.product.from') }}</span>
                             @endif
                             <span class="text-base sm:text-lg font-extrabold text-gray-900 dark:text-white">
                                 ৳{{ number_format($minPrice, 2) }}
                             </span>
                         </div>
                     @else
-                        <span class="text-xs font-bold text-gray-400">Price varies</span>
+                        <span class="text-xs font-bold text-gray-400">{{ __('site.product.price_varies') }}</span>
                     @endif
                 @elseif ($product->type?->value === 'bundle')
                     <span class="text-base sm:text-lg font-extrabold text-gray-900 dark:text-white">

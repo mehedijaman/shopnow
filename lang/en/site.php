@@ -56,6 +56,35 @@ return [
         'to_close' => 'to close',
     ],
 
+    'home' => [
+        'view_all' => 'View All',
+        'brands_heading' => 'Our Brands',
+        'brands_subtitle' => 'Discover products from our trusted partners',
+    ],
+
+    'product' => [
+        'bundle' => 'Bundle',
+        'out_of_stock' => 'Out of Stock',
+        'sale' => 'Sale',
+        'from' => 'From',
+        'price_varies' => 'Price varies',
+    ],
+
+    'blog' => [
+        'latest_heading' => 'Latest from the Blog',
+        'latest_subheading' => 'Stay updated with our latest news and articles.',
+        'view_all_posts' => 'View All Posts',
+        'read_more' => 'Read more',
+    ],
+
+    'slider' => [
+        'slide_link' => 'Slide link',
+    ],
+
+    'whatsapp' => [
+        'chat' => 'Chat on WhatsApp',
+    ],
+
     'footer' => [
         'tagline' => 'Your trusted online store for high-quality products, fast delivery, and exceptional customer experience.',
         'quick_links' => 'Quick Links',

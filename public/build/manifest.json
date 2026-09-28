@@ -255,8 +255,12 @@
       "resources/js/app.js"
     ]
   },
-  "_MobileBottomNav-2i56t83s.js": {
-    "file": "assets/MobileBottomNav-2i56t83s.js",
+  "_MobileBottomNav-BKB3r1wW.css": {
+    "file": "assets/MobileBottomNav-BKB3r1wW.css",
+    "src": "_MobileBottomNav-BKB3r1wW.css"
+  },
+  "_MobileBottomNav-CliohZvP.js": {
+    "file": "assets/MobileBottomNav-CliohZvP.js",
     "name": "MobileBottomNav",
     "imports": [
       "_preload-helper-zzgU9aZX.js",
@@ -268,12 +272,8 @@
       "resources-site/js/lang/en.json"
     ],
     "css": [
-      "assets/MobileBottomNav-Bu18MYqa.css"
+      "assets/MobileBottomNav-BKB3r1wW.css"
     ]
-  },
-  "_MobileBottomNav-Bu18MYqa.css": {
-    "file": "assets/MobileBottomNav-Bu18MYqa.css",
-    "src": "_MobileBottomNav-Bu18MYqa.css"
   },
   "_PostStore-D95N8fJj.js": {
     "file": "assets/PostStore-D95N8fJj.js",
@@ -403,35 +403,35 @@
     "isEntry": true
   },
   "resources-site/js/blog-app.js": {
-    "file": "assets/blog-app-BEQdCfz3.js",
+    "file": "assets/blog-app-B0yOUNN9.js",
     "name": "blog-app",
     "src": "resources-site/js/blog-app.js",
     "isEntry": true,
     "imports": [
       "_preload-helper-zzgU9aZX.js",
-      "_MobileBottomNav-2i56t83s.js",
+      "_MobileBottomNav-CliohZvP.js",
       "_AppInputText-CKJTGBKS.js",
       "_AppCombobox-Ccb3dGFa.js"
     ]
   },
   "resources-site/js/index-app.js": {
-    "file": "assets/index-app-HwhW8D_q.js",
+    "file": "assets/index-app-CAZi6j-w.js",
     "name": "index-app",
     "src": "resources-site/js/index-app.js",
     "isEntry": true,
     "imports": [
       "_preload-helper-zzgU9aZX.js",
-      "_MobileBottomNav-2i56t83s.js"
+      "_MobileBottomNav-CliohZvP.js"
     ]
   },
   "resources-site/js/lang/bn.json": {
-    "file": "assets/bn-UJLQUv0w.js",
+    "file": "assets/bn-BHKv4vkh.js",
     "name": "bn",
     "src": "resources-site/js/lang/bn.json",
     "isDynamicEntry": true
   },
   "resources-site/js/lang/en.json": {
-    "file": "assets/en-C9rqwJ4W.js",
+    "file": "assets/en-OzVW6Axg.js",
     "name": "en",
     "src": "resources-site/js/lang/en.json",
     "isDynamicEntry": true

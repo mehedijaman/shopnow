@@ -16,7 +16,7 @@
         @if ($featuredProducts->isNotEmpty())
             <section class="mb-12 lg:mb-16">
                 <div class="mb-6 flex items-end justify-between">
-                    <h2 class="text-2xl font-bold tracking-tight text-gray-900">Featured Products</h2>
+                    <h2 class="text-2xl font-bold tracking-tight text-gray-900">{{ __('index::site.featured_products') }}</h2>
                 </div>
                 <div class="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
                     @foreach ($featuredProducts as $product)

@@ -13,7 +13,7 @@ use Modules\Support\BaseServiceProvider;
 
 class CourierServiceProvider extends BaseServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         parent::register();
 

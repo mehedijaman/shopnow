@@ -4,33 +4,33 @@
         :href="whatsappUrl"
         target="_blank"
         rel="noopener noreferrer"
-        class="fixed bottom-18 right-6 z-[60] flex h-10 w-10 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-110 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800"
-        aria-label="Chat on WhatsApp"
-        title="Chat on WhatsApp"
+        class="bottom-18 fixed right-6 z-[60] flex h-10 w-10 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-110 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800"
+        :aria-label="__('site.whatsapp.chat')"
+        :title="__('site.whatsapp.chat')"
     >
         <i class="ri-whatsapp-line text-3xl"></i>
     </a>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed } from 'vue'
 
 const props = defineProps({
     number: {
         type: String,
         required: false,
-        default: null,
-    },
-});
+        default: null
+    }
+})
 
 const whatsappNumber = computed(() => {
-    if (!props.number) return null;
-    return props.number.replace(/[^0-9+]/g, '');
-});
+    if (!props.number) return null
+    return props.number.replace(/[^0-9+]/g, '')
+})
 
 const whatsappUrl = computed(() => {
-    return `https://wa.me/${whatsappNumber.value}`;
-});
+    return `https://wa.me/${whatsappNumber.value}`
+})
 </script>
 
 <style scoped>
