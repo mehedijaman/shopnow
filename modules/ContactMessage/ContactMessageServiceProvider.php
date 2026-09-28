@@ -6,6 +6,8 @@ use Modules\Support\BaseServiceProvider;
 
 class ContactMessageServiceProvider extends BaseServiceProvider
 {
+    protected ?string $viewNamespace = 'contactMessage';
+
     public function boot()
     {
         parent::boot();

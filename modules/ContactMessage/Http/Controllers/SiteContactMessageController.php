@@ -40,6 +40,6 @@ class SiteContactMessageController extends SiteController
 
         // Mail::to('mail4mjaman@gmail.com')->send(new ContactMessageMail($validatedData));
 
-        return back()->with('success', 'Your message has been sent.');
+        return back()->with('success', __('contactMessage::site.contact.sent'));
     }
 }

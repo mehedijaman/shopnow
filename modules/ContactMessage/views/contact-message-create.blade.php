@@ -7,7 +7,7 @@
 @section('content')
     <x-breadcrumb>
         <li class="min-w-0">
-            <span class="font-semibold text-gray-800">Contact Us</span>
+            <span class="font-semibold text-gray-800">{{ __('contactMessage::site.contact.breadcrumb') }}</span>
         </li>
     </x-breadcrumb>
 
@@ -21,13 +21,13 @@
             {{-- Header Section --}}
             <div class="mx-auto mb-10 max-w-3xl text-center sm:mb-14">
                 <span class="inline-flex items-center gap-1.5 rounded-full bg-primary-50 px-3.5 py-1 text-xs font-semibold text-primary-700 ring-1 ring-inset ring-primary-600/20">
-                    <i class="ri-customer-service-2-line text-sm"></i> 24/7 Customer Support
+                    <i class="ri-customer-service-2-line text-sm"></i> {{ __('contactMessage::site.contact.support_badge') }}
                 </span>
                 <h1 class="mt-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
-                    Get in Touch With Us
+                    {{ __('contactMessage::site.contact.heading') }}
                 </h1>
                 <p class="mt-3 text-base text-slate-600 sm:text-lg">
-                    Have a question, feedback, or need help with your order? Send us a message and our support team will respond promptly.
+                    {{ __('contactMessage::site.contact.intro') }}
                 </p>
             </div>
 
@@ -47,7 +47,7 @@
                     <div class="overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition hover:shadow-md sm:p-7">
                         <h2 class="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400">
                             <span class="h-2 w-2 rounded-full bg-primary-600"></span>
-                            Reach Us Directly
+                            {{ __('contactMessage::site.contact.reach_directly') }}
                         </h2>
 
                         <div class="space-y-6">
@@ -58,7 +58,7 @@
                                     <i class="ri-map-pin-2-fill text-xl"></i>
                                 </div>
                                 <div class="min-w-0 flex-1">
-                                    <p class="text-xs font-medium text-slate-400">Our Location</p>
+                                    <p class="text-xs font-medium text-slate-400">{{ __('contactMessage::site.contact.our_location') }}</p>
                                     @foreach ($addresses as $address)
                                         <p class="mt-0.5 text-sm font-semibold text-slate-800">{{ $address }}</p>
                                     @endforeach
@@ -73,7 +73,7 @@
                                     <i class="ri-phone-fill text-xl"></i>
                                 </div>
                                 <div class="min-w-0 flex-1">
-                                    <p class="text-xs font-medium text-slate-400">Call Us</p>
+                                    <p class="text-xs font-medium text-slate-400">{{ __('contactMessage::site.contact.call_us') }}</p>
                                     <p class="mt-0.5 text-sm font-semibold text-slate-800">
                                         @foreach ($phones as $phone)
                                             <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}" class="transition hover:text-primary-600">
@@ -92,7 +92,7 @@
                                     <i class="ri-mail-fill text-xl"></i>
                                 </div>
                                 <div class="min-w-0 flex-1">
-                                    <p class="text-xs font-medium text-slate-400">Email Support</p>
+                                    <p class="text-xs font-medium text-slate-400">{{ __('contactMessage::site.contact.email_support') }}</p>
                                     @foreach ($emails as $email)
                                         <a href="mailto:{{ $email }}" class="mt-0.5 block text-sm font-semibold text-slate-800 transition hover:text-primary-600 break-all">
                                             {{ $email }}
@@ -116,8 +116,8 @@
                                 <i class="ri-time-fill text-xl"></i>
                             </div>
                             <div>
-                                <h3 class="text-sm font-bold text-slate-900">Working Hours</h3>
-                                <p class="text-xs text-slate-500">Support Availability</p>
+                                <h3 class="text-sm font-bold text-slate-900">{{ __('contactMessage::site.contact.working_hours') }}</h3>
+                                <p class="text-xs text-slate-500">{{ __('contactMessage::site.contact.support_availability') }}</p>
                             </div>
                         </div>
                         <ul class="mt-4 space-y-2 border-t border-slate-100 pt-4 text-xs">
@@ -151,9 +151,9 @@
                     <div class="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-8 lg:p-10">
 
                         <div class="mb-6 border-b border-slate-100 pb-5">
-                            <h2 class="text-xl font-bold text-slate-900 sm:text-2xl">Send Us a Message</h2>
+                            <h2 class="text-xl font-bold text-slate-900 sm:text-2xl">{{ __('contactMessage::site.contact.form_heading') }}</h2>
                             <p class="mt-1 text-xs text-slate-500 sm:text-sm">
-                                Please fill out all required fields below marked with an asterisk (<span class="text-red-500 font-bold">*</span>).
+                                {!! __('contactMessage::site.contact.required_fields') !!}
                             </p>
                         </div>
 
@@ -162,7 +162,7 @@
                             <div class="mb-6 flex items-start gap-3 rounded-xl border border-emerald-200 bg-emerald-50/80 p-4 text-sm text-emerald-900 shadow-xs">
                                 <i class="ri-checkbox-circle-fill text-xl text-emerald-600 shrink-0"></i>
                                 <div class="flex-1">
-                                    <p class="font-semibold text-emerald-900">Message Sent Successfully!</p>
+                                    <p class="font-semibold text-emerald-900">{{ __('contactMessage::site.contact.success_heading') }}</p>
                                     <p class="mt-0.5 text-xs text-emerald-700">{{ session('success') }}</p>
                                 </div>
                             </div>
@@ -175,7 +175,7 @@
                                 <!-- Name -->
                                 <div>
                                     <label for="name" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
-                                        Your Name <span class="text-red-500">*</span>
+                                        {{ __('contactMessage::site.contact.name_label') }} <span class="text-red-500">*</span>
                                     </label>
                                     <div class="relative">
                                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
@@ -196,7 +196,7 @@
                                 <!-- Phone -->
                                 <div>
                                     <label for="phone" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
-                                        Phone Number
+                                        {{ __('contactMessage::site.contact.phone_label') }}
                                     </label>
                                     <div class="relative">
                                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
@@ -217,7 +217,7 @@
                                 <!-- Email -->
                                 <div>
                                     <label for="email" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
-                                        Email Address
+                                        {{ __('contactMessage::site.contact.email_label') }}
                                     </label>
                                     <div class="relative">
                                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
@@ -237,7 +237,7 @@
                                 <!-- Subject -->
                                 <div>
                                     <label for="subject" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
-                                        Subject
+                                        {{ __('contactMessage::site.contact.subject_label') }}
                                     </label>
                                     <div class="relative">
                                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
@@ -248,7 +248,7 @@
                                             id="subject"
                                             name="subject"
                                             value="{{ old('subject') }}"
-                                            placeholder="e.g. Order Inquiry / Support"
+                                            placeholder="{{ __('contactMessage::site.contact.subject_placeholder') }}"
                                             class="block w-full rounded-xl border border-slate-200 bg-slate-50/50 py-3 pl-10 pr-4 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                                         />
                                     </div>
@@ -258,7 +258,7 @@
                             <!-- Message -->
                             <div>
                                 <label for="message" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
-                                    Message <span class="text-red-500">*</span>
+                                    {{ __('contactMessage::site.contact.message_label') }} <span class="text-red-500">*</span>
                                 </label>
                                 <div class="relative">
                                     <textarea
@@ -266,7 +266,7 @@
                                         name="message"
                                         rows="5"
                                         required
-                                        placeholder="Write your message here... Please include order details if applicable."
+                                        placeholder="{{ __('contactMessage::site.contact.message_placeholder') }}"
                                         class="block w-full rounded-xl border border-slate-200 bg-slate-50/50 p-4 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 @error('message') border-red-400 bg-red-50/50 focus:border-red-500 focus:ring-red-500/20 @enderror"
                                     >{{ old('message') }}</textarea>
                                 </div>
@@ -279,7 +279,7 @@
                                     type="submit"
                                     class="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-primary-600/25 transition-all duration-200 hover:from-primary-700 hover:to-primary-800 hover:shadow-xl hover:shadow-primary-600/30 focus:outline-none focus:ring-4 focus:ring-primary-600/20 active:scale-[0.99] sm:w-auto"
                                 >
-                                    <span>Send Message</span>
+                                    <span>{{ __('contactMessage::site.contact.submit') }}</span>
                                     <i class="ri-send-plane-fill text-base transition-transform group-hover:translate-x-1"></i>
                                 </button>
                             </div>
