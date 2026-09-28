@@ -137,7 +137,7 @@
                     {{-- <div class="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-800 p-6 text-white shadow-lg shadow-primary-600/20">
                         <div class="flex items-center gap-3">
                             <i class="ri-shield-check-fill text-2xl text-primary-200"></i>
-                            <h3 class="text-sm font-bold">Fast & Friendly Support</h3>
+                            <h3 class="text-sm font-bold">{{ __('contactMessage::site.contact.support_card_heading') }}</h3>
                         </div>
                         <p class="mt-2 text-xs leading-relaxed text-primary-100">
                             We aim to respond to all inquiries within 2 to 4 business hours. Thank you for choosing {{ setting('branding.site_name', config('app.name')) }}!

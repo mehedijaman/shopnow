@@ -7,6 +7,7 @@ return [
         'support_badge' => '24/7 Customer Support',
         'heading' => 'Get in Touch With Us',
         'intro' => 'Have a question, feedback, or need help with your order? Send us a message and our support team will respond promptly.',
+        'support_card_heading' => 'Fast & Friendly Support',
         'reach_directly' => 'Reach Us Directly',
         'our_location' => 'Our Location',
         'call_us' => 'Call Us',

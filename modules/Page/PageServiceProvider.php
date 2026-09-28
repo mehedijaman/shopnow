@@ -6,6 +6,8 @@ use Modules\Support\BaseServiceProvider;
 
 class PageServiceProvider extends BaseServiceProvider
 {
+    protected ?string $viewNamespace = 'page';
+
     public function boot()
     {
         parent::boot();

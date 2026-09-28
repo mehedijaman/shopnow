@@ -68,13 +68,13 @@
                             <i class="ri-question-line text-2xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-white">Have questions about this page?</h3>
-                            <p class="mt-0.5 text-xs text-slate-300">Our customer support team is here to help you anytime.</p>
+                            <h3 class="text-base font-bold text-white">{{ __('page::site.support.heading') }}</h3>
+                            <p class="mt-0.5 text-xs text-slate-300">{{ __('page::site.support.body') }}</p>
                         </div>
                     </div>
                     <a href="{{ route('site.contact') }}" class="inline-flex shrink-0 items-center gap-2 rounded-xl bg-primary-600 px-5 py-2.5 text-xs font-bold text-white shadow-md transition-all hover:bg-primary-700 hover:shadow-lg">
                         <i class="ri-mail-send-line text-sm"></i>
-                        <span>Contact Support</span>
+                        <span>{{ __('site.footer.contact_support') }}</span>
                     </a>
                 </div>
             </div>
