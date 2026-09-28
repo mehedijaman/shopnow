@@ -1,6 +1,6 @@
 @extends('site-layout')
 
-@section('seo_title', 'Track Your Parcel — ' . setting('branding.site_name', config('app.name')))
+@section('seo_title', __('courier::site.track.seo_title').' — '.setting('branding.site_name', config('app.name')))
 
 {{-- Form page is an indexable utility; results are PII-gated behind the phone match. --}}
 @section('robots', !empty($notFound) || !empty($awaitingShipment) || isset($shipment) ? 'noindex, follow' : 'index, follow')
@@ -23,9 +23,9 @@
             <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary-50 text-primary-600">
                 <i class="ri-truck-line text-2xl"></i>
             </div>
-            <h1 class="text-2xl font-bold text-slate-900 sm:text-3xl">Track Your Parcel</h1>
+            <h1 class="text-2xl font-bold text-slate-900 sm:text-3xl">{{ __('courier::site.track.heading') }}</h1>
             <p class="mt-2 text-sm text-slate-500">
-                Enter your tracking or order number, and the phone number you used for the order.
+                {{ __('courier::site.track.intro') }}
             </p>
         </div>
 
@@ -33,7 +33,7 @@
             <form action="{{ route('site.track.result') }}" method="GET" class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div>
                     <label for="tracking" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
-                        Tracking or Order Number <span class="text-red-500">*</span>
+                        {{ __('courier::site.track.tracking_label') }} <span class="text-red-500">*</span>
                     </label>
                     <div class="relative">
                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
@@ -46,7 +46,7 @@
                             value="{{ old('tracking', $tracking ?? '') }}"
                             maxlength="64"
                             required
-                            placeholder="e.g. STF123456789 or 1042"
+                            placeholder="{{ __('courier::site.track.tracking_placeholder') }}"
                             class="block w-full rounded-xl border border-slate-200 bg-slate-50/50 py-3 pl-10 pr-4 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 @error('tracking') border-red-400 bg-red-50/50 focus:border-red-500 focus:ring-red-500/20 @enderror"
                         />
                     </div>
@@ -55,7 +55,7 @@
 
                 <div>
                     <label for="phone" class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">
-                        Phone Number <span class="text-red-500">*</span>
+                        {{ __('courier::site.track.phone_label') }} <span class="text-red-500">*</span>
                     </label>
                     <div class="relative">
                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
@@ -68,7 +68,7 @@
                             value="{{ old('phone', $phone ?? $prefillPhone ?? '') }}"
                             maxlength="14"
                             required
-                            placeholder="e.g. 01712345678"
+                            placeholder="{{ __('courier::site.track.phone_placeholder') }}"
                             class="block w-full rounded-xl border border-slate-200 bg-slate-50/50 py-3 pl-10 pr-4 text-sm text-slate-900 transition-all placeholder:text-slate-400 focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 @error('phone') border-red-400 bg-red-50/50 focus:border-red-500 focus:ring-red-500/20 @enderror"
                         />
                     </div>
@@ -80,7 +80,7 @@
                         type="submit"
                         class="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-primary-600/25 transition-all duration-200 hover:from-primary-700 hover:to-primary-800 hover:shadow-xl hover:shadow-primary-600/30 focus:outline-none focus:ring-4 focus:ring-primary-600/20 active:scale-[0.99] sm:w-auto"
                     >
-                        <span>Track Parcel</span>
+                        <span>{{ __('courier::site.track.submit') }}</span>
                         <i class="ri-search-line text-base transition-transform group-hover:translate-x-0.5"></i>
                     </button>
                 </div>
@@ -90,9 +90,9 @@
                 <div class="mt-6 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50/80 p-4 text-sm text-red-900">
                     <i class="ri-error-warning-fill mt-0.5 shrink-0 text-xl text-red-600"></i>
                     <div>
-                        <p class="font-semibold">Shipment not found</p>
+                        <p class="font-semibold">{{ __('courier::site.track.not_found_heading') }}</p>
                         <p class="mt-0.5 text-xs text-red-700">
-                            No shipment matches that tracking number and phone combination. Please double-check both and try again.
+                            {{ __('courier::site.track.not_found_body') }}
                         </p>
                     </div>
                 </div>
@@ -103,11 +103,11 @@
             <div class="mt-6 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-8">
                 <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-100 pb-5">
                     <div>
-                        <p class="text-xs font-medium uppercase tracking-wider text-slate-400">Order</p>
+                        <p class="text-xs font-medium uppercase tracking-wider text-slate-400">{{ __('courier::site.track.order') }}</p>
                         <p class="mt-0.5 text-lg font-bold text-slate-900">#{{ $order->id }}</p>
                     </div>
                     <div class="text-right">
-                        <p class="text-xs font-medium uppercase tracking-wider text-slate-400">Order Status</p>
+                        <p class="text-xs font-medium uppercase tracking-wider text-slate-400">{{ __('courier::site.track.order_status') }}</p>
                         <p class="mt-0.5 text-lg font-bold text-slate-900">{{ $order->status->label() }}</p>
                     </div>
                 </div>
@@ -116,12 +116,12 @@
                     <i class="ri-time-line mt-0.5 shrink-0 text-xl text-amber-500"></i>
                     <div>
                         <p class="text-sm font-bold text-slate-900">
-                            {{ $order->requires_shipping ? 'This order hasn\'t been shipped yet.' : 'This order doesn\'t include a parcel to track.' }}
+                            {{ $order->requires_shipping ? __('courier::site.track.awaiting_shipped') : __('courier::site.track.awaiting_no_parcel') }}
                         </p>
                         <p class="mt-0.5 text-xs text-slate-500">
                             {{ $order->requires_shipping
-                                ? 'Tracking will appear here once the courier picks up your parcel. Placed on '.$order->created_at->format('d M Y, h:i A').' — keep this page or check back later.'
-                                : 'Placed on '.$order->created_at->format('d M Y, h:i A').'.' }}
+                                ? __('courier::site.track.awaiting_shipped_body', ['date' => $order->created_at->format('d M Y, h:i A')])
+                                : __('courier::site.track.awaiting_no_parcel_body', ['date' => $order->created_at->format('d M Y, h:i A')]) }}
                         </p>
                     </div>
                 </div>
@@ -138,11 +138,11 @@
             <div class="mt-6 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-8">
                 <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-100 pb-5">
                     <div>
-                        <p class="text-xs font-medium uppercase tracking-wider text-slate-400">Order</p>
+                        <p class="text-xs font-medium uppercase tracking-wider text-slate-400">{{ __('courier::site.track.order') }}</p>
                         <p class="mt-0.5 text-lg font-bold text-slate-900">#{{ $order->id }}</p>
                     </div>
                     <div class="text-right">
-                        <p class="text-xs font-medium uppercase tracking-wider text-slate-400">Carrier</p>
+                        <p class="text-xs font-medium uppercase tracking-wider text-slate-400">{{ __('courier::site.track.carrier') }}</p>
                         <p class="mt-0.5 text-lg font-bold text-slate-900">{{ $courierLabel }}</p>
                     </div>
                 </div>
@@ -150,13 +150,13 @@
                 @if (!empty($refreshing))
                     <div class="mt-4 flex items-center gap-2 rounded-xl border border-primary-100 bg-primary-50/70 px-3.5 py-2.5 text-xs font-semibold text-primary-700">
                         <i class="ri-refresh-line animate-spin text-sm"></i>
-                        <span>Requesting the latest status from the courier — refresh in a few seconds.</span>
+                        <span>{{ __('courier::site.track.refreshing') }}</span>
                     </div>
                 @endif
 
                 <dl class="grid grid-cols-1 gap-x-6 gap-y-4 pt-5 sm:grid-cols-2">
                     <div class="flex items-center justify-between sm:block">
-                        <dt class="text-xs font-medium uppercase tracking-wider text-slate-400">Shipment Status</dt>
+                        <dt class="text-xs font-medium uppercase tracking-wider text-slate-400">{{ __('courier::site.track.shipment_status') }}</dt>
                         <dd class="mt-1">
                             <span class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold {{ $statusStyle }}">
                                 {{ $shipment->shopment_status->label() }}
@@ -166,7 +166,7 @@
 
                     @if ($shipment->courier_status)
                         <div class="flex items-center justify-between sm:block">
-                            <dt class="text-xs font-medium uppercase tracking-wider text-slate-400">Courier Status</dt>
+                            <dt class="text-xs font-medium uppercase tracking-wider text-slate-400">{{ __('courier::site.track.courier_status') }}</dt>
                             <dd class="mt-1 text-sm font-semibold capitalize text-slate-800">
                                 {{ str_replace('_', ' ', $shipment->courier_status) }}
                             </dd>
@@ -174,7 +174,7 @@
                     @endif
 
                     <div class="flex items-center justify-between sm:block">
-                        <dt class="text-xs font-medium uppercase tracking-wider text-slate-400">Tracking Number</dt>
+                        <dt class="text-xs font-medium uppercase tracking-wider text-slate-400">{{ __('courier::site.track.tracking_number') }}</dt>
                         <dd class="mt-1 text-sm font-mono font-bold text-slate-800">
                             @if ($shipment->tracking_url)
                                 <a href="{{ $shipment->tracking_url }}" target="_blank" rel="noopener noreferrer" class="text-primary-600 hover:underline">
@@ -188,24 +188,24 @@
 
                     @if ($shipment->estimated_delivery)
                         <div class="flex items-center justify-between sm:block">
-                            <dt class="text-xs font-medium uppercase tracking-wider text-slate-400">Estimated Delivery</dt>
+                            <dt class="text-xs font-medium uppercase tracking-wider text-slate-400">{{ __('courier::site.track.estimated_delivery') }}</dt>
                             <dd class="mt-1 text-sm font-semibold text-slate-800">{{ $shipment->estimated_delivery }}</dd>
                         </div>
                     @endif
 
                     @if ($shipment->last_synced_at)
                         <div class="flex items-center justify-between sm:block sm:col-span-2">
-                            <dt class="text-xs font-medium uppercase tracking-wider text-slate-400">Last Updated</dt>
+                            <dt class="text-xs font-medium uppercase tracking-wider text-slate-400">{{ __('courier::site.track.last_updated') }}</dt>
                             <dd class="mt-1 text-sm text-slate-500">{{ $shipment->last_synced_at->format('d M Y, h:i A') }}</dd>
                         </div>
                     @endif
                 </dl>
 
                 <div class="mt-6 border-t border-slate-100 pt-5">
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-slate-700">Shipment History</h2>
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-slate-700">{{ __('courier::site.track.history') }}</h2>
 
                     @if ($events->isEmpty())
-                        <p class="mt-3 text-sm text-slate-500">No status updates recorded yet. Check back soon.</p>
+                        <p class="mt-3 text-sm text-slate-500">{{ __('courier::site.track.history_empty') }}</p>
                     @else
                         <ol class="relative mt-4 ml-3 border-l border-slate-200">
                             @foreach ($events as $event)

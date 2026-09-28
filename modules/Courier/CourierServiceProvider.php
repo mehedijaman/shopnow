@@ -13,6 +13,8 @@ use Modules\Support\BaseServiceProvider;
 
 class CourierServiceProvider extends BaseServiceProvider
 {
+    protected ?string $viewNamespace = 'courier';
+
     public function register(): void
     {
         parent::register();
