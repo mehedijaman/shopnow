@@ -63,7 +63,7 @@ class CustomerAddressController extends AppController
             'default' => $default,
         ]);
 
-        return redirect()->route('account.addresses.index')->with('success', 'Address added successfully.');
+        return redirect()->route('account.addresses.index')->with('success', __('customer::site.addresses.added'));
     }
 
     public function edit(CustomerAddress $address)
@@ -113,7 +113,7 @@ class CustomerAddressController extends AppController
             'default' => $default,
         ]);
 
-        return redirect()->route('account.addresses.index')->with('success', 'Address updated successfully.');
+        return redirect()->route('account.addresses.index')->with('success', __('customer::site.addresses.updated'));
     }
 
     public function destroy(CustomerAddress $address): RedirectResponse
@@ -135,7 +135,7 @@ class CustomerAddressController extends AppController
             }
         }
 
-        return redirect()->route('account.addresses.index')->with('success', 'Address deleted successfully.');
+        return redirect()->route('account.addresses.index')->with('success', __('customer::site.addresses.deleted'));
     }
 
     public function makeDefault(CustomerAddress $address): RedirectResponse
@@ -149,6 +149,6 @@ class CustomerAddressController extends AppController
         $customer->addresses()->update(['default' => false]);
         $address->update(['default' => true]);
 
-        return redirect()->route('account.addresses.index')->with('success', 'Default address updated.');
+        return redirect()->route('account.addresses.index')->with('success', __('customer::site.addresses.default_updated'));
     }
 }

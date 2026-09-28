@@ -49,6 +49,8 @@ return [
         'manage_heading' => 'Manage Account',
         'manage_hint_orders' => 'View your order history and manage downloads.',
         'manage_hint_downloads' => 'View your downloads and manage account settings.',
+        'manage_hint_profile' => 'Update your profile settings and secure your password.',
+        'my_addresses' => 'My Addresses',
     ],
 
     'search' => [

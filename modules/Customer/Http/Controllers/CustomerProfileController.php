@@ -43,6 +43,6 @@ class CustomerProfileController extends AppController
 
         $customer->update($validated);
 
-        return redirect()->back()->with('success', 'Profile updated successfully.');
+        return redirect()->back()->with('success', __('customer::site.profile.updated'));
     }
 }

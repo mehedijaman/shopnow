@@ -8,6 +8,8 @@ use Modules\Support\BaseServiceProvider;
 
 class CustomerServiceProvider extends BaseServiceProvider
 {
+    protected ?string $viewNamespace = 'customer';
+
     public function boot()
     {
         parent::boot();
