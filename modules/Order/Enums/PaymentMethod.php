@@ -11,9 +11,9 @@ enum PaymentMethod: string
     public function label(): string
     {
         return match ($this) {
-            self::Cod => 'Cash on Delivery',
-            self::Card => 'Card',
-            self::Mobile => 'Mobile Payment',
+            self::Cod => __('order::admin.payment_method_cod'),
+            self::Card => __('order::admin.payment_method_card'),
+            self::Mobile => __('order::admin.payment_method_mobile'),
         };
     }
 

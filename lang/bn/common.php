@@ -182,6 +182,9 @@ return [
     'edit' => 'সম্পাদনা',
 
     'filter' => [
+        'all_payments' => 'সব পেমেন্ট',
+        'all_methods' => 'সব পদ্ধতি',
+        'date_to' => 'পর্যন্ত',
         'all_status' => 'সব স্ট্যাটাস',
         'all_stock' => 'সব স্টক',
         'low_stock' => 'লো স্টক (<10)',
@@ -196,6 +199,14 @@ return [
     ],
 
     'header' => [
+        'order_no' => 'অর্ডার নং',
+        'date' => 'তারিখ',
+        'phone' => 'ফোন',
+        'payment' => 'পেমেন্ট',
+        'method' => 'পদ্ধতি',
+        'total' => 'মোট',
+        'count' => 'সংখ্যা',
+        'customer' => 'ক্রেতা',
         'products' => 'পণ্য',
         'input_type' => 'ইনপুটের ধরন',
         'qty_sold' => 'বিক্রিত পরিমাণ',

@@ -184,6 +184,9 @@ return [
     'edit' => 'Edit',
 
     'filter' => [
+        'all_payments' => 'All Payments',
+        'all_methods' => 'All Methods',
+        'date_to' => 'to',
         'all_status' => 'All Status',
         'all_stock' => 'All Stock',
         'low_stock' => 'Low Stock (<10)',
@@ -198,6 +201,14 @@ return [
     ],
 
     'header' => [
+        'order_no' => 'Order No.',
+        'date' => 'Date',
+        'phone' => 'Phone',
+        'payment' => 'Payment',
+        'method' => 'Method',
+        'total' => 'Total',
+        'count' => 'Count',
+        'customer' => 'Customer',
         'products' => 'Products',
         'input_type' => 'Input Type',
         'qty_sold' => 'Qty Sold',

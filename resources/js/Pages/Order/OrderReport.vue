@@ -8,14 +8,14 @@
                     type="date"
                     class="rounded-md border border-skin-neutral-4 bg-skin-neutral-2 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                <span class="text-sm text-gray-500">to</span>
+                <span class="text-sm text-gray-500">{{ __('common.filter.date_to') }}</span>
                 <input
                     v-model="filterForm.to"
                     type="date"
                     class="rounded-md border border-skin-neutral-4 bg-skin-neutral-2 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <AppButton class="btn btn-primary" @click="applyFilter">
-                    <i class="ri-filter-3-line mr-1"></i>Apply
+                    <i class="ri-filter-3-line mr-1"></i>{{ __('order::admin.apply') }}
                 </AppButton>
             </div>
         </template>
@@ -25,32 +25,32 @@
     <div class="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
         <div class="flex flex-col rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-4 shadow-sm">
             <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-blue-100"><i class="ri-shopping-bag-3-line text-blue-600"></i></div>
-            <p class="text-xs text-gray-500">Total Orders</p>
+            <p class="text-xs text-gray-500">{{ __('order::admin.total_orders') }}</p>
             <p class="mt-1 text-xl font-bold text-gray-800">{{ props.summary?.totalOrders }}</p>
         </div>
         <div class="flex flex-col rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-4 shadow-sm">
             <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-green-100"><i class="ri-money-dollar-circle-line text-green-600"></i></div>
-            <p class="text-xs text-gray-500">Revenue</p>
+            <p class="text-xs text-gray-500">{{ __('common.header.revenue') }}</p>
             <p class="mt-1 text-xl font-bold text-gray-800">৳{{ formatNumber(props.summary?.totalRevenue) }}</p>
         </div>
         <div class="flex flex-col rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-4 shadow-sm">
             <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-purple-100"><i class="ri-scales-3-line text-purple-600"></i></div>
-            <p class="text-xs text-gray-500">Avg Order</p>
+            <p class="text-xs text-gray-500">{{ __('order::admin.avg_order') }}</p>
             <p class="mt-1 text-xl font-bold text-gray-800">৳{{ formatNumber(props.summary?.avgOrderValue) }}</p>
         </div>
         <div class="flex flex-col rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-4 shadow-sm">
             <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-yellow-100"><i class="ri-time-line text-yellow-600"></i></div>
-            <p class="text-xs text-gray-500">Pending</p>
+            <p class="text-xs text-gray-500">{{ __('order::enums.order_status.pending') }}</p>
             <p class="mt-1 text-xl font-bold text-gray-800">{{ props.summary?.pendingCount }}</p>
         </div>
         <div class="flex flex-col rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-4 shadow-sm">
             <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100"><i class="ri-checkbox-circle-line text-emerald-600"></i></div>
-            <p class="text-xs text-gray-500">Completed</p>
+            <p class="text-xs text-gray-500">{{ __('order::enums.order_status.completed') }}</p>
             <p class="mt-1 text-xl font-bold text-gray-800">{{ props.summary?.completedCount }}</p>
         </div>
         <div class="flex flex-col rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-4 shadow-sm">
             <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-red-100"><i class="ri-close-circle-line text-red-600"></i></div>
-            <p class="text-xs text-gray-500">Cancelled</p>
+            <p class="text-xs text-gray-500">{{ __('order::enums.order_status.cancelled') }}</p>
             <p class="mt-1 text-xl font-bold text-gray-800">{{ props.summary?.cancelledCount }}</p>
         </div>
     </div>
@@ -58,17 +58,17 @@
     <!-- Charts row -->
     <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div class="col-span-2 rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-5 shadow-sm">
-            <h3 class="mb-4 font-semibold text-gray-700">Daily Orders &amp; Revenue</h3>
+            <h3 class="mb-4 font-semibold text-gray-700">{{ __('order::admin.daily_orders_revenue') }}</h3>
             <canvas ref="dailyChartRef" height="100"></canvas>
         </div>
         <div class="rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-5 shadow-sm">
-            <h3 class="mb-4 font-semibold text-gray-700">Orders by Status</h3>
-            <AppDataTable :headers="['Status', 'Count', 'Revenue']">
+            <h3 class="mb-4 font-semibold text-gray-700">{{ __('order::admin.orders_by_status') }}</h3>
+            <AppDataTable :headers="statusHeaders">
                 <template #TableBody>
                     <tbody>
                         <AppDataTableRow v-for="(val, status) in props.byStatus" :key="status">
                             <AppDataTableData>
-                                <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusBadgeClass(status)">{{ status }}</span>
+                                <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusBadgeClass(status)">{{ orderStatusText(status) }}</span>
                             </AppDataTableData>
                             <AppDataTableData class="text-right text-gray-700">{{ val.count }}</AppDataTableData>
                             <AppDataTableData class="text-right font-semibold text-gray-800">৳{{ formatNumber(val.revenue) }}</AppDataTableData>
@@ -82,9 +82,9 @@
     <!-- Paginated orders list -->
     <div class="mt-6 rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 shadow-sm">
         <div class="border-b border-skin-neutral-4 px-5 py-4">
-            <h3 class="font-semibold text-gray-700">Orders in Selected Period</h3>
+            <h3 class="font-semibold text-gray-700">{{ __('order::admin.orders_in_period') }}</h3>
         </div>
-        <AppDataTable v-if="props.orders?.data?.length" :headers="['#', 'Customer', 'Phone', 'Status', 'Payment', 'Total', 'Date']">
+        <AppDataTable v-if="props.orders?.data?.length" :headers="periodHeaders">
             <template #TableBody>
                 <tbody>
                     <AppDataTableRow v-for="item in props.orders.data" :key="item.id">
@@ -92,9 +92,9 @@
                         <AppDataTableData>{{ item.name }}</AppDataTableData>
                         <AppDataTableData>{{ item.phone }}</AppDataTableData>
                         <AppDataTableData>
-                            <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusBadgeClass(item.status)">{{ item.status }}</span>
+                            <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusBadgeClass(item.status)">{{ orderStatusText(item.status) }}</span>
                         </AppDataTableData>
-                        <AppDataTableData>{{ item.payment_status }}</AppDataTableData>
+                        <AppDataTableData>{{ paymentStatusText(item.payment_status) }}</AppDataTableData>
                         <AppDataTableData class="font-semibold">৳{{ item.total }}</AppDataTableData>
                         <AppDataTableData>{{ item.created_at }}</AppDataTableData>
                     </AppDataTableRow>
@@ -109,12 +109,12 @@
             :total="props.orders?.total ?? 0"
             class="mt-4 justify-center"
         ></AppPaginator>
-        <AppAlert v-if="!props.orders?.data?.length" class="m-4">No orders found for selected period.</AppAlert>
+        <AppAlert v-if="!props.orders?.data?.length" class="m-4">{{ __('order::admin.no_orders_in_period') }}</AppAlert>
     </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, computed, onMounted, onUnmounted, inject } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import { Chart, registerables } from 'chart.js'
 import useTitle from '@/Composables/useTitle'
@@ -122,7 +122,41 @@ import useAuthCan from '@/Composables/useAuthCan'
 
 Chart.register(...registerables)
 
-const { title } = useTitle('Order Report')
+const translate = inject('translate')
+
+const { title } = useTitle(translate('common.menu.order_report'))
+
+const STATUS_KEYS = {
+    pending: 'order::enums.order_status.pending',
+    processing: 'order::enums.order_status.processing',
+    shipped: 'order::enums.order_status.shipped',
+    delivered: 'order::enums.order_status.delivered',
+    completed: 'order::enums.order_status.completed',
+    cancelled: 'order::enums.order_status.cancelled',
+}
+const orderStatusText = (status) => translate(STATUS_KEYS[status] ?? status)
+
+const PAYMENT_STATUS_KEYS = {
+    paid: 'order::enums.payment_status.paid',
+    unpaid: 'order::enums.payment_status.unpaid',
+}
+const paymentStatusText = (status) => translate(PAYMENT_STATUS_KEYS[status] ?? status)
+
+const statusHeaders = computed(() => [
+    translate('common.header.status'),
+    translate('common.header.count'),
+    translate('common.header.revenue'),
+])
+
+const periodHeaders = computed(() => [
+    '#',
+    translate('common.header.customer'),
+    translate('common.header.phone'),
+    translate('common.header.status'),
+    translate('common.header.payment'),
+    translate('common.header.total'),
+    translate('common.header.date'),
+])
 const { can } = useAuthCan()
 
 const props = defineProps({
@@ -134,9 +168,9 @@ const props = defineProps({
 })
 
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Orders', href: route('order.index') },
-    { label: 'Order Report', last: true },
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('order::admin.orders'), href: route('order.index') },
+    { label: translate('common.menu.order_report'), last: true },
 ]
 
 const filterForm = reactive({
@@ -176,14 +210,14 @@ onMounted(() => {
                 labels: props.daily.map((d) => d.date),
                 datasets: [
                     {
-                        label: 'Orders',
+                        label: translate('order::admin.chart_orders'),
                         data: props.daily.map((d) => d.count),
                         backgroundColor: 'rgba(59,130,246,0.7)',
                         borderRadius: 4,
                         yAxisID: 'y',
                     },
                     {
-                        label: 'Revenue (৳)',
+                        label: translate('order::admin.chart_revenue'),
                         data: props.daily.map((d) => d.revenue),
                         type: 'line',
                         borderColor: '#10B981',

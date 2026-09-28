@@ -6,7 +6,7 @@
                 class="btn btn-secondary"
                 @click="$inertia.visit(route('order.report'))"
             >
-                <i class="ri-bar-chart-2-line mr-1"></i> Report
+                <i class="ri-bar-chart-2-line mr-1"></i> {{ __('common.report') }}
             </AppButton>
         </template>
     </AppSectionHeader>
@@ -60,7 +60,7 @@
                                 @keyup.esc="closeQuickUpdate"
                             >
                                 <option v-for="s in props.statuses" :key="s" :value="s" class="capitalize">
-                                    {{ s.charAt(0).toUpperCase() + s.slice(1) }}
+                                    {{ orderStatusText(s) }}
                                 </option>
                             </select>
                             <button
@@ -82,12 +82,12 @@
                         </div>
                         <div v-else class="flex items-center gap-1.5">
                             <span class="rounded-full px-2.5 py-0.5 text-xs font-medium capitalize" :class="statusBadgeClass(item.status)">
-                                {{ item.status }}
+                                {{ orderStatusText(item.status) }}
                             </span>
                             <button
                                 type="button"
                                 class="hidden h-5 w-5 items-center justify-center rounded text-skin-neutral-7 hover:bg-skin-neutral-3 hover:text-skin-neutral-11 group-hover:flex"
-                                title="Quick update status"
+                                :title="__('order::admin.quick_update_status')"
                                 @click="openQuickUpdate(item)"
                             >
                                 <i class="ri-pencil-line text-xs"></i>
@@ -99,12 +99,12 @@
                             class="rounded-full px-2.5 py-0.5 text-xs font-medium"
                             :class="item.payment_status === 'paid' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'"
                         >
-                            {{ item.payment_status === 'paid' ? 'Paid' : 'Unpaid' }}
+                            {{ paymentStatusText(item.payment_status) }}
                         </span>
                     </AppDataTableData>
                     <AppDataTableData class="text-sm">
                         <span v-if="item.payment_method" class="rounded-full bg-skin-neutral-3 px-2.5 py-0.5 text-xs font-medium text-skin-neutral-11">
-                            {{ item.payment_method === 'cod' ? 'COD' : item.payment_method }}
+                            {{ paymentMethodText(item.payment_method) }}
                         </span>
                         <span v-else class="text-skin-neutral-7">—</span>
                     </AppDataTableData>
@@ -115,7 +115,7 @@
                         <div class="flex justify-end gap-1.5">
                             <AppButton
                                 class="btn btn-icon btn-neutral"
-                                title="Edit order"
+                                :title="__('order::admin.edit_order')"
                                 @click="$inertia.visit(route('order.edit', item.id))"
                             >
                                 <i class="ri-pencil-line"></i>
@@ -145,19 +145,21 @@
     />
 
     <AppAlert v-if="!orders.data.length" class="mt-4">
-        No orders found.
+        {{ __('order::admin.no_orders_found') }}
     </AppAlert>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, inject } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import useTitle from '@/Composables/useTitle'
 import useAuthCan from '@/Composables/useAuthCan'
 import { formatMoney } from '@/Utils/formatMoney'
 import OrderFilterCard from './Components/OrderFilterCard.vue'
 
-const { title } = useTitle('Orders')
+const translate = inject('translate')
+
+const { title } = useTitle(translate('order::admin.orders'))
 const { can } = useAuthCan()
 
 const props = defineProps({
@@ -169,11 +171,44 @@ const props = defineProps({
 })
 
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Orders', last: true },
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('order::admin.orders'), last: true },
 ]
 
-const headers = ['Order No.', 'Date', 'Name', 'Phone', 'Status', 'Payment', 'Method', 'Total', 'Actions']
+const headers = computed(() => [
+    translate('common.header.order_no'),
+    translate('common.header.date'),
+    translate('common.header.name'),
+    translate('common.header.phone'),
+    translate('common.header.status'),
+    translate('common.header.payment'),
+    translate('common.header.method'),
+    translate('common.header.total'),
+    translate('common.header.actions'),
+])
+
+const STATUS_KEYS = {
+    pending: 'order::enums.order_status.pending',
+    processing: 'order::enums.order_status.processing',
+    shipped: 'order::enums.order_status.shipped',
+    delivered: 'order::enums.order_status.delivered',
+    completed: 'order::enums.order_status.completed',
+    cancelled: 'order::enums.order_status.cancelled',
+}
+const orderStatusText = (status) => translate(STATUS_KEYS[status] ?? status)
+
+const PAYMENT_STATUS_KEYS = {
+    paid: 'order::enums.payment_status.paid',
+    unpaid: 'order::enums.payment_status.unpaid',
+}
+const paymentStatusText = (status) => translate(PAYMENT_STATUS_KEYS[status] ?? status)
+
+const PAYMENT_METHOD_KEYS = {
+    cod: 'order::admin.payment_method_cod',
+    card: 'order::admin.payment_method_card',
+    mobile: 'order::admin.payment_method_mobile',
+}
+const paymentMethodText = (method) => translate(PAYMENT_METHOD_KEYS[method] ?? method)
 
 const additionalParams = computed(() => {
     const params = {}
