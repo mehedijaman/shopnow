@@ -25,14 +25,14 @@ class SiteProductController extends SiteController
             ->paginate(request('rowsPerPage', 45));
 
         $seo = $seoService->build([
-            'title' => 'Shop',
-            'description' => 'Browse our full collection of products.',
+            'title' => __('site.nav.shop'),
+            'description' => __('product::site.seo.shop_description'),
             'canonical_full' => url('/shop'),
             'schema' => [
                 $seoService->websiteSchema(),
                 $seoService->breadcrumbSchema([
-                    ['name' => 'Home', 'url' => url('/')],
-                    ['name' => 'Shop', 'url' => url('/shop')],
+                    ['name' => __('site.nav.home'), 'url' => url('/')],
+                    ['name' => __('site.nav.shop'), 'url' => url('/shop')],
                 ]),
             ],
         ]);
@@ -52,7 +52,7 @@ class SiteProductController extends SiteController
             ->paginate(request('rowsPerPage', 45));
 
         $seo = $seoService->build([
-            'title' => 'Search: '.($searchText ?? ''),
+            'title' => __('product::site.seo.search_title', ['term' => $searchText ?? '']),
             'robots' => 'noindex, follow',
         ]);
 
@@ -70,7 +70,7 @@ class SiteProductController extends SiteController
             ->whereHas('category', fn ($query) => $query->where('active', true))
             ->paginate(45);
 
-        $description = strip_tags($category->description ?? "Browse all products in {$category->name}.");
+        $description = strip_tags($category->description ?? __('product::site.seo.category_description', ['name' => $category->name]));
 
         $seo = $seoService->build([
             'title' => $category->name,
@@ -78,8 +78,8 @@ class SiteProductController extends SiteController
             'canonical_full' => url('/shop/category/'.$category->id.'/'.$category->slug),
             'schema' => [
                 $seoService->breadcrumbSchema([
-                    ['name' => 'Home', 'url' => url('/')],
-                    ['name' => 'Shop', 'url' => url('/shop')],
+                    ['name' => __('site.nav.home'), 'url' => url('/')],
+                    ['name' => __('site.nav.shop'), 'url' => url('/shop')],
                     ['name' => $category->name, 'url' => url('/shop/category/'.$category->id.'/'.$category->slug)],
                 ]),
             ],
@@ -98,7 +98,7 @@ class SiteProductController extends SiteController
             ->whereHas('category', fn ($query) => $query->where('active', true))
             ->paginate(45);
 
-        $description = strip_tags($brand->description ?? "Browse all products from {$brand->name}.");
+        $description = strip_tags($brand->description ?? __('product::site.seo.brand_description', ['name' => $brand->name]));
 
         $seo = $seoService->build([
             'title' => $brand->name,
@@ -106,8 +106,8 @@ class SiteProductController extends SiteController
             'canonical_full' => url('/brand/'.$brand->id.'/'.$brand->slug),
             'schema' => [
                 $seoService->breadcrumbSchema([
-                    ['name' => 'Home', 'url' => url('/')],
-                    ['name' => 'Shop', 'url' => url('/shop')],
+                    ['name' => __('site.nav.home'), 'url' => url('/')],
+                    ['name' => __('site.nav.shop'), 'url' => url('/shop')],
                     ['name' => $brand->name, 'url' => url('/brand/'.$brand->id.'/'.$brand->slug)],
                 ]),
             ],
@@ -121,13 +121,13 @@ class SiteProductController extends SiteController
         $brands = ProductBrand::where('active', true)->orderBy('name')->get();
 
         $seo = $seoService->build([
-            'title' => 'Our Brands',
-            'description' => 'Browse all our brands and discover products from your favorite manufacturers.',
+            'title' => __('product::site.brands.heading'),
+            'description' => __('product::site.seo.brands_description'),
             'canonical_full' => url('/brands'),
             'schema' => [
                 $seoService->breadcrumbSchema([
-                    ['name' => 'Home', 'url' => url('/')],
-                    ['name' => 'Brands', 'url' => url('/brands')],
+                    ['name' => __('site.nav.home'), 'url' => url('/')],
+                    ['name' => __('product::site.seo.brands_breadcrumb'), 'url' => url('/brands')],
                 ]),
             ],
         ]);
@@ -141,7 +141,7 @@ class SiteProductController extends SiteController
 
         $gallery = $product->getMedia('gallery')->map(fn ($m) => $m->getUrl())->values()->toArray();
 
-        $description = strip_tags($product->description ?? "Buy {$product->name} at the best price.");
+        $description = strip_tags($product->description ?? __('product::site.seo.product_description', ['name' => $product->name]));
 
         $seo = $seoService->build([
             'title' => $product->name,
@@ -161,9 +161,9 @@ class SiteProductController extends SiteController
                     'currency' => 'USD',
                 ]),
                 $seoService->breadcrumbSchema([
-                    ['name' => 'Home', 'url' => url('/')],
-                    ['name' => 'Shop', 'url' => url('/shop')],
-                    ['name' => $product->category?->name ?? 'Products', 'url' => url('/shop/category/'.($product->category?->id ?? 0).'/'.($product->category?->slug ?? ''))],
+                    ['name' => __('site.nav.home'), 'url' => url('/')],
+                    ['name' => __('site.nav.shop'), 'url' => url('/shop')],
+                    ['name' => $product->category?->name ?? __('product::site.seo.products'), 'url' => url('/shop/category/'.($product->category?->id ?? 0).'/'.($product->category?->slug ?? ''))],
                     ['name' => $product->name, 'url' => url('/shop/product/'.$product->id.'/'.$product->slug)],
                 ]),
             ],

@@ -1,6 +1,6 @@
 @extends('site-layout')
 
-@section('seo_title', 'My Downloads — ' . setting('branding.site_name', config('app.name')))
+@section('seo_title', __('product::site.downloads.title') . ' — ' . setting('branding.site_name', config('app.name')))
 
 @section('robots', 'noindex, follow')
 

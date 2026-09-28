@@ -37,6 +37,17 @@ return [
         'none' => 'কোনো ব্র্যান্ড পাওয়া যায়নি।',
     ],
 
+    'seo' => [
+        'shop_description' => 'আমাদের সমস্ত পণ্যের সংগ্রহ দেখুন।',
+        'search_title' => 'সার্চ: :term',
+        'category_description' => ':name ক্যাটাগরির সব পণ্য দেখুন।',
+        'brand_description' => ':name ব্র্যান্ডের সব পণ্য দেখুন।',
+        'brands_description' => 'আমাদের সব ব্র্যান্ড দেখুন এবং প্রিয় ম্যানুফ্যাকচারারদের পণ্য আবিষ্কার করুন।',
+        'brands_breadcrumb' => 'ব্র্যান্ড',
+        'product_description' => 'সেরা দামে :name কিনুন।',
+        'products' => 'পণ্য',
+    ],
+
     'downloads' => [
         'title' => 'আমার ডাউনলোড',
         'empty' => 'আপনার এখনো কোনো ডাউনলোড নেই।',

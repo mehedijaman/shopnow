@@ -37,6 +37,17 @@ return [
         'none' => 'No brands found.',
     ],
 
+    'seo' => [
+        'shop_description' => 'Browse our full collection of products.',
+        'search_title' => 'Search: :term',
+        'category_description' => 'Browse all products in :name.',
+        'brand_description' => 'Browse all products from :name.',
+        'brands_description' => 'Browse all our brands and discover products from your favorite manufacturers.',
+        'brands_breadcrumb' => 'Brands',
+        'product_description' => 'Buy :name at the best price.',
+        'products' => 'Products',
+    ],
+
     'downloads' => [
         'title' => 'My Downloads',
         'empty' => 'You have no downloads yet.',

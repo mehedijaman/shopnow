@@ -88,12 +88,12 @@ class IndexController extends SiteController
 
         $seo = $seoService->build([
             'title' => $page->meta_tag_title ?? $page->title,
-            'description' => $page->meta_tag_description ?? 'Learn more about who we are, our mission, and what drives us.',
+            'description' => $page->meta_tag_description ?? __('index::site.seo.about_description'),
             'canonical_full' => url('/about'),
             'schema' => [
                 $seoService->organizationSchema(),
                 $seoService->breadcrumbSchema([
-                    ['name' => 'Home', 'url' => url('/')],
+                    ['name' => __('site.nav.home'), 'url' => url('/')],
                     ['name' => $page->title, 'url' => url('/about')],
                 ]),
             ],
@@ -108,7 +108,7 @@ class IndexController extends SiteController
 
         $seo = $seoService->build([
             'title' => $page->meta_tag_title ?? $page->title,
-            'description' => $page->meta_tag_description ?? 'Read our privacy policy to understand how we handle your data.',
+            'description' => $page->meta_tag_description ?? __('index::site.seo.privacy_description'),
             'canonical_full' => url('/privacy-policy'),
             'robots' => 'noindex, follow',
         ]);
@@ -122,7 +122,7 @@ class IndexController extends SiteController
 
         $seo = $seoService->build([
             'title' => $page->meta_tag_title ?? $page->title,
-            'description' => $page->meta_tag_description ?? 'Review the terms and conditions for using our platform.',
+            'description' => $page->meta_tag_description ?? __('index::site.seo.terms_description'),
             'canonical_full' => url('/terms-of-service'),
             'robots' => 'noindex, follow',
         ]);
@@ -136,7 +136,7 @@ class IndexController extends SiteController
 
         $seo = $seoService->build([
             'title' => $page->meta_tag_title ?? $page->title,
-            'description' => $page->meta_tag_description ?? 'Read our refund and return policy.',
+            'description' => $page->meta_tag_description ?? __('index::site.seo.refund_description'),
             'canonical_full' => url('/refund-policy'),
             'robots' => 'noindex, follow',
         ]);
