@@ -1,9 +1,9 @@
 <template>
-    <p class="mb-1 mt-5">Brand</p>
+    <p class="mb-1 mt-5">{{ __('common.field.brand') }}</p>
     <AppCombobox
         v-model="productStore.product.brand_id"
         :options="brands"
-        combo-label="Select a Brand"
+        :combo-label="__('product::admin.select_brand')"
         class="w-64 xl:w-full"
     ></AppCombobox>
 </template>

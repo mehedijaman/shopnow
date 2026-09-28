@@ -1,9 +1,9 @@
 <template>
-    <p class="mb-1 mt-5">Category</p>
+    <p class="mb-1 mt-5">{{ __('common.field.category') }}</p>
     <AppCombobox
         v-model="productStore.product.category_id"
         :options="categories"
-        combo-label="Select a Category"
+        :combo-label="__('product::admin.select_category')"
         class="w-64 xl:w-full"
     ></AppCombobox>
 </template>

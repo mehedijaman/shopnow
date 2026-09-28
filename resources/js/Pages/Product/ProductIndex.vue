@@ -1,25 +1,25 @@
 <template>
 
-    <Head title="Products"></Head>
-    <AppSectionHeader title="Products" :bread-crumb="breadCrumb">
+    <Head :title="__('common.menu.products')"></Head>
+    <AppSectionHeader :title="__('common.menu.products')" :bread-crumb="breadCrumb">
         <template #right>
             <div class="flex gap-2">
                 <AppButton
                     class="btn btn-secondary"
                     @click="$inertia.visit(route('product.report'))"
                 >
-                    <i class="ri-bar-chart-2-line mr-1"></i> Report
+                    <i class="ri-bar-chart-2-line mr-1"></i> {{ __('common.report') }}
                 </AppButton>
                 <AppButton
                     v-if="can('product-recycle-bin-list')"
                     class="btn btn-secondary"
                     @click="$inertia.visit(route('product.recycleBin.index'))"
                 >
-                    <i class="ri-delete-bin-2-line mr-1"></i> Recycle Bin
+                    <i class="ri-delete-bin-2-line mr-1"></i> {{ __('common.recycle_bin') }}
                 </AppButton>
                 <AppButton v-if="can('product-create')" class="btn btn-primary"
                     @click="$inertia.visit(route('product.create'))">
-                    <i class="ri-add-fill mr-1"></i> New Product
+                    <i class="ri-add-fill mr-1"></i> {{ __('common.menu.new_product') }}
                 </AppButton>
             </div>
         </template>
@@ -51,7 +51,7 @@
                                     <span class="text-xs text-skin-neutral-7">{{ item.unit || '—' }}</span>
                                     <span class="rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase"
                                         :class="typeBadgeClass(item.type)">
-                                        {{ item.type }}
+                                        {{ typeLabel(item.type) }}
                                     </span>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                                     – ৳{{ Number(item.price_max).toFixed(2) }}
                                 </template>
                             </span>
-                            <span v-else class="text-xs text-skin-neutral-9 italic">No variations</span>
+                            <span v-else class="text-xs text-skin-neutral-9 italic">{{ __('product::admin.no_variations') }}</span>
                         </template>
                         <template v-else>
                             <span v-if="item.sale_price" class="text-sm font-semibold text-green-700">৳{{
@@ -93,13 +93,13 @@
                         <template v-if="item.type === 'variable'">
                             <span class="rounded-full px-2.5 py-0.5 text-xs font-bold"
                                 :class="item.stock_variations <= 0 ? 'bg-red-100 text-red-700' : item.stock_variations < 10 ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'">
-                                {{ item.stock_variations }} variants
+                                {{ item.stock_variations }} {{ __('product::admin.variants') }}
                             </span>
                         </template>
                         <template v-else-if="item.type === 'bundle'">
                             <span
                                 class="rounded-full bg-skin-neutral-3 px-2.5 py-0.5 text-xs font-bold text-skin-neutral-10">
-                                Bundle
+                                {{ __('product::admin.bundle') }}
                             </span>
                         </template>
                         <template v-else>
@@ -115,11 +115,11 @@
                         <div class="flex flex-wrap gap-1">
                             <span class="rounded-full px-2.5 py-0.5 text-xs font-medium"
                                 :class="item.active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'">
-                                {{ item.active ? 'Active' : 'Inactive' }}
+                                {{ item.active ? __('common.field.active') : __('common.field.inactive') }}
                             </span>
                             <span v-if="item.featured"
                                 class="rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-700">
-                                Featured
+                                {{ __('common.field.featured') }}
                             </span>
                         </div>
                     </AppDataTableData>
@@ -127,19 +127,19 @@
                     <!-- Actions -->
                     <AppDataTableData class="text-right">
                         <div class="flex justify-end gap-1.5">
-                            <AppTooltip text="View Details">
+                            <AppTooltip :text="__('common.tooltip.view_details')">
                                 <AppButton class="btn btn-icon btn-secondary"
                                     @click="$inertia.visit(route('product.show', item.id))">
                                     <i class="ri-eye-line"></i>
                                 </AppButton>
                             </AppTooltip>
-                            <AppTooltip v-if="can('product-edit')" text="Edit">
+                            <AppTooltip v-if="can('product-edit')" :text="__('common.edit')">
                                 <AppButton class="btn btn-icon btn-primary"
                                     @click="$inertia.visit(route('product.edit', item.id))">
                                     <i class="ri-edit-line"></i>
                                 </AppButton>
                             </AppTooltip>
-                            <AppTooltip v-if="can('product-delete')" text="Delete">
+                            <AppTooltip v-if="can('product-delete')" :text="__('common.delete')">
                                 <AppButton class="btn btn-icon btn-destructive"
                                     @click="confirmDelete(route('product.destroy', item.id))">
                                     <i class="ri-delete-bin-line"></i>
@@ -156,14 +156,14 @@
         :total="products.total || 0" class="mt-4 justify-center"></AppPaginator>
 
     <AppAlert v-if="!products.data.length" class="mt-4">
-        No products found.
+        {{ __('product::admin.no_products_found') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, inject } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import useAuthCan from '@/Composables/useAuthCan'
 import AppImageNotAvailable from '@/Components/Modules/Blog/AppImageNotAvailable.vue'
@@ -180,12 +180,29 @@ const props = defineProps({
     filters: { type: Object, default: () => ({}) },
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Products', last: true },
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('common.menu.products'), last: true },
 ]
 
-const headers = ['Product', 'Category', 'Brand', 'Price', 'Stock', 'Status', 'Actions']
+const headers = computed(() => [
+    translate('common.header.product'),
+    translate('common.header.category'),
+    translate('common.header.brand'),
+    translate('common.header.price'),
+    translate('common.header.stock'),
+    translate('common.header.status'),
+    translate('common.header.actions'),
+])
+
+const TYPE_LABELS = {
+    simple: 'product::admin.simple_product',
+    variable: 'product::admin.variable_product',
+    bundle: 'product::admin.bundle_product',
+}
+const typeLabel = (type) => translate(TYPE_LABELS[type] ?? type)
 
 const additionalParams = computed(() => {
     const params = {}

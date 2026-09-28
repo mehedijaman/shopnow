@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Products" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('common.menu.products')" :bread-crumb="breadCrumb">
         <AppButton
             v-if="can(isCreate ? 'product-create' : 'product-edit')"
             class="btn btn-primary mt-6"
@@ -7,7 +7,7 @@
             @click="submitForm"
         >
             <i class="ri-save-line mr-1"></i>
-            {{ saving ? 'Saving…' : 'Save Product' }}
+            {{ saving ? __('common.saving') : __('product::admin.save_product') }}
         </AppButton>
     </AppSectionHeader>
 
@@ -21,14 +21,14 @@
                 <template #title>
                     <div class="flex items-center gap-2">
                         <i class="ri-information-line text-skin-primary-9"></i>
-                        Basic Information
+                        {{ __('product::admin.basic_information') }}
                     </div>
                 </template>
                 <template #content>
                     <AppFormErrors class="mb-4" />
                     <div class="space-y-4">
                         <div>
-                            <AppLabel for="name">Product Name <span class="text-red-500">*</span></AppLabel>
+                            <AppLabel for="name">{{ __('common.field.product_name') }} <span class="text-red-500">*</span></AppLabel>
                             <AppInputText
                                 id="name"
                                 v-model="productStore.product.name"
@@ -39,12 +39,12 @@
                         </div>
 
                         <div>
-                            <AppLabel for="summary">Short Summary</AppLabel>
+                            <AppLabel for="summary">{{ __('common.field.short_summary') }}</AppLabel>
                             <AppInputText
                                 id="summary"
                                 v-model="productStore.product.summary"
                                 type="text"
-                                placeholder="One-line product description shown on listing cards"
+                                :placeholder="__('product::admin.summary_placeholder')"
                                 :class="{ 'input-error': errorsFields.includes('summary') }"
                             />
                         </div>
@@ -52,7 +52,7 @@
                         <!-- Price / Stock — only for simple products (variable: on variations, bundle: from bundle items) -->
                         <div v-if="productStore.product.type === 'simple'" class="grid grid-cols-3 gap-4">
                             <div>
-                                <AppLabel for="price">Price <span class="text-red-500">*</span></AppLabel>
+                                <AppLabel for="price">{{ __('common.field.price') }} <span class="text-red-500">*</span></AppLabel>
                                 <AppInputText
                                     id="price"
                                     v-model="productStore.product.price"
@@ -62,7 +62,7 @@
                                 />
                             </div>
                             <div>
-                                <AppLabel for="sale_price">Sale Price</AppLabel>
+                                <AppLabel for="sale_price">{{ __('common.field.sale_price') }}</AppLabel>
                                 <AppInputText
                                     id="sale_price"
                                     v-model="productStore.product.sale_price"
@@ -72,7 +72,7 @@
                                 />
                             </div>
                             <div>
-                                <AppLabel for="quantity">Stock Qty <span class="text-red-500">*</span></AppLabel>
+                                <AppLabel for="quantity">{{ __('common.field.stock_qty') }} <span class="text-red-500">*</span></AppLabel>
                                 <AppInputText
                                     id="quantity"
                                     v-model="productStore.product.quantity"
@@ -85,7 +85,7 @@
 
                         <div v-if="productStore.product.type !== 'bundle'" class="grid grid-cols-2 gap-4">
                             <div>
-                                <AppLabel for="unit">Unit</AppLabel>
+                                <AppLabel for="unit">{{ __('common.field.unit') }}</AppLabel>
                                 <AppInputText
                                     id="unit"
                                     v-model="productStore.product.unit"
@@ -95,7 +95,7 @@
                                 />
                             </div>
                             <div>
-                                <AppLabel for="min_order">Min Order</AppLabel>
+                                <AppLabel for="min_order">{{ __('common.field.min_order') }}</AppLabel>
                                 <AppInputText
                                     id="min_order"
                                     v-model="productStore.product.min_order"
@@ -109,11 +109,11 @@
                         <!-- Price hint for variable/bundle types -->
                         <div v-if="productStore.product.type === 'variable'" class="rounded-md bg-skin-info-light px-3 py-2 text-xs text-skin-info-dark">
                             <i class="ri-information-line mr-1"></i>
-                            Pricing and stock are managed per variation in the Variations tab.
+                            {{ __('product::admin.pricing_hint_variable') }}
                         </div>
                         <div v-if="productStore.product.type === 'bundle'" class="rounded-md bg-skin-info-light px-3 py-2 text-xs text-skin-info-dark">
                             <i class="ri-information-line mr-1"></i>
-                            Price and stock are derived from the Bundle Items tab.
+                            {{ __('product::admin.pricing_hint_bundle') }}
                         </div>
 
                         <div class="flex items-center gap-6 pt-1">
@@ -124,7 +124,7 @@
                                     name="active"
                                     :value="true"
                                 />
-                                <span class="text-sm font-medium">Active</span>
+                                <span class="text-sm font-medium">{{ __('common.field.active') }}</span>
                             </label>
                             <label class="flex cursor-pointer items-center gap-2">
                                 <AppCheckbox
@@ -133,7 +133,7 @@
                                     name="featured"
                                     :value="true"
                                 />
-                                <span class="text-sm font-medium">Featured</span>
+                                <span class="text-sm font-medium">{{ __('common.field.featured') }}</span>
                             </label>
                             <label v-if="productStore.product.type !== 'bundle'" class="flex cursor-pointer items-center gap-2">
                                 <AppCheckbox
@@ -142,7 +142,7 @@
                                     name="is_virtual"
                                     :value="true"
                                 />
-                                <span class="text-sm font-medium">Virtual (no shipping)</span>
+                                <span class="text-sm font-medium">{{ __('common.field.virtual') }}</span>
                             </label>
                             <label v-if="productStore.product.type !== 'bundle'" class="flex cursor-pointer items-center gap-2">
                                 <AppCheckbox
@@ -151,7 +151,7 @@
                                     name="is_downloadable"
                                     :value="true"
                                 />
-                                <span class="text-sm font-medium">Downloadable</span>
+                                <span class="text-sm font-medium">{{ __('common.field.downloadable') }}</span>
                             </label>
                         </div>
                     </div>
@@ -163,7 +163,7 @@
                 <template #title>
                     <div class="flex items-center gap-2">
                         <i class="ri-file-text-line text-skin-primary-9"></i>
-                        Description
+                        {{ __('common.field.description') }}
                     </div>
                 </template>
                 <template #content>
@@ -183,7 +183,7 @@
                 <template #title>
                     <div class="flex items-center gap-2">
                         <i class="ri-organization-chart text-skin-primary-9"></i>
-                        Variations
+                        {{ __('product::admin.variations') }}
                     </div>
                 </template>
                 <template #content>
@@ -199,7 +199,7 @@
                 <template #title>
                     <div class="flex items-center gap-2">
                         <i class="ri-gift-line text-skin-primary-9"></i>
-                        Bundle Items
+                        {{ __('product::admin.bundle_items') }}
                     </div>
                 </template>
                 <template #content>
@@ -220,20 +220,20 @@
                 <template #title>
                     <div class="flex items-center gap-2">
                         <i class="ri-settings-3-line text-skin-primary-9"></i>
-                        Product Settings
+                        {{ __('product::admin.product_settings') }}
                     </div>
                 </template>
                 <template #content>
                     <div class="mb-4">
-                        <AppLabel for="type">Product Type</AppLabel>
+                        <AppLabel for="type">{{ __('product::admin.product_type') }}</AppLabel>
                         <select
                             id="type"
                             v-model="productStore.product.type"
                             class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-skin-neutral-12 placeholder-skin-neutral-9 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
                         >
-                            <option value="simple">Simple Product</option>
-                            <option value="variable">Variable Product</option>
-                            <option value="bundle">Bundle Product</option>
+                            <option value="simple">{{ __('product::admin.simple_product') }}</option>
+                            <option value="variable">{{ __('product::admin.variable_product') }}</option>
+                            <option value="bundle">{{ __('product::admin.bundle_product') }}</option>
                         </select>
                     </div>
                     <ProductCategory :categories="categories" />
@@ -247,11 +247,11 @@
                 <template #title>
                     <div class="flex items-center gap-2">
                         <i class="ri-image-line text-skin-primary-9"></i>
-                        Featured Image
+                        {{ __('common.field.featured_image') }}
                     </div>
                 </template>
                 <template #content>
-                    <p class="mb-2 text-xs text-skin-neutral-9">Used as thumbnail on listing pages (Recommended size: 800 × 800 px or 1:1 square ratio)</p>
+                    <p class="mb-2 text-xs text-skin-neutral-9">{{ __('product::admin.featured_image_hint') }}</p>
                     <ProductImage />
                 </template>
             </AppCard>
@@ -261,11 +261,11 @@
                 <template #title>
                     <div class="flex items-center gap-2">
                         <i class="ri-gallery-line text-skin-primary-9"></i>
-                        Gallery
+                        {{ __('common.field.gallery') }}
                     </div>
                 </template>
                 <template #content>
-                    <p class="mb-2 text-xs text-skin-neutral-9">Additional images shown on the product detail page (Recommended size: 800 × 800 px square ratio)</p>
+                    <p class="mb-2 text-xs text-skin-neutral-9">{{ __('product::admin.gallery_hint') }}</p>
                     <ProductGallery :gallery="gallery" :product-id="props.product?.id ?? null" />
                 </template>
             </AppCard>
@@ -275,11 +275,11 @@
                 <template #title>
                     <div class="flex items-center gap-2">
                         <i class="ri-download-cloud-line text-skin-primary-9"></i>
-                        Downloadable Files
+                        {{ __('common.field.downloadable_files') }}
                     </div>
                 </template>
                 <template #content>
-                    <p class="mb-2 text-xs text-skin-neutral-9">Files that customers can download after purchase</p>
+                    <p class="mb-2 text-xs text-skin-neutral-9">{{ __('product::admin.downloads_hint') }}</p>
                     <ProductDownloads
                         :product-files="productFiles"
                         :product-id="props.product?.id ?? null"
@@ -293,14 +293,14 @@
                 <template #title>
                     <div class="flex items-center gap-2">
                         <i class="ri-search-line text-skin-primary-9"></i>
-                        SEO
+                        {{ __('product::admin.seo') }}
                     </div>
                 </template>
                 <template #content>
                     <div class="space-y-4">
                         <div>
                             <div class="flex items-center justify-between">
-                                <AppLabel for="meta_tag_title">Meta Title</AppLabel>
+                                <AppLabel for="meta_tag_title">{{ __('common.field.meta_title') }}</AppLabel>
                                 <span class="text-xs" :class="productStore.getRemainingChars('meta_tag_title', 60) < 10 ? 'text-red-500' : 'text-skin-neutral-9'">
                                     {{ productStore.getRemainingChars('meta_tag_title', 60) }} / 60
                                 </span>
@@ -310,13 +310,13 @@
                                 v-model="productStore.product.meta_tag_title"
                                 type="text"
                                 maxlength="60"
-                                placeholder="Leave blank to use product name"
+                                :placeholder="__('product::admin.meta_title_placeholder')"
                                 :class="{ 'input-error': errorsFields.includes('meta_tag_title') }"
                             />
                         </div>
                         <div>
                             <div class="flex items-center justify-between">
-                                <AppLabel for="meta_tag_description">Meta Description</AppLabel>
+                                <AppLabel for="meta_tag_description">{{ __('common.field.meta_description') }}</AppLabel>
                                 <span class="text-xs" :class="productStore.getRemainingChars('meta_tag_description', 160) < 20 ? 'text-red-500' : 'text-skin-neutral-9'">
                                     {{ productStore.getRemainingChars('meta_tag_description', 160) }} / 160
                                 </span>
@@ -326,7 +326,7 @@
                                 v-model="productStore.product.meta_tag_description"
                                 rows="3"
                                 maxlength="160"
-                                placeholder="Leave blank to auto-generate from description"
+                                :placeholder="__('product::admin.meta_description_placeholder')"
                                 :class="{ 'input-error': errorsFields.includes('meta_tag_description') }"
                             />
                         </div>
@@ -344,7 +344,7 @@
             @click="submitForm"
         >
             <i class="ri-save-line mr-1"></i>
-            {{ saving ? 'Saving…' : 'Save Product' }}
+            {{ saving ? __('common.saving') : __('product::admin.save_product') }}
         </AppButton>
     </div>
 
@@ -352,7 +352,7 @@
 </template>
 
 <script setup>
-import { ref, watch, provide } from 'vue'
+import { ref, watch, provide, inject } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import useAuthCan from '@/Composables/useAuthCan'
 import { onUnmounted } from 'vue'
@@ -370,6 +370,7 @@ import ProductBundleItems from './Components/ProductBundleItems.vue'
 import { useProductStore } from './ProductStore'
 
 const productStore = useProductStore()
+const translate = inject('translate')
 const { can } = useAuthCan()
 const { errorsFields } = useFormErrors()
 const saving = ref(false)
@@ -377,8 +378,8 @@ const confirmDialogRef = ref(null)
 
 provide('confirmDelete', (callback) => {
     confirmDialogRef.value?.openCustomModal({
-        title: 'Delete Confirmation',
-        message: 'Are you sure you want to permanently delete this item? This action cannot be undone.',
+        title: translate('common.delete_confirmation'),
+        message: translate('common.delete_message'),
         onConfirm: callback
     })
 })
@@ -444,12 +445,12 @@ onUnmounted(() => {
 })
 
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Products', href: route('product.index') },
-    { label: 'Product', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('common.menu.products'), href: route('product.index') },
+    { label: translate('product::admin.product'), last: true }
 ]
 
-const { title } = useTitle('Product')
+const { title } = useTitle(translate('product::admin.product'))
 const { isCreate } = useFormContext()
 
 const getValueFromKey = (data, key) => {

@@ -1,9 +1,9 @@
 <template>
-    <p class="mb-1 mt-5">Author</p>
+    <p class="mb-1 mt-5">{{ __('common.field.author') }}</p>
     <AppCombobox
         v-model="productStore.product.blog_author_id"
         :options="authors"
-        combo-label="Select an Author"
+        :combo-label="__('product::admin.select_author')"
         class="w-64 xl:w-full"
     />
 </template>

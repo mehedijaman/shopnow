@@ -1,9 +1,9 @@
 <template>
-    <p class="mb-1 mt-5">Tag</p>
+    <p class="mb-1 mt-5">{{ __('common.field.tag') }}</p>
     <AppCombobox
         v-model="selectedTag"
         :options="tags"
-        combo-label="Select a Tag"
+        :combo-label="__('product::admin.select_tag')"
         class="w-64 xl:w-full"
     ></AppCombobox>
 

@@ -29,7 +29,7 @@
             <button
               type="button"
               class="shrink-0 rounded-md p-1.5 text-skin-neutral-8 transition-colors hover:bg-red-50 hover:text-red-600"
-              title="Remove file"
+              :title="__('product::admin.remove_file')"
               @click="removeFile(file.id)"
             >
               <i class="ri-delete-bin-line text-base"></i>
@@ -40,13 +40,13 @@
     </div>
 
     <div v-if="isNew" class="rounded-md border-2 border-dashed border-skin-neutral-5 p-4 text-center text-sm text-skin-neutral-9">
-      Save the product first to add downloadable files.
+      {{ __('product::admin.downloads_save_first') }}
     </div>
 
     <div v-else class="rounded-md border-2 border-dashed border-skin-neutral-5 p-4">
       <form @submit.prevent="uploadFile" class="space-y-3">
         <div>
-          <label class="mb-1 block text-xs font-medium text-skin-neutral-9">Display Name</label>
+          <label class="mb-1 block text-xs font-medium text-skin-neutral-9">{{ __('common.field.display_name') }}</label>
           <input
             ref="fileInput"
             v-model="newFileName"
@@ -57,7 +57,7 @@
           />
         </div>
         <div>
-          <label class="mb-1 block text-xs font-medium text-skin-neutral-9">File</label>
+          <label class="mb-1 block text-xs font-medium text-skin-neutral-9">{{ __('common.field.file') }}</label>
           <input
             ref="fileUploadInput"
             type="file"
@@ -65,10 +65,10 @@
             required
           />
         </div>
-        <p class="text-xs text-skin-neutral-9">Accepted: PDF, ZIP, DOC, DOCX, XLS, XLSX, MP3, MP4, JPG, PNG (max 50MB)</p>
+        <p class="text-xs text-skin-neutral-9">{{ __('product::admin.downloads_formats') }}</p>
         <AppButton type="submit" class="btn btn-primary btn-sm" :loading="uploading">
           <i class="ri-upload-cloud-line mr-1"></i>
-          Upload
+          {{ __('common.upload') }}
         </AppButton>
       </form>
     </div>

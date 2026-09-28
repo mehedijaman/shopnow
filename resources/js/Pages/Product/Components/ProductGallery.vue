@@ -1,8 +1,8 @@
 <template>
     <div class="mt-5">
         <div class="mb-2 flex items-center justify-between">
-            <AppLabel class="mb-0">Gallery Images</AppLabel>
-            <span class="text-xs text-skin-neutral-9">{{ totalCount }} image{{ totalCount !== 1 ? 's' : '' }}</span>
+            <AppLabel class="mb-0">{{ __('product::admin.gallery_images') }}</AppLabel>
+            <span class="text-xs text-skin-neutral-9">{{ __('product::admin.gallery_count', { count: totalCount }) }}</span>
         </div>
 
         <!-- All images grid -->
@@ -18,13 +18,13 @@
                     <button
                         type="button"
                         class="flex h-7 w-7 items-center justify-center rounded-full bg-red-600 text-white shadow-md hover:bg-red-700"
-                        title="Delete image"
+                        :title="__('product::admin.delete_image')"
                         @click="removeExisting(img.id)"
                     >
                         <i class="ri-delete-bin-line text-sm"></i>
                     </button>
                 </div>
-                <span class="absolute bottom-0 left-0 right-0 bg-black/50 px-1 py-0.5 text-center text-[10px] text-white">Saved</span>
+                <span class="absolute bottom-0 left-0 right-0 bg-black/50 px-1 py-0.5 text-center text-[10px] text-white">{{ __('product::admin.gallery_saved') }}</span>
             </div>
 
             <!-- New pending images -->
@@ -38,18 +38,18 @@
                     <button
                         type="button"
                         class="flex h-7 w-7 items-center justify-center rounded-full bg-red-600 text-white shadow-md hover:bg-red-700"
-                        title="Remove"
+                        :title="__('common.remove')"
                         @click="removeNew(index)"
                     >
                         <i class="ri-delete-bin-line text-sm"></i>
                     </button>
                 </div>
-                <span class="absolute bottom-0 left-0 right-0 bg-blue-600/70 px-1 py-0.5 text-center text-[10px] text-white">Pending</span>
+                <span class="absolute bottom-0 left-0 right-0 bg-blue-600/70 px-1 py-0.5 text-center text-[10px] text-white">{{ __('product::admin.gallery_pending') }}</span>
             </div>
         </div>
 
         <p v-else class="mt-1 rounded-md border border-dashed border-skin-neutral-5 py-4 text-center text-xs text-skin-neutral-9">
-            No gallery images yet
+            {{ __('product::admin.gallery_empty') }}
         </p>
 
         <!-- Upload trigger -->
@@ -61,9 +61,9 @@
                 @click="fileInput.click()"
             >
                 <i class="ri-image-add-line text-base"></i>
-                Add Images
+                {{ __('product::admin.add_images') }}
             </button>
-            <p class="mt-1 text-center text-xs text-skin-neutral-9">JPG, PNG, WEBP — max 2 MB each</p>
+            <p class="mt-1 text-center text-xs text-skin-neutral-9">{{ __('product::admin.gallery_formats') }}</p>
         </div>
     </div>
 </template>

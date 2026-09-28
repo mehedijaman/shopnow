@@ -3,54 +3,54 @@
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             <!-- Status Filter -->
             <div>
-                <AppLabel for="status-filter">Status</AppLabel>
+                <AppLabel for="status-filter">{{ __('common.field.status') }}</AppLabel>
                 <select
                     id="status-filter"
                     v-model="filters.active"
                     class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-skin-neutral-12 placeholder-skin-neutral-9 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
                 >
-                    <option value="">All Status</option>
-                    <option value="1">Active</option>
-                    <option value="0">Inactive</option>
+                    <option value="">{{ __('common.filter.all_status') }}</option>
+                    <option value="1">{{ __('common.field.active') }}</option>
+                    <option value="0">{{ __('common.field.inactive') }}</option>
                 </select>
             </div>
 
             <!-- Stock Filter -->
             <div>
-                <AppLabel for="stock-filter">Stock</AppLabel>
+                <AppLabel for="stock-filter">{{ __('common.field.stock') }}</AppLabel>
                 <select
                     id="stock-filter"
                     v-model="filters.stock"
                     class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-skin-neutral-12 placeholder-skin-neutral-9 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
                 >
-                    <option value="">All Stock</option>
-                    <option value="low">Low Stock (&lt;10)</option>
-                    <option value="out">Out of Stock</option>
+                    <option value="">{{ __('common.filter.all_stock') }}</option>
+                    <option value="low">{{ __('common.filter.low_stock') }}</option>
+                    <option value="out">{{ __('common.filter.out_of_stock') }}</option>
                 </select>
             </div>
 
             <!-- Featured Filter -->
             <div>
-                <AppLabel for="featured-filter">Featured</AppLabel>
+                <AppLabel for="featured-filter">{{ __('common.field.featured') }}</AppLabel>
                 <select
                     id="featured-filter"
                     v-model="filters.featured"
                     class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-skin-neutral-12 placeholder-skin-neutral-9 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
                 >
-                    <option value="">All Products</option>
-                    <option value="1">Featured Only</option>
+                    <option value="">{{ __('common.filter.all_products') }}</option>
+                    <option value="1">{{ __('common.filter.featured_only') }}</option>
                 </select>
             </div>
 
             <!-- Brand Filter -->
             <div>
-                <AppLabel for="brand-filter">Brand</AppLabel>
+                <AppLabel for="brand-filter">{{ __('common.field.brand') }}</AppLabel>
                 <select
                     id="brand-filter"
                     v-model="filters.brand"
                     class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-skin-neutral-12 placeholder-skin-neutral-9 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
                 >
-                    <option value="">All Brands</option>
+                    <option value="">{{ __('common.filter.all_brands') }}</option>
                     <option v-for="brand in brands" :key="brand.value" :value="brand.value">
                         {{ brand.label }}
                     </option>
@@ -59,13 +59,13 @@
 
             <!-- Category Filter -->
             <div>
-                <AppLabel for="category-filter">Category</AppLabel>
+                <AppLabel for="category-filter">{{ __('common.field.category') }}</AppLabel>
                 <select
                     id="category-filter"
                     v-model="filters.category"
                     class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-skin-neutral-12 placeholder-skin-neutral-9 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
                 >
-                    <option value="">All Categories</option>
+                    <option value="">{{ __('common.filter.all_categories') }}</option>
                     <option v-for="category in categories" :key="category.value" :value="category.value">
                         {{ category.label }}
                     </option>
@@ -74,13 +74,13 @@
 
             <!-- Tag Filter -->
             <div>
-                <AppLabel for="tag-filter">Tag</AppLabel>
+                <AppLabel for="tag-filter">{{ __('common.field.tag') }}</AppLabel>
                 <select
                     id="tag-filter"
                     v-model="filters.tag"
                     class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-skin-neutral-12 placeholder-skin-neutral-9 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
                 >
-                    <option value="">All Tags</option>
+                    <option value="">{{ __('common.filter.all_tags') }}</option>
                     <option v-for="tag in tags" :key="tag.value" :value="tag.value">
                         {{ tag.label }}
                     </option>
@@ -89,14 +89,14 @@
 
             <!-- Attribute Filter -->
             <div>
-                <AppLabel for="attribute-filter">Attribute</AppLabel>
+                <AppLabel for="attribute-filter">{{ __('common.field.attribute') }}</AppLabel>
                 <select
                     id="attribute-filter"
                     v-model="filters.attribute"
                     class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-skin-neutral-12 placeholder-skin-neutral-9 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
                     @change="onAttributeChange"
                 >
-                    <option value="">All Attributes</option>
+                    <option value="">{{ __('common.filter.all_attributes') }}</option>
                     <option v-for="attr in attributes" :key="attr.id" :value="attr.id">
                         {{ attr.name }}
                     </option>
@@ -105,14 +105,14 @@
 
             <!-- Attribute Value Filter -->
             <div>
-                <AppLabel for="attribute-value-filter">Attribute Value</AppLabel>
+                <AppLabel for="attribute-value-filter">{{ __('common.field.attribute_value') }}</AppLabel>
                 <select
                     id="attribute-value-filter"
                     v-model="filters.attribute_value"
                     :disabled="!filters.attribute"
                     class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-skin-neutral-12 placeholder-skin-neutral-9 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6 disabled:opacity-50"
                 >
-                    <option value="">All Values</option>
+                    <option value="">{{ __('common.filter.all_values') }}</option>
                     <option v-for="val in availableValues" :key="val.id" :value="val.id">
                         {{ val.value }}
                     </option>
@@ -127,14 +127,14 @@
                 class="btn btn-secondary text-sm"
                 @click="clear"
             >
-                Clear Filter
+                {{ __('common.clear_filter') }}
             </AppButton>
             <AppButton
                 type="button"
                 class="btn btn-primary text-sm"
                 @click="apply"
             >
-                Apply Filter
+                {{ __('common.apply_filter') }}
             </AppButton>
         </div>
     </div>
