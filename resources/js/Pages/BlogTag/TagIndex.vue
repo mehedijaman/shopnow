@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Tags" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('blog::admin.tags')" :bread-crumb="breadCrumb">
         <template #right>
             <div class="flex gap-2">
                 <AppButton
@@ -7,14 +7,14 @@
                     class="btn btn-secondary"
                     @click="$inertia.visit(route('blogTag.recycleBin.index'))"
                 >
-                    <i class="ri-delete-bin-line mr-1"></i> Recycle Bin
+                    <i class="ri-delete-bin-line mr-1"></i> {{ __('common.recycle_bin') }}
                 </AppButton>
                 <AppButton
                     v-if="can('Blog: Tag - Create')"
                     class="btn btn-primary"
                     @click="$inertia.visit(route('blogTag.create'))"
                 >
-                    Create Tag
+                    {{ __('blog::admin.create_tag') }}
                 </AppButton>
             </div>
         </template>
@@ -42,7 +42,7 @@
                         <!-- edit tag -->
                         <AppTooltip
                             v-if="can('Blog: Tag - Edit')"
-                            text="Edit Tag"
+                            :text="__('blog::admin.edit_tag')"
                             class="mr-3"
                         >
                             <AppButton
@@ -60,7 +60,7 @@
                         <!-- delete tag -->
                         <AppTooltip
                             v-if="can('Blog: Tag - Delete')"
-                            text="Delete Tag"
+                            :text="__('blog::admin.delete_tag')"
                         >
                             <AppButton
                                 class="btn btn-icon btn-destructive"
@@ -87,13 +87,13 @@
         class="mt-4 justify-center"
     ></AppPaginator>
 
-    <AppAlert v-if="!tags.data.length" class="mt-4"> No tags found. </AppAlert>
+    <AppAlert v-if="!tags.data.length" class="mt-4"> {{ __('blog::admin.no_tags_found') }} </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import useAuthCan from '@/Composables/useAuthCan'
 
 const props = defineProps({
@@ -103,12 +103,18 @@ const props = defineProps({
     }
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Tags', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('blog::admin.tags'), last: true }
 ]
 
-const headers = ['Name', 'Posts', 'Actions']
+const headers = [
+    translate('common.header.name'),
+    translate('blog::admin.posts'),
+    translate('common.header.actions'),
+]
 
 const confirmDialogRef = ref(null)
 const confirmDelete = (deleteRoute) => {

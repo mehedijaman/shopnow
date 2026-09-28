@@ -25,7 +25,9 @@ const NEVER_TRANSLATED = [
     'Tk.',
     'https://your-domain.com/product/',
     'https://your-domain.com/product/brand/',
-    'https://your-domain.com/product/category/'
+    'https://your-domain.com/product/category/',
+    'https://your-domain.com/blog/post/',
+    'https://your-domain.com/blog/category/'
 ]
 
 /**

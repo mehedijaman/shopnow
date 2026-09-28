@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Categories" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('blog::admin.categories')" :bread-crumb="breadCrumb">
         <template #right>
             <div class="flex gap-2">
                 <AppButton
@@ -7,14 +7,14 @@
                     class="btn btn-secondary"
                     @click="$inertia.visit(route('blogCategory.recycleBin.index'))"
                 >
-                    <i class="ri-delete-bin-line mr-1"></i> Recycle Bin
+                    <i class="ri-delete-bin-line mr-1"></i> {{ __('common.recycle_bin') }}
                 </AppButton>
                 <AppButton
                     v-if="can('Blog: Category - Create')"
                     class="btn btn-primary"
                     @click="$inertia.visit(route('blogCategory.create'))"
                 >
-                    Create Category
+                    {{ __('blog::admin.create_category') }}
                 </AppButton>
             </div>
         </template>
@@ -53,7 +53,7 @@
                             class="rounded-sm px-3 py-1 text-sm"
                             :class="getCategoryVisibilityClass(item.is_visible)"
                         >
-                            {{ item.is_visible ? 'Visible' : 'Invisible' }}
+                            {{ item.is_visible ? __('blog::admin.visible') : __('blog::admin.invisible') }}
                         </span>
                     </AppDataTableData>
 
@@ -61,7 +61,7 @@
                         <!-- edit category -->
                         <AppTooltip
                             v-if="can('Blog: Category - Edit')"
-                            text="Edit Category"
+                            :text="__('blog::admin.edit_category')"
                             class="mr-3"
                         >
                             <AppButton
@@ -79,7 +79,7 @@
                         <!-- delete category -->
                         <AppTooltip
                             v-if="can('Blog: Category - Delete')"
-                            text="Delete Category"
+                            :text="__('blog::admin.delete_category')"
                         >
                             <AppButton
                                 class="btn btn-icon btn-destructive"
@@ -107,14 +107,14 @@
     ></AppPaginator>
 
     <AppAlert v-if="!categories.data.length" class="mt-4">
-        No categories found.
+        {{ __('blog::admin.no_categories_found') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import useAuthCan from '@/Composables/useAuthCan'
 import AppImageNotAvailable from '@/Components/Modules/Blog/AppImageNotAvailable.vue'
 
@@ -125,12 +125,20 @@ const props = defineProps({
     }
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Categories', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('blog::admin.categories'), last: true }
 ]
 
-const headers = ['Image', 'Name', 'Posts', 'Visibility', 'Actions']
+const headers = [
+    translate('blog::admin.image'),
+    translate('common.header.name'),
+    translate('blog::admin.posts'),
+    translate('blog::admin.visibility'),
+    translate('common.header.actions'),
+]
 
 const getCategoryVisibilityClass = (isVisible) => {
     return isVisible ? 'category-visible' : 'category-invisible'

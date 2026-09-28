@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Authors" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('blog::admin.authors')" :bread-crumb="breadCrumb">
     </AppSectionHeader>
 
     <AppCard class="w-full md:w-3/4 xl:w-1/2">
@@ -8,7 +8,7 @@
             <AppFormErrors class="mb-4" />
             <form class="pt-4">
                 <div>
-                    <AppLabel for="name">Name</AppLabel>
+                    <AppLabel for="name">{{ __('common.field.name') }}</AppLabel>
                     <AppInputText
                         id="name"
                         v-model="form.name"
@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="mt-5">
-                    <AppLabel for="bio">Bio</AppLabel>
+                    <AppLabel for="bio">{{ __('blog::admin.bio') }}</AppLabel>
                     <AppTipTapEditor
                         v-model="form.bio"
                         editor-id="bio"
@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="mt-5">
-                    <AppLabel for="email">Email</AppLabel>
+                    <AppLabel for="email">{{ __('blog::admin.email') }}</AppLabel>
                     <AppInputText
                         id="email"
                         v-model="form.email"
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="mt-5">
-                    <AppLabel for="github-handle">Github</AppLabel>
+                    <AppLabel for="github-handle">{{ __('blog::admin.github') }}</AppLabel>
                     <AppInputText
                         id="github-handle"
                         v-model="form.github_handle"
@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="mt-5">
-                    <AppLabel for="twitter-handle">Twitter</AppLabel>
+                    <AppLabel for="twitter-handle">{{ __('blog::admin.twitter') }}</AppLabel>
                     <AppInputText
                         id="twitter-handle"
                         v-model="form.twitter_handle"
@@ -91,13 +91,14 @@
                 class="btn btn-primary"
                 @click="submitForm"
             >
-                {{ __('Save') }}
+                {{ __('common.save') }}
             </AppButton>
         </template>
     </AppCard>
 </template>
 
 <script setup>
+import { inject } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import useAuthCan from '@/Composables/useAuthCan'
 
@@ -112,13 +113,15 @@ const props = defineProps({
     }
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Authors', href: route('blogAuthor.index') },
-    { label: 'Author', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('blog::admin.authors'), href: route('blogAuthor.index') },
+    { label: translate('blog::admin.author'), last: true }
 ]
 
-const { title } = useTitle('Author')
+const { title } = useTitle(translate('blog::admin.author'))
 const { isCreate } = useFormContext()
 const { can } = useAuthCan()
 

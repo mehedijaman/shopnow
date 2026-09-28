@@ -6,7 +6,7 @@
             name="term"
             :value="true"
         />
-        <AppLabel for="term" class="ml-3"> Turn Category visible </AppLabel>
+        <AppLabel for="term" class="ml-3"> {{ __('blog::admin.turn_category_visible') }} </AppLabel>
     </div>
 </template>
 

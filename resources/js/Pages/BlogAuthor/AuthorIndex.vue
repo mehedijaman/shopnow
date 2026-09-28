@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Authors" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('blog::admin.authors')" :bread-crumb="breadCrumb">
         <template #right>
             <div class="flex gap-2">
                 <AppButton
@@ -7,14 +7,14 @@
                     class="btn btn-secondary"
                     @click="$inertia.visit(route('blogAuthor.recycleBin.index'))"
                 >
-                    <i class="ri-delete-bin-line mr-1"></i> Recycle Bin
+                    <i class="ri-delete-bin-line mr-1"></i> {{ __('common.recycle_bin') }}
                 </AppButton>
                 <AppButton
                     v-if="can('Blog: Author - Create')"
                     class="btn btn-primary"
                     @click="$inertia.visit(route('blogAuthor.create'))"
                 >
-                    Create Author
+                    {{ __('blog::admin.create_author') }}
                 </AppButton>
             </div>
         </template>
@@ -64,7 +64,7 @@
                         <!-- edit author -->
                         <AppTooltip
                             v-if="can('Blog: Author - Edit')"
-                            text="Edit Author"
+                            :text="__('blog::admin.edit_author')"
                             class="mr-3"
                         >
                             <AppButton
@@ -82,7 +82,7 @@
                         <!-- delete author -->
                         <AppTooltip
                             v-if="can('Blog: Author - Delete')"
-                            text="Delete Author"
+                            :text="__('blog::admin.delete_author')"
                         >
                             <AppButton
                                 class="btn btn-icon btn-destructive"
@@ -110,14 +110,14 @@
     ></AppPaginator>
 
     <AppAlert v-if="!authors.data.length" class="mt-4">
-        No authors found.
+        {{ __('blog::admin.no_authors_found') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import useAuthCan from '@/Composables/useAuthCan'
 import AppImageNotAvailable from '@/Components/Modules/Blog/AppImageNotAvailable.vue'
 
@@ -128,12 +128,20 @@ const props = defineProps({
     }
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Authors', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('blog::admin.authors'), last: true }
 ]
 
-const headers = ['Image', 'Name/Email', 'Posts', 'Social', 'Actions']
+const headers = [
+    translate('blog::admin.image'),
+    translate('blog::admin.name_email'),
+    translate('blog::admin.posts'),
+    translate('blog::admin.social'),
+    translate('common.header.actions'),
+]
 
 const confirmDialogRef = ref(null)
 const confirmDelete = (deleteRoute) => {

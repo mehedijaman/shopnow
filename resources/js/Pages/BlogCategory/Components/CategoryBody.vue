@@ -1,6 +1,6 @@
 <template>
     <div>
-        <AppLabel for="name">Name</AppLabel>
+        <AppLabel for="name">{{ __('common.field.name') }}</AppLabel>
         <AppInputText
             id="name"
             v-model="categoryStore.category.name"
@@ -13,7 +13,7 @@
     </div>
 
     <div class="mt-5">
-        <AppLabel for="description">Description</AppLabel>
+        <AppLabel for="description">{{ __('common.field.description') }}</AppLabel>
         <AppTipTapEditor
             v-model="categoryStore.category.description"
             editor-id="description"

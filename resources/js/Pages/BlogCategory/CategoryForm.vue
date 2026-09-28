@@ -18,7 +18,7 @@
         </template>
         <template #footer>
             <AppButton class="btn btn-primary" @click="submitForm">
-                Save
+                {{ __('common.save') }}
             </AppButton>
         </template>
     </AppCard>
@@ -26,7 +26,7 @@
 
 <script setup>
 import { useForm } from '@inertiajs/vue3'
-import { onUnmounted } from 'vue'
+import { inject, onUnmounted } from 'vue'
 import useTitle from '@/Composables/useTitle'
 import useFormContext from '@/Composables/useFormContext'
 import useFormErrors from '@/Composables/useFormErrors'
@@ -52,13 +52,15 @@ onUnmounted(() => {
     categoryStore.$reset()
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Categories', href: route('blogCategory.index') },
-    { label: 'Category', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('blog::admin.categories'), href: route('blogCategory.index') },
+    { label: translate('blog::admin.category'), last: true }
 ]
 
-const { title } = useTitle('Category')
+const { title } = useTitle(translate('blog::admin.category'))
 const { isCreate } = useFormContext()
 
 const submitForm = () => {

@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Tag" :bread-crumb="breadCrumb"> </AppSectionHeader>
+    <AppSectionHeader :title="__('blog::admin.tag')" :bread-crumb="breadCrumb"> </AppSectionHeader>
 
     <AppCard class="w-full md:w-3/4 xl:w-1/2">
         <template #title> {{ title }} </template>
@@ -7,7 +7,7 @@
             <AppFormErrors class="mb-4" />
             <form @submit.prevent="submitForm">
                 <div>
-                    <AppLabel for="name">{{ __('Name') }}</AppLabel>
+                    <AppLabel for="name">{{ __('common.field.name') }}</AppLabel>
                     <AppInputText
                         id="name"
                         v-model="form.name"
@@ -22,13 +22,14 @@
         </template>
         <template #footer>
             <AppButton class="btn btn-primary" @click="submitForm">
-                {{ __('Save') }}
+                {{ __('common.save') }}
             </AppButton>
         </template>
     </AppCard>
 </template>
 
 <script setup>
+import { inject } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 
 import useTitle from '@/Composables/useTitle'
@@ -42,13 +43,15 @@ const props = defineProps({
     }
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Blog Tags', href: route('blogTag.index') },
-    { label: 'Tag', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('blog::admin.blog_tags'), href: route('blogTag.index') },
+    { label: translate('blog::admin.tag'), last: true }
 ]
 
-const { title } = useTitle('Role')
+const { title } = useTitle(translate('blog::admin.tag'))
 
 const form = useForm({
     name: props.tag ? props.tag.name : ''

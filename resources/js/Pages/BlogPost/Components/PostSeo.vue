@@ -3,14 +3,14 @@
         <div class="flex items-center justify-between border-b border-skin-neutral-4 bg-skin-neutral-2 px-5 py-2.5">
             <div class="flex items-center gap-2">
                 <i class="ri-search-line text-xs text-skin-neutral-8"></i>
-                <h3 class="text-xs font-semibold uppercase tracking-wider text-skin-neutral-8">SEO</h3>
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-skin-neutral-8">{{ __('blog::admin.seo') }}</h3>
             </div>
             <a
                 href="#"
                 class="text-xs font-medium text-skin-primary-9 hover:underline"
                 @click.prevent="toggleSeoForm"
             >
-                {{ showSeoForm ? 'Hide' : 'Edit SEO content' }}
+                {{ showSeoForm ? __('blog::admin.hide') : __('common.seo.edit') }}
             </a>
         </div>
 
@@ -20,7 +20,7 @@
             v-show="postStore.showSeoAlert()"
             class="text-skin-neutral-9 block text-sm"
         >
-            (fill the title and description to see a preview)
+            {{ __('common.seo.fill_hint') }}
         </small>
 
         <template v-if="showSeoForm">
@@ -31,7 +31,7 @@
                     ></div>
 
                     <div class="flex flex-col items-start">
-                        <p class="text-sm">Your Site Name</p>
+                        <p class="text-sm">{{ __('common.seo.site_name') }}</p>
                         <p class="text-skin-neutral-10 -mt-1 text-sm">
                             https://your-domain.com/blog/post/{{
                                 postStore.getSlug()
@@ -52,7 +52,7 @@
             </div>
 
             <div class="mt-5 border-t border-dashed pt-5">
-                <AppLabel for="meta_tag_title">Meta Tag Title</AppLabel>
+                <AppLabel for="meta_tag_title">{{ __('common.seo.meta_tag_title') }}</AppLabel>
                 <AppInputText
                     id="meta_tag_title"
                     v-model="postStore.post.meta_tag_title"
@@ -63,14 +63,13 @@
                     }"
                 />
                 <small class="text-skin-neutral-9 block text-right">
-                    {{ postStore.getRemainingChars('meta_tag_title', 60) }}
-                    of 60
+                    {{ __('common.seo.of_limit', { remaining: postStore.getRemainingChars('meta_tag_title', 60), limit: 60 }) }}
                 </small>
             </div>
 
             <div class="mt-5">
                 <AppLabel for="meta_tag_description"
-                    >Meta Tag Description</AppLabel
+                    >{{ __('common.seo.meta_tag_description') }}</AppLabel
                 >
                 <AppTextArea
                     id="meta_tag_description"
@@ -85,9 +84,8 @@
                 />
                 <small class="text-skin-neutral-9 block text-right">
                     {{
-                        postStore.getRemainingChars('meta_tag_description', 160)
+                        __('common.seo.of_limit', { remaining: postStore.getRemainingChars('meta_tag_description', 160), limit: 160 })
                     }}
-                    of 160
                 </small>
             </div>
         </template>

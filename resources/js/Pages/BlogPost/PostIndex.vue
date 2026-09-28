@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Posts" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('blog::admin.posts')" :bread-crumb="breadCrumb">
         <template #right>
             <div class="flex gap-2">
                 <AppButton
@@ -7,14 +7,14 @@
                     class="btn btn-secondary"
                     @click="$inertia.visit(route('blogPost.recycleBin.index'))"
                 >
-                    <i class="ri-delete-bin-line mr-1"></i> Recycle Bin
+                    <i class="ri-delete-bin-line mr-1"></i> {{ __('common.recycle_bin') }}
                 </AppButton>
                 <AppButton
                     v-if="can('Blog: Post - Create')"
                     class="btn btn-primary"
                     @click="$inertia.visit(route('blogPost.create'))"
                 >
-                    Create Post
+                    {{ __('blog::admin.create_post') }}
                 </AppButton>
             </div>
         </template>
@@ -49,7 +49,7 @@
                             class="rounded-sm px-3 py-1 text-sm"
                             :class="getPostStatusClass(item.status)"
                         >
-                            {{ item.status }}
+                            {{ postStatusText(item.status) }}
                         </span>
                     </AppDataTableData>
 
@@ -57,7 +57,7 @@
                         <!-- edit post -->
                         <AppTooltip
                             v-if="can('Blog: Post - Edit')"
-                            text="Edit Post"
+                            :text="__('blog::admin.edit_post')"
                             class="mr-3"
                         >
                             <AppButton
@@ -75,7 +75,7 @@
                         <!-- delete post -->
                         <AppTooltip
                             v-if="can('Blog: Post - Delete')"
-                            text="Delete Post"
+                            :text="__('blog::admin.delete_post')"
                         >
                             <AppButton
                                 class="btn btn-icon btn-destructive"
@@ -103,14 +103,14 @@
     ></AppPaginator>
 
     <AppAlert v-if="!posts.data.length" class="mt-4">
-        No posts found.
+        {{ __('blog::admin.no_posts_found') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import useAuthCan from '@/Composables/useAuthCan'
 import AppImageNotAvailable from '@/Components/Modules/Blog/AppImageNotAvailable.vue'
 
@@ -121,12 +121,25 @@ const props = defineProps({
     }
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Posts', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('blog::admin.posts'), last: true }
 ]
 
-const headers = ['Image', 'Title', 'Status', 'Actions']
+const headers = [
+    translate('blog::admin.image'),
+    translate('blog::admin.title'),
+    translate('common.field.status'),
+    translate('common.header.actions'),
+]
+
+const postStatusText = (status) => {
+    if (status === 'Published') return translate('blog::admin.published')
+    if (status === 'Draft') return translate('blog::admin.draft')
+    return status
+}
 
 const getPostStatusClass = (status) => {
     return status === 'Published' ? 'published' : 'draft'

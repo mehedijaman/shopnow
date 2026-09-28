@@ -1,18 +1,18 @@
 <template>
-    <Head title="Posts Recycle Bin"></Head>
-    <AppSectionHeader title="Posts — Recycle Bin" :bread-crumb="breadCrumb">
+    <Head :title="__('blog::admin.posts_recycle_bin')"></Head>
+    <AppSectionHeader :title="__('blog::admin.posts_recycle_bin')" :bread-crumb="breadCrumb">
         <template #right>
             <div class="flex gap-2">
                 <AppButton class="btn btn-secondary" @click="$inertia.visit(route('blogPost.index'))">
-                    <i class="ri-arrow-left-line mr-1"></i> Back
+                    <i class="ri-arrow-left-line mr-1"></i> {{ __('common.back') }}
                 </AppButton>
                 <AppButton v-if="can('Blog: Post - Recycle Bin Restore') && posts.data.length"
                     class="btn btn-secondary" @click="restoreAll">
-                    <i class="ri-arrow-go-back-line mr-1"></i> Restore All
+                    <i class="ri-arrow-go-back-line mr-1"></i> {{ __('common.restore_all') }}
                 </AppButton>
                 <AppButton v-if="can('Blog: Post - Recycle Bin Delete') && posts.data.length"
                     class="btn btn-destructive" @click="emptyBin">
-                    <i class="ri-delete-bin-line mr-1"></i> Empty Bin
+                    <i class="ri-delete-bin-line mr-1"></i> {{ __('common.empty_bin') }}
                 </AppButton>
             </div>
         </template>
@@ -41,17 +41,17 @@
                             class="rounded-sm px-3 py-1 text-sm"
                             :class="getPostStatusClass(item.status)"
                         >
-                            {{ item.status }}
+                            {{ postStatusText(item.status) }}
                         </span>
                     </AppDataTableData>
                     <AppDataTableData class="w-40 text-right">
-                        <AppTooltip v-if="can('Blog: Post - Recycle Bin Restore')" text="Restore" class="mr-3">
+                        <AppTooltip v-if="can('Blog: Post - Recycle Bin Restore')" :text="__('common.restore')" class="mr-3">
                             <AppButton class="btn btn-icon btn-primary"
                                 @click="router.get(route('blogPost.recycleBin.restore', item.id))">
                                 <i class="ri-arrow-go-back-line"></i>
                             </AppButton>
                         </AppTooltip>
-                        <AppTooltip v-if="can('Blog: Post - Recycle Bin Delete')" text="Delete Permanently">
+                        <AppTooltip v-if="can('Blog: Post - Recycle Bin Delete')" :text="__('common.delete_permanently')">
                             <AppButton class="btn btn-icon btn-destructive"
                                 @click="confirmDelete(route('blogPost.recycleBin.destroyForce', item.id))">
                                 <i class="ri-delete-bin-line"></i>
@@ -67,14 +67,14 @@
         :to="posts.to || 0" :total="posts.total || 0" class="mt-4 justify-center" />
 
     <AppAlert v-if="!posts.data.length" class="mt-4">
-        The recycle bin is empty.
+        {{ __('common.recycle_bin_empty') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef" />
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { Head, router } from '@inertiajs/vue3'
 import useAuthCan from '@/Composables/useAuthCan'
 import AppImageNotAvailable from '@/Components/Modules/Blog/AppImageNotAvailable.vue'
@@ -83,13 +83,21 @@ const props = defineProps({
     posts: { type: Object, default: () => ({}) },
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Posts', href: route('blogPost.index') },
-    { label: 'Recycle Bin', last: true },
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('blog::admin.posts'), href: route('blogPost.index') },
+    { label: translate('common.recycle_bin'), last: true },
 ]
 
-const headers = ['SL', 'Image', 'Title', 'Status', 'Actions']
+const headers = [
+    translate('common.header.sl'),
+    translate('blog::admin.image'),
+    translate('blog::admin.title'),
+    translate('common.field.status'),
+    translate('common.header.actions'),
+]
 
 const confirmDialogRef = ref(null)
 const confirmDelete = (deleteRoute) => {
@@ -98,6 +106,12 @@ const confirmDelete = (deleteRoute) => {
 
 const restoreAll = () => router.get(route('blogPost.recycleBin.restoreAll'))
 const emptyBin = () => confirmDialogRef.value.openModal(route('blogPost.recycleBin.empty'))
+
+const postStatusText = (status) => {
+    if (status === 'Published') return translate('blog::admin.published')
+    if (status === 'Draft') return translate('blog::admin.draft')
+    return status
+}
 
 const getPostStatusClass = (status) => {
     return status === 'Published' ? 'published' : 'draft'

@@ -8,7 +8,7 @@
                 @click="$inertia.visit(route('blogPost.index'))"
             >
                 <i class="ri-arrow-left-s-line"></i>
-                All Posts
+                {{ __('blog::admin.all_posts') }}
             </button>
             <span class="h-4 w-px bg-skin-neutral-5"></span>
             <span class="text-sm font-medium text-skin-neutral-9">{{ title }}</span>
@@ -20,7 +20,7 @@
             @click="submitForm"
         >
             <i class="ri-save-line mr-1.5"></i>
-            {{ isCreate ? 'Publish' : 'Update' }}
+            {{ isCreate ? __('blog::admin.publish') : __('blog::admin.update') }}
         </AppButton>
     </div>
 
@@ -51,7 +51,7 @@
             <div class="overflow-hidden rounded-xl bg-skin-neutral-1 shadow-xs ring-1 ring-skin-neutral-4">
                 <div class="flex items-center gap-2 border-b border-skin-neutral-4 bg-skin-neutral-2 px-4 py-2.5">
                     <i class="ri-send-plane-line text-xs text-skin-neutral-8"></i>
-                    <h3 class="text-xs font-semibold uppercase tracking-wider text-skin-neutral-8">Publish</h3>
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-skin-neutral-8">{{ __('blog::admin.publish') }}</h3>
                 </div>
                 <div class="p-4">
                     <PostPublishDate />
@@ -61,7 +61,7 @@
                         @click="submitForm"
                     >
                         <i class="ri-save-line mr-1.5"></i>
-                        {{ isCreate ? 'Publish Post' : 'Update Post' }}
+                        {{ isCreate ? __('blog::admin.publish_post') : __('blog::admin.update_post') }}
                     </AppButton>
                 </div>
             </div>
@@ -70,7 +70,7 @@
             <div class="overflow-hidden rounded-xl bg-skin-neutral-1 shadow-xs ring-1 ring-skin-neutral-4">
                 <div class="flex items-center gap-2 border-b border-skin-neutral-4 bg-skin-neutral-2 px-4 py-2.5">
                     <i class="ri-image-line text-xs text-skin-neutral-8"></i>
-                    <h3 class="text-xs font-semibold uppercase tracking-wider text-skin-neutral-8">Featured Image</h3>
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-skin-neutral-8">{{ __('blog::admin.featured_image') }}</h3>
                 </div>
                 <div class="p-4">
                     <PostImage />
@@ -81,7 +81,7 @@
             <div class="rounded-xl bg-skin-neutral-1 shadow-xs ring-1 ring-skin-neutral-4">
                 <div class="flex items-center gap-2 rounded-t-xl border-b border-skin-neutral-4 bg-skin-neutral-2 px-4 py-2.5">
                     <i class="ri-folder-line text-xs text-skin-neutral-8"></i>
-                    <h3 class="text-xs font-semibold uppercase tracking-wider text-skin-neutral-8">Category</h3>
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-skin-neutral-8">{{ __('blog::admin.category') }}</h3>
                 </div>
                 <div class="p-4">
                     <PostCategory :categories="categories" />
@@ -92,7 +92,7 @@
             <div class="rounded-xl bg-skin-neutral-1 shadow-xs ring-1 ring-skin-neutral-4">
                 <div class="flex items-center gap-2 rounded-t-xl border-b border-skin-neutral-4 bg-skin-neutral-2 px-4 py-2.5">
                     <i class="ri-price-tag-3-line text-xs text-skin-neutral-8"></i>
-                    <h3 class="text-xs font-semibold uppercase tracking-wider text-skin-neutral-8">Tags</h3>
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-skin-neutral-8">{{ __('blog::admin.tags') }}</h3>
                 </div>
                 <div class="p-4">
                     <PostTags :tags="tags" />
@@ -103,7 +103,7 @@
             <div class="rounded-xl bg-skin-neutral-1 shadow-xs ring-1 ring-skin-neutral-4">
                 <div class="flex items-center gap-2 rounded-t-xl border-b border-skin-neutral-4 bg-skin-neutral-2 px-4 py-2.5">
                     <i class="ri-user-line text-xs text-skin-neutral-8"></i>
-                    <h3 class="text-xs font-semibold uppercase tracking-wider text-skin-neutral-8">Author</h3>
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-skin-neutral-8">{{ __('blog::admin.author') }}</h3>
                 </div>
                 <div class="p-4">
                     <PostAuthor :authors="authors" />
@@ -118,7 +118,7 @@
 import { useForm } from '@inertiajs/vue3'
 import useAuthCan from '@/Composables/useAuthCan'
 
-import { onUnmounted } from 'vue'
+import { inject, onUnmounted } from 'vue'
 
 import useTitle from '@/Composables/useTitle'
 import useFormContext from '@/Composables/useFormContext'
@@ -164,13 +164,15 @@ onUnmounted(() => {
     postStore.$reset()
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Posts', href: route('blogPost.index') },
-    { label: 'Post', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('blog::admin.posts'), href: route('blogPost.index') },
+    { label: translate('blog::admin.post'), last: true }
 ]
 
-const { title } = useTitle('Blog Post')
+const { title } = useTitle(translate('blog::admin.blog_post'))
 const { isCreate } = useFormContext()
 
 const getValueFromKey = (data, key) => {
