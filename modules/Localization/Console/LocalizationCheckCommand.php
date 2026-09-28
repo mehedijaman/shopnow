@@ -488,11 +488,26 @@ class LocalizationCheckCommand extends Command
     /**
      * @return array<int, string>
      */
+    /**
+     * Placeholders used by a message, normalised for comparison.
+     *
+     * The validator accepts `:attribute`, `:Attribute` and `:ATTRIBUTE` as the
+     * same placeholder (it upper-cases or capitalises for us), so only that one
+     * is matched case-insensitively. Everything else — `:min`, `:max`, `:page`
+     * — is replaced verbatim and must match exactly.
+     *
+     * @return array<int, string>
+     */
     protected function placeholders(string $value): array
     {
         preg_match_all('/:([a-zA-Z_][a-zA-Z0-9_]*)/', $value, $matches);
 
-        $placeholders = array_values(array_unique($matches[1] ?? []));
+        $placeholders = array_map(
+            fn (string $name): string => strtolower($name) === 'attribute' ? 'attribute' : $name,
+            $matches[1] ?? []
+        );
+
+        $placeholders = array_values(array_unique($placeholders));
         sort($placeholders);
 
         return $placeholders;
