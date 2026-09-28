@@ -1,10 +1,10 @@
 <template>
-    <div class="bg-skin-neutral-1 h-12">
+    <div class="h-12 bg-skin-neutral-1">
         <AppCombobox
             v-model="selectedArchiveOption"
             :options="archiveOptionsList"
             :use-search="false"
-            combo-label="Archive"
+            :combo-label="__('blog::site.toolbar.archive')"
             class="w-full"
         />
     </div>

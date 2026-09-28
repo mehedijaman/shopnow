@@ -8,6 +8,8 @@ use Modules\Support\BaseServiceProvider;
 
 class BlogServiceProvider extends BaseServiceProvider
 {
+    protected ?string $viewNamespace = 'blog';
+
     protected $namespace = 'Modules\Blog\Http\Controllers';
 
     public function boot()

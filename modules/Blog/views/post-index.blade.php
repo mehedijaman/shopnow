@@ -7,7 +7,7 @@
 @section('content')
     <x-breadcrumb>
         <li class="min-w-0">
-            <span class="font-semibold text-gray-800">Blog</span>
+            <span class="font-semibold text-gray-800">{{ __('blog::site.posts.breadcrumb') }}</span>
         </li>
     </x-breadcrumb>
 
@@ -23,17 +23,17 @@
             <div class="mb-10 text-center">
                 <div class="mb-3 flex items-center justify-center gap-3">
                     <span class="h-1.5 w-8 rounded-full bg-primary-600"></span>
-                    <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">Blog</h1>
+                    <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">{{ __('blog::site.posts.heading') }}</h1>
                     <span class="h-1.5 w-8 rounded-full bg-primary-600"></span>
                 </div>
                 @if (isset($fromArchive) || isset($fromTag) || isset($fromSearch))
                     <p class="mt-2 text-sm text-gray-500">
                         @if (isset($fromArchive))
-                            Posts from archive: <span class="font-semibold text-gray-700">{{ $fromArchive }}</span>
+                            {{ __('blog::site.posts.from_archive') }} <span class="font-semibold text-gray-700">{{ $fromArchive }}</span>
                         @elseif (isset($fromTag))
-                            Posts tagged with: <span class="font-semibold text-gray-700">{{ $fromTag }}</span>
+                            {{ __('blog::site.posts.from_tag') }} <span class="font-semibold text-gray-700">{{ $fromTag }}</span>
                         @elseif (isset($fromSearch))
-                            Posts matching: <span class="font-semibold text-gray-700">{{ $fromSearch }}</span>
+                            {{ __('blog::site.posts.from_search') }} <span class="font-semibold text-gray-700">{{ $fromSearch }}</span>
                         @endif
                     </p>
                 @endif
@@ -126,7 +126,7 @@
             @else
                 <div class="py-16 text-center">
                     <i class="ri-article-line mb-3 block text-4xl text-gray-300"></i>
-                    <p class="text-gray-500">No posts found.</p>
+                    <p class="text-gray-500">{{ __('blog::site.posts.empty') }}</p>
                 </div>
             @endif
 

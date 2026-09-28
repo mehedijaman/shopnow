@@ -28,7 +28,7 @@ class SiteTagController extends SiteController
         $tags = $getTagOptions->get();
 
         $seo = $seoService->build([
-            'title' => $tag ? 'Posts tagged: '.$tag->name : 'Tag',
+            'title' => $tag ? __('blog::site.seo.tag_title', ['name' => $tag->name]) : __('blog::site.seo.tag_fallback'),
             'robots' => 'noindex, follow',
         ]);
 

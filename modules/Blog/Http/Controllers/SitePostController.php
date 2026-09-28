@@ -23,14 +23,14 @@ class SitePostController extends SiteController
         $tags = $getTagOptions->get();
 
         $seo = $seoService->build([
-            'title' => 'Blog',
-            'description' => 'Read our latest articles, tips, and insights.',
+            'title' => __('blog::site.seo.title'),
+            'description' => __('blog::site.seo.description'),
             'og_type' => 'website',
             'schema' => [
                 $seoService->organizationSchema(),
                 $seoService->breadcrumbSchema([
-                    ['name' => 'Home', 'url' => url('/')],
-                    ['name' => 'Blog', 'url' => url('/blog')],
+                    ['name' => __('blog::site.seo.home'), 'url' => url('/')],
+                    ['name' => __('blog::site.seo.title'), 'url' => url('/blog')],
                 ]),
             ],
         ]);
@@ -65,8 +65,8 @@ class SitePostController extends SiteController
                     'author' => $post->author?->name,
                 ]),
                 $seoService->breadcrumbSchema([
-                    ['name' => 'Home', 'url' => url('/')],
-                    ['name' => 'Blog', 'url' => url('/blog')],
+                    ['name' => __('blog::site.seo.home'), 'url' => url('/')],
+                    ['name' => __('blog::site.seo.title'), 'url' => url('/blog')],
                     ['name' => $post->title, 'url' => url('/blog/'.$post->slug)],
                 ]),
             ],

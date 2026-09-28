@@ -19,7 +19,7 @@ class SiteArchiveController extends SiteController
         $tags = $getTagOptions->get();
 
         $seo = $seoService->build([
-            'title' => 'Archive: '.$archiveDate,
+            'title' => __('blog::site.seo.archive_title', ['date' => $archiveDate]),
             'robots' => 'noindex, follow',
         ]);
 

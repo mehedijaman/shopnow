@@ -7,7 +7,7 @@
 @section('content')
     <x-breadcrumb>
         <li class="flex shrink-0 items-center gap-1">
-            <a href="/blog" class="hover:text-primary-600 hover:underline">Blog</a>
+            <a href="/blog" class="hover:text-primary-600 hover:underline">{{ __('blog::site.posts.breadcrumb') }}</a>
             <i class="ri-arrow-right-s-line text-gray-400"></i>
         </li>
         <li class="min-w-0">
@@ -99,7 +99,7 @@
                     <div class="mt-10 border-t border-gray-100 pt-6">
                         <a href="/blog" class="inline-flex items-center gap-1.5 text-sm font-medium text-primary-600 hover:underline">
                             <i class="ri-arrow-left-line"></i>
-                            Back to Blog
+                            {{ __('blog::site.posts.back_to_blog') }}
                         </a>
                     </div>
 

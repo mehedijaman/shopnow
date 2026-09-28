@@ -25,7 +25,7 @@ class SitePostSearchController extends SiteController
         $fromSearch = $searchTerm;
 
         $seo = $seoService->build([
-            'title' => 'Search: '.$searchTerm,
+            'title' => __('blog::site.seo.search_title', ['term' => $searchTerm]),
             'robots' => 'noindex, follow',
         ]);
 
