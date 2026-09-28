@@ -325,6 +325,22 @@ const props = defineProps({
 
 const translate = inject('translate')
 
+const STATUS_KEYS = {
+    pending: 'order::enums.order_status.pending',
+    processing: 'order::enums.order_status.processing',
+    shipped: 'order::enums.order_status.shipped',
+    delivered: 'order::enums.order_status.delivered',
+    completed: 'order::enums.order_status.completed',
+    cancelled: 'order::enums.order_status.cancelled',
+}
+const orderStatusText = (status) => translate(STATUS_KEYS[status] ?? status)
+
+const PAYMENT_STATUS_KEYS = {
+    paid: 'order::enums.payment_status.paid',
+    unpaid: 'order::enums.payment_status.unpaid',
+}
+const paymentStatusText = (status) => translate(PAYMENT_STATUS_KEYS[status] ?? status)
+
 const breadCrumb = [
     { label: translate('common.home'), href: route('dashboard.index') },
     { label: translate('order::admin.orders'), href: route('order.index') },
