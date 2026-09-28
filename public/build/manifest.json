@@ -259,8 +259,8 @@
     "file": "assets/MobileBottomNav-BKB3r1wW.css",
     "src": "_MobileBottomNav-BKB3r1wW.css"
   },
-  "_MobileBottomNav-BVyaPftH.js": {
-    "file": "assets/MobileBottomNav-BVyaPftH.js",
+  "_MobileBottomNav-HMCQwN3N.js": {
+    "file": "assets/MobileBottomNav-HMCQwN3N.js",
     "name": "MobileBottomNav",
     "imports": [
       "_preload-helper-zzgU9aZX.js",
@@ -403,35 +403,35 @@
     "isEntry": true
   },
   "resources-site/js/blog-app.js": {
-    "file": "assets/blog-app-CphyUVm6.js",
+    "file": "assets/blog-app-CkdEexKE.js",
     "name": "blog-app",
     "src": "resources-site/js/blog-app.js",
     "isEntry": true,
     "imports": [
       "_preload-helper-zzgU9aZX.js",
-      "_MobileBottomNav-BVyaPftH.js",
+      "_MobileBottomNav-HMCQwN3N.js",
       "_AppInputText-CKJTGBKS.js",
       "_AppCombobox-Ccb3dGFa.js"
     ]
   },
   "resources-site/js/index-app.js": {
-    "file": "assets/index-app-DISrX4K6.js",
+    "file": "assets/index-app-CeOKilY-.js",
     "name": "index-app",
     "src": "resources-site/js/index-app.js",
     "isEntry": true,
     "imports": [
       "_preload-helper-zzgU9aZX.js",
-      "_MobileBottomNav-BVyaPftH.js"
+      "_MobileBottomNav-HMCQwN3N.js"
     ]
   },
   "resources-site/js/lang/bn.json": {
-    "file": "assets/bn-0vgy-Jxm.js",
+    "file": "assets/bn-D0XIMOvL.js",
     "name": "bn",
     "src": "resources-site/js/lang/bn.json",
     "isDynamicEntry": true
   },
   "resources-site/js/lang/en.json": {
-    "file": "assets/en-BSkOK5pk.js",
+    "file": "assets/en-CvlDgsWb.js",
     "name": "en",
     "src": "resources-site/js/lang/en.json",
     "isDynamicEntry": true

@@ -21,7 +21,8 @@ const NEVER_TRANSLATED = [
     'LinkedIn',
     'TikTok',
     'GitHub',
-    'WhatsApp'
+    'WhatsApp',
+    'Tk.'
 ]
 
 /**

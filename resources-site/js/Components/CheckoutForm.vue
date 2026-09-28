@@ -1,173 +1,328 @@
 <template>
     <div class="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
-
         <!-- Left: Form -->
         <div class="min-w-0 flex-1 space-y-8">
-
             <!-- General error banner -->
-            <div v-if="generalError"
-                class="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-5 w-5 shrink-0 text-red-500" viewBox="0 0 20 20"
-                    fill="currentColor">
-                    <path fill-rule="evenodd"
+            <div
+                v-if="generalError"
+                class="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="mt-0.5 h-5 w-5 shrink-0 text-red-500"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
+                    <path
+                        fill-rule="evenodd"
                         d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                        clip-rule="evenodd" />
+                        clip-rule="evenodd"
+                    />
                 </svg>
                 <span>{{ generalError }}</span>
             </div>
 
             <!-- Delivery Details -->
             <div v-if="requiresShipping" class="space-y-4">
-                <h2 class="border-b border-gray-200 pb-2 text-xl font-semibold text-gray-900">
-                    Delivery Details
+                <h2
+                    class="border-b border-gray-200 pb-2 text-xl font-semibold text-gray-900"
+                >
+                    {{ __('cart::site.checkout.delivery_details') }}
                 </h2>
 
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-
                     <!-- Name -->
                     <div class="col-span-2">
-
-                        <label for="name" class="mb-1.5 block text-sm font-medium text-gray-700">
-                            আপনার নাম <span class="text-red-500">*</span>
-
+                        <label
+                            for="name"
+                            class="mb-1.5 block text-sm font-medium text-gray-700"
+                        >
+                            {{ __('cart::site.checkout.your_name') }}
+                            <span class="text-red-500">*</span>
                         </label>
-                        <input v-model="form.name" type="text" id="name" placeholder="e.g. Mehedi Hasan"
-                            :class="inputClass('name')" @input="clearError('name')" />
-                        <p v-if="errors.name" class="mt-1.5 text-xs text-red-600">{{ errors.name }}</p>
+                        <input
+                            v-model="form.name"
+                            type="text"
+                            id="name"
+                            :placeholder="
+                                __('cart::site.checkout.name_placeholder')
+                            "
+                            :class="inputClass('name')"
+                            @input="clearError('name')"
+                        />
+                        <p
+                            v-if="errors.name"
+                            class="mt-1.5 text-xs text-red-600"
+                        >
+                            {{ errors.name }}
+                        </p>
                     </div>
 
-                    <div class="col-span-2 grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div
+                        class="col-span-2 grid grid-cols-1 gap-4 md:grid-cols-2"
+                    >
                         <!-- Phone -->
                         <div>
-
-                            <label for="phone" class="mb-1.5 block text-sm font-medium text-gray-700">
-                                Phone Number <span class="text-red-500">*</span>
-
+                            <label
+                                for="phone"
+                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                            >
+                                {{ __('cart::site.checkout.phone_number') }}
+                                <span class="text-red-500">*</span>
                             </label>
-                            <input v-model="form.phone" type="tel" id="phone" placeholder="e.g. 01712345678"
-                                :class="inputClass('phone')" @input="clearError('phone')" />
-                            <p v-if="errors.phone" class="mt-1.5 text-xs text-red-600">{{ errors.phone }}</p>
+                            <input
+                                v-model="form.phone"
+                                type="tel"
+                                id="phone"
+                                :placeholder="
+                                    __('cart::site.checkout.phone_placeholder')
+                                "
+                                :class="inputClass('phone')"
+                                @input="clearError('phone')"
+                            />
+                            <p
+                                v-if="errors.phone"
+                                class="mt-1.5 text-xs text-red-600"
+                            >
+                                {{ errors.phone }}
+                            </p>
                         </div>
 
                         <!-- Email -->
                         <div>
-
-                            <label for="email" class="mb-1.5 block text-sm font-medium text-gray-700">
-                                Email Address (Optional)
-
+                            <label
+                                for="email"
+                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                            >
+                                {{ __('cart::site.checkout.email_optional') }}
                             </label>
-                            <input v-model="form.email" type="email" id="email" placeholder="e.g. you@example.com"
-                                :class="inputClass('email')" @input="clearError('email')" />
-                            <p v-if="errors.email" class="mt-1.5 text-xs text-red-600">{{ errors.email }}</p>
+                            <input
+                                v-model="form.email"
+                                type="email"
+                                id="email"
+                                :placeholder="
+                                    __('cart::site.checkout.email_placeholder')
+                                "
+                                :class="inputClass('email')"
+                                @input="clearError('email')"
+                            />
+                            <p
+                                v-if="errors.email"
+                                class="mt-1.5 text-xs text-red-600"
+                            >
+                                {{ errors.email }}
+                            </p>
                         </div>
                     </div>
 
-
                     <!-- Saved Addresses selection (if customer has saved addresses) -->
-                    <div v-if="addresses.length > 0" class="col-span-2 space-y-2">
-
-                        <label class="mb-1.5 block text-sm font-medium text-gray-700">
-                            Shipping Address <span class="text-red-500">*</span>
-
+                    <div
+                        v-if="addresses.length > 0"
+                        class="col-span-2 space-y-2"
+                    >
+                        <label
+                            class="mb-1.5 block text-sm font-medium text-gray-700"
+                        >
+                            {{ __('cart::site.checkout.shipping_address') }}
+                            <span class="text-red-500">*</span>
                         </label>
                         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                            <button v-for="addr in addresses" :key="addr.id" type="button" @click="selectAddress(addr)"
+                            <button
+                                v-for="addr in addresses"
+                                :key="addr.id"
+                                type="button"
+                                @click="selectAddress(addr)"
                                 :class="[
                                     'flex flex-col justify-between rounded-xl border-2 p-4 text-left transition-all',
                                     selectedAddressId === addr.id
                                         ? 'border-primary-500 bg-primary-50 text-primary-700'
                                         : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
-                                ]">
-                                <div class="text-sm font-semibold flex items-center gap-1.5">
-                                    <span v-if="addr.default"
-                                        class="rounded bg-primary-100 px-1.5 py-0.5 text-2xs font-semibold text-primary-800">Default</span>
-                                    <span class="truncate">{{ addr.address }}</span>
+                                ]"
+                            >
+                                <div
+                                    class="flex items-center gap-1.5 text-sm font-semibold"
+                                >
+                                    <span
+                                        v-if="addr.default"
+                                        class="text-2xs rounded bg-primary-100 px-1.5 py-0.5 font-semibold text-primary-800"
+                                        >{{
+                                            __('cart::site.checkout.default')
+                                        }}</span
+                                    >
+                                    <span class="truncate">{{
+                                        addr.address
+                                    }}</span>
                                 </div>
                                 <p class="mt-1 text-xs text-gray-500">
-                                    {{ addr.union_name ? addr.union_name + ', ' : '' }}
-                                    {{ addr.upazilla_name ? addr.upazilla_name + ', ' : '' }}
-                                    {{ addr.district_name ? addr.district_name + ', ' : '' }}
+                                    {{
+                                        addr.union_name
+                                            ? addr.union_name + ', '
+                                            : ''
+                                    }}
+                                    {{
+                                        addr.upazilla_name
+                                            ? addr.upazilla_name + ', '
+                                            : ''
+                                    }}
+                                    {{
+                                        addr.district_name
+                                            ? addr.district_name + ', '
+                                            : ''
+                                    }}
                                     {{ addr.division_name }}
                                 </p>
                             </button>
-                            <button type="button" @click="selectCustomAddress" :class="[
-                                'flex flex-col justify-center items-center rounded-xl border-2 border-dashed p-4 text-center transition-all min-h-[90px]',
-                                selectedAddressId === 'new'
-                                    ? 'border-primary-500 bg-primary-50 text-primary-700'
-                                    : 'border-gray-200 bg-white text-gray-500 hover:border-gray-300 hover:bg-gray-50'
-                            ]">
+                            <button
+                                type="button"
+                                @click="selectCustomAddress"
+                                :class="[
+                                    'flex min-h-[90px] flex-col items-center justify-center rounded-xl border-2 border-dashed p-4 text-center transition-all',
+                                    selectedAddressId === 'new'
+                                        ? 'border-primary-500 bg-primary-50 text-primary-700'
+                                        : 'border-gray-200 bg-white text-gray-500 hover:border-gray-300 hover:bg-gray-50'
+                                ]"
+                            >
                                 <span class="text-lg font-bold">+</span>
-                                <span class="text-xs font-semibold">Use Custom Address</span>
+                                <span class="text-xs font-semibold">{{
+                                    __('cart::site.checkout.use_custom_address')
+                                }}</span>
                             </button>
                         </div>
                     </div>
 
                     <!-- Geocode dropdown selectors and textarea (shown if custom address is selected or no saved addresses) -->
-                    <div v-if="selectedAddressId === 'new'"
-                        class="col-span-2 grid grid-cols-1 gap-4 md:grid-cols-2 border border-gray-150 rounded-xl p-4 bg-gray-50/55">
+                    <div
+                        v-if="selectedAddressId === 'new'"
+                        class="border-gray-150 col-span-2 grid grid-cols-1 gap-4 rounded-xl border bg-gray-50/55 p-4 md:grid-cols-2"
+                    >
                         <div class="col-span-2">
-                            <h3 class="text-sm font-semibold text-gray-900">Shipping Address</h3>
+                            <h3 class="text-sm font-semibold text-gray-900">
+                                {{ __('cart::site.checkout.shipping_address') }}
+                            </h3>
                         </div>
 
-
-
                         <!-- District -->
-                        <div ref="districtContainerRef" class="relative col-span-2 md:col-span-1">
-
-                            <label for="district" class="mb-1.5 block text-sm font-medium text-gray-700">
-                                District <span class="text-red-500">*</span>
-
+                        <div
+                            ref="districtContainerRef"
+                            class="relative col-span-2 md:col-span-1"
+                        >
+                            <label
+                                for="district"
+                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                            >
+                                {{ __('cart::site.checkout.district') }}
+                                <span class="text-red-500">*</span>
                             </label>
                             <div class="relative">
-                                <input v-model="form.district" type="text" id="district"
-                                    placeholder="Enter or select district name" :class="inputClass('district')"
-                                    @focus="onDistrictFocus" @input="onDistrictInput" autocomplete="off" />
+                                <input
+                                    v-model="form.district"
+                                    type="text"
+                                    id="district"
+                                    :placeholder="
+                                        __(
+                                            'cart::site.checkout.district_placeholder'
+                                        )
+                                    "
+                                    :class="inputClass('district')"
+                                    @focus="onDistrictFocus"
+                                    @input="onDistrictInput"
+                                    autocomplete="off"
+                                />
 
                                 <!-- Dropdown Menu -->
-                                <div v-if="isDistrictDropdownOpen && filteredDistricts.length > 0"
-                                    class="absolute z-30 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white p-1 shadow-lg text-xs">
+                                <div
+                                    v-if="
+                                        isDistrictDropdownOpen &&
+                                        filteredDistricts.length > 0
+                                    "
+                                    class="absolute z-30 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white p-1 text-xs shadow-lg"
+                                >
                                     <ul class="divide-y divide-gray-50">
-                                        <li v-for="d in filteredDistricts" :key="d.id" @click="selectDistrictItem(d)"
+                                        <li
+                                            v-for="d in filteredDistricts"
+                                            :key="d.id"
+                                            @click="selectDistrictItem(d)"
                                             :class="[
-                                                'cursor-pointer px-3 py-2 transition-colors rounded-md hover:bg-primary-50 hover:text-primary-700',
-                                                selectedDistrictId == d.id ? 'bg-primary-50 font-semibold text-primary-700' : 'text-gray-700'
-                                            ]">
+                                                'cursor-pointer rounded-md px-3 py-2 transition-colors hover:bg-primary-50 hover:text-primary-700',
+                                                selectedDistrictId == d.id
+                                                    ? 'bg-primary-50 font-semibold text-primary-700'
+                                                    : 'text-gray-700'
+                                            ]"
+                                        >
                                             {{ d.name }}
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                            <p v-if="errors.district" class="mt-1.5 text-xs text-red-600">{{ errors.district }}</p>
+                            <p
+                                v-if="errors.district"
+                                class="mt-1.5 text-xs text-red-600"
+                            >
+                                {{ errors.district }}
+                            </p>
                         </div>
 
                         <!-- Upazila (optional) -->
-                        <div ref="upazilaContainerRef" class="relative col-span-2 md:col-span-1">
-
-                            <label for="upazila" class="mb-1.5 block text-sm font-medium text-gray-700">
-                                Upazila / Thana
-                                <span class="text-xs text-gray-400">(Optional)</span>
-
+                        <div
+                            ref="upazilaContainerRef"
+                            class="relative col-span-2 md:col-span-1"
+                        >
+                            <label
+                                for="upazila"
+                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                            >
+                                {{ __('cart::site.checkout.upazila') }}
+                                <span class="text-xs text-gray-400">{{
+                                    __('cart::site.checkout.optional')
+                                }}</span>
                             </label>
                             <div class="relative">
-                                <input v-model="form.upazila" type="text" id="upazila"
-                                    placeholder="Enter or select upazila/thana name" :class="inputClass('upazila')"
-                                    @focus="onUpazilaFocus" @input="onUpazilaInput" autocomplete="off" />
+                                <input
+                                    v-model="form.upazila"
+                                    type="text"
+                                    id="upazila"
+                                    :placeholder="
+                                        __(
+                                            'cart::site.checkout.upazila_placeholder'
+                                        )
+                                    "
+                                    :class="inputClass('upazila')"
+                                    @focus="onUpazilaFocus"
+                                    @input="onUpazilaInput"
+                                    autocomplete="off"
+                                />
 
                                 <!-- Dropdown Menu -->
-                                <div v-if="isUpazilaDropdownOpen && filteredUpazilas.length > 0"
-                                    class="absolute z-30 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white p-1 shadow-lg text-xs">
+                                <div
+                                    v-if="
+                                        isUpazilaDropdownOpen &&
+                                        filteredUpazilas.length > 0
+                                    "
+                                    class="absolute z-30 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white p-1 text-xs shadow-lg"
+                                >
                                     <ul class="divide-y divide-gray-50">
-                                        <li v-for="u in filteredUpazilas" :key="u.id" @click="selectUpazilaItem(u)"
+                                        <li
+                                            v-for="u in filteredUpazilas"
+                                            :key="u.id"
+                                            @click="selectUpazilaItem(u)"
                                             :class="[
-                                                'cursor-pointer px-3 py-2 transition-colors rounded-md hover:bg-primary-50 hover:text-primary-700',
-                                                selectedUpazilaId == u.id ? 'bg-primary-50 font-semibold text-primary-700' : 'text-gray-700'
-                                            ]">
+                                                'cursor-pointer rounded-md px-3 py-2 transition-colors hover:bg-primary-50 hover:text-primary-700',
+                                                selectedUpazilaId == u.id
+                                                    ? 'bg-primary-50 font-semibold text-primary-700'
+                                                    : 'text-gray-700'
+                                            ]"
+                                        >
                                             {{ u.name }}
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                            <p v-if="errors.upazila" class="mt-1.5 text-xs text-red-600">{{ errors.upazila }}</p>
+                            <p
+                                v-if="errors.upazila"
+                                class="mt-1.5 text-xs text-red-600"
+                            >
+                                {{ errors.upazila }}
+                            </p>
                         </div>
 
                         <!-- Union (optional) -->
@@ -185,52 +340,95 @@
 
                         <!-- Street Address -->
                         <div class="col-span-2">
-
-                            <label for="address" class="mb-1.5 block text-sm font-medium text-gray-700">
-                                Street Address <span class="text-red-500">*</span>
-
+                            <label
+                                for="address"
+                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                            >
+                                {{ __('cart::site.checkout.street_address') }}
+                                <span class="text-red-500">*</span>
                             </label>
-                            <textarea v-model="form.address" id="address" rows="3"
-                                placeholder="House/flat number, road, area..."
-                                :class="inputClass('address')"></textarea>
-                            <p v-if="errors.address" class="mt-1.5 text-xs text-red-600">{{ errors.address }}</p>
+                            <textarea
+                                v-model="form.address"
+                                id="address"
+                                rows="3"
+                                :placeholder="
+                                    __(
+                                        'cart::site.checkout.address_placeholder'
+                                    )
+                                "
+                                :class="inputClass('address')"
+                            ></textarea>
+                            <p
+                                v-if="errors.address"
+                                class="mt-1.5 text-xs text-red-600"
+                            >
+                                {{ errors.address }}
+                            </p>
                         </div>
                     </div>
 
                     <!-- Shipping Options -->
-                    <div v-if="shippingOptions.length > 0" class="space-y-3 pt-2">
+                    <div
+                        v-if="shippingOptions.length > 0"
+                        class="space-y-3 pt-2"
+                    >
                         <label class="block text-sm font-medium text-gray-700">
-                            Delivery Option <span class="text-red-500">*</span>
+                            {{ __('cart::site.checkout.delivery_option') }}
+                            <span class="text-red-500">*</span>
                         </label>
                         <div class="space-y-2">
                             <label
                                 v-for="option in shippingOptions"
                                 :key="option.id || option.name"
                                 :class="[
-                                    'flex items-center justify-between rounded-xl border-2 p-4 transition-all cursor-pointer',
+                                    'flex cursor-pointer items-center justify-between rounded-xl border-2 p-4 transition-all',
                                     selectedShippingOption?.name === option.name
                                         ? 'border-primary-500 bg-primary-50'
                                         : 'border-gray-200 bg-white hover:border-gray-300'
                                 ]"
                             >
                                 <div class="flex items-center gap-3">
-                                    <div :class="[
-                                        'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2',
-                                        selectedShippingOption?.name === option.name
-                                            ? 'border-primary-500 bg-primary-500'
-                                            : 'border-gray-300'
-                                    ]">
-                                        <div v-if="selectedShippingOption?.name === option.name" class="h-2 w-2 rounded-full bg-white"></div>
+                                    <div
+                                        :class="[
+                                            'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2',
+                                            selectedShippingOption?.name ===
+                                            option.name
+                                                ? 'border-primary-500 bg-primary-500'
+                                                : 'border-gray-300'
+                                        ]"
+                                    >
+                                        <div
+                                            v-if="
+                                                selectedShippingOption?.name ===
+                                                option.name
+                                            "
+                                            class="h-2 w-2 rounded-full bg-white"
+                                        ></div>
                                     </div>
-                                    <span class="text-sm font-semibold text-gray-900">{{ option.name }}</span>
+                                    <span
+                                        class="text-sm font-semibold text-gray-900"
+                                        >{{ option.name }}</span
+                                    >
                                 </div>
-                                <span v-if="isFreeShipping" class="text-sm font-bold text-green-600">Free</span>
-                                <span v-else class="text-sm font-bold text-gray-900">{{ option.price }} Tk.</span>
-                                <input type="radio" :value="option" v-model="selectedShippingOption" class="sr-only" />
+                                <span
+                                    v-if="isFreeShipping"
+                                    class="text-sm font-bold text-green-600"
+                                    >{{ __('cart::site.cart.free') }}</span
+                                >
+                                <span
+                                    v-else
+                                    class="text-sm font-bold text-gray-900"
+                                    >{{ option.price }} Tk.</span
+                                >
+                                <input
+                                    type="radio"
+                                    :value="option"
+                                    v-model="selectedShippingOption"
+                                    class="sr-only"
+                                />
                             </label>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -307,70 +505,134 @@
         <div class="mt-6 w-full sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-sm">
             <div class="rounded-xl border border-gray-200 bg-white shadow-sm">
                 <div class="border-b border-gray-100 px-5 py-4">
-                    <h3 class="font-semibold text-gray-900">Order Summary</h3>
+                    <h3 class="font-semibold text-gray-900">
+                        {{ __('cart::site.cart.order_summary') }}
+                    </h3>
                 </div>
 
                 <div class="divide-y divide-gray-100 px-5">
                     <div class="flex items-center justify-between py-3 text-sm">
-                        <span class="text-gray-500">Subtotal</span>
-                        <span class="font-medium text-gray-900">{{ cartStore.subtotal }} Tk.</span>
+                        <span class="text-gray-500">{{
+                            __('cart::site.cart.subtotal')
+                        }}</span>
+                        <span class="font-medium text-gray-900"
+                            >{{ cartStore.subtotal }} Tk.</span
+                        >
                     </div>
                     <div class="flex items-center justify-between py-3 text-sm">
-                        <span class="text-gray-500">Shipping</span>
-                        <span v-if="shippingCharge === 0" class="font-medium text-green-600">Free</span>
-                        <span v-else class="font-medium text-gray-900">{{ shippingCharge }} Tk.</span>
+                        <span class="text-gray-500">{{
+                            __('cart::site.cart.shipping')
+                        }}</span>
+                        <span
+                            v-if="shippingCharge === 0"
+                            class="font-medium text-green-600"
+                            >{{ __('cart::site.cart.free') }}</span
+                        >
+                        <span v-else class="font-medium text-gray-900"
+                            >{{ shippingCharge }} Tk.</span
+                        >
                     </div>
                     <div class="flex items-center justify-between py-3 text-sm">
-                        <span class="text-gray-500">Tax</span>
-                        <span class="font-medium text-gray-900">{{ cartStore.tax }} Tk.</span>
+                        <span class="text-gray-500">{{
+                            __('cart::site.cart.tax')
+                        }}</span>
+                        <span class="font-medium text-gray-900"
+                            >{{ cartStore.tax }} Tk.</span
+                        >
                     </div>
-                    <div class="flex items-center justify-between py-4 text-base font-bold">
-                        <span class="text-gray-900">Total</span>
-                        <span class="text-primary-700">{{ orderTotal }} Tk.</span>
+                    <div
+                        class="flex items-center justify-between py-4 text-base font-bold"
+                    >
+                        <span class="text-gray-900">{{
+                            __('cart::site.cart.total')
+                        }}</span>
+                        <span class="text-primary-700"
+                            >{{ orderTotal }} Tk.</span
+                        >
                     </div>
                 </div>
 
                 <!-- Voucher -->
                 <div class="border-t border-gray-100 px-5 py-4">
-
-                    <label class="mb-1.5 block text-sm font-medium text-gray-700">Promo / Voucher Code
-
+                    <label
+                        class="mb-1.5 block text-sm font-medium text-gray-700"
+                        >{{ __('cart::site.checkout.promo_code') }}
                     </label>
                     <div class="flex gap-2">
-                        <input type="text" v-model="voucherCode" placeholder="Enter code"
-                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500" />
-                        <button type="button"
-                            class="shrink-0 rounded-lg bg-gray-800 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700">
-                            Apply
+                        <input
+                            type="text"
+                            v-model="voucherCode"
+                            :placeholder="
+                                __('cart::site.checkout.promo_placeholder')
+                            "
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        />
+                        <button
+                            type="button"
+                            class="shrink-0 rounded-lg bg-gray-800 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700"
+                        >
+                            {{ __('cart::site.checkout.apply') }}
                         </button>
                     </div>
                 </div>
 
                 <!-- Special Note -->
                 <div class="border-t border-gray-100 px-5 py-4">
-
-                    <label for="note" class="mb-1.5 block text-sm font-medium text-gray-700">Special Note
-
+                    <label
+                        for="note"
+                        class="mb-1.5 block text-sm font-medium text-gray-700"
+                        >{{ __('cart::site.checkout.special_note') }}
                     </label>
-                    <textarea v-model="form.note" id="note" rows="3" placeholder="Any instructions for your order..."
-                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"></textarea>
+                    <textarea
+                        v-model="form.note"
+                        id="note"
+                        rows="3"
+                        :placeholder="
+                            __('cart::site.checkout.note_placeholder')
+                        "
+                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                    ></textarea>
                 </div>
 
                 <!-- Submit -->
                 <div class="border-t border-gray-100 px-5 py-4">
                     <p class="mb-3 text-xs text-gray-500">
-                        Fields marked <span class="text-red-500 font-semibold">*</span> are required.
+                        {{ __('cart::site.checkout.required_prefix') }}
+                        <span class="font-semibold text-red-500">*</span>
+                        {{ __('cart::site.checkout.required_suffix') }}
                     </p>
-                    <button @click="submitForm" type="button" :disabled="submitting"
-                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 disabled:cursor-not-allowed disabled:opacity-60">
-                        <svg v-if="submitting" class="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg"
-                            fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                            </circle>
-                            <path class="opacity-75" fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                    <button
+                        @click="submitForm"
+                        type="button"
+                        :disabled="submitting"
+                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                        <svg
+                            v-if="submitting"
+                            class="h-4 w-4 animate-spin"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <circle
+                                class="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                stroke-width="4"
+                            ></circle>
+                            <path
+                                class="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                            ></path>
                         </svg>
-                        {{ submitting ? 'Placing Order...' : 'Place Order' }}
+                        {{
+                            submitting
+                                ? __('cart::site.cart.placing_order')
+                                : __('cart::site.cart.place_order')
+                        }}
                     </button>
                 </div>
             </div>
@@ -379,49 +641,65 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import {
+    ref,
+    reactive,
+    computed,
+    onMounted,
+    onUnmounted,
+    nextTick,
+    inject
+} from 'vue'
 import { useCartStore } from '../Stores/CartStore'
 import { pushBeginCheckout, trackMetaPixel } from '../analytics/datalayer'
 import axios from 'axios'
 
 const cartStore = useCartStore()
+const translate = inject('translate')
 
 const props = defineProps({
     shippingOptions: {
         type: Array,
-        default: () => [],
+        default: () => []
     },
     freeShippingThreshold: {
         type: Number,
-        default: 1000,
+        default: 1000
     },
     requiresShipping: {
         type: Boolean,
-        default: true,
+        default: true
     },
     customer: {
         type: Object,
-        default: () => null,
+        default: () => null
     },
     addresses: {
         type: Array,
-        default: () => [],
-    },
+        default: () => []
+    }
 })
 
 const selectedShippingOption = ref(props.shippingOptions[0] || null)
 
 const isFreeShipping = computed(() => {
-    return props.freeShippingThreshold > 0 && cartStore.subtotal >= props.freeShippingThreshold
+    return (
+        props.freeShippingThreshold > 0 &&
+        cartStore.subtotal >= props.freeShippingThreshold
+    )
 })
 
 const shippingCharge = computed(() => {
     if (!selectedShippingOption.value) return 0
     if (isFreeShipping.value) return 0
-    return cartStore.subtotal > 0 ? Number(selectedShippingOption.value.price || 0) : 0
+    return cartStore.subtotal > 0
+        ? Number(selectedShippingOption.value.price || 0)
+        : 0
 })
 
-const orderTotal = computed(() => cartStore.subtotal + shippingCharge.value + cartStore.tax)
+const orderTotal = computed(
+    () => cartStore.subtotal + shippingCharge.value + cartStore.tax
+)
 
 const form = reactive({
     name: '',
@@ -433,7 +711,7 @@ const form = reactive({
     union: '',
     address: '',
     note: '',
-    payment_method: 'cod',
+    payment_method: 'cod'
 })
 
 const selectedAddressId = ref(null)
@@ -455,13 +733,13 @@ const isUpazilaDropdownOpen = ref(false)
 const filteredDistricts = computed(() => {
     if (!form.district || !form.district.trim()) return districts.value
     const q = form.district.toLowerCase().trim()
-    return districts.value.filter(d => d.name.toLowerCase().includes(q))
+    return districts.value.filter((d) => d.name.toLowerCase().includes(q))
 })
 
 const filteredUpazilas = computed(() => {
     if (!form.upazila || !form.upazila.trim()) return upazilas.value
     const q = form.upazila.toLowerCase().trim()
-    return upazilas.value.filter(u => u.name.toLowerCase().includes(q))
+    return upazilas.value.filter((u) => u.name.toLowerCase().includes(q))
 })
 
 const cachedDivisions = ref([])
@@ -482,7 +760,8 @@ onMounted(async () => {
     // Set up initial address selection
     if (props.requiresShipping) {
         if (props.addresses && props.addresses.length > 0) {
-            const defaultAddr = props.addresses.find(a => a.default) || props.addresses[0]
+            const defaultAddr =
+                props.addresses.find((a) => a.default) || props.addresses[0]
             selectAddress(defaultAddr)
         } else {
             selectedAddressId.value = 'new'
@@ -495,11 +774,16 @@ onMounted(async () => {
     pushBeginCheckout(cartStore.items, orderTotal.value)
 
     trackMetaPixel('InitiateCheckout', {
-        content_ids: cartStore.items.map((cartItem) => String(cartItem.item.id)),
+        content_ids: cartStore.items.map((cartItem) =>
+            String(cartItem.item.id)
+        ),
         content_type: 'product',
-        num_items: cartStore.items.reduce((total, cartItem) => total + Number(cartItem.quantity || 0), 0),
+        num_items: cartStore.items.reduce(
+            (total, cartItem) => total + Number(cartItem.quantity || 0),
+            0
+        ),
         value: Number(orderTotal.value || 0),
-        currency: 'BDT',
+        currency: 'BDT'
     })
 })
 
@@ -533,7 +817,7 @@ async function loadDistricts() {
     try {
         const [distRes, divRes] = await Promise.all([
             axios.get('/geocode/districts'),
-            axios.get('/geocode/divisions'),
+            axios.get('/geocode/divisions')
         ])
         districts.value = distRes.data
         cachedDivisions.value = divRes.data
@@ -547,10 +831,16 @@ onUnmounted(() => {
 })
 
 function handleOutsideClick(event) {
-    if (districtContainerRef.value && !districtContainerRef.value.contains(event.target)) {
+    if (
+        districtContainerRef.value &&
+        !districtContainerRef.value.contains(event.target)
+    ) {
         isDistrictDropdownOpen.value = false
     }
-    if (upazilaContainerRef.value && !upazilaContainerRef.value.contains(event.target)) {
+    if (
+        upazilaContainerRef.value &&
+        !upazilaContainerRef.value.contains(event.target)
+    ) {
         isUpazilaDropdownOpen.value = false
     }
 }
@@ -576,13 +866,15 @@ function onDistrictInput() {
         return
     }
 
-    const matched = districts.value.find(d => d.name.toLowerCase() === q)
+    const matched = districts.value.find((d) => d.name.toLowerCase() === q)
     if (matched) {
         if (selectedDistrictId.value != matched.id) {
             selectedDistrictId.value = matched.id
             fetchUpazilasForDistrict(matched.id)
             if (matched.division_id && cachedDivisions.value.length) {
-                const divObj = cachedDivisions.value.find(div => div.id == matched.division_id)
+                const divObj = cachedDivisions.value.find(
+                    (div) => div.id == matched.division_id
+                )
                 form.division = divObj ? divObj.name : ''
             }
         }
@@ -603,7 +895,9 @@ function selectDistrictItem(d) {
     clearError('district')
 
     if (d.division_id && cachedDivisions.value.length) {
-        const divObj = cachedDivisions.value.find(div => div.id == d.division_id)
+        const divObj = cachedDivisions.value.find(
+            (div) => div.id == d.division_id
+        )
         form.division = divObj ? divObj.name : ''
     }
 
@@ -620,7 +914,9 @@ async function fetchUpazilasForDistrict(districtId) {
     delete errors.upazila
 
     try {
-        const response = await axios.get(`/geocode/upazilas?district_id=${districtId}`)
+        const response = await axios.get(
+            `/geocode/upazilas?district_id=${districtId}`
+        )
         upazilas.value = response.data
     } catch (e) {
         console.error(e)
@@ -642,7 +938,7 @@ function onUpazilaInput() {
         return
     }
 
-    const matched = upazilas.value.find(u => u.name.toLowerCase() === q)
+    const matched = upazilas.value.find((u) => u.name.toLowerCase() === q)
     if (matched) {
         selectedUpazilaId.value = matched.id
     } else {
@@ -664,11 +960,12 @@ function handleUnionChange() {
         return
     }
 
-    const unionObj = unions.value.find(u => u.id == selectedUnionId.value)
+    const unionObj = unions.value.find((u) => u.id == selectedUnionId.value)
     form.union = unionObj ? unionObj.name : ''
 }
 
-const baseInputClass = 'block w-full rounded-lg border px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-1 transition'
+const baseInputClass =
+    'block w-full rounded-lg border px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-1 transition'
 const validInputClass = `${baseInputClass} border-gray-300 bg-gray-50 focus:border-primary-500 focus:ring-primary-500`
 const errorInputClass = `${baseInputClass} border-red-400 bg-red-50 focus:border-red-500 focus:ring-red-400`
 
@@ -694,34 +991,34 @@ function validate() {
     let valid = true
 
     if (!form.name.trim()) {
-        errors.name = 'Full name is required.'
+        errors.name = translate('cart::site.checkout.err_name')
         valid = false
     }
 
     if (!form.phone.trim()) {
-        errors.phone = 'Phone number is required.'
+        errors.phone = translate('cart::site.checkout.err_phone')
         valid = false
     }
 
     if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-        errors.email = 'Please enter a valid email address.'
+        errors.email = translate('cart::site.checkout.err_email')
         valid = false
     }
 
     if (props.requiresShipping) {
         if (!form.district.trim()) {
-            errors.district = 'District is required.'
+            errors.district = translate('cart::site.checkout.err_district')
             valid = false
         }
 
         if (!form.address.trim()) {
-            errors.address = 'Street address is required.'
+            errors.address = translate('cart::site.checkout.err_address')
             valid = false
         }
     }
 
     if (!form.payment_method) {
-        errors.payment_method = 'Please select a payment method.'
+        errors.payment_method = translate('cart::site.checkout.err_payment')
         valid = false
     }
 
@@ -732,7 +1029,9 @@ async function submitForm() {
     if (!validate()) {
         // Scroll to the first error
         const firstError = document.querySelector('.border-red-400')
-        if (firstError) { firstError.scrollIntoView({ behavior: 'smooth', block: 'center' }) }
+        if (firstError) {
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
         return
     }
 
@@ -741,13 +1040,16 @@ async function submitForm() {
     try {
         const items = cartStore.items.map((cartItem) => ({
             ...cartItem,
-            variation_label: cartItem.variation_label || null,
+            variation_label: cartItem.variation_label || null
         }))
 
         const payload = {
             ...form,
             selected_address_id: selectedAddressId.value || null,
-            division_id: selectedDistrictId.value ? (districts.value.find(d => d.id == selectedDistrictId.value)?.division_id || null) : null,
+            division_id: selectedDistrictId.value
+                ? districts.value.find((d) => d.id == selectedDistrictId.value)
+                      ?.division_id || null
+                : null,
             district_id: selectedDistrictId.value || null,
             upazila_id: selectedUpazilaId.value || null,
             union_id: selectedUnionId.value || null,
@@ -758,26 +1060,35 @@ async function submitForm() {
             shipping_method: selectedShippingOption.value?.name || null,
             total: orderTotal.value,
             paid: 0,
-            due: orderTotal.value,
+            due: orderTotal.value
         }
 
         const response = await axios.post('/site-order-store', payload)
 
-        trackMetaPixel('Purchase', {
-            content_ids: cartStore.items.map((cartItem) => String(cartItem.item.id)),
-            content_type: 'product',
-            num_items: cartStore.items.reduce((total, cartItem) => total + Number(cartItem.quantity || 0), 0),
-            value: Number(orderTotal.value || 0),
-            currency: 'BDT',
-        }, {
-            eventID: 'purchase_' + response.data.order_id,
-        })
+        trackMetaPixel(
+            'Purchase',
+            {
+                content_ids: cartStore.items.map((cartItem) =>
+                    String(cartItem.item.id)
+                ),
+                content_type: 'product',
+                num_items: cartStore.items.reduce(
+                    (total, cartItem) => total + Number(cartItem.quantity || 0),
+                    0
+                ),
+                value: Number(orderTotal.value || 0),
+                currency: 'BDT'
+            },
+            {
+                eventID: 'purchase_' + response.data.order_id
+            }
+        )
 
         await cartStore.clearCart()
 
         window.location.href = '/order-confirm/' + response.data.order_id
     } catch (error) {
-        console.error('Checkout error response:', error.response?.data);
+        console.error('Checkout error response:', error.response?.data)
         if (error.response?.status === 422) {
             // Server validation errors
             const serverErrors = error.response.data.errors ?? {}
@@ -786,12 +1097,18 @@ async function submitForm() {
                     ? serverErrors[field][0]
                     : serverErrors[field]
             })
-            generalError.value = 'Please fix the errors below and try again.'
+            generalError.value = translate('cart::site.checkout.fix_errors')
             const firstError = document.querySelector('.border-red-400')
-            if (firstError) { firstError.scrollIntoView({ behavior: 'smooth', block: 'center' }) }
+            if (firstError) {
+                firstError.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                })
+            }
         } else {
-            generalError.value = error.response?.data?.message
-                ?? 'Failed to place the order. Please try again.'
+            generalError.value =
+                error.response?.data?.message ??
+                translate('cart::site.checkout.place_order_failed')
         }
     } finally {
         submitting.value = false

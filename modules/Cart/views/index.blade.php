@@ -1,6 +1,6 @@
 @extends('site-layout')
 
-@section('seo_title', 'Shopping Cart — ' . setting('branding.site_name', config('app.name')))
+@section('seo_title', __('cart::site.cart.heading') . ' — ' . setting('branding.site_name', config('app.name')))
 
 @section('robots', 'noindex, follow')
 
@@ -11,7 +11,7 @@
 @section('content')
     <x-breadcrumb>
         <li class="flex shrink-0 items-center">
-            <span class="font-medium text-gray-700">Cart</span>
+            <span class="font-medium text-gray-700">{{ __('cart::site.cart.title') }}</span>
         </li>
     </x-breadcrumb>
 

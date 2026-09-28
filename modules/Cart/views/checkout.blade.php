@@ -1,6 +1,6 @@
 @extends('site-layout')
 
-@section('seo_title', 'Checkout — ' . setting('branding.site_name', config('app.name')))
+@section('seo_title', __('cart::site.cart.checkout') . ' — ' . setting('branding.site_name', config('app.name')))
 
 @section('robots', 'noindex, follow')
 
@@ -11,11 +11,11 @@
 @section('content')
     <x-breadcrumb>
         <li class="flex shrink-0 items-center gap-1">
-            <a href="{{ route('shop.cart') }}" class="hover:text-primary-600 hover:underline">Cart</a>
+            <a href="{{ route('shop.cart') }}" class="hover:text-primary-600 hover:underline">{{ __('cart::site.cart.title') }}</a>
             <i class="ri-arrow-right-s-line text-gray-400"></i>
         </li>
         <li class="flex shrink-0 items-center">
-            <span class="font-medium text-gray-700">Checkout</span>
+            <span class="font-medium text-gray-700">{{ __('cart::site.cart.checkout') }}</span>
         </li>
     </x-breadcrumb>
 
@@ -49,7 +49,7 @@
                                         d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                                     />
                                 </svg>
-                                Cart
+                                {{ __('cart::site.cart.title') }}
                             </span>
                         </a>
                     </li>
@@ -77,7 +77,7 @@
                                     d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                                 />
                             </svg>
-                            Checkout
+                            {{ __('cart::site.cart.checkout') }}
                         </span>
                     </li>
 
@@ -99,7 +99,7 @@
                                 d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                             />
                         </svg>
-                        Order summary
+                        {{ __('cart::site.checkout.order_summary_step') }}
                     </li>
                 </ol>
 

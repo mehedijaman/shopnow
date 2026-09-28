@@ -9,6 +9,8 @@ use Modules\Support\BaseServiceProvider;
 
 class CartServiceProvider extends BaseServiceProvider
 {
+    protected ?string $viewNamespace = 'cart';
+
     public function boot()
     {
         parent::boot();
