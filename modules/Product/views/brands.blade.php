@@ -7,14 +7,14 @@
 @section('content')
     <x-breadcrumb>
         <li class="min-w-0">
-            <span class="font-semibold text-gray-800">Our Brands</span>
+            <span class="font-semibold text-gray-800">{{ __('product::site.brands.heading') }}</span>
         </li>
     </x-breadcrumb>
 
     <div class="mx-auto min-h-screen max-w-7xl px-4 py-8 sm:px-6 lg:px-6">
         <div class="mb-8 text-center">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Our Brands</h1>
-            <p class="mt-2 text-gray-600 dark:text-gray-400">Discover products from your favorite brands.</p>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ __('product::site.brands.heading') }}</h1>
+            <p class="mt-2 text-gray-600 dark:text-gray-400">{{ __('product::site.brands.subtitle') }}</p>
         </div>
 
         @if ($brands->count())
@@ -44,7 +44,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="mb-4 h-16 w-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
                 </svg>
-                <p class="text-lg font-medium text-gray-500">No brands found.</p>
+                <p class="text-lg font-medium text-gray-500">{{ __('product::site.brands.none') }}</p>
             </div>
         @endif
     </div>

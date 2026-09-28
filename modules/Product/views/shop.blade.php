@@ -8,15 +8,15 @@
     <x-breadcrumb>
         @if (isset($searchText))
             <li class="flex shrink-0 items-center gap-1">
-                <a href="{{ route('shop.index') }}" class="hover:text-primary-600 hover:underline">Shop</a>
+                <a href="{{ route('shop.index') }}" class="hover:text-primary-600 hover:underline">{{ __('site.nav.shop') }}</a>
                 <i class="ri-arrow-right-s-line text-gray-400"></i>
             </li>
             <li class="min-w-0">
-                <span class="block truncate font-semibold text-gray-800">Search: &ldquo;{{ $searchText }}&rdquo;</span>
+                <span class="block truncate font-semibold text-gray-800">{{ __('product::site.shop.search_prefix') }} &ldquo;{{ $searchText }}&rdquo;</span>
             </li>
         @elseif (isset($category))
             <li class="flex shrink-0 items-center gap-1">
-                <a href="{{ route('shop.index') }}" class="hover:text-primary-600 hover:underline">Shop</a>
+                <a href="{{ route('shop.index') }}" class="hover:text-primary-600 hover:underline">{{ __('site.nav.shop') }}</a>
                 <i class="ri-arrow-right-s-line text-gray-400"></i>
             </li>
             <li class="min-w-0">
@@ -24,7 +24,7 @@
             </li>
         @else
             <li class="min-w-0">
-                <span class="font-semibold text-gray-800">Shop</span>
+                <span class="font-semibold text-gray-800">{{ __('site.nav.shop') }}</span>
             </li>
         @endif
     </x-breadcrumb>
@@ -33,11 +33,11 @@
         <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <div class="mb-8">
                 @if (isset($searchText))
-                    <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Search Results for &ldquo;{{ $searchText }}&rdquo;</h1>
+                    <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">{{ __('product::site.shop.search_results_for') }} &ldquo;{{ $searchText }}&rdquo;</h1>
                 @elseif (isset($category))
                     <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $category->name }}</h1>
                 @else
-                    <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">All Products</h1>
+                    <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">{{ __('product::site.shop.all_products') }}</h1>
                 @endif
             </div>
 
@@ -49,7 +49,7 @@
                     class="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-[15px] font-semibold text-gray-700 shadow-sm transition-all hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                 >
                     <i class="ri-filter-3-line text-lg"></i>
-                    Filter by Category
+                    {{ __('product::site.shop.filter_by_category') }}
                 </button>
             </div>
 
@@ -62,13 +62,13 @@
                 >
                     <div class="sticky top-24 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
                         <div class="flex items-center justify-between border-b border-gray-100 bg-gray-50/50 px-5 py-4 dark:border-gray-800 dark:bg-gray-800/50">
-                            <h3 class="text-[13px] font-bold uppercase tracking-wider text-gray-900 dark:text-white">Categories</h3>
+                            <h3 class="text-[13px] font-bold uppercase tracking-wider text-gray-900 dark:text-white">{{ __('product::site.shop.categories') }}</h3>
                             @if (isset($category))
                                 <a
                                     href="{{ route('shop.index') }}"
                                     class="text-xs font-semibold text-primary-600 transition-colors hover:text-primary-700 dark:text-primary-400"
                                 >
-                                    Clear All
+                                    {{ __('product::site.shop.clear_all') }}
                                 </a>
                             @endif
                         </div>
@@ -79,7 +79,7 @@
                                 class="group flex items-center rounded-xl px-3 py-2.5 text-[15px] transition-colors
                                     {{ ! isset($category) ? 'bg-primary-50 font-semibold text-primary-700 dark:bg-primary-900/20 dark:text-primary-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white' }}"
                             >
-                                <span class="flex-1">All Products</span>
+                                <span class="flex-1">{{ __('product::site.shop.all_products') }}</span>
                                 @if (!isset($category))
                                     <i class="ri-check-line text-lg text-primary-600 dark:text-primary-400"></i>
                                 @endif
@@ -106,7 +106,10 @@
                     @if ($products->count())
                         <div class="mb-6 flex items-center justify-between">
                             <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                Showing <span class="font-bold text-gray-900 dark:text-white">{{ $products->count() }}</span> of {{ $products->total() }} products
+                                {!! __('product::site.shop.showing_products', [
+                                    'shown' => '<span class="font-bold text-gray-900 dark:text-white">' . $products->count() . '</span>',
+                                    'total' => $products->total(),
+                                ]) !!}
                             </p>
                         </div>
 
@@ -124,10 +127,10 @@
                             <div class="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gray-50 dark:bg-gray-800">
                                 <i class="ri-search-line text-4xl text-gray-400"></i>
                             </div>
-                            <h3 class="mb-1 text-lg font-bold text-gray-900 dark:text-white">No products found</h3>
-                            <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">We couldn't find anything matching your current filters.</p>
+                            <h3 class="mb-1 text-lg font-bold text-gray-900 dark:text-white">{{ __('product::site.shop.no_products_found') }}</h3>
+                            <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">{{ __('product::site.shop.no_products_hint') }}</p>
                             <a href="{{ route('shop.index') }}" class="rounded-full bg-primary-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary-700 hover:shadow-md">
-                                Clear All Filters
+                                {{ __('product::site.shop.clear_all_filters') }}
                             </a>
                         </div>
                     @endif

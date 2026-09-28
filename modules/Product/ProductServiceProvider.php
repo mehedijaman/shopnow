@@ -13,6 +13,8 @@ class ProductServiceProvider extends BaseServiceProvider
 {
     protected $namespace = 'Modules\Product\Http\Controllers';
 
+    protected ?string $viewNamespace = 'product';
+
     public function boot()
     {
         parent::boot();

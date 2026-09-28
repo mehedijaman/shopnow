@@ -37,6 +37,10 @@ return [
     'delete' => 'ডিলিট',
     'restore' => 'পুনরুদ্ধার',
 
+    // পরিমাণ নিয়ন্ত্রণ
+    'decrease_quantity' => 'পরিমাণ কমান',
+    'increase_quantity' => 'পরিমাণ বাড়ান',
+
     // নিশ্চিতকরণ ডায়ালগ
     'confirmation' => 'নিশ্চিতকরণ',
     'confirm_message' => 'আপনি কি নিশ্চিত?',

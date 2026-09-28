@@ -68,6 +68,36 @@ return [
         'sale' => 'Sale',
         'from' => 'From',
         'price_varies' => 'Price varies',
+
+        // Product page badges & meta
+        'featured' => 'Featured',
+        'variable' => 'Variable',
+        'virtual' => 'Virtual',
+        'downloadable' => 'Downloadable',
+        'available_in_variations' => 'Available in Variations',
+        'in_stock' => 'In Stock',
+        'only_left' => 'Only :count left',
+        'price_from' => 'from',
+        'select_options_for_price' => 'Select options for price',
+        'brand' => 'Brand',
+        'unit' => 'Unit',
+        'min_order' => 'Min Order',
+        'bundle_includes' => 'This Bundle Includes',
+        'optional' => 'Optional:',
+        'each' => 'ea',
+        'tags' => 'Tags:',
+        'downloadable_files' => 'Downloadable Files',
+        'available_after_purchase' => 'Available after purchase.',
+        'description' => 'Product Description',
+        'image_alt' => ':name image :index',
+
+        // Add to cart widget
+        'add_to_cart' => 'Add to Cart',
+        'buy_now' => 'Buy Now',
+        'select_options' => 'SelectOptions',
+        'added' => 'Added!',
+        'select_options_above' => 'Select options above to add to cart.',
+        'add_to_wishlist' => 'Add to wishlist',
     ],
 
     'blog' => [

@@ -66,6 +66,36 @@ return [
         'sale' => 'সেল',
         'from' => 'থেকে শুরু',
         'price_varies' => 'দাম ভিন্ন হতে পারে',
+
+        // পণ্য পৃষ্ঠার ব্যাজ ও মেটা
+        'featured' => 'ফিচার্ড',
+        'variable' => 'ভ্যারিয়েবল',
+        'virtual' => 'ভার্চুয়াল',
+        'downloadable' => 'ডাউনলোডযোগ্য',
+        'available_in_variations' => 'ভ্যারিয়েশনে পাওয়া যায়',
+        'in_stock' => 'স্টকে আছে',
+        'only_left' => 'মাত্র :count বাকি',
+        'price_from' => 'থেকে',
+        'select_options_for_price' => 'দামের জন্য অপশন নির্বাচন করুন',
+        'brand' => 'ব্র্যান্ড',
+        'unit' => 'একক',
+        'min_order' => 'সর্বনিম্ন অর্ডার',
+        'bundle_includes' => 'এই বান্ডেলে যা আছে',
+        'optional' => 'ঐচ্ছিক:',
+        'each' => 'প্রতি',
+        'tags' => 'ট্যাগ:',
+        'downloadable_files' => 'ডাউনলোডযোগ্য ফাইল',
+        'available_after_purchase' => 'কেনার পর পাওয়া যাবে।',
+        'description' => 'পণ্যের বর্ণনা',
+        'image_alt' => ':name ছবি :index',
+
+        // কার্টে যোগ করুন উইজেট
+        'add_to_cart' => 'কার্টে যোগ করুন',
+        'buy_now' => 'এখনই কিনুন',
+        'select_options' => 'অপশন নির্বাচন করুন',
+        'added' => 'যোগ করা হয়েছে!',
+        'select_options_above' => 'কার্টে যোগ করতে উপরের অপশনগুলো নির্বাচন করুন।',
+        'add_to_wishlist' => 'উইশলিস্টে যোগ করুন',
     ],
 
     'blog' => [

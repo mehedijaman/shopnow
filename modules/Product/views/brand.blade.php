@@ -7,7 +7,7 @@
 @section('content')
     <x-breadcrumb>
         <li class="flex shrink-0 items-center gap-1">
-            <a href="{{ route('shop.index') }}" class="hover:text-primary-600 hover:underline">Shop</a>
+            <a href="{{ route('shop.index') }}" class="hover:text-primary-600 hover:underline">{{ __('site.nav.shop') }}</a>
             <i class="ri-arrow-right-s-line text-gray-400"></i>
         </li>
         <li class="min-w-0">
@@ -55,8 +55,8 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="mb-4 h-16 w-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                 </svg>
-                <p class="text-lg font-medium text-gray-500">No products found for {{ $brand->name }}.</p>
-                <a href="{{ route('shop.index') }}" class="mt-4 text-sm text-primary-600 hover:underline">Browse all products</a>
+                <p class="text-lg font-medium text-gray-500">{{ __('product::site.brand.no_products', ['brand' => $brand->name]) }}</p>
+                <a href="{{ route('shop.index') }}" class="mt-4 text-sm text-primary-600 hover:underline">{{ __('product::site.brand.browse_all') }}</a>
             </div>
         @endif
     </div>

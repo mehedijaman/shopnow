@@ -39,6 +39,10 @@ return [
     'delete' => 'Delete',
     'restore' => 'Restore',
 
+    // Quantity steppers
+    'decrease_quantity' => 'Decrease quantity',
+    'increase_quantity' => 'Increase quantity',
+
     // Confirmation dialogs
     'confirmation' => 'Confirmation',
     'confirm_message' => 'Are you sure you want to proceed?',
