@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Product Attributes" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('common.menu.product_attributes')" :bread-crumb="breadCrumb">
         <template #right>
             <AppButton
                 v-if="can('product-edit') || can('product-create')"
@@ -8,7 +8,7 @@
                 @click="submitForm"
             >
                 <i class="ri-save-line mr-1"></i>
-                {{ saving ? 'Saving…' : 'Save Attribute' }}
+                {{ saving ? __('common.saving') : __('product::admin.save_attribute') }}
             </AppButton>
         </template>
     </AppSectionHeader>
@@ -27,7 +27,7 @@
                     <AppFormErrors class="mb-4" />
                     <div class="space-y-4">
                         <div>
-                            <AppLabel for="name">Attribute Name <span class="text-red-500">*</span></AppLabel>
+                            <AppLabel for="name">{{ __('product::admin.attribute_name') }} <span class="text-red-500">*</span></AppLabel>
                             <AppInputText
                                 id="name"
                                 v-model="form.name"
@@ -38,15 +38,15 @@
                         </div>
 
                         <div>
-                            <AppLabel for="input_type">Input Type <span class="text-red-500">*</span></AppLabel>
+                            <AppLabel for="input_type">{{ __('common.header.input_type') }} <span class="text-red-500">*</span></AppLabel>
                             <select
                                 id="input_type"
                                 v-model="form.input_type"
                                 class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-skin-neutral-12 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
                             >
-                                <option value="select">Dropdown Select</option>
-                                <option value="color">Color Swatch</option>
-                                <option value="image">Image Swatch</option>
+                                <option value="select">{{ __('product::admin.input_type_select') }}</option>
+                                <option value="color">{{ __('product::admin.input_type_color') }}</option>
+                                <option value="image">{{ __('product::admin.input_type_image') }}</option>
                             </select>
                         </div>
                     </div>
@@ -58,12 +58,12 @@
                 <template #title>
                     <div class="flex items-center gap-2">
                         <i class="ri-list-unordered text-skin-primary-9"></i>
-                        Attribute Values
+                        {{ __('product::admin.attribute_values') }}
                     </div>
                 </template>
                 <template #content>
                     <p class="mb-3 text-xs text-skin-neutral-9">
-                        Define the possible values for this attribute (e.g. Red, Blue, Green for Color).
+                        {{ __('product::admin.attribute_values_hint') }}
                     </p>
 
                     <div class="space-y-3">
@@ -79,7 +79,7 @@
                             <div class="min-w-0 flex-1 space-y-2">
                                 <div class="flex gap-2">
                                     <div class="flex-1">
-                                        <AppLabel class="text-xs">Value Name <span class="text-red-500">*</span></AppLabel>
+                                        <AppLabel class="text-xs">{{ __('product::admin.value_name') }} <span class="text-red-500">*</span></AppLabel>
                                         <AppInputText
                                             v-model="val.value"
                                             type="text"
@@ -89,7 +89,7 @@
 
                                     <!-- Swatch input (color or image) -->
                                     <div v-if="form.input_type === 'color'" class="w-24">
-                                        <AppLabel class="text-xs">Color</AppLabel>
+                                        <AppLabel class="text-xs">{{ __('product::admin.swatch_color') }}</AppLabel>
                                         <input
                                             v-model="val.swatch"
                                             type="color"
@@ -98,7 +98,7 @@
                                     </div>
 
                                     <div v-if="form.input_type === 'image'" class="w-32">
-                                        <AppLabel class="text-xs">Swatch Image URL</AppLabel>
+                                        <AppLabel class="text-xs">{{ __('product::admin.swatch_image_url') }}</AppLabel>
                                         <AppInputText
                                             v-model="val.swatch"
                                             type="text"
@@ -111,7 +111,7 @@
                             <button
                                 type="button"
                                 class="mt-6 shrink-0 rounded p-1.5 text-skin-neutral-8 transition-colors hover:bg-red-50 hover:text-red-600"
-                                title="Remove value"
+                                :title="__('product::admin.remove_value')"
                                 @click="removeValue(index)"
                             >
                                 <i class="ri-close-circle-line text-lg"></i>
@@ -125,7 +125,7 @@
                         @click="addValue"
                     >
                         <i class="ri-add-line"></i>
-                        Add Value
+                        {{ __('product::admin.values_add') }}
                     </button>
                 </template>
             </AppCard>
@@ -137,13 +137,13 @@
                 <template #title>
                     <div class="flex items-center gap-2">
                         <i class="ri-eye-line text-skin-primary-9"></i>
-                        Preview
+                        {{ __('product::admin.preview') }}
                     </div>
                 </template>
                 <template #content>
                     <div v-if="form.name" class="space-y-3">
                         <p class="text-sm font-medium text-skin-neutral-12">{{ form.name }}</p>
-                        <p class="text-xs text-skin-neutral-9">Type: {{ form.input_type }}</p>
+                        <p class="text-xs text-skin-neutral-9">{{ __('product::admin.type_colon') }} {{ inputTypeLabel(form.input_type) }}</p>
 
                         <div v-if="form.values.length" class="flex flex-wrap gap-2">
                             <span
@@ -164,9 +164,9 @@
                                 {{ val.value || '—' }}
                             </span>
                         </div>
-                        <p v-else class="text-xs text-skin-neutral-9 italic">No values added yet</p>
+                        <p v-else class="text-xs text-skin-neutral-9 italic">{{ __('product::admin.no_values_yet') }}</p>
                     </div>
-                    <p v-else class="text-xs text-skin-neutral-9 italic">Enter an attribute name to preview</p>
+                    <p v-else class="text-xs text-skin-neutral-9 italic">{{ __('product::admin.preview_hint') }}</p>
                 </template>
             </AppCard>
         </div>
@@ -180,13 +180,13 @@
             @click="submitForm"
         >
             <i class="ri-save-line mr-1"></i>
-            {{ saving ? 'Saving…' : 'Save Attribute' }}
+            {{ saving ? __('common.saving') : __('product::admin.save_attribute') }}
         </AppButton>
     </div>
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, inject } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import useAuthCan from '@/Composables/useAuthCan'
 import useTitle from '@/Composables/useTitle'
@@ -223,13 +223,24 @@ const removeValue = (index) => {
     form.values.splice(index, 1)
 }
 
+const translate = inject('translate')
+
+const INPUT_TYPE_LABELS = {
+    select: 'product::admin.input_type_select',
+    color: 'product::admin.input_type_color',
+    image: 'product::admin.input_type_image',
+}
+const inputTypeLabel = (type) => translate(INPUT_TYPE_LABELS[type] ?? type)
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Attributes', href: route('productAttribute.index') },
-    { label: isEdit.value ? 'Edit' : 'Create', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('common.field.attributes'), href: route('productAttribute.index') },
+    { label: isEdit.value ? translate('common.edit') : translate('common.create'), last: true }
 ]
 
-const { title } = useTitle(isEdit.value ? 'Edit Attribute' : 'Create Attribute')
+const { title } = useTitle(
+    isEdit.value ? translate('product::admin.edit_attribute') : translate('product::admin.create_attribute')
+)
 
 const submitForm = () => {
     saving.value = true

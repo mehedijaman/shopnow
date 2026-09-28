@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Product Attributes" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('common.menu.product_attributes')" :bread-crumb="breadCrumb">
         <template #right>
             <AppButton
                 v-if="can('product-edit')"
@@ -7,7 +7,7 @@
                 @click="$inertia.visit(route('productAttribute.create'))"
             >
                 <i class="ri-add-fill mr-1"></i>
-                Create Attribute
+                {{ __('product::admin.create_attribute') }}
             </AppButton>
         </template>
     </AppSectionHeader>
@@ -47,7 +47,7 @@
                                     {{ val.value }}
                                 </span>
                                 <span v-if="!item.values.length" class="text-xs text-skin-neutral-9 italic">
-                                    No values
+                                    {{ __('product::admin.no_values') }}
                                 </span>
                             </div>
                         </AppDataTableData>
@@ -55,7 +55,7 @@
                         <AppDataTableData class="text-right">
                             <AppTooltip
                                 v-if="can('product-edit')"
-                                text="Edit Attribute"
+                                :text="__('product::admin.edit_attribute')"
                                 class="mr-3"
                             >
                                 <AppButton
@@ -68,7 +68,7 @@
 
                             <AppTooltip
                                 v-if="can('product-delete')"
-                                text="Delete Attribute"
+                                :text="__('product::admin.delete_attribute')"
                             >
                                 <AppButton
                                     class="btn btn-icon btn-destructive"
@@ -85,14 +85,14 @@
     </div>
 
     <AppAlert v-if="!attributes.length" class="mt-4">
-        No product attributes found. Create attributes (e.g. Color, Size) to enable variable products.
+        {{ __('product::admin.attributes_empty') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, inject } from 'vue'
 import useAuthCan from '@/Composables/useAuthCan'
 
 defineProps({
@@ -102,12 +102,19 @@ defineProps({
     }
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Product Attributes', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('common.menu.product_attributes'), last: true }
 ]
 
-const headers = ['Name', 'Input Type', 'Values', 'Actions']
+const headers = computed(() => [
+    translate('common.field.name'),
+    translate('common.header.input_type'),
+    translate('common.field.values'),
+    translate('common.header.actions'),
+])
 
 const confirmDialogRef = ref(null)
 const confirmDelete = (deleteRoute) => {

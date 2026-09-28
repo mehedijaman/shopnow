@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Product Tag" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('product::admin.tag')" :bread-crumb="breadCrumb">
     </AppSectionHeader>
 
     <AppCard class="w-full md:w-3/4 xl:w-1/2">
@@ -8,7 +8,7 @@
             <AppFormErrors class="mb-4" />
             <form @submit.prevent="submitForm">
                 <div>
-                    <AppLabel for="name">{{ __('Name') }}</AppLabel>
+                    <AppLabel for="name">{{ __('common.field.name') }}</AppLabel>
                     <AppInputText
                         id="name"
                         v-model="form.name"
@@ -31,6 +31,7 @@
 
 <script setup>
 import { useForm } from '@inertiajs/vue3'
+import { inject } from 'vue'
 
 import useTitle from '@/Composables/useTitle'
 import useFormContext from '@/Composables/useFormContext'
@@ -43,13 +44,15 @@ const props = defineProps({
     }
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Product Tags', href: route('productTag.index') },
-    { label: 'Tag', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('common.menu.product_tags'), href: route('productTag.index') },
+    { label: translate('common.field.tag'), last: true }
 ]
 
-const { title } = useTitle('Role')
+const { title } = useTitle(translate('product::admin.tag'))
 
 const form = useForm({
     name: props.tag ? props.tag.name : ''

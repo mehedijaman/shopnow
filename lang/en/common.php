@@ -97,6 +97,7 @@ return [
         'image' => 'Image',
         'values' => 'Values',
         'virtual_short' => 'Virtual',
+        'publish_date' => 'Publish Date',
         'inactive' => 'Inactive',
         'brand' => 'Brand',
         'category' => 'Category',
@@ -171,6 +172,7 @@ return [
     'clear_filter' => 'Clear Filter',
     'apply_filter' => 'Apply Filter',
     'home' => 'Home',
+    'create' => 'Create',
     'back_to_list' => 'Back to List',
     'yes' => 'Yes',
     'no' => 'No',
@@ -196,6 +198,11 @@ return [
     ],
 
     'header' => [
+        'products' => 'Products',
+        'input_type' => 'Input Type',
+        'qty_sold' => 'Qty Sold',
+        'revenue' => 'Revenue',
+        'action' => 'Action',
         'qty' => 'Qty',
         'sl' => 'SL',
         'product' => 'Product',

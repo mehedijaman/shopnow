@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Product Brands" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('common.menu.product_brands')" :bread-crumb="breadCrumb">
         <template #right>
             <div class="flex gap-2">
                 <AppButton
@@ -7,14 +7,14 @@
                     class="btn btn-secondary"
                     @click="$inertia.visit(route('productBrand.recycleBin.index'))"
                 >
-                    <i class="ri-delete-bin-2-line mr-1"></i> Recycle Bin
+                    <i class="ri-delete-bin-2-line mr-1"></i> {{ __('common.recycle_bin') }}
                 </AppButton>
                 <AppButton
                     v-if="can('product-brand-create')"
                     class="btn btn-primary"
                     @click="$inertia.visit(route('productBrand.create'))"
                 >
-                    Create Brand
+                    {{ __('product::admin.create_brand') }}
                 </AppButton>
             </div>
         </template>
@@ -51,14 +51,14 @@
                                 class="rounded-sm px-3 py-1 text-sm"
                                 :class="getStatusClass(item.active)"
                             >
-                                {{ item.active ? 'Active' : 'Inactive' }}
+                                {{ item.active ? __('common.field.active') : __('common.field.inactive') }}
                             </span>
 
                             <span
                                 v-if="item.featured"
                                 class="active rounded-sm px-3 py-1 text-sm"
                             >
-                                Featured
+                                {{ __('common.field.featured') }}
                             </span>
                         </div>
                     </AppDataTableData>
@@ -67,7 +67,7 @@
                         <!-- Edit -->
                         <AppTooltip
                             v-if="can('product-brand-edit')"
-                            text="Edit Brand"
+                            :text="__('product::admin.edit_brand')"
                             class="mr-3"
                         >
                             <AppButton
@@ -85,7 +85,7 @@
                         <!-- Delete -->
                         <AppTooltip
                             v-if="can('product-brand-delete')"
-                            text="Delete Brand"
+                            :text="__('product::admin.delete_brand')"
                         >
                             <AppButton
                                 class="btn btn-icon btn-destructive"
@@ -113,14 +113,14 @@
     ></AppPaginator>
 
     <AppAlert v-if="!brands.data.length" class="mt-4">
-        No brands found.
+        {{ __('product::admin.brands_empty') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, inject } from 'vue'
 import useAuthCan from '@/Composables/useAuthCan'
 
 const props = defineProps({
@@ -130,12 +130,19 @@ const props = defineProps({
     }
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'brands', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('common.menu.product_brands'), last: true }
 ]
 
-const headers = ['Brand', 'Products', 'Status', 'Actions']
+const headers = computed(() => [
+    translate('common.header.brand'),
+    translate('common.header.products'),
+    translate('common.header.status'),
+    translate('common.header.actions'),
+])
 
 const getStatusClass = (active) => {
     return active ? 'active' : 'inactive'

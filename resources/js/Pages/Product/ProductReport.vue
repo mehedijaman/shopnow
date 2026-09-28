@@ -6,22 +6,22 @@
     <div class="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
         <div class="flex flex-col rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-4 shadow-sm">
             <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-blue-100"><i class="ri-stack-line text-blue-600"></i></div>
-            <p class="text-xs text-gray-500">Total Products</p>
+            <p class="text-xs text-gray-500">{{ __('product::admin.report_total_products') }}</p>
             <p class="mt-1 text-xl font-bold text-gray-800">{{ props.summary?.totalProducts }}</p>
         </div>
         <div class="flex flex-col rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-4 shadow-sm">
             <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-green-100"><i class="ri-checkbox-circle-line text-green-600"></i></div>
-            <p class="text-xs text-gray-500">Active</p>
+            <p class="text-xs text-gray-500">{{ __('common.field.active') }}</p>
             <p class="mt-1 text-xl font-bold text-gray-800">{{ props.summary?.activeProducts }}</p>
         </div>
         <div class="flex flex-col rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-4 shadow-sm">
             <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-red-100"><i class="ri-close-circle-line text-red-600"></i></div>
-            <p class="text-xs text-gray-500">Inactive</p>
+            <p class="text-xs text-gray-500">{{ __('common.field.inactive') }}</p>
             <p class="mt-1 text-xl font-bold text-gray-800">{{ props.summary?.inactiveProducts }}</p>
         </div>
         <div class="flex flex-col rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-4 shadow-sm">
             <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-yellow-100"><i class="ri-star-line text-yellow-600"></i></div>
-            <p class="text-xs text-gray-500">Featured</p>
+            <p class="text-xs text-gray-500">{{ __('common.field.featured') }}</p>
             <p class="mt-1 text-xl font-bold text-gray-800">{{ props.summary?.featuredProducts }}</p>
         </div>
     </div>
@@ -29,15 +29,15 @@
     <!-- Charts + Top Sellers -->
     <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div class="rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 p-5 shadow-sm">
-            <h3 class="mb-4 font-semibold text-gray-700">Products by Category</h3>
+            <h3 class="mb-4 font-semibold text-gray-700">{{ __('product::admin.report_products_by_category') }}</h3>
             <canvas ref="categoryChartRef" height="250"></canvas>
         </div>
 
         <div class="col-span-2 rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 shadow-sm">
             <div class="border-b border-skin-neutral-4 px-5 py-4">
-                <h3 class="font-semibold text-gray-700">Top Selling Products</h3>
+                <h3 class="font-semibold text-gray-700">{{ __('product::admin.report_top_selling') }}</h3>
             </div>
-            <AppDataTable :headers="['#', 'Product', 'Category', 'Qty Sold', 'Revenue']">
+            <AppDataTable :headers="topSellingHeaders">
                 <template #TableBody>
                     <tbody>
                         <AppDataTableRow v-for="(p, i) in props.topSelling" :key="i">
@@ -48,7 +48,7 @@
                             <AppDataTableData class="text-right font-semibold text-gray-800">৳{{ formatNumber(p.revenue) }}</AppDataTableData>
                         </AppDataTableRow>
                         <tr v-if="!props.topSelling?.length">
-                            <td colspan="5" class="px-5 py-6 text-center text-gray-400">No sales data yet.</td>
+                            <td colspan="5" class="px-5 py-6 text-center text-gray-400">{{ __('product::admin.report_no_sales') }}</td>
                         </tr>
                     </tbody>
                 </template>
@@ -60,11 +60,11 @@
     <div class="mt-6 rounded-xl border border-skin-neutral-4 bg-skin-neutral-2 shadow-sm">
         <div class="border-b border-skin-neutral-4 px-5 py-4">
             <h3 class="font-semibold text-gray-700">
-                Low Stock Alert
-                <span class="ml-2 rounded-full bg-red-100 px-2 py-0.5 text-xs text-red-600">qty &lt; 10</span>
+                {{ __('product::admin.report_low_stock') }}
+                <span class="ml-2 rounded-full bg-red-100 px-2 py-0.5 text-xs text-red-600">{{ __('product::admin.report_low_stock_rule') }}</span>
             </h3>
         </div>
-        <AppDataTable :headers="['Product', 'Category', 'Stock', 'Action']">
+        <AppDataTable :headers="lowStockHeaders">
             <template #TableBody>
                 <tbody>
                     <AppDataTableRow v-for="p in props.lowStock" :key="p.id">
@@ -80,7 +80,7 @@
                         </AppDataTableData>
                     </AppDataTableRow>
                     <tr v-if="!props.lowStock?.length">
-                        <td colspan="4" class="px-5 py-6 text-center text-gray-400">All products are well-stocked.</td>
+                        <td colspan="4" class="px-5 py-6 text-center text-gray-400">{{ __('product::admin.report_well_stocked') }}</td>
                     </tr>
                 </tbody>
             </template>
@@ -89,7 +89,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, inject } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { Chart, registerables } from 'chart.js'
 import useTitle from '@/Composables/useTitle'
@@ -97,7 +97,9 @@ import useAuthCan from '@/Composables/useAuthCan'
 
 Chart.register(...registerables)
 
-const { title } = useTitle('Product Report')
+const translate = inject('translate')
+
+const { title } = useTitle(translate('common.menu.product_report'))
 const { can } = useAuthCan()
 
 const props = defineProps({
@@ -108,10 +110,25 @@ const props = defineProps({
 })
 
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Products', href: route('product.index') },
-    { label: 'Product Report', last: true },
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('common.menu.products'), href: route('product.index') },
+    { label: translate('common.menu.product_report'), last: true },
 ]
+
+const topSellingHeaders = computed(() => [
+    '#',
+    translate('common.header.product'),
+    translate('common.header.category'),
+    translate('common.header.qty_sold'),
+    translate('common.header.revenue'),
+])
+
+const lowStockHeaders = computed(() => [
+    translate('common.header.product'),
+    translate('common.header.category'),
+    translate('common.header.stock'),
+    translate('common.header.action'),
+])
 
 function formatNumber(n) {
     if (!n) { return '0' }
@@ -132,7 +149,7 @@ onMounted(() => {
             data: {
                 labels: props.byCategory.map((c) => c.name),
                 datasets: [{
-                    label: 'Products',
+                    label: translate('common.menu.products'),
                     data: props.byCategory.map((c) => c.count),
                     backgroundColor: props.byCategory.map((_, i) => colors[i % colors.length] + 'cc'),
                     borderRadius: 4,

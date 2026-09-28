@@ -2,7 +2,7 @@
     <div class="mt-4">
         <AppInputDate
             v-model="productStore.product.published_at"
-            label="Publish Date"
+            :label="__('common.field.publish_date')"
             name="publish_date"
         ></AppInputDate>
     </div>

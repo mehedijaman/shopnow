@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Categories" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('common.menu.categories')" :bread-crumb="breadCrumb">
     </AppSectionHeader>
 
     <AppCard class="w-full md:w-3/4 xl:w-1/2">
@@ -16,7 +16,7 @@
         </template>
         <template #footer>
             <AppButton class="btn btn-primary" @click="submitForm">
-                Save
+                {{ __('common.save') }}
             </AppButton>
         </template>
     </AppCard>
@@ -24,7 +24,7 @@
 
 <script setup>
 import { useForm } from '@inertiajs/vue3'
-import { onUnmounted } from 'vue'
+import { onUnmounted, inject } from 'vue'
 import useTitle from '@/Composables/useTitle'
 import useFormContext from '@/Composables/useFormContext'
 import useFormErrors from '@/Composables/useFormErrors'
@@ -49,13 +49,15 @@ onUnmounted(() => {
     categoryStore.$reset()
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Categories', href: route('productCategory.index') },
-    { label: 'Category', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('common.menu.categories'), href: route('productCategory.index') },
+    { label: translate('common.field.category'), last: true }
 ]
 
-const { title } = useTitle('Category')
+const { title } = useTitle(translate('common.field.category'))
 const { isCreate } = useFormContext()
 
 const submitForm = () => {

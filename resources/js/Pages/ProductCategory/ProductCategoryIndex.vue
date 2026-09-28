@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Product Categories" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('common.menu.product_categories')" :bread-crumb="breadCrumb">
         <template #right>
             <div class="flex gap-2">
                 <AppButton
@@ -7,14 +7,14 @@
                     class="btn btn-secondary"
                     @click="$inertia.visit(route('productCategory.recycleBin.index'))"
                 >
-                    <i class="ri-delete-bin-2-line mr-1"></i> Recycle Bin
+                    <i class="ri-delete-bin-2-line mr-1"></i> {{ __('common.recycle_bin') }}
                 </AppButton>
                 <AppButton
                     v-if="can('product-category-create')"
                     class="btn btn-primary"
                     @click="$inertia.visit(route('productCategory.create'))"
                 >
-                    Create Category
+                    {{ __('product::admin.create_category') }}
                 </AppButton>
             </div>
         </template>
@@ -29,9 +29,9 @@
     <div v-if="categories.data.length">
         <div class="mb-2 flex items-center gap-2 text-sm text-skin-neutral-9">
             <i class="ri-drag-move-line"></i>
-            <span>Drag rows to reorder. Order is saved automatically.</span>
-            <span v-if="saving" class="ml-2 text-skin-primary-9">Saving…</span>
-            <span v-if="saved" class="ml-2 text-green-600">Saved!</span>
+            <span>{{ __('product::admin.drag_reorder_hint') }}</span>
+            <span v-if="saving" class="ml-2 text-skin-primary-9">{{ __('common.saving') }}</span>
+            <span v-if="saved" class="ml-2 text-green-600">{{ __('product::admin.saved_bang') }}</span>
         </div>
 
         <AppDataTable :headers="headers">
@@ -71,13 +71,13 @@
                                         class="rounded-sm px-3 py-1 text-sm"
                                         :class="getStatusClass(item.active)"
                                     >
-                                        {{ item.active ? 'Active' : 'Inactive' }}
+                                        {{ item.active ? __('common.field.active') : __('common.field.inactive') }}
                                     </span>
                                     <span
                                         v-if="item.featured"
                                         class="active rounded-sm px-3 py-1 text-sm"
                                     >
-                                        Featured
+                                        {{ __('common.field.featured') }}
                                     </span>
                                 </div>
                             </AppDataTableData>
@@ -85,7 +85,7 @@
                             <AppDataTableData>
                                 <AppTooltip
                                     v-if="can('product-category-edit')"
-                                    text="Edit Category"
+                                    :text="__('product::admin.edit_category')"
                                     class="mr-3"
                                 >
                                     <AppButton
@@ -98,7 +98,7 @@
 
                                 <AppTooltip
                                     v-if="can('product-category-delete')"
-                                    text="Delete Category"
+                                    :text="__('product::admin.delete_category')"
                                 >
                                     <AppButton
                                         class="btn btn-icon btn-destructive"
@@ -116,14 +116,14 @@
     </div>
 
     <AppAlert v-if="!categories.data.length" class="mt-4">
-        No categories found.
+        {{ __('product::admin.categories_empty') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, inject } from 'vue'
 import { router } from '@inertiajs/vue3'
 import Draggable from 'vuedraggable'
 import useAuthCan from '@/Composables/useAuthCan'
@@ -135,12 +135,20 @@ const props = defineProps({
     }
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Categories', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('common.menu.categories'), last: true }
 ]
 
-const headers = ['', 'Category', 'Products', 'Status', 'Actions']
+const headers = computed(() => [
+    '',
+    translate('common.header.category'),
+    translate('common.header.products'),
+    translate('common.header.status'),
+    translate('common.header.actions'),
+])
 
 const getStatusClass = (active) => {
     return active ? 'active' : 'inactive'

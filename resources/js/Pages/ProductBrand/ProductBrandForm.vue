@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader title="Product Brands" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('common.menu.product_brands')" :bread-crumb="breadCrumb">
     </AppSectionHeader>
 
     <AppCard class="w-full md:w-3/4 xl:w-1/2">
@@ -16,7 +16,7 @@
         </template>
         <template #footer>
             <AppButton class="btn btn-primary" @click="submitForm">
-                Save
+                {{ __('common.save') }}
             </AppButton>
         </template>
     </AppCard>
@@ -24,7 +24,7 @@
 
 <script setup>
 import { useForm } from '@inertiajs/vue3'
-import { onUnmounted } from 'vue'
+import { onUnmounted, inject } from 'vue'
 import useTitle from '@/Composables/useTitle'
 import useFormContext from '@/Composables/useFormContext'
 import useFormErrors from '@/Composables/useFormErrors'
@@ -49,13 +49,15 @@ onUnmounted(() => {
     brandStore.$reset()
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Brands', href: route('productBrand.index') },
-    { label: 'Brand', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('common.menu.product_brands'), href: route('productBrand.index') },
+    { label: translate('common.field.brand'), last: true }
 ]
 
-const { title } = useTitle('Brand')
+const { title } = useTitle(translate('common.field.brand'))
 const { isCreate } = useFormContext()
 
 const submitForm = () => {

@@ -95,6 +95,7 @@ return [
         'image' => 'ছবি',
         'values' => 'মানসমূহ',
         'virtual_short' => 'ভার্চুয়াল',
+        'publish_date' => 'প্রকাশের তারিখ',
         'inactive' => 'নিষ্ক্রিয়',
         'brand' => 'ব্র্যান্ড',
         'category' => 'ক্যাটাগরি',
@@ -169,6 +170,7 @@ return [
     'clear_filter' => 'ফিল্টার মুছুন',
     'apply_filter' => 'ফিল্টার প্রয়োগ করুন',
     'home' => 'হোম',
+    'create' => 'তৈরি করুন',
     'back_to_list' => 'তালিকায় ফিরে যান',
     'yes' => 'হ্যাঁ',
     'no' => 'না',
@@ -194,6 +196,11 @@ return [
     ],
 
     'header' => [
+        'products' => 'পণ্য',
+        'input_type' => 'ইনপুটের ধরন',
+        'qty_sold' => 'বিক্রিত পরিমাণ',
+        'revenue' => 'আয়',
+        'action' => 'অ্যাকশন',
         'qty' => 'পরিমাণ',
         'sl' => 'ক্রমিক',
         'product' => 'পণ্য',
