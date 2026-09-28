@@ -2,43 +2,43 @@
     <div class="space-y-8">
         <RepeaterField
             v-model="form.phone"
-            :label="__('Phone Numbers')"
-            :placeholder="__('e.g. +880 1712 345678')"
-            :add-label="__('Add Phone')"
+            :label="__('settings::admin.phone_numbers')"
+            :placeholder="__('settings::admin.phone_placeholder')"
+            :add-label="__('settings::admin.add_phone')"
         />
 
         <RepeaterField
             v-model="form.email"
-            :label="__('Email Addresses')"
-            :placeholder="__('e.g. info@example.com')"
-            :add-label="__('Add Email')"
+            :label="__('settings::admin.email_addresses')"
+            :placeholder="__('settings::admin.email_placeholder')"
+            :add-label="__('settings::admin.add_email')"
         />
 
         <RepeaterField
             v-model="form.address"
-            :label="__('Office Addresses')"
-            :placeholder="__('e.g. 123 Main St, Dhaka')"
-            :add-label="__('Add Address')"
+            :label="__('settings::admin.office_addresses')"
+            :placeholder="__('settings::admin.address_placeholder')"
+            :add-label="__('settings::admin.add_address')"
         />
 
         <RepeaterField
             v-model="form.whatsapp"
-            :label="__('WhatsApp Numbers')"
-            :placeholder="__('e.g. +880 1712 345678')"
-            :add-label="__('Add WhatsApp')"
+            :label="__('settings::admin.whatsapp_numbers')"
+            :placeholder="__('settings::admin.phone_placeholder')"
+            :add-label="__('settings::admin.add_whatsapp')"
         />
 
         <RepeaterField
             v-model="form.working_hours"
-            :label="__('Working Hours')"
-            :placeholder="__('e.g. Saturday - Thursday: 9:00 AM - 9:00 PM')"
-            :add-label="__('Add Working Hours')"
+            :label="__('settings::admin.working_hours')"
+            :placeholder="__('settings::admin.working_hours_placeholder')"
+            :add-label="__('settings::admin.add_working_hours')"
         />
 
         <div>
-            <AppLabel for="google_map" :value="__('Google Map Embed Code')" />
+            <AppLabel for="google_map" :value="__('settings::admin.google_map')" />
             <p class="mb-2 text-xs text-skin-neutral-9">
-                {{ __('Paste the full iframe embed code from Google Maps') }}
+                {{ __('settings::admin.google_map_hint') }}
             </p>
             <AppTextArea
                 id="google_map"

@@ -1,14 +1,14 @@
 <template>
     <div class="space-y-6">
         <div>
-            <AppLabel for="default_expiry_days" :value="__('Default Expiry Days')" />
-            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('Set to 0 for no expiry.') }}</p>
+            <AppLabel for="default_expiry_days" :value="__('settings::admin.default_expiry_days')" />
+            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.default_expiry_hint') }}</p>
             <AppInputText
                 id="default_expiry_days"
                 type="number"
                 min="0"
                 v-model="form.default_expiry_days"
-                :placeholder="__('e.g. 30')"
+                :placeholder="__('settings::admin.default_expiry_placeholder')"
                 :class="{ 'input-error': errorsFields.includes('default_expiry_days') }"
             />
             <p v-if="errorsFields.includes('default_expiry_days')" class="mt-1 text-sm text-red-500">
@@ -17,14 +17,14 @@
         </div>
 
         <div>
-            <AppLabel for="default_limit" :value="__('Default Download Limit')" />
-            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('Maximum number of times a file can be downloaded. Set to 0 for unlimited.') }}</p>
+            <AppLabel for="default_limit" :value="__('settings::admin.default_limit')" />
+            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.default_limit_hint') }}</p>
             <AppInputText
                 id="default_limit"
                 type="number"
                 min="0"
                 v-model="form.default_limit"
-                :placeholder="__('e.g. 10')"
+                :placeholder="__('settings::admin.default_limit_placeholder')"
                 :class="{ 'input-error': errorsFields.includes('default_limit') }"
             />
             <p v-if="errorsFields.includes('default_limit')" class="mt-1 text-sm text-red-500">

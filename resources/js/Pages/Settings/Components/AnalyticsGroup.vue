@@ -28,7 +28,7 @@
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div class="sm:col-span-2">
-                <AppLabel for="ga_measurement_id" :value="__('Google Analytics Measurement ID')" />
+                <AppLabel for="ga_measurement_id" :value="__('settings::admin.ga_measurement_id')" />
                 <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.ga_measurement_id_hint') }}</p>
                 <AppInputText
                     id="ga_measurement_id"
@@ -42,7 +42,7 @@
             </div>
 
             <div class="sm:col-span-2">
-                <AppLabel for="gtm_container_id" :value="__('Google Tag Manager Container ID')" />
+                <AppLabel for="gtm_container_id" :value="__('settings::admin.gtm_container_id')" />
                 <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.gtm_container_hint') }}</p>
                 <AppInputText
                     id="gtm_container_id"

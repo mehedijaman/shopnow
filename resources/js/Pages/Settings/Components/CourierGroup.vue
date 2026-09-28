@@ -3,26 +3,26 @@
         <!-- Security notice -->
         <AppAlert type="warning">
             <span class="text-sm leading-6">
-                <span class="font-semibold">{{ __('Credentials are stored server-side') }}</span>
-                {{ __('and never exposed to customers. Enable sandbox mode while testing, and register') }}
-                <code class="rounded bg-skin-neutral-1 px-1 py-0.5 text-xs font-semibold">{{ __('/webhooks/courier/{provider}') }}</code>
-                {{ __('in each courier dashboard to receive status updates.') }}
+                <span class="font-semibold">{{ __('settings::admin.credentials_stored') }}</span>
+                {{ __('settings::admin.credentials_never') }}
+                <code class="rounded bg-skin-neutral-1 px-1 py-0.5 text-xs font-semibold">{{ __('settings::admin.webhook_path') }}</code>
+                {{ __('settings::admin.webhook_in_dashboard') }}
             </span>
         </AppAlert>
 
         <!-- ── Shipment defaults ── -->
         <section>
             <div class="mb-3">
-                <h3 class="text-sm font-semibold text-skin-neutral-12">{{ __('Shipment Defaults') }}</h3>
+                <h3 class="text-sm font-semibold text-skin-neutral-12">{{ __('settings::admin.shipment_defaults') }}</h3>
                 <p class="mt-0.5 text-xs text-skin-neutral-9">
-                    {{ __('Applied to every booking when no per-order value is provided.') }}
+                    {{ __('settings::admin.shipment_defaults_hint') }}
                 </p>
             </div>
 
             <div class="grid grid-cols-1 gap-5 rounded-lg border border-skin-neutral-4 bg-skin-neutral-2/40 p-4 sm:grid-cols-2">
                 <div>
-                    <AppLabel for="default_courier" :value="__('Default Courier')" />
-                    <p class="mb-1 text-xs text-skin-neutral-9">{{ __('Courier provider used for shipment booking.') }}</p>
+                    <AppLabel for="default_courier" :value="__('settings::admin.default_courier')" />
+                    <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.default_courier_hint') }}</p>
                     <select
                         id="default_courier"
                         v-model="form.default_courier"
@@ -37,9 +37,9 @@
                 </div>
 
                 <div>
-                    <AppLabel for="default_weight_kg" :value="__('Default Parcel Weight (kg)')" />
+                    <AppLabel for="default_weight_kg" :value="__('settings::admin.default_parcel_weight')" />
                     <p class="mb-1 text-xs text-skin-neutral-9">
-                        {{ __('Sent to couriers when booking. Products do not store weight.') }}
+                        {{ __('settings::admin.default_parcel_weight_hint') }}
                     </p>
                     <AppInputText
                         id="default_weight_kg"
@@ -61,15 +61,15 @@
         <section>
             <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
                 <div>
-                    <h3 class="text-sm font-semibold text-skin-neutral-12">{{ __('Courier Providers') }}</h3>
+                    <h3 class="text-sm font-semibold text-skin-neutral-12">{{ __('settings::admin.courier_providers') }}</h3>
                     <p class="mt-0.5 text-xs text-skin-neutral-9">
-                        {{ __('Connect the courier accounts you book shipments with.') }}
+                        {{ __('settings::admin.courier_providers_hint') }}
                     </p>
                 </div>
                 <span
                     class="rounded-full border border-skin-neutral-4 bg-skin-neutral-2 px-2.5 py-1 text-[11px] font-semibold text-skin-neutral-11"
                 >
-                    {{ enabledCount }} / {{ couriers.length }} {{ __('enabled') }}
+                    {{ enabledCount }} / {{ couriers.length }} {{ __('settings::admin.enabled_count') }}
                 </span>
             </div>
 
@@ -97,7 +97,7 @@
                                     v-if="form.default_courier === courier.key"
                                     class="rounded-full bg-skin-primary-10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-skin-neutral-1"
                                 >
-                                    {{ __('Default') }}
+                                    {{ __('settings::admin.default') }}
                                 </span>
                             </div>
                             <p class="mt-0.5 text-xs text-skin-neutral-9">{{ courier.description }}</p>
@@ -109,13 +109,13 @@
                                 class="flex cursor-pointer items-center gap-2 text-xs font-medium text-skin-neutral-11"
                             >
                                 <AppCheckbox v-model="form[`${courier.key}_sandbox`]" />
-                                {{ __('Sandbox') }}
+                                {{ __('settings::admin.sandbox') }}
                             </label>
                             <span
                                 class="rounded-full px-2 py-1 text-[11px] font-semibold"
                                 :class="isEnabled(courier.key) ? 'bg-skin-success-light text-skin-success' : 'bg-skin-neutral-4 text-skin-neutral-11'"
                             >
-                                {{ isEnabled(courier.key) ? __('Enabled') : __('Disabled') }}
+                                {{ isEnabled(courier.key) ? __('settings::admin.enabled') : __('settings::admin.disabled') }}
                             </span>
                             <AppSwitch v-model="form[`${courier.key}_enabled`]" />
                         </div>
@@ -123,7 +123,7 @@
 
                     <div class="p-4">
                         <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-skin-neutral-9">
-                            {{ __('API Credentials') }}
+                            {{ __('settings::admin.api_credentials') }}
                         </p>
                         <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                             <div v-for="field in courier.fields" :key="field.key">
@@ -148,13 +148,13 @@
 
                         <div class="mt-5 border-t border-skin-neutral-4 pt-4">
                             <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-skin-neutral-9">
-                                <i class="ri-webhook-line mr-1"></i>{{ __('Webhooks & Tracking') }}
+                                <i class="ri-webhook-line mr-1"></i>{{ __('settings::admin.webhooks_tracking') }}
                             </p>
                             <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                                 <div>
-                                    <AppLabel :for="`${courier.key}_webhook_secret`" :value="__('Webhook Secret')" />
+                                    <AppLabel :for="`${courier.key}_webhook_secret`" :value="__('settings::admin.webhook_secret')" />
                                     <p class="mb-1 text-xs text-skin-neutral-9">
-                                        {{ __('Verifies incoming status webhooks via HMAC signature.') }}
+                                        {{ __('settings::admin.webhook_secret_hint') }}
                                     </p>
                                     <AppInputText
                                         :id="`${courier.key}_webhook_secret`"
@@ -172,9 +172,9 @@
                                 </div>
 
                                 <div>
-                                    <AppLabel :for="`${courier.key}_tracking_url`" :value="__('Tracking URL Template')" />
+                                    <AppLabel :for="`${courier.key}_tracking_url`" :value="__('settings::admin.tracking_url_template')" />
                                     <p class="mb-1 text-xs text-skin-neutral-9">
-                                        {{ __('Tracking link containing {tracking}, e.g. https://…/track?code={tracking}') }}
+                                        {{ __('settings::admin.tracking_url_hint') }}
                                     </p>
                                     <AppInputText
                                         :id="`${courier.key}_tracking_url`"
@@ -199,9 +199,9 @@
         <!-- ── COD fraud checks ── -->
         <section>
             <div class="mb-3">
-                <h3 class="text-sm font-semibold text-skin-neutral-12">{{ __('COD Fraud Checks') }}</h3>
+                <h3 class="text-sm font-semibold text-skin-neutral-12">{{ __('settings::admin.cod_fraud_checks') }}</h3>
                 <p class="mt-0.5 text-xs text-skin-neutral-9">
-                    {{ __('Flag high-risk COD customers and confirm them before booking.') }}
+                    {{ __('settings::admin.cod_fraud_hint') }}
                 </p>
             </div>
 
@@ -216,7 +216,7 @@
                             <i class="ri-shield-check-line text-lg"></i>
                         </span>
                         <p class="max-w-2xl text-xs text-skin-neutral-9">
-                            {{ __('Check a customer\'s cancel history across couriers after placing an order. High-risk orders are flagged and require confirmation before booking.') }}
+                            {{ __('settings::admin.fraud_check_desc') }}
                         </p>
                     </div>
                     <div class="flex items-center gap-3">
@@ -224,7 +224,7 @@
                             class="rounded-full px-2 py-1 text-[11px] font-semibold"
                             :class="form.fraud_enabled ? 'bg-skin-success-light text-skin-success' : 'bg-skin-neutral-4 text-skin-neutral-11'"
                         >
-                            {{ form.fraud_enabled ? __('Enabled') : __('Disabled') }}
+                            {{ form.fraud_enabled ? __('settings::admin.enabled') : __('settings::admin.disabled') }}
                         </span>
                         <AppSwitch v-model="form.fraud_enabled" />
                     </div>
@@ -233,9 +233,9 @@
                 <div class="space-y-5 p-4">
                     <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                         <div>
-                            <AppLabel for="fraud_min_deliveries" :value="__('Minimum Deliveries Before Flagging')" />
+                            <AppLabel for="fraud_min_deliveries" :value="__('settings::admin.min_deliveries')" />
                             <p class="mb-1 text-xs text-skin-neutral-9">
-                                {{ __('Customers below this delivery count are never flagged.') }}
+                                {{ __('settings::admin.min_deliveries_hint') }}
                             </p>
                             <AppInputText
                                 id="fraud_min_deliveries"
@@ -250,9 +250,9 @@
                         </div>
 
                         <div>
-                            <AppLabel for="fraud_cancel_ratio_threshold" :value="__('Cancel Ratio Threshold (%)')" />
+                            <AppLabel for="fraud_cancel_ratio_threshold" :value="__('settings::admin.cancel_ratio_threshold')" />
                             <p class="mb-1 text-xs text-skin-neutral-9">
-                                {{ __('Flag as high risk at or above this cancel ratio.') }}
+                                {{ __('settings::admin.cancel_ratio_hint') }}
                             </p>
                             <AppInputText
                                 id="fraud_cancel_ratio_threshold"
@@ -270,10 +270,10 @@
 
                     <div class="border-t border-skin-neutral-4 pt-4">
                         <p class="text-xs font-semibold uppercase tracking-wide text-skin-neutral-9">
-                            {{ __('Fraud Data Sources') }}
+                            {{ __('settings::admin.fraud_data_sources') }}
                         </p>
                         <p class="mb-3 mt-0.5 text-xs text-skin-neutral-9">
-                            {{ __('Each enabled source is checked independently — a clean result from one never masks a risky result from another.') }}
+                            {{ __('settings::admin.fraud_sources_hint') }}
                         </p>
 
                         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -287,10 +287,10 @@
                                         </span>
                                         <div class="min-w-0">
                                             <p class="text-sm font-semibold text-skin-neutral-12">
-                                                {{ __('SteadFast API') }}
+                                                {{ __('settings::admin.steadfast_api') }}
                                             </p>
                                             <p class="mt-0.5 text-xs text-skin-neutral-9">
-                                                {{ __('Fraud score endpoint queried with the SteadFast API keys from the provider card above.') }}
+                                                {{ __('settings::admin.steadfast_hint') }}
                                             </p>
                                         </div>
                                     </div>
@@ -299,7 +299,7 @@
                                             class="rounded-full px-2 py-1 text-[11px] font-semibold"
                                             :class="steadfastFraudReady ? 'bg-skin-success-light text-skin-success' : 'bg-skin-neutral-4 text-skin-neutral-11'"
                                         >
-                                            {{ steadfastFraudReady ? __('Ready') : __('Missing API keys') }}
+                                            {{ steadfastFraudReady ? __('settings::admin.ready') : __('settings::admin.missing_api_keys') }}
                                         </span>
                                         <AppSwitch v-model="form.fraud_steadfast_enabled" />
                                     </div>
@@ -316,10 +316,10 @@
                                         </span>
                                         <div class="min-w-0">
                                             <p class="text-sm font-semibold text-skin-neutral-12">
-                                                {{ __('BD Courier API') }}
+                                                {{ __('settings::admin.bd_courier_api') }}
                                             </p>
                                             <p class="mt-0.5 text-xs text-skin-neutral-9">
-                                                {{ __('Per-courier delivery stats and fraud reports for the customer\'s phone number.') }}
+                                                {{ __('settings::admin.bd_courier_hint') }}
                                             </p>
                                         </div>
                                     </div>
@@ -328,7 +328,7 @@
                                             class="rounded-full px-2 py-1 text-[11px] font-semibold"
                                             :class="bdcourierFraudReady ? 'bg-skin-success-light text-skin-success' : 'bg-skin-neutral-4 text-skin-neutral-11'"
                                         >
-                                            {{ bdcourierFraudReady ? __('Ready') : __('Missing API key') }}
+                                            {{ bdcourierFraudReady ? __('settings::admin.ready') : __('settings::admin.missing_api_key') }}
                                         </span>
                                         <AppSwitch v-model="form.fraud_bdcourier_enabled" />
                                     </div>
@@ -336,9 +336,9 @@
 
                                 <div class="grid grid-cols-1 gap-4 border-t border-skin-neutral-4 p-4 sm:grid-cols-2">
                                     <div>
-                                        <AppLabel for="bdcourier_api_key" :value="__('API Key')" />
+                                        <AppLabel for="bdcourier_api_key" :value="__('settings::admin.api_key')" />
                                         <p class="mb-1 text-xs text-skin-neutral-9">
-                                            {{ __('Bearer key for /courier-check — never exposed to customers.') }}
+                                            {{ __('settings::admin.api_key_hint') }}
                                         </p>
                                         <AppInputText
                                             id="bdcourier_api_key"
@@ -354,9 +354,9 @@
                                     </div>
 
                                     <div>
-                                        <AppLabel for="bdcourier_endpoint" :value="__('API Endpoint')" />
+                                        <AppLabel for="bdcourier_endpoint" :value="__('settings::admin.api_endpoint')" />
                                         <p class="mb-1 text-xs text-skin-neutral-9">
-                                            {{ __('Base URL of the BD Courier API.') }}
+                                            {{ __('settings::admin.api_endpoint_hint') }}
                                         </p>
                                         <AppInputText
                                             id="bdcourier_endpoint"

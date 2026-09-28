@@ -1,7 +1,7 @@
 <template>
-    <Head :title="__('Settings')"></Head>
+    <Head :title="__('settings::admin.settings')"></Head>
 
-    <AppSectionHeader :title="__('Settings')" :bread-crumb="breadCrumb" />
+    <AppSectionHeader :title="__('settings::admin.settings')" :bread-crumb="breadCrumb" />
 
     <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:gap-6">
         <!-- Group sidebar navigation -->
@@ -33,7 +33,7 @@
                             <i :class="[groupIcon(group), 'text-base']"></i>
                         </span>
                         <h2 class="text-base font-semibold capitalize text-skin-neutral-12">
-                            {{ groupLabel(group) }} {{ __('Settings') }}
+                            {{ groupLabel(group) }} {{ __('settings::admin.settings') }}
                         </h2>
                     </div>
                     <p class="mt-2 text-sm text-skin-neutral-9">{{ groupDescription(group) }}</p>
@@ -50,7 +50,7 @@
                             class="btn btn-primary"
                             :loading="form.processing"
                         >
-                            {{ __('Save Settings') }}
+                            {{ __('settings::admin.save_settings') }}
                         </AppButton>
                     </div>
                 </form>

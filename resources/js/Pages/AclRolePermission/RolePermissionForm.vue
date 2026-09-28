@@ -1,10 +1,10 @@
 <template>
-    <AppSectionHeader :title="__('Role Permissions')" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('acl::admin.role_permissions')" :bread-crumb="breadCrumb">
     </AppSectionHeader>
 
     <AppCard>
         <template #title>
-            {{ __('Role Permissions for') }}:
+            {{ __('acl::admin.role_permissions_for') }}:
             <span class="text-skin-primary-10">{{ role.name }}</span>
         </template>
         <template #content>
@@ -36,20 +36,20 @@
             </div>
 
             <AppAlert v-else class="mt-4">
-                {{ __('No permissions found') }}
+                {{ __('acl::admin.no_permissions_found') }}
             </AppAlert>
         </template>
 
         <template v-if="chunks.length" #footer>
             <AppButton class="btn btn-primary" @click="submitForm">
-                {{ __('Save') }}
+                {{ __('common.save') }}
             </AppButton>
         </template>
     </AppCard>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import chunk from '@/Utils/chunk'
 
@@ -64,10 +64,12 @@ const props = defineProps({
     }
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Roles', href: route('aclRole.index') },
-    { label: 'Role Permissions', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('acl::admin.roles'), href: route('aclRole.index') },
+    { label: translate('acl::admin.role_permissions'), last: true }
 ]
 
 const form = useForm({

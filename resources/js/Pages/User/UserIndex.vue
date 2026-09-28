@@ -1,5 +1,5 @@
 <template>
-    <AppSectionHeader :title="__('Users')" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('user::admin.users')" :bread-crumb="breadCrumb">
         <template #right>
             <div class="flex gap-2">
                 <AppButton
@@ -8,14 +8,14 @@
                     @click="$inertia.visit(route('user.recycleBin.index'))"
                 >
                     <i class="ri-delete-bin-line mr-1"></i>
-                    {{ __('Recycle Bin') }}
+                    {{ __('common.recycle_bin') }}
                 </AppButton>
                 <AppButton
                     v-if="can('Acl: User - Create')"
                     class="btn btn-primary"
                     @click="$inertia.visit(route('user.create'))"
                 >
-                    {{ __('Create User') }}
+                    {{ __('user::admin.create_user') }}
                 </AppButton>
             </div>
         </template>
@@ -47,7 +47,7 @@
                         <!-- edit user roles -->
                         <AppTooltip
                             v-if="can('Acl: User: Role - Edit')"
-                            :text="__('User Roles')"
+                            :text="__('user::admin.user_roles')"
                             class="mr-2"
                         >
                             <AppButton
@@ -65,7 +65,7 @@
                         <!-- edit user permissions -->
                         <AppTooltip
                             v-if="can('Acl: User: Permission - Edit')"
-                            :text="__('User Permissions')"
+                            :text="__('user::admin.user_permissions')"
                             class="mr-2"
                         >
                             <AppButton
@@ -83,7 +83,7 @@
                         <!-- edit user -->
                         <AppTooltip
                             v-if="can('Acl: User - Edit')"
-                            :text="__('Edit User')"
+                            :text="__('user::admin.edit_user')"
                             class="mr-2"
                         >
                             <AppButton
@@ -99,7 +99,7 @@
                         <!-- delete user -->
                         <AppTooltip
                             v-if="can('Acl: User - Delete')"
-                            :text="__('Delete User')"
+                            :text="__('user::admin.delete_user')"
                         >
                             <AppButton
                                 class="btn btn-icon btn-destructive"
@@ -127,14 +127,14 @@
     ></AppPaginator>
 
     <AppAlert v-if="!users.data.length" class="mt-4">
-        {{ __('No users found') }}
+        {{ __('user::admin.no_users_found') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import useAuthCan from '@/Composables/useAuthCan'
 
 const { can } = useAuthCan()
@@ -146,12 +146,19 @@ defineProps({
     }
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Users', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('user::admin.users'), last: true }
 ]
 
-const headers = ['ID', 'Name', 'Email', 'Actions']
+const headers = [
+    'ID',
+    translate('common.header.name'),
+    translate('user::admin.email'),
+    translate('common.header.actions'),
+]
 
 const confirmDialogRef = ref(null)
 const confirmDelete = (deleteRoute) => {

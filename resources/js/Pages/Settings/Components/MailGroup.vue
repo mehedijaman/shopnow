@@ -2,7 +2,7 @@
     <div class="space-y-6">
         <div class="rounded-md bg-amber-50 p-4 text-sm text-amber-700 ring-1 ring-amber-200">
             <i class="ri-information-line mr-1"></i>
-            {{ __('SMTP credentials are stored encrypted and never exposed publicly.') }}
+            {{ __('settings::admin.smtp_notice') }}
         </div>
 
         <!-- Enable SMTP settings checkbox -->
@@ -16,17 +16,17 @@
             </div>
             <div>
                 <AppLabel for="enable_smtp" class="font-semibold text-skin-neutral-12 cursor-pointer">
-                    {{ __('Enable SMTP Settings') }}
+                    {{ __('settings::admin.enable_smtp') }}
                 </AppLabel>
                 <p class="text-xs text-skin-neutral-9 mt-1">
-                    {{ __('When enabled, custom SMTP settings from the database will be used. When disabled, the fallback environment settings (.env) will be used.') }}
+                    {{ __('settings::admin.enable_smtp_hint') }}
                 </p>
             </div>
         </div>
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
-                <AppLabel for="from_name" :value="__('From Name')" />
+                <AppLabel for="from_name" :value="__('settings::admin.from_name')" />
                 <AppInputText
                     id="from_name"
                     v-model="form.from_name"
@@ -42,7 +42,7 @@
             </div>
 
             <div>
-                <AppLabel for="from_address" :value="__('From Address')" />
+                <AppLabel for="from_address" :value="__('settings::admin.from_address')" />
                 <AppInputText
                     id="from_address"
                     v-model="form.from_address"
@@ -59,7 +59,7 @@
             </div>
 
             <div>
-                <AppLabel for="host" :value="__('SMTP Host')" />
+                <AppLabel for="host" :value="__('settings::admin.smtp_host')" />
                 <AppInputText
                     id="host"
                     v-model="form.host"
@@ -73,7 +73,7 @@
             </div>
 
             <div>
-                <AppLabel for="port" :value="__('SMTP Port')" />
+                <AppLabel for="port" :value="__('settings::admin.smtp_port')" />
                 <AppInputText
                     id="port"
                     v-model="form.port"
@@ -88,7 +88,7 @@
             </div>
 
             <div>
-                <AppLabel for="username" :value="__('SMTP Username')" />
+                <AppLabel for="username" :value="__('settings::admin.smtp_username')" />
                 <AppInputText
                     id="username"
                     v-model="form.username"
@@ -102,7 +102,7 @@
             </div>
 
             <div>
-                <AppLabel for="password" :value="__('SMTP Password')" />
+                <AppLabel for="password" :value="__('settings::admin.smtp_password')" />
                 <AppInputText
                     id="password"
                     v-model="form.password"
@@ -117,7 +117,7 @@
             </div>
 
             <div>
-                <AppLabel for="encryption" :value="__('Encryption')" />
+                <AppLabel for="encryption" :value="__('settings::admin.encryption')" />
                 <select
                     id="encryption"
                     v-model="form.encryption"
@@ -138,15 +138,15 @@
         <!-- Send Test Email Section -->
         <div class="mt-8 border-t border-skin-neutral-4 pt-8">
             <h3 class="text-base font-semibold text-skin-neutral-12 mb-1">
-                {{ __('Send Test Email') }}
+                {{ __('settings::admin.send_test_email') }}
             </h3>
             <p class="text-sm text-skin-neutral-9 mb-4">
-                {{ __('Test your SMTP configuration by sending a test email to a recipient.') }}
+                {{ __('settings::admin.test_email_hint') }}
             </p>
 
             <div class="space-y-4 max-w-xl">
                 <div>
-                    <AppLabel for="test_recipient" :value="__('Recipient Email')" />
+                    <AppLabel for="test_recipient" :value="__('settings::admin.recipient_email')" />
                     <AppInputText
                         id="test_recipient"
                         v-model="testMail.recipient"
@@ -160,7 +160,7 @@
                 </div>
 
                 <div>
-                    <AppLabel for="test_message" :value="__('Message Body')" />
+                    <AppLabel for="test_message" :value="__('settings::admin.message_body')" />
                     <textarea
                         id="test_message"
                         v-model="testMail.message"
@@ -186,7 +186,7 @@
                         :loading="sendingTestMail"
                         @click="sendTestMail"
                     >
-                        {{ __('Send Test Email') }}
+                        {{ __('settings::admin.send_test_email') }}
                     </AppButton>
                 </div>
             </div>

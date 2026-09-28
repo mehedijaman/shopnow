@@ -1,17 +1,17 @@
 <template>
     <div class="space-y-6">
         <div>
-            <AppLabel for="meta_title" :value="__('Meta Title')" />
-            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('Recommended max 60 characters. Appears in search results and browser tabs.') }}</p>
+            <AppLabel for="meta_title" :value="__('settings::admin.meta_title')" />
+            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.meta_title_hint') }}</p>
             <AppInputText
                 id="meta_title"
                 v-model="form.meta_title"
-                :placeholder="__('e.g. ShopNow — Best Products Online')"
+                :placeholder="__('settings::admin.meta_title_placeholder')"
                 :class="{ 'input-error': errorsFields.includes('meta_title') }"
                 @input="syncTitleLength"
             />
             <p class="mt-1 text-xs" :class="titleLength > 60 ? 'text-red-500' : 'text-skin-neutral-8'">
-                {{ titleLength }} / 60 {{ __('characters') }}
+                {{ titleLength }} / 60 {{ __('settings::admin.characters') }}
             </p>
             <p v-if="errorsFields.includes('meta_title')" class="mt-1 text-sm text-red-500">
                 {{ errors.meta_title }}
@@ -19,35 +19,35 @@
         </div>
 
         <div>
-            <AppLabel for="meta_description" :value="__('Meta Description')" />
-            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('Recommended max 160 characters. Shown as a snippet in search results.') }}</p>
+            <AppLabel for="meta_description" :value="__('settings::admin.meta_description')" />
+            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.meta_description_hint') }}</p>
             <AppTextArea
                 id="meta_description"
                 v-model="form.meta_description"
-                :placeholder="__('A short, compelling description of your site...')"
+                :placeholder="__('settings::admin.meta_description_placeholder')"
                 :class="{ 'input-error': errorsFields.includes('meta_description') }"
                 @input="syncDescLength"
             />
             <p class="mt-1 text-xs" :class="descLength > 160 ? 'text-red-500' : 'text-skin-neutral-8'">
-                {{ descLength }} / 160 {{ __('characters') }}
+                {{ descLength }} / 160 {{ __('settings::admin.characters') }}
             </p>
         </div>
 
         <div>
-            <AppLabel for="meta_keywords" :value="__('Meta Keywords')" />
-            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('Comma-separated list of keywords. (Low SEO impact, optional)') }}</p>
+            <AppLabel for="meta_keywords" :value="__('settings::admin.meta_keywords')" />
+            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.meta_keywords_hint') }}</p>
             <AppInputText
                 id="meta_keywords"
                 v-model="form.meta_keywords"
-                :placeholder="__('e.g. shop, products, best deals')"
+                :placeholder="__('settings::admin.meta_keywords_placeholder')"
                 :class="{ 'input-error': errorsFields.includes('meta_keywords') }"
             />
         </div>
 
         <!-- OG / Social Share Image -->
         <div>
-            <AppLabel :value="__('Default Social Share Image (OG Image)')" />
-            <p class="mb-2 text-xs text-skin-neutral-9">{{ __('Recommended: 1200×630 px, JPG or PNG, max 2 MB. Used when pages are shared on social media.') }}</p>
+            <AppLabel :value="__('settings::admin.og_image')" />
+            <p class="mb-2 text-xs text-skin-neutral-9">{{ __('settings::admin.og_image_hint') }}</p>
             <div v-if="urls.og_image_url && !form.remove_previous_og_image" class="mb-3 flex items-center gap-4">
                 <img
                     :src="urls.og_image_url"
@@ -59,7 +59,7 @@
                     class="text-sm text-red-500 hover:text-red-700"
                     @click="removeOgImage"
                 >
-                    {{ __('Remove Image') }}
+                    {{ __('settings::admin.remove_image') }}
                 </button>
             </div>
             <AppInputFile
@@ -74,8 +74,8 @@
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
-                <AppLabel for="twitter_handle" :value="__('Twitter / X Handle')" />
-                <p class="mb-1 text-xs text-skin-neutral-9">{{ __('Your @handle used in Twitter Card meta tags.') }}</p>
+                <AppLabel for="twitter_handle" :value="__('settings::admin.twitter_handle')" />
+                <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.twitter_handle_hint') }}</p>
                 <AppInputText
                     id="twitter_handle"
                     v-model="form.twitter_handle"
@@ -85,8 +85,8 @@
             </div>
 
             <div>
-                <AppLabel for="robots_default" :value="__('Default Robots Directive')" />
-                <p class="mb-1 text-xs text-skin-neutral-9">{{ __('Controls how search engines index your site by default.') }}</p>
+                <AppLabel for="robots_default" :value="__('settings::admin.robots_directive')" />
+                <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.robots_hint') }}</p>
                 <select
                     id="robots_default"
                     v-model="form.robots_default"
@@ -100,8 +100,8 @@
             </div>
 
             <div>
-                <AppLabel for="canonical_domain" :value="__('Canonical Domain')" />
-                <p class="mb-1 text-xs text-skin-neutral-9">{{ __('Used to build canonical URLs (e.g. https://example.com). Leave empty to use APP_URL.') }}</p>
+                <AppLabel for="canonical_domain" :value="__('settings::admin.canonical_domain')" />
+                <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.canonical_domain_hint') }}</p>
                 <AppInputText
                     id="canonical_domain"
                     v-model="form.canonical_domain"

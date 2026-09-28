@@ -1,8 +1,8 @@
 <template>
     <div class="space-y-6">
         <div>
-            <AppLabel for="site_name" :value="__('Site Name')" />
-            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('Displayed in the browser tab and emails.') }}</p>
+            <AppLabel for="site_name" :value="__('settings::admin.site_name')" />
+            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.site_name_hint') }}</p>
             <AppInputText
                 id="site_name"
                 v-model="form.site_name"
@@ -14,8 +14,8 @@
         </div>
 
         <div>
-            <AppLabel for="site_slogan" :value="__('Site Slogan')" />
-            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('A short tagline displayed alongside your brand.') }}</p>
+            <AppLabel for="site_slogan" :value="__('settings::admin.site_slogan')" />
+            <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.site_slogan_hint') }}</p>
             <AppInputText
                 id="site_slogan"
                 v-model="form.site_slogan"
@@ -28,8 +28,8 @@
 
         <!-- Logo -->
         <div>
-            <AppLabel :value="__('Logo')" />
-            <p class="mb-2 text-xs text-skin-neutral-9">{{ __('Recommended: PNG or SVG, max 2 MB') }}</p>
+            <AppLabel :value="__('settings::admin.logo')" />
+            <p class="mb-2 text-xs text-skin-neutral-9">{{ __('settings::admin.logo_hint') }}</p>
             <div v-if="urls.logo_url && !form.remove_previous_logo" class="mb-3 flex items-center gap-4">
                 <img
                     :src="urls.logo_url"
@@ -41,12 +41,12 @@
                     class="text-sm text-red-500 hover:text-red-700"
                     @click="removeLogo"
                 >
-                    {{ __('Remove Logo') }}
+                    {{ __('settings::admin.remove_logo') }}
                 </button>
             </div>
             <div v-if="!urls.logo_url && !form.logo" class="mb-3">
                 <img src="/logo.png" alt="Default Logo" class="h-14 rounded-sm border border-skin-neutral-4 object-contain p-1 opacity-40" />
-                <p class="mt-1 text-xs text-skin-neutral-8">{{ __('Fallback logo shown — no logo uploaded yet') }}</p>
+                <p class="mt-1 text-xs text-skin-neutral-8">{{ __('settings::admin.fallback_logo') }}</p>
             </div>
             <AppInputFile
                 v-model="form.logo"
@@ -60,8 +60,8 @@
 
         <!-- Favicon -->
         <div>
-            <AppLabel :value="__('Favicon')" />
-            <p class="mb-2 text-xs text-skin-neutral-9">{{ __('Recommended: ICO or PNG 32×32, max 512 KB') }}</p>
+            <AppLabel :value="__('settings::admin.favicon')" />
+            <p class="mb-2 text-xs text-skin-neutral-9">{{ __('settings::admin.favicon_hint') }}</p>
             <div v-if="urls.favicon_url && !form.remove_previous_favicon" class="mb-3 flex items-center gap-4">
                 <img
                     :src="urls.favicon_url"
@@ -73,7 +73,7 @@
                     class="text-sm text-red-500 hover:text-red-700"
                     @click="removeFavicon"
                 >
-                    {{ __('Remove Favicon') }}
+                    {{ __('settings::admin.remove_favicon') }}
                 </button>
             </div>
             <AppInputFile
@@ -88,8 +88,8 @@
 
         <!-- Dark Logo -->
         <div>
-            <AppLabel :value="__('Dark Logo')" />
-            <p class="mb-2 text-xs text-skin-neutral-9">{{ __('Used on dark backgrounds, max 2 MB') }}</p>
+            <AppLabel :value="__('settings::admin.dark_logo')" />
+            <p class="mb-2 text-xs text-skin-neutral-9">{{ __('settings::admin.dark_logo_hint') }}</p>
             <div v-if="urls.dark_logo_url && !form.remove_previous_dark_logo" class="mb-3 flex items-center gap-4">
                 <img
                     :src="urls.dark_logo_url"
@@ -101,7 +101,7 @@
                     class="text-sm text-red-500 hover:text-red-700"
                     @click="removeDarkLogo"
                 >
-                    {{ __('Remove Dark Logo') }}
+                    {{ __('settings::admin.remove_dark_logo') }}
                 </button>
             </div>
             <AppInputFile

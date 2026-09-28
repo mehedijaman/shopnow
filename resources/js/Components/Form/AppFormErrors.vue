@@ -1,7 +1,7 @@
 <template>
     <div v-if="hasErrors">
         <div class="font-medium text-skin-error">
-            {{ __('Whoops! Something went wrong...') }}
+            {{ __('common.form_errors') }}
         </div>
 
         <ul class="mt-3 list-inside list-disc text-sm text-skin-error">

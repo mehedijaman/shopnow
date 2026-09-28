@@ -9,7 +9,7 @@
             <AppFormErrors class="mb-4" />
             <form>
                 <div>
-                    <AppLabel for="name">{{ __('Name') }}</AppLabel>
+                    <AppLabel for="name">{{ __('common.field.name') }}</AppLabel>
                     <AppInputText
                         id="name"
                         v-model="form.name"
@@ -23,20 +23,23 @@
         </template>
         <template #footer>
             <AppButton class="btn btn-primary" @click="submitForm">
-                {{ __('Save') }}
+                {{ __('common.save') }}
             </AppButton>
         </template>
     </AppCard>
 </template>
 
 <script setup>
+import { inject } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import { Head } from '@inertiajs/vue3'
 import useTitle from '@/Composables/useTitle'
 import useFormContext from '@/Composables/useFormContext'
 import useFormErrors from '@/Composables/useFormErrors'
 
-const { title } = useTitle('Profile')
+const translate = inject('translate')
+
+const { title } = useTitle(translate('profile::admin.profile'))
 
 const props = defineProps({
   profile: {
@@ -46,9 +49,9 @@ const props = defineProps({
 })
 
 const breadCrumb = [
-  { label: 'Home', href: route('dashboard.index') },
-  { label: 'Profiles', href: route('profile.index') },
-  { label: 'Profile', last: true }
+  { label: translate('common.home'), href: route('dashboard.index') },
+  { label: translate('profile::admin.profiles'), href: route('profile.index') },
+  { label: translate('profile::admin.profile'), last: true }
 ]
 
 const form = useForm({

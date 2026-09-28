@@ -1,12 +1,12 @@
 <template>
-    <AppSectionHeader :title="__('Permissions')" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('acl::admin.permissions')" :bread-crumb="breadCrumb">
         <template #right>
             <AppButton
                 v-if="can('Acl: Permission - Create')"
                 class="btn btn-primary"
                 @click="$inertia.visit(route('aclPermission.create'))"
             >
-                {{ __('Create Permission') }}
+                {{ __('acl::admin.create_permission') }}
             </AppButton>
         </template>
     </AppSectionHeader>
@@ -36,7 +36,7 @@
                         <!-- edit permission -->
                         <AppTooltip
                             v-if="can('Acl: Permission - Edit')"
-                            :text="__('Edit Permission')"
+                            :text="__('acl::admin.edit_permission')"
                             class="mr-2"
                         >
                             <AppButton
@@ -54,7 +54,7 @@
                         <!-- delete permission -->
                         <AppTooltip
                             v-if="can('Acl: Permission - Delete')"
-                            :text="__('Delete Permission')"
+                            :text="__('acl::admin.delete_permission')"
                         >
                             <AppButton
                                 class="btn btn-icon btn-destructive"
@@ -82,14 +82,14 @@
     ></AppPaginator>
 
     <AppAlert v-if="!permissions.data.length" class="mt-4">
-        {{ __('No permissions found.') }}
+        {{ __('acl::admin.no_permissions_found') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import useAuthCan from '@/Composables/useAuthCan'
 
 const { can } = useAuthCan()
@@ -101,12 +101,18 @@ defineProps({
     }
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Permissions', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('acl::admin.permissions'), last: true }
 ]
 
-const headers = ['ID', 'Name', 'Actions']
+const headers = [
+    'ID',
+    translate('common.header.name'),
+    translate('common.header.actions'),
+]
 
 const confirmDialogRef = ref(null)
 const confirmDelete = (deleteRoute) => {

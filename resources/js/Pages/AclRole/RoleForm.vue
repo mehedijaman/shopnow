@@ -9,7 +9,7 @@
             <AppFormErrors class="mb-4" />
             <form @submit.prevent="submitForm">
                 <div>
-                    <AppLabel for="name">{{ __('Name') }}</AppLabel>
+                    <AppLabel for="name">{{ __('common.field.name') }}</AppLabel>
                     <AppInputText
                         id="name"
                         v-model="form.name"
@@ -24,20 +24,23 @@
         </template>
         <template #footer>
             <AppButton class="btn btn-primary" @click="submitForm">
-                {{ __('Save') }}
+                {{ __('common.save') }}
             </AppButton>
         </template>
     </AppCard>
 </template>
 
 <script setup>
+import { inject } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import { Head } from '@inertiajs/vue3'
 import useTitle from '@/Composables/useTitle'
 import useFormContext from '@/Composables/useFormContext'
 import useFormErrors from '@/Composables/useFormErrors'
 
-const { title } = useTitle('Role')
+const translate = inject('translate')
+
+const { title } = useTitle(translate('acl::admin.role'))
 
 const props = defineProps({
     role: {
@@ -47,9 +50,9 @@ const props = defineProps({
 })
 
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Roles', href: route('aclRole.index') },
-    { label: 'Role', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('acl::admin.roles'), href: route('aclRole.index') },
+    { label: translate('acl::admin.role'), last: true }
 ]
 
 const form = useForm({

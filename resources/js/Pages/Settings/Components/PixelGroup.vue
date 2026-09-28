@@ -88,7 +88,7 @@
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
-                <AppLabel for="meta_pixel_id" :value="__('Meta Pixel ID')" />
+                <AppLabel for="meta_pixel_id" :value="__('settings::admin.meta_pixel_id')" />
                 <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.meta_pixel_id_hint') }}</p>
                 <AppInputText
                     id="meta_pixel_id"
@@ -102,7 +102,7 @@
             </div>
 
             <div>
-                <AppLabel for="api_version" :value="__('Meta Graph API Version')" />
+                <AppLabel for="api_version" :value="__('settings::admin.graph_api_version')" />
                 <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.example_v230') }}</p>
                 <AppInputText
                     id="api_version"
@@ -116,7 +116,7 @@
             </div>
 
             <div class="sm:col-span-2">
-                <AppLabel for="capi_access_token" :value="__('CAPI Access Token')" />
+                <AppLabel for="capi_access_token" :value="__('settings::admin.capi_access_token')" />
                 <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.capi_token_hint') }}</p>
                 <AppInputText
                     id="capi_access_token"
@@ -131,7 +131,7 @@
             </div>
 
             <div class="sm:col-span-2">
-                <AppLabel for="test_event_code" :value="__('Test Event Code (Optional)')" />
+                <AppLabel for="test_event_code" :value="__('settings::admin.test_event_code')" />
                 <p class="mb-1 text-xs text-skin-neutral-9">{{ __('settings::admin.test_event_code_hint') }}</p>
                 <AppInputText
                     id="test_event_code"

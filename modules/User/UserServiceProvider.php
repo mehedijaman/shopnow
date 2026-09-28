@@ -18,6 +18,8 @@ class UserServiceProvider extends BaseServiceProvider
      */
     protected $namespace = 'Modules\User\Http\Controllers';
 
+    protected ?string $viewNamespace = 'user';
+
     /**
      * Bootstrap the application events.
      */

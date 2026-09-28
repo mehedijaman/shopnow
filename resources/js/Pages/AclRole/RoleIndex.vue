@@ -1,12 +1,12 @@
 <template>
-    <AppSectionHeader :title="__('Roles')" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('acl::admin.roles')" :bread-crumb="breadCrumb">
         <template #right>
             <AppButton
                 v-if="can('Acl: Role - Create')"
                 class="btn btn-primary"
                 @click="$inertia.visit(route('aclRole.create'))"
             >
-                {{ __('Create Role') }}
+                {{ __('acl::admin.create_role') }}
             </AppButton>
         </template>
     </AppSectionHeader>
@@ -33,7 +33,7 @@
                         <!-- role permissions -->
                         <AppTooltip
                             v-if="can('Acl: Role: Permission - Edit')"
-                            :text="__('Role Permissions')"
+                            :text="__('acl::admin.role_permissions')"
                             class="mr-2"
                         >
                             <AppButton
@@ -51,7 +51,7 @@
                         <!-- edit role -->
                         <AppTooltip
                             v-if="can('Acl: Role - Edit')"
-                            :text="__('Edit Role')"
+                            :text="__('acl::admin.edit_role')"
                             class="mr-2"
                         >
                             <AppButton
@@ -69,7 +69,7 @@
                         <!-- delete role -->
                         <AppTooltip
                             v-if="can('Acl: Role - Delete')"
-                            :text="__('Delete Role')"
+                            :text="__('acl::admin.delete_role')"
                         >
                             <AppButton
                                 class="btn btn-icon btn-destructive"
@@ -97,14 +97,14 @@
     ></AppPaginator>
 
     <AppAlert v-if="!roles.data.length" class="mt-4">
-        {{ __('No roles found') }}
+        {{ __('acl::admin.no_roles_found') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import useAuthCan from '@/Composables/useAuthCan'
 
 const { can } = useAuthCan()
@@ -116,12 +116,18 @@ defineProps({
     }
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Roles', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('acl::admin.roles'), last: true }
 ]
 
-const headers = ['ID', 'Name', 'Actions']
+const headers = [
+    'ID',
+    translate('common.header.name'),
+    translate('common.header.actions'),
+]
 
 const confirmDialogRef = ref(null)
 const confirmDelete = (deleteRoute) => {

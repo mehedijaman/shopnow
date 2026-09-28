@@ -8,7 +8,7 @@
                     @click="$inertia.visit(route('user.index'))"
                 >
                     <i class="ri-arrow-left-s-line mr-1"></i>
-                    {{ __('Back to List') }}
+                    {{ __('common.back_to_list') }}
                 </AppButton>
 
                 <AppButton
@@ -19,7 +19,7 @@
                     "
                 >
                     <i class="ri-recycle-fill mr-1"></i>
-                    {{ __('Restore Recycle Bin') }}
+                    {{ __('user::admin.restore_recycle_bin') }}
                 </AppButton>
 
                 <AppButton
@@ -28,7 +28,7 @@
                     @click="confirmDelete(route('user.recycleBin.empty'))"
                 >
                     <i class="ri-delete-bin-7-line mr-1"></i>
-                    {{ __('Empty Recycle Bin') }}
+                    {{ __('user::admin.empty_recycle_bin') }}
                 </AppButton>
             </div>
         </template>
@@ -63,7 +63,7 @@
                         <!-- Restore -->
                         <AppTooltip
                             v-if="can('Acl: User - Recycle Bin')"
-                            :text="__('Restore')"
+                            :text="__('common.restore')"
                             class="mr-2"
                         >
                             <AppButton
@@ -84,7 +84,7 @@
                         <!-- Delete -->
                         <AppTooltip
                             v-if="can('Acl: User - Recycle Bin')"
-                            :text="__('Permanently Delete')"
+                            :text="__('common.delete_permanently')"
                         >
                             <AppButton
                                 class="btn btn-icon btn-destructive"
@@ -115,20 +115,22 @@
     ></AppPaginator>
 
     <AppAlert v-if="!users.data.length" class="mt-4">
-        {{ __('No users found in recycle bin.') }}
+        {{ __('user::admin.no_users_recycle_bin') }}
     </AppAlert>
 
     <AppConfirmDialog ref="confirmDialogRef"></AppConfirmDialog>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import useTitle from '@/Composables/useTitle'
 import useAuthCan from '@/Composables/useAuthCan'
 
 const { can } = useAuthCan()
-const { title } = useTitle('User Recycle Bin')
+const translate = inject('translate')
+
+const { title } = useTitle(translate('user::admin.user_recycle_bin'))
 
 const props = defineProps({
     users: {
@@ -138,12 +140,17 @@ const props = defineProps({
 })
 
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Users', href: route('user.index') },
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('user::admin.users'), href: route('user.index') },
     { label: title, last: true }
 ]
 
-const headers = ['ID', 'Name', 'Email', 'Actions']
+const headers = [
+    'ID',
+    translate('common.header.name'),
+    translate('user::admin.email'),
+    translate('common.header.actions'),
+]
 
 const confirmDialogRef = ref(null)
 const confirmDelete = (deleteRoute) => {

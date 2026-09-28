@@ -23,7 +23,7 @@
         </template>
         <template #footer>
             <AppButton class="btn btn-primary" @click="submitForm">
-                {{ __('Save') }}
+                {{ __('common.save') }}
             </AppButton>
         </template>
     </AppCard>

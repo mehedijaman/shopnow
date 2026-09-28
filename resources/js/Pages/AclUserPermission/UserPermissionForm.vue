@@ -1,10 +1,10 @@
 <template>
-    <AppSectionHeader :title="__('User Permissions')" :bread-crumb="breadCrumb">
+    <AppSectionHeader :title="__('user::admin.user_permissions')" :bread-crumb="breadCrumb">
     </AppSectionHeader>
 
     <AppCard>
         <template #title>
-            {{ __('User Permissions for') }}:
+            {{ __('acl::admin.user_permissions_for') }}:
             <span class="text-skin-primary-10">{{ user.name }}</span>
         </template>
 
@@ -37,20 +37,20 @@
             </div>
 
             <AppAlert v-else class="mt-4">
-                {{ __('No permissions found') }}
+                {{ __('acl::admin.no_permissions_found') }}
             </AppAlert>
         </template>
 
         <template v-if="chunks.length" #footer>
             <AppButton class="btn btn-primary" @click="submitForm">
-                {{ __('Save') }}
+                {{ __('common.save') }}
             </AppButton>
         </template>
     </AppCard>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import chunk from '@/Utils/chunk'
 
@@ -69,10 +69,12 @@ const props = defineProps({
     }
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Users', href: route('user.index') },
-    { label: 'User Permissions', last: true }
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('user::admin.users'), href: route('user.index') },
+    { label: translate('user::admin.user_permissions'), last: true }
 ]
 
 const form = useForm({

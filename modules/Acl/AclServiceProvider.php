@@ -16,6 +16,8 @@ class AclServiceProvider extends BaseServiceProvider
      */
     protected $namespace = 'Modules\Acl\Http\Controllers';
 
+    protected ?string $viewNamespace = 'acl';
+
     /**
      * Bootstrap the application events.
      */

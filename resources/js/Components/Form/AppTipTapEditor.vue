@@ -5,25 +5,25 @@
             :class="editorClass"
         >
             <TipTapButton
-                :title="__('Bold')"
+                :title="__('common.editor.bold')"
                 icon="ri-bold"
                 @click.prevent="editor.commands.toggleBold()"
             />
 
             <TipTapButton
-                :title="__('Italic')"
+                :title="__('common.editor.italic')"
                 icon="ri-italic"
                 @click.prevent="editor.commands.toggleItalic()"
             />
 
             <TipTapButton
-                :title="__('Underline')"
+                :title="__('common.editor.underline')"
                 icon="ri-underline"
                 @click.prevent="editor.commands.toggleUnderline()"
             />
 
             <TipTapButton
-                :title="__('Strikethrough')"
+                :title="__('common.editor.strikethrough')"
                 icon="ri-strikethrough"
                 @click.prevent="editor.commands.toggleStrike()"
             />
@@ -31,55 +31,55 @@
             <TipTapDivider />
 
             <TipTapButton
-                :title="__('Heading 1')"
+                :title="__('common.editor.heading_1')"
                 icon="ri-h-1"
                 @click.prevent="editor.commands.toggleHeading({ level: 1 })"
             />
 
             <TipTapButton
-                :title="__('Heading 2')"
+                :title="__('common.editor.heading_2')"
                 icon="ri-h-2"
                 @click.prevent="editor.commands.toggleHeading({ level: 2 })"
             />
 
             <TipTapButton
-                :title="__('Heading 3')"
+                :title="__('common.editor.heading_3')"
                 icon="ri-h-3"
                 @click.prevent="editor.commands.toggleHeading({ level: 3 })"
             />
 
             <TipTapButton
-                :title="__('Heading 4')"
+                :title="__('common.editor.heading_4')"
                 icon="ri-h-4"
                 @click.prevent="editor.commands.toggleHeading({ level: 4 })"
             />
 
             <TipTapButton
-                :title="__('Paragraph')"
+                :title="__('common.editor.paragraph')"
                 icon="ri-paragraph"
                 @click.prevent="editor.commands.setParagraph()"
             />
 
             <TipTapButton
-                :title="__('List')"
+                :title="__('common.editor.list')"
                 icon="ri-list-unordered"
                 @click.prevent="editor.commands.toggleBulletList()"
             />
 
             <TipTapButton
-                :title="__('Ordered Link')"
+                :title="__('common.editor.ordered_link')"
                 icon="ri-list-ordered"
                 @click.prevent="editor.commands.toggleOrderedList()"
             />
 
             <TipTapButton
-                :title="__('Add Link')"
+                :title="__('common.editor.add_link')"
                 icon="ri-link-m"
                 @click.prevent="setLink"
             />
 
             <TipTapButton
-                :title="__('Remove Link')"
+                :title="__('common.editor.remove_link')"
                 icon="ri-link-unlink-m"
                 @click.prevent="editor.commands.unsetLink()"
             />
@@ -87,19 +87,19 @@
             <TipTapDivider />
 
             <TipTapButton
-                :title="__('Line Break')"
+                :title="__('common.editor.line_break')"
                 icon="ri-text-wrap"
                 @click.prevent="editor.commands.setHardBreak()"
             />
 
             <TipTapButton
-                :title="__('Horizontal Rule')"
+                :title="__('common.editor.horizontal_rule')"
                 icon="ri-separator"
                 @click.prevent="editor.commands.setHorizontalRule()"
             />
 
             <TipTapButton
-                :title="__('Clear Format')"
+                :title="__('common.editor.clear_format')"
                 icon="ri-format-clear"
                 @click.prevent="editor.commands.clearNodes()"
             />
@@ -108,13 +108,13 @@
 
             <TipTapButton
                 v-if="fileUploadUrl"
-                :title="__('Add Image')"
+                :title="__('common.editor.add_image')"
                 icon="ri-image-add-line"
                 @click.prevent="uploadFile"
             />
 
             <TipTapButton
-                :title="__('Add Video')"
+                :title="__('common.editor.add_video')"
                 icon="ri-youtube-line"
                 @click.prevent="addVideo"
             />
@@ -122,7 +122,7 @@
             <TipTapDivider />
 
             <TipTapButton
-                :title="__('Table')"
+                :title="__('common.editor.table')"
                 icon="ri-table-line"
                 @click.prevent="toggleTableToolbar"
             />
@@ -130,13 +130,13 @@
             <TipTapDivider />
 
             <TipTapButton
-                :title="__('Undo')"
+                :title="__('common.editor.undo')"
                 icon="ri-arrow-go-back-line"
                 @click.prevent="editor.commands.undo()"
             />
 
             <TipTapButton
-                :title="__('Redo')"
+                :title="__('common.editor.redo')"
                 icon="ri-arrow-go-forward-line"
                 @click.prevent="editor.commands.redo()"
             />
@@ -144,7 +144,7 @@
             <TipTapDivider />
 
             <TipTapButton
-                :title="__('Code View')"
+                :title="__('common.editor.code_view')"
                 icon="ri-code-box-line"
                 @click.prevent="changeEditorMode"
             />
@@ -155,7 +155,7 @@
             class="mx-0 mb-0 flex flex-none flex-wrap items-center wrap-break-word border-x border-t border-solid border-skin-neutral-7 border-t-skin-neutral-7 bg-no-repeat p-2 font-sans text-xl leading-5 tracking-normal"
         >
             <TipTapButton
-                :title="__('Insert Table')"
+                :title="__('common.editor.insert_table')"
                 icon="ri-table-2"
                 @click.prevent="
                     editor.commands.insertTable({
@@ -169,19 +169,19 @@
             <TipTapDivider />
 
             <TipTapButton
-                :title="__('Add Column Before')"
+                :title="__('common.editor.add_column_before')"
                 icon="ri-layout-3-line"
                 @click.prevent="editor.commands.addColumnBefore()"
             />
 
             <TipTapButton
-                :title="__('Add Column After')"
+                :title="__('common.editor.add_column_after')"
                 icon="ri-layout-6-line"
                 @click.prevent="editor.commands.addColumnAfter()"
             />
 
             <TipTapButton
-                :title="__('Delete Column')"
+                :title="__('common.editor.delete_column')"
                 icon="ri-delete-column"
                 @click.prevent="editor.commands.deleteColumn()"
             />
@@ -189,19 +189,19 @@
             <TipTapDivider />
 
             <TipTapButton
-                :title="__('Add Row Before')"
+                :title="__('common.editor.add_row_before')"
                 icon="ri-insert-row-top"
                 @click.prevent="editor.commands.addRowBefore()"
             />
 
             <TipTapButton
-                :title="__('Add Row After')"
+                :title="__('common.editor.add_row_after')"
                 icon="ri-insert-row-bottom"
                 @click.prevent="editor.commands.addRowAfter()"
             />
 
             <TipTapButton
-                :title="__('Delete Row')"
+                :title="__('common.editor.delete_row')"
                 icon="ri-delete-row"
                 @click.prevent="editor.commands.deleteRow()"
             />
@@ -209,37 +209,37 @@
             <TipTapDivider />
 
             <TipTapButton
-                :title="__('Merge Cells')"
+                :title="__('common.editor.merge_cells')"
                 icon="ri-merge-cells-horizontal"
                 @click.prevent="editor.commands.mergeCells()"
             />
 
             <TipTapButton
-                :title="__('Split Cell')"
+                :title="__('common.editor.split_cell')"
                 icon="ri-split-cells-horizontal"
                 @click.prevent="editor.commands.splitCell()"
             />
 
             <TipTapButton
-                :title="__('Alternate Column Header')"
+                :title="__('common.editor.alternate_column_header')"
                 icon="ri-archive-drawer-line"
                 @click.prevent="editor.commands.toggleHeaderColumn()"
             />
 
             <TipTapButton
-                :title="__('Alternate Row Header')"
+                :title="__('common.editor.alternate_row_header')"
                 icon="ri-archive-drawer-fill"
                 @click.prevent="editor.commands.toggleHeaderRow()"
             />
 
             <TipTapButton
-                :title="__('Alternate Cell Header')"
+                :title="__('common.editor.alternate_cell_header')"
                 icon="ri-split-cells-vertical"
                 @click.prevent="editor.commands.toggleHeaderCell()"
             />
 
             <TipTapButton
-                :title="__('Merge or Split')"
+                :title="__('common.editor.merge_or_split')"
                 icon="ri-merge-cells-vertical"
                 @click.prevent="editor.commands.mergeOrSplit()"
             />
@@ -247,13 +247,13 @@
             <TipTapDivider />
 
             <TipTapButton
-                :title="__('Go to Next Cell')"
+                :title="__('common.editor.go_to_next_cell')"
                 icon="ri-arrow-right-s-line"
                 @click.prevent="editor.chain().focus().goToNextCell().run()"
             />
 
             <TipTapButton
-                :title="__('Go to Previous Cell')"
+                :title="__('common.editor.go_to_previous_cell')"
                 icon="ri-arrow-left-s-line"
                 @click.prevent="editor.chain().focus().goToPreviousCell().run()"
             />
@@ -261,13 +261,13 @@
             <TipTapDivider />
 
             <TipTapButton
-                :title="__('Fix Table')"
+                :title="__('common.editor.fix_table')"
                 icon="ri-settings-line"
                 @click.prevent="editor.commands.fixTables()"
             />
 
             <TipTapButton
-                :title="__('Delete Table')"
+                :title="__('common.editor.delete_table')"
                 icon="ri-delete-bin-2-line"
                 @click.prevent="editor.commands.deleteTable()"
             />

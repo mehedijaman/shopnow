@@ -11,7 +11,7 @@
                 id="sidebar-search"
                 v-model="searchTerm"
                 type="text"
-                :placeholder="__('Search menu...')"
+                :placeholder="__('common.search_menu')"
                 class="w-full rounded-lg border border-slate-700/50 bg-slate-800/50 py-2 pl-9 pr-8 text-sm text-slate-300 placeholder-slate-500 transition-all duration-200 focus:border-blue-500/50 focus:outline-none focus:ring-1 focus:ring-blue-500/30"
             />
             <button
