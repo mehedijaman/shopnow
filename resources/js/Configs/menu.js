@@ -1,42 +1,58 @@
+import { translate } from '@/Plugins/Translations'
+
 export default {
     // main navigation - side menu
     items: [
         {
-            label: 'Dashboard',
+            get label() {
+                return translate('common.menu.dashboard')
+            },
             permission: 'Dashboard',
             icon: 'ri-dashboard-line',
             link: route('dashboard.index')
         },
         {
-            label: 'Contact Messages',
+            get label() {
+                return translate('common.menu.contact_messages')
+            },
             permission: 'contact-message-list',
             icon: 'ri-mail-line',
             link: route('contactMessage.index')
         },
         {
-            label: 'Order Management',
+            get label() {
+                return translate('common.menu.order_management')
+            },
             permission: 'order-menu',
             children: [
                 {
-                    label: 'Orders',
+                    get label() {
+                        return translate('common.menu.order_list')
+                    },
                     permission: 'order-list',
                     icon: 'ri-draft-line',
                     link: route('order.index')
                 },
                 {
-                    label: 'Create Order',
+                    get label() {
+                        return translate('common.menu.create_order')
+                    },
                     permission: 'order-create',
-                    icon: 'ri-add-circle-line',
+                    icon: 'ri-add-line',
                     link: route('order.create')
                 },
                 {
-                    label: 'Order Report',
+                    get label() {
+                        return translate('common.menu.order_report')
+                    },
                     permission: 'order-list',
                     icon: 'ri-bar-chart-2-line',
                     link: route('order.report')
                 },
                 {
-                    label: 'Promo Codes',
+                    get label() {
+                        return translate('common.menu.promo_codes')
+                    },
                     permission: 'promo-code-list',
                     icon: 'ri-coupon-3-line',
                     link: route('promoCode.index')
@@ -45,47 +61,63 @@ export default {
         },
 
         {
-            label: 'Product Management',
+            get label() {
+                return translate('common.menu.product_management')
+            },
             permission: 'product-menu',
             children: [
                 {
-                    label: 'New Product',
+                    get label() {
+                        return translate('common.menu.new_product')
+                    },
                     permission: 'product-create',
                     icon: 'ri-add-line',
                     link: route('product.create')
                 },
                 {
-                    label: 'Products',
+                    get label() {
+                        return translate('common.menu.products')
+                    },
                     permission: 'product-list',
                     icon: 'ri-draft-line',
                     link: route('product.index')
                 },
                 {
-                    label: 'Product Report',
+                    get label() {
+                        return translate('common.menu.product_report')
+                    },
                     permission: 'product-list',
                     icon: 'ri-bar-chart-2-line',
                     link: route('product.report')
                 },
                 {
-                    label: 'Product Categories',
+                    get label() {
+                        return translate('common.menu.product_categories')
+                    },
                     permission: 'product-category-list',
                     icon: 'ri-folders-line',
                     link: route('productCategory.index')
                 },
                 {
-                    label: 'Product Tags',
+                    get label() {
+                        return translate('common.menu.product_tags')
+                    },
                     permission: 'product-tag-list',
                     icon: 'ri-price-tag-3-line',
                     link: route('productTag.index')
                 },
                 {
-                    label: 'Product Brands',
+                    get label() {
+                        return translate('common.menu.product_brands')
+                    },
                     permission: 'product-brand-list',
                     icon: 'ri-team-line',
                     link: route('productBrand.index')
                 },
                 {
-                    label: 'Product Attributes',
+                    get label() {
+                        return translate('common.menu.product_attributes')
+                    },
                     permission: 'product-attribute-list',
                     icon: 'ri-list-settings-line',
                     link: route('productAttribute.index')
@@ -94,17 +126,23 @@ export default {
         },
 
         {
-            label: 'Customer Management',
+            get label() {
+                return translate('common.menu.customer_management')
+            },
             permission: 'customer-menu',
             children: [
                 {
-                    label: 'Customers',
+                    get label() {
+                        return translate('common.menu.customers')
+                    },
                     permission: 'customer-list',
                     icon: 'ri-draft-line',
                     link: route('customer.index')
                 },
                 {
-                    label: 'Customer Report',
+                    get label() {
+                        return translate('common.menu.customer_report')
+                    },
                     permission: 'customer-list',
                     icon: 'ri-bar-chart-2-line',
                     link: route('customer.report')
@@ -113,29 +151,39 @@ export default {
         },
 
         {
-            label: 'Blog',
+            get label() {
+                return translate('common.menu.blog')
+            },
             permission: 'Blog',
             children: [
                 {
-                    label: 'Posts',
+                    get label() {
+                        return translate('common.menu.posts')
+                    },
                     permission: 'Blog: Post - List',
                     icon: 'ri-draft-line',
                     link: route('blogPost.index')
                 },
                 {
-                    label: 'Categories',
+                    get label() {
+                        return translate('common.menu.categories')
+                    },
                     permission: 'Blog: Category - List',
                     icon: 'ri-folders-line',
                     link: route('blogCategory.index')
                 },
                 {
-                    label: 'Tags',
+                    get label() {
+                        return translate('common.menu.tags')
+                    },
                     permission: 'Blog: Tag - List',
                     icon: 'ri-price-tag-3-line',
                     link: route('blogTag.index')
                 },
                 {
-                    label: 'Authors',
+                    get label() {
+                        return translate('common.menu.authors')
+                    },
                     permission: 'Blog: Author - List',
                     icon: 'ri-team-line',
                     link: route('blogAuthor.index')
@@ -144,37 +192,49 @@ export default {
         },
 
         {
-            label: 'Sliders',
+            get label() {
+                return translate('common.menu.sliders')
+            },
             permission: 'slider-list',
             icon: 'ri-image-line',
             link: route('slider.index')
         },
 
         {
-            label: 'Pages',
+            get label() {
+                return translate('common.menu.pages')
+            },
             permission: 'page-list',
             icon: 'ri-pages-line',
             link: route('page.index')
         },
 
         {
-            label: 'Access Control List',
+            get label() {
+                return translate('common.menu.access_control_list')
+            },
             permission: 'Acl',
             children: [
                 {
-                    label: 'Users',
+                    get label() {
+                        return translate('common.menu.users')
+                    },
                     permission: 'Acl: User - List',
                     icon: 'ri-user-line',
                     link: route('user.index')
                 },
                 {
-                    label: 'Permissions',
+                    get label() {
+                        return translate('common.menu.permissions')
+                    },
                     permission: 'Acl: Permission - List',
                     icon: 'ri-shield-keyhole-line',
                     link: route('aclPermission.index')
                 },
                 {
-                    label: 'Roles',
+                    get label() {
+                        return translate('common.menu.roles')
+                    },
                     permission: 'Acl: Role - List',
                     icon: 'ri-account-box-line',
                     link: route('aclRole.index')
@@ -183,14 +243,18 @@ export default {
         },
 
         {
-            label: 'Settings',
+            get label() {
+                return translate('common.menu.settings')
+            },
             permission: 'settings-list',
             icon: 'ri-settings-3-line',
             link: route('settings.show', { group: 'general' })
         },
 
         {
-            label: 'My Profile',
+            get label() {
+                return translate('common.menu.my_profile')
+            },
             icon: 'ri-user-settings-line',
             get link() {
                 return route('profile.show')

@@ -7,9 +7,6 @@
                 <AppButton class="btn btn-secondary" @click="$inertia.visit(route('order.index'))">
                     <i class="ri-arrow-left-line mr-1"></i> Back
                 </AppButton>
-                <AppButton class="btn btn-primary" :disabled="form.processing" @click="submitForm">
-                    <i class="ri-save-3-line mr-1"></i> {{ form.processing ? 'Saving…' : __('Save') }}
-                </AppButton>
             </div>
         </template>
     </AppSectionHeader>

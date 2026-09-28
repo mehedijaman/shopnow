@@ -13,7 +13,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'ShopNow'
 import { Link } from '@inertiajs/vue3'
 import Layout from './Layouts/AuthenticatedLayout.vue'
 
-import Translations from '@/Plugins/Translations'
+import Translations, { loadTranslations } from '@/Plugins/Translations'
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
