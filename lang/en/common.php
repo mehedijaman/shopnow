@@ -88,6 +88,15 @@ return [
     ],
 
     'field' => [
+        'summary' => 'Summary',
+        'sku' => 'SKU',
+        'slug' => 'Slug',
+        'attributes' => 'Attributes',
+        'tags' => 'Tags',
+        'sale' => 'Sale',
+        'image' => 'Image',
+        'values' => 'Values',
+        'virtual_short' => 'Virtual',
         'inactive' => 'Inactive',
         'brand' => 'Brand',
         'category' => 'Category',
@@ -162,6 +171,12 @@ return [
     'clear_filter' => 'Clear Filter',
     'apply_filter' => 'Apply Filter',
     'home' => 'Home',
+    'back_to_list' => 'Back to List',
+    'yes' => 'Yes',
+    'no' => 'No',
+    'optional' => 'Optional',
+    'required' => 'Required',
+    'preview' => 'Preview:',
     'remove' => 'Remove',
     'delete_permanently' => 'Delete Permanently',
     'edit' => 'Edit',
@@ -181,6 +196,7 @@ return [
     ],
 
     'header' => [
+        'qty' => 'Qty',
         'sl' => 'SL',
         'product' => 'Product',
         'category' => 'Category',

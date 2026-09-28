@@ -1,21 +1,21 @@
 <template>
   <div class="space-y-6">
-    <p class="text-sm text-skin-neutral-9">Define attributes and generate variations for this product.</p>
+    <p class="text-sm text-skin-neutral-9">{{ __('product::admin.define_attributes_hint') }}</p>
 
     <!-- Empty state: no attributes exist at all -->
     <div v-if="localAttributes.length === 0 && !showCreateForm" class="rounded-lg border border-dashed border-skin-neutral-5 bg-skin-neutral-2 p-6 text-center">
       <i class="ri-settings-3-line mb-2 text-3xl text-skin-neutral-8"></i>
-      <p class="mb-1 text-sm font-medium text-skin-neutral-12">No product attributes found</p>
-      <p class="mb-3 text-xs text-skin-neutral-9">Create attributes like <strong>Color</strong> or <strong>Size</strong> to define product variations.</p>
+      <p class="mb-1 text-sm font-medium text-skin-neutral-12">{{ __('product::admin.no_product_attributes') }}</p>
+      <p class="mb-3 text-xs text-skin-neutral-9" v-html="__('product::admin.attribute_hint')"></p>
       <AppButton size="sm" @click="showCreateForm = true">
-        <i class="ri-add-line mr-1"></i> Create First Attribute
+        <i class="ri-add-line mr-1"></i> {{ __('product::admin.create_first_attribute') }}
       </AppButton>
     </div>
 
     <!-- Inline Create Attribute Form -->
     <div v-if="showCreateForm" class="rounded-lg border border-skin-primary-6 bg-skin-primary-1 p-4">
       <div class="mb-3 flex items-center justify-between">
-        <h4 class="text-sm font-semibold text-skin-neutral-12">Create New Attribute</h4>
+        <h4 class="text-sm font-semibold text-skin-neutral-12">{{ __('product::admin.create_new_attribute') }}</h4>
         <button type="button" class="text-skin-neutral-9 hover:text-skin-neutral-12" @click="resetCreateForm">
           <i class="ri-close-line text-lg"></i>
         </button>
@@ -23,25 +23,25 @@
       <div class="space-y-3">
         <div class="flex gap-3">
           <div class="flex-1">
-            <AppLabel class="text-xs">Name <span class="text-red-500">*</span></AppLabel>
+            <AppLabel class="text-xs">{{ __('common.field.name') }} <span class="text-red-500">*</span></AppLabel>
             <AppInputText v-model="newAttr.name" type="text" placeholder="e.g. Color, Size" />
           </div>
           <div class="w-36">
-            <AppLabel class="text-xs">Type</AppLabel>
+            <AppLabel class="text-xs">{{ __('common.field.type') }}</AppLabel>
             <select
               v-model="newAttr.input_type"
               class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-sm text-skin-neutral-12 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7"
             >
-              <option value="select">Select</option>
-              <option value="color">Color</option>
-              <option value="image">Image</option>
+              <option value="select">{{ __('product::admin.attr_type_select') }}</option>
+              <option value="color">{{ __('product::admin.attr_type_color') }}</option>
+              <option value="image">{{ __('product::admin.attr_type_image') }}</option>
             </select>
           </div>
         </div>
 
         <!-- Values -->
         <div>
-          <AppLabel class="text-xs">Values</AppLabel>
+          <AppLabel class="text-xs">{{ __('common.field.values') }}</AppLabel>
           <div class="space-y-2">
             <div v-for="(val, i) in newAttr.values" :key="i" class="flex items-center gap-2">
               <input
@@ -70,15 +70,15 @@
             class="mt-2 flex items-center gap-1 text-xs text-skin-primary-9 hover:underline"
             @click="newAttr.values.push({ value: '', swatch: '' })"
           >
-            <i class="ri-add-line"></i> Add value
+            <i class="ri-add-line"></i> {{ __('product::admin.add_value') }}
           </button>
         </div>
 
         <div class="flex gap-2">
           <AppButton size="sm" :loading="creatingAttribute" @click="createAttribute">
-            <i class="ri-check-line mr-1"></i> Create & Use
+            <i class="ri-check-line mr-1"></i> {{ __('product::admin.create_and_use') }}
           </AppButton>
-          <AppButton size="sm" variant="ghost" @click="resetCreateForm">Cancel</AppButton>
+          <AppButton size="sm" variant="ghost" @click="resetCreateForm">{{ __('common.cancel') }}</AppButton>
         </div>
       </div>
     </div>
@@ -87,7 +87,7 @@
     <div v-if="variations.length > 0 && priceRange" class="flex items-center gap-2 rounded-lg border border-skin-neutral-5 bg-skin-neutral-2 px-4 py-2.5">
       <i class="ri-money-dollar-circle-line text-skin-primary-9"></i>
       <span class="text-sm font-semibold text-skin-neutral-12">{{ priceRange }}</span>
-      <span class="text-xs text-skin-neutral-9">price range (active variations)</span>
+      <span class="text-xs text-skin-neutral-9">{{ __('product::admin.price_range_active') }}</span>
     </div>
 
     <!-- Attribute value selectors -->
@@ -119,21 +119,21 @@
     <div v-if="Object.keys(selected).length > 0" class="space-y-2">
       <div v-if="!props.productId" class="rounded-md bg-skin-warning-light px-3 py-2 text-xs text-skin-warning-dark">
         <i class="ri-information-line mr-1"></i>
-        Save the product first, then manage variations from the edit page.
+        {{ __('product::admin.save_first_variations') }}
       </div>
       <div class="flex items-center gap-3">
         <AppButton class="btn btn-primary btn-sm" :loading="generating" :disabled="!props.productId" @click="generateVariations">
           <i class="ri-refresh-line mr-1"></i>
-          Generate Variations
+          {{ __('product::admin.generate_variations') }}
         </AppButton>
-        <span v-if="generatedCount > 0" class="text-xs text-skin-neutral-9">{{ generatedCount }} variation(s) generated</span>
+        <span v-if="generatedCount > 0" class="text-xs text-skin-neutral-9">{{ __('product::admin.generated_count', { count: generatedCount }) }}</span>
         <button
           v-if="localAttributes.length > 0"
           type="button"
           class="text-xs text-skin-primary-9 hover:underline"
           @click="showCreateForm = true"
         >
-          + Add another attribute
+          {{ __('product::admin.add_another_attribute') }}
         </button>
       </div>
     </div>
@@ -144,14 +144,14 @@
         <thead>
           <tr class="border-b border-skin-neutral-4 bg-skin-neutral-2 text-left text-xs font-semibold uppercase tracking-wider text-skin-neutral-8">
             <th class="px-3 py-2">#</th>
-            <th class="px-3 py-2">Attributes</th>
-            <th class="px-3 py-2">SKU</th>
-            <th class="px-3 py-2 text-right">Price</th>
-            <th class="px-3 py-2 text-right">Sale</th>
-            <th class="px-3 py-2 text-center">Qty</th>
-            <th class="px-3 py-2 text-center">Active</th>
-            <th class="px-3 py-2 text-center">Image</th>
-            <th class="px-3 py-2 text-right">Actions</th>
+            <th class="px-3 py-2">{{ __('common.field.attributes') }}</th>
+            <th class="px-3 py-2">{{ __('common.field.sku') }}</th>
+            <th class="px-3 py-2 text-right">{{ __('common.field.price') }}</th>
+            <th class="px-3 py-2 text-right">{{ __('common.field.sale') }}</th>
+            <th class="px-3 py-2 text-center">{{ __('common.header.qty') }}</th>
+            <th class="px-3 py-2 text-center">{{ __('common.field.active') }}</th>
+            <th class="px-3 py-2 text-center">{{ __('common.field.image') }}</th>
+            <th class="px-3 py-2 text-right">{{ __('common.header.actions') }}</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-skin-neutral-3">
@@ -208,7 +208,7 @@
                 <!-- Upload / Edit Button -->
                 <label
                   class="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-skin-neutral-2 text-skin-neutral-10 shadow-xs ring-1 ring-skin-neutral-5 hover:bg-skin-primary-1 hover:text-skin-primary-9 transition-colors"
-                  title="Upload / Change Image"
+                  :title="__('product::admin.upload_change_image')"
                 >
                   <input type="file" accept="image/*" class="sr-only" @change="uploadVariationImage(v, $event)" />
                   <i v-if="v.image_url" class="ri-edit-line text-sm"></i>
@@ -221,7 +221,7 @@
                   :href="v.image_url"
                   target="_blank"
                   class="flex h-7 w-7 items-center justify-center rounded-full bg-skin-neutral-2 text-skin-neutral-10 shadow-xs ring-1 ring-skin-neutral-5 hover:bg-skin-info-light hover:text-skin-info-dark transition-colors"
-                  title="Preview Image"
+                  :title="__('product::admin.preview_image')"
                 >
                   <i class="ri-eye-line text-sm"></i>
                 </a>
@@ -231,7 +231,7 @@
                   v-if="v.image_url"
                   type="button"
                   class="flex h-7 w-7 items-center justify-center rounded-full bg-skin-neutral-2 text-skin-neutral-10 shadow-xs ring-1 ring-skin-neutral-5 hover:bg-red-50 hover:text-red-600 transition-colors"
-                  title="Remove Image"
+                  :title="__('product::admin.remove_image')"
                   @click="removeVariationImage(v)"
                 >
                   <i class="ri-delete-bin-line text-sm"></i>
@@ -243,7 +243,7 @@
                 <button
                   type="button"
                   class="rounded p-1 text-skin-neutral-8 transition-colors hover:bg-red-50 hover:text-red-600"
-                  title="Remove variation"
+                  :title="__('product::admin.remove_variation')"
                   @click="removeVariation(v)"
                 >
                   <i class="ri-delete-bin-line text-xs"></i>
@@ -268,6 +268,8 @@ const props = defineProps({
 
 // Local copy of attributes — can be refreshed after inline creation
 const localAttributes = ref([...props.allAttributes])
+
+const translate = inject('translate')
 
 const selected = reactive({})
 const variations = ref([])
@@ -450,7 +452,7 @@ const removeVariation = (v) => {
   if (confirmDelete) {
     confirmDelete(doDelete)
   } else {
-    if (!confirm('Remove this variation? This cannot be undone.')) return
+    if (!confirm(translate('product::admin.remove_variation_confirm'))) return
     doDelete()
   }
 }

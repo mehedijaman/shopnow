@@ -86,6 +86,15 @@ return [
     ],
 
     'field' => [
+        'summary' => 'সারাংশ',
+        'sku' => 'এসকেইউ',
+        'slug' => 'স্লাগ',
+        'attributes' => 'বৈশিষ্ট্যসমূহ',
+        'tags' => 'ট্যাগ',
+        'sale' => 'সেল',
+        'image' => 'ছবি',
+        'values' => 'মানসমূহ',
+        'virtual_short' => 'ভার্চুয়াল',
         'inactive' => 'নিষ্ক্রিয়',
         'brand' => 'ব্র্যান্ড',
         'category' => 'ক্যাটাগরি',
@@ -160,6 +169,12 @@ return [
     'clear_filter' => 'ফিল্টার মুছুন',
     'apply_filter' => 'ফিল্টার প্রয়োগ করুন',
     'home' => 'হোম',
+    'back_to_list' => 'তালিকায় ফিরে যান',
+    'yes' => 'হ্যাঁ',
+    'no' => 'না',
+    'optional' => 'ঐচ্ছিক',
+    'required' => 'আবশ্যক',
+    'preview' => 'প্রিভিউ:',
     'remove' => 'সরান',
     'delete_permanently' => 'স্থায়ীভাবে ডিলিট',
     'edit' => 'সম্পাদনা',
@@ -179,6 +194,7 @@ return [
     ],
 
     'header' => [
+        'qty' => 'পরিমাণ',
         'sl' => 'ক্রমিক',
         'product' => 'পণ্য',
         'category' => 'ক্যাটাগরি',

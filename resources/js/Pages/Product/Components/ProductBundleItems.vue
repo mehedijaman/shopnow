@@ -7,39 +7,39 @@
             <template #title>
                 <div class="flex items-center gap-2">
                     <i class="ri-price-tag-3-line text-skin-primary-9"></i>
-                    Bundle Pricing
+                    {{ __('product::admin.bundle_pricing') }}
                 </div>
             </template>
             <template #content>
                 <div class="space-y-4">
                     <div>
-                        <AppLabel for="pricing_type">Pricing Type</AppLabel>
+                        <AppLabel for="pricing_type">{{ __('product::admin.pricing_type') }}</AppLabel>
                         <select
                             id="pricing_type"
                             v-model="pricingType"
                             class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-skin-neutral-12 placeholder-skin-neutral-9 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
                         >
-                            <option value="calculated">Calculated (sum of children)</option>
-                            <option value="fixed">Fixed Price</option>
+                            <option value="calculated">{{ __('product::admin.pricing_calculated') }}</option>
+                            <option value="fixed">{{ __('product::admin.pricing_fixed') }}</option>
                         </select>
                     </div>
 
                     <div v-if="pricingType === 'calculated'">
                         <div>
-                            <AppLabel for="discount_type">Discount Type</AppLabel>
+                            <AppLabel for="discount_type">{{ __('product::admin.discount_type') }}</AppLabel>
                             <select
                                 id="discount_type"
                                 v-model="discountType"
                                 class="mt-1 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-skin-neutral-12 placeholder-skin-neutral-9 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
                             >
-                                <option value="none">No Discount</option>
-                                <option value="percentage">Percentage (%)</option>
-                                <option value="fixed_amount">Fixed Amount</option>
+                                <option value="none">{{ __('product::admin.discount_none') }}</option>
+                                <option value="percentage">{{ __('product::admin.discount_percentage') }}</option>
+                                <option value="fixed_amount">{{ __('product::admin.discount_fixed_amount') }}</option>
                             </select>
                         </div>
                         <div v-if="discountType !== 'none'" class="mt-3">
                             <AppLabel for="discount_value">
-                                {{ discountType === 'percentage' ? 'Discount %' : 'Discount Amount' }}
+                                {{ discountType === 'percentage' ? __('product::admin.discount_percent_label') : __('product::admin.discount_amount_label') }}
                             </AppLabel>
                             <AppInputText
                                 id="discount_value"
@@ -52,7 +52,7 @@
                     </div>
 
                     <div v-if="pricingType === 'fixed'">
-                        <AppLabel for="fixed_price">Fixed Bundle Price</AppLabel>
+                        <AppLabel for="fixed_price">{{ __('product::admin.fixed_bundle_price') }}</AppLabel>
                         <AppInputText
                             id="fixed_price"
                             v-model="fixedPrice"
@@ -63,9 +63,9 @@
                     </div>
 
                     <div class="flex items-center gap-2">
-                        <AppButton size="sm" @click="saveConfig">Save Pricing Config</AppButton>
+                        <AppButton size="sm" @click="saveConfig">{{ __('product::admin.save_pricing_config') }}</AppButton>
                         <span v-if="pricePreview !== null" class="text-sm text-skin-neutral-9">
-                            Preview: {{ currency(pricePreview) }}
+                            {{ __('common.preview') }} {{ currency(pricePreview) }}
                         </span>
                     </div>
                 </div>
@@ -77,12 +77,12 @@
             <template #title>
                 <div class="flex items-center gap-2">
                     <i class="ri-gift-line text-skin-primary-9"></i>
-                    Bundle Items
+                    {{ __('product::admin.bundle_items') }}
                 </div>
             </template>
             <template #content>
                 <p class="mb-3 text-xs text-skin-neutral-9">
-                    Products included in this bundle. Drag to reorder. Optional items can be skipped by the customer.
+                    {{ __('product::admin.bundle_items_hint') }}
                 </p>
 
                 <div v-if="savingItem" class="mb-4 flex items-center gap-3 rounded-lg border border-skin-neutral-6 bg-skin-neutral-2 p-3">
@@ -91,38 +91,38 @@
                             v-model="newChildId"
                             class="mb-2 block w-full rounded-md border-0 bg-skin-neutral-1 px-3 py-2 text-skin-neutral-12 shadow-xs ring-1 ring-inset ring-skin-neutral-7 focus:ring-2 focus:ring-inset focus:ring-skin-neutral-7 sm:text-sm sm:leading-6"
                         >
-                            <option :value="null">-- Select Product --</option>
+                            <option :value="null">{{ __('product::admin.select_product') }}</option>
                             <option v-for="p in allProducts" :key="p.id" :value="p.id">
-                                {{ p.name }} ({{ currency(p.sale_price ?? p.price) }}, stock: {{ p.quantity }})
+                                {{ p.name }} ({{ currency(p.sale_price ?? p.price) }}, {{ __('common.field.stock') }}: {{ p.quantity }})
                             </option>
                         </select>
                         <div class="flex flex-wrap gap-2">
                             <div>
-                                <AppLabel class="text-xs">Qty</AppLabel>
+                                <AppLabel class="text-xs">{{ __('common.header.qty') }}</AppLabel>
                                 <AppInputText v-model="newQty" type="number" min="1" class="w-20" />
                             </div>
                             <label class="flex cursor-pointer items-center gap-1 text-xs">
                                 <AppCheckbox v-model="newOptional" :value="true" />
-                                Optional
+                                {{ __('common.optional') }}
                             </label>
                             <div>
-                                <AppLabel class="text-xs">Price Override</AppLabel>
-                                <AppInputText v-model="newPriceOverride" type="number" step="0.01" placeholder="auto" class="w-24" />
+                                <AppLabel class="text-xs">{{ __('product::admin.price_override') }}</AppLabel>
+                                <AppInputText v-model="newPriceOverride" type="number" step="0.01" :placeholder="__('product::admin.auto_placeholder')" class="w-24" />
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-col gap-1">
-                        <button class="btn btn-sm btn-primary" :disabled="!newChildId" @click="addItem">Add</button>
-                        <button class="btn btn-sm btn-ghost" @click="savingItem = false">Cancel</button>
+                        <button class="btn btn-sm btn-primary" :disabled="!newChildId" @click="addItem">{{ __('common.add') }}</button>
+                        <button class="btn btn-sm btn-ghost" @click="savingItem = false">{{ __('common.cancel') }}</button>
                     </div>
                 </div>
 
                 <AppButton v-else size="sm" @click="savingItem = true">
-                    <i class="ri-add-line mr-1"></i> Add Bundle Item
+                    <i class="ri-add-line mr-1"></i> {{ __('product::admin.add_bundle_item') }}
                 </AppButton>
 
                 <div v-if="items.length === 0" class="py-6 text-center text-sm text-skin-neutral-9">
-                    No items added yet.
+                    {{ __('product::admin.no_items_added') }}
                 </div>
 
                 <draggable
@@ -140,9 +140,9 @@
                             <div class="min-w-0 flex-1">
                                 <div class="text-sm font-medium">{{ element.child_product_name }}</div>
                                 <div class="text-xs text-skin-neutral-9">
-                                    Qty: {{ element.quantity }} |
-                                    Price: {{ currency(element.price_override ?? element.child_product_price) }}
-                                    <span v-if="element.is_optional" class="ml-1 text-skin-info-9">(optional)</span>
+                                    {{ __('product::admin.item_qty_label') }} {{ element.quantity }} |
+                                    {{ __('product::admin.item_price_label') }} {{ currency(element.price_override ?? element.child_product_price) }}
+                                    <span v-if="element.is_optional" class="ml-1 text-skin-info-9">{{ __('product::admin.item_optional') }}</span>
                                 </div>
                             </div>
                             <button class="btn btn-sm btn-ghost text-red-500" @click="removeItem(element.id)">
@@ -157,12 +157,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, inject } from 'vue'
 import axios from 'axios'
 import useFormErrors from '@/Composables/useFormErrors'
 import draggable from 'vuedraggable'
 
 const { errorsFields } = useFormErrors()
+const translate = inject('translate')
 
 const currency = (val) => {
   if (val == null) return '৳0.00'
