@@ -13,14 +13,20 @@ class CustomerOrderConfirmationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public readonly Order $order) {}
+    public function __construct(public readonly Order $order)
+    {
+        $this->locale = $order->locale;
+    }
 
     public function envelope(): Envelope
     {
         $siteName = setting('branding.site_name', config('app.name'));
 
         return new Envelope(
-            subject: 'Order Confirmation #'.$this->order->id.' — '.$siteName,
+            subject: __('order::mail.confirmation.subject', [
+                'id' => $this->order->id,
+                'site' => $siteName,
+            ]),
         );
     }
 

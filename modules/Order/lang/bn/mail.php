@@ -1,0 +1,42 @@
+<?php
+
+return [
+
+    'confirmation' => [
+        'subject' => 'অর্ডার নিশ্চিতকরণ #:id — :site',
+        'title' => 'অর্ডার নিশ্চিতকরণ #:id',
+        'thanks_heading' => 'আপনার অর্ডারের জন্য ধন্যবাদ!',
+        'thanks_body' => ':name, আপনার অর্ডারটি আমরা পেয়েছি এবং এটি প্রস্তুত করছি।',
+        'order_details' => 'অর্ডারের বিস্তারিত',
+        'order_number' => 'অর্ডার নম্বর',
+        'date' => 'তারিখ',
+        'payment' => 'পেমেন্ট',
+        'cash_on_delivery' => 'ক্যাশ অন ডেলিভারি',
+        'status' => 'স্ট্যাটাস',
+        'status_fallback' => 'অপেক্ষমাণ',
+        'delivery_information' => 'ডেলিভারি তথ্য',
+        'recipient' => 'প্রাপক',
+        'phone' => 'ফোন',
+        'area' => 'এলাকা',
+        'address' => 'ঠিকানা',
+        'items_heading' => 'অর্ডার করা আইটেম',
+        'col_item' => 'আইটেমের বিবরণ',
+        'col_qty' => 'পরিমাণ',
+        'col_price' => 'দাম',
+        'col_total' => 'মোট',
+        'product_fallback' => 'পণ্য #:id',
+        'bundle_item' => 'বান্ডেল আইটেম',
+        'subtotal' => 'সাবটোটাল',
+        'shipping_charge' => 'ডেলিভারি চার্জ',
+        'free' => 'ফ্রি',
+        'tax' => 'কর',
+        'discount' => 'ছাড়',
+        'total_amount' => 'মোট টাকা',
+        'view_confirmation' => 'অর্ডার নিশ্চিতকরণ দেখুন',
+        'need_help' => 'আপনার অর্ডার নিয়ে সাহায্য দরকার?',
+        'email_us' => 'আমাদের ইমেইল করুন',
+        'call_us' => 'আমাদের কল করুন',
+        'rights' => 'সর্বস্বত্ব সংরক্ষিত।',
+    ],
+
+];

@@ -36,7 +36,9 @@ class ResetPassword extends Notification
             'email' => $notifiable->getEmailForPasswordReset(),
         ];
 
-        return (new MailMessage)->markdown(
+        return (new MailMessage)->subject(
+            __('customer-auth::mail.reset.subject')
+        )->markdown(
             'customer-auth::emails.reset-password',
             [
                 'url' => url(route('customerAuth.resetPasswordForm', $params, false)),

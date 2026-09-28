@@ -19,21 +19,23 @@ class ProductDownloadReadyMail extends Mailable implements ShouldQueue
      */
     public function __construct(
         public readonly array $permissions,
-    ) {}
+    ) {
+        $this->locale = ($permissions[0] ?? null)?->order?->locale;
+    }
 
     public function envelope(): Envelope
     {
         $siteName = setting('branding.site_name', config('app.name'));
 
         return new Envelope(
-            subject: 'Your Downloads Are Ready — '.$siteName,
+            subject: __('product::mail.download_ready.subject', ['site' => $siteName]),
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            view: 'product::emails.download-ready',
+            markdown: 'product::emails.download-ready',
             with: [
                 'permissions' => $this->permissions,
             ],

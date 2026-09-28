@@ -1,24 +1,28 @@
 @component('mail::message')
-# Your Downloads Are Ready
+# {{ __('product::mail.download_ready.heading') }}
 
-Thank you for your purchase! Your downloadable files are now available.
+{{ __('product::mail.download_ready.intro') }}
 
 @foreach ($permissions as $permission)
 **{{ $permission->productFile->name }}**
 
 @php
-$maxText = $permission->download_limit ? 'max. ' . $permission->download_limit . ' download(s)' : 'unlimited downloads';
-$expiryText = $permission->expires_at ? 'Expires: ' . $permission->expires_at->format('d M Y') : 'No expiry';
+$maxText = $permission->download_limit
+    ? __('product::mail.download_ready.max_downloads', ['count' => $permission->download_limit])
+    : __('product::mail.download_ready.unlimited');
+$expiryText = $permission->expires_at
+    ? __('product::mail.download_ready.expires', ['date' => $permission->expires_at->format('d M Y')])
+    : __('product::mail.download_ready.no_expiry');
 @endphp
 
 @component('mail::button', ['url' => url('/download/' . $permission->download_token)])
-Download Now
+{{ __('product::mail.download_ready.button') }}
 @endcomponent
 
 *{{ $maxText }} &middot; {{ $expiryText }}*
 
 @endforeach
 
-Thanks,<br>
+{{ __('product::mail.download_ready.thanks') }}<br>
 {{ setting('branding.site_name', config('app.name')) }}
 @endcomponent

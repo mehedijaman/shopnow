@@ -1,0 +1,42 @@
+<?php
+
+return [
+
+    'confirmation' => [
+        'subject' => 'Order Confirmation #:id — :site',
+        'title' => 'Order Confirmation #:id',
+        'thanks_heading' => 'Thank you for your order!',
+        'thanks_body' => 'Hi :name, we\'ve received your order and are getting it ready.',
+        'order_details' => 'Order Details',
+        'order_number' => 'Order Number:',
+        'date' => 'Date:',
+        'payment' => 'Payment:',
+        'cash_on_delivery' => 'Cash on Delivery',
+        'status' => 'Status:',
+        'status_fallback' => 'Pending',
+        'delivery_information' => 'Delivery Information',
+        'recipient' => 'Recipient:',
+        'phone' => 'Phone:',
+        'area' => 'Area:',
+        'address' => 'Address:',
+        'items_heading' => 'Order Items',
+        'col_item' => 'Item Description',
+        'col_qty' => 'Qty',
+        'col_price' => 'Price',
+        'col_total' => 'Total',
+        'product_fallback' => 'Product #:id',
+        'bundle_item' => 'Bundle Item',
+        'subtotal' => 'Subtotal',
+        'shipping_charge' => 'Shipping Charge',
+        'free' => 'Free',
+        'tax' => 'Tax',
+        'discount' => 'Discount',
+        'total_amount' => 'Total Amount',
+        'view_confirmation' => 'View Order Confirmation',
+        'need_help' => 'Need help with your order?',
+        'email_us' => 'Email us at',
+        'call_us' => 'Call us at',
+        'rights' => 'All rights reserved.',
+    ],
+
+];

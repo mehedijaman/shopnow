@@ -1,12 +1,12 @@
 @component('mail::message')
-# Forgot your password?
+# {{ __('customer-auth::mail.reset.heading') }}
 
-Here is your password reset link.
+{{ __('customer-auth::mail.reset.intro') }}
 
 @component('mail::button', ['url' => $url])
-Reset Password
+{{ __('customer-auth::mail.reset.button') }}
 @endcomponent
 
-Thanks,<br>
+{{ __('customer-auth::mail.reset.thanks') }}<br>
 {{ config('app.name') }}
 @endcomponent
