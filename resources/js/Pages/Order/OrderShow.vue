@@ -10,19 +10,19 @@
                     class="btn btn-secondary inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold transition duration-150 ease-in-out sm:px-4"
                     @click="$inertia.visit(route('order.index'))">
                     <i class="ri-arrow-left-line text-lg"></i>
-                    <span>Back to Orders</span>
+                    <span>{{ __('order::admin.back_to_orders') }}</span>
                 </AppButton>
                 <AppButton
                     class="btn btn-secondary inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold transition duration-150 ease-in-out sm:px-4"
                     @click="$inertia.visit(route('order.edit', order.id))">
                     <i class="ri-pencil-line text-lg"></i>
-                    <span>Edit Order</span>
+                    <span>{{ __('order::admin.edit_order_btn') }}</span>
                 </AppButton>
                 <button type="button"
                     class="btn btn-secondary inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold border border-skin-neutral-4 transition duration-150 ease-in-out sm:px-4"
                     @click="printInvoice">
                     <i class="ri-printer-line text-lg"></i>
-                    <span>Print Invoice</span>
+                    <span>{{ __('order::admin.print_invoice') }}</span>
                 </button>
                 <!-- <a :href="route('order.downloadInvoice', order.id)"
                     class="btn btn-primary inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold shadow-xs transition duration-150 ease-in-out sm:px-4">
@@ -50,14 +50,14 @@
                         <div class="min-w-0 flex-1">
                             <div class="flex items-center gap-2">
                                 <h1 class="text-lg font-extrabold tracking-tight text-skin-neutral-12 truncate">
-                                    Order #{{ order.id }}
+                                    {{ __('order::admin.order_no') }}{{ order.id }}
                                 </h1>
                                 <button type="button"
                                     class="inline-flex items-center gap-1 rounded-lg bg-skin-neutral-3 px-2 py-0.5 text-xs font-semibold text-skin-neutral-11 hover:bg-skin-neutral-4 transition-colors shrink-0"
-                                    @click="copyToClipboard(order.id, 'order_id')" title="Copy Order ID">
+                                    @click="copyToClipboard(order.id, 'order_id')" :title="__('order::admin.copy_order_id')">
                                     <i
                                         :class="copiedKey === 'order_id' ? 'ri-check-line text-emerald-600' : 'ri-file-copy-line'"></i>
-                                    <span>{{ copiedKey === 'order_id' ? 'Copied' : 'Copy' }}</span>
+                                    <span>{{ copiedKey === 'order_id' ? __('order::admin.copied') : __('order::admin.copy') }}</span>
                                 </button>
                             </div>
                             <p
@@ -66,7 +66,7 @@
                                 <span class="text-skin-neutral-6">•</span>
                                 <span :class="order.requires_shipping ? 'text-blue-600' : 'text-purple-600'"
                                     class="font-semibold">
-                                    {{ order.requires_shipping ? 'Physical Shipping' : 'Digital / Virtual' }}
+                                    {{ order.requires_shipping ? __('order::admin.physical_shipping') : __('order::admin.digital_virtual') }}
                                 </span>
                             </p>
                         </div>
@@ -77,32 +77,32 @@
                         <div class="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold ring-1 ring-inset"
                             :class="statusClass(order.status)">
                             <span class="h-2 w-2 rounded-full" :class="statusDotClass(order.status)"></span>
-                            <span class="capitalize">Order: {{ order.status }}</span>
+                            <span class="capitalize">{{ __('order::admin.order_colon') }} {{ orderStatusText(order.status) }}</span>
                         </div>
                         <div class="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold ring-1 ring-inset"
                             :class="paymentStatusClass(order.payment_status)">
                             <i :class="order.payment_status === 'paid' ? 'ri-checkbox-circle-fill' : 'ri-time-line'"
                                 class="text-sm"></i>
-                            <span class="capitalize">Payment: {{ order.payment_status }}</span>
+                            <span class="capitalize">{{ __('order::admin.payment_colon') }} {{ paymentStatusText(order.payment_status) }}</span>
                         </div>
                         <div v-if="order.coupon_code"
                             class="flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 ring-1 ring-emerald-200 ring-inset">
                             <i class="ri-price-tag-3-line"></i>
                             <span>{{ order.coupon_code }}<template v-if="Number(order.discount) > 0">
-                                    (-{{ formatMoney(order.discount) }} Tk)</template></span>
+                                    (-{{ formatMoney(order.discount) }} {{ __('order::admin.tk') }})</template></span>
                         </div>
                         <div v-if="order.fraud_risk === 'high'"
                             class="flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1 text-xs font-bold text-rose-700 ring-1 ring-rose-200 ring-inset"
                             :title="fraudSummary">
                             <i class="ri-shield-star-line"></i>
-                            <span>High Fraud Risk</span>
+                            <span>{{ __('order::admin.high_fraud_risk') }}</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Status Timeline Stepper (Vertical Timeline) -->
                 <div v-if="order.status !== 'cancelled'" class="py-1">
-                    <h3 class="text-xs font-bold  tracking-wider text-skin-neutral-9 mb-4">Status Timeline</h3>
+                    <h3 class="text-xs font-bold  tracking-wider text-skin-neutral-9 mb-4">{{ __('order::admin.status_timeline') }}</h3>
                     <div class="relative space-y-6 pl-1">
                         <div v-for="(step, idx) in pipelineSteps" :key="step.key"
                             class="relative flex items-start gap-3.5 group">
@@ -129,9 +129,11 @@
                                     {{ step.label }}
                                 </p>
                                 <p class="text-[11px] font-medium  capitalize mt-0.5">
-                                    {{ getStepState(step.key) === 'completed' ? 'Completed' : (getStepState(step.key)
-                                        ===
-                                        'active' ? 'Current Phase' : 'Pending') }}
+                                    {{ getStepState(step.key) === 'completed'
+                                        ? __('order::admin.step_state_completed')
+                                        : (getStepState(step.key) === 'active'
+                                            ? __('order::admin.step_state_current')
+                                            : __('order::admin.step_state_pending')) }}
                                 </p>
                             </div>
                         </div>
@@ -143,15 +145,15 @@
                     class="rounded-xl bg-rose-50 border border-rose-200 p-4 flex items-center gap-3 text-rose-800">
                     <i class="ri-close-circle-fill text-xl text-rose-600 shrink-0"></i>
                     <div>
-                        <h4 class="text-xs font-bold">This Order Has Been Cancelled</h4>
-                        <p class="text-[11px] text-rose-700 mt-0.5">The order workflow was interrupted or voided.</p>
+                        <h4 class="text-xs font-bold">{{ __('order::admin.cancelled_title') }}</h4>
+                        <p class="text-[11px] text-rose-700 mt-0.5">{{ __('order::admin.cancelled_desc') }}</p>
                     </div>
                 </div>
             </div>
 
             <!-- Customer Notes Card -->
-            <OrderSectionCard v-if="order.notes" title="Customer Notes"
-                description="Instructions provided during checkout" icon="ri-sticky-note-line"
+            <OrderSectionCard v-if="order.notes" :title="__('order::admin.customer_notes')"
+                :description="__('order::admin.customer_notes_desc')" icon="ri-sticky-note-line"
                 icon-class="bg-amber-50 text-amber-600 ring-1 ring-amber-500/10">
                 <div
                     class="rounded-xl bg-amber-50/50 border border-amber-200/70 p-4 text-xs font-medium leading-relaxed text-amber-900 flex items-start gap-2.5">
@@ -161,17 +163,17 @@
             </OrderSectionCard>
 
             <!-- Digital Download Access Card -->
-            <OrderSectionCard v-if="order.downloadPermissions?.length" flush title="Digital Download Access"
-                description="File download quota & permissions" icon="ri-download-cloud-line"
+            <OrderSectionCard v-if="order.downloadPermissions?.length" flush :title="__('order::admin.digital_download_access')"
+                :description="__('order::admin.digital_download_access_desc')" icon="ri-download-cloud-line"
                 icon-class="bg-amber-50 text-amber-600 ring-1 ring-amber-500/10">
                 <div class="overflow-x-auto">
                     <table class="w-full text-xs text-left">
                         <thead>
                             <tr
                                 class="border-b border-skin-neutral-4/80 bg-skin-neutral-2/60 font-bold  tracking-wider text-skin-neutral-9">
-                                <th class="px-3 py-2.5">Item</th>
-                                <th class="px-2 py-2.5 text-center">Downloads</th>
-                                <th class="px-3 py-2.5 text-center">Action</th>
+                                <th class="px-3 py-2.5">{{ __('order::admin.item') }}</th>
+                                <th class="px-2 py-2.5 text-center">{{ __('order::admin.downloads') }}</th>
+                                <th class="px-3 py-2.5 text-center">{{ __('common.header.action') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-skin-neutral-3/70">
@@ -189,7 +191,7 @@
                                         :class="dp.active ? 'bg-rose-50 text-rose-600 hover:bg-rose-100' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'"
                                         class="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-bold transition-colors disabled:opacity-50"
                                         @click="togglePermission(dp.id)">
-                                        {{ dp.active ? 'Revoke' : 'Activate' }}
+                                        {{ dp.active ? __('order::admin.revoke') : __('order::admin.activate') }}
                                     </button>
                                 </td>
                             </tr>
@@ -249,7 +251,7 @@
                         <div class="text-left sm:text-right">
                             <span
                                 class="inline-block py-0.5 text-base sm:text-lg font-black tracking-widest text-black">
-                                Invoice
+                                {{ __('order::admin.invoice') }}
                             </span>
                             <p class="font-mono font-extrabold text-black mt-0.5 text-xs sm:text-sm">#{{ order.id }}</p>
                         </div>
@@ -260,42 +262,42 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-black printable-customer-box">
                     <div class="space-y-1 text-xs">
                         <div class="flex items-start gap-2">
-                            <span class="w-16 shrink-0 font-bold tracking-wider text-black">Name:</span>
-                            <span class="font-extrabold text-black break-words">{{ order.name || 'N/A' }}</span>
+                            <span class="w-16 shrink-0 font-bold tracking-wider text-black">{{ __('order::admin.name_colon') }}</span>
+                            <span class="font-extrabold text-black break-words">{{ order.name || __('order::admin.n_a') }}</span>
                         </div>
                         <div class="flex items-start gap-2">
-                            <span class="w-16 shrink-0 font-bold tracking-wider text-black">Phone:</span>
+                            <span class="w-16 shrink-0 font-bold tracking-wider text-black">{{ __('order::admin.phone_colon') }}</span>
                             <a v-if="order.phone" :href="`tel:${order.phone}`"
                                 class="font-bold text-black hover:underline break-all">{{ order.phone }}</a>
-                            <span v-else>N/A</span>
+                            <span v-else>{{ __('order::admin.n_a') }}</span>
                         </div>
                         <div class="flex items-start gap-2">
-                            <span class="w-16 shrink-0 font-bold  tracking-wider text-black">Address:</span>
-                            <span class="font-semibold text-black leading-tight break-words">{{ order.address || 'N/A'
+                            <span class="w-16 shrink-0 font-bold  tracking-wider text-black">{{ __('order::admin.address_colon') }}</span>
+                            <span class="font-semibold text-black leading-tight break-words">{{ order.address || __('order::admin.n_a')
                             }}</span>
                         </div>
                     </div>
                     <div class="space-y-1 sm:border-l sm:border-black sm:pl-3 text-xs">
                         <div class="flex items-center justify-between gap-2 text-xs">
-                            <span class="font-bold tracking-wider text-black shrink-0">Invoice Date:</span>
+                            <span class="font-bold tracking-wider text-black shrink-0">{{ __('order::admin.invoice_date_colon') }}</span>
                             <span class="font-semibold text-black text-right">{{ order.created_at }}</span>
                         </div>
                         <div class="flex items-center justify-between gap-2 text-xs">
-                            <span class="font-bold tracking-wider text-black shrink-0">Payment Method:</span>
+                            <span class="font-bold tracking-wider text-black shrink-0">{{ __('order::admin.payment_method_colon') }}</span>
                             <span class="font-bold text-black text-right">{{ formatPaymentMethod(order.payment_method)
                             }}</span>
                         </div>
 
                         <div class="flex items-center justify-between gap-2 text-xs">
-                            <span class="font-bold tracking-wider text-black shrink-0">Payment Status:</span>
+                            <span class="font-bold tracking-wider text-black shrink-0">{{ __('order::admin.payment_status_colon') }}</span>
                             <span
                                 class="rounded-full px-2 py-0.5 text-[11px] font-bold capitalize ring-1 ring-black border border-black text-black bg-neutral-100 shrink-0">
-                                {{ order.payment_status }}
+                                {{ paymentStatusText(order.payment_status) }}
                             </span>
                         </div>
 
                         <div v-if="invoiceShipment?.tracking_number" class="flex items-center justify-between gap-2 text-xs">
-                            <span class="font-bold tracking-wider text-black shrink-0">Tracking No:</span>
+                            <span class="font-bold tracking-wider text-black shrink-0">{{ __('order::admin.tracking_no_colon') }}</span>
                             <a v-if="invoiceShipment.tracking_url" :href="invoiceShipment.tracking_url" target="_blank"
                                 rel="noopener noreferrer"
                                 class="font-mono font-bold text-black text-right hover:underline break-all">
@@ -304,7 +306,7 @@
                             <span v-else class="font-mono font-bold text-black text-right break-all">{{ invoiceShipment.tracking_number }}</span>
                         </div>
                         <div v-if="invoiceShipment?.consignment_id" class="flex items-center justify-between gap-2 text-xs">
-                            <span class="font-bold tracking-wider text-black shrink-0">Consignment ID:</span>
+                            <span class="font-bold tracking-wider text-black shrink-0">{{ __('order::admin.consignment_id_colon') }}</span>
                             <span class="font-mono font-bold text-black text-right break-all">{{ invoiceShipment.consignment_id }}</span>
                         </div>
                     </div>
@@ -317,10 +319,10 @@
                             <tr
                                 class="border-y border-black bg-neutral-100 text-[11px] font-bold uppercase tracking-wider text-black">
                                 <th class="px-2.5 py-2 w-8 text-center">#</th>
-                                <th class="px-3 py-2">Item Description</th>
-                                <th class="px-3 py-2 text-center">Qty</th>
-                                <th class="px-3 py-2 text-right">Unit Price</th>
-                                <th class="px-3 py-2 text-right">Total Amount</th>
+                                <th class="px-3 py-2">{{ __('order::admin.item_description') }}</th>
+                                <th class="px-3 py-2 text-center">{{ __('common.header.qty') }}</th>
+                                <th class="px-3 py-2 text-right">{{ __('order::admin.unit_price') }}</th>
+                                <th class="px-3 py-2 text-right">{{ __('order::admin.total_amount') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-black/30 text-black">
@@ -338,11 +340,11 @@
                                     <td class="px-3 py-2 text-center font-black text-black">{{ item.quantity
                                     }}</td>
                                     <td class="px-3 py-2 text-right font-semibold text-black whitespace-nowrap">{{
-                                        formatMoney(item.unit_price) }} Tk</td>
+                                        formatMoney(item.unit_price) }} {{ __('order::admin.tk') }}</td>
                                     <td
                                         class="px-3 py-2 text-right font-extrabold text-black text-xs whitespace-nowrap">
                                         {{
-                                            formatMoney(item.total_price) }} Tk</td>
+                                            formatMoney(item.total_price) }} {{ __('order::admin.tk') }}</td>
                                 </tr>
 
                                 <!-- Bundle child items snapshot -->
@@ -352,15 +354,14 @@
                                     <td class="px-3 py-1 pl-5">
                                         <span class="font-bold text-black break-words">{{ bi.name }}</span>
                                         <span v-if="bi.sku"
-                                            class="ml-2 font-mono text-[9px] bg-neutral-200 px-1 py-0.5 rounded text-black">SKU:
-                                            {{ bi.sku }}</span>
+                                            class="ml-2 font-mono text-[9px] bg-neutral-200 px-1 py-0.5 rounded text-black">{{ __('order::admin.sku_colon') }} {{ bi.sku }}</span>
                                     </td>
                                     <td class="px-3 py-1 text-center font-bold text-black">{{ bi.quantity }}
                                     </td>
                                     <td class="px-3 py-1 text-right font-semibold text-black whitespace-nowrap">{{
-                                        formatMoney(bi.unit_price) }} Tk</td>
+                                        formatMoney(bi.unit_price) }} {{ __('order::admin.tk') }}</td>
                                     <td class="px-3 py-1 text-right font-bold text-black whitespace-nowrap">{{
-                                        formatMoney(bi.total_price) }} Tk</td>
+                                        formatMoney(bi.total_price) }} {{ __('order::admin.tk') }}</td>
                                 </tr>
                             </template>
                         </tbody>
@@ -374,49 +375,49 @@
                     <div class="flex items-center justify-center flex-1 my-auto py-2 w-full sm:w-auto">
                         <div v-if="order.payment_status === 'paid'"
                             class="inline-block transform -rotate-6 border-2 border-dashed border-black px-4 py-1.5 text-base font-black uppercase text-black tracking-widest bg-neutral-100 shadow-2xs">
-                            PAID
+                            {{ __('order::admin.paid_stamp') }}
                         </div>
                         <div v-else-if="Number(order.due) > 0"
                             class="inline-block transform -rotate-6 border-2 border-dashed border-black px-4 py-1.5 text-base font-black uppercase text-black tracking-widest bg-neutral-100 shadow-2xs">
-                            DUE
+                            {{ __('order::admin.due_stamp') }}
                         </div>
                     </div>
 
                     <!-- Invoice Calculation Ledger -->
                     <div class="w-full sm:w-72 totals-ledger shrink-0 space-y-1 text-xs text-black">
                         <div class="flex justify-between">
-                            <span class="font-semibold text-black">Subtotal Amount:</span>
-                            <span class="font-bold text-black">{{ formatMoney(order.subtotal) }} Tk</span>
+                            <span class="font-semibold text-black">{{ __('order::admin.subtotal_colon') }}</span>
+                            <span class="font-bold text-black">{{ formatMoney(order.subtotal) }} {{ __('order::admin.tk') }}</span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="font-semibold text-black">Shipping Charge:</span>
-                            <span v-if="Number(order.shipping) == 0" class="font-bold text-black">Free</span>
+                            <span class="font-semibold text-black">{{ __('order::admin.shipping_colon') }}</span>
+                            <span v-if="Number(order.shipping) == 0" class="font-bold text-black">{{ __('order::admin.free') }}</span>
                             <span v-else class="font-bold text-black">{{ formatMoney(order.shipping) }}
-                                Tk</span>
+                                {{ __('order::admin.tk') }}</span>
                         </div>
                         <div v-if="Number(order.tax) > 0" class="flex justify-between">
-                            <span class="font-semibold text-black">Tax / VAT:</span>
-                            <span class="font-bold text-black">{{ formatMoney(order.tax) }} Tk</span>
+                            <span class="font-semibold text-black">{{ __('order::admin.tax_colon') }}</span>
+                            <span class="font-bold text-black">{{ formatMoney(order.tax) }} {{ __('order::admin.tk') }}</span>
                         </div>
                         <div v-if="Number(order.discount) > 0" class="flex justify-between">
-                            <span class="font-semibold text-black">Discount<span v-if="order.coupon_code"
+                            <span class="font-semibold text-black">{{ __('order::admin.discount') }}<span v-if="order.coupon_code"
                                     class="font-normal"> ({{ order.coupon_code }})</span>:</span>
-                            <span class="font-bold text-black">-{{ formatMoney(order.discount) }} Tk</span>
+                            <span class="font-bold text-black">-{{ formatMoney(order.discount) }} {{ __('order::admin.tk') }}</span>
                         </div>
                         <div class="flex justify-between text-xs font-extrabold border-t border-black pt-1.5">
-                            <span>Net Grand Total:</span>
+                            <span>{{ __('order::admin.net_grand_total_colon') }}</span>
                             <span class="text-black text-sm font-black">{{ formatMoney(order.total) }}
-                                Tk</span>
+                                {{ __('order::admin.tk') }}</span>
                         </div>
                         <div class="flex justify-between text-[11px] font-bold pt-0.5">
-                            <span class="text-black">Paid Amount:</span>
+                            <span class="text-black">{{ __('order::admin.paid_amount_colon') }}</span>
                             <span class="text-black font-extrabold">{{ formatMoney(order.paid) }}
-                                Tk</span>
+                                {{ __('order::admin.tk') }}</span>
                         </div>
                         <div class="flex justify-between text-[11px] font-bold">
-                            <span class="text-black">Balance Due:</span>
+                            <span class="text-black">{{ __('order::admin.balance_due_colon') }}</span>
                             <span class="font-extrabold text-black">
-                                {{ formatMoney(order.due) }} Tk
+                                {{ formatMoney(order.due) }} {{ __('order::admin.tk') }}
                             </span>
                         </div>
                     </div>
@@ -424,74 +425,72 @@
 
                 <!-- Printable Footer -->
                 <div class="border-t pt-2 text-center text-[11px] text-black no-print-footer">
-                    Thank you for your order!<span v-if="companyInfo.email"> For support or inquiries, please contact us
-                        at
-                        {{ companyInfo.email }}.</span>
+                    {{ __('order::admin.thank_you_footer') }}<span v-if="companyInfo.email"> {{ __('order::admin.support_inquiries_footer') }} {{ companyInfo.email }}.</span>
                 </div>
             </div>
 
             <!-- Fraud Check Card -->
-            <OrderSectionCard v-if="order.requires_shipping" title="Fraud Check"
-                description="COD cancel history across courier sources" icon="ri-shield-check-line"
+            <OrderSectionCard v-if="order.requires_shipping" :title="__('order::admin.fraud_check')"
+                :description="__('order::admin.fraud_check_desc')" icon="ri-shield-check-line"
                 icon-class="bg-rose-50 text-rose-600 ring-1 ring-rose-500/10" class="no-print">
                 <template #badge>
                     <span v-if="order.fraud_risk === 'high'"
                         class="inline-flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1 text-xs font-bold text-rose-700 ring-1 ring-rose-200 ring-inset">
-                        <i class="ri-shield-star-line"></i> High Risk
+                        <i class="ri-shield-star-line"></i> {{ __('order::admin.high_risk') }}
                     </span>
                     <span v-else-if="order.fraud_risk"
                         class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 ring-1 ring-emerald-200 ring-inset">
-                        <i class="ri-shield-check-line"></i> Low Risk
+                        <i class="ri-shield-check-line"></i> {{ __('order::admin.low_risk') }}
                     </span>
                     <span v-else
                         class="inline-flex items-center gap-1.5 rounded-full bg-skin-neutral-3 px-3 py-1 text-xs font-bold text-skin-neutral-11 ring-1 ring-skin-neutral-4 ring-inset">
-                        <i class="ri-shield-line"></i> Not Checked
+                        <i class="ri-shield-line"></i> {{ __('order::admin.not_checked') }}
                     </span>
                 </template>
 
                 <div class="space-y-4">
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <p v-if="order.fraud_checked_at" class="text-xs text-skin-neutral-9">
-                            <i class="ri-time-line mr-1"></i>Last checked {{ order.fraud_checked_at }}
+                            <i class="ri-time-line mr-1"></i>{{ __('order::admin.last_checked') }} {{ order.fraud_checked_at }}
                         </p>
                         <p v-else class="text-xs text-skin-neutral-9">
-                            {{ __('No fraud check has run for this order yet.') }}
+                            {{ __('order::admin.fraud_not_run') }}
                         </p>
                         <button type="button"
                             class="inline-flex items-center gap-1.5 rounded-lg bg-skin-neutral-3 px-3 py-1.5 text-xs font-semibold text-skin-neutral-11 transition-colors hover:bg-skin-neutral-4 disabled:opacity-60"
                             :disabled="fraudChecking" @click="runFraudCheck">
                             <i :class="fraudChecking ? 'ri-loader-4-line animate-spin' : 'ri-search-eye-line'"></i>
-                            {{ fraudChecking ? __('Checking…') : (order.fraud_checked_at ? __('Re-run Check') : __('Run Check')) }}
+                            {{ fraudChecking ? __('order::admin.checking') : (order.fraud_checked_at ? __('order::admin.rerun_check') : __('order::admin.run_check')) }}
                         </button>
                     </div>
 
                     <div v-if="!order.fraud_checked_at"
                         class="rounded-xl border border-dashed border-skin-neutral-4 bg-skin-neutral-2/40 p-4 text-xs text-skin-neutral-9">
-                        {{ __('The check runs automatically for COD orders at checkout, or use Run Check above. Results come from the fraud sources enabled in Settings → Courier.') }}
+                        {{ __('order::admin.fraud_check_hint') }}
                     </div>
 
                     <template v-else>
                         <div class="grid grid-cols-3 gap-3">
                             <div class="rounded-xl border border-skin-neutral-4 bg-skin-neutral-2/40 p-3 text-center">
                                 <p class="text-lg font-extrabold text-skin-neutral-12">{{ fraudAggregate.total_deliveries ?? 0 }}</p>
-                                <p class="text-[11px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('Deliveries') }}</p>
+                                <p class="text-[11px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('order::admin.deliveries') }}</p>
                             </div>
                             <div class="rounded-xl border border-skin-neutral-4 bg-skin-neutral-2/40 p-3 text-center">
                                 <p class="text-lg font-extrabold"
                                     :class="fraudCancelRatio >= 40 ? 'text-rose-600' : 'text-skin-neutral-12'">
                                     {{ fraudCancelRatio.toFixed(1) }}%
                                 </p>
-                                <p class="text-[11px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('Cancel Ratio') }}</p>
+                                <p class="text-[11px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('order::admin.cancel_ratio') }}</p>
                             </div>
                             <div class="rounded-xl border border-skin-neutral-4 bg-skin-neutral-2/40 p-3 text-center">
                                 <p class="text-lg font-extrabold text-skin-neutral-12">{{ Number(fraudAggregate.success_ratio ?? 0).toFixed(1) }}%</p>
-                                <p class="text-[11px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('Success Ratio') }}</p>
+                                <p class="text-[11px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('order::admin.success_ratio') }}</p>
                             </div>
                         </div>
 
                         <div class="space-y-3">
                             <p class="text-xs font-semibold uppercase tracking-wide text-skin-neutral-9">
-                                {{ __('Sources Checked') }}
+                                {{ __('order::admin.sources_checked') }}
                             </p>
 
                             <div v-for="source in fraudSources" :key="source.key"
@@ -503,36 +502,36 @@
                                     </p>
                                     <span v-if="source.answered"
                                         class="rounded-full bg-skin-success-light px-2 py-0.5 text-[11px] font-semibold text-skin-success">
-                                        {{ __('Answered') }}
+                                        {{ __('order::admin.answered') }}
                                     </span>
                                     <span v-else
                                         class="rounded-full bg-skin-neutral-3 px-2 py-0.5 text-[11px] font-semibold text-skin-neutral-11">
-                                        {{ source.error || __('No data') }}
+                                        {{ source.error || __('order::admin.no_data') }}
                                     </span>
                                 </div>
 
                                 <div v-if="source.answered" class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
                                     <div class="rounded-lg bg-skin-neutral-2/60 p-2 text-center">
                                         <p class="text-sm font-bold text-skin-neutral-12">{{ source.stats.total ?? 0 }}</p>
-                                        <p class="text-[10px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('Parcels') }}</p>
+                                        <p class="text-[10px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('order::admin.parcels') }}</p>
                                     </div>
                                     <div class="rounded-lg bg-skin-neutral-2/60 p-2 text-center">
                                         <p class="text-sm font-bold"
                                             :class="sourceCancelRatio(source.stats) >= 40 ? 'text-rose-600' : 'text-skin-neutral-12'">
                                             {{ sourceCancelRatio(source.stats).toFixed(1) }}%
                                         </p>
-                                        <p class="text-[10px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('Cancelled') }}</p>
+                                        <p class="text-[10px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('order::admin.cancelled') }}</p>
                                     </div>
                                     <div v-if="source.stats.volume_band" class="rounded-lg bg-skin-neutral-2/60 p-2 text-center">
                                         <p class="text-sm font-bold capitalize text-skin-neutral-12">{{ String(source.stats.volume_band).replace('_', ' ') }}</p>
-                                        <p class="text-[10px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('Volume Band') }}</p>
+                                        <p class="text-[10px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('order::admin.volume_band') }}</p>
                                     </div>
                                     <div class="rounded-lg bg-skin-neutral-2/60 p-2 text-center">
                                         <p class="text-sm font-bold"
                                             :class="sourceReportCount(source.stats) > 0 ? 'text-rose-600' : 'text-skin-neutral-12'">
                                             {{ sourceReportCount(source.stats) }}
                                         </p>
-                                        <p class="text-[10px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('Fraud Reports') }}</p>
+                                        <p class="text-[10px] font-semibold uppercase tracking-wide text-skin-neutral-9">{{ __('order::admin.fraud_reports') }}</p>
                                     </div>
                                 </div>
 
@@ -542,11 +541,11 @@
                                         <thead>
                                             <tr
                                                 class="border-b border-skin-neutral-4/80 bg-skin-neutral-2/60 font-bold uppercase tracking-wide text-skin-neutral-9">
-                                                <th class="px-3 py-2">{{ __('Courier') }}</th>
-                                                <th class="px-3 py-2 text-right">{{ __('Parcels') }}</th>
-                                                <th class="px-3 py-2 text-right">{{ __('Delivered') }}</th>
-                                                <th class="px-3 py-2 text-right">{{ __('Cancelled') }}</th>
-                                                <th class="px-3 py-2 text-right">{{ __('Success') }}</th>
+                                                <th class="px-3 py-2">{{ __('order::admin.courier') }}</th>
+                                                <th class="px-3 py-2 text-right">{{ __('order::admin.parcels') }}</th>
+                                                <th class="px-3 py-2 text-right">{{ __('order::admin.delivered') }}</th>
+                                                <th class="px-3 py-2 text-right">{{ __('order::admin.cancelled') }}</th>
+                                                <th class="px-3 py-2 text-right">{{ __('order::admin.success') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -569,7 +568,7 @@
 
                         <div v-if="fraudReports.length" class="space-y-2">
                             <p class="text-xs font-semibold uppercase tracking-wide text-skin-neutral-9">
-                                {{ __('Reported Fraud Entries') }}
+                                {{ __('order::admin.reported_fraud_entries') }}
                             </p>
                             <div v-for="report in fraudReports" :key="report.id"
                                 class="flex items-start gap-3 rounded-xl border border-rose-200 bg-rose-50/50 p-3">
@@ -577,7 +576,7 @@
                                     class="h-7 w-7 shrink-0 rounded-md object-contain" loading="lazy">
                                 <div class="min-w-0">
                                     <p class="text-xs font-bold text-rose-800">
-                                        {{ report.name || __('Unknown') }}
+                                        {{ report.name || __('order::admin.unknown') }}
                                         <span v-if="report.courierName" class="font-semibold text-rose-600">· {{ report.courierName }}</span>
                                     </p>
                                     <p class="mt-0.5 text-xs text-rose-700">{{ report.details }}</p>
@@ -590,19 +589,19 @@
             </OrderSectionCard>
 
             <!-- Payment Transactions Log Card -->
-            <OrderSectionCard v-if="order.orderPayments?.length" flush title="Payment Transactions Log"
-                description="Audited payment attempts and transaction records" icon="ri-bank-card-line"
+            <OrderSectionCard v-if="order.orderPayments?.length" flush :title="__('order::admin.payment_transactions_log')"
+                :description="__('order::admin.payment_transactions_desc')" icon="ri-bank-card-line"
                 icon-class="bg-emerald-50 text-emerald-600 ring-1 ring-emerald-500/10" class="no-print">
                 <div class="overflow-x-auto">
                     <table class="w-full text-xs text-left">
                         <thead>
                             <tr
                                 class="border-b border-skin-neutral-4/80 bg-skin-neutral-2/60 font-bold  tracking-wider text-skin-neutral-9">
-                                <th class="px-4 py-3">Date</th>
-                                <th class="px-3 py-3">Method</th>
-                                <th class="px-3 py-3">Status</th>
-                                <th class="px-3 py-3 text-right">Amount</th>
-                                <th class="px-4 py-3">Tx Ref</th>
+                                <th class="px-4 py-3">{{ __('common.header.date') }}</th>
+                                <th class="px-3 py-3">{{ __('common.header.method') }}</th>
+                                <th class="px-3 py-3">{{ __('common.header.status') }}</th>
+                                <th class="px-3 py-3 text-right">{{ __('order::admin.amount') }}</th>
+                                <th class="px-4 py-3">{{ __('order::admin.tx_ref') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-skin-neutral-3/70">
@@ -621,14 +620,14 @@
                                     </span>
                                 </td>
                                 <td class="px-3 py-3 text-right font-black text-skin-neutral-12">{{
-                                    formatMoney(payment.amount_paid) }} Tk</td>
+                                    formatMoney(payment.amount_paid) }} {{ __('order::admin.tk') }}</td>
                                 <td class="px-4 py-3 font-mono text-[11px] text-skin-neutral-10">
                                     <div class="flex items-center gap-1">
                                         <span>{{ payment.transaction_id ?? '—' }}</span>
                                         <button v-if="payment.transaction_id" type="button"
                                             class="text-skin-neutral-7 hover:text-skin-neutral-12"
                                             @click="copyToClipboard(payment.transaction_id, `tx_${payment.id}`)"
-                                            title="Copy Transaction ID">
+                                            :title="__('order::admin.copy_transaction_id')">
                                             <i
                                                 :class="copiedKey === `tx_${payment.id}` ? 'ri-check-line text-emerald-600' : 'ri-file-copy-line'"></i>
                                         </button>
@@ -646,21 +645,21 @@
         <div class="space-y-6 no-print">
 
             <!-- 1. Order Status Controller Card -->
-            <OrderSectionCard title="Order Status Controller" description="Update status pipeline & payment state"
+            <OrderSectionCard :title="__('order::admin.order_status_controller')" :description="__('order::admin.order_status_controller_desc')"
                 icon="ri-sound-module-line" icon-class="bg-blue-50 text-blue-600 ring-1 ring-blue-500/10">
                 <form @submit.prevent="submitStatus" class="space-y-4">
                     <div>
 
                         <label for="order-status"
                             class="mb-1.5 block text-xs font-bold  tracking-wider text-skin-neutral-9">
-                            Order Status Pipeline
+                            {{ __('order::admin.order_status_pipeline') }}
 
                         </label>
                         <div class="relative">
                             <select id="order-status" v-model="statusForm.status"
                                 class="block w-full rounded-xl border border-skin-neutral-6 bg-skin-neutral-2 px-3.5 py-2.5 text-sm font-bold text-skin-neutral-12 focus:border-skin-primary-9 focus:outline-hidden focus:ring-1 focus:ring-skin-primary-9 transition duration-150">
                                 <option v-for="s in statuses" :key="s" :value="s" class="capitalize font-semibold">
-                                    {{ s.charAt(0).toUpperCase() + s.slice(1) }}
+                                    {{ orderStatusText(s) }}
                                 </option>
                             </select>
                         </div>
@@ -670,13 +669,13 @@
 
                         <label for="order-payment-status"
                             class="mb-1.5 block text-xs font-bold  tracking-wider text-skin-neutral-9">
-                            Payment Settlement
+                            {{ __('order::admin.payment_settlement') }}
 
                         </label>
                         <select id="order-payment-status" v-model="statusForm.payment_status"
                             class="block w-full rounded-xl border border-skin-neutral-6 bg-skin-neutral-2 px-3.5 py-2.5 text-sm font-bold text-skin-neutral-12 focus:border-skin-primary-9 focus:outline-hidden focus:ring-1 focus:ring-skin-primary-9 transition duration-150">
-                            <option value="unpaid" class="font-semibold">Unpaid</option>
-                            <option value="paid" class="font-semibold">Paid</option>
+                            <option value="unpaid" class="font-semibold">{{ __('order::enums.payment_status.unpaid') }}</option>
+                            <option value="paid" class="font-semibold">{{ __('order::enums.payment_status.paid') }}</option>
                         </select>
                     </div>
 
@@ -684,42 +683,42 @@
                         class="btn btn-primary w-full inline-flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-bold shadow-xs transition duration-150 ease-in-out"
                         :loading="statusForm.processing">
                         <i class="ri-save-line text-base"></i>
-                        <span>Save Status Changes</span>
+                        <span>{{ __('order::admin.save_status_changes') }}</span>
                     </AppButton>
                 </form>
             </OrderSectionCard>
 
             <!-- 3. Logistics & Shipment Details Card -->
             <OrderSectionCard v-if="order.requires_shipping && order.orderShipments?.length"
-                title="Logistics & Shipment Details" description="Carrier assignments & parcel tracking"
+                :title="__('order::admin.logistics_shipment')" :description="__('order::admin.logistics_shipment_desc')"
                 icon="ri-truck-line" icon-class="bg-purple-50 text-purple-600 ring-1 ring-purple-500/10">
                 <div class="divide-y divide-skin-neutral-3/70">
                     <div v-for="shipment in order.orderShipments" :key="shipment.id"
                         class="space-y-3 py-3 first:pt-0 last:pb-0">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold  tracking-wider text-skin-neutral-9">Status:</span>
+                            <span class="text-xs font-bold  tracking-wider text-skin-neutral-9">{{ __('order::admin.status_colon') }}</span>
                             <span
                                 class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold capitalize ring-1 ring-inset"
                                 :class="shipmentStatusClass(shipment.shopment_status)">
-                                {{ shipment.shopment_status }}
+                                {{ shipmentStatusText(shipment.shopment_status) }}
                             </span>
                         </div>
                         <div v-if="shipment.carrier" class="flex items-center justify-between text-xs">
-                            <span class="font-bold text-skin-neutral-9 ">Carrier:</span>
+                            <span class="font-bold text-skin-neutral-9 ">{{ __('order::admin.carrier_colon') }}</span>
                             <span class="font-bold text-skin-neutral-12">{{ courierLabel(shipment.carrier) }}</span>
                         </div>
                         <div v-if="shipment.courier_status" class="flex items-center justify-between text-xs">
-                            <span class="font-bold text-skin-neutral-9 ">Courier Status:</span>
+                            <span class="font-bold text-skin-neutral-9 ">{{ __('order::admin.courier_status_colon') }}</span>
                             <span class="font-semibold capitalize text-skin-neutral-12">
                                 {{ shipment.courier_status.replaceAll('_', ' ') }}
                             </span>
                         </div>
                         <div v-if="shipment.consignment_id" class="flex items-center justify-between text-xs">
-                            <span class="font-bold text-skin-neutral-9 ">Consignment ID:</span>
+                            <span class="font-bold text-skin-neutral-9 ">{{ __('order::admin.consignment_id_colon') }}</span>
                             <span class="font-mono font-bold text-skin-neutral-12">{{ shipment.consignment_id }}</span>
                         </div>
                         <div v-if="shipment.tracking_number" class="flex items-center justify-between text-xs">
-                            <span class="font-bold text-skin-neutral-9 ">Tracking:</span>
+                            <span class="font-bold text-skin-neutral-9 ">{{ __('order::admin.tracking_colon') }}</span>
                             <div class="flex items-center gap-1.5 font-mono font-bold">
                                 <a v-if="shipment.tracking_url" :href="shipment.tracking_url" target="_blank"
                                     rel="noopener noreferrer" class="text-blue-600 hover:underline">
@@ -728,30 +727,30 @@
                                 <span v-else class="text-skin-neutral-12">{{ shipment.tracking_number }}</span>
                                 <button type="button" class="text-skin-neutral-7 hover:text-skin-neutral-12"
                                     @click="copyToClipboard(shipment.tracking_number, `track_${shipment.id}`)"
-                                    title="Copy Tracking Number">
+                                    :title="__('order::admin.copy_tracking_number')">
                                     <i
                                         :class="copiedKey === `track_${shipment.id}` ? 'ri-check-line text-emerald-600' : 'ri-file-copy-line'"></i>
                                 </button>
                             </div>
                         </div>
                         <div v-if="shipment.shipment_date" class="flex items-center justify-between text-xs">
-                            <span class="font-bold text-skin-neutral-9 ">Dispatch Date:</span>
+                            <span class="font-bold text-skin-neutral-9 ">{{ __('order::admin.dispatch_date_colon') }}</span>
                             <span class="font-semibold text-skin-neutral-12">{{ shipment.shipment_date }}</span>
                         </div>
                         <div v-if="shipment.estimated_delivery" class="flex items-center justify-between text-xs">
-                            <span class="font-bold text-skin-neutral-9 ">Est. Delivery:</span>
+                            <span class="font-bold text-skin-neutral-9 ">{{ __('order::admin.est_delivery_colon') }}</span>
                             <span class="font-semibold text-skin-neutral-12">{{ shipment.estimated_delivery }}</span>
                         </div>
                         <div v-if="shipment.actual_delivery" class="flex items-center justify-between text-xs">
-                            <span class="font-bold text-skin-neutral-9 ">Actual Delivery:</span>
+                            <span class="font-bold text-skin-neutral-9 ">{{ __('order::admin.actual_delivery_colon') }}</span>
                             <span class="font-bold text-emerald-600">{{ shipment.actual_delivery }}</span>
                         </div>
                         <div v-if="shipment.booked_at" class="flex items-center justify-between text-xs">
-                            <span class="font-bold text-skin-neutral-9 ">Booked At:</span>
+                            <span class="font-bold text-skin-neutral-9 ">{{ __('order::admin.booked_at_colon') }}</span>
                             <span class="font-semibold text-skin-neutral-12">{{ shipment.booked_at }}</span>
                         </div>
                         <div v-if="shipment.last_synced_at" class="flex items-center justify-between text-xs">
-                            <span class="font-bold text-skin-neutral-9 ">Last Synced:</span>
+                            <span class="font-bold text-skin-neutral-9 ">{{ __('order::admin.last_synced_colon') }}</span>
                             <span class="font-semibold text-skin-neutral-12">{{ shipment.last_synced_at }}</span>
                         </div>
                         <div v-if="shipment.booking_error"
@@ -769,13 +768,13 @@
                         class="btn btn-primary inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold shadow-xs transition duration-150 ease-in-out"
                         :loading="booking" @click="requestBooking">
                         <i class="ri-truck-line text-base"></i>
-                        <span>Book with {{ courierLabel(defaultCourier) }}</span>
+                        <span>{{ __('order::admin.book_with', { courier: courierLabel(defaultCourier) }) }}</span>
                     </AppButton>
                     <AppButton v-if="hasTracking" type="button"
                         class="btn btn-neutral inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold shadow-xs transition duration-150 ease-in-out"
                         :loading="refreshing" @click="refreshStatus">
                         <i class="ri-refresh-line text-base"></i>
-                        <span>Refresh Status</span>
+                        <span>{{ __('order::admin.refresh_status') }}</span>
                     </AppButton>
                 </div>
             </OrderSectionCard>
@@ -785,13 +784,15 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, inject, ref } from 'vue'
 import { formatMoney } from '@/Utils/formatMoney'
 import { Head, router, useForm, usePage } from '@inertiajs/vue3'
 import useTitle from '@/Composables/useTitle'
 import OrderSectionCard from './Components/OrderSectionCard.vue'
 
-const { title } = useTitle('Order Details')
+const translate = inject('translate')
+
+const { title } = useTitle(translate('order::admin.order_details'))
 
 const props = defineProps({
     order: {
@@ -834,8 +835,8 @@ const companyInfo = computed(() => {
 })
 
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'Orders', href: route('order.index') },
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('order::admin.orders'), href: route('order.index') },
     { label: `#${props.order.id}`, last: true },
 ]
 
@@ -860,6 +861,31 @@ const courierLabels = {
 
 const courierLabel = (provider) => courierLabels[provider] || provider || 'courier'
 
+const STATUS_KEYS = {
+    pending: 'order::enums.order_status.pending',
+    processing: 'order::enums.order_status.processing',
+    shipped: 'order::enums.order_status.shipped',
+    delivered: 'order::enums.order_status.delivered',
+    completed: 'order::enums.order_status.completed',
+    cancelled: 'order::enums.order_status.cancelled',
+}
+const orderStatusText = (status) => translate(STATUS_KEYS[status] ?? status)
+
+const PAYMENT_STATUS_KEYS = {
+    paid: 'order::enums.payment_status.paid',
+    unpaid: 'order::enums.payment_status.unpaid',
+}
+const paymentStatusText = (status) => translate(PAYMENT_STATUS_KEYS[status] ?? status)
+
+const SHIPMENT_STATUS_KEYS = {
+    pending: 'order::enums.shipment_status.pending',
+    processing: 'order::enums.shipment_status.processing',
+    shipped: 'order::enums.shipment_status.shipped',
+    delivered: 'order::enums.shipment_status.delivered',
+    cancelled: 'order::enums.shipment_status.cancelled',
+}
+const shipmentStatusText = (status) => translate(SHIPMENT_STATUS_KEYS[status] ?? status)
+
 const hasTracking = computed(() =>
     (props.order.orderShipments || []).some((shipment) => shipment.tracking_number))
 
@@ -869,10 +895,10 @@ const invoiceShipment = computed(() =>
 const fraudSummary = computed(() => {
     const aggregate = props.order.fraud_details?.aggregate
     if (!aggregate) {
-        return 'Flagged as high risk by the fraud check.'
+        return translate('order::admin.fraud_flag_high')
     }
     const ratio = aggregate.cancel_ratio != null ? Number(aggregate.cancel_ratio).toFixed(1) : '?'
-    return `${ratio}% cancel ratio across ${aggregate.total_deliveries ?? 0} deliveries`
+    return translate('order::admin.fraud_summary_ratio', { ratio, count: aggregate.total_deliveries ?? 0 })
 })
 
 const fraudAggregate = computed(() => props.order.fraud_details?.aggregate || {})
@@ -943,9 +969,9 @@ const bookShipment = (force = false) => {
 const requestBooking = () => {
     if (props.order.fraud_risk === 'high') {
         confirmDialogRef.value?.openCustomModal({
-            title: 'High Fraud Risk',
-            message: 'This customer has a high courier cancel ratio. Book this shipment anyway?',
-            buttonText: 'Book Anyway',
+            title: translate('order::admin.confirm_book_title'),
+            message: translate('order::admin.confirm_book_message'),
+            buttonText: translate('order::admin.book_anyway'),
             buttonClass: 'btn btn-primary',
             method: 'post',
             modalType: 'danger',
@@ -1005,14 +1031,17 @@ const totalItemCount = computed(() => {
     return props.order.orderProducts.reduce((sum, item) => sum + Number(item.quantity || 1), 0)
 })
 
+const PAYMENT_METHOD_KEYS = {
+    cod: 'order::admin.payment_method_cod',
+    card: 'order::admin.payment_method_card',
+    mobile: 'order::admin.payment_method_mobile',
+}
+const RAW_METHOD_LABELS = {
+    sslcommerz: 'SSLCommerz',
+}
 const formatPaymentMethod = (method) => {
-    const methods = {
-        cod: 'Cash on Delivery',
-        sslcommerz: 'SSLCommerz',
-        card: 'Card Payment',
-        mobile: 'Mobile Payment',
-    }
-    return methods[method] ?? method ?? '—'
+    if (PAYMENT_METHOD_KEYS[method]) return translate(PAYMENT_METHOD_KEYS[method])
+    return RAW_METHOD_LABELS[method] ?? method ?? '—'
 }
 
 const statusClass = (status) => {
@@ -1056,10 +1085,10 @@ const shipmentStatusClass = (status) => {
 
 // Pipeline Workflow Stepper
 const pipelineSteps = [
-    { key: 'pending', label: 'Order Placed', icon: 'ri-shopping-cart-2-line' },
-    { key: 'processing', label: 'Processing', icon: 'ri-loader-3-line' },
-    { key: 'shipped', label: 'Shipped', icon: 'ri-truck-line' },
-    { key: 'completed', label: 'Completed', icon: 'ri-checkbox-circle-line' },
+    { key: 'pending', label: translate('order::admin.step_pending'), icon: 'ri-shopping-cart-2-line' },
+    { key: 'processing', label: translate('order::admin.step_processing'), icon: 'ri-loader-3-line' },
+    { key: 'shipped', label: translate('order::admin.step_shipped'), icon: 'ri-truck-line' },
+    { key: 'completed', label: translate('order::admin.step_completed'), icon: 'ri-checkbox-circle-line' },
 ]
 
 const getStepState = (stepKey) => {
