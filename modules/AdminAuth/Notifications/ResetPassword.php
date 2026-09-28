@@ -36,11 +36,13 @@ class ResetPassword extends Notification
             'email' => $notifiable->getEmailForPasswordReset(),
         ];
 
-        return (new MailMessage)->markdown(
-            'admin-auth::emails.reset-password',
-            [
-                'url' => url(route('adminAuth.resetPasswordForm', $params, false)),
-            ]
-        );
+        return (new MailMessage)
+            ->subject(__('admin-auth::mail.reset.subject'))
+            ->markdown(
+                'admin-auth::emails.reset-password',
+                [
+                    'url' => url(route('adminAuth.resetPasswordForm', $params, false)),
+                ]
+            );
     }
 }

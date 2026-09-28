@@ -87,4 +87,12 @@ return [
         'my_profile' => 'My Profile',
     ],
 
+    'field' => [
+        'email_address' => 'Email address',
+        'password' => 'Password',
+        'remember_me' => 'Remember me',
+        'new_password' => 'New password',
+        'confirm_new_password' => 'Confirm new password',
+    ],
+
 ];

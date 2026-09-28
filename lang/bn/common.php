@@ -85,4 +85,12 @@ return [
         'my_profile' => 'আমার প্রোফাইল',
     ],
 
+    'field' => [
+        'email_address' => 'ইমেইল ঠিকানা',
+        'password' => 'পাসওয়ার্ড',
+        'remember_me' => 'আমাকে মনে রাখুন',
+        'new_password' => 'নতুন পাসওয়ার্ড',
+        'confirm_new_password' => 'নতুন পাসওয়ার্ড নিশ্চিত করুন',
+    ],
+
 ];

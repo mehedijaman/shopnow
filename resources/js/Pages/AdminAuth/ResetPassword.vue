@@ -1,5 +1,5 @@
 <template>
-    <Head title="Reset Password"></Head>
+    <Head :title="__('admin-auth::admin.reset_title')"></Head>
     <AppAuthShell>
 
         <!-- Logo -->
@@ -11,10 +11,10 @@
         <div class="w-full max-w-md rounded-2xl bg-skin-neutral-1 p-8 shadow-md ring-1 ring-skin-neutral-4">
 
             <h2 class="mb-1 text-center text-2xl font-bold tracking-tight text-skin-neutral-12">
-                Reset your password
+                {{ __('admin-auth::admin.reset_heading') }}
             </h2>
             <p class="mb-8 text-center text-sm text-skin-neutral-9">
-                Choose a strong new password for your account.
+                {{ __('admin-auth::admin.reset_subtitle') }}
             </p>
 
             <AppFormErrors class="mb-5" />
@@ -22,7 +22,7 @@
             <form class="space-y-5" @submit.prevent="submitForm">
 
                 <div>
-                    <AppLabel for="email" value="Email address" />
+                    <AppLabel for="email" :value="__('common.field.email_address')" />
                     <AppInputText
                         id="email"
                         v-model="form.email"
@@ -34,7 +34,7 @@
                 </div>
 
                 <div>
-                    <AppLabel for="password" value="New password" />
+                    <AppLabel for="password" :value="__('common.field.new_password')" />
                     <AppInputPassword
                         id="password"
                         v-model="form.password"
@@ -46,7 +46,7 @@
                 </div>
 
                 <div>
-                    <AppLabel for="password_confirmation" value="Confirm new password" />
+                    <AppLabel for="password_confirmation" :value="__('common.field.confirm_new_password')" />
                     <AppInputPassword
                         id="password_confirmation"
                         v-model="form.password_confirmation"
@@ -63,15 +63,15 @@
                     :disabled="form.processing"
                 >
                     <i v-if="form.processing" class="ri-loader-4-line mr-1.5 animate-spin"></i>
-                    Reset Password
+                    {{ __('admin-auth::admin.reset_password') }}
                 </AppButton>
 
             </form>
 
             <p class="mt-6 text-center text-sm text-skin-neutral-9">
-                Remembered it?
+                {{ __('admin-auth::admin.remembered_it') }}
                 <AppLink :href="route('adminAuth.loginForm')" class="ml-1 font-medium">
-                    Back to login
+                    {{ __('admin-auth::admin.back_to_login') }}
                 </AppLink>
             </p>
 

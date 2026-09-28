@@ -1,5 +1,5 @@
 <template>
-    <Head title="Login"></Head>
+    <Head :title="__('admin-auth::admin.login_title')"></Head>
     <AppAuthShell>
 
         <!-- Logo -->
@@ -11,10 +11,10 @@
         <div class="w-full max-w-md rounded-2xl bg-skin-neutral-1 p-8 shadow-md ring-1 ring-skin-neutral-4">
 
             <h2 class="mb-1 text-center text-2xl font-bold tracking-tight text-skin-neutral-12">
-                Welcome back
+                {{ __('admin-auth::admin.login_heading') }}
             </h2>
             <p class="mb-8 text-center text-sm text-skin-neutral-9">
-                Sign in to your admin account
+                {{ __('admin-auth::admin.login_subtitle') }}
             </p>
 
             <AppFormErrors class="mb-5" />
@@ -22,7 +22,7 @@
             <form class="space-y-5" @submit.prevent="submitForm">
 
                 <div>
-                    <AppLabel for="email" value="Email address" />
+                    <AppLabel for="email" :value="__('common.field.email_address')" />
                     <AppInputText
                         id="email"
                         v-model="form.email"
@@ -37,9 +37,9 @@
 
                 <div>
                     <div class="flex items-center justify-between">
-                        <AppLabel for="password" value="Password" />
+                        <AppLabel for="password" :value="__('common.field.password')" />
                         <AppLink :href="route('adminAuth.forgotPassword')" class="text-xs">
-                            Forgot password?
+                            {{ __('admin-auth::admin.forgot_password_link') }}
                         </AppLink>
                     </div>
                     <AppInputPassword
@@ -59,7 +59,7 @@
                         name="remember"
                         :value="true"
                     />
-                    <AppLabel for="remember" value="Remember me" class="cursor-pointer" />
+                    <AppLabel for="remember" :value="__('common.field.remember_me')" class="cursor-pointer" />
                 </div>
 
                 <AppButton
@@ -68,7 +68,7 @@
                     :disabled="form.processing"
                 >
                     <i v-if="form.processing" class="ri-loader-4-line mr-1.5 animate-spin"></i>
-                    Sign in
+                    {{ __('admin-auth::admin.sign_in') }}
                 </AppButton>
 
             </form>

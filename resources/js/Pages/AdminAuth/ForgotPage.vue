@@ -1,5 +1,5 @@
 <template>
-    <Head title="Forgot Password"></Head>
+    <Head :title="__('admin-auth::admin.forgot_title')"></Head>
     <AppAuthShell>
 
         <!-- Logo -->
@@ -11,10 +11,10 @@
         <div class="w-full max-w-md rounded-2xl bg-skin-neutral-1 p-8 shadow-md ring-1 ring-skin-neutral-4">
 
             <h2 class="mb-1 text-center text-2xl font-bold tracking-tight text-skin-neutral-12">
-                Forgot your password?
+                {{ __('admin-auth::admin.forgot_heading') }}
             </h2>
             <p class="mb-8 text-center text-sm text-skin-neutral-9">
-                Enter your email and we'll send you a link to reset your password.
+                {{ __('admin-auth::admin.forgot_subtitle') }}
             </p>
 
             <AppFormErrors class="mb-5" />
@@ -22,7 +22,7 @@
             <form class="space-y-5" @submit.prevent="submitForm">
 
                 <div>
-                    <AppLabel for="email" value="Email address" />
+                    <AppLabel for="email" :value="__('common.field.email_address')" />
                     <AppInputText
                         id="email"
                         v-model="form.email"
@@ -40,15 +40,15 @@
                     :disabled="form.processing"
                 >
                     <i v-if="form.processing" class="ri-loader-4-line mr-1.5 animate-spin"></i>
-                    Send Reset Link
+                    {{ __('admin-auth::admin.send_reset_link') }}
                 </AppButton>
 
             </form>
 
             <p class="mt-6 text-center text-sm text-skin-neutral-9">
-                Remember your password?
+                {{ __('admin-auth::admin.remember_password') }}
                 <AppLink :href="route('adminAuth.loginForm')" class="ml-1 font-medium">
-                    Back to login
+                    {{ __('admin-auth::admin.back_to_login') }}
                 </AppLink>
             </p>
 
