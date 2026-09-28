@@ -14,6 +14,10 @@ git pull --rebase
 echo "==> Installing Composer dependencies..."
 composer install --no-dev --optimize-autoloader --no-interaction
 
+echo "==> Exporting translation catalogues..."
+php artisan config:clear --no-interaction
+php artisan localization:export --surface=all --no-interaction
+
 echo "==> Installing Node dependencies and building assets..."
 npm ci --no-audit --no-fund
 npm run build

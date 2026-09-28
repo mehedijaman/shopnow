@@ -1,0 +1,1 @@
+import{N as e,P as t,x as n}from"./preload-helper-zzgU9aZX.js";import{t as r}from"./useFormContext-mGuFFRDb.js";e();function i(e){let i=t(`translate`),{isCreate:a,isEdit:o}=r();return{title:n(()=>{let t=``;return a.value&&(t=`Create`),o.value&&(t=`Edit`),t=i(t),t+` `+i(e)})}}export{i as t};

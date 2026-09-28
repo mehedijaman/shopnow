@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Modules\AdminAuth\Notifications\ResetPassword;
+use Modules\Localization\Traits\HasLocalePreference;
 use Modules\Support\Traits\Searchable;
 // use Modules\Support\Traits\ActivityLog;
 use Modules\User\Database\Factories\UserFactory;
@@ -18,7 +19,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, HasRoles, InteractsWithMedia, Notifiable, Searchable, SoftDeletes;
+    use HasFactory, HasLocalePreference, HasRoles, InteractsWithMedia, Notifiable, Searchable, SoftDeletes;
 
     protected static function newFactory()
     {
@@ -33,6 +34,7 @@ class User extends Authenticatable implements HasMedia
     protected $fillable = [
         'name',
         'email',
+        'locale',
         'password',
         'profile_type',
         'profile_id',

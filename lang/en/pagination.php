@@ -21,4 +21,7 @@ return [
     'of' => 'of',
     'results' => 'results',
 
+    'navigation' => 'Pagination Navigation',
+    'go_to_page' => 'Go to page :page',
+
 ];

@@ -1,0 +1,1 @@
+var e={"common.language":`Language`,"common.switch_language":`Switch language`};export{e as default};

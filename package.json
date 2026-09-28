@@ -3,7 +3,9 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "predev": "php artisan localization:export --surface=all",
+        "lint": "eslint ."
     },
     "dependencies": {
         "chart.js": "^4.4.4",

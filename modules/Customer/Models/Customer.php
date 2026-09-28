@@ -9,12 +9,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Modules\Customer\Database\Factories\CustomerFactory;
 use Modules\CustomerAuth\Notifications\ResetPassword;
+use Modules\Localization\Traits\HasLocalePreference;
 use Modules\Support\Traits\ActivityLog;
 use Modules\Support\Traits\Searchable;
 
 class Customer extends Authenticatable
 {
-    use ActivityLog, HasFactory, Notifiable, Searchable, SoftDeletes;
+    use ActivityLog, HasFactory, HasLocalePreference, Notifiable, Searchable, SoftDeletes;
 
     protected $table = 'customers';
 
@@ -26,6 +27,7 @@ class Customer extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'locale',
         'phone',
         'password',
         'date_of_birth',

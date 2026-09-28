@@ -11,4 +11,4 @@ createVueApp({
     ShopSearch,
     WhatsappFloatingButton,
     MobileBottomNav
-}).mount('#app')
+}).then((app) => app.mount('#app'))

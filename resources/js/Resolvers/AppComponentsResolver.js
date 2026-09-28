@@ -31,7 +31,14 @@ const componentGroups = {
         'AppMenuSection'
     ],
     Message: ['AppAlert', 'AppFlashMessage', 'AppToast', 'AppTooltip'],
-    Misc: ['AppButton', 'AppCard', 'AppLink', 'AppSectionHeader', 'AppTopBar'],
+    Misc: [
+        'AppButton',
+        'AppCard',
+        'AppLanguageSwitcher',
+        'AppLink',
+        'AppSectionHeader',
+        'AppTopBar'
+    ],
     Overlay: ['AppConfirmDialog', 'AppModal', 'AppSideBar']
 }
 

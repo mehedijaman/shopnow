@@ -8,4 +8,4 @@ Validator::extend('required_editor', function ($attribute, $value, $parameters, 
     }
 
     return false;
-}, trans('modular::validation.required_editor'));
+});

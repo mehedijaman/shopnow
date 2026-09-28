@@ -1,20 +1,16 @@
-export default {
-    install: (app) => {
-        const __ = (key, replacements = {}) => {
-            let translation = window._translations[key] || key
+import { createTranslator, createTranslationsPlugin } from './TranslationCore'
 
-            Object.keys(replacements).forEach((replacement) => {
-                translation = translation.replace(
-                    `:${replacement}`,
-                    replacements[replacement]
-                )
-            })
+const translator = createTranslator({
+    bundles: import.meta.glob('../lang/*.json'),
+    pathFor: (locale) => `../lang/${locale}.json`
+})
 
-            return translation
-        }
+/**
+ * Load the catalogue for the locale declared on `<html lang>`. Must settle
+ * before the Vue app mounts (see the async `setup()` in app.js).
+ */
+export const loadTranslations = () => translator.load()
 
-        app.config.globalProperties.__ = __
+export const translate = translator.translate
 
-        app.provide('translate', __)
-    }
-}
+export default createTranslationsPlugin(translator)

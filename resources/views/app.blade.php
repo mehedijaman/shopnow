@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
+<html lang="{{ html_lang() }}" dir="{{ html_dir() }}" data-native-digits="{{ locale_uses_native_digits() ? 'true' : 'false' }}" class="h-full">
 
 <head>
     <meta charset="utf-8">
@@ -32,6 +32,7 @@
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap">
 
     <!-- Scripts -->
     @routes
@@ -41,8 +42,6 @@
 
 <body class="font-sans antialiased h-full">
     @inertia
-
-    <x-modular-translations></x-modular-translations>
 </body>
 
 </html>

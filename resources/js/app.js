@@ -29,11 +29,13 @@ createInertiaApp({
 
         return page
     },
-    setup({ el, App, props, plugin }) {
+    setup: async ({ el, App, props, plugin }) => {
+        await loadTranslations()
+
         return createApp({ render: () => h(App, props) })
             .use(createPinia())
             .use(plugin)
-            .use(ZiggyVue, Ziggy) // eslint-disable-line no-undef
+            .use(ZiggyVue, Ziggy)
             .use(Translations)
             .component('Link', Link)
             .mount(el)

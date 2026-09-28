@@ -113,7 +113,7 @@
             @endif
         </a>
 
-        <div class="w-10"></div>
+        <x-locale-switcher />
     </header>
 </div>
 
@@ -181,6 +181,7 @@
                 <i class="ri-search-2-line text-lg"></i>
             </button>
             <navbar-cart-menu></navbar-cart-menu>
+            <x-locale-switcher />
             @if (auth('customer')->check())
                 <div class="group relative">
                     <button type="button" class="flex items-center gap-2 rounded-xl px-2 py-1.5 text-slate-700 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">

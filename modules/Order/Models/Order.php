@@ -17,7 +17,7 @@ class Order extends BaseModel
 
     protected $fillable = [
         'customer_id', 'name', 'email', 'phone', 'division', 'district', 'upazila', 'union', 'address',
-        'country', 'status', 'subtotal', 'tax', 'discount', 'shipping', 'shipping_method', 'coupon_code', 'total',
+        'country', 'status', 'locale', 'subtotal', 'tax', 'discount', 'shipping', 'shipping_method', 'coupon_code', 'total',
         'paid', 'due', 'payment_status', 'payment_method', 'notes', 'requires_shipping',
         'fraud_checked_at', 'fraud_risk', 'fraud_details',
         'created_by', 'updated_by', 'deleted_by',

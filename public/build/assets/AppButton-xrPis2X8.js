@@ -1,0 +1,1 @@
+import{B as e,N as t,T as n,W as r,i}from"./preload-helper-zzgU9aZX.js";t();var a=i({__name:`AppButton`,emits:[`click`],setup(t){return(t,i)=>(e(),n(`button`,{type:`button`,onClick:i[0]||=e=>t.$emit(`click`)},[r(t.$slots,`default`,{},void 0,!0)]))}},[[`__scopeId`,`data-v-75539d46`]]);export{a as t};

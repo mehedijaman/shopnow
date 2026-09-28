@@ -22,6 +22,8 @@
                 <i :class="iconThemeClass"></i>
             </AppButton>
 
+            <AppLanguageSwitcher />
+
             <Link
                 :href="route('site.index')"
                 class="btn btn-icon hover:bg-skin-neutral-4"

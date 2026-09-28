@@ -11,6 +11,7 @@ use Modules\Customer\CustomerServiceProvider;
 use Modules\CustomerAuth\CustomerAuthServiceProvider;
 use Modules\Dashboard\DashboardServiceProvider;
 use Modules\Index\IndexServiceProvider;
+use Modules\Localization\LocalizationServiceProvider;
 use Modules\Order\OrderServiceProvider;
 use Modules\Page\PageServiceProvider;
 use Modules\Product\ProductServiceProvider;
@@ -23,6 +24,8 @@ use Modules\User\UserServiceProvider;
 
 return [
     AppServiceProvider::class,
+
+    LocalizationServiceProvider::class,
 
     SupportServiceProvider::class,
     AdminAuthServiceProvider::class,

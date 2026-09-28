@@ -1,12 +1,62 @@
-import js from '@eslint/js'
 import vue from 'eslint-plugin-vue'
 import vueParser from 'vue-eslint-parser'
 import prettierConfig from 'eslint-config-prettier'
 
-export default [
-    // Base ESLint recommended rules
-    js.configs.recommended,
+/**
+ * Text sitting directly in a template is invisible to `localization:check`,
+ * which can only see calls that go through `__()`. Shipped as a local rule
+ * because eslint-plugin-vue has no equivalent and adding an i18n plugin is not
+ * worth a new dependency.
+ */
+const localization = {
+    rules: {
+        'no-raw-text': {
+            meta: {
+                type: 'problem',
+                docs: {
+                    description:
+                        'Disallow raw text in templates so every string can be found by localization:check'
+                },
+                messages: {
+                    rawText:
+                        'Raw text "{{ text }}" cannot be translated; wrap it in __().'
+                }
+            },
+            create(context) {
+                const parserServices =
+                    context.sourceCode?.parserServices ?? context.parserServices
 
+                if (!parserServices?.defineTemplateBodyVisitor) {
+                    return {}
+                }
+
+                return parserServices.defineTemplateBodyVisitor({
+                    VText(node) {
+                        const text = node.value
+
+                        // Numbers, punctuation and symbols are not translated.
+                        if (!/\p{L}/u.test(text)) {
+                            return
+                        }
+
+                        if (text.trim() === '') {
+                            return
+                        }
+
+                        context.report({
+                            node,
+                            loc: node.loc,
+                            messageId: 'rawText',
+                            data: { text: text.trim().replace(/\s+/g, ' ') }
+                        })
+                    }
+                })
+            }
+        }
+    }
+}
+
+export default [
     // Vue plugin configuration
     {
         files: ['**/*.vue'],
@@ -18,16 +68,20 @@ export default [
             }
         },
         plugins: {
-            vue
+            vue,
+            localization
         },
         rules: {
             // Combine base and recommended Vue rules
             ...vue.configs.base.rules,
-            ...vue.configs['vue3-recommended'].rules,
+            ...vue.configs['recommended'].rules,
 
             // Disable specific Vue rules
             'vue/no-v-html': 'off',
-            'vue/comment-directive': 'off' 
+            'vue/comment-directive': 'off',
+
+            // Warn only for now: there is existing markup to migrate.
+            'localization/no-raw-text': 'warn'
 
             // You can add other Vue-specific rules here
         }
@@ -62,7 +116,8 @@ export default [
                 fetch: 'readonly',
                 alert: 'readonly',
                 console: 'readonly',
-                route: 'readonly'
+                route: 'readonly',
+                Ziggy: 'readonly'
             }
         },
         rules: {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="{{ html_lang() }}" dir="{{ html_dir() }}" data-native-digits="{{ locale_uses_native_digits() ? 'true' : 'false' }}">
 
 	<head>
 
@@ -11,6 +11,9 @@
 
 		<title>Adm</title>
 		<meta name="description" content="Adm">
+
+		<link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
+		<link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap">
 
 		<link rel="stylesheet" href="{{ mix('/backend/css/app.css') }}">
 

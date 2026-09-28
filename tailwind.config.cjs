@@ -17,7 +17,10 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans]
+                // Noto Sans Bengali covers Bangla glyphs; Nunito keeps covering
+                // Latin, so an English page never loads the Bengali font files
+                // (unicode-range defers them until a Bangla glyph is painted).
+                sans: ['Nunito', 'Noto Sans Bengali', ...defaultTheme.fontFamily.sans]
             },
             colors: {
                 skin: {

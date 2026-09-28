@@ -1,5 +1,5 @@
 @if ($paginator->hasPages())
-    <nav role="navigation" aria-label="{{ __('Pagination Navigation') }}" class="flex items-center justify-between ">
+    <nav role="navigation" aria-label="{{ __('pagination.navigation') }}" class="flex items-center justify-between ">
         <div class="flex justify-between flex-1 sm:hidden">
             @if ($paginator->onFirstPage())
                 <span
@@ -91,7 +91,7 @@
                                 @else
                                     <a href="{{ $url }}"
                                         class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-hidden focus:ring-3 ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800"
-                                        aria-label="{{ __('Go to page :page', ['page' => $page]) }}">
+                                        aria-label="{{ __('pagination.go_to_page', ['page' => $page]) }}">
                                         {{ $page }}
                                     </a>
                                 @endif

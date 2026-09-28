@@ -1,0 +1,1 @@
+import{At as e,B as t,Et as n,N as r,O as i,T as a,W as o,pt as s}from"./preload-helper-zzgU9aZX.js";s(),r();var c={__name:`AppLabel`,props:{value:{type:String,default:``}},setup(r){return(s,c)=>(t(),a(`label`,{class:n([`block text-sm font-medium text-skin-neutral-12`,s.$attrs.class])},[i(e(r.value),1),o(s.$slots,`default`)],2))}};export{c as t};
