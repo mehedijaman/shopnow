@@ -59,6 +59,8 @@ return [
         'placeholder' => 'Search for products, brands and more...',
         'to_search' => 'to search',
         'to_close' => 'to close',
+        'key_enter' => 'Enter',
+        'key_esc' => 'Esc',
     ],
 
     'home' => [

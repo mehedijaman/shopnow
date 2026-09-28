@@ -57,6 +57,8 @@ return [
         'placeholder' => 'পণ্য, ব্র্যান্ড আর অনেক কিছু সার্চ করুন...',
         'to_search' => 'সার্চ করতে',
         'to_close' => 'বন্ধ করতে',
+        'key_enter' => 'এন্টার',
+        'key_esc' => 'Esc',
     ],
 
     'home' => [

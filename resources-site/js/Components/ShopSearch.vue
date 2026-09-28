@@ -104,7 +104,7 @@
                             <kbd
                                 class="rounded-md border border-gray-200 bg-gray-100 px-1.5 py-0.5 font-sans text-[10px] font-semibold text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
                             >
-                                Enter
+                                {{ __('site.search.key_enter') }}
                             </kbd>
                             {{ __('site.search.to_search') }}
                         </span>
@@ -112,7 +112,7 @@
                             <kbd
                                 class="rounded-md border border-gray-200 bg-gray-100 px-1.5 py-0.5 font-sans text-[10px] font-semibold text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
                             >
-                                Esc
+                                {{ __('site.search.key_esc') }}
                             </kbd>
                             {{ __('site.search.to_close') }}
                         </span>
