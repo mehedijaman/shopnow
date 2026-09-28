@@ -100,7 +100,7 @@
                                     {{ __('settings::admin.default') }}
                                 </span>
                             </div>
-                            <p class="mt-0.5 text-xs text-skin-neutral-9">{{ courier.description }}</p>
+                            <p class="mt-0.5 text-xs text-skin-neutral-9">{{ courierDescription(courier.key) }}</p>
                         </div>
 
                         <div class="flex items-center gap-3">
@@ -127,8 +127,8 @@
                         </p>
                         <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                             <div v-for="field in courier.fields" :key="field.key">
-                                <AppLabel :for="`${courier.key}_${field.key}`" :value="__(field.label)" />
-                                <p v-if="field.hint" class="mb-1 text-xs text-skin-neutral-9">{{ field.hint }}</p>
+                                <AppLabel :for="`${courier.key}_${field.key}`" :value="fieldLabel(field.key)" />
+                                <p v-if="fieldHint(field.key)" class="mb-1 text-xs text-skin-neutral-9">{{ fieldHint(field.key) }}</p>
                                 <AppInputText
                                     :id="`${courier.key}_${field.key}`"
                                     v-model="form[`${courier.key}_${field.key}`]"
@@ -454,6 +454,35 @@ const couriers = [
         ],
     },
 ]
+
+const courierDescription = (key) => {
+    if (key === 'pathao') return __('settings::admin.courier_pathao_desc')
+    if (key === 'steadfast') return __('settings::admin.courier_steadfast_desc')
+    if (key === 'redx') return __('settings::admin.courier_redx_desc')
+    if (key === 'ecourier') return __('settings::admin.courier_ecourier_desc')
+    if (key === 'paperfly') return __('settings::admin.courier_paperfly_desc')
+    return ''
+}
+
+const fieldLabel = (key) => {
+    if (key === 'client_id') return __('settings::admin.field_client_id')
+    if (key === 'client_secret') return __('settings::admin.field_client_secret')
+    if (key === 'username') return __('settings::admin.field_username')
+    if (key === 'password') return __('settings::admin.field_password')
+    if (key === 'store_id') return __('settings::admin.field_store_id')
+    if (key === 'api_key') return __('settings::admin.field_api_key')
+    if (key === 'secret_key') return __('settings::admin.field_secret_key')
+    if (key === 'base_url') return __('settings::admin.field_api_base_url')
+    if (key === 'access_token') return __('settings::admin.field_access_token')
+    if (key === 'api_secret') return __('settings::admin.field_api_secret')
+    if (key === 'user_id') return __('settings::admin.field_user_id')
+    return key
+}
+
+const fieldHint = (key) => {
+    if (key === 'base_url') return __('settings::admin.courier_steadfast_base_url_hint')
+    return ''
+}
 
 function isEnabled(key) {
     return Boolean(form[`${key}_enabled`])
