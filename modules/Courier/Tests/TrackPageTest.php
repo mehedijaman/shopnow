@@ -43,7 +43,7 @@ beforeEach(function () {
 test('public track page renders', function () {
     $this->get('/track')
         ->assertOk()
-        ->assertSee('Track Your Parcel');
+        ->assertSee(__('courier::site.track.heading'));
 });
 
 test('track page is linked from the header, mobile menu, and footer', function () {
@@ -57,15 +57,15 @@ test('track page is linked from the header, mobile menu, and footer', function (
 test('shows shipment details when the tracking number and phone match', function () {
     $this->get('/track/result?tracking=STF-123&phone=01712345678')
         ->assertOk()
-        ->assertSee('Shipment History')
+        ->assertSee(__('courier::site.track.history'))
         ->assertSee('in transit');
 });
 
 test('hides shipment details when the phone does not match', function () {
     $this->get('/track/result?tracking=STF-123&phone=01811111111')
         ->assertOk()
-        ->assertSee('Shipment not found')
-        ->assertDontSee('Shipment History');
+        ->assertSee(__('courier::site.track.not_found_heading'))
+        ->assertDontSee(__('courier::site.track.history'));
 });
 
 test('validates the phone format on tracking lookups', function () {
@@ -105,21 +105,21 @@ test('customers see the tracking block on their orders page', function () {
     $this->get('/account/orders')
         ->assertOk()
         ->assertSee('STF-456')
-        ->assertSee('Full history');
+        ->assertSee(__('order::site.orders.full_history'));
 });
 
 test('shows shipment details when looked up by order number', function () {
     $this->get('/track/result?tracking='.$this->order->id.'&phone=01712345678')
         ->assertOk()
-        ->assertSee('Shipment History')
+        ->assertSee(__('courier::site.track.history'))
         ->assertSee('in transit');
 });
 
 test('hides details when an order number lookup has the wrong phone', function () {
     $this->get('/track/result?tracking='.$this->order->id.'&phone=01811111111')
         ->assertOk()
-        ->assertSee('Shipment not found')
-        ->assertDontSee('Shipment History');
+        ->assertSee(__('courier::site.track.not_found_heading'))
+        ->assertDontSee(__('courier::site.track.history'));
 });
 
 test('shows the awaiting shipment state before the courier booking', function () {
@@ -136,8 +136,8 @@ test('shows the awaiting shipment state before the courier booking', function ()
 
     $this->get('/track/result?tracking='.$order->id.'&phone=01712345678')
         ->assertOk()
-        ->assertSee("hasn't been shipped yet")
-        ->assertDontSee('Shipment History');
+        ->assertSee(__('courier::site.track.awaiting_shipped'))
+        ->assertDontSee(__('courier::site.track.history'));
 });
 
 test('shows digital orders as having no parcel to track', function () {
@@ -150,8 +150,8 @@ test('shows digital orders as having no parcel to track', function () {
 
     $this->get('/track/result?tracking='.$order->id.'&phone=01712345678')
         ->assertOk()
-        ->assertSee("doesn't include a parcel")
-        ->assertDontSee('Shipment History');
+        ->assertSee(__('courier::site.track.awaiting_no_parcel'))
+        ->assertDontSee(__('courier::site.track.history'));
 });
 
 test('requests a live status refresh for a stale tracked shipment', function () {
@@ -213,7 +213,7 @@ test('my orders links to tracking by order number before the courier booking', f
 
     $this->get('/account/orders')
         ->assertOk()
-        ->assertSee('Track order')
+        ->assertSee(__('order::site.orders.track_order'))
         ->assertSee(route('site.track', ['tracking' => $order->id]), false);
 });
 
