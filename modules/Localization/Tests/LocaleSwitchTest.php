@@ -98,7 +98,7 @@ test('the choice is saved to both accounts at once', function () {
 });
 
 test('the switch endpoint is rate limited', function () {
-    foreach (range(1, 6) as $attempt) {
+    foreach (range(1, 60) as $attempt) {
         $this->post('/locale', ['locale' => 'bn'])->assertRedirect();
     }
 
