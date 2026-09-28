@@ -1,29 +1,71 @@
 <template>
     <nav
         class="fixed bottom-0 left-0 right-0 z-40 block border-t border-skin-neutral-4 bg-white lg:hidden"
-        aria-label="Mobile navigation"
+        :aria-label="__('site.nav.mobile_navigation')"
     >
         <div class="mx-auto flex w-full max-w-7xl justify-around">
-            <a href="/" class="flex flex-col items-center justify-center py-2 text-center">
+            <a
+                href="/"
+                class="flex flex-col items-center justify-center py-2 text-center"
+            >
                 <i class="ri-home-5-line text-xl text-skin-neutral-9"></i>
-                <span class="mt-0.5 text-[10px] font-medium text-skin-neutral-9">হোম</span>
+                <span
+                    class="mt-0.5 text-[10px] font-medium text-skin-neutral-9"
+                    >{{ __('site.nav.home') }}</span
+                >
             </a>
-            <a href="/shop" class="flex flex-col items-center justify-center py-2 text-center">
+            <a
+                href="/shop"
+                class="flex flex-col items-center justify-center py-2 text-center"
+            >
                 <i class="ri-shopping-bag-line text-xl text-skin-neutral-9"></i>
-                <span class="mt-0.5 text-[10px] font-medium text-skin-neutral-9">Shop</span>
+                <span
+                    class="mt-0.5 text-[10px] font-medium text-skin-neutral-9"
+                    >{{ __('site.nav.shop') }}</span
+                >
             </a>
-            <a href="/cart" class="flex flex-col items-center justify-center py-2 text-center relative">
-                <i :class="cartStore.totalQuantity > 0 ? 'ri-shopping-cart-fill' : 'ri-shopping-cart-line'" class="cursor-pointer text-xl text-skin-neutral-9"></i>
-                <span v-show="cartStore.totalQuantity > 0" class="absolute -top-1 right-0 rounded-full bg-red-500 px-1 py-0 text-xs text-white">{{ cartStore.totalQuantity }}</span>
-                <span class="mt-0.5 text-[10px] font-medium text-skin-neutral-9">কার্ট</span>
+            <a
+                href="/cart"
+                class="relative flex flex-col items-center justify-center py-2 text-center"
+            >
+                <i
+                    :class="
+                        cartStore.totalQuantity > 0
+                            ? 'ri-shopping-cart-fill'
+                            : 'ri-shopping-cart-line'
+                    "
+                    class="cursor-pointer text-xl text-skin-neutral-9"
+                ></i>
+                <span
+                    v-show="cartStore.totalQuantity > 0"
+                    class="absolute -top-1 right-0 rounded-full bg-red-500 px-1 py-0 text-xs text-white"
+                    >{{ cartStore.totalQuantity }}</span
+                >
+                <span
+                    class="mt-0.5 text-[10px] font-medium text-skin-neutral-9"
+                    >{{ __('site.nav.cart') }}</span
+                >
             </a>
-            <a href="javascript:void(0)" @click="openSearch" class="flex flex-col items-center justify-center py-2 text-center">
+            <a
+                href="javascript:void(0)"
+                @click="openSearch"
+                class="flex flex-col items-center justify-center py-2 text-center"
+            >
                 <i class="ri-search-2-line text-xl text-skin-neutral-9"></i>
-                <span class="mt-0.5 text-[10px] font-medium text-skin-neutral-9">অনুসন্ধান</span>
+                <span
+                    class="mt-0.5 text-[10px] font-medium text-skin-neutral-9"
+                    >{{ __('common.search') }}</span
+                >
             </a>
-            <a :href="props.isLoggedIn ? '/account/profile' : '/login'" class="flex flex-col items-center justify-center py-2 text-center">
+            <a
+                :href="props.isLoggedIn ? '/account/profile' : '/login'"
+                class="flex flex-col items-center justify-center py-2 text-center"
+            >
                 <i class="ri-user-line text-xl text-skin-neutral-9"></i>
-                <span class="mt-0.5 text-[10px] font-medium text-skin-neutral-9">অ্যাকাউন্ট</span>
+                <span
+                    class="mt-0.5 text-[10px] font-medium text-skin-neutral-9"
+                    >{{ __('site.nav.account') }}</span
+                >
             </a>
         </div>
     </nav>
@@ -36,14 +78,17 @@ import { defineProps } from 'vue'
 const props = defineProps({
     isLoggedIn: {
         type: Boolean,
-        default: false,
-    },
+        default: false
+    }
 })
 
 const cartStore = useCartStore()
 
 function openSearch() {
-    if (typeof window !== 'undefined' && typeof window.toggleSearchModal === 'function') {
+    if (
+        typeof window !== 'undefined' &&
+        typeof window.toggleSearchModal === 'function'
+    ) {
         window.toggleSearchModal()
     }
 }

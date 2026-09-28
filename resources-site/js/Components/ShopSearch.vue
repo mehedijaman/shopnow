@@ -10,17 +10,21 @@
             <div class="p-4 sm:p-5">
                 <div class="mb-4 flex items-start justify-between gap-4">
                     <div>
-                        <p class="text-[11px] font-bold uppercase tracking-wider text-primary-600 dark:text-primary-400">
-                            Search
+                        <p
+                            class="text-[11px] font-bold uppercase tracking-wider text-primary-600 dark:text-primary-400"
+                        >
+                            {{ __('site.search.heading') }}
                         </p>
-                        <h2 class="mt-0.5 text-base font-bold text-gray-900 dark:text-white sm:text-lg">
-                            Find products
+                        <h2
+                            class="mt-0.5 text-base font-bold text-gray-900 dark:text-white sm:text-lg"
+                        >
+                            {{ __('site.search.find_products') }}
                         </h2>
                     </div>
                     <button
                         type="button"
                         class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
-                        aria-label="Close search"
+                        :aria-label="__('site.aria.close_search')"
                         @click="close"
                     >
                         <i class="ri-close-line text-xl"></i>
@@ -41,8 +45,8 @@
                             name="q"
                             autocomplete="off"
                             enterkeyhint="search"
-                            placeholder="Search for products, brands and more..."
-                            aria-label="Search products"
+                            :placeholder="__('site.search.placeholder')"
+                            :aria-label="__('site.aria.search_products')"
                             class="block w-full rounded-2xl border border-gray-200 bg-gray-50 py-3.5 pl-12 pr-14 text-[15px] font-medium text-gray-900 placeholder:font-normal placeholder:text-gray-400 focus:border-primary-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-primary-500/10 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-primary-500 dark:focus:bg-gray-900 sm:pr-36"
                             @keydown.esc.prevent="close"
                         />
@@ -54,7 +58,7 @@
                                 v-if="searchText"
                                 type="button"
                                 class="flex h-8 w-8 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-200 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white"
-                                aria-label="Clear search"
+                                :aria-label="__('site.aria.clear_search')"
                                 @click="clearQuery"
                             >
                                 <i class="ri-close-circle-fill text-lg"></i>
@@ -65,8 +69,12 @@
                                 class="flex h-9 items-center justify-center gap-1.5 rounded-xl bg-primary-600 px-3 text-xs font-bold uppercase tracking-wide text-white shadow-sm transition-all hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-500/20 active:scale-[0.98] sm:px-4 sm:text-[13px]"
                             >
                                 <i class="ri-search-line sm:hidden"></i>
-                                <span class="hidden sm:inline">Search</span>
-                                <span class="sr-only sm:hidden">Search</span>
+                                <span class="hidden sm:inline">{{
+                                    __('common.search')
+                                }}</span>
+                                <span class="sr-only sm:hidden">{{
+                                    __('common.search')
+                                }}</span>
                             </button>
                         </div>
                     </div>
@@ -98,7 +106,7 @@
                             >
                                 Enter
                             </kbd>
-                            to search
+                            {{ __('site.search.to_search') }}
                         </span>
                         <span class="inline-flex items-center gap-1.5">
                             <kbd
@@ -106,7 +114,7 @@
                             >
                                 Esc
                             </kbd>
-                            to close
+                            {{ __('site.search.to_close') }}
                         </span>
                     </p>
                 </div>

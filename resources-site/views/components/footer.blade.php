@@ -42,7 +42,7 @@
                     </p>
                 @else
                     <p class="text-xs leading-relaxed text-slate-400">
-                        Your trusted online store for high-quality products, fast delivery, and exceptional customer experience.
+                        {{ __('site.footer.tagline') }}
                     </p>
                 @endif
 
@@ -66,35 +66,35 @@
             {{-- Column 2: Navigation --}}
             <div>
                 <h3 class="mb-5 text-xs font-extrabold uppercase tracking-wider text-white">
-                    <span>Quick Links</span>
+                    <span>{{ __('site.footer.quick_links') }}</span>
                 </h3>
                 <ul class="space-y-3 text-xs font-medium">
-                    <li><a href="{{ route('site.index') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Home</a></li>
-                    <li><a href="{{ route('shop.index') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Shop Products</a></li>
-                    <li><a href="/blog" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Latest Blog</a></li>
-                    <li><a href="{{ route('site.about') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> About Us</a></li>
-                    <li><a href="{{ route('site.contact') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Contact Support</a></li>
-                    <li><a href="{{ route('site.track') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Track Your Parcel</a></li>
+                    <li><a href="{{ route('site.index') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.nav.home') }}</a></li>
+                    <li><a href="{{ route('shop.index') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.footer.shop_products') }}</a></li>
+                    <li><a href="/blog" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.footer.latest_blog') }}</a></li>
+                    <li><a href="{{ route('site.about') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.footer.about_us') }}</a></li>
+                    <li><a href="{{ route('site.contact') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.footer.contact_support') }}</a></li>
+                    <li><a href="{{ route('site.track') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.footer.track_your_parcel') }}</a></li>
                 </ul>
             </div>
 
             {{-- Column 3: Legal & Account --}}
             <div>
                 <h3 class="mb-5 text-xs font-extrabold uppercase tracking-wider text-white">
-                    <span>Legal & Policy</span>
+                    <span>{{ __('site.footer.legal_policy') }}</span>
                 </h3>
                 <ul class="space-y-3 text-xs font-medium">
-                    <li><a href="{{ route('site.termsOfService') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Terms of Service</a></li>
-                    <li><a href="{{ route('site.privacyPolicy') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Privacy Policy</a></li>
-                    <li><a href="{{ route('site.refundPolicy') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> Refund & Return Policy</a></li>
-                    <li><a href="{{ route('customerAuth.loginForm') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> My Account</a></li>
+                    <li><a href="{{ route('site.termsOfService') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.footer.terms_of_service') }}</a></li>
+                    <li><a href="{{ route('site.privacyPolicy') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.footer.privacy_policy') }}</a></li>
+                    <li><a href="{{ route('site.refundPolicy') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.footer.refund_policy') }}</a></li>
+                    <li><a href="{{ route('customerAuth.loginForm') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.account.my_account') }}</a></li>
                 </ul>
             </div>
 
             {{-- Column 4: Contact Info --}}
             <div>
                 <h3 class="mb-5 text-xs font-extrabold uppercase tracking-wider text-white">
-                    <span>Get in Touch</span>
+                    <span>{{ __('site.footer.get_in_touch') }}</span>
                 </h3>
                 <ul class="space-y-4 text-xs font-medium">
                     @if (count($addresses))
@@ -144,10 +144,10 @@
         <div class="mt-14 flex flex-col items-center justify-between gap-4 border-t border-slate-900 pt-8 text-xs text-slate-500 sm:flex-row">
             <div class="text-center sm:text-left">
                 <p>
-                    &copy; {{ date('Y') }} <span class="font-bold text-slate-300">{{ $footerSiteName }}</span>. All rights reserved.
+                    &copy; {{ date('Y') }} <span class="font-bold text-slate-300">{{ $footerSiteName }}</span>. {{ __('site.footer.all_rights_reserved') }}
                 </p>
                 <p class="mt-1.5">
-                    Development and Maintenance by
+                    {{ __('site.footer.developed_by') }}
                     <a
                         href="https://www.gtechservice.net"
                         target="_blank"
@@ -158,9 +158,9 @@
             </div>
 
             <div class="flex items-center gap-6">
-                <a href="{{ route('site.privacyPolicy') }}" class="transition-colors hover:text-slate-300">Privacy</a>
-                <a href="{{ route('site.termsOfService') }}" class="transition-colors hover:text-slate-300">Terms</a>
-                <a href="{{ route('site.contact') }}" class="transition-colors hover:text-slate-300">Support</a>
+                <a href="{{ route('site.privacyPolicy') }}" class="transition-colors hover:text-slate-300">{{ __('site.footer.privacy') }}</a>
+                <a href="{{ route('site.termsOfService') }}" class="transition-colors hover:text-slate-300">{{ __('site.footer.terms') }}</a>
+                <a href="{{ route('site.contact') }}" class="transition-colors hover:text-slate-300">{{ __('site.footer.support') }}</a>
             </div>
         </div>
     </div>

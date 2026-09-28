@@ -19,6 +19,7 @@ return [
     // Shared chrome & widgets
     'search' => 'Search',
     'breadcrumb' => 'Breadcrumb',
+    'follow_us' => 'Follow Us',
     'no_results' => 'No results found',
     'try_different_search' => 'Try a different search term',
     'edit_profile' => 'Edit Profile',

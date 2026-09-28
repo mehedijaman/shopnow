@@ -31,7 +31,7 @@ class LocalizationExportCommand extends Command
             'module' => ['admin', 'enums', 'messages', 'mail'],
         ],
         'site' => [
-            'app' => ['common'],
+            'app' => ['common', 'site'],
             'module' => ['site', 'enums'],
         ],
     ];
