@@ -60,7 +60,7 @@
 </template>
 
 <script setup>
-import { computed, markRaw, onUnmounted, provide } from 'vue'
+import { computed, inject, markRaw, onUnmounted, provide } from 'vue'
 import { Head, useForm } from '@inertiajs/vue3'
 import useFormErrors from '@/Composables/useFormErrors'
 import GeneralGroup from './Components/GeneralGroup.vue'
@@ -82,6 +82,7 @@ const props = defineProps({
     groups: { type: Array, required: true },
 })
 
+const translate = inject('translate')
 const { errorsFields } = useFormErrors()
 
 const groupComponents = {
@@ -143,18 +144,18 @@ const submit = () => {
 
 const groupLabel = (g) => {
     const labels = {
-        general: 'General',
-        branding: 'Branding',
-        contact: 'Contact',
-        social: 'Social',
-        seo: 'SEO',
-        mail: 'Mail',
-        shipping: 'Shipping',
-        courier: 'Courier',
-        homepage: 'Homepage',
-        pixel: 'Pixel',
-        analytics: 'Analytics',
-        downloads: 'Downloads',
+        general: translate('settings::admin.group_general'),
+        branding: translate('settings::admin.group_branding'),
+        contact: translate('settings::admin.group_contact'),
+        social: translate('settings::admin.group_social'),
+        seo: translate('settings::admin.group_seo'),
+        mail: translate('settings::admin.group_mail'),
+        shipping: translate('settings::admin.group_shipping'),
+        courier: translate('settings::admin.group_courier'),
+        homepage: translate('settings::admin.group_homepage'),
+        pixel: translate('settings::admin.group_pixel'),
+        analytics: translate('settings::admin.group_analytics'),
+        downloads: translate('settings::admin.group_downloads'),
     }
     return labels[g] ?? g
 }
@@ -179,18 +180,18 @@ const groupIcon = (g) => {
 
 const groupDescription = (g) => {
     const descriptions = {
-        general: 'Configure your site description and admin notification email.',
-        branding: 'Upload your logo, favicon, and other brand assets.',
-        contact: 'Manage public contact details like phone, email, and address.',
-        social: 'Link your social media profiles to be shown on the site.',
-        seo: 'Control meta title, description, and keywords for search engine visibility.',
-        mail: 'Configure the SMTP server used to send outgoing emails.',
-        shipping: 'Set flat rate shipping charge and free shipping threshold.',
-        courier: 'Configure courier APIs, webhook secrets and COD fraud checks.',
-        homepage: 'Control which sections are visible on the homepage.',
-        pixel: 'Configure Meta Pixel and Conversions API tracking settings.',
-        analytics: 'Configure Google Analytics 4 (GA4) measurement ID and tracking settings.',
-        downloads: 'Set default download expiry days and maximum download count for digital products.',
+        general: translate('settings::admin.group_general_desc'),
+        branding: translate('settings::admin.group_branding_desc'),
+        contact: translate('settings::admin.group_contact_desc'),
+        social: translate('settings::admin.group_social_desc'),
+        seo: translate('settings::admin.group_seo_desc'),
+        mail: translate('settings::admin.group_mail_desc'),
+        shipping: translate('settings::admin.group_shipping_desc'),
+        courier: translate('settings::admin.group_courier_desc'),
+        homepage: translate('settings::admin.group_homepage_desc'),
+        pixel: translate('settings::admin.group_pixel_desc'),
+        analytics: translate('settings::admin.group_analytics_desc'),
+        downloads: translate('settings::admin.group_downloads_desc'),
     }
     return descriptions[g] ?? ''
 }

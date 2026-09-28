@@ -56,7 +56,7 @@
                     >
                         <i v-if="currentForm.processing" class="ri-loader-4-line mr-1 animate-spin"></i>
                         <i v-else :class="[currentSection.submitIcon, 'mr-1']"></i>
-                        {{ currentForm.processing ? 'Saving…' : currentSection.submitLabel }}
+                        {{ currentForm.processing ? __('common.saving') : currentSection.submitLabel }}
                     </AppButton>
                 </div>
 
@@ -67,7 +67,7 @@
 </template>
 
 <script setup>
-import { computed, markRaw, provide, ref } from 'vue'
+import { computed, inject, markRaw, provide, ref } from 'vue'
 import { Head, useForm } from '@inertiajs/vue3'
 import useFormErrors from '@/Composables/useFormErrors'
 import ProfileInfoSection from './Components/ProfileInfoSection.vue'
@@ -81,36 +81,38 @@ const props = defineProps({
     },
 })
 
+const translate = inject('translate')
+
 const breadCrumb = [
-    { label: 'Home', href: route('dashboard.index') },
-    { label: 'My Profile', last: true },
+    { label: translate('common.home'), href: route('dashboard.index') },
+    { label: translate('profile::admin.profile'), last: true },
 ]
 
 const sections = [
     {
         key: 'profile',
-        label: 'Profile',
+        label: translate('profile::admin.profile'),
         icon: 'ri-user-line',
-        description: 'Update your display name and profile photo.',
-        submitLabel: 'Save Profile',
+        description: translate('profile::admin.profile_section_desc'),
+        submitLabel: translate('profile::admin.save_profile'),
         submitIcon: 'ri-save-line',
         component: markRaw(ProfileInfoSection),
     },
     {
         key: 'email',
-        label: 'Email',
+        label: translate('profile::admin.email_section'),
         icon: 'ri-mail-line',
-        description: 'Change the email address associated with your account. You will need your current password to confirm.',
-        submitLabel: 'Update Email',
+        description: translate('profile::admin.email_section_desc'),
+        submitLabel: translate('profile::admin.update_email'),
         submitIcon: 'ri-mail-check-line',
         component: markRaw(EmailSection),
     },
     {
         key: 'password',
-        label: 'Password',
+        label: translate('profile::admin.password_section'),
         icon: 'ri-lock-password-line',
-        description: 'Change your account password. You will need your current password to proceed.',
-        submitLabel: 'Update Password',
+        description: translate('profile::admin.password_section_desc'),
+        submitLabel: translate('profile::admin.update_password'),
         submitIcon: 'ri-lock-line',
         component: markRaw(PasswordSection),
     },

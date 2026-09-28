@@ -3,7 +3,7 @@
 
         <!-- Avatar -->
         <div>
-            <AppLabel value="Profile Photo" />
+            <AppLabel :value="__('profile::admin.profile_photo')" />
             <p class="mb-3 text-xs text-skin-neutral-9">{{ __('profile::admin.avatar_hint') }}</p>
 
             <div class="flex items-center gap-5">
@@ -38,7 +38,7 @@
 
         <!-- Name -->
         <div>
-            <AppLabel for="name" value="Full Name" />
+            <AppLabel for="name" :value="__('profile::admin.full_name')" />
             <p class="mb-1 text-xs text-skin-neutral-9">{{ __('profile::admin.display_name_hint') }}</p>
             <AppInputText
                 id="name"

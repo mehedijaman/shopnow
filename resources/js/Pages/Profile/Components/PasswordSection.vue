@@ -12,7 +12,7 @@
 
         <!-- Current password -->
         <div>
-            <AppLabel for="current_password" value="Current Password" />
+            <AppLabel for="current_password" :value="__('profile::admin.current_password')" />
             <p class="mb-1 text-xs text-skin-neutral-9">{{ __('profile::admin.current_password_hint') }}</p>
             <AppInputPassword
                 id="current_password"
@@ -27,7 +27,7 @@
         <div>
             <div class="mb-1 flex items-center justify-between">
                 <div>
-                    <AppLabel for="password" value="New Password" />
+                    <AppLabel for="password" :value="__('profile::admin.new_password')" />
                     <p class="text-xs text-skin-neutral-9">{{ __('profile::admin.password_hint') }}</p>
                 </div>
                 <button
@@ -60,7 +60,7 @@
                         <button
                             type="button"
                             class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-skin-neutral-5 bg-skin-neutral-1 text-skin-neutral-10 transition-colors hover:bg-skin-neutral-3 hover:text-skin-neutral-12"
-                            :title="copied ? 'Copied!' : 'Copy password'"
+                            :title="copied ? __('profile::admin.copied_exclamation') : __('profile::admin.copy_password')"
                             @click="copyGenerated"
                         >
                             <i :class="copied ? 'ri-check-line text-green-600' : 'ri-clipboard-line'" class="text-base"></i>
@@ -68,7 +68,7 @@
                         <button
                             type="button"
                             class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-skin-neutral-5 bg-skin-neutral-1 text-skin-neutral-10 transition-colors hover:bg-skin-neutral-3 hover:text-skin-neutral-12"
-                            title="Regenerate"
+                            :title="__('profile::admin.regenerate')"
                             @click="generate"
                         >
                             <i class="ri-refresh-line text-base"></i>
@@ -153,7 +153,7 @@
 
         <!-- Confirm password -->
         <div>
-            <AppLabel for="password_confirmation" value="Confirm New Password" />
+            <AppLabel for="password_confirmation" :value="__('profile::admin.confirm_new_password')" />
             <p class="mb-1 text-xs text-skin-neutral-9">{{ __('profile::admin.confirm_password_hint') }}</p>
             <AppInputPassword
                 id="password_confirmation"
@@ -176,6 +176,7 @@ defineProps({
 })
 
 const form = inject('passwordForm')
+const translate = inject('translate')
 
 // ── Generator state ──────────────────────────────────────────────────────────
 
@@ -191,9 +192,9 @@ const options = reactive({
 })
 
 const charsetOptions = [
-    { key: 'uppercase', label: 'Uppercase', sample: 'A–Z' },
-    { key: 'numbers',   label: 'Numbers',   sample: '0–9' },
-    { key: 'symbols',   label: 'Symbols',   sample: '!@#' },
+    { key: 'uppercase', label: translate('profile::admin.uppercase'), sample: 'A–Z' },
+    { key: 'numbers',   label: translate('profile::admin.numbers'),   sample: '0–9' },
+    { key: 'symbols',   label: translate('profile::admin.symbols'),   sample: '!@#' },
 ]
 
 const CHARSETS = {
@@ -269,10 +270,10 @@ const strength = computed(() => {
     const level = Math.min(4, Math.max(1, Math.ceil(score * 4 / 5)))
 
     const map = {
-        1: { label: 'Weak',      color: 'text-red-500',    barColor: 'bg-red-500' },
-        2: { label: 'Fair',      color: 'text-orange-500', barColor: 'bg-orange-500' },
-        3: { label: 'Good',      color: 'text-yellow-500', barColor: 'bg-yellow-500' },
-        4: { label: 'Strong',    color: 'text-green-600',  barColor: 'bg-green-500' },
+        1: { label: translate('profile::admin.weak'),      color: 'text-red-500',    barColor: 'bg-red-500' },
+        2: { label: translate('profile::admin.fair'),      color: 'text-orange-500', barColor: 'bg-orange-500' },
+        3: { label: translate('profile::admin.good'),      color: 'text-yellow-500', barColor: 'bg-yellow-500' },
+        4: { label: translate('profile::admin.strong'),    color: 'text-green-600',  barColor: 'bg-green-500' },
     }
 
     return { score: level, ...map[level] }

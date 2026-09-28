@@ -2,7 +2,7 @@
     <form class="space-y-6" @submit.prevent>
 
         <div>
-            <AppLabel for="email" value="New Email Address" />
+            <AppLabel for="email" :value="__('profile::admin.new_email_address')" />
             <p class="mb-1 text-xs text-skin-neutral-9">{{ __('profile::admin.email_hint') }}</p>
             <AppInputText
                 id="email"
@@ -16,7 +16,7 @@
         </div>
 
         <div>
-            <AppLabel for="email_current_password" value="Current Password" />
+            <AppLabel for="email_current_password" :value="__('profile::admin.current_password')" />
             <p class="mb-1 text-xs text-skin-neutral-9">{{ __('profile::admin.email_password_hint') }}</p>
             <AppInputPassword
                 id="email_current_password"
