@@ -8,6 +8,7 @@ use Modules\Acl\Database\Seeders\AclPermissionSeeder;
 use Modules\Acl\Database\Seeders\AclRoleSeeder;
 use Modules\Blog\Database\Seeders\BlogAclSeeder;
 use Modules\Blog\Database\Seeders\BlogSeeder;
+use Modules\Order\Database\Seeders\OrderAclSeeder;
 use Modules\Page\Database\Seeders\PageSeeder;
 use Modules\Product\Database\Seeders\ProductAclSeeder;
 use Modules\Product\Database\Seeders\ProductSeeder;
@@ -33,6 +34,8 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
 
             PromoCodeAclSeeder::class,
+
+            OrderAclSeeder::class,
 
             SettingSeeder::class,
         ]);

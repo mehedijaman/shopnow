@@ -24,6 +24,12 @@ export default {
                     link: route('order.index')
                 },
                 {
+                    label: 'Create Order',
+                    permission: 'order-create',
+                    icon: 'ri-add-circle-line',
+                    link: route('order.create')
+                },
+                {
                     label: 'Order Report',
                     permission: 'order-list',
                     icon: 'ri-bar-chart-2-line',

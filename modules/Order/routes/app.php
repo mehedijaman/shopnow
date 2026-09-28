@@ -14,12 +14,17 @@ Route::get('order', [
 Route::get('order/create', [
     OrderController::class,
     'create',
-])->name('order.create');
+])->name('order.create')->can('order-create');
 
 Route::post('order', [
     OrderController::class,
     'store',
-])->name('order.store');
+])->name('order.store')->can('order-create');
+
+Route::post('order/coupon-preview', [
+    OrderController::class,
+    'couponPreview',
+])->name('order.couponPreview')->can('order-create');
 
 Route::get('order/{id}/show', [
     OrderController::class,

@@ -9,12 +9,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Inertia\Response;
+use Modules\Customer\Models\Customer;
 use Modules\Order\Enums\OrderStatus;
+use Modules\Order\Enums\PaymentMethod;
 use Modules\Order\Enums\PaymentStatus;
 use Modules\Order\Enums\TransactionStatus;
 use Modules\Order\Http\Requests\OrderValidate;
 use Modules\Order\Http\Requests\UpdateOrderValidate;
 use Modules\Order\Models\Order;
+use Modules\Order\Services\CreateOrderService;
 use Modules\Order\Services\RecordOrderPayment;
 use Modules\Order\Services\UpdateOrderService;
 use Modules\Product\Models\Product;
@@ -76,14 +79,35 @@ class OrderController extends BackendController
 
     public function create(): Response
     {
-        return inertia('Order/OrderForm');
+        return inertia('Order/OrderForm', [
+            'products' => $this->productsForPicker(),
+            'statuses' => OrderStatus::values(),
+            'paymentMethods' => collect(PaymentMethod::cases())
+                ->map(fn (PaymentMethod $method) => [
+                    'value' => $method->value,
+                    'label' => $method->label(),
+                ])
+                ->values()
+                ->all(),
+            'customers' => Customer::query()
+                ->orderBy('name')
+                ->limit(200)
+                ->get(['id', 'name', 'phone'])
+                ->map(fn (Customer $customer) => [
+                    'id' => $customer->id,
+                    'name' => $customer->name,
+                    'phone' => $customer->phone,
+                ])
+                ->values()
+                ->all(),
+        ]);
     }
 
-    public function store(OrderValidate $request): RedirectResponse
+    public function store(OrderValidate $request, CreateOrderService $createOrderService): RedirectResponse
     {
-        Order::create($request->validated());
+        $order = $createOrderService->run($request->validated());
 
-        return redirect()->route('order.index')
+        return redirect()->route('order.show', $order->id)
             ->with('success', 'Order created.');
     }
 
@@ -154,20 +178,46 @@ class OrderController extends BackendController
         CalculatePromoDiscount $calculatePromoDiscount,
         int $id,
     ): JsonResponse {
-        $order = Order::findOrFail($id);
+        return $this->couponResponse(
+            $request,
+            $validatePromoCode,
+            $calculatePromoDiscount,
+            Order::findOrFail($id),
+        );
+    }
 
+    /**
+     * Order-less coupon preview for the Create Order form: validates against
+     * the posted subtotal (and optional linked customer) without an order.
+     */
+    public function couponPreview(
+        Request $request,
+        ValidatePromoCode $validatePromoCode,
+        CalculatePromoDiscount $calculatePromoDiscount,
+    ): JsonResponse {
+        return $this->couponResponse($request, $validatePromoCode, $calculatePromoDiscount, null);
+    }
+
+    private function couponResponse(
+        Request $request,
+        ValidatePromoCode $validatePromoCode,
+        CalculatePromoDiscount $calculatePromoDiscount,
+        ?Order $order,
+    ): JsonResponse {
         $validated = $request->validate([
             'coupon_code' => ['required', 'string', 'max:50'],
             'subtotal' => ['nullable', 'numeric', 'min:0'],
+            'customer_id' => ['nullable', 'integer'],
         ]);
 
-        $subtotal = round((float) ($validated['subtotal'] ?? $order->subtotal), 2);
+        $subtotal = round((float) ($validated['subtotal'] ?? $order?->subtotal ?? 0), 2);
+        $customerId = $order ? $order->customer_id : ($validated['customer_id'] ?? null);
 
         $promoCode = $validatePromoCode->run(
             $validated['coupon_code'],
             $subtotal,
-            $order->customer_id,
-            excludeOrderId: $order->id,
+            $customerId,
+            excludeOrderId: $order?->id,
         );
 
         return response()->json([
