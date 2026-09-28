@@ -1,15 +1,15 @@
 @extends('site-layout')
 
-@section('seo_title', 'Forgot Password — ' . setting('branding.site_name', config('app.name')))
+@section('seo_title', __('customer-auth::site.forgot.seo_title') . ' — ' . setting('branding.site_name', config('app.name')))
 
 @section('content')
 <div class="flex min-h-[75vh] flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Reset your password
+            {{ __('customer-auth::site.forgot.heading') }}
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-            Enter your email address and we'll send you a recovery link.
+            {{ __('customer-auth::site.forgot.body') }}
         </p>
     </div>
 
@@ -35,7 +35,7 @@
 
                 <div>
                     <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                        Email address
+                        {{ __('customer-auth::site.forgot.email_address') }}
                     </label>
                     <div class="mt-1">
                         <input id="email" name="email" type="email" autocomplete="email" required value="{{ old('email') }}"
@@ -49,7 +49,7 @@
                 <div class="pt-2">
                     <button type="submit"
                         class="flex w-full justify-center rounded-xl border border-transparent bg-primary-600 py-2.5 px-4 text-sm font-bold text-white shadow-md hover:bg-primary-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300">
-                        Send reset link
+                        {{ __('customer-auth::site.forgot.submit') }}
                     </button>
                 </div>
             </form>

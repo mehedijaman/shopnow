@@ -1,12 +1,12 @@
 @extends('site-layout')
 
-@section('seo_title', 'Reset Password — ' . setting('branding.site_name', config('app.name')))
+@section('seo_title', __('customer-auth::site.reset.seo_title') . ' — ' . setting('branding.site_name', config('app.name')))
 
 @section('content')
 <div class="flex min-h-[75vh] flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Set your new password
+            {{ __('customer-auth::site.reset.heading') }}
         </h2>
     </div>
 
@@ -19,7 +19,7 @@
 
                 <div>
                     <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                        Email address
+                        {{ __('customer-auth::site.reset.email_address') }}
                     </label>
                     <div class="mt-1">
                         <input id="email" name="email" type="email" autocomplete="email" required value="{{ old('email', $email) }}"
@@ -32,7 +32,7 @@
 
                 <div>
                     <label for="password" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                        New Password <span class="text-xs font-normal text-gray-500 dark:text-gray-400 ml-1">(Min 8 chars)</span>
+                        {{ __('customer-auth::site.reset.new_password') }} <span class="text-xs font-normal text-gray-500 dark:text-gray-400 ml-1">{{ __('customer-auth::site.reset.min_8') }}</span>
                     </label>
                     <div class="mt-1">
                         <input id="password" name="password" type="password" autocomplete="new-password" required
@@ -45,7 +45,7 @@
 
                 <div>
                     <label for="password_confirmation" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                        Confirm New Password
+                        {{ __('customer-auth::site.reset.confirm_password') }}
                     </label>
                     <div class="mt-1">
                         <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" required
@@ -59,7 +59,7 @@
                 <div class="pt-2">
                     <button type="submit"
                         class="flex w-full justify-center rounded-xl border border-transparent bg-primary-600 py-2.5 px-4 text-sm font-bold text-white shadow-md hover:bg-primary-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300">
-                        Reset Password
+                        {{ __('customer-auth::site.reset.submit') }}
                     </button>
                 </div>
             </form>

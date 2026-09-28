@@ -1,17 +1,17 @@
 @extends('site-layout')
 
-@section('seo_title', 'Register Account — ' . setting('branding.site_name', config('app.name')))
+@section('seo_title', __('customer-auth::site.signup.seo_title') . ' — ' . setting('branding.site_name', config('app.name')))
 
 @section('content')
 <div class="flex min-h-[75vh] flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Create your account
+            {{ __('customer-auth::site.signup.heading') }}
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-            Or
+            {{ __('customer-auth::site.signup.or') }}
             <a href="{{ route('customerAuth.loginForm') }}" class="font-semibold text-primary-600 transition-colors hover:text-primary-500 dark:text-primary-400">
-                sign in to your existing account
+                {{ __('customer-auth::site.signup.signin_link') }}
             </a>
         </p>
     </div>
@@ -23,7 +23,7 @@
 
                 <div>
                     <label for="name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                        Full Name
+                        {{ __('customer-auth::site.signup.full_name') }}
                     </label>
                     <div class="mt-1">
                         <input id="name" name="name" type="text" autocomplete="name" required value="{{ old('name') }}"
@@ -36,7 +36,7 @@
 
                 <div>
                     <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                        Email address
+                        {{ __('customer-auth::site.signup.email_address') }}
                     </label>
                     <div class="mt-1">
                         <input id="email" name="email" type="email" autocomplete="email" required value="{{ old('email') }}"
@@ -49,7 +49,7 @@
 
                 <div>
                     <label for="phone" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                        Phone Number (11 digits, e.g. 01712345678)
+                        {{ __('customer-auth::site.signup.phone_label') }}
                     </label>
                     <div class="mt-1">
                         <input id="phone" name="phone" type="tel" autocomplete="tel" required value="{{ old('phone') }}"
@@ -62,7 +62,7 @@
 
                 <div>
                     <label for="password" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                        Password <span class="text-xs font-normal text-gray-500 dark:text-gray-400 ml-1">(Min 8 chars)</span>
+                        {{ __('customer-auth::site.signup.password') }} <span class="text-xs font-normal text-gray-500 dark:text-gray-400 ml-1">{{ __('customer-auth::site.signup.min_8') }}</span>
                     </label>
                     <div class="mt-1">
                         <input id="password" name="password" type="password" autocomplete="new-password" required
@@ -75,7 +75,7 @@
 
                 <div>
                     <label for="confirm_password" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                        Confirm Password
+                        {{ __('customer-auth::site.signup.confirm_password') }}
                     </label>
                     <div class="mt-1">
                         <input id="confirm_password" name="confirm_password" type="password" autocomplete="new-password" required
@@ -89,7 +89,7 @@
                 <div class="pt-2">
                     <button type="submit"
                         class="flex w-full justify-center rounded-xl border border-transparent bg-primary-600 py-2.5 px-4 text-sm font-bold text-white shadow-md hover:bg-primary-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300">
-                        Register Account
+                        {{ __('customer-auth::site.signup.submit') }}
                     </button>
                 </div>
             </form>

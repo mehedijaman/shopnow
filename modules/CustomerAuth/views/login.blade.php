@@ -1,17 +1,17 @@
 @extends('site-layout')
 
-@section('seo_title', 'Customer Login — ' . setting('branding.site_name', config('app.name')))
+@section('seo_title', __('customer-auth::site.login.seo_title') . ' — ' . setting('branding.site_name', config('app.name')))
 
 @section('content')
 <div class="flex min-h-[75vh] flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Sign in to your account
+            {{ __('customer-auth::site.login.heading') }}
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-            Or
+            {{ __('customer-auth::site.login.or') }}
             <a href="{{ route('customerAuth.signupForm') }}" class="font-semibold text-primary-600 transition-colors hover:text-primary-500 dark:text-primary-400">
-                create a new customer account
+                {{ __('customer-auth::site.login.create_account') }}
             </a>
         </p>
     </div>
@@ -38,7 +38,7 @@
 
                 <div>
                     <label for="login_identity" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                        Email address or Phone number
+                        {{ __('customer-auth::site.login.identity_label') }}
                     </label>
                     <div class="mt-1">
                         <input id="login_identity" name="login_identity" type="text" required value="{{ old('login_identity') }}"
@@ -51,7 +51,7 @@
 
                 <div>
                     <label for="password" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-                        Password
+                        {{ __('customer-auth::site.login.password') }}
                     </label>
                     <div class="mt-1">
                         <input id="password" name="password" type="password" autocomplete="current-password" required
@@ -67,13 +67,13 @@
                         <input id="remember" name="remember" type="checkbox"
                             class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-primary-600 focus:ring-primary-500 transition-colors">
                         <label for="remember" class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
-                            Remember me
+                            {{ __('customer-auth::site.login.remember_me') }}
                         </label>
                     </div>
 
                     <div class="text-sm">
                         <a href="{{ route('customerAuth.forgotPassword') }}" class="font-semibold text-primary-600 hover:text-primary-500 dark:text-primary-400 transition-colors">
-                            Forgot your password?
+                            {{ __('customer-auth::site.login.forgot_password') }}
                         </a>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                 <div class="pt-2">
                     <button type="submit"
                         class="flex w-full justify-center rounded-xl border border-transparent bg-primary-600 py-2.5 px-4 text-sm font-bold text-white shadow-md hover:bg-primary-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300">
-                        Sign in
+                        {{ __('customer-auth::site.login.submit') }}
                     </button>
                 </div>
             </form>

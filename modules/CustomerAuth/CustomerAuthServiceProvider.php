@@ -6,6 +6,8 @@ use Modules\Support\BaseServiceProvider;
 
 class CustomerAuthServiceProvider extends BaseServiceProvider
 {
+    protected ?string $viewNamespace = 'customer-auth';
+
     /**
      * This namespace is applied to the controller routes in your routes file.
      *

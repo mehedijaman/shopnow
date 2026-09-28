@@ -62,7 +62,7 @@ class NewPasswordController extends AppController
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
         return $status == Password::broker('customersModule')::PASSWORD_RESET
-            ? redirect()->route('customerAuth.loginForm')->with('success', 'Password updated')
+            ? redirect()->route('customerAuth.loginForm')->with('success', __('customer-auth::site.reset.updated'))
             : back()->withInput($request->only('email'))
                 ->withErrors(['email' => __($status)]);
     }
