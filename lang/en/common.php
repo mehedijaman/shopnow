@@ -95,4 +95,14 @@ return [
         'confirm_new_password' => 'Confirm new password',
     ],
 
+    'date_range' => [
+        'all_time' => 'All Time',
+        'this_month' => 'This Month',
+        'last_12_months' => 'Last 12 Months',
+    ],
+
+    'status' => [
+        'all' => 'All Statuses',
+    ],
+
 ];

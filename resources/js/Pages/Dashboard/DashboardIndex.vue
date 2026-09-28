@@ -1,5 +1,5 @@
 <template>
-    <Head title="Dashboard"></Head>
+    <Head :title="__('dashboard::admin.page_title')"></Head>
 
     <!-- Welcome bar with integrated filters -->
     <div class="relative overflow-hidden rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-4 text-white shadow-xs">
@@ -13,9 +13,9 @@
                 </div>
                 <div>
                     <h1 class="text-lg font-bold tracking-tight">
-                        Welcome back, <span class="bg-gradient-to-r from-indigo-200 via-violet-200 to-indigo-200 bg-clip-text text-transparent">{{ $page.props.auth.user.name }}</span>!
+                        {{ __('dashboard::admin.welcome_back') }} <span class="bg-gradient-to-r from-indigo-200 via-violet-200 to-indigo-200 bg-clip-text text-transparent">{{ $page.props.auth.user.name }}</span>!
                     </h1>
-                    <p class="text-xs text-slate-300">Store summary for today: {{ $page.props.datetime.now }}</p>
+                    <p class="text-xs text-slate-300">{{ __('dashboard::admin.summary') }} {{ $page.props.datetime.now }}</p>
                 </div>
             </div>
             <!-- Timeframe Filter integrated right into the welcome bar -->
@@ -25,14 +25,14 @@
                     :class="periodFilter === 'all' ? 'bg-white text-slate-800 shadow-xs' : 'text-slate-200 hover:text-white'"
                     @click="periodFilter = 'all'"
                 >
-                    All Time
+                    {{ __('common.date_range.all_time') }}
                 </button>
                 <button 
                     class="rounded-md px-3 py-1 text-xs font-semibold transition-all duration-200"
                     :class="periodFilter === 'month' ? 'bg-white text-slate-800 shadow-xs' : 'text-slate-200 hover:text-white'"
                     @click="periodFilter = 'month'"
                 >
-                    This Month
+                    {{ __('common.date_range.this_month') }}
                 </button>
             </div>
         </div>
@@ -45,7 +45,7 @@
             <div class="absolute -right-2 -top-2 h-14 w-14 rounded-full bg-emerald-500/5 transition-all duration-500 group-hover:scale-150"></div>
             <div class="flex items-start justify-between">
                 <div>
-                    <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Gross Revenue</p>
+                    <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.gross_revenue') }}</p>
                     <p class="mt-1 text-xl font-extrabold tracking-tight text-slate-800 dark:text-slate-100">৳{{ formatNumber(displayRevenue) }}</p>
                 </div>
                 <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400">
@@ -53,7 +53,7 @@
                 </div>
             </div>
             <p class="mt-2 text-[10px] text-slate-400 dark:text-slate-500">
-                <span class="capitalize">{{ displayPeriodLabel }}</span> (excl. cancelled)
+                <span class="capitalize">{{ displayPeriodLabel }}</span> {{ __('dashboard::admin.gross_revenue_note') }}
             </p>
         </div>
 
@@ -62,7 +62,7 @@
             <div class="absolute -right-2 -top-2 h-14 w-14 rounded-full bg-indigo-500/5 transition-all duration-500 group-hover:scale-150"></div>
             <div class="flex items-start justify-between">
                 <div>
-                    <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Orders Received</p>
+                    <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.orders_received') }}</p>
                     <p class="mt-1 text-xl font-extrabold tracking-tight text-slate-800 dark:text-slate-100">{{ formatNumber(displayOrders) }}</p>
                 </div>
                 <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600 dark:bg-indigo-950/30 dark:text-indigo-400">
@@ -70,7 +70,7 @@
                 </div>
             </div>
             <p class="mt-2 text-[10px] text-slate-400 dark:text-slate-500">
-                Transactions in <span class="lowercase">{{ displayPeriodLabel }}</span>
+                {{ __('dashboard::admin.transactions_in') }} <span class="lowercase">{{ displayPeriodLabel }}</span>
             </p>
         </div>
 
@@ -79,7 +79,7 @@
             <div class="absolute -right-2 -top-2 h-14 w-14 rounded-full bg-violet-500/5 transition-all duration-500 group-hover:scale-150"></div>
             <div class="flex items-start justify-between">
                 <div>
-                    <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Avg Order Value</p>
+                    <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.avg_order_value') }}</p>
                     <p class="mt-1 text-xl font-extrabold tracking-tight text-slate-800 dark:text-slate-100">৳{{ formatNumber(displayAOV) }}</p>
                 </div>
                 <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-50 text-violet-600 dark:bg-violet-950/30 dark:text-violet-400">
@@ -87,7 +87,7 @@
                 </div>
             </div>
             <p class="mt-2 text-[10px] text-slate-400 dark:text-slate-500">
-                Average per order in <span class="lowercase">{{ displayPeriodLabel }}</span>
+                {{ __('dashboard::admin.average_per_order_in') }} <span class="lowercase">{{ displayPeriodLabel }}</span>
             </p>
         </div>
 
@@ -96,7 +96,7 @@
             <div class="absolute -right-2 -top-2 h-14 w-14 rounded-full bg-amber-500/5 transition-all duration-500 group-hover:scale-150"></div>
             <div class="flex items-start justify-between">
                 <div>
-                    <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Conversion Rate</p>
+                    <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.conversion_rate') }}</p>
                     <p class="mt-1 text-xl font-extrabold tracking-tight text-slate-800 dark:text-slate-100">2.84%</p>
                 </div>
                 <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-50 text-amber-600 dark:bg-amber-950/30 dark:text-amber-400">
@@ -105,7 +105,7 @@
             </div>
             <div class="mt-2 flex items-center gap-1 text-[10px] text-emerald-600 dark:text-emerald-400">
                 <i class="ri-arrow-up-line"></i>
-                <span>+0.4% this week</span>
+                <span>{{ __('dashboard::admin.conversion_note') }}</span>
             </div>
         </div>
     </div>
@@ -118,7 +118,7 @@
                 <i class="ri-group-line text-lg"></i>
             </div>
             <div class="min-w-0">
-                <p class="truncate text-[10px] font-medium text-slate-400 dark:text-slate-500">Customers</p>
+                <p class="truncate text-[10px] font-medium text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.customers') }}</p>
                 <p class="truncate text-sm font-bold text-slate-800 dark:text-slate-100">{{ formatNumber(props.kpi?.totalCustomers) }}</p>
             </div>
         </div>
@@ -129,9 +129,9 @@
                 <i class="ri-stack-line text-lg"></i>
             </div>
             <div class="min-w-0">
-                <p class="truncate text-[10px] font-medium text-slate-400 dark:text-slate-500">Products</p>
+                <p class="truncate text-[10px] font-medium text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.products') }}</p>
                 <p class="truncate text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {{ props.count?.totalProducts }} <span class="text-[10px] font-normal text-slate-450">({{ props.count?.activeProducts }} active)</span>
+                    {{ props.count?.totalProducts }} <span class="text-[10px] font-normal text-slate-450">({{ props.count?.activeProducts }} {{ __('dashboard::admin.active') }})</span>
                 </p>
             </div>
         </div>
@@ -142,7 +142,7 @@
                 <i class="ri-folders-line text-lg"></i>
             </div>
             <div class="min-w-0">
-                <p class="truncate text-[10px] font-medium text-slate-400 dark:text-slate-500">Categories & Brands</p>
+                <p class="truncate text-[10px] font-medium text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.categories_brands') }}</p>
                 <p class="truncate text-sm font-bold text-slate-800 dark:text-slate-100">
                     {{ props.count?.totalProductCategories }} <span class="text-[10px] font-normal text-slate-450">/ {{ props.count?.totalProductBrands }}</span>
                 </p>
@@ -155,9 +155,9 @@
                 <i class="ri-shield-keyhole-line text-lg"></i>
             </div>
             <div class="min-w-0">
-                <p class="truncate text-[10px] font-medium text-slate-400 dark:text-slate-500">Staff & Roles</p>
+                <p class="truncate text-[10px] font-medium text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.staff_roles') }}</p>
                 <p class="truncate text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {{ props.count?.users }} <span class="text-[10px] font-normal text-slate-450">({{ props.count?.roles }} roles)</span>
+                    {{ props.count?.users }} <span class="text-[10px] font-normal text-slate-450">({{ props.count?.roles }} {{ __('dashboard::admin.roles') }})</span>
                 </p>
             </div>
         </div>
@@ -169,11 +169,11 @@
         <div class="col-span-2 rounded-xl border border-slate-100 bg-white p-4 shadow-2xs dark:border-slate-800 dark:bg-slate-900">
             <div class="mb-3 flex items-center justify-between">
                 <div>
-                    <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">Revenue Evolution</h3>
-                    <p class="text-[10px] text-slate-400 dark:text-slate-500">Excluding cancelled orders</p>
+                    <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">{{ __('dashboard::admin.revenue_evolution') }}</h3>
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.excluding_cancelled') }}</p>
                 </div>
                 <span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-blue-600 dark:bg-blue-950/30 dark:text-blue-400">
-                    Last 12 Months
+                    {{ __('common.date_range.last_12_months') }}
                 </span>
             </div>
             <div class="relative h-[200px] w-full">
@@ -184,8 +184,8 @@
         <!-- Orders by Status Chart -->
         <div class="rounded-xl border border-slate-100 bg-white p-4 shadow-2xs dark:border-slate-800 dark:bg-slate-900">
             <div class="mb-3">
-                <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">Orders Status</h3>
-                <p class="text-[10px] text-slate-400 dark:text-slate-500">Distribution by status</p>
+                <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">{{ __('dashboard::admin.orders_status') }}</h3>
+                <p class="text-[10px] text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.distribution_by_status') }}</p>
             </div>
             <div class="relative flex justify-center h-[120px]">
                 <canvas ref="statusChartRef"></canvas>
@@ -193,7 +193,7 @@
             <div class="mt-3 grid grid-cols-2 gap-1.5">
                 <div v-for="(label, index) in statusLabels" :key="label" class="flex items-center gap-1.5 rounded-lg bg-slate-50 p-1.5 text-[10px] font-medium dark:bg-slate-800/50">
                     <span class="h-2 w-2 rounded-full shrink-0" :style="{ backgroundColor: statusColors[index] }"></span>
-                    <span class="flex-1 truncate text-slate-600 dark:text-slate-400 capitalize">{{ label }}</span>
+                    <span class="flex-1 truncate text-slate-600 dark:text-slate-400 capitalize">{{ statusText(label) }}</span>
                     <span class="font-bold text-slate-800 dark:text-slate-200">{{ props.ordersByStatus?.[label] ?? 0 }}</span>
                 </div>
             </div>
@@ -207,11 +207,11 @@
             <div class="border-b border-slate-100 p-4 dark:border-slate-800">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">Recent Orders</h3>
-                        <p class="text-[10px] text-slate-400 dark:text-slate-550">Overview of latest transactions.</p>
+                        <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">{{ __('dashboard::admin.recent_orders') }}</h3>
+                        <p class="text-[10px] text-slate-400 dark:text-slate-550">{{ __('dashboard::admin.recent_orders_note') }}</p>
                     </div>
                     <a :href="route('order.index')" class="inline-flex items-center gap-1 text-[10px] font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400">
-                        View all orders
+                        {{ __('dashboard::admin.view_all_orders') }}
                         <i class="ri-arrow-right-line"></i>
                     </a>
                 </div>
@@ -222,7 +222,7 @@
                         <input 
                             v-model="orderSearchQuery" 
                             type="text" 
-                            placeholder="Search orders..." 
+                            :placeholder="__('dashboard::admin.search_orders')" 
                             class="w-full rounded-lg border border-slate-200 bg-slate-50 py-1.5 pl-8 pr-3 text-xs outline-hidden transition-all duration-200 focus:border-indigo-500 focus:bg-white dark:border-slate-800 dark:bg-slate-900 dark:focus:border-indigo-400"
                         />
                     </div>
@@ -231,9 +231,9 @@
                             v-model="orderStatusFilter" 
                             class="w-full rounded-lg border border-slate-200 bg-slate-50 py-1.5 pl-2.5 pr-7 text-xs text-slate-600 outline-hidden transition-all duration-200 focus:border-indigo-500 focus:bg-white dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:focus:border-indigo-400"
                         >
-                            <option value="all">All Statuses</option>
+                            <option value="all">{{ __('common.status.all') }}</option>
                             <option v-for="status in statusLabels" :key="status" :value="status" class="capitalize">
-                                {{ status }}
+                                {{ statusText(status) }}
                             </option>
                         </select>
                     </div>
@@ -241,7 +241,7 @@
             </div>
 
             <!-- AppDataTable implementation -->
-            <AppDataTable :headers="['Order ID', 'Customer', 'Status', 'Total', 'Date']">
+            <AppDataTable :headers="[__('dashboard::admin.th_order_id'), __('dashboard::admin.th_customer'), __('dashboard::admin.th_status'), __('dashboard::admin.th_total'), __('dashboard::admin.th_date')]">
                 <template #TableBody>
                     <tbody class="divide-y divide-slate-100 dark:divide-slate-800/50">
                         <tr 
@@ -257,14 +257,14 @@
                             <td class="px-4 py-2 text-xs">
                                 <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold" :class="statusBadgeClass(order.status)">
                                     <span class="h-1 w-1 rounded-full" :class="statusDotClass(order.status)"></span>
-                                    {{ order.status }}
+                                    {{ statusText(order.status) }}
                                 </span>
                             </td>
                             <td class="px-4 py-2 text-xs text-right font-bold text-slate-800 dark:text-slate-200">৳{{ order.total }}</td>
                             <td class="px-4 py-2 text-[10px] text-slate-450 dark:text-slate-550">{{ order.created_at }}</td>
                         </tr>
                         <tr v-if="!filteredRecentOrders.length">
-                            <td colspan="5" class="px-4 py-6 text-center text-xs text-slate-400 dark:text-slate-500">No matching orders found.</td>
+                            <td colspan="5" class="px-4 py-6 text-center text-xs text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.no_matching_orders') }}</td>
                         </tr>
                     </tbody>
                 </template>
@@ -276,11 +276,11 @@
             <div class="border-b border-slate-100 p-4 dark:border-slate-800">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">Top Selling Products</h3>
-                        <p class="text-[10px] text-slate-400 dark:text-slate-500">Most popular items by sales qty.</p>
+                        <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">{{ __('dashboard::admin.top_selling_products') }}</h3>
+                        <p class="text-[10px] text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.top_selling_note') }}</p>
                     </div>
                     <a :href="route('product.index')" class="inline-flex items-center gap-1 text-[10px] font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400">
-                        View all products
+                        {{ __('dashboard::admin.view_all_products') }}
                         <i class="ri-arrow-right-line"></i>
                     </a>
                 </div>
@@ -291,7 +291,7 @@
                         <input 
                             v-model="productSearchQuery" 
                             type="text" 
-                            placeholder="Search products..." 
+                            :placeholder="__('dashboard::admin.search_products')" 
                             class="w-full rounded-lg border border-slate-200 bg-slate-50 py-1.5 pl-8 pr-3 text-xs outline-hidden transition-all duration-200 focus:border-indigo-500 focus:bg-white dark:border-slate-800 dark:bg-slate-900 dark:focus:border-indigo-400"
                         />
                     </div>
@@ -299,7 +299,7 @@
             </div>
 
             <!-- AppDataTable implementation -->
-            <AppDataTable :headers="['Product Name', 'Qty Sold', 'Revenue']">
+            <AppDataTable :headers="[__('dashboard::admin.th_product_name'), __('dashboard::admin.th_qty_sold'), __('dashboard::admin.th_revenue')]">
                 <template #TableBody>
                     <tbody class="divide-y divide-slate-100 dark:divide-slate-800/50">
                         <tr v-for="(product, i) in filteredTopProducts" :key="i" class="hover:bg-slate-50/55 dark:hover:bg-slate-800/20">
@@ -308,7 +308,7 @@
                             <td class="px-4 py-2 text-xs text-right font-bold text-emerald-600 dark:text-emerald-400">৳{{ product.revenue }}</td>
                         </tr>
                         <tr v-if="!filteredTopProducts.length">
-                            <td colspan="3" class="px-4 py-6 text-center text-xs text-slate-400 dark:text-slate-500">No matching products found.</td>
+                            <td colspan="3" class="px-4 py-6 text-center text-xs text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.no_matching_products') }}</td>
                         </tr>
                     </tbody>
                 </template>
@@ -318,7 +318,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, inject } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import { Chart, registerables } from 'chart.js'
 import useAuthCan from '@/Composables/useAuthCan'
@@ -326,6 +326,18 @@ import useAuthCan from '@/Composables/useAuthCan'
 Chart.register(...registerables)
 
 const { can } = useAuthCan()
+const translate = inject('translate')
+
+const STATUS_KEYS = {
+    pending: 'order::enums.order_status.pending',
+    processing: 'order::enums.order_status.processing',
+    shipped: 'order::enums.order_status.shipped',
+    delivered: 'order::enums.order_status.delivered',
+    completed: 'order::enums.order_status.completed',
+    cancelled: 'order::enums.order_status.cancelled',
+}
+
+const statusText = (status) => translate(STATUS_KEYS[status] ?? status)
 
 const props = defineProps({
     count: { type: Object, default: () => ({}) },
@@ -362,7 +374,7 @@ const displayAOV = computed(() => {
 })
 
 const displayPeriodLabel = computed(() => {
-    return periodFilter.value === 'month' ? 'This Month' : 'All Time'
+    return periodFilter.value === 'month' ? translate('common.date_range.this_month') : translate('common.date_range.all_time')
 })
 
 // Search & Status filters for Recent Orders Table
@@ -434,7 +446,7 @@ onMounted(() => {
             data: {
                 labels: props.monthlyRevenue.labels,
                 datasets: [{
-                    label: 'Revenue (৳)',
+                    label: translate('dashboard::admin.chart_revenue'),
                     data: props.monthlyRevenue.data,
                     borderColor: '#6366f1',
                     backgroundColor: gradient,
@@ -479,7 +491,7 @@ onMounted(() => {
         statusChart = new Chart(statusChartRef.value, {
             type: 'doughnut',
             data: {
-                labels: statusLabels,
+                labels: statusLabels.map(statusText),
                 datasets: [{
                     data: statusLabels.map((s) => props.ordersByStatus?.[s] ?? 0),
                     backgroundColor: statusColors,
@@ -496,7 +508,7 @@ onMounted(() => {
                     tooltip: {
                         padding: 12,
                         backgroundColor: '#1e293b',
-                        callbacks: { label: (ctx) => ` ${ctx.label}: ${ctx.raw} orders` }
+                        callbacks: { label: (ctx) => ` ${ctx.label}: ${translate('dashboard::admin.chart_orders', { count: ctx.raw })}` }
                     },
                 },
                 cutout: '75%',

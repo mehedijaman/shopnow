@@ -93,4 +93,14 @@ return [
         'confirm_new_password' => 'নতুন পাসওয়ার্ড নিশ্চিত করুন',
     ],
 
+    'date_range' => [
+        'all_time' => 'সব সময়',
+        'this_month' => 'এই মাস',
+        'last_12_months' => 'গত ১২ মাস',
+    ],
+
+    'status' => [
+        'all' => 'সব স্ট্যাটাস',
+    ],
+
 ];
