@@ -11,19 +11,19 @@
                     :key="index"
                     class="flex items-center gap-3 rounded-lg border border-skin-neutral-4 bg-skin-neutral-2/40 p-3"
                 >
-                    <input
+                    <AppInputText
                         v-model="option.name"
                         type="text"
                         :placeholder="__('settings::admin.option_name_placeholder')"
-                        class="flex-1 rounded-lg border border-skin-neutral-4 bg-white px-3 py-2 text-sm text-skin-neutral-12 focus:border-skin-primary-7 focus:outline-none focus:ring-1 focus:ring-skin-primary-7"
+                        class="flex-1"
                     />
                     <div class="relative w-28">
-                        <input
+                        <AppInputText
                             v-model.number="option.price"
                             type="number"
                             min="0"
                             :placeholder="__('settings::admin.price')"
-                            class="w-full rounded-lg border border-skin-neutral-4 bg-white px-3 py-2 pr-7 text-sm text-skin-neutral-12 focus:border-skin-primary-7 focus:outline-none focus:ring-1 focus:ring-skin-primary-7"
+                            class="pr-7"
                         />
                         <span class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-xs text-skin-neutral-8">{{ __('settings::admin.tk') }}</span>
                     </div>
