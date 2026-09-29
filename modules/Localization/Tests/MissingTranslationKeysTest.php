@@ -56,6 +56,14 @@ test('sentences the framework translates directly are never recorded', function 
     expect($recorder->isEmpty())->toBeTrue();
 });
 
+test('record reports whether the lookup was kept', function () {
+    $recorder = new MissingTranslationKeys;
+
+    expect($recorder->record('common.nope', 'en'))->toBeTrue()
+        ->and($recorder->record('Forbidden', 'en'))->toBeFalse()
+        ->and($recorder->record('validation.required', 'en'))->toBeFalse();
+});
+
 test('the recorder can be emptied', function () {
     $recorder = new MissingTranslationKeys;
 

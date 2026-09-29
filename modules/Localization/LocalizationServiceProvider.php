@@ -46,9 +46,9 @@ class LocalizationServiceProvider extends BaseServiceProvider
 
         $this->app->make('translator')->handleMissingKeysUsing(
             function ($key, $replace, $locale) use ($recorder) {
-                $recorder->record((string) $key, (string) $locale, is_array($replace) ? $replace : []);
+                $recorded = $recorder->record((string) $key, (string) $locale, is_array($replace) ? $replace : []);
 
-                if ($this->app->environment('local')) {
+                if ($recorded && $this->app->environment('local')) {
                     Log::warning('Missing translation key', ['key' => $key, 'locale' => $locale]);
                 }
 

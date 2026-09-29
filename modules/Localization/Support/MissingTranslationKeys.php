@@ -26,13 +26,19 @@ class MissingTranslationKeys
      */
     protected array $recorded = [];
 
-    public function record(string $key, string $locale, array $replace = []): void
+    /**
+     * Returns true only when the lookup was kept, so callers can skip
+     * logging lookups this class deliberately ignores.
+     */
+    public function record(string $key, string $locale, array $replace = []): bool
     {
         if ($this->isIgnored($key)) {
-            return;
+            return false;
         }
 
         $this->recorded[$key] ??= ['locale' => $locale, 'replace' => $replace];
+
+        return true;
     }
 
     /**
