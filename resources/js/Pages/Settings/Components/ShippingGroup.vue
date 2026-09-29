@@ -42,7 +42,7 @@
             </div>
 
             <AppButton
-                class="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-dashed border-skin-neutral-5 px-3 py-2 text-xs font-semibold text-skin-primary-7 transition-colors hover:border-skin-primary-7 hover:bg-skin-primary-2"
+                class="btn btn-secondary mt-2"
                 @click="addOption"
             >
                 <i class="ri-add-line"></i>

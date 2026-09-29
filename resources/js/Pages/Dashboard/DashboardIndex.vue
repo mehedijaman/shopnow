@@ -131,7 +131,7 @@
             <div class="min-w-0">
                 <p class="truncate text-[10px] font-medium text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.products') }}</p>
                 <p class="truncate text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {{ props.count?.totalProducts }} <span class="text-[10px] font-normal text-slate-450">({{ props.count?.activeProducts }} {{ __('dashboard::admin.active') }})</span>
+                    {{ props.count?.totalProducts }} <span class="text-[10px] font-normal text-slate-400 dark:text-slate-500">({{ props.count?.activeProducts }} {{ __('dashboard::admin.active') }})</span>
                 </p>
             </div>
         </div>
@@ -144,7 +144,7 @@
             <div class="min-w-0">
                 <p class="truncate text-[10px] font-medium text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.categories_brands') }}</p>
                 <p class="truncate text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {{ props.count?.totalProductCategories }} <span class="text-[10px] font-normal text-slate-450">/ {{ props.count?.totalProductBrands }}</span>
+                    {{ props.count?.totalProductCategories }} <span class="text-[10px] font-normal text-slate-400 dark:text-slate-500">/ {{ props.count?.totalProductBrands }}</span>
                 </p>
             </div>
         </div>
@@ -157,7 +157,7 @@
             <div class="min-w-0">
                 <p class="truncate text-[10px] font-medium text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.staff_roles') }}</p>
                 <p class="truncate text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {{ props.count?.users }} <span class="text-[10px] font-normal text-slate-450">({{ props.count?.roles }} {{ __('dashboard::admin.roles') }})</span>
+                    {{ props.count?.users }} <span class="text-[10px] font-normal text-slate-400 dark:text-slate-500">({{ props.count?.roles }} {{ __('dashboard::admin.roles') }})</span>
                 </p>
             </div>
         </div>
@@ -208,7 +208,7 @@
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">{{ __('dashboard::admin.recent_orders') }}</h3>
-                        <p class="text-[10px] text-slate-400 dark:text-slate-550">{{ __('dashboard::admin.recent_orders_note') }}</p>
+                        <p class="text-[10px] text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.recent_orders_note') }}</p>
                     </div>
                     <a :href="route('order.index')" class="inline-flex items-center gap-1 text-[10px] font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400">
                         {{ __('dashboard::admin.view_all_orders') }}
@@ -218,7 +218,7 @@
                 <!-- Filters Controls inside header -->
                 <div class="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
                     <div class="relative flex-1">
-                        <i class="ri-search-line absolute left-2.5 top-2 text-slate-450"></i>
+                        <i class="ri-search-line absolute left-2.5 top-2 text-slate-400 dark:text-slate-500"></i>
                         <input 
                             v-model="orderSearchQuery" 
                             type="text" 
@@ -261,7 +261,7 @@
                                 </span>
                             </td>
                             <td class="px-4 py-2 text-xs text-right font-bold text-slate-800 dark:text-slate-200">৳{{ order.total }}</td>
-                            <td class="px-4 py-2 text-[10px] text-slate-450 dark:text-slate-550">{{ order.created_at }}</td>
+                            <td class="px-4 py-2 text-[10px] text-slate-400 dark:text-slate-500">{{ order.created_at }}</td>
                         </tr>
                         <tr v-if="!filteredRecentOrders.length">
                             <td colspan="5" class="px-4 py-6 text-center text-xs text-slate-400 dark:text-slate-500">{{ __('dashboard::admin.no_matching_orders') }}</td>
@@ -287,7 +287,7 @@
                 <!-- Filters Controls inside header -->
                 <div class="mt-3 flex items-center">
                     <div class="relative flex-1">
-                        <i class="ri-search-line absolute left-2.5 top-2 text-slate-450"></i>
+                        <i class="ri-search-line absolute left-2.5 top-2 text-slate-400 dark:text-slate-500"></i>
                         <input 
                             v-model="productSearchQuery" 
                             type="text" 
@@ -418,7 +418,7 @@ function statusBadgeClass(status) {
         completed: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400',
         cancelled: 'bg-rose-50 text-rose-700 dark:bg-rose-950/20 dark:text-rose-400',
     }
-    return map[status] ?? 'bg-slate-50 text-slate-700 dark:bg-slate-850 dark:text-slate-400'
+    return map[status] ?? 'bg-slate-50 text-slate-700 dark:bg-slate-800 dark:text-slate-400'
 }
 
 // Fixed minor color weight representation mapping

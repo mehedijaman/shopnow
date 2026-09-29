@@ -174,10 +174,12 @@ onMounted(() => {
     document.addEventListener('mousedown', onClickOutside)
 
     if (localStorage.getItem('modular-theme') === 'dark-theme') {
-        document.documentElement.classList.add('dark-theme')
+        // `dark-theme` flips the CSS variables; `dark` is what Tailwind's
+        // darkMode:'class' variant matches on (see tailwind.config.cjs).
+        document.documentElement.classList.add('dark-theme', 'dark')
         iconThemeClass.value = 'ri-sun-line'
     } else {
-        document.documentElement.classList.remove('dark-theme')
+        document.documentElement.classList.remove('dark-theme', 'dark')
         iconThemeClass.value = 'ri-moon-line'
     }
 })
@@ -192,12 +194,12 @@ const iconThemeClass = ref('ri-sun-line')
 
 const toggleTheme = () => {
     if (document.documentElement.classList.contains('dark-theme')) {
-        document.documentElement.classList.remove('dark-theme')
+        document.documentElement.classList.remove('dark-theme', 'dark')
         iconThemeClass.value = 'ri-moon-line'
         localStorage.removeItem('modular-theme')
     } else {
         localStorage.setItem('modular-theme', 'dark-theme')
-        document.documentElement.classList.add('dark-theme')
+        document.documentElement.classList.add('dark-theme', 'dark')
         iconThemeClass.value = 'ri-sun-line'
     }
 }

@@ -1,1 +1,0 @@
-var e=(e,t=1)=>{let n=e?.length||0;if(!n||t<1)return[];let r=[];for(let i=0;i<n;i+=t)r.push(e.slice(i,i+t));return r};export{e as t};
