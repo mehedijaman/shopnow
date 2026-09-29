@@ -66,6 +66,7 @@ return [
 
     'home' => [
         'view_all' => 'View All',
+        'featured_categories' => 'Featured Categories',
         'brands_heading' => 'Our Brands',
         'brands_subtitle' => 'Discover products from our trusted partners',
     ],

@@ -12,6 +12,9 @@
 
     <div class="mx-auto max-w-7xl px-6 py-12 lg:px-6">
 
+        {{-- Featured Categories --}}
+        <x-featured-categories :categories="$featuredCategories" />
+
         {{-- Featured Products --}}
         @if ($featuredProducts->isNotEmpty())
             <section class="mb-12 lg:mb-16">
@@ -26,8 +29,8 @@
             </section>
         @endif
 
-        {{-- Featured Category Sections --}}
-        <x-featured-categories :categories="$featuredCategories" />
+        {{-- Featured Category Product Sections --}}
+        <x-featured-category-products :categories="$featuredCategoryProducts" />
 
         {{-- Our Brands Section --}}
         @if ($brands->isNotEmpty())

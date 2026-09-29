@@ -125,6 +125,26 @@ test('contact settings save multiple phone and email values', function () {
     $this->assertEquals(['01712345678', '01812345678'], json_decode($phone->getRawOriginal('value'), true));
 });
 
+test('homepage featured category products toggle can be saved', function () {
+    Setting::updateOrCreate(
+        ['group' => 'homepage', 'key' => 'show_featured_category_products'],
+        ['value' => '1', 'type' => 'boolean', 'label' => 'Show Featured Category Products', 'is_public' => false, 'sort_order' => 4]
+    );
+
+    $response = $this->loggedRequest->post('/admin/settings/homepage', [
+        'show_featured_category_products' => '0',
+    ]);
+
+    $response->assertRedirect();
+    $response->assertSessionHas('success');
+
+    $this->assertDatabaseHas('settings', [
+        'group' => 'homepage',
+        'key' => 'show_featured_category_products',
+        'value' => '0',
+    ]);
+});
+
 test('social settings can be updated', function () {
     Setting::insert([
         ['group' => 'social', 'key' => 'instagram', 'value' => null, 'type' => 'text', 'label' => 'Instagram', 'sort_order' => 3, 'is_public' => true, 'created_at' => now(), 'updated_at' => now()],

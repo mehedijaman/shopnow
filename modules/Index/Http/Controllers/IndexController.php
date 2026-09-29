@@ -18,6 +18,7 @@ class IndexController extends SiteController
         $showSlider = setting('homepage.show_slider', true) !== false;
         $showFeaturedProducts = setting('homepage.show_featured_products', true) !== false;
         $showFeaturedCategories = setting('homepage.show_featured_categories', true) !== false;
+        $showFeaturedCategoryProducts = setting('homepage.show_featured_category_products', true) !== false;
         $showBlog = setting('homepage.show_blog', true) !== false;
         $showBrands = setting('homepage.show_brands', true) !== false;
 
@@ -46,6 +47,15 @@ class IndexController extends SiteController
             : collect();
 
         $featuredCategories = $showFeaturedCategories
+            ? ProductCategory::where('featured', true)
+                ->where('active', true)
+                ->whereHas('products', fn ($query) => $query->where('active', true))
+                ->orderBy('sort_order')
+                ->orderBy('name')
+                ->get()
+            : collect();
+
+        $featuredCategoryProducts = $showFeaturedCategoryProducts
             ? ProductCategory::where('featured', true)
                 ->where('active', true)
                 ->orderBy('sort_order')
@@ -79,7 +89,7 @@ class IndexController extends SiteController
             ],
         ]);
 
-        return view('index::index', compact('sliders', 'featuredProducts', 'featuredCategories', 'latestPosts', 'brands', 'seo'));
+        return view('index::index', compact('sliders', 'featuredProducts', 'featuredCategories', 'featuredCategoryProducts', 'latestPosts', 'brands', 'seo'));
     }
 
     public function about(SeoService $seoService)

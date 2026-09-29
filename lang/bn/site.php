@@ -64,6 +64,7 @@ return [
 
     'home' => [
         'view_all' => 'সব দেখুন',
+        'featured_categories' => 'ফিচার্ড ক্যাটাগরি',
         'brands_heading' => 'আমাদের ব্র্যান্ড',
         'brands_subtitle' => 'আমাদের বিশ্বস্ত পার্টনারদের পণ্য খুঁজুন',
     ],
