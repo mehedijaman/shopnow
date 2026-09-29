@@ -387,6 +387,7 @@ defineProps({
 })
 
 const form = inject('settingsForm')
+const translate = inject('translate')
 const { errors } = useFormErrors()
 
 const couriers = [
@@ -456,31 +457,31 @@ const couriers = [
 ]
 
 const courierDescription = (key) => {
-    if (key === 'pathao') return __('settings::admin.courier_pathao_desc')
-    if (key === 'steadfast') return __('settings::admin.courier_steadfast_desc')
-    if (key === 'redx') return __('settings::admin.courier_redx_desc')
-    if (key === 'ecourier') return __('settings::admin.courier_ecourier_desc')
-    if (key === 'paperfly') return __('settings::admin.courier_paperfly_desc')
+    if (key === 'pathao') return translate('settings::admin.courier_pathao_desc')
+    if (key === 'steadfast') return translate('settings::admin.courier_steadfast_desc')
+    if (key === 'redx') return translate('settings::admin.courier_redx_desc')
+    if (key === 'ecourier') return translate('settings::admin.courier_ecourier_desc')
+    if (key === 'paperfly') return translate('settings::admin.courier_paperfly_desc')
     return ''
 }
 
 const fieldLabel = (key) => {
-    if (key === 'client_id') return __('settings::admin.field_client_id')
-    if (key === 'client_secret') return __('settings::admin.field_client_secret')
-    if (key === 'username') return __('settings::admin.field_username')
-    if (key === 'password') return __('settings::admin.field_password')
-    if (key === 'store_id') return __('settings::admin.field_store_id')
-    if (key === 'api_key') return __('settings::admin.field_api_key')
-    if (key === 'secret_key') return __('settings::admin.field_secret_key')
-    if (key === 'base_url') return __('settings::admin.field_api_base_url')
-    if (key === 'access_token') return __('settings::admin.field_access_token')
-    if (key === 'api_secret') return __('settings::admin.field_api_secret')
-    if (key === 'user_id') return __('settings::admin.field_user_id')
+    if (key === 'client_id') return translate('settings::admin.field_client_id')
+    if (key === 'client_secret') return translate('settings::admin.field_client_secret')
+    if (key === 'username') return translate('settings::admin.field_username')
+    if (key === 'password') return translate('settings::admin.field_password')
+    if (key === 'store_id') return translate('settings::admin.field_store_id')
+    if (key === 'api_key') return translate('settings::admin.field_api_key')
+    if (key === 'secret_key') return translate('settings::admin.field_secret_key')
+    if (key === 'base_url') return translate('settings::admin.field_api_base_url')
+    if (key === 'access_token') return translate('settings::admin.field_access_token')
+    if (key === 'api_secret') return translate('settings::admin.field_api_secret')
+    if (key === 'user_id') return translate('settings::admin.field_user_id')
     return key
 }
 
 const fieldHint = (key) => {
-    if (key === 'base_url') return __('settings::admin.courier_steadfast_base_url_hint')
+    if (key === 'base_url') return translate('settings::admin.courier_steadfast_base_url_hint')
     return ''
 }
 

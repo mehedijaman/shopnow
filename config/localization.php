@@ -21,15 +21,15 @@ return [
 
     'supported' => [
         'en' => [
-            'name' => 'English',
-            'native' => 'English',
+            'name' => 'En',
+            'native' => 'En',
             'dir' => 'ltr',
             'og_locale' => 'en_US',
             'native_digits' => false,
         ],
         'bn' => [
-            'name' => 'Bengali',
-            'native' => 'বাংলা',
+            'name' => 'Bn',
+            'native' => 'Bn',
             'dir' => 'ltr',
             'og_locale' => 'bn_BD',
             'native_digits' => true,

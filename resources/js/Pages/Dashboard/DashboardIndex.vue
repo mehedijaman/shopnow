@@ -2,7 +2,7 @@
     <Head :title="__('dashboard::admin.page_title')"></Head>
 
     <!-- Welcome bar with integrated filters -->
-    <div class="relative overflow-hidden rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-4 text-white shadow-xs">
+    <div class="relative overflow-hidden rounded-xl bg-linear-to-r from-slate-900 via-indigo-950 to-slate-900 p-4 mt-4 text-white shadow-xs">
         <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-indigo-500/10 blur-2xl"></div>
         <div class="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-violet-500/10 blur-2xl"></div>
 
@@ -13,7 +13,7 @@
                 </div>
                 <div>
                     <h1 class="text-lg font-bold tracking-tight">
-                        {{ __('dashboard::admin.welcome_back') }} <span class="bg-gradient-to-r from-indigo-200 via-violet-200 to-indigo-200 bg-clip-text text-transparent">{{ $page.props.auth.user.name }}</span>!
+                        {{ __('dashboard::admin.welcome_back') }} <span class="bg-linear-to-r from-indigo-200 via-violet-200 to-indigo-200 bg-clip-text text-transparent">{{ $page.props.auth.user.name }}</span>!
                     </h1>
                     <p class="text-xs text-slate-300">{{ __('dashboard::admin.summary') }} {{ $page.props.datetime.now }}</p>
                 </div>
