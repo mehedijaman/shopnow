@@ -10,7 +10,10 @@ class GetPostsFromArchive
 {
     public function get(string $archiveDate): LengthAwarePaginator
     {
-        $archiveDateCarbon = Carbon::createFromFormat('m-Y', $archiveDate);
+        // The `!` prefix resets unfilled fields to epoch values, so the missing
+        // day defaults to 1 instead of today's date (which overflows in short
+        // months, e.g. Feb on the 29th).
+        $archiveDateCarbon = Carbon::createFromFormat('!m-Y', $archiveDate);
         $startOfMonth = $archiveDateCarbon->startOfMonth()->toDateString();
         $endOfMonth = $archiveDateCarbon->endOfMonth()->toDateString();
 

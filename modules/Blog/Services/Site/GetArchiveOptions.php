@@ -30,7 +30,7 @@ class GetArchiveOptions
 
         // Sort by date descending
         $sortedArchiveDates = $uniqueArchiveDates->sortByDesc(function ($date) {
-            return Carbon::createFromFormat('m-Y', $date['value']);
+            return Carbon::createFromFormat('!m-Y', $date['value']);
         })->values();
 
         return $sortedArchiveDates->toArray();
