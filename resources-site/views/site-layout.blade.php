@@ -4,6 +4,54 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+        {{-- Theme: applied before first paint so the stored (or system) preference never flashes --}}
+        <script>
+            (function () {
+                var storageKey = 'modular-theme'
+                var stored = null
+                try {
+                    stored = localStorage.getItem(storageKey)
+                } catch (e) {}
+
+                var mode
+                if (stored === 'dark-theme') {
+                    mode = 'dark'
+                } else if (stored === 'light') {
+                    mode = 'light'
+                } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    mode = 'dark'
+                } else {
+                    mode = 'light'
+                }
+
+                function apply(next, persist) {
+                    var dark = next === 'dark'
+                    var root = document.documentElement
+                    root.classList.toggle('dark-theme', dark)
+                    root.classList.toggle('dark', dark)
+                    if (persist) {
+                        try {
+                            localStorage.setItem(storageKey, dark ? 'dark-theme' : 'light')
+                        } catch (e) {}
+                    }
+                }
+
+                apply(mode, false)
+
+                window.ShopNowTheme = {
+                    toggle: function () {
+                        apply(document.documentElement.classList.contains('dark-theme') ? 'light' : 'dark', true)
+                    },
+                }
+
+                document.addEventListener('click', function (event) {
+                    if (event.target && event.target.closest && event.target.closest('[data-theme-toggle]')) {
+                        window.ShopNowTheme.toggle()
+                    }
+                })
+            })()
+        </script>
+
         {{-- Primary SEO --}}
         @php
             $siteName = setting('branding.site_name', config('app.name'));

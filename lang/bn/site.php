@@ -31,6 +31,7 @@ return [
         'close_search' => 'সার্চ বন্ধ করুন',
         'clear_search' => 'সার্চ মুছুন',
         'search_products' => 'পণ্য সার্চ করুন',
+        'toggle_theme' => 'থিম পরিবর্তন করুন',
     ],
 
     'account' => [

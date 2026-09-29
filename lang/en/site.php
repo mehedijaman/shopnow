@@ -33,6 +33,7 @@ return [
         'close_search' => 'Close search',
         'clear_search' => 'Clear search',
         'search_products' => 'Search products',
+        'toggle_theme' => 'Toggle theme',
     ],
 
     'account' => [

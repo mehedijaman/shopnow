@@ -1,5 +1,6 @@
 @php 
     $logoUrl = setting('branding.logo_url'); 
+    $darkLogoUrl = setting('branding.dark_logo_url');
     $siteName = setting('branding.site_name', 'ShopNow'); 
     
     // Helper function to extract repeater value safely
@@ -107,13 +108,19 @@
 
         <a href="{{ route('site.index') }}" class="flex items-center justify-center">
             @if ($logoUrl)
-                <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-14 w-auto max-w-[220px] sm:h-16 sm:max-w-[280px] object-contain" onerror="this.src='/logo.png'" />
+                <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-14 w-auto max-w-[220px] sm:h-16 sm:max-w-[280px] object-contain dark:hidden" onerror="this.src='/logo.png'" />
+                @if ($darkLogoUrl)
+                    <img src="{{ $darkLogoUrl }}" alt="{{ $siteName }}" class="hidden h-14 w-auto max-w-[220px] object-contain dark:block sm:h-16 sm:max-w-[280px]" onerror="this.src='/logo.png'" />
+                @endif
             @else
                 <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-14 w-auto max-w-[220px] sm:h-16 sm:max-w-[280px] object-contain" />
             @endif
         </a>
 
-        <x-locale-switcher />
+        <div class="flex items-center gap-1">
+            <x-theme-switcher />
+            <x-locale-switcher />
+        </div>
     </header>
 </div>
 
@@ -128,7 +135,10 @@
             {{-- Logo --}}
             <a href="{{ route('site.index') }}" class="flex shrink-0 items-center">
                 @if ($logoUrl)
-                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-20 w-auto max-w-[300px] object-contain xl:h-28 xl:max-w-[380px]" onerror="this.src='/logo.png'" />
+                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-20 w-auto max-w-[300px] object-contain dark:hidden xl:h-28 xl:max-w-[380px]" onerror="this.src='/logo.png'" />
+                    @if ($darkLogoUrl)
+                        <img src="{{ $darkLogoUrl }}" alt="{{ $siteName }}" class="hidden h-20 w-auto max-w-[300px] object-contain dark:block xl:h-28 xl:max-w-[380px]" onerror="this.src='/logo.png'" />
+                    @endif
                 @else
                     <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-20 w-auto max-w-[300px] object-contain xl:h-28 xl:max-w-[380px]" />
                 @endif
@@ -180,6 +190,7 @@
             <button type="button" onclick="window.toggleSearchModal()" aria-label="{{ __('common.search') }}" class="ml-auto flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-primary-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-primary-400">
                 <i class="ri-search-2-line text-lg"></i>
             </button>
+            <x-theme-switcher />
             <navbar-cart-menu></navbar-cart-menu>
             <x-locale-switcher />
             @if (auth('customer')->check())
@@ -234,14 +245,20 @@
         <div class="flex h-16 shrink-0 items-center justify-between border-b border-slate-100 px-5 dark:border-slate-800">
             <a href="{{ route('site.index') }}">
                 @if ($logoUrl)
-                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-14 w-auto max-w-[200px] object-contain" onerror="this.src='/logo.png'" />
+                    <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-14 w-auto max-w-[200px] object-contain dark:hidden" onerror="this.src='/logo.png'" />
+                    @if ($darkLogoUrl)
+                        <img src="{{ $darkLogoUrl }}" alt="{{ $siteName }}" class="hidden h-14 w-auto max-w-[200px] object-contain dark:block" onerror="this.src='/logo.png'" />
+                    @endif
                 @else
                     <img src="{{ asset('logo.png') }}" alt="{{ $siteName }}" class="h-14 w-auto max-w-[200px] object-contain" />
                 @endif
             </a>
-            <button id="toggleCloseBtn" aria-label="{{ __('site.aria.close_menu') }}" class="flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800">
-                <i class="ri-close-line text-2xl"></i>
-            </button>
+            <div class="flex items-center gap-1">
+                <x-theme-switcher />
+                <button id="toggleCloseBtn" aria-label="{{ __('site.aria.close_menu') }}" class="flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800">
+                    <i class="ri-close-line text-2xl"></i>
+                </button>
+            </div>
         </div>
 
         {{-- Scrollable Content --}}

@@ -1,5 +1,6 @@
 @php
     $footerLogo = setting('branding.logo_url');
+    $footerDarkLogo = setting('branding.dark_logo_url');
     $footerSiteName = setting('branding.site_name', 'ShopNow');
     $footerDescription = setting('general.site_description');
     $contactSettings = settings_group('contact');
@@ -29,7 +30,9 @@
             {{-- Column 1: Brand & Description --}}
             <div class="space-y-5">
                 <a href="{{ route('site.index') }}" class="block text-center sm:inline-block">
-                    @if ($footerLogo)
+                    @if ($footerDarkLogo)
+                        <img src="{{ $footerDarkLogo }}" alt="{{ $footerSiteName }}" class="h-24 w-auto max-w-[300px] sm:h-20 sm:max-w-[280px] object-contain" onerror="this.src='/logo.png'" />
+                    @elseif ($footerLogo)
                         <img src="{{ $footerLogo }}" alt="{{ $footerSiteName }}" class="h-24 w-auto max-w-[300px] sm:h-20 sm:max-w-[280px] object-contain" onerror="this.src='/logo.png'" />
                     @else
                         <img src="{{ asset('logo.png') }}" alt="{{ $footerSiteName }}" class="h-24 w-auto max-w-[300px] sm:h-20 sm:max-w-[280px] object-contain" />
