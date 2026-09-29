@@ -27,7 +27,7 @@
                                 src="{{ $post->image_url }}"
                                 alt="{{ $post->title }}"
                                 loading="lazy"
-                                class="aspect-video w-full rounded-lg bg-gray-100 object-cover transition-transform duration-300 hover:scale-105"
+                                class="aspect-video w-full rounded-lg bg-gray-100 dark:bg-gray-800 object-cover transition-transform duration-300 hover:scale-105"
                             />
                         @else
                             <div class="flex aspect-video w-full items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700">

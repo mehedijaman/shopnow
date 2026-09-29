@@ -7,7 +7,7 @@
 @section('content')
     <x-breadcrumb>
         <li class="min-w-0">
-            <span class="font-semibold text-gray-800">{{ __('product::site.brands.heading') }}</span>
+            <span class="font-semibold text-gray-800 dark:text-gray-200">{{ __('product::site.brands.heading') }}</span>
         </li>
     </x-breadcrumb>
 
@@ -44,7 +44,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="mb-4 h-16 w-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
                 </svg>
-                <p class="text-lg font-medium text-gray-500">{{ __('product::site.brands.none') }}</p>
+                <p class="text-lg font-medium text-gray-500 dark:text-gray-400">{{ __('product::site.brands.none') }}</p>
             </div>
         @endif
     </div>

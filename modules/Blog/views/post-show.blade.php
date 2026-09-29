@@ -11,17 +11,17 @@
             <i class="ri-arrow-right-s-line text-gray-400"></i>
         </li>
         <li class="min-w-0">
-            <span class="block truncate font-semibold text-gray-800" title="{{ $post->title }}">{{ $post->title }}</span>
+            <span class="block truncate font-semibold text-gray-800 dark:text-gray-200" title="{{ $post->title }}">{{ $post->title }}</span>
         </li>
     </x-breadcrumb>
 
-    <div class="bg-gray-50 py-12 sm:py-16">
+    <div class="bg-gray-50 dark:bg-gray-900 py-12 sm:py-16">
         <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-            <article itemscope itemtype="https://schema.org/Article" class="overflow-hidden rounded-2xl bg-white shadow-sm">
+            <article itemscope itemtype="https://schema.org/Article" class="overflow-hidden rounded-2xl bg-white dark:bg-gray-800 shadow-sm">
 
                 {{-- Hero Image --}}
                 @if ($post->image_url)
-                    <div class="w-full overflow-hidden bg-gray-100">
+                    <div class="w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
                         <img
                             itemprop="image"
                             src="{{ $post->image_url }}"
@@ -52,13 +52,13 @@
                     {{-- Title --}}
                     <h1
                         itemprop="headline"
-                        class="text-2xl font-extrabold leading-snug tracking-tight text-gray-900 sm:text-3xl lg:text-4xl"
+                        class="text-2xl font-extrabold leading-snug tracking-tight text-gray-900 dark:text-white sm:text-3xl lg:text-4xl"
                     >
                         {{ $post->title }}
                     </h1>
 
                     {{-- Meta row --}}
-                    <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-gray-100 pb-6 text-sm text-gray-500">
+                    <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-gray-100 dark:border-gray-800 pb-6 text-sm text-gray-500 dark:text-gray-400">
                         <time
                             itemprop="datePublished"
                             datetime="{{ $post->published_at?->toIso8601String() }}"
@@ -77,7 +77,7 @@
                                         width="20"
                                         height="20"
                                         loading="lazy"
-                                        class="h-5 w-5 rounded-full object-cover ring-1 ring-gray-200"
+                                        class="h-5 w-5 rounded-full object-cover ring-1 ring-gray-200 dark:ring-gray-700"
                                     />
                                 @else
                                     <i class="ri-user-3-line text-base"></i>
@@ -96,7 +96,7 @@
                     </div>
 
                     {{-- Back link --}}
-                    <div class="mt-10 border-t border-gray-100 pt-6">
+                    <div class="mt-10 border-t border-gray-100 dark:border-gray-800 pt-6">
                         <a href="/blog" class="inline-flex items-center gap-1.5 text-sm font-medium text-primary-600 hover:underline">
                             <i class="ri-arrow-left-line"></i>
                             {{ __('blog::site.posts.back_to_blog') }}

@@ -51,10 +51,10 @@
     @endphp
 
     <!-- Breadcrumb -->
-    <div class="border-b border-gray-100 bg-gray-50">
+    <div class="border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
         <div class="mx-auto max-w-7xl px-4 py-3 sm:px-6">
             <nav aria-label="{{ __('common.breadcrumb') }}">
-                <ol class="flex min-w-0 flex-wrap items-center gap-x-1 gap-y-1 text-sm text-gray-500">
+                <ol class="flex min-w-0 flex-wrap items-center gap-x-1 gap-y-1 text-sm text-gray-500 dark:text-gray-400">
                     <li class="flex shrink-0 items-center gap-1">
                         <a href="{{ route('site.index') }}" class="hover:text-primary-600 hover:underline">{{ __('site.nav.home') }}</a>
                         <i class="ri-arrow-right-s-line text-gray-400"></i>
@@ -74,7 +74,7 @@
                         </li>
                     @endif
                     <li class="min-w-0">
-                        <span class="block truncate font-semibold text-gray-800" title="{{ $product->name }}">{{ $product->name }}</span>
+                        <span class="block truncate font-semibold text-gray-800 dark:text-gray-200" title="{{ $product->name }}">{{ $product->name }}</span>
                     </li>
                 </ol>
             </nav>
@@ -184,7 +184,7 @@
                 </div>
 
                 <!-- Name -->
-                <h1 class="text-2xl font-bold leading-snug text-gray-900 sm:text-3xl">
+                <h1 class="text-2xl font-bold leading-snug text-gray-900 dark:text-white sm:text-3xl">
                     {{ $product->name }}
                 </h1>
 
@@ -198,7 +198,7 @@
                             $maxPrice = $activeVariations->max(fn($v) => $v['sale_price'] ?: $v['price']);
                         @endphp
                         @if ($minPrice)
-                            <span class="text-3xl font-bold text-gray-900">
+                            <span class="text-3xl font-bold text-gray-900 dark:text-white">
                                 ৳{{ number_format($minPrice, 2) }}
                                 @if ($maxPrice && $maxPrice > $minPrice) – ৳{{ number_format($maxPrice, 2) }} @endif
                             </span>
@@ -208,12 +208,12 @@
                         @endif
                     @elseif ($product->type?->value === 'bundle')
                         {{-- Bundle product: show bundle price --}}
-                        <span class="text-3xl font-bold text-gray-900">
+                        <span class="text-3xl font-bold text-gray-900 dark:text-white">
                             ৳{{ number_format($product->sale_price ?? $product->price, 2) }}
                         </span>
                     @else
                         {{-- Simple product --}}
-                        <span class="text-3xl font-bold text-gray-900">
+                        <span class="text-3xl font-bold text-gray-900 dark:text-white">
                             ৳{{ number_format($product->sale_price ?? $product->price, 2) }}
                         </span>
                         @if ($product->sale_price && $product->price && $product->sale_price < $product->price)
@@ -232,42 +232,42 @@
 
                 <!-- Summary -->
                 @if ($product->summary)
-                    <p class="mt-4 leading-relaxed text-gray-600">{{ $product->summary }}</p>
+                    <p class="mt-4 leading-relaxed text-gray-600 dark:text-gray-300">{{ $product->summary }}</p>
                 @endif
 
-                <hr class="my-5 border-gray-100" />
+                <hr class="my-5 border-gray-100 dark:border-gray-800" />
 
                 <!-- Product Meta -->
                 <dl class="space-y-2 text-sm">
                     @if ($product->brand)
                         <div class="flex gap-2">
-                            <dt class="w-24 shrink-0 font-medium text-gray-500">{{ __('site.product.brand') }}</dt>
-                            <dd class="text-gray-800">{{ $product->brand->name }}</dd>
+                            <dt class="w-24 shrink-0 font-medium text-gray-500 dark:text-gray-400">{{ __('site.product.brand') }}</dt>
+                            <dd class="text-gray-800 dark:text-gray-200">{{ $product->brand->name }}</dd>
                         </div>
                     @endif
                     @if ($product->unit)
                         <div class="flex gap-2">
-                            <dt class="w-24 shrink-0 font-medium text-gray-500">{{ __('site.product.unit') }}</dt>
-                            <dd class="text-gray-800">{{ $product->unit }}</dd>
+                            <dt class="w-24 shrink-0 font-medium text-gray-500 dark:text-gray-400">{{ __('site.product.unit') }}</dt>
+                            <dd class="text-gray-800 dark:text-gray-200">{{ $product->unit }}</dd>
                         </div>
                     @endif
                     @if ($product->min_order)
                         <div class="flex gap-2">
-                            <dt class="w-24 shrink-0 font-medium text-gray-500">{{ __('site.product.min_order') }}</dt>
-                            <dd class="text-gray-800">{{ $product->min_order }} {{ $product->unit }}</dd>
+                            <dt class="w-24 shrink-0 font-medium text-gray-500 dark:text-gray-400">{{ __('site.product.min_order') }}</dt>
+                            <dd class="text-gray-800 dark:text-gray-200">{{ $product->min_order }} {{ $product->unit }}</dd>
                         </div>
                     @endif
                 </dl>
 
-                <hr class="my-5 border-gray-100" />
+                <hr class="my-5 border-gray-100 dark:border-gray-800" />
 
                 <!-- Bundle items (show individual items for bundle products) -->
                 @if ($product->type?->value === 'bundle')
                     <div class="space-y-2">
-                        <h3 class="text-sm font-semibold text-gray-900">{{ __('site.product.bundle_includes') }}</h3>
+                        <h3 class="text-sm font-semibold text-gray-900 dark:text-white">{{ __('site.product.bundle_includes') }}</h3>
                         <ul class="space-y-1">
                             @foreach ($bundleItems as $bi)
-                                <li class="flex items-center gap-2 text-sm text-gray-700">
+                                <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
                                     <i class="ri-checkbox-circle-fill text-green-500 text-xs"></i>
                                     @if ($bi['is_optional'])
                                         <span class="text-xs text-gray-400 italic">{{ __('site.product.optional') }}</span>
@@ -281,7 +281,7 @@
                             @endforeach
                         </ul>
                     </div>
-                    <hr class="my-5 border-gray-100" />
+                    <hr class="my-5 border-gray-100 dark:border-gray-800" />
                 @endif
 
                 <!-- Add to Cart -->
@@ -297,24 +297,24 @@
                 <!-- Tags -->
                 @if ($product->tags?->count())
                     <div class="mt-5 flex flex-wrap items-center gap-2">
-                        <span class="text-xs font-medium text-gray-500">{{ __('site.product.tags') }}</span>
+                        <span class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ __('site.product.tags') }}</span>
                         @foreach ($product->tags as $tag)
-                            <span class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-600">{{ $tag->name }}</span>
+                            <span class="rounded-full bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-xs text-gray-600 dark:text-gray-300">{{ $tag->name }}</span>
                         @endforeach
                     </div>
                 @endif
 
                 <!-- Downloadable Files -->
                 @if ($product->is_downloadable && $productFiles->count())
-                    <div class="mt-5 rounded-lg border border-gray-100 bg-gray-50 p-4">
-                        <h3 class="mb-2 text-sm font-semibold text-gray-900">
+                    <div class="mt-5 rounded-lg border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 p-4">
+                        <h3 class="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
                             <i class="ri-download-cloud-line mr-1 text-cyan-600"></i>
                             {{ __('site.product.downloadable_files') }}
                         </h3>
-                        <p class="mb-3 text-xs text-gray-500">{{ __('site.product.available_after_purchase') }}</p>
+                        <p class="mb-3 text-xs text-gray-500 dark:text-gray-400">{{ __('site.product.available_after_purchase') }}</p>
                         <ul class="space-y-1.5">
                             @foreach ($productFiles as $pf)
-                                <li class="flex items-center gap-2 text-sm text-gray-700">
+                                <li class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
                                     <i class="ri-file-line text-gray-400"></i>
                                     <span class="font-medium">{{ $pf['name'] }}</span>
                                     @if ($pf['file_size'])
@@ -330,9 +330,9 @@
 
         <!-- Description -->
         @if ($product->description)
-            <div class="mt-12 border-t border-gray-100 pt-10">
-                <h2 class="mb-6 text-xl font-bold text-gray-900">{{ __('site.product.description') }}</h2>
-                <div class="prose prose-gray max-w-none leading-relaxed text-gray-700">
+            <div class="mt-12 border-t border-gray-100 dark:border-gray-800 pt-10">
+                <h2 class="mb-6 text-xl font-bold text-gray-900 dark:text-white">{{ __('site.product.description') }}</h2>
+                <div class="prose prose-gray max-w-none leading-relaxed text-gray-700 dark:text-gray-300">
                     {!! $product->description !!}
                 </div>
             </div>

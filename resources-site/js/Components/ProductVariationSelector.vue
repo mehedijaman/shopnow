@@ -86,7 +86,7 @@
                         'rounded-md border px-2 py-0.5 text-[10px] font-semibold transition-all duration-200 focus:outline-none sm:px-2.5 sm:py-1 sm:text-xs',
                         selectedIds.includes(Number(val.id))
                             ? 'border-primary-600 bg-primary-600 text-white shadow-sm ring-1 ring-primary-500/30'
-                            : 'dark:hover:bg-gray-750 border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200',
+                            : 'dark:hover:bg-gray-700 border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200',
                         !isAvailable(val.id)
                             ? 'cursor-not-allowed opacity-30'
                             : 'cursor-pointer'

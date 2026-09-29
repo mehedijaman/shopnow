@@ -10,8 +10,8 @@
         <!-- Sidebar Navigation -->
         <div class="md:col-span-1">
             <div class="px-4 sm:px-0">
-                <h3 class="text-lg font-medium leading-6 text-gray-900"{{ __('site.account.manage_heading') }}</h3>
-                <p class="mt-1 text-sm text-gray-600"{{ __('site.account.manage_hint_profile') }}</p>
+                <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white"{{ __('site.account.manage_heading') }}</h3>
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-300"{{ __('site.account.manage_hint_profile') }}</p>
                 
                 <nav class="mt-6 space-y-2">
                     <a href="{{ route('account.profile') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.profile') ? 'bg-primary-50 text-primary-700 dark:bg-gray-800 dark:text-white' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700' }}">
@@ -38,11 +38,11 @@
             <form action="{{ route('account.addresses.store') }}" method="POST" class="space-y-6">
                 @csrf
 
-                <div class="shadow-sm sm:overflow-hidden sm:rounded-md border border-gray-200 bg-white dark:bg-gray-800">
+                <div class="shadow-sm sm:overflow-hidden sm:rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
                     <div class="space-y-6 px-4 py-5 sm:p-6">
-                        <div class="flex items-center justify-between border-b border-gray-150 pb-2">
+                        <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
                             <h4 class="text-base font-semibold text-gray-900 dark:text-white">{{ __('customer::site.addresses.add_new') }}</h4>
-                            <a href="{{ route('account.addresses.index') }}" class="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400">
+                            <a href="{{ route('account.addresses.index') }}" class="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 dark:text-gray-400">
                                 {{ __('customer::site.addresses.back_to_list') }}
                             </a>
                         </div>
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                     
-                    <div class="bg-gray-50 dark:bg-gray-900 px-4 py-3 text-right sm:px-6 border-t border-gray-250">
+                    <div class="bg-gray-50 dark:bg-gray-900 px-4 py-3 text-right sm:px-6 border-t border-gray-200 dark:border-gray-700">
                         <button type="submit"
                             class="inline-flex justify-center rounded-md border border-transparent bg-primary-600 py-2 px-4 text-sm font-medium text-white shadow-xs hover:bg-primary-700 focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-250">
                             {{ __('customer::site.addresses.save_address') }}

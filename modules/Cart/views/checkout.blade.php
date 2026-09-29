@@ -15,7 +15,7 @@
             <i class="ri-arrow-right-s-line text-gray-400"></i>
         </li>
         <li class="flex shrink-0 items-center">
-            <span class="font-medium text-gray-700">{{ __('cart::site.cart.checkout') }}</span>
+            <span class="font-medium text-gray-700 dark:text-gray-300">{{ __('cart::site.cart.checkout') }}</span>
         </li>
     </x-breadcrumb>
 

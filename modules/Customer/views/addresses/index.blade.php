@@ -10,8 +10,8 @@
         <!-- Sidebar Navigation -->
         <div class="md:col-span-1">
             <div class="px-4 sm:px-0">
-                <h3 class="text-lg font-medium leading-6 text-gray-900"{{ __('site.account.manage_heading') }}</h3>
-                <p class="mt-1 text-sm text-gray-600"{{ __('site.account.manage_hint_profile') }}</p>
+                <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white"{{ __('site.account.manage_heading') }}</h3>
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-300"{{ __('site.account.manage_hint_profile') }}</p>
                 
                 <nav class="mt-6 space-y-2">
                     <a href="{{ route('account.profile') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.profile') ? 'bg-primary-50 text-primary-700 dark:bg-gray-800 dark:text-white' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700' }}">
@@ -50,9 +50,9 @@
                 </div>
             @endif
 
-            <div class="shadow-sm sm:overflow-hidden sm:rounded-md border border-gray-200 bg-white dark:bg-gray-800">
+            <div class="shadow-sm sm:overflow-hidden sm:rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
                 <div class="space-y-6 px-4 py-5 sm:p-6">
-                    <div class="flex items-center justify-between border-b border-gray-150 pb-2">
+                    <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
                         <h4 class="text-base font-semibold text-gray-900 dark:text-white">{{ __('customer::site.addresses.heading') }}</h4>
                         <a href="{{ route('account.addresses.create') }}" class="inline-flex justify-center rounded-md border border-transparent bg-primary-600 py-1.5 px-3 text-sm font-medium text-white shadow-xs hover:bg-primary-700 transition-all duration-250">
                             {{ __('customer::site.addresses.add_new') }}
@@ -62,12 +62,12 @@
                     @if($addresses->isEmpty())
                         <div class="text-center py-12">
                             <i class="ri-map-pin-line text-4xl text-gray-400"></i>
-                            <p class="mt-2 text-sm text-gray-500">{{ __('customer::site.addresses.empty') }}</p>
+                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ __('customer::site.addresses.empty') }}</p>
                         </div>
                     @else
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             @foreach($addresses as $address)
-                                <div class="relative flex flex-col justify-between rounded-lg border {{ $address->default ? 'border-primary-500 ring-2 ring-primary-100 dark:ring-primary-900/20' : 'border-gray-250 dark:border-gray-700' }} bg-white dark:bg-gray-850 p-4 shadow-xs">
+                                <div class="relative flex flex-col justify-between rounded-lg border {{ $address->default ? 'border-primary-500 ring-2 ring-primary-100 dark:ring-primary-900/20' : 'border-gray-200 dark:border-gray-700' }} bg-white dark:bg-gray-800 p-4 shadow-xs">
                                     <div>
                                         <div class="flex items-center justify-between">
                                             @if($address->default)

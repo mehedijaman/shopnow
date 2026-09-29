@@ -4,10 +4,10 @@
         <!-- Page header -->
         <div class="mb-6 flex items-start justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl">
                     {{ __('cart::site.cart.checkout') }}
                 </h1>
-                <p class="mt-1 text-sm text-gray-500">
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                     {{
                         __('cart::site.cart.items_in_cart', {
                             count: cartStore.totalQuantity
@@ -46,18 +46,18 @@
 
             <!-- Items list -->
             <div
-                class="divide-y divide-gray-100 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm"
+                class="divide-y divide-gray-100 dark:divide-gray-800 overflow-hidden rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-800 shadow-sm"
             >
                 <div
                     v-for="item in cartStore.items"
                     :key="item.id"
-                    class="transition-colors hover:bg-gray-50/60"
+                    class="transition-colors hover:bg-gray-50/60 dark:hover:bg-gray-900/60"
                 >
                     <!-- Mobile card -->
                     <div class="flex gap-3 p-4 sm:hidden">
                         <a
                             :href="`/shop/product/${item.item.id}/${item.item.slug}`"
-                            class="flex h-[72px] w-[72px] shrink-0 overflow-hidden rounded-xl border border-gray-100 bg-gray-50"
+                            class="flex h-[72px] w-[72px] shrink-0 overflow-hidden rounded-xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800"
                         >
                             <img
                                 :src="getItemImage(item)"
@@ -69,7 +69,7 @@
                         <div class="min-w-0 flex-1">
                             <a
                                 :href="`/shop/product/${item.item.id}/${item.item.slug}`"
-                                class="line-clamp-2 text-sm font-semibold leading-snug text-gray-900 hover:text-primary-600"
+                                class="line-clamp-2 text-sm font-semibold leading-snug text-gray-900 dark:text-white hover:text-primary-600"
                                 >{{ item.item.name }}</a
                             >
                             <p
@@ -107,7 +107,7 @@
 
                             <div class="mt-2 flex items-center justify-between">
                                 <div
-                                    class="flex items-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50"
+                                    class="flex items-center overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
                                 >
                                     <button
                                         @click="
@@ -116,12 +116,12 @@
                                             )
                                         "
                                         type="button"
-                                        class="flex h-8 w-8 items-center justify-center text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-600 focus:outline-none active:bg-gray-200"
+                                        class="flex h-8 w-8 items-center justify-center text-gray-500 dark:text-gray-400 transition-colors hover:bg-primary-50 hover:text-primary-600 focus:outline-none active:bg-gray-200 dark:active:bg-gray-700"
                                     >
                                         <i class="ri-subtract-line text-xs"></i>
                                     </button>
                                     <span
-                                        class="w-8 text-center text-sm font-bold text-gray-900"
+                                        class="w-8 text-center text-sm font-bold text-gray-900 dark:text-white"
                                         >{{ item.quantity }}</span
                                     >
                                     <button
@@ -131,7 +131,7 @@
                                             )
                                         "
                                         type="button"
-                                        class="flex h-8 w-8 items-center justify-center text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-600 focus:outline-none active:bg-gray-200"
+                                        class="flex h-8 w-8 items-center justify-center text-gray-500 dark:text-gray-400 transition-colors hover:bg-primary-50 hover:text-primary-600 focus:outline-none active:bg-gray-200 dark:active:bg-gray-700"
                                     >
                                         <i class="ri-add-line text-xs"></i>
                                     </button>
@@ -148,7 +148,7 @@
                                         Tk.
                                     </span>
                                     <span
-                                        class="text-sm font-extrabold text-gray-900"
+                                        class="text-sm font-extrabold text-gray-900 dark:text-white"
                                         >{{
                                             getItemEffectivePrice(item) *
                                             item.quantity
@@ -174,7 +174,7 @@
                         <div class="col-span-6 flex items-center gap-4">
                             <a
                                 :href="`/shop/product/${item.item.id}/${item.item.slug}`"
-                                class="flex h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-gray-100 bg-gray-50"
+                                class="flex h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900"
                             >
                                 <img
                                     :src="getItemImage(item)"
@@ -186,7 +186,7 @@
                             <div class="min-w-0">
                                 <a
                                     :href="`/shop/product/${item.item.id}/${item.item.slug}`"
-                                    class="line-clamp-2 text-sm font-semibold leading-snug text-gray-900 hover:text-primary-600"
+                                    class="line-clamp-2 text-sm font-semibold leading-snug text-gray-900 dark:text-white hover:text-primary-600"
                                     >{{ item.item.name }}</a
                                 >
                                 <p
@@ -216,26 +216,26 @@
                                 >
                             </template>
                             <template v-else>
-                                <span class="text-gray-600"
+                                <span class="text-gray-600 dark:text-gray-300"
                                     >{{ getItemRegularPrice(item) }} Tk.</span
                                 >
                             </template>
                         </div>
                         <div class="col-span-2 flex justify-center">
                             <div
-                                class="flex items-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50"
+                                class="flex items-center overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
                             >
                                 <button
                                     @click="
                                         cartStore.decreaseQuantity(item.item)
                                     "
                                     type="button"
-                                    class="flex h-9 w-9 items-center justify-center text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-600 focus:outline-none active:bg-gray-200"
+                                    class="flex h-9 w-9 items-center justify-center text-gray-500 dark:text-gray-400 transition-colors hover:bg-primary-50 hover:text-primary-600 focus:outline-none active:bg-gray-200 dark:active:bg-gray-700"
                                 >
                                     <i class="ri-subtract-line text-sm"></i>
                                 </button>
                                 <span
-                                    class="w-9 text-center text-sm font-bold text-gray-900"
+                                    class="w-9 text-center text-sm font-bold text-gray-900 dark:text-white"
                                     >{{ item.quantity }}</span
                                 >
                                 <button
@@ -243,14 +243,14 @@
                                         cartStore.increaseQuantity(item.item)
                                     "
                                     type="button"
-                                    class="flex h-9 w-9 items-center justify-center text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-600 focus:outline-none active:bg-gray-200"
+                                    class="flex h-9 w-9 items-center justify-center text-gray-500 dark:text-gray-400 transition-colors hover:bg-primary-50 hover:text-primary-600 focus:outline-none active:bg-gray-200 dark:active:bg-gray-700"
                                 >
                                     <i class="ri-add-line text-sm"></i>
                                 </button>
                             </div>
                         </div>
                         <div
-                            class="col-span-2 text-right text-base font-extrabold text-gray-900"
+                            class="col-span-2 text-right text-base font-extrabold text-gray-900 dark:text-white"
                         >
                             <span
                                 v-if="getItemSalePrice(item)"
@@ -317,7 +317,7 @@
                             class="col-span-2 space-y-3 pt-2"
                         >
                             <label
-                                class="block text-sm font-medium text-gray-700"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('cart::site.checkout.delivery_option') }}
                                 <span class="text-red-500">*</span>
@@ -349,11 +349,11 @@
                                                     selectedShippingOption?.name ===
                                                     option.name
                                                 "
-                                                class="h-2 w-2 rounded-full bg-white"
+                                                class="h-2 w-2 rounded-full bg-white dark:bg-gray-800"
                                             ></div>
                                         </div>
                                         <span
-                                            class="text-sm font-semibold text-gray-900"
+                                            class="text-sm font-semibold text-gray-900 dark:text-white"
                                             >{{ option.name }}</span
                                         >
                                     </div>
@@ -364,7 +364,7 @@
                                     >
                                     <span
                                         v-else
-                                        class="text-sm font-bold text-gray-900"
+                                        class="text-sm font-bold text-gray-900 dark:text-white"
                                         >{{ option.price }} Tk.</span
                                     >
                                     <input
@@ -381,7 +381,7 @@
                         <div>
                             <label
                                 for="name"
-                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('cart::site.checkout.your_name') }}
                                 <span class="text-red-500">*</span>
@@ -405,7 +405,7 @@
                         <div>
                             <label
                                 for="phone"
-                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('cart::site.checkout.phone_number') }}
                                 <span class="text-red-500">*</span>
@@ -429,7 +429,7 @@
                         <div class="col-span-2">
                             <label
                                 for="address"
-                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('cart::site.checkout.street_address') }}
                                 <span class="text-red-500">*</span>
@@ -460,7 +460,7 @@
                             class="col-span-2 space-y-2"
                         >
                             <label
-                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('cart::site.checkout.saved_addresses') }}
                             </label>
@@ -493,7 +493,7 @@
                                             addr.address
                                         }}</span>
                                     </div>
-                                    <p class="mt-1 text-xs text-gray-500">
+                                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                                         {{
                                             addr.union_name
                                                 ? addr.union_name + ', '
@@ -537,7 +537,7 @@
                             <div>
                                 <label
                                     for="note-mobile"
-                                    class="mb-1.5 block text-sm font-medium text-gray-700"
+                                    class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                                     >{{
                                         __('cart::site.checkout.special_note')
                                     }}
@@ -551,7 +551,7 @@
                                             'cart::site.checkout.note_placeholder'
                                         )
                                     "
-                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                                    class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 px-3 py-2 text-sm text-gray-900 dark:text-white focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                                 ></textarea>
                             </div>
 
@@ -616,7 +616,7 @@
             <!-- Right: Order Summary (above form on mobile) -->
             <div class="order-1 mt-6 lg:order-2 lg:col-span-4 lg:mt-0">
                 <div
-                    class="sticky top-6 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm"
+                    class="sticky top-6 overflow-hidden rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-800 shadow-sm"
                 >
                     <!-- Shipping progress -->
                     <div
@@ -700,7 +700,7 @@
                             <div
                                 class="flex items-center justify-between text-sm"
                             >
-                                <span class="text-gray-500"
+                                <span class="text-gray-500 dark:text-gray-400"
                                     >{{ __('cart::site.cart.subtotal') }}
                                     <span class="text-xs text-gray-400"
                                         >({{
@@ -710,14 +710,14 @@
                                         }})</span
                                     ></span
                                 >
-                                <span class="font-semibold text-gray-900"
+                                <span class="font-semibold text-gray-900 dark:text-white"
                                     >{{ cartStore.subtotal }} Tk.</span
                                 >
                             </div>
                             <div
                                 class="flex items-center justify-between text-sm"
                             >
-                                <span class="text-gray-500">{{
+                                <span class="text-gray-500 dark:text-gray-400">{{
                                     __('cart::site.cart.shipping')
                                 }}</span>
                                 <span
@@ -725,7 +725,7 @@
                                     class="font-semibold text-green-600"
                                     >{{ __('cart::site.cart.free') }}</span
                                 >
-                                <span v-else class="font-semibold text-gray-900"
+                                <span v-else class="font-semibold text-gray-900 dark:text-white"
                                     >{{ shippingCharge }} Tk.</span
                                 >
                             </div>
@@ -733,7 +733,7 @@
                                 v-if="cartStore.discount > 0"
                                 class="flex items-center justify-between text-sm"
                             >
-                                <span class="text-gray-500"
+                                <span class="text-gray-500 dark:text-gray-400"
                                     >{{ __('cart::site.cart.discount') }}
                                     <span
                                         v-if="cartStore.coupon"
@@ -752,7 +752,7 @@
                             <div v-if="!cartStore.coupon">
                                 <label
                                     for="promo-code"
-                                    class="mb-1.5 block text-sm font-medium text-gray-700"
+                                    class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                                     >{{ __('cart::site.checkout.promo_code') }}
                                 </label>
                                 <div class="flex gap-2">
@@ -765,7 +765,7 @@
                                                 'cart::site.checkout.promo_placeholder'
                                             )
                                         "
-                                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm uppercase text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                                        class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 px-3 py-2.5 text-sm uppercase text-gray-900 dark:text-white focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                                         @keyup.enter="applyPromo"
                                     />
                                     <button
@@ -822,10 +822,10 @@
                             </div>
                         </div>
 
-                        <div class="my-4 h-px bg-gray-100"></div>
+                        <div class="my-4 h-px bg-gray-100 dark:bg-gray-800"></div>
 
                         <div class="flex items-center justify-between">
-                            <span class="text-sm font-bold text-gray-900">{{
+                            <span class="text-sm font-bold text-gray-900 dark:text-white">{{
                                 __('cart::site.cart.total')
                             }}</span>
                             <div class="text-right">
@@ -845,7 +845,7 @@
                             <div class="mt-4">
                                 <label
                                     for="note"
-                                    class="mb-1.5 block text-sm font-medium text-gray-700"
+                                    class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                                     >{{
                                         __('cart::site.checkout.special_note')
                                     }}
@@ -859,7 +859,7 @@
                                             'cart::site.checkout.note_placeholder'
                                         )
                                     "
-                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                                    class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 px-3 py-2 text-sm text-gray-900 dark:text-white focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                                 ></textarea>
                             </div>
 
@@ -929,14 +929,14 @@
         class="flex flex-col items-center justify-center py-24 text-center"
     >
         <div
-            class="mb-6 flex h-28 w-28 items-center justify-center rounded-full bg-gray-100"
+            class="mb-6 flex h-28 w-28 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800"
         >
             <i class="ri-shopping-cart-2-line text-5xl text-gray-300"></i>
         </div>
-        <h2 class="mb-2 text-2xl font-bold text-gray-900">
+        <h2 class="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
             {{ __('cart::site.cart.empty_heading') }}
         </h2>
-        <p class="mb-8 max-w-xs text-sm text-gray-500">
+        <p class="mb-8 max-w-xs text-sm text-gray-500 dark:text-gray-400">
             {{ __('cart::site.cart.empty_body') }}
         </p>
         <a

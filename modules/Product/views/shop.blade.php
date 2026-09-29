@@ -12,7 +12,7 @@
                 <i class="ri-arrow-right-s-line text-gray-400"></i>
             </li>
             <li class="min-w-0">
-                <span class="block truncate font-semibold text-gray-800">{{ __('product::site.shop.search_prefix') }} &ldquo;{{ $searchText }}&rdquo;</span>
+                <span class="block truncate font-semibold text-gray-800 dark:text-gray-200">{{ __('product::site.shop.search_prefix') }} &ldquo;{{ $searchText }}&rdquo;</span>
             </li>
         @elseif (isset($category))
             <li class="flex shrink-0 items-center gap-1">
@@ -20,11 +20,11 @@
                 <i class="ri-arrow-right-s-line text-gray-400"></i>
             </li>
             <li class="min-w-0">
-                <span class="block truncate font-semibold text-gray-800">{{ $category->name }}</span>
+                <span class="block truncate font-semibold text-gray-800 dark:text-gray-200">{{ $category->name }}</span>
             </li>
         @else
             <li class="min-w-0">
-                <span class="font-semibold text-gray-800">{{ __('site.nav.shop') }}</span>
+                <span class="font-semibold text-gray-800 dark:text-gray-200">{{ __('site.nav.shop') }}</span>
             </li>
         @endif
     </x-breadcrumb>

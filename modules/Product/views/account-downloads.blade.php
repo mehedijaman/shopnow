@@ -10,14 +10,14 @@
         <!-- Sidebar Navigation -->
         <div class="md:col-span-1">
             <div class="px-4 sm:px-0">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">{{ __('site.account.manage_heading') }}</h3>
-                <p class="mt-1 text-sm text-gray-600">{{ __('site.account.manage_hint_downloads') }}</p>
+                <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white">{{ __('site.account.manage_heading') }}</h3>
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">{{ __('site.account.manage_hint_downloads') }}</p>
                 
                 <nav class="mt-6 space-y-2">
-                    <a href="{{ route('account.profile') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700">
+                    <a href="{{ route('account.profile') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:hover:text-white dark:text-gray-300 dark:hover:bg-gray-700">
                         <i class="ri-user-line mr-2 text-lg"></i> {{ __('site.account.my_profile') }}
                     </a>
-                    <a href="{{ route('account.orders') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700">
+                    <a href="{{ route('account.orders') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:hover:text-white dark:text-gray-300 dark:hover:bg-gray-700">
                         <i class="ri-shopping-bag-line mr-2 text-lg"></i> {{ __('site.account.my_orders') }}
                     </a>
                     <a href="{{ route('account.downloads') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md bg-primary-50 text-primary-700 dark:bg-gray-800 dark:text-white">
@@ -32,27 +32,27 @@
 
         <!-- Main Content Area -->
         <div class="mt-5 md:col-span-2 md:mt-0">
-            <div class="shadow-sm sm:overflow-hidden sm:rounded-md border border-gray-200 bg-white dark:bg-gray-800 p-6">
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl mb-6 border-b border-gray-150 pb-2">
+            <div class="shadow-sm sm:overflow-hidden sm:rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
                     {{ __('product::site.downloads.title') }}
                 </h2>
 
                 @if ($permissions->isEmpty())
-                    <p class="text-gray-500 py-6 text-center">{{ __('product::site.downloads.empty') }}</p>
+                    <p class="text-gray-500 dark:text-gray-400 py-6 text-center">{{ __('product::site.downloads.empty') }}</p>
                 @else
-                    <div class="overflow-x-auto rounded-lg border border-gray-200">
-                        <table class="min-w-full divide-y divide-gray-200">
+                    <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead class="bg-gray-50 dark:bg-gray-900">
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">{{ __('product::site.downloads.col_product') }}</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">{{ __('product::site.downloads.col_file') }}</th>
-                                    <th class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">{{ __('product::site.downloads.col_downloads') }}</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">{{ __('product::site.downloads.col_expires') }}</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">{{ __('product::site.downloads.col_status') }}</th>
-                                    <th class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">{{ __('product::site.downloads.col_action') }}</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ __('product::site.downloads.col_product') }}</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ __('product::site.downloads.col_file') }}</th>
+                                    <th class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ __('product::site.downloads.col_downloads') }}</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ __('product::site.downloads.col_expires') }}</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ __('product::site.downloads.col_status') }}</th>
+                                    <th class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">{{ __('product::site.downloads.col_action') }}</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-200 bg-white dark:bg-gray-800">
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800">
                                 @foreach ($permissions as $p)
                                     <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
                                         <td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{{ $p['product_name'] }}</td>

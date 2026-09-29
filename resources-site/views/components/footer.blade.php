@@ -72,12 +72,12 @@
                     <span>{{ __('site.footer.quick_links') }}</span>
                 </h3>
                 <ul class="space-y-3 text-xs font-medium">
-                    <li><a href="{{ route('site.index') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.nav.home') }}</a></li>
-                    <li><a href="{{ route('shop.index') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.footer.shop_products') }}</a></li>
-                    <li><a href="/blog" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.footer.latest_blog') }}</a></li>
-                    <li><a href="{{ route('site.about') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.footer.about_us') }}</a></li>
-                    <li><a href="{{ route('site.contact') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.footer.contact_support') }}</a></li>
-                    <li><a href="{{ route('site.track') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.footer.track_your_parcel') }}</a></li>
+                    <li><a href="{{ route('site.index') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600 dark:text-slate-300"></i> {{ __('site.nav.home') }}</a></li>
+                    <li><a href="{{ route('shop.index') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600 dark:text-slate-300"></i> {{ __('site.footer.shop_products') }}</a></li>
+                    <li><a href="/blog" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600 dark:text-slate-300"></i> {{ __('site.footer.latest_blog') }}</a></li>
+                    <li><a href="{{ route('site.about') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600 dark:text-slate-300"></i> {{ __('site.footer.about_us') }}</a></li>
+                    <li><a href="{{ route('site.contact') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600 dark:text-slate-300"></i> {{ __('site.footer.contact_support') }}</a></li>
+                    <li><a href="{{ route('site.track') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600 dark:text-slate-300"></i> {{ __('site.footer.track_your_parcel') }}</a></li>
                 </ul>
             </div>
 
@@ -87,10 +87,10 @@
                     <span>{{ __('site.footer.legal_policy') }}</span>
                 </h3>
                 <ul class="space-y-3 text-xs font-medium">
-                    <li><a href="{{ route('site.termsOfService') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.footer.terms_of_service') }}</a></li>
-                    <li><a href="{{ route('site.privacyPolicy') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.footer.privacy_policy') }}</a></li>
-                    <li><a href="{{ route('site.refundPolicy') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.footer.refund_policy') }}</a></li>
-                    <li><a href="{{ route('customerAuth.loginForm') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600"></i> {{ __('site.account.my_account') }}</a></li>
+                    <li><a href="{{ route('site.termsOfService') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600 dark:text-slate-300"></i> {{ __('site.footer.terms_of_service') }}</a></li>
+                    <li><a href="{{ route('site.privacyPolicy') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600 dark:text-slate-300"></i> {{ __('site.footer.privacy_policy') }}</a></li>
+                    <li><a href="{{ route('site.refundPolicy') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600 dark:text-slate-300"></i> {{ __('site.footer.refund_policy') }}</a></li>
+                    <li><a href="{{ route('customerAuth.loginForm') }}" class="inline-flex items-center gap-1.5 transition-all duration-200 hover:translate-x-1 hover:text-primary-400"><i class="ri-arrow-right-s-line text-slate-600 dark:text-slate-300"></i> {{ __('site.account.my_account') }}</a></li>
                 </ul>
             </div>
 
@@ -144,7 +144,7 @@
         </div>
 
         {{-- Bottom Copyright Bar --}}
-        <div class="mt-14 flex flex-col items-center justify-between gap-4 border-t border-slate-900 pt-8 text-xs text-slate-500 sm:flex-row">
+        <div class="mt-14 flex flex-col items-center justify-between gap-4 border-t border-slate-900 pt-8 text-xs text-slate-500 dark:text-slate-400 sm:flex-row">
             <div class="text-center sm:text-left">
                 <p>
                     &copy; {{ date('Y') }} <span class="font-bold text-slate-300">{{ $footerSiteName }}</span>. {{ __('site.footer.all_rights_reserved') }}

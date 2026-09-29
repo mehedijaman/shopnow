@@ -79,7 +79,7 @@
                             <a
                                 v-if="slide.url && slide.button_text"
                                 :href="slide.url"
-                                class="pointer-events-auto inline-flex items-center justify-center rounded-full bg-white px-5 py-2 text-xs font-bold text-gray-900 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-gray-100 hover:shadow-xl sm:px-7 sm:py-2.5 sm:text-sm"
+                                class="pointer-events-auto inline-flex items-center justify-center rounded-full bg-white dark:bg-gray-800 px-5 py-2 text-xs font-bold text-gray-900 dark:text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-gray-100 dark:hover:bg-gray-800 hover:shadow-xl sm:px-7 sm:py-2.5 sm:text-sm"
                             >
                                 {{ slide.button_text }}
                                 <svg

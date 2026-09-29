@@ -25,7 +25,7 @@
             <!-- Delivery Details -->
             <div v-if="requiresShipping" class="space-y-4">
                 <h2
-                    class="border-b border-gray-200 pb-2 text-xl font-semibold text-gray-900"
+                    class="border-b border-gray-200 dark:border-gray-700 pb-2 text-xl font-semibold text-gray-900 dark:text-white"
                 >
                     {{ __('cart::site.checkout.delivery_details') }}
                 </h2>
@@ -35,7 +35,7 @@
                     <div class="col-span-2">
                         <label
                             for="name"
-                            class="mb-1.5 block text-sm font-medium text-gray-700"
+                            class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                         >
                             {{ __('cart::site.checkout.your_name') }}
                             <span class="text-red-500">*</span>
@@ -65,7 +65,7 @@
                         <div>
                             <label
                                 for="phone"
-                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('cart::site.checkout.phone_number') }}
                                 <span class="text-red-500">*</span>
@@ -92,7 +92,7 @@
                         <div>
                             <label
                                 for="email"
-                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('cart::site.checkout.email_optional') }}
                             </label>
@@ -121,7 +121,7 @@
                         class="col-span-2 space-y-2"
                     >
                         <label
-                            class="mb-1.5 block text-sm font-medium text-gray-700"
+                            class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                         >
                             {{ __('cart::site.checkout.shipping_address') }}
                             <span class="text-red-500">*</span>
@@ -153,7 +153,7 @@
                                         addr.address
                                     }}</span>
                                 </div>
-                                <p class="mt-1 text-xs text-gray-500">
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                                     {{
                                         addr.union_name
                                             ? addr.union_name + ', '
@@ -193,10 +193,10 @@
                     <!-- Geocode dropdown selectors and textarea (shown if custom address is selected or no saved addresses) -->
                     <div
                         v-if="selectedAddressId === 'new'"
-                        class="border-gray-150 col-span-2 grid grid-cols-1 gap-4 rounded-xl border bg-gray-50/55 p-4 md:grid-cols-2"
+                        class="border-gray-200 dark:border-gray-700 col-span-2 grid grid-cols-1 gap-4 rounded-xl border bg-gray-50/55 dark:bg-gray-900/55 p-4 md:grid-cols-2"
                     >
                         <div class="col-span-2">
-                            <h3 class="text-sm font-semibold text-gray-900">
+                            <h3 class="text-sm font-semibold text-gray-900 dark:text-white">
                                 {{ __('cart::site.checkout.shipping_address') }}
                             </h3>
                         </div>
@@ -208,7 +208,7 @@
                         >
                             <label
                                 for="district"
-                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('cart::site.checkout.district') }}
                                 <span class="text-red-500">*</span>
@@ -235,9 +235,9 @@
                                         isDistrictDropdownOpen &&
                                         filteredDistricts.length > 0
                                     "
-                                    class="absolute z-30 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white p-1 text-xs shadow-lg"
+                                    class="absolute z-30 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-1 text-xs shadow-lg"
                                 >
-                                    <ul class="divide-y divide-gray-50">
+                                    <ul class="divide-y divide-gray-50 dark:divide-gray-800">
                                         <li
                                             v-for="d in filteredDistricts"
                                             :key="d.id"
@@ -269,7 +269,7 @@
                         >
                             <label
                                 for="upazila"
-                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('cart::site.checkout.upazila') }}
                                 <span class="text-xs text-gray-400">{{
@@ -298,9 +298,9 @@
                                         isUpazilaDropdownOpen &&
                                         filteredUpazilas.length > 0
                                     "
-                                    class="absolute z-30 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white p-1 text-xs shadow-lg"
+                                    class="absolute z-30 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-1 text-xs shadow-lg"
                                 >
-                                    <ul class="divide-y divide-gray-50">
+                                    <ul class="divide-y divide-gray-50 dark:divide-gray-800">
                                         <li
                                             v-for="u in filteredUpazilas"
                                             :key="u.id"
@@ -327,7 +327,7 @@
 
                         <!-- Union (optional) -->
                         <!-- <div>
-                            <label for="union" class="mb-1.5 block text-sm font-medium text-gray-700">
+                            <label for="union" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
                                 Union
                                 <span class="text-xs text-gray-400">(Optional)</span>
                             </label>
@@ -342,7 +342,7 @@
                         <div class="col-span-2">
                             <label
                                 for="address"
-                                class="mb-1.5 block text-sm font-medium text-gray-700"
+                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                             >
                                 {{ __('cart::site.checkout.street_address') }}
                                 <span class="text-red-500">*</span>
@@ -372,7 +372,7 @@
                         v-if="shippingOptions.length > 0"
                         class="space-y-3 pt-2"
                     >
-                        <label class="block text-sm font-medium text-gray-700">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                             {{ __('cart::site.checkout.delivery_option') }}
                             <span class="text-red-500">*</span>
                         </label>
@@ -402,11 +402,11 @@
                                                 selectedShippingOption?.name ===
                                                 option.name
                                             "
-                                            class="h-2 w-2 rounded-full bg-white"
+                                            class="h-2 w-2 rounded-full bg-white dark:bg-gray-800"
                                         ></div>
                                     </div>
                                     <span
-                                        class="text-sm font-semibold text-gray-900"
+                                        class="text-sm font-semibold text-gray-900 dark:text-white"
                                         >{{ option.name }}</span
                                     >
                                 </div>
@@ -417,7 +417,7 @@
                                 >
                                 <span
                                     v-else
-                                    class="text-sm font-bold text-gray-900"
+                                    class="text-sm font-bold text-gray-900 dark:text-white"
                                     >{{ option.price }} Tk.</span
                                 >
                                 <input
@@ -434,7 +434,7 @@
 
             <!-- Payment Method -->
             <!-- <div class="space-y-4">
-                <h2 class="border-b border-gray-200 pb-2 text-xl font-semibold text-gray-900">
+                <h2 class="border-b border-gray-200 dark:border-gray-700 pb-2 text-xl font-semibold text-gray-900 dark:text-white">
                     Payment Method <span class="text-red-500 text-base">*</span>
                 </h2>
 
@@ -451,7 +451,7 @@
                         ]">💵</span>
                         <div>
                             <p class="font-semibold">Cash on Delivery</p>
-                            <p class="text-xs text-gray-500">Pay when you receive</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Pay when you receive</p>
                         </div>
                         <div class="ml-auto">
                             <div :class="[
@@ -483,7 +483,7 @@
                         ]">💳</span>
                         <div>
                             <p class="font-semibold">Online Payment</p>
-                            <p class="text-xs text-gray-500">SSLCommerz secured</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">SSLCommerz secured</p>
                         </div>
                         <div class="ml-auto">
                             <div :class="[
@@ -503,24 +503,24 @@
 
         <!-- Right: Order Summary -->
         <div class="mt-6 w-full sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-sm">
-            <div class="rounded-xl border border-gray-200 bg-white shadow-sm">
-                <div class="border-b border-gray-100 px-5 py-4">
-                    <h3 class="font-semibold text-gray-900">
+            <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm">
+                <div class="border-b border-gray-100 dark:border-gray-800 px-5 py-4">
+                    <h3 class="font-semibold text-gray-900 dark:text-white">
                         {{ __('cart::site.cart.order_summary') }}
                     </h3>
                 </div>
 
-                <div class="divide-y divide-gray-100 px-5">
+                <div class="divide-y divide-gray-100 dark:divide-gray-800 px-5">
                     <div class="flex items-center justify-between py-3 text-sm">
-                        <span class="text-gray-500">{{
+                        <span class="text-gray-500 dark:text-gray-400">{{
                             __('cart::site.cart.subtotal')
                         }}</span>
-                        <span class="font-medium text-gray-900"
+                        <span class="font-medium text-gray-900 dark:text-white"
                             >{{ cartStore.subtotal }} Tk.</span
                         >
                     </div>
                     <div class="flex items-center justify-between py-3 text-sm">
-                        <span class="text-gray-500">{{
+                        <span class="text-gray-500 dark:text-gray-400">{{
                             __('cart::site.cart.shipping')
                         }}</span>
                         <span
@@ -528,22 +528,22 @@
                             class="font-medium text-green-600"
                             >{{ __('cart::site.cart.free') }}</span
                         >
-                        <span v-else class="font-medium text-gray-900"
+                        <span v-else class="font-medium text-gray-900 dark:text-white"
                             >{{ shippingCharge }} Tk.</span
                         >
                     </div>
                     <div class="flex items-center justify-between py-3 text-sm">
-                        <span class="text-gray-500">{{
+                        <span class="text-gray-500 dark:text-gray-400">{{
                             __('cart::site.cart.tax')
                         }}</span>
-                        <span class="font-medium text-gray-900"
+                        <span class="font-medium text-gray-900 dark:text-white"
                             >{{ cartStore.tax }} Tk.</span
                         >
                     </div>
                     <div
                         class="flex items-center justify-between py-4 text-base font-bold"
                     >
-                        <span class="text-gray-900">{{
+                        <span class="text-gray-900 dark:text-white">{{
                             __('cart::site.cart.total')
                         }}</span>
                         <span class="text-primary-700"
@@ -553,9 +553,9 @@
                 </div>
 
                 <!-- Voucher -->
-                <div class="border-t border-gray-100 px-5 py-4">
+                <div class="border-t border-gray-100 dark:border-gray-800 px-5 py-4">
                     <label
-                        class="mb-1.5 block text-sm font-medium text-gray-700"
+                        class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                         >{{ __('cart::site.checkout.promo_code') }}
                     </label>
                     <div class="flex gap-2">
@@ -565,7 +565,7 @@
                             :placeholder="
                                 __('cart::site.checkout.promo_placeholder')
                             "
-                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                            class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 px-3 py-2 text-sm text-gray-900 dark:text-white focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                         />
                         <button
                             type="button"
@@ -577,10 +577,10 @@
                 </div>
 
                 <!-- Special Note -->
-                <div class="border-t border-gray-100 px-5 py-4">
+                <div class="border-t border-gray-100 dark:border-gray-800 px-5 py-4">
                     <label
                         for="note"
-                        class="mb-1.5 block text-sm font-medium text-gray-700"
+                        class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
                         >{{ __('cart::site.checkout.special_note') }}
                     </label>
                     <textarea
@@ -590,13 +590,13 @@
                         :placeholder="
                             __('cart::site.checkout.note_placeholder')
                         "
-                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 px-3 py-2 text-sm text-gray-900 dark:text-white focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                     ></textarea>
                 </div>
 
                 <!-- Submit -->
-                <div class="border-t border-gray-100 px-5 py-4">
-                    <p class="mb-3 text-xs text-gray-500">
+                <div class="border-t border-gray-100 dark:border-gray-800 px-5 py-4">
+                    <p class="mb-3 text-xs text-gray-500 dark:text-gray-400">
                         {{ __('cart::site.checkout.required_prefix') }}
                         <span class="font-semibold text-red-500">*</span>
                         {{ __('cart::site.checkout.required_suffix') }}
