@@ -58,7 +58,7 @@ return [
         'shipping_address' => 'Shipping Address',
         'special_note' => 'Special Note',
         'note_placeholder' => 'Any instructions for your order...',
-        'address_placeholder' => 'House/flat number, road, area...',
+        'address_placeholder' => 'House/flat number, road, area, upazila/thana, district',
         'promo_code' => 'Promo / Voucher Code',
         'promo_placeholder' => 'Enter code',
         'promo_applied' => 'applied',

@@ -202,9 +202,39 @@ const variation = computed(() => {
     return matchedVariation.value
 })
 
-watch(variation, (v) => {
-    emit('variation-change', v)
-})
+const reset = () => {
+    const firstVariationValueIds = (
+        props.variations[0]?.attribute_value_ids || []
+    ).map(Number)
+
+    selected.value = Object.fromEntries(
+        attributes.value.flatMap((attribute) => {
+            const value = attribute.values.find((value) =>
+                firstVariationValueIds.includes(Number(value.id))
+            )
+
+            return value ? [[attribute.id, Number(value.id)]] : []
+        })
+    )
+}
+
+watch(
+    [() => props.parentProduct.id, () => props.variations, attributes],
+    ([productId], [previousProductId] = []) => {
+        if (productId !== previousProductId || !matchedVariation.value) {
+            reset()
+        }
+    },
+    { immediate: true, deep: true }
+)
+
+watch(
+    variation,
+    (v) => {
+        emit('variation-change', v)
+    },
+    { immediate: true }
+)
 
 const selectValue = (attrId, valId) => {
     const current = selected.value[attrId]
@@ -225,10 +255,6 @@ const getSelectedValueName = (attrId) => {
     const attr = attributes.value.find((a) => Number(a.id) === Number(attrId))
     const val = attr?.values?.find((v) => Number(v.id) === Number(valId))
     return val?.value || ''
-}
-
-const reset = () => {
-    selected.value = {}
 }
 
 defineExpose({ reset })

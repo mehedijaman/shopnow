@@ -108,7 +108,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick, watch } from 'vue'
 import { useCartStore } from '../Stores/CartStore'
 import { pushAddToCart } from '../analytics/datalayer'
 import ProductVariationSelector from './ProductVariationSelector.vue'
@@ -132,6 +132,12 @@ const hasVariations = computed(
     () => props.product.type === 'variable' && props.variations?.length > 0
 )
 const hasBundle = computed(() => props.product.type === 'bundle')
+
+watch(hasVariations, (value) => {
+    if (!value) {
+        selectedVariation.value = null
+    }
+})
 
 const canAddToCart = computed(() => {
     if (hasBundle.value && props.product.quantity <= 0) return false
@@ -157,11 +163,13 @@ const effectivePrice = computed(() => {
     return props.product.sale_price || props.product.price
 })
 
-const onVariationChange = (variation) => {
+const onVariationChange = async (variation) => {
     selectedVariation.value = variation
 
+    await nextTick()
+
     const mainImgEl = document.getElementById('mainImage')
-    if (mainImgEl) {
+    if (mainImgEl?.dataset.productId === String(props.product.id)) {
         if (variation && variation.image_url) {
             mainImgEl.src = variation.image_url
         } else {
@@ -222,10 +230,12 @@ function buildCartItem() {
 
 const generateVariationLabel = () => {
     if (!selectedVariation.value?.attribute_value_ids) return ''
+    const selectedValueIds =
+        selectedVariation.value.attribute_value_ids.map(Number)
     const labels = []
     for (const attr of Object.values(props.variationAttributes)) {
         for (const val of attr.values || []) {
-            if (selectedVariation.value.attribute_value_ids.includes(val.id)) {
+            if (selectedValueIds.includes(Number(val.id))) {
                 labels.push(`${attr.name}: ${val.value}`)
             }
         }

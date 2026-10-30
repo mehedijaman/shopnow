@@ -58,7 +58,7 @@ return [
         'shipping_address' => 'ডেলিভারি ঠিকানা',
         'special_note' => 'বিশেষ নোট',
         'note_placeholder' => 'আপনার অর্ডারের জন্য কোনো নির্দেশনা...',
-        'address_placeholder' => 'বাড়ি/ফ্ল্যাট নম্বর, রোড, এলাকা...',
+        'address_placeholder' => 'বাড়ি/ফ্ল্যাট নম্বর, রোড, এলাকা, থানা, জেলা',
         'promo_code' => 'প্রোমো / ভাউচার কোড',
         'promo_placeholder' => 'কোড লিখুন',
         'promo_applied' => 'প্রযোজ্য',

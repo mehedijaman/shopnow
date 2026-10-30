@@ -33,7 +33,7 @@ return [
     'customer_prefill_hint' => 'ক্রেতা নির্বাচন করলে নাম ও ফোন খালি থাকলে সেগুলো স্বয়ংক্রিয়ভাবে বসে যায়।',
     'customer_name' => 'ক্রেতার নাম',
     'address' => 'ঠিকানা',
-    'address_placeholder' => 'বাড়ি, রোড, এলাকা, শহর',
+    'address_placeholder' => 'বাড়ি, রোড, এলাকা, উপজেলা/থানা, জেলা',
     'order_details' => 'অর্ডারের বিবরণ',
     'select_method' => 'পদ্ধতি নির্বাচন করুন',
     'paid_amount' => 'পরিশোধিত পরিমাণ (টাকা)',

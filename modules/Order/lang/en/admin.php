@@ -33,7 +33,7 @@ return [
     'customer_prefill_hint' => 'Selecting a customer prefills the name and phone when they are empty.',
     'customer_name' => 'Customer Name',
     'address' => 'Address',
-    'address_placeholder' => 'House, road, area, city',
+    'address_placeholder' => 'House, road, area, upazila/thana, district',
     'order_details' => 'Order Details',
     'select_method' => 'Select method',
     'paid_amount' => 'Paid Amount (Tk)',

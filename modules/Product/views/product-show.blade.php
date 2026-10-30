@@ -91,6 +91,7 @@
                 <div class="flex items-center justify-center overflow-hidden rounded-xl bg-gray-50/50 dark:bg-gray-800/50">
                     <img
                         id="mainImage"
+                        data-product-id="{{ $product->id }}"
                         src="{{ $allImages->first() ?? $defaultLogo }}"
                         alt="{{ $product->name }}"
                         class="h-auto max-h-[520px] w-full rounded-lg object-contain mx-auto transition-all duration-300"
