@@ -418,7 +418,7 @@ const couriers = [
                 key: 'base_url',
                 label: 'API Base URL',
                 hint: 'Leave empty to use the default Steadfast endpoint.',
-                placeholder: 'https://portal.steadfast.com.bd/api/v1',
+                placeholder: 'https://portal.packzy.com/api/v1',
             },
         ],
     },
