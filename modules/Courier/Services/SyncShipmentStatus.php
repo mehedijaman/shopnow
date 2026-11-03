@@ -4,6 +4,7 @@ namespace Modules\Courier\Services;
 
 use CourierHub\Enums\CourierStatus;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Modules\Courier\Models\CourierEvent;
 use Modules\Order\Enums\OrderStatus;
 use Modules\Order\Enums\ShipmentStatus;
@@ -62,6 +63,19 @@ class SyncShipmentStatus
      * @param  array<string, mixed>  $payload  raw courier payload for the event log
      */
     public function apply(OrderShipment $shipment, CourierStatus $courierStatus, array $payload = [], ?string $estimatedDelivery = null): bool
+    {
+        return DB::transaction(function () use ($shipment, $courierStatus, $payload, $estimatedDelivery): bool {
+            Order::query()->lockForUpdate()->find($shipment->order_id);
+            $locked = OrderShipment::query()->lockForUpdate()->findOrFail($shipment->id);
+            $shipment->setRawAttributes($locked->getAttributes(), true);
+            $shipment->unsetRelation('order');
+
+            return $this->applyLocked($shipment, $courierStatus, $payload, $estimatedDelivery);
+        });
+    }
+
+    /** @param array<string, mixed> $payload */
+    private function applyLocked(OrderShipment $shipment, CourierStatus $courierStatus, array $payload, ?string $estimatedDelivery): bool
     {
         $changed = $shipment->courier_status !== $courierStatus->value;
         $previousStatus = $shipment->shopment_status;

@@ -4,6 +4,13 @@ use Illuminate\Support\Facades\Route;
 use Modules\CustomerAuth\Http\Controllers\AuthenticatedSessionController;
 use Modules\CustomerAuth\Http\Controllers\NewPasswordController;
 use Modules\CustomerAuth\Http\Controllers\PasswordResetLinkController;
+use Modules\CustomerAuth\Http\Controllers\PhoneVerificationController;
+
+Route::get('verify-phone', [PhoneVerificationController::class, 'show'])->name('customerAuth.phone.show');
+Route::post('verify-phone', [PhoneVerificationController::class, 'verify'])->middleware('throttle:10,1')->name('customerAuth.phone.verify');
+Route::post('verify-phone/resend', [PhoneVerificationController::class, 'resend'])->middleware('throttle:3,1')->name('customerAuth.phone.resend');
+Route::post('verify-phone/change', [PhoneVerificationController::class, 'changePhone'])->middleware('throttle:3,1')->name('customerAuth.phone.change');
+Route::post('verify-phone/cancel', [PhoneVerificationController::class, 'cancel'])->name('customerAuth.phone.cancel');
 
 Route::get('login', [
     AuthenticatedSessionController::class,
@@ -23,7 +30,7 @@ Route::get('signup', [
 Route::post('signup', [
     AuthenticatedSessionController::class,
     'signup',
-])->name('customerAuth.signup');
+])->middleware('throttle:5,1')->name('customerAuth.signup');
 
 Route::get('logout', [
     AuthenticatedSessionController::class,

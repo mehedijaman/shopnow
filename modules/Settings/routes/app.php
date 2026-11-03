@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Settings\Http\Controllers\SettingsController;
+use Modules\Settings\Http\Controllers\SmsController;
+
+Route::post('settings/sms/test', [SmsController::class, 'test'])->middleware('throttle:3,1')->name('settings.sms.test');
+Route::get('settings/sms/activity', [SmsController::class, 'activity'])->middleware('throttle:60,1')->name('settings.sms.activity');
+Route::get('settings/sms/history', [SmsController::class, 'history'])->name('settings.sms.history');
 
 Route::get('settings', [
     SettingsController::class, 'redirect',

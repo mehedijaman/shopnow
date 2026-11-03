@@ -2,11 +2,33 @@
 
 namespace Modules\Settings\Services;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Modules\Customer\Models\Customer;
 
 class MetaConversionApiService
 {
+    public function trackRegistration(Customer $customer, Request $request): void
+    {
+        $this->track('CompleteRegistration', [
+            'status' => true,
+            'content_name' => 'Customer Signup',
+        ], [
+            'event_id' => 'registration_'.$customer->id,
+            'event_source_url' => url('/signup'),
+            'consent_granted' => true,
+            'client_ip_address' => $request->ip(),
+            'client_user_agent' => $request->userAgent(),
+            'fbp' => $request->cookie('_fbp'),
+            'fbc' => $request->cookie('_fbc'),
+            'email' => $customer->email,
+            'phone' => $customer->phone,
+            'first_name' => $customer->name,
+            'external_id' => (string) $customer->id,
+        ]);
+    }
+
     /**
      * @param  array<string, mixed>  $customData
      * @param  array<string, mixed>  $context

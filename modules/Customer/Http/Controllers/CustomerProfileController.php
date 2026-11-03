@@ -6,6 +6,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Modules\Settings\Services\SmsSettings;
 use Modules\Support\Http\Controllers\AppController;
 
 class CustomerProfileController extends AppController
@@ -20,6 +21,10 @@ class CustomerProfileController extends AppController
     public function update(Request $request): RedirectResponse
     {
         $customer = Auth::guard('customer')->user();
+
+        if (is_string($request->input('phone'))) {
+            $request->merge(['phone' => SmsSettings::phone($request->input('phone')) ?? $request->input('phone')]);
+        }
 
         $rules = [
             'name' => 'required|string|max:255',

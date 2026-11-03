@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Modules\Settings\Services\SmsSettings;
 
 class LoginRequest extends FormRequest
 {
@@ -47,6 +48,10 @@ class LoginRequest extends FormRequest
 
         $identity = $this->input('login_identity');
         $field = filter_var($identity, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+
+        if ($field === 'phone') {
+            $identity = SmsSettings::phone($identity) ?? $identity;
+        }
 
         $credentials = [
             $field => $identity,

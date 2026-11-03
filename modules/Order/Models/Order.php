@@ -13,6 +13,8 @@ class Order extends BaseModel
 {
     use ActivityLog, Searchable, SoftDeletes;
 
+    public bool $smsPlacementInProgress = false;
+
     protected $table = 'orders';
 
     protected $fillable = [

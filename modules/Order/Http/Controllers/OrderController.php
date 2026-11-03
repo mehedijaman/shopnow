@@ -239,13 +239,15 @@ class OrderController extends BackendController
             'payment_status' => ['nullable', Rule::enum(PaymentStatus::class)],
         ]);
 
-        if (PaymentStatus::tryFrom($validated['payment_status'] ?? '') === PaymentStatus::Paid) {
-            $recordOrderPayment->run($order, [
-                'payment_status' => TransactionStatus::Success->value,
-            ]);
-        }
-
-        $order->update(array_filter($validated, fn ($v) => $v !== null));
+        DB::transaction(function () use ($order, $validated, $recordOrderPayment): void {
+            $order = Order::query()->lockForUpdate()->findOrFail($order->id);
+            if (PaymentStatus::tryFrom($validated['payment_status'] ?? '') === PaymentStatus::Paid) {
+                $recordOrderPayment->run($order, [
+                    'payment_status' => TransactionStatus::Success->value,
+                ]);
+            }
+            $order->update(array_filter($validated, fn ($v) => $v !== null));
+        });
 
         return back()->with('success', 'Order status updated.');
     }

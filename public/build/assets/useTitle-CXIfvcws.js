@@ -1,1 +1,0 @@
-import{t as e}from"./useFormContext-DN8kcPsd.js";import{M as t,N as n,x as r}from"./preload-helper-B--krGQH.js";t();function i(t){let i=n(`translate`),{isCreate:a,isEdit:o}=e();return{title:r(()=>{let e=``;return a.value&&(e=`Create`),o.value&&(e=`Edit`),e=i(e),e+` `+i(t)})}}export{i as t};

@@ -2,6 +2,7 @@
 
 namespace Modules\Order\Services;
 
+use Illuminate\Support\Facades\DB;
 use Modules\Order\Enums\OrderStatus;
 use Modules\Order\Enums\PaymentMethod;
 use Modules\Order\Enums\TransactionStatus;
@@ -12,6 +13,16 @@ use Modules\Support\Events\OrderPaymentConfirmed;
 class RecordOrderPayment
 {
     public function run(Order $order, array $data): ?OrderPayment
+    {
+        return DB::transaction(function () use ($order, $data): ?OrderPayment {
+            $order = Order::query()->lockForUpdate()->findOrFail($order->id);
+
+            return $this->record($order, $data);
+        });
+    }
+
+    /** @param array<string, mixed> $data */
+    private function record(Order $order, array $data): ?OrderPayment
     {
         if ($order->orderPayments()->where('payment_status', TransactionStatus::Success)->exists()) {
             return null;
@@ -52,7 +63,7 @@ class RecordOrderPayment
             ));
 
             if (! $order->requires_shipping) {
-                $order->updateQuietly(['status' => OrderStatus::Completed]);
+                $order->update(['status' => OrderStatus::Completed]);
             }
         }
 

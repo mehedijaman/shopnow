@@ -1,0 +1,32 @@
+- main [ref=e3]:
+  - article [ref=e4]:
+    - generic [ref=e5]:
+      - generic:
+        - link "Subaira":
+          - /url: ""
+          - img "Subaira"
+      - generic [ref=e6]:
+        - heading "Welcome back" [level=2] [ref=e7]
+        - paragraph [ref=e8]: Sign in to your admin account
+        - generic [ref=e9]:
+          - generic [ref=e10]: Whoops! Something went wrong...
+          - list [ref=e11]:
+            - listitem [ref=e12]: Session expired, please login again.
+        - generic [ref=e13]:
+          - generic [ref=e14]:
+            - generic [ref=e15]: Email address
+            - textbox "Email address" [ref=e16]:
+              - /placeholder: you@example.com
+              - text: user@example.com
+          - generic [ref=e17]:
+            - generic [ref=e18]:
+              - generic [ref=e19]: Password
+              - link "Forgot password?" [ref=e20] [cursor=pointer]:
+                - /url: http://localhost:8000/admin-auth/forgot-password
+            - generic [ref=e21]:
+              - textbox "Password" [ref=e22]: password
+              - generic [ref=e23]: 
+          - generic [ref=e25]:
+            - checkbox "Remember me" [ref=e26]
+            - generic [ref=e27] [cursor=pointer]: Remember me
+          - button "Sign in" [ref=e28]

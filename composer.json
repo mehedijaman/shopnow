@@ -19,7 +19,8 @@
         "laravel/tinker": "^3.0",
         "maatwebsite/excel": "^3.1",
         "opcodesio/log-viewer": "^3.24",
-        "spatie/laravel-medialibrary": "^11.22"
+        "spatie/laravel-medialibrary": "^11.22",
+        "xenon/laravelbdsms": "2.0.5.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -64,7 +65,7 @@
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --queue=sms-otp,sms,default --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
         ],
         "pint": [
             "./vendor/bin/pint"

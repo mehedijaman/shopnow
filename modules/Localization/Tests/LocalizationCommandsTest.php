@@ -58,3 +58,13 @@ test('the bangla bundle carries the same keys as english', function () {
     expect(array_keys($bangla))->toBe(array_keys($english))
         ->and($bangla['common.switch_language'])->toBe('ভাষা পরিবর্তন করুন');
 });
+
+test('sms settings translations are available to the admin interface', function () {
+    $this->artisan('localization:export', ['--surface' => 'admin'])->assertSuccessful();
+
+    foreach (['en', 'bn'] as $locale) {
+        $bundle = json_decode(File::get(resource_path('js/lang/'.$locale.'.json')), true, flags: JSON_THROW_ON_ERROR);
+        expect($bundle)->toHaveKey('settings::sms.heading')
+            ->and($bundle['settings::sms.heading'])->toBe(trans('settings::sms.heading', [], $locale));
+    }
+});

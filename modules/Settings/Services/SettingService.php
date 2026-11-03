@@ -18,6 +18,9 @@ class SettingService
      */
     public function getGroup(string $group): array
     {
+        if ($group === 'sms') {
+            return app(SmsSettings::class)->forForm();
+        }
         $rows = Setting::where('group', $group)->orderBy('sort_order')->get();
         $result = [];
 
@@ -88,7 +91,7 @@ class SettingService
     {
         $result = [];
 
-        foreach (Setting::all() as $setting) {
+        foreach (Setting::where('group', '!=', 'sms')->get() as $setting) {
             $result[$setting->group.'.'.$setting->key] = $setting->value;
 
             if ($setting->getRawOriginal('type') === 'image') {

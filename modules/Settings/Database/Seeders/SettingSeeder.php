@@ -12,11 +12,12 @@ class SettingSeeder extends Seeder
     {
         $this->seedPermissions();
         $this->seedSettings();
+        $this->call(SmsSettingsSeeder::class);
     }
 
     private function seedPermissions(): void
     {
-        $permissions = ['settings-list', 'settings-edit', 'pixel-settings-edit', 'analytics-settings-edit', 'courier-settings-edit'];
+        $permissions = ['settings-list', 'settings-edit', 'pixel-settings-edit', 'analytics-settings-edit', 'courier-settings-edit', 'sms-settings-edit', 'sms-test-send', 'sms-activity-view'];
 
         foreach ($permissions as $name) {
             Permission::firstOrCreate(

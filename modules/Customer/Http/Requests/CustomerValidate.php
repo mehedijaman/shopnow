@@ -5,10 +5,18 @@ namespace Modules\Customer\Http\Requests;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Modules\Customer\Models\Customer;
+use Modules\Settings\Services\SmsSettings;
 use Modules\Support\Http\Requests\Request;
 
 class CustomerValidate extends Request
 {
+    protected function prepareForValidation(): void
+    {
+        if (is_string($this->input('phone'))) {
+            $this->merge(['phone' => SmsSettings::phone($this->input('phone')) ?? $this->input('phone')]);
+        }
+    }
+
     public function rules(): array
     {
         return [

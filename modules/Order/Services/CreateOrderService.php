@@ -10,6 +10,7 @@ class CreateOrderService
 {
     public function __construct(
         private UpdateOrderService $updateOrderService,
+        private OrderSms $sms,
     ) {}
 
     /**
@@ -48,13 +49,18 @@ class CreateOrderService
                 'items' => $data['items'],
             ]);
 
+            $order->smsPlacementInProgress = true;
             $status = OrderStatus::tryFrom((string) ($data['status'] ?? '')) ?? OrderStatus::Pending;
 
             if ($status !== OrderStatus::Pending) {
                 $order->update(['status' => $status]);
             }
 
-            return $order->refresh();
+            $order->refresh();
+            $order->smsPlacementInProgress = false;
+            $this->sms->placed($order);
+
+            return $order;
         });
     }
 }

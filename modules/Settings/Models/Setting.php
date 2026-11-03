@@ -5,6 +5,7 @@ namespace Modules\Settings\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Modules\Support\Models\BaseModel;
 use Modules\Support\Traits\ActivityLog;
+use Spatie\Activitylog\Support\LogOptions;
 
 class Setting extends BaseModel
 {
@@ -22,6 +23,15 @@ class Setting extends BaseModel
     ];
 
     protected $appends = ['value_url'];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        $options = LogOptions::defaults()->logOnlyDirty()->useLogName('system');
+
+        return $this->group === 'sms'
+            ? $options->logOnly(['group', 'key', 'type', 'is_public'])->dontLogEmptyChanges()
+            : $options->logAll();
+    }
 
     /**
      * Cast the value attribute based on the setting type.

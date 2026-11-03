@@ -3,11 +3,19 @@
 namespace Modules\Settings\Http\Requests;
 
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 use Modules\Courier\Enums\CourierProvider;
+use Modules\Order\Enums\OrderStatus;
+use Modules\Settings\Services\SmsSettings;
 use Modules\Support\Http\Requests\Request;
 
 class SettingsGroupValidate extends Request
 {
+    public function authorize(): bool
+    {
+        return $this->route('group') !== 'sms' || $this->user('user')?->can('sms-settings-edit') === true;
+    }
+
     public function rules(): array
     {
         return match ($this->route('group')) {
@@ -17,6 +25,7 @@ class SettingsGroupValidate extends Request
             'social' => $this->socialRules(),
             'seo' => $this->seoRules(),
             'mail' => $this->mailRules(),
+            'sms' => $this->smsRules(),
             'shipping' => $this->shippingRules(),
             'courier' => $this->courierRules(),
             'homepage' => $this->homepageRules(),
@@ -33,6 +42,59 @@ class SettingsGroupValidate extends Request
             'site_description' => 'nullable|string|max:500',
             'admin_email' => 'nullable|email|max:255',
         ];
+    }
+
+    private function smsRules(): array
+    {
+        $fields = SmsSettings::credentialFields((string) $this->input('provider'));
+        $rules = [
+            'enabled' => ['required', 'boolean'],
+            'provider' => ['required', Rule::in(array_keys(SmsSettings::PROVIDERS))],
+            'credentials' => ['nullable', $fields ? 'array:'.implode(',', $fields) : 'array'],
+            'credentials.*' => ['nullable', 'string', 'max:500'],
+            'remove_credentials' => ['sometimes', 'boolean'],
+            'order_placed' => ['required', 'boolean'], 'order_updated' => ['required', 'boolean'],
+            'statuses' => ['present', 'array'], 'statuses.*' => [Rule::in(OrderStatus::values()), 'distinct'],
+            'otp_enabled' => ['required', 'boolean'],
+            'otp_expiry_minutes' => ['required', 'integer', 'between:2,10'],
+            'otp_cooldown_seconds' => ['required', 'integer', 'between:60,300'],
+            'otp_max_attempts' => ['required', 'integer', 'between:3,5'],
+        ];
+        foreach (array_keys(app(SmsSettings::class)->defaults()) as $key) {
+            if (str_starts_with($key, 'placement_') || str_starts_with($key, 'status_') || in_array($key, ['otp_en', 'otp_bn'], true)) {
+                $rules[$key] = ['required', 'string', 'max:480'];
+            }
+        }
+
+        return $rules;
+    }
+
+    public function after(): array
+    {
+        if ($this->route('group') !== 'sms') {
+            return [];
+        }
+
+        return [function (Validator $validator): void {
+            if ($this->boolean('otp_enabled') && ! $this->boolean('enabled')) {
+                $validator->errors()->add('enabled', __('settings::sms.otp_requires_sms'));
+            }
+            foreach ($this->smsRules() as $key => $rules) {
+                if (! str_starts_with($key, 'placement_') && ! str_starts_with($key, 'status_') && ! in_array($key, ['otp_en', 'otp_bn'], true)) {
+                    continue;
+                }
+                $template = $this->input($key);
+                if (! is_string($template)) {
+                    continue;
+                }
+                $otp = str_starts_with($key, 'otp_');
+                $allowed = $otp ? ['site_name', 'otp', 'minutes'] : ['site_name', 'customer_name', 'order_number', 'status', 'total'];
+                preg_match_all('/\{([^{}]+)\}/u', $template, $matches);
+                if (array_diff($matches[1], $allowed) || ($otp && ! str_contains($template, '{otp}'))) {
+                    $validator->errors()->add($key, __('settings::sms.invalid_template'));
+                }
+            }
+        }];
     }
 
     private function brandingRules(): array

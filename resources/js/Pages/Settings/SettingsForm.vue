@@ -60,7 +60,7 @@
 </template>
 
 <script setup>
-import { computed, inject, markRaw, onUnmounted, provide } from 'vue'
+import { computed, inject, markRaw, onUnmounted, provide, toRef } from 'vue'
 import { Head, useForm } from '@inertiajs/vue3'
 import useFormErrors from '@/Composables/useFormErrors'
 import GeneralGroup from './Components/GeneralGroup.vue'
@@ -69,6 +69,7 @@ import ContactGroup from './Components/ContactGroup.vue'
 import SocialGroup from './Components/SocialGroup.vue'
 import SeoGroup from './Components/SeoGroup.vue'
 import MailGroup from './Components/MailGroup.vue'
+import SmsGroup from './Components/SmsGroup.vue'
 import ShippingGroup from './Components/ShippingGroup.vue'
 import CourierGroup from './Components/CourierGroup.vue'
 import HomepageGroup from './Components/HomepageGroup.vue'
@@ -80,6 +81,7 @@ const props = defineProps({
     group: { type: String, required: true },
     settings: { type: Object, required: true },
     groups: { type: Array, required: true },
+    sms: { type: Object, default: null },
 })
 
 const translate = inject('translate')
@@ -92,6 +94,7 @@ const groupComponents = {
     social: markRaw(SocialGroup),
     seo: markRaw(SeoGroup),
     mail: markRaw(MailGroup),
+    sms: markRaw(SmsGroup),
     shipping: markRaw(ShippingGroup),
     courier: markRaw(CourierGroup),
     homepage: markRaw(HomepageGroup),
@@ -132,6 +135,7 @@ const form = useForm(buildFormFields())
 
 // Provide the Inertia form and display URLs to group child components.
 provide('settingsForm', form)
+provide('smsMeta', toRef(props, 'sms'))
 provide('settingsUrls', Object.fromEntries(
     Object.entries(props.settings).filter(([k]) => k.endsWith('_url')),
 ))
@@ -139,6 +143,12 @@ provide('settingsUrls', Object.fromEntries(
 const submit = () => {
     form.post(route('settings.update', { group: props.group }), {
         preserveScroll: true,
+        onSuccess: () => {
+            if (props.group === 'sms') {
+                form.credentials = {}
+                form.remove_credentials = false
+            }
+        },
     })
 }
 
@@ -150,6 +160,7 @@ const groupLabel = (g) => {
         social: translate('settings::admin.group_social'),
         seo: translate('settings::admin.group_seo'),
         mail: translate('settings::admin.group_mail'),
+        sms: translate('settings::sms.heading'),
         shipping: translate('settings::admin.group_shipping'),
         courier: translate('settings::admin.group_courier'),
         homepage: translate('settings::admin.group_homepage'),
@@ -168,6 +179,7 @@ const groupIcon = (g) => {
         social: 'ri-share-line',
         seo: 'ri-search-2-line',
         mail: 'ri-mail-line',
+        sms: 'ri-message-2-line',
         shipping: 'ri-truck-line',
         courier: 'ri-route-line',
         homepage: 'ri-home-line',
@@ -186,6 +198,7 @@ const groupDescription = (g) => {
         social: translate('settings::admin.group_social_desc'),
         seo: translate('settings::admin.group_seo_desc'),
         mail: translate('settings::admin.group_mail_desc'),
+        sms: translate('settings::sms.description'),
         shipping: translate('settings::admin.group_shipping_desc'),
         courier: translate('settings::admin.group_courier_desc'),
         homepage: translate('settings::admin.group_homepage_desc'),

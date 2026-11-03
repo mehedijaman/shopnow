@@ -17,6 +17,7 @@ use Modules\Order\Enums\ShipmentStatus;
 use Modules\Order\Http\Requests\SiteOrderValidate;
 use Modules\Order\Models\Order;
 use Modules\Order\Services\DetermineShippingRequirement;
+use Modules\Order\Services\OrderSms;
 use Modules\Product\Enums\ProductType;
 use Modules\Product\Models\Product;
 use Modules\Product\Models\ProductVariation;
@@ -222,6 +223,8 @@ class SiteOrderController extends SiteController
                     ]);
                 }
             }
+
+            app(OrderSms::class)->placed($order);
 
             DB::commit();
 

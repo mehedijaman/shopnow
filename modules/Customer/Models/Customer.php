@@ -39,6 +39,8 @@ class Customer extends Authenticatable
         'active' => 'boolean',
         'email_verified_at' => 'datetime',
         'phone_verified_at' => 'datetime',
+        'phone_verification_required' => 'boolean',
+        'registration_pending' => 'boolean',
         'date_of_birth' => 'date',
         'password' => 'hashed',
     ];
@@ -52,6 +54,11 @@ class Customer extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function requiresPhoneVerification(): bool
+    {
+        return $this->phone_verification_required && $this->phone_verified_at === null;
+    }
 
     public function sendPasswordResetNotification($token)
     {

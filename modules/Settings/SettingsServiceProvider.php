@@ -2,12 +2,24 @@
 
 namespace Modules\Settings;
 
+use GuzzleHttp\Client;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\RateLimiter;
+use Modules\Settings\Services\PackageSmsGateway;
+use Modules\Settings\Services\SmsGateway;
 use Modules\Support\BaseServiceProvider;
 
 class SettingsServiceProvider extends BaseServiceProvider
 {
     protected ?string $viewNamespace = 'settings';
+
+    public function register(): void
+    {
+        parent::register();
+        $this->app->bind(SmsGateway::class, PackageSmsGateway::class);
+        $this->app->bind('sms.http', static fn (): Client => new Client);
+    }
 
     public function boot(): void
     {
@@ -16,6 +28,8 @@ class SettingsServiceProvider extends BaseServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/Database/Migrations');
 
         include __DIR__.'/helpers.php';
+
+        RateLimiter::for('sms-provider', static fn (): Limit => Limit::perMinute((int) config('sms.requests_per_minute', 60))->by('sms-provider'));
 
         self::configureMailFromSettings();
     }

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Modules\AdminAuth\Http\Middleware\UserAuth;
 use Modules\Cart\Http\Middleware\ResolveCart;
 use Modules\CustomerAuth\Http\Middleware\CustomerAuth;
+use Modules\CustomerAuth\Http\Middleware\EnsureCustomerPhoneVerified;
 use Modules\Localization\Http\Middleware\SetLocale;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -24,11 +25,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->web(append: [
             SetLocale::class,
+            EnsureCustomerPhoneVerified::class,
             HandleInertiaRequests::class,
         ]);
 
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->dontFlash(['credentials', 'code']);
     })->create();

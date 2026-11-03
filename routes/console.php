@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::command('courier:poll')->everyFifteenMinutes();
+Schedule::command('sms:maintain')->everyMinute()->withoutOverlapping();

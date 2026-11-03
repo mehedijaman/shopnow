@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Inertia\Response;
 use Modules\Settings\Http\Requests\SettingsGroupValidate;
 use Modules\Settings\Services\SettingService;
+use Modules\Settings\Services\SmsSettings;
 use Modules\Settings\SettingsServiceProvider;
 use Modules\Support\Http\Controllers\BackendController;
 use Modules\Support\Traits\UploadFile;
@@ -18,7 +19,7 @@ class SettingsController extends BackendController
 {
     use UploadFile;
 
-    private const GROUPS = ['general', 'branding', 'contact', 'social', 'seo', 'mail', 'shipping', 'courier', 'homepage', 'pixel', 'downloads', 'analytics'];
+    private const GROUPS = ['general', 'branding', 'contact', 'social', 'seo', 'mail', 'sms', 'shipping', 'courier', 'homepage', 'pixel', 'downloads', 'analytics'];
 
     /** @var array<string, string[]> */
     private const IMAGE_FIELDS = [
@@ -38,6 +39,9 @@ class SettingsController extends BackendController
 
         $groups = self::GROUPS;
         $user = Auth::guard('user')->user();
+        if (! $user || ! $user->can('sms-settings-edit')) {
+            $groups = array_values(array_filter($groups, static fn ($item) => $item !== 'sms'));
+        }
         if (! $user || ! $user->can('pixel-settings-edit')) {
             $groups = array_values(array_filter($groups, static fn ($item) => $item !== 'pixel'));
         }
@@ -52,6 +56,12 @@ class SettingsController extends BackendController
             'group' => $group,
             'settings' => $service->getGroup($group),
             'groups' => $groups,
+            'sms' => $group === 'sms' ? [
+                'providers' => app(SmsSettings::class)->providerOptions(),
+                'configured' => app(SmsSettings::class)->configured(),
+                'can_test' => $user->can('sms-test-send'),
+                'can_view_activity' => $user->can('sms-activity-view'),
+            ] : null,
         ]);
     }
 
@@ -59,6 +69,18 @@ class SettingsController extends BackendController
     {
         abort_unless(in_array($group, self::GROUPS, true), 404);
         $this->authorizeGroupAccess($group);
+
+        if ($group === 'sms') {
+            app(SmsSettings::class)->save($request->validated());
+            activity('system')->causedBy($request->user('user'))->withProperties([
+                'provider' => $request->validated('provider'),
+                'changed_credentials' => array_keys(array_filter($request->validated('credentials') ?? [], fn ($value) => filled($value))),
+                'credentials_removed' => $request->boolean('remove_credentials'),
+            ])->log('SMS settings updated');
+            $service->clearCache();
+
+            return back()->with('success', __('settings::sms.saved'));
+        }
 
         $imageFields = self::IMAGE_FIELDS[$group] ?? [];
         $settingsToUpdate = [];
@@ -179,6 +201,9 @@ class SettingsController extends BackendController
 
     private function authorizeGroupAccess(string $group): void
     {
+        if ($group === 'sms') {
+            abort_unless(Auth::guard('user')->user()?->can('sms-settings-edit'), 403);
+        }
         if ($group === 'pixel') {
             $user = Auth::guard('user')->user();
             abort_unless($user && $user->can('pixel-settings-edit'), 403);
