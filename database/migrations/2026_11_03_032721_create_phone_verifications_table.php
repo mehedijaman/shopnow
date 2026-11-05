@@ -15,8 +15,8 @@ return new class extends Migration
             $table->string('digest', 64);
             $table->uuid('nonce');
             $table->unsignedSmallInteger('attempts')->default(0);
-            $table->timestamp('last_sent_at');
-            $table->timestamp('expires_at')->index();
+            $table->dateTime('last_sent_at');
+            $table->dateTime('expires_at')->index();
             $table->timestamp('consumed_at')->nullable();
             $table->timestamps();
         });
