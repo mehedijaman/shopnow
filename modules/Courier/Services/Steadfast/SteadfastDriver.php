@@ -24,6 +24,17 @@ use Illuminate\Http\Request;
  */
 class SteadfastDriver extends BaseSteadfastDriver
 {
+    /**
+     * @param  array<string, mixed>  $config
+     * @param  array<string, mixed>  $httpConfig
+     */
+    public function __construct(array $config, array $httpConfig)
+    {
+        parent::__construct($config, $httpConfig);
+
+        $this->client = new SteadfastClient($config, $httpConfig);
+    }
+
     public function createOrder(OrderData $order): OrderResponse
     {
         $payload = [
