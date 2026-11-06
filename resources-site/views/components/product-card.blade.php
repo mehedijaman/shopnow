@@ -151,7 +151,7 @@
                                 <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">{{ __('site.product.from') }}</span>
                             @endif
                             <span class="text-base sm:text-lg font-extrabold text-gray-900 dark:text-white">
-                                ৳{{ number_format($minPrice, 2) }}
+                                ৳{{ rtrim(rtrim(number_format($minPrice, 2), '0'), '.') }}
                             </span>
                         </div>
                     @else
@@ -159,21 +159,21 @@
                     @endif
                 @elseif ($product->type?->value === 'bundle')
                     <span class="text-base sm:text-lg font-extrabold text-gray-900 dark:text-white">
-                        ৳{{ number_format($product->sale_price ?: $product->price, 2) }}
+                        ৳{{ rtrim(rtrim(number_format($product->sale_price ?: $product->price, 2), '0'), '.') }}
                     </span>
                 @else
                     @if ($product->sale_price && $product->price && $product->sale_price < $product->price)
                         <div class="flex items-baseline gap-1.5">
                             <span class="text-base sm:text-lg font-extrabold text-red-600 dark:text-red-400">
-                                ৳{{ number_format($product->sale_price, 2) }}
+                                ৳{{ rtrim(rtrim(number_format($product->sale_price, 2), '0'), '.') }}
                             </span>
                             <span class="text-xs font-medium text-gray-400 line-through dark:text-gray-500">
-                                ৳{{ number_format($product->price, 2) }}
+                                ৳{{ rtrim(rtrim(number_format($product->price, 2), '0'), '.') }}
                             </span>
                         </div>
                     @else
                         <span class="text-base sm:text-lg font-extrabold text-gray-900 dark:text-white">
-                            ৳{{ number_format($product->price, 2) }}
+                            ৳{{ rtrim(rtrim(number_format($product->price, 2), '0'), '.') }}
                         </span>
                     @endif
                 @endif

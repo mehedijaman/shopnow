@@ -200,8 +200,8 @@
                         @endphp
                         @if ($minPrice)
                             <span class="text-3xl font-bold text-gray-900 dark:text-white">
-                                ৳{{ number_format($minPrice, 2) }}
-                                @if ($maxPrice && $maxPrice > $minPrice) – ৳{{ number_format($maxPrice, 2) }} @endif
+                                ৳{{ rtrim(rtrim(number_format($minPrice, 2), '0'), '.') }}
+                                @if ($maxPrice && $maxPrice > $minPrice) – ৳{{ rtrim(rtrim(number_format($maxPrice, 2), '0'), '.') }} @endif
                             </span>
                             <span class="text-sm text-gray-400">{{ __('site.product.price_from') }}</span>
                         @else
@@ -210,16 +210,16 @@
                     @elseif ($product->type?->value === 'bundle')
                         {{-- Bundle product: show bundle price --}}
                         <span class="text-3xl font-bold text-gray-900 dark:text-white">
-                            ৳{{ number_format($product->sale_price ?? $product->price, 2) }}
+                            ৳{{ rtrim(rtrim(number_format($product->sale_price ?? $product->price, 2), '0'), '.') }}
                         </span>
                     @else
                         {{-- Simple product --}}
                         <span class="text-3xl font-bold text-gray-900 dark:text-white">
-                            ৳{{ number_format($product->sale_price ?? $product->price, 2) }}
+                            ৳{{ rtrim(rtrim(number_format($product->sale_price ?? $product->price, 2), '0'), '.') }}
                         </span>
                         @if ($product->sale_price && $product->price && $product->sale_price < $product->price)
                             <span class="text-lg text-gray-400 line-through">
-                                ৳{{ number_format($product->price, 2) }}
+                                ৳{{ rtrim(rtrim(number_format($product->price, 2), '0'), '.') }}
                             </span>
                             @php
                                 $discount = round((($product->price - $product->sale_price) / $product->price) * 100);
@@ -276,7 +276,7 @@
                                     {{ $bi['child_product_name'] }}
                                     @if ($bi['quantity'] > 1) &times; {{ $bi['quantity'] }} @endif
                                     @if ($bi['price_override'])
-                                        <span class="text-xs text-gray-400">(৳{{ number_format($bi['price_override'], 2) }} {{ __('site.product.each') }})</span>
+                                        <span class="text-xs text-gray-400">(৳{{ rtrim(rtrim(number_format($bi['price_override'], 2), '0'), '.') }} {{ __('site.product.each') }})</span>
                                     @endif
                                 </li>
                             @endforeach
