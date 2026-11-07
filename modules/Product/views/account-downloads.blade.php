@@ -1,5 +1,9 @@
 @extends('site-layout')
 
+@section('bodyEndScripts')
+    @vite('resources-site/js/index-app.js')
+@endsection
+
 @section('seo_title', __('product::site.downloads.title') . ' — ' . setting('branding.site_name', config('app.name')))
 
 @section('robots', 'noindex, follow')

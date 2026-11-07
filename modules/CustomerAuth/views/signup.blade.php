@@ -1,5 +1,9 @@
 @extends('site-layout')
 
+@section('bodyEndScripts')
+    @vite('resources-site/js/index-app.js')
+@endsection
+
 @section('seo_title', __('customer-auth::site.signup.seo_title') . ' — ' . setting('branding.site_name', config('app.name')))
 
 @section('content')

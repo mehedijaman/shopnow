@@ -1,5 +1,9 @@
 @extends('site-layout')
 
+@section('bodyEndScripts')
+    @vite('resources-site/js/index-app.js')
+@endsection
+
 @section('seo_title', __('courier::site.track.seo_title').' — '.setting('branding.site_name', config('app.name')))
 
 {{-- Form page is an indexable utility; results are PII-gated behind the phone match. --}}
