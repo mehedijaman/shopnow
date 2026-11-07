@@ -18,21 +18,24 @@ function storefrontHeaderXPath(string $html): DOMXPath
 
 afterEach(fn () => Cache::forget('settings'));
 
-test('the header navbar shows only active featured categories in configured order', function () {
+test('the header navbar shows all active top-level categories in configured order', function () {
+    $parent = ProductCategory::factory()->create(['name' => 'Parent', 'sort_order' => 0]);
     ProductCategory::factory()->featured()->create(['name' => 'Zulu', 'sort_order' => 2]);
     ProductCategory::factory()->featured()->create(['name' => 'Alpha', 'sort_order' => 2]);
     ProductCategory::factory()->featured()->create(['name' => 'Early', 'sort_order' => 1]);
-    ProductCategory::factory()->featured()->active(false)->create(['name' => 'Inactive']);
-    ProductCategory::factory()->create(['name' => 'Ordinary']);
-    ProductCategory::factory()->featured()->create(['name' => 'Deleted'])->delete();
+    ProductCategory::factory()->create(['name' => 'Late', 'sort_order' => 3]);
+    ProductCategory::factory()->active(false)->create(['name' => 'Inactive']);
+    ProductCategory::factory()->create(['name' => 'Child', 'parent_id' => $parent->id, 'sort_order' => 4]);
+    ProductCategory::factory()->create(['name' => 'Deleted'])->delete();
 
     $xpath = storefrontHeaderXPath($this->get('/shop')->assertOk()->getContent());
     $names = [];
-    foreach ($xpath->query('//*[@data-featured-category-nav]/a') as $link) {
+    foreach ($xpath->query('//*[@data-category-nav]/a') as $link) {
         $names[] = trim($link->textContent);
     }
 
-    expect($names)->toBe(['Early', 'Alpha', 'Zulu']);
+    expect($names)->toBe(['Parent', 'Early', 'Alpha', 'Zulu', 'Late']);
+    // The drawer keeps its curated featured section.
     expect($xpath->query('//*[@data-mobile-featured-categories]/a')->length)->toBe(3);
 });
 
@@ -43,20 +46,20 @@ test('header categories are available outside the homepage and update without a 
 
     foreach (['/', '/login'] as $path) {
         $xpath = storefrontHeaderXPath($this->get($path)->assertOk()->getContent());
-        expect(trim($xpath->query('//*[@data-featured-category-nav]/a')->item(0)->textContent))->toBe('Header Category');
+        expect(trim($xpath->query('//*[@data-category-nav]/a')->item(0)->textContent))->toBe('Header Category');
     }
 
-    $category->update(['featured' => false]);
+    $category->update(['active' => false]);
     $xpath = storefrontHeaderXPath($this->get('/login')->assertOk()->getContent());
-    expect(trim($xpath->query('//*[@data-featured-category-nav]/a')->item(0)->textContent))->toBe('Shop');
+    expect(trim($xpath->query('//*[@data-category-nav]/a')->item(0)->textContent))->toBe('Shop');
 });
 
 test('category navigation identifies the current category', function () {
     $category = ProductCategory::factory()->featured()->create();
     $xpath = storefrontHeaderXPath($this->get(route('shop.category', [$category->id, $category->slug]))->assertOk()->getContent());
 
-    expect($xpath->query('//*[@data-featured-category-nav]/a[@aria-current="page"]')->length)->toBe(1)
-        ->and(trim($xpath->query('//*[@data-featured-category-nav]/a[@aria-current="page"]')->item(0)->textContent))->toBe($category->name)
+    expect($xpath->query('//*[@data-category-nav]/a[@aria-current="page"]')->length)->toBe(1)
+        ->and(trim($xpath->query('//*[@data-category-nav]/a[@aria-current="page"]')->item(0)->textContent))->toBe($category->name)
         ->and($xpath->query('//*[@data-mobile-all-categories]/a[@aria-current="page"]')->length)->toBe(1);
 });
 
@@ -77,7 +80,7 @@ test('the category sidebar lists all active categories including empty and nonfe
 
         expect($names)->toBe(['Alpha', 'Ordinary', 'Featured'])
             ->and($links->item(1)->getAttribute('href'))->toBe(route('shop.category', [$ordinary->id, $ordinary->slug]))
-            ->and($xpath->query('//*[@data-featured-category-nav]/a')->length)->toBe(1)
+            ->and($xpath->query('//*[@data-category-nav]/a')->length)->toBe(3)
             ->and($xpath->query('//*[@data-mobile-category-panel][@hidden]')->length)->toBe(1);
     }
 

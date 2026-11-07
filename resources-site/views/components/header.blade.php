@@ -195,12 +195,12 @@
     </div>
 </div>
 
-{{-- Featured categories, independent of homepage section visibility --}}
+{{-- Top-level categories, independent of homepage section visibility --}}
 <div class="site-header sticky top-0 z-50 hidden border-b border-site-divider lg:block">
-    <nav class="mx-auto flex max-w-7xl items-center gap-6 overflow-x-auto px-8" aria-label="{{ __('site.home.featured_categories') }}" data-featured-category-nav>
-        @forelse ($headerFeaturedCategories as $featuredCategory)
-            @php $isCurrentCategory = request()->routeIs('shop.category') && (int) request()->route('id') === $featuredCategory->id; @endphp
-            <a href="{{ route('shop.category', [$featuredCategory->id, $featuredCategory->slug]) }}" @if ($isCurrentCategory) aria-current="page" @endif class="shrink-0 whitespace-nowrap border-b-2 py-3 text-sm font-semibold transition hover:border-site-link hover:text-site-link {{ $isCurrentCategory ? 'border-site-link text-site-link' : 'border-transparent text-site-text' }}">{{ $featuredCategory->name }}</a>
+    <nav class="mx-auto flex max-w-7xl items-center gap-6 overflow-x-auto px-8" aria-label="{{ __('product::site.shop.categories') }}" data-category-nav>
+        @forelse ($headerTopLevelCategories as $topLevelCategory)
+            @php $isCurrentCategory = request()->routeIs('shop.category') && (int) request()->route('id') === $topLevelCategory->id; @endphp
+            <a href="{{ route('shop.category', [$topLevelCategory->id, $topLevelCategory->slug]) }}" @if ($isCurrentCategory) aria-current="page" @endif class="shrink-0 whitespace-nowrap border-b-2 py-3 text-sm font-semibold transition hover:border-site-link hover:text-site-link {{ $isCurrentCategory ? 'border-site-link text-site-link' : 'border-transparent text-site-text' }}">{{ $topLevelCategory->name }}</a>
         @empty
             <a href="{{ route('shop.index') }}" class="py-3 text-sm font-semibold text-site-text hover:text-site-link">{{ __('site.nav.shop') }}</a>
         @endforelse

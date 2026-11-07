@@ -44,9 +44,10 @@ class AppServiceProvider extends ServiceProvider
                 ->where('active', true)
                 ->orderBy('sort_order')
                 ->orderBy('name')
-                ->get(['id', 'name', 'slug', 'featured']);
+                ->get(['id', 'name', 'slug', 'featured', 'parent_id']);
 
             $view->with('headerCategories', $categories);
+            $view->with('headerTopLevelCategories', $categories->whereNull('parent_id'));
             $view->with('headerFeaturedCategories', $categories->where('featured', true));
         });
     }
