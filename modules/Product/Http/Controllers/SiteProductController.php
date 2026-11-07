@@ -40,8 +40,10 @@ class SiteProductController extends SiteController
         return view('product::shop', compact('products', 'categories', 'seo'));
     }
 
-    public function search(?string $searchText, SeoService $seoService): View
+    public function search(SeoService $seoService, ?string $searchText = null): View
     {
+        $validated = request()->validate(['q' => ['nullable', 'string', 'max:200']]);
+        $searchText = trim($searchText ?? ($validated['q'] ?? ''));
         $categories = ProductCategory::where('active', true)->orderBy('sort_order')->orderBy('name')->get();
 
         $products = Product::with(['category', 'tags'])
@@ -49,7 +51,8 @@ class SiteProductController extends SiteController
             ->whereHas('category', fn ($query) => $query->where('active', true))
             ->orderBy('name', 'asc')
             ->where('name', 'like', '%'.$searchText.'%')
-            ->paginate(request('rowsPerPage', 45));
+            ->paginate(request('rowsPerPage', 45))
+            ->withQueryString();
 
         $seo = $seoService->build([
             'title' => __('product::site.seo.search_title', ['term' => $searchText ?? '']),

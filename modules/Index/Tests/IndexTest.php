@@ -48,7 +48,7 @@ test('the homepage renders featured category tiles and product sections by defau
     $response = $this->get('/');
 
     $response->assertOk();
-    $response->assertSee('Featured Categories');
+    expect($response->getContent())->toMatch('/<h2\b[^>]*>\s*Featured Categories\s*<\/h2>/');
     $response->assertSee('Electronics');
     $response->assertSee('View All');
     // Image-less categories fall back to the icon placeholder.
@@ -63,7 +63,7 @@ test('featured category tiles can be disabled independently of product sections'
     $response = $this->get('/');
 
     $response->assertOk();
-    $response->assertDontSee('Featured Categories');
+    expect($response->getContent())->not->toMatch('/<h2\b[^>]*>\s*Featured Categories\s*<\/h2>/');
     $response->assertSee('View All');
 });
 
@@ -74,7 +74,7 @@ test('featured category product sections can be disabled independently of tiles'
     $response = $this->get('/');
 
     $response->assertOk();
-    $response->assertSee('Featured Categories');
+    expect($response->getContent())->toMatch('/<h2\b[^>]*>\s*Featured Categories\s*<\/h2>/');
     $response->assertDontSee('View All');
 });
 
@@ -89,6 +89,6 @@ test('categories without active products are excluded from the tile grid', funct
     $response = $this->get('/');
 
     $response->assertOk();
-    $response->assertDontSee('Featured Categories');
+    expect($response->getContent())->not->toMatch('/<h2\b[^>]*>\s*Featured Categories\s*<\/h2>/');
     $response->assertDontSee('View All');
 });

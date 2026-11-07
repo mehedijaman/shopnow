@@ -21,6 +21,8 @@ return [
         'track_parcel' => 'পার্সেল ট্র্যাক করুন',
         'cart' => 'কার্ট',
         'account' => 'অ্যাকাউন্ট',
+        'more' => 'আরও',
+        'preferences' => 'পছন্দসমূহ',
         'mobile_navigation' => 'মোবাইল নেভিগেশন',
     ],
 
@@ -56,6 +58,7 @@ return [
         'heading' => 'সার্চ',
         'find_products' => 'পণ্য খুঁজুন',
         'placeholder' => 'পণ্য, ব্র্যান্ড আর অনেক কিছু সার্চ করুন...',
+        'in_store' => ':name-এ সার্চ করুন…',
         'to_search' => 'সার্চ করতে',
         'to_close' => 'বন্ধ করতে',
         'key_enter' => 'এন্টার',

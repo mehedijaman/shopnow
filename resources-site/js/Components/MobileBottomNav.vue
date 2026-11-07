@@ -1,6 +1,6 @@
 <template>
     <nav
-        class="fixed bottom-0 left-0 right-0 z-40 block border-t border-skin-neutral-4 bg-site-surface dark:bg-site-surface-muted lg:hidden"
+        class="bg-site-surface dark:bg-site-surface-muted fixed bottom-0 left-0 right-0 z-40 block border-t border-skin-neutral-4 lg:hidden"
         :aria-label="__('site.nav.mobile_navigation')"
     >
         <div class="mx-auto flex w-full max-w-7xl justify-around">
@@ -24,6 +24,19 @@
                     >{{ __('site.nav.shop') }}</span
                 >
             </a>
+            <button
+                type="button"
+                data-mobile-categories-toggle
+                aria-controls="collapseMenu"
+                aria-expanded="false"
+                :aria-label="__('product::site.shop.categories')"
+                class="text-site-text hover:text-site-link flex flex-col items-center justify-center py-2 text-center"
+            >
+                <i class="ri-layout-grid-line text-xl" aria-hidden="true"></i>
+                <span class="mt-0.5 text-[10px] font-medium">{{
+                    __('product::site.shop.categories')
+                }}</span>
+            </button>
             <a
                 href="/cart"
                 class="relative flex flex-col items-center justify-center py-2 text-center"
@@ -44,17 +57,6 @@
                 <span
                     class="mt-0.5 text-[10px] font-medium text-skin-neutral-9"
                     >{{ __('site.nav.cart') }}</span
-                >
-            </a>
-            <a
-                href="javascript:void(0)"
-                @click="openSearch"
-                class="flex flex-col items-center justify-center py-2 text-center"
-            >
-                <i class="ri-search-2-line text-xl text-skin-neutral-9"></i>
-                <span
-                    class="mt-0.5 text-[10px] font-medium text-skin-neutral-9"
-                    >{{ __('common.search') }}</span
                 >
             </a>
             <a
@@ -83,13 +85,4 @@ const props = defineProps({
 })
 
 const cartStore = useCartStore()
-
-function openSearch() {
-    if (
-        typeof window !== 'undefined' &&
-        typeof window.toggleSearchModal === 'function'
-    ) {
-        window.toggleSearchModal()
-    }
-}
 </script>

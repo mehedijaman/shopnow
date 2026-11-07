@@ -23,12 +23,13 @@ test('the storefront resolves the theme before first paint', function () {
     $this->assertStringContainsString("closest('[data-theme-toggle]')", $content);
 });
 
-test('every header surface renders a theme switcher', function () {
+test('theme switchers are available in desktop preferences and the mobile sidebar', function () {
     $content = $this->get('/')->assertOk()->getContent();
 
-    // Mobile header, desktop nav and the off-canvas drawer.
-    $this->assertGreaterThanOrEqual(3, substr_count($content, 'data-theme-toggle') - 1);
-    $this->assertGreaterThanOrEqual(3, substr_count($content, 'ri-moon-line'));
+    preg_match_all('/<button[^>]*data-theme-toggle/', $content, $switches);
+    expect($switches[0])->toHaveCount(2);
+    $this->assertStringContainsString('data-desktop-preferences', $content);
+    $this->assertStringContainsString('data-mobile-preferences', $content);
 });
 
 test('the toggle label follows the active locale', function () {

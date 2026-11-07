@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Modules\Product\Models\ProductCategory;
 use Modules\Settings\Services\SeoService;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,6 +34,21 @@ class AppServiceProvider extends ServiceProvider
 
         $this->applyDynamicMailConfig();
         $this->registerSeoViewComposer();
+        $this->registerHeaderViewComposer();
+    }
+
+    private function registerHeaderViewComposer(): void
+    {
+        View::composer('components.header', function (\Illuminate\View\View $view): void {
+            $categories = ProductCategory::query()
+                ->where('active', true)
+                ->orderBy('sort_order')
+                ->orderBy('name')
+                ->get(['id', 'name', 'slug', 'featured']);
+
+            $view->with('headerCategories', $categories);
+            $view->with('headerFeaturedCategories', $categories->where('featured', true));
+        });
     }
 
     /**

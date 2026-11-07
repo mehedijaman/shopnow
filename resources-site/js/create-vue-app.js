@@ -13,7 +13,6 @@ export const createVueApp = async (additionalComponents = {}) => {
         created() {
             const cartStore = useCartStore()
             cartStore.fetchCart()
-            window.toggleSearchModal = () => {}
         }
     })
 

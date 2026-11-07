@@ -194,6 +194,9 @@ class AppearanceSettings
             $variables['--site-divider'] = $this->mix($colors['surface'], $colors['border'], .25);
             $variables['--site-link'] = $this->readable($colors['primary'], [$colors['surface'], $colors['background'], $variables['--site-primary-soft'], $variables['--site-surface-muted']]);
             $variables['--site-focus'] = $this->readable($colors['primary'], [$colors['surface'], $colors['background']], 3);
+            foreach (['surface', 'text', 'muted', 'border', 'focus'] as $token) {
+                $variables['--site-search-'.$token] = $variables['--site-'.$token];
+            }
             $variables['--site-strong'] = $colors['text'];
             $variables['--site-on-strong'] = $this->foreground($colors['text']);
             foreach (['topbar', 'header', 'footer'] as $region) {

@@ -23,6 +23,8 @@ return [
         'track_parcel' => 'Track Parcel',
         'cart' => 'Cart',
         'account' => 'Account',
+        'more' => 'More',
+        'preferences' => 'Preferences',
         'mobile_navigation' => 'Mobile navigation',
     ],
 
@@ -58,6 +60,7 @@ return [
         'heading' => 'Search',
         'find_products' => 'Find products',
         'placeholder' => 'Search for products, brands and more...',
+        'in_store' => 'Search in :name…',
         'to_search' => 'to search',
         'to_close' => 'to close',
         'key_enter' => 'Enter',
