@@ -15,6 +15,7 @@ return [
 
     'nav' => [
         'home' => 'Home',
+        'search' => 'Search',
         'shop' => 'Shop',
         'blog' => 'Blog',
         'about' => 'About',

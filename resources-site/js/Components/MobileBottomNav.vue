@@ -14,16 +14,26 @@
                     >{{ __('site.nav.home') }}</span
                 >
             </a>
-            <a
-                href="/shop"
+            <button
+                type="button"
+                data-mobile-search-toggle
+                aria-controls="mobile-header-search"
+                aria-expanded="false"
+                :aria-label="__('site.aria.search_products')"
+                :data-open-label="__('site.aria.search_products')"
+                :data-close-label="__('site.aria.close_search')"
                 class="flex flex-col items-center justify-center py-2 text-center"
             >
-                <i class="ri-shopping-bag-line text-xl text-skin-neutral-9"></i>
+                <i
+                    class="ri-search-2-line text-xl text-skin-neutral-9"
+                    data-mobile-search-icon
+                    aria-hidden="true"
+                ></i>
                 <span
                     class="mt-0.5 text-[10px] font-medium text-skin-neutral-9"
-                    >{{ __('site.nav.shop') }}</span
+                    >{{ __('site.nav.search') }}</span
                 >
-            </a>
+            </button>
             <button
                 type="button"
                 data-mobile-categories-toggle

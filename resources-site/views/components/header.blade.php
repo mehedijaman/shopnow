@@ -344,18 +344,22 @@
 
         function setSearch(open, restoreFocus) {
             var searchPanel = document.getElementById('mobile-header-search')
-            var searchToggle = document.querySelector('[data-mobile-search-toggle]')
             searchPanel.hidden = !open
-            searchToggle.setAttribute('aria-expanded', String(open))
-            searchToggle.setAttribute('aria-label', open ? searchToggle.dataset.closeLabel : searchToggle.dataset.openLabel)
-            var icon = searchToggle.querySelector('[data-mobile-search-icon]')
-            icon.classList.toggle('ri-search-2-line', !open)
-            icon.classList.toggle('ri-close-line', open)
+            // The header toggle and the sticky bottom-nav toggle stay in sync.
+            document.querySelectorAll('[data-mobile-search-toggle]').forEach(function (searchToggle) {
+                searchToggle.setAttribute('aria-expanded', String(open))
+                searchToggle.setAttribute('aria-label', open ? searchToggle.dataset.closeLabel : searchToggle.dataset.openLabel)
+                var icon = searchToggle.querySelector('[data-mobile-search-icon]')
+                if (icon) {
+                    icon.classList.toggle('ri-search-2-line', !open)
+                    icon.classList.toggle('ri-close-line', open)
+                }
+            })
             if (open) {
                 var input = searchPanel.querySelector('input[type="search"]')
                 if (input) input.focus()
             } else if (restoreFocus) {
-                searchToggle.focus()
+                document.querySelector('[data-mobile-search-toggle]').focus()
             }
         }
 
