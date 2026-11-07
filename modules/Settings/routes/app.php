@@ -12,6 +12,9 @@ Route::get('settings', [
     SettingsController::class, 'redirect',
 ])->name('settings.index');
 
+Route::post('settings/{group}/preview', [SettingsController::class, 'previewAppearance'])
+    ->where('group', 'appearance')->middleware('throttle:120,1')->name('settings.appearance.preview');
+
 Route::post('settings/mail/test', [
     SettingsController::class, 'sendTestEmail',
 ])->name('settings.mail.test');

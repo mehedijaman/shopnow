@@ -138,6 +138,7 @@
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4/fonts/remixicon.min.css">
         @vite(['resources-site/css/site.css'])
+        <style id="site-appearance">{!! app(\Modules\Settings\Services\AppearanceSettings::class)->stylesheet() !!}</style>
         @yield('headEndScripts')
 
         @php

@@ -4,6 +4,7 @@ namespace Modules\Settings\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\Settings\Models\Setting;
+use Modules\Settings\Services\AppearanceSettings;
 use Spatie\Permission\Models\Permission;
 
 class SettingSeeder extends Seeder
@@ -12,12 +13,13 @@ class SettingSeeder extends Seeder
     {
         $this->seedPermissions();
         $this->seedSettings();
+        app(AppearanceSettings::class)->initialize();
         $this->call(SmsSettingsSeeder::class);
     }
 
     private function seedPermissions(): void
     {
-        $permissions = ['settings-list', 'settings-edit', 'pixel-settings-edit', 'analytics-settings-edit', 'courier-settings-edit', 'sms-settings-edit', 'sms-test-send', 'sms-activity-view'];
+        $permissions = ['settings-list', 'settings-edit', 'appearance-settings-edit', 'pixel-settings-edit', 'analytics-settings-edit', 'courier-settings-edit', 'sms-settings-edit', 'sms-test-send', 'sms-activity-view'];
 
         foreach ($permissions as $name) {
             Permission::firstOrCreate(

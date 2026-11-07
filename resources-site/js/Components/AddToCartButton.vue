@@ -13,26 +13,26 @@
         <!-- Quantity + Wishlist -->
         <div class="flex w-full items-center gap-2">
             <div
-                class="flex min-w-0 flex-1 items-center rounded-lg border border-gray-200 bg-gray-50/80 p-0.5 shadow-inner dark:border-gray-700 dark:bg-gray-800"
+                class="flex min-w-0 flex-1 items-center rounded-lg border border-site-divider bg-site-surface-muted/80 p-0.5 shadow-inner dark:border-site-divider dark:bg-site-surface-muted"
             >
                 <button
                     @click="decreaseQuantity"
                     type="button"
-                    class="flex h-8 flex-1 items-center justify-center rounded-lg text-gray-600 transition-colors hover:bg-white hover:text-gray-900 active:scale-95 disabled:opacity-30 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
+                    class="flex h-8 flex-1 items-center justify-center rounded-lg text-site-muted transition-colors hover:bg-site-surface hover:text-site-text active:scale-95 disabled:opacity-30 dark:text-site-text dark:hover:bg-site-surface-muted dark:hover:text-site-text"
                     :disabled="!canAddToCart || quantity <= 1"
                     :aria-label="__('common.decrease_quantity')"
                 >
                     <i class="ri-subtract-line text-xs sm:text-sm"></i>
                 </button>
                 <span
-                    class="flex-1 select-none text-center text-xs font-extrabold text-gray-900 dark:text-white"
+                    class="flex-1 select-none text-center text-xs font-extrabold text-site-text dark:text-site-text"
                 >
                     {{ quantity }}
                 </span>
                 <button
                     @click="increaseQuantity"
                     type="button"
-                    class="flex h-8 flex-1 items-center justify-center rounded-lg text-gray-600 transition-colors hover:bg-white hover:text-gray-900 active:scale-95 disabled:opacity-30 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
+                    class="flex h-8 flex-1 items-center justify-center rounded-lg text-site-muted transition-colors hover:bg-site-surface hover:text-site-text active:scale-95 disabled:opacity-30 dark:text-site-text dark:hover:bg-site-surface-muted dark:hover:text-site-text"
                     :disabled="!canAddToCart"
                     :aria-label="__('common.increase_quantity')"
                 >
@@ -43,7 +43,7 @@
             <button
                 v-if="showWishlist"
                 type="button"
-                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-400 shadow-sm transition-all duration-300 hover:border-red-200 hover:text-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-red-500/30 dark:hover:text-red-400"
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-site-divider bg-site-surface text-site-muted shadow-sm transition-all duration-300 hover:border-red-200 hover:text-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 dark:border-site-divider dark:bg-site-surface-muted dark:text-site-text dark:hover:border-red-500/30 dark:hover:text-red-400"
                 :aria-label="__('site.product.add_to_wishlist')"
             >
                 <i class="ri-heart-line text-base leading-none"></i>
@@ -61,8 +61,8 @@
                     isJustAdded
                         ? 'scale-[1.02] bg-emerald-600 text-white shadow-md ring-2 ring-emerald-500/50'
                         : canAddToCart
-                          ? 'bg-gray-900 text-white hover:bg-primary-600 hover:shadow-md focus:ring-primary-500 active:scale-[0.98] dark:bg-white dark:text-gray-900 dark:hover:bg-primary-500 dark:hover:text-white'
-                          : 'cursor-not-allowed bg-gray-200 text-gray-400 dark:bg-gray-800 dark:text-gray-600'
+                          ? 'bg-site-strong text-site-on-strong hover:bg-site-primary-hover hover:shadow-md focus:ring-site-focus active:scale-[0.98] dark:bg-site-surface dark:text-site-text dark:hover:bg-site-primary-hover dark:hover:text-site-on-primary'
+                          : 'cursor-not-allowed bg-site-surface-muted text-site-muted dark:bg-site-surface-muted dark:text-site-muted'
                 ]"
             >
                 <i
@@ -89,8 +89,8 @@
                 :class="[
                     'flex w-full items-center justify-center gap-1.5 rounded-lg px-2.5 py-2 text-[10px] font-bold shadow-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-1 sm:rounded-lg sm:px-4 sm:py-2.5 sm:text-xs',
                     canAddToCart
-                        ? 'bg-primary-600 text-white hover:bg-primary-700 hover:shadow-md focus:ring-primary-500 active:scale-[0.98]'
-                        : 'cursor-not-allowed bg-gray-200 text-gray-400 dark:bg-gray-800 dark:text-gray-600'
+                        ? 'bg-site-primary text-site-on-primary hover:bg-site-primary-hover hover:shadow-md focus:ring-site-focus active:scale-[0.98]'
+                        : 'cursor-not-allowed bg-site-surface-muted text-site-muted dark:bg-site-surface-muted dark:text-site-muted'
                 ]"
             >
                 <i class="ri-flashlight-line text-xs sm:text-sm"></i>

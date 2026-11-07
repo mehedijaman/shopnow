@@ -7,21 +7,21 @@
 @section('content')
     <x-breadcrumb>
         <li class="flex shrink-0 items-center gap-1">
-            <a href="/blog" class="hover:text-primary-600 hover:underline">{{ __('blog::site.posts.breadcrumb') }}</a>
-            <i class="ri-arrow-right-s-line text-gray-400"></i>
+            <a href="/blog" class="hover:text-site-link hover:underline">{{ __('blog::site.posts.breadcrumb') }}</a>
+            <i class="ri-arrow-right-s-line text-site-muted"></i>
         </li>
         <li class="min-w-0">
-            <span class="block truncate font-semibold text-gray-800 dark:text-gray-200" title="{{ $post->title }}">{{ $post->title }}</span>
+            <span class="block truncate font-semibold text-site-text dark:text-site-text" title="{{ $post->title }}">{{ $post->title }}</span>
         </li>
     </x-breadcrumb>
 
-    <div class="bg-gray-50 dark:bg-gray-900 py-12 sm:py-16">
+    <div class="bg-site-surface-muted dark:bg-site-surface-muted py-12 sm:py-16">
         <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-            <article itemscope itemtype="https://schema.org/Article" class="overflow-hidden rounded-2xl bg-white dark:bg-gray-800 shadow-sm">
+            <article itemscope itemtype="https://schema.org/Article" class="overflow-hidden rounded-2xl bg-site-surface dark:bg-site-surface-muted shadow-sm">
 
                 {{-- Hero Image --}}
                 @if ($post->image_url)
-                    <div class="w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
+                    <div class="w-full overflow-hidden bg-site-surface-muted dark:bg-site-surface-muted">
                         <img
                             itemprop="image"
                             src="{{ $post->image_url }}"
@@ -41,7 +41,7 @@
                             @foreach ($post->tags as $tag)
                                 <a
                                     href="/blog/tag/{{ $tag->slug }}"
-                                    class="rounded-full bg-primary-50 px-2.5 py-0.5 text-xs font-medium text-primary-700 hover:bg-primary-100"
+                                    class="rounded-full bg-site-primary-soft px-2.5 py-0.5 text-xs font-medium text-site-link hover:bg-site-primary-soft"
                                 >
                                     {{ $tag->name }}
                                 </a>
@@ -52,13 +52,13 @@
                     {{-- Title --}}
                     <h1
                         itemprop="headline"
-                        class="text-2xl font-extrabold leading-snug tracking-tight text-gray-900 dark:text-white sm:text-3xl lg:text-4xl"
+                        class="text-2xl font-extrabold leading-snug tracking-tight text-site-text dark:text-site-text sm:text-3xl lg:text-4xl"
                     >
                         {{ $post->title }}
                     </h1>
 
                     {{-- Meta row --}}
-                    <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-gray-100 dark:border-gray-800 pb-6 text-sm text-gray-500 dark:text-gray-400">
+                    <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-site-divider dark:border-site-divider pb-6 text-sm text-site-muted dark:text-site-muted">
                         <time
                             itemprop="datePublished"
                             datetime="{{ $post->published_at?->toIso8601String() }}"
@@ -77,7 +77,7 @@
                                         width="20"
                                         height="20"
                                         loading="lazy"
-                                        class="h-5 w-5 rounded-full object-cover ring-1 ring-gray-200 dark:ring-gray-700"
+                                        class="h-5 w-5 rounded-full object-cover ring-1 ring-site-border dark:ring-site-border"
                                     />
                                 @else
                                     <i class="ri-user-3-line text-base"></i>
@@ -90,14 +90,14 @@
                     {{-- Body --}}
                     <div
                         itemprop="articleBody"
-                        class="prose prose-gray mt-8 max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-a:text-primary-600 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl"
+                        class="prose prose-gray mt-8 max-w-none prose-headings:font-bold prose-headings:text-site-text prose-a:text-site-link prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl"
                     >
                         {!! $post->content !!}
                     </div>
 
                     {{-- Back link --}}
-                    <div class="mt-10 border-t border-gray-100 dark:border-gray-800 pt-6">
-                        <a href="/blog" class="inline-flex items-center gap-1.5 text-sm font-medium text-primary-600 hover:underline">
+                    <div class="mt-10 border-t border-site-divider dark:border-site-divider pt-6">
+                        <a href="/blog" class="inline-flex items-center gap-1.5 text-sm font-medium text-site-link hover:underline">
                             <i class="ri-arrow-left-line"></i>
                             {{ __('blog::site.posts.back_to_blog') }}
                         </a>

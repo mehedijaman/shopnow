@@ -27,7 +27,7 @@
                 lang="{{ $code }}"
                 hreflang="{{ $code }}"
                 title="{{ __('common.switch_language') }}"
-                class="flex h-9 items-center justify-center rounded-xl px-3 text-xs font-bold text-slate-500 transition hover:bg-slate-100 hover:text-primary-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-primary-400"
+                class="flex h-9 items-center justify-center rounded-xl px-3 text-xs font-bold text-site-muted transition hover:bg-site-surface-muted hover:text-site-link dark:text-site-muted dark:hover:bg-site-surface-muted dark:hover:text-site-link"
             >
                 {{ $meta['native'] }}
             </button>

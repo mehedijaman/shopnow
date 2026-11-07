@@ -10,20 +10,20 @@
         <!-- Sidebar Navigation -->
         <div class="md:col-span-1">
             <div class="px-4 sm:px-0">
-                <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white"{{ __('site.account.manage_heading') }}</h3>
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-300"{{ __('site.account.manage_hint_profile') }}</p>
+                <h3 class="text-lg font-medium leading-6 text-site-text dark:text-site-text"{{ __('site.account.manage_heading') }}</h3>
+                <p class="mt-1 text-sm text-site-muted dark:text-site-text"{{ __('site.account.manage_hint_profile') }}</p>
                 
                 <nav class="mt-6 space-y-2">
-                    <a href="{{ route('account.profile') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.profile') ? 'bg-primary-50 text-primary-700 dark:bg-gray-800 dark:text-white' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700' }}">
+                    <a href="{{ route('account.profile') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.profile') ? 'bg-site-primary-soft text-site-link dark:bg-site-surface-muted dark:text-site-text' : 'text-site-muted hover:bg-site-surface-muted hover:text-site-text dark:text-site-text dark:hover:bg-site-surface-muted' }}">
                         <i class="ri-user-line mr-2 text-lg"></i> {{ __('site.account.my_profile') }}
                     </a>
-                    <a href="{{ route('account.addresses.index') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.addresses.*') ? 'bg-primary-50 text-primary-700 dark:bg-gray-800 dark:text-white' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700' }}">
+                    <a href="{{ route('account.addresses.index') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.addresses.*') ? 'bg-site-primary-soft text-site-link dark:bg-site-surface-muted dark:text-site-text' : 'text-site-muted hover:bg-site-surface-muted hover:text-site-text dark:text-site-text dark:hover:bg-site-surface-muted' }}">
                         <i class="ri-map-pin-line mr-2 text-lg"></i> {{ __('site.account.my_addresses') }}
                     </a>
-                    <a href="{{ route('account.orders') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.orders') ? 'bg-primary-50 text-primary-700 dark:bg-gray-800 dark:text-white' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700' }}">
+                    <a href="{{ route('account.orders') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.orders') ? 'bg-site-primary-soft text-site-link dark:bg-site-surface-muted dark:text-site-text' : 'text-site-muted hover:bg-site-surface-muted hover:text-site-text dark:text-site-text dark:hover:bg-site-surface-muted' }}">
                         <i class="ri-shopping-bag-line mr-2 text-lg"></i> {{ __('site.account.my_orders') }}
                     </a>
-                    <a href="{{ route('account.downloads') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.downloads') ? 'bg-primary-50 text-primary-700 dark:bg-gray-800 dark:text-white' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700' }}">
+                    <a href="{{ route('account.downloads') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.downloads') ? 'bg-site-primary-soft text-site-link dark:bg-site-surface-muted dark:text-site-text' : 'text-site-muted hover:bg-site-surface-muted hover:text-site-text dark:text-site-text dark:hover:bg-site-surface-muted' }}">
                         <i class="ri-download-line mr-2 text-lg"></i> {{ __('site.account.my_downloads') }}
                     </a>
                     <a href="{{ route('customerAuth.logout') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20">
@@ -54,51 +54,51 @@
                 @csrf
                 @method('PUT')
 
-                <div class="shadow-sm sm:overflow-hidden sm:rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+                <div class="shadow-sm sm:overflow-hidden sm:rounded-md border border-site-divider dark:border-site-divider bg-site-surface dark:bg-site-surface-muted">
                     <div class="space-y-6 px-4 py-5 sm:p-6">
-                        <h4 class="text-base font-semibold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2">{{ __('customer::site.profile.heading') }}</h4>
+                        <h4 class="text-base font-semibold text-site-text dark:text-site-text border-b border-site-divider dark:border-site-divider pb-2">{{ __('customer::site.profile.heading') }}</h4>
                         
                         <div class="grid grid-cols-6 gap-6">
                             <div class="col-span-6 sm:col-span-4">
-                                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('customer::site.profile.full_name') }}</label>
+                                <label for="name" class="block text-sm font-medium text-site-text dark:text-site-text">{{ __('customer::site.profile.full_name') }}</label>
                                 <input type="text" name="name" id="name" required value="{{ old('name', $customer->name) }}"
-                                    class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-xs focus:border-primary-500 focus:outline-hidden focus:ring-primary-500 sm:text-sm @error('name') border-red-500 @enderror">
+                                    class="mt-1 block w-full rounded-md border border-site-divider dark:border-site-divider bg-site-surface dark:bg-site-surface-muted px-3 py-2 text-site-text dark:text-site-text shadow-xs focus:border-site-focus focus:outline-hidden focus:ring-site-focus sm:text-sm @error('name') border-red-500 @enderror">
                                 @error('name')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <div class="col-span-6 sm:col-span-4">
-                                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('customer::site.profile.email_address') }}</label>
+                                <label for="email" class="block text-sm font-medium text-site-text dark:text-site-text">{{ __('customer::site.profile.email_address') }}</label>
                                 <input type="email" name="email" id="email" required value="{{ old('email', $customer->email) }}"
-                                    class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-xs focus:border-primary-500 focus:outline-hidden focus:ring-primary-500 sm:text-sm @error('email') border-red-500 @enderror">
+                                    class="mt-1 block w-full rounded-md border border-site-divider dark:border-site-divider bg-site-surface dark:bg-site-surface-muted px-3 py-2 text-site-text dark:text-site-text shadow-xs focus:border-site-focus focus:outline-hidden focus:ring-site-focus sm:text-sm @error('email') border-red-500 @enderror">
                                 @error('email')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <div class="col-span-6 sm:col-span-4">
-                                <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('customer::site.profile.phone_number') }}</label>
+                                <label for="phone" class="block text-sm font-medium text-site-text dark:text-site-text">{{ __('customer::site.profile.phone_number') }}</label>
                                 <input type="text" name="phone" id="phone" required value="{{ old('phone', $customer->phone) }}"
-                                    class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-xs focus:border-primary-500 focus:outline-hidden focus:ring-primary-500 sm:text-sm @error('phone') border-red-500 @enderror">
+                                    class="mt-1 block w-full rounded-md border border-site-divider dark:border-site-divider bg-site-surface dark:bg-site-surface-muted px-3 py-2 text-site-text dark:text-site-text shadow-xs focus:border-site-focus focus:outline-hidden focus:ring-site-focus sm:text-sm @error('phone') border-red-500 @enderror">
                                 @error('phone')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <div class="col-span-6 sm:col-span-4">
-                                <label for="date_of_birth" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('customer::site.profile.date_of_birth') }}</label>
+                                <label for="date_of_birth" class="block text-sm font-medium text-site-text dark:text-site-text">{{ __('customer::site.profile.date_of_birth') }}</label>
                                 <input type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth', $customer->date_of_birth?->format('Y-m-d')) }}"
-                                    class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-xs focus:border-primary-500 focus:outline-hidden focus:ring-primary-500 sm:text-sm @error('date_of_birth') border-red-500 @enderror">
+                                    class="mt-1 block w-full rounded-md border border-site-divider dark:border-site-divider bg-site-surface dark:bg-site-surface-muted px-3 py-2 text-site-text dark:text-site-text shadow-xs focus:border-site-focus focus:outline-hidden focus:ring-site-focus sm:text-sm @error('date_of_birth') border-red-500 @enderror">
                                 @error('date_of_birth')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <div class="col-span-6 sm:col-span-4">
-                                <label for="gender" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('customer::site.profile.gender') }}</label>
+                                <label for="gender" class="block text-sm font-medium text-site-text dark:text-site-text">{{ __('customer::site.profile.gender') }}</label>
                                 <select name="gender" id="gender"
-                                    class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-xs focus:border-primary-500 focus:outline-hidden focus:ring-primary-500 sm:text-sm @error('gender') border-red-500 @enderror">
+                                    class="mt-1 block w-full rounded-md border border-site-border dark:border-site-border bg-site-surface dark:bg-site-surface-muted px-3 py-2 text-site-text dark:text-site-text shadow-xs focus:border-site-focus focus:outline-hidden focus:ring-site-focus sm:text-sm @error('gender') border-red-500 @enderror">
                                     <option value="">{{ __('customer::site.profile.select_gender') }}</option>
                                     <option value="male" {{ old('gender', $customer->gender) === 'male' ? 'selected' : '' }}>{{ __('customer::site.profile.male') }}</option>
                                     <option value="female" {{ old('gender', $customer->gender) === 'female' ? 'selected' : '' }}>{{ __('customer::site.profile.female') }}</option>
@@ -110,30 +110,30 @@
                             </div>
                         </div>
 
-                        <h4 class="text-base font-semibold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pt-6 pb-2">{{ __('customer::site.profile.change_password') }}</h4>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">{{ __('customer::site.profile.change_password_hint') }}</p>
+                        <h4 class="text-base font-semibold text-site-text dark:text-site-text border-b border-site-divider dark:border-site-divider pt-6 pb-2">{{ __('customer::site.profile.change_password') }}</h4>
+                        <p class="text-xs text-site-muted dark:text-site-muted">{{ __('customer::site.profile.change_password_hint') }}</p>
                         
                         <div class="grid grid-cols-6 gap-6">
                             <div class="col-span-6 sm:col-span-4">
-                                <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('customer::site.profile.new_password') }}</label>
+                                <label for="password" class="block text-sm font-medium text-site-text dark:text-site-text">{{ __('customer::site.profile.new_password') }}</label>
                                 <input type="password" name="password" id="password"
-                                    class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-xs focus:border-primary-500 focus:outline-hidden focus:ring-primary-500 sm:text-sm @error('password') border-red-500 @enderror">
+                                    class="mt-1 block w-full rounded-md border border-site-border dark:border-site-border bg-site-surface dark:bg-site-surface-muted px-3 py-2 text-site-text dark:text-site-text shadow-xs focus:border-site-focus focus:outline-hidden focus:ring-site-focus sm:text-sm @error('password') border-red-500 @enderror">
                                 @error('password')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             <div class="col-span-6 sm:col-span-4">
-                                <label for="password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('customer::site.profile.confirm_new_password') }}</label>
+                                <label for="password_confirmation" class="block text-sm font-medium text-site-text dark:text-site-text">{{ __('customer::site.profile.confirm_new_password') }}</label>
                                 <input type="password" name="password_confirmation" id="password_confirmation"
-                                    class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-xs focus:border-primary-500 focus:outline-hidden focus:ring-primary-500 sm:text-sm">
+                                    class="mt-1 block w-full rounded-md border border-site-border dark:border-site-border bg-site-surface dark:bg-site-surface-muted px-3 py-2 text-site-text dark:text-site-text shadow-xs focus:border-site-focus focus:outline-hidden focus:ring-site-focus sm:text-sm">
                             </div>
                         </div>
                     </div>
                     
-                    <div class="bg-gray-50 dark:bg-gray-900 px-4 py-3 text-right sm:px-6 border-t border-gray-200 dark:border-gray-700">
+                    <div class="bg-site-surface-muted dark:bg-site-surface-muted px-4 py-3 text-right sm:px-6 border-t border-site-divider dark:border-site-divider">
                         <button type="submit"
-                            class="inline-flex justify-center rounded-md border border-transparent bg-primary-600 py-2 px-4 text-sm font-medium text-white shadow-xs hover:bg-primary-700 focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-250">
+                            class="inline-flex justify-center rounded-md border border-transparent bg-site-primary py-2 px-4 text-sm font-medium text-site-on-primary shadow-xs hover:bg-site-primary-hover focus:outline-hidden focus:ring-2 focus:ring-site-focus focus:ring-offset-2 transition-all duration-250">
                             {{ __('customer::site.profile.save_changes') }}
                         </button>
                     </div>

@@ -2,8 +2,8 @@
     <app-modal
         :is-modal-open="isOpen"
         placement="top"
-        backdrop-classes="bg-slate-950/60 backdrop-blur-sm fixed inset-0 z-[200]"
-        panel-classes="w-[calc(100%-1.5rem)] max-w-2xl rounded-2xl border border-gray-200 bg-white p-0 text-gray-900 shadow-2xl dark:border-gray-700 dark:bg-gray-900 dark:text-white sm:w-full"
+        backdrop-classes="bg-site-strong/60 backdrop-blur-sm fixed inset-0 z-[200]"
+        panel-classes="w-[calc(100%-1.5rem)] max-w-2xl rounded-2xl border border-site-divider bg-site-surface p-0 text-site-text shadow-2xl dark:border-site-divider dark:bg-site-surface-muted dark:text-site-text sm:w-full"
         @modal:toggle="close"
     >
         <template #body>
@@ -11,19 +11,19 @@
                 <div class="mb-4 flex items-start justify-between gap-4">
                     <div>
                         <p
-                            class="text-[11px] font-bold uppercase tracking-wider text-primary-600 dark:text-primary-400"
+                            class="text-[11px] font-bold uppercase tracking-wider text-site-link dark:text-site-link"
                         >
                             {{ __('site.search.heading') }}
                         </p>
                         <h2
-                            class="mt-0.5 text-base font-bold text-gray-900 dark:text-white sm:text-lg"
+                            class="mt-0.5 text-base font-bold text-site-text dark:text-site-text sm:text-lg"
                         >
                             {{ __('site.search.find_products') }}
                         </h2>
                     </div>
                     <button
                         type="button"
-                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
+                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-site-muted transition-colors hover:bg-site-surface-muted hover:text-site-text dark:text-site-muted dark:hover:bg-site-surface-muted dark:hover:text-site-text"
                         :aria-label="__('site.aria.close_search')"
                         @click="close"
                     >
@@ -34,7 +34,7 @@
                 <form role="search" @submit.prevent="search">
                     <div class="relative">
                         <i
-                            class="ri-search-2-line pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-lg text-gray-400"
+                            class="ri-search-2-line pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-lg text-site-muted"
                             aria-hidden="true"
                         ></i>
 
@@ -47,7 +47,7 @@
                             enterkeyhint="search"
                             :placeholder="__('site.search.placeholder')"
                             :aria-label="__('site.aria.search_products')"
-                            class="block w-full rounded-2xl border border-gray-200 bg-gray-50 py-3.5 pl-12 pr-14 text-[15px] font-medium text-gray-900 placeholder:font-normal placeholder:text-gray-400 focus:border-primary-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-primary-500/10 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-primary-500 dark:focus:bg-gray-900 sm:pr-36"
+                            class="block w-full rounded-2xl border border-site-border bg-site-surface-muted py-3.5 pl-12 pr-14 text-[15px] font-medium text-site-text placeholder:font-normal placeholder:text-site-muted focus:border-site-focus focus:bg-site-surface focus:outline-none focus:ring-4 focus:ring-site-focus/10 dark:border-site-border dark:bg-site-surface-muted dark:text-site-text dark:placeholder:text-site-muted dark:focus:border-site-focus dark:focus:bg-site-surface-muted sm:pr-36"
                             @keydown.esc.prevent="close"
                         />
 
@@ -57,7 +57,7 @@
                             <button
                                 v-if="searchText"
                                 type="button"
-                                class="flex h-8 w-8 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-200 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white"
+                                class="flex h-8 w-8 items-center justify-center rounded-full text-site-muted transition-colors hover:bg-site-surface-muted hover:text-site-text dark:hover:bg-site-surface-muted dark:hover:text-site-text"
                                 :aria-label="__('site.aria.clear_search')"
                                 @click="clearQuery"
                             >
@@ -66,7 +66,7 @@
 
                             <button
                                 type="submit"
-                                class="flex h-9 items-center justify-center gap-1.5 rounded-xl bg-primary-600 px-3 text-xs font-bold uppercase tracking-wide text-white shadow-sm transition-all hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-500/20 active:scale-[0.98] sm:px-4 sm:text-[13px]"
+                                class="flex h-9 items-center justify-center gap-1.5 rounded-xl bg-site-primary px-3 text-xs font-bold uppercase tracking-wide text-site-on-primary shadow-sm transition-all hover:bg-site-primary-hover focus:outline-none focus:ring-4 focus:ring-site-focus/20 active:scale-[0.98] sm:px-4 sm:text-[13px]"
                             >
                                 <i class="ri-search-line sm:hidden"></i>
                                 <span class="hidden sm:inline">{{
@@ -81,19 +81,19 @@
                 </form>
 
                 <div
-                    class="mt-3 flex flex-col gap-2 text-xs text-gray-500 dark:text-gray-400 sm:flex-row sm:items-center sm:justify-between"
+                    class="mt-3 flex flex-col gap-2 text-xs text-site-muted dark:text-site-muted sm:flex-row sm:items-center sm:justify-between"
                 >
                     <!-- <p>
                         Try
                         <button
                             type="button"
-                            class="font-semibold text-primary-600 transition-colors hover:text-primary-700 dark:text-primary-400"
+                            class="font-semibold text-site-link transition-colors hover:text-site-link dark:text-site-link"
                             @click="useExample('shirt')"
                         >
                             shirt</button>,
                         <button
                             type="button"
-                            class="font-semibold text-primary-600 transition-colors hover:text-primary-700 dark:text-primary-400"
+                            class="font-semibold text-site-link transition-colors hover:text-site-link dark:text-site-link"
                             @click="useExample('wireless')"
                         >
                             wireless</button>, or a brand name
@@ -102,7 +102,7 @@
                     <p class="hidden items-center gap-3 sm:flex">
                         <span class="inline-flex items-center gap-1.5">
                             <kbd
-                                class="rounded-md border border-gray-200 bg-gray-100 px-1.5 py-0.5 font-sans text-[10px] font-semibold text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+                                class="rounded-md border border-site-divider bg-site-surface-muted px-1.5 py-0.5 font-sans text-[10px] font-semibold text-site-muted dark:border-site-divider dark:bg-site-surface-muted dark:text-site-text"
                             >
                                 {{ __('site.search.key_enter') }}
                             </kbd>
@@ -110,7 +110,7 @@
                         </span>
                         <span class="inline-flex items-center gap-1.5">
                             <kbd
-                                class="rounded-md border border-gray-200 bg-gray-100 px-1.5 py-0.5 font-sans text-[10px] font-semibold text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+                                class="rounded-md border border-site-divider bg-site-surface-muted px-1.5 py-0.5 font-sans text-[10px] font-semibold text-site-muted dark:border-site-divider dark:bg-site-surface-muted dark:text-site-text"
                             >
                                 {{ __('site.search.key_esc') }}
                             </kbd>

@@ -2,21 +2,21 @@
     <div v-if="parsedBrands.length" class="group/brands relative">
         <!-- Header Row -->
         <div
-            class="mb-6 flex flex-col gap-4 border-b border-gray-200 pb-4 dark:border-gray-700 sm:flex-row sm:items-end sm:justify-between"
+            class="mb-6 flex flex-col gap-4 border-b border-site-divider pb-4 dark:border-site-divider sm:flex-row sm:items-end sm:justify-between"
         >
             <div>
                 <h2
-                    class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl"
+                    class="text-2xl font-bold tracking-tight text-site-text dark:text-site-text sm:text-3xl"
                 >
                     {{ __('site.home.brands_heading') }}
                 </h2>
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                <p class="mt-1 text-sm text-site-muted dark:text-site-muted">
                     {{ __('site.home.brands_subtitle') }}
                 </p>
             </div>
             <a
                 :href="brandsUrl"
-                class="inline-flex w-full items-center justify-center gap-1 rounded-lg border border-primary-600 bg-transparent px-5 py-2 text-sm font-medium text-primary-600 transition-all duration-300 hover:bg-primary-50 dark:border-primary-500 dark:text-primary-400 dark:hover:bg-gray-800 sm:w-auto"
+                class="inline-flex w-full items-center justify-center gap-1 rounded-lg border border-site-focus bg-transparent px-5 py-2 text-sm font-medium text-site-link transition-all duration-300 hover:bg-site-primary-soft dark:border-site-focus dark:text-site-link dark:hover:bg-site-surface-muted sm:w-auto"
             >
                 {{ __('site.home.view_all') }}
                 <svg
@@ -67,7 +67,7 @@
                         v-for="brand in pageItems(page)"
                         :key="brand.id"
                         :href="`/brand/${brand.id}/${brand.slug}`"
-                        class="group flex aspect-[3/2] items-center justify-center rounded-xl border border-gray-100 bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-primary-500 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900 dark:hover:border-primary-400"
+                        class="group flex aspect-[3/2] items-center justify-center rounded-xl border border-site-divider bg-site-surface p-4 transition-all duration-300 hover:-translate-y-1 hover:border-site-focus hover:shadow-lg dark:border-site-divider dark:bg-site-surface-muted dark:hover:border-site-focus"
                     >
                         <img
                             v-if="brand.image_url"
@@ -77,7 +77,7 @@
                         />
                         <span
                             v-else
-                            class="text-center text-sm font-semibold text-gray-500 transition-colors duration-300 group-hover:text-primary-600 dark:text-gray-400 dark:group-hover:text-primary-400 sm:text-base"
+                            class="text-center text-sm font-semibold text-site-muted transition-colors duration-300 group-hover:text-site-link dark:text-site-muted dark:group-hover:text-site-link sm:text-base"
                         >
                             {{ brand.name }}
                         </span>
@@ -88,13 +88,13 @@
             <!-- Left navigation button -->
             <button
                 v-if="totalPages > 1"
-                class="absolute -left-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white opacity-0 shadow-md transition-all duration-300 hover:scale-110 hover:bg-gray-50 group-hover/brands:opacity-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 sm:-left-4"
+                class="absolute -left-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-site-divider bg-site-surface opacity-0 shadow-md transition-all duration-300 hover:scale-110 hover:bg-site-surface-muted group-hover/brands:opacity-100 dark:border-site-divider dark:bg-site-surface-muted dark:hover:bg-site-surface-muted sm:-left-4"
                 aria-label="Previous brands"
                 @click="prevPage"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 text-gray-600 dark:text-gray-300"
+                    class="h-5 w-5 text-site-muted dark:text-site-text"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                 >
@@ -109,13 +109,13 @@
             <!-- Right navigation button -->
             <button
                 v-if="totalPages > 1"
-                class="absolute -right-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white opacity-0 shadow-md transition-all duration-300 hover:scale-110 hover:bg-gray-50 group-hover/brands:opacity-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 sm:-right-4"
+                class="absolute -right-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-site-divider bg-site-surface opacity-0 shadow-md transition-all duration-300 hover:scale-110 hover:bg-site-surface-muted group-hover/brands:opacity-100 dark:border-site-divider dark:bg-site-surface-muted dark:hover:bg-site-surface-muted sm:-right-4"
                 aria-label="Next brands"
                 @click="nextPage"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 text-gray-600 dark:text-gray-300"
+                    class="h-5 w-5 text-site-muted dark:text-site-text"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                 >

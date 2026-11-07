@@ -7,11 +7,11 @@
 @section('content')
     <x-breadcrumb>
         <li class="flex shrink-0 items-center gap-1">
-            <a href="{{ route('shop.index') }}" class="hover:text-primary-600 hover:underline">{{ __('site.nav.shop') }}</a>
-            <i class="ri-arrow-right-s-line text-gray-400"></i>
+            <a href="{{ route('shop.index') }}" class="hover:text-site-link hover:underline">{{ __('site.nav.shop') }}</a>
+            <i class="ri-arrow-right-s-line text-site-muted"></i>
         </li>
         <li class="min-w-0">
-            <span class="block truncate font-semibold text-gray-800 dark:text-gray-200">{{ $brand->name }}</span>
+            <span class="block truncate font-semibold text-site-text dark:text-site-text">{{ $brand->name }}</span>
         </li>
     </x-breadcrumb>
 
@@ -19,7 +19,7 @@
         {{-- Brand header --}}
         <div class="mb-8 flex flex-col items-center gap-6 sm:flex-row">
             @if ($brand->image_url)
-                <div class="flex h-32 w-32 shrink-0 items-center justify-center rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
+                <div class="flex h-32 w-32 shrink-0 items-center justify-center rounded-xl border border-site-divider bg-site-surface p-4 dark:border-site-divider dark:bg-site-surface-muted">
                     <img
                         src="{{ $brand->image_url }}"
                         alt="{{ $brand->name }}"
@@ -28,16 +28,16 @@
                 </div>
             @endif
             <div>
-                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $brand->name }}</h1>
+                <h1 class="text-2xl font-bold text-site-text dark:text-site-text">{{ $brand->name }}</h1>
                 @if ($brand->description)
-                    <div class="mt-2 text-gray-600 dark:text-gray-400">{!! $brand->description !!}</div>
+                    <div class="mt-2 text-site-muted dark:text-site-muted">{!! $brand->description !!}</div>
                 @endif
             </div>
         </div>
 
         {{-- Products --}}
         @if ($products->count())
-            <div class="mb-4 text-sm text-gray-500 dark:text-gray-400">
+            <div class="mb-4 text-sm text-site-muted dark:text-site-muted">
                 {{ $products->total() }} product{{ $products->total() !== 1 ? 's' : '' }} found
             </div>
 
@@ -52,11 +52,11 @@
             </div>
         @else
             <div class="flex flex-col items-center justify-center py-24 text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="mb-4 h-16 w-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mb-4 h-16 w-16 text-site-text" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                 </svg>
-                <p class="text-lg font-medium text-gray-500 dark:text-gray-400">{{ __('product::site.brand.no_products', ['brand' => $brand->name]) }}</p>
-                <a href="{{ route('shop.index') }}" class="mt-4 text-sm text-primary-600 hover:underline">{{ __('product::site.brand.browse_all') }}</a>
+                <p class="text-lg font-medium text-site-muted dark:text-site-muted">{{ __('product::site.brand.no_products', ['brand' => $brand->name]) }}</p>
+                <a href="{{ route('shop.index') }}" class="mt-4 text-sm text-site-link hover:underline">{{ __('product::site.brand.browse_all') }}</a>
             </div>
         @endif
     </div>

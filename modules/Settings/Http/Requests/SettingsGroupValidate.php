@@ -3,9 +3,11 @@
 namespace Modules\Settings\Http\Requests;
 
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator;
 use Modules\Courier\Enums\CourierProvider;
 use Modules\Order\Enums\OrderStatus;
+use Modules\Settings\Services\AppearanceSettings;
 use Modules\Settings\Services\SmsSettings;
 use Modules\Support\Http\Requests\Request;
 
@@ -13,12 +15,17 @@ class SettingsGroupValidate extends Request
 {
     public function authorize(): bool
     {
+        if ($this->route('group') === 'appearance') {
+            return $this->user('user')?->can('appearance-settings-edit') === true;
+        }
+
         return $this->route('group') !== 'sms' || $this->user('user')?->can('sms-settings-edit') === true;
     }
 
     public function rules(): array
     {
         return match ($this->route('group')) {
+            'appearance' => app(AppearanceSettings::class)->rules(),
             'general' => $this->generalRules(),
             'branding' => $this->brandingRules(),
             'contact' => $this->contactRules(),
@@ -71,6 +78,23 @@ class SettingsGroupValidate extends Request
 
     public function after(): array
     {
+        if ($this->route('group') === 'appearance') {
+            return [function (Validator $validator): void {
+                if ($validator->errors()->isNotEmpty()) {
+                    return;
+                }
+                try {
+                    app(AppearanceSettings::class)->validateContrast($this->input('palette'));
+                } catch (ValidationException $exception) {
+                    foreach ($exception->errors() as $key => $messages) {
+                        foreach ($messages as $message) {
+                            $validator->errors()->add($key, $message);
+                        }
+                    }
+                }
+            }];
+        }
+
         if ($this->route('group') !== 'sms') {
             return [];
         }

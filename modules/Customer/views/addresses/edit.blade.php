@@ -10,20 +10,20 @@
         <!-- Sidebar Navigation -->
         <div class="md:col-span-1">
             <div class="px-4 sm:px-0">
-                <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white"{{ __('site.account.manage_heading') }}</h3>
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-300"{{ __('site.account.manage_hint_profile') }}</p>
+                <h3 class="text-lg font-medium leading-6 text-site-text dark:text-site-text"{{ __('site.account.manage_heading') }}</h3>
+                <p class="mt-1 text-sm text-site-muted dark:text-site-text"{{ __('site.account.manage_hint_profile') }}</p>
                 
                 <nav class="mt-6 space-y-2">
-                    <a href="{{ route('account.profile') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.profile') ? 'bg-primary-50 text-primary-700 dark:bg-gray-800 dark:text-white' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700' }}">
+                    <a href="{{ route('account.profile') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.profile') ? 'bg-site-primary-soft text-site-link dark:bg-site-surface-muted dark:text-site-text' : 'text-site-muted hover:bg-site-surface-muted hover:text-site-text dark:text-site-text dark:hover:bg-site-surface-muted' }}">
                         <i class="ri-user-line mr-2 text-lg"></i> {{ __('site.account.my_profile') }}
                     </a>
-                    <a href="{{ route('account.addresses.index') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.addresses.*') ? 'bg-primary-50 text-primary-700 dark:bg-gray-800 dark:text-white' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700' }}">
+                    <a href="{{ route('account.addresses.index') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.addresses.*') ? 'bg-site-primary-soft text-site-link dark:bg-site-surface-muted dark:text-site-text' : 'text-site-muted hover:bg-site-surface-muted hover:text-site-text dark:text-site-text dark:hover:bg-site-surface-muted' }}">
                         <i class="ri-map-pin-line mr-2 text-lg"></i> {{ __('site.account.my_addresses') }}
                     </a>
-                    <a href="{{ route('account.orders') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.orders') ? 'bg-primary-50 text-primary-700 dark:bg-gray-800 dark:text-white' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700' }}">
+                    <a href="{{ route('account.orders') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.orders') ? 'bg-site-primary-soft text-site-link dark:bg-site-surface-muted dark:text-site-text' : 'text-site-muted hover:bg-site-surface-muted hover:text-site-text dark:text-site-text dark:hover:bg-site-surface-muted' }}">
                         <i class="ri-shopping-bag-line mr-2 text-lg"></i> {{ __('site.account.my_orders') }}
                     </a>
-                    <a href="{{ route('account.downloads') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.downloads') ? 'bg-primary-50 text-primary-700 dark:bg-gray-800 dark:text-white' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700' }}">
+                    <a href="{{ route('account.downloads') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ request()->routeIs('account.downloads') ? 'bg-site-primary-soft text-site-link dark:bg-site-surface-muted dark:text-site-text' : 'text-site-muted hover:bg-site-surface-muted hover:text-site-text dark:text-site-text dark:hover:bg-site-surface-muted' }}">
                         <i class="ri-download-line mr-2 text-lg"></i> {{ __('site.account.my_downloads') }}
                     </a>
                     <a href="{{ route('customerAuth.logout') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20">
@@ -39,11 +39,11 @@
                 @csrf
                 @method('PUT')
 
-                <div class="shadow-sm sm:overflow-hidden sm:rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+                <div class="shadow-sm sm:overflow-hidden sm:rounded-md border border-site-divider dark:border-site-divider bg-site-surface dark:bg-site-surface-muted">
                     <div class="space-y-6 px-4 py-5 sm:p-6">
-                        <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
-                            <h4 class="text-base font-semibold text-gray-900 dark:text-white">{{ __('customer::site.addresses.edit_address') }}</h4>
-                            <a href="{{ route('account.addresses.index') }}" class="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 dark:text-gray-400">
+                        <div class="flex items-center justify-between border-b border-site-divider dark:border-site-divider pb-2">
+                            <h4 class="text-base font-semibold text-site-text dark:text-site-text">{{ __('customer::site.addresses.edit_address') }}</h4>
+                            <a href="{{ route('account.addresses.index') }}" class="text-sm text-site-muted hover:text-site-text dark:hover:text-site-text dark:text-site-muted">
                                 {{ __('customer::site.addresses.back_to_list') }}
                             </a>
                         </div>
@@ -52,9 +52,9 @@
 
                             {{-- District (required) — all districts loaded, current pre-selected --}}
                             <div class="col-span-6">
-                                <label for="district_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('customer::site.addresses.district') }} <span class="text-red-500">*</span></label>
+                                <label for="district_id" class="block text-sm font-medium text-site-text dark:text-site-text">{{ __('customer::site.addresses.district') }} <span class="text-red-500">*</span></label>
                                 <select id="district_id" name="district_id" required
-                                    class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white focus:border-primary-500 focus:outline-hidden focus:ring-primary-500 sm:text-sm @error('district_id') border-red-500 @enderror">
+                                    class="mt-1 block w-full rounded-md border border-site-border dark:border-site-border bg-site-surface dark:bg-site-surface-muted px-3 py-2 text-site-text dark:text-site-text focus:border-site-focus focus:outline-hidden focus:ring-site-focus sm:text-sm @error('district_id') border-red-500 @enderror">
                                     <option value="">{{ __('customer::site.addresses.select_district') }}</option>
                                     @foreach(\Devfaysal\BangladeshGeocode\Models\District::orderBy('name')->get() as $dist)
                                         <option value="{{ $dist->id }}" {{ old('district_id', $address->district_id) == $dist->id ? 'selected' : '' }}>{{ $dist->name }}</option>
@@ -67,12 +67,12 @@
 
                             {{-- Upazila (optional) --}}
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="upazilla_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                <label for="upazilla_id" class="block text-sm font-medium text-site-text dark:text-site-text">
                                     {{ __('customer::site.addresses.upazila') }}
-                                    <span class="text-xs text-gray-400">{{ __('customer::site.addresses.optional') }}</span>
+                                    <span class="text-xs text-site-muted">{{ __('customer::site.addresses.optional') }}</span>
                                 </label>
                                 <select id="upazilla_id" name="upazilla_id"
-                                    class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white focus:border-primary-500 focus:outline-hidden focus:ring-primary-500 sm:text-sm">
+                                    class="mt-1 block w-full rounded-md border border-site-border dark:border-site-border bg-site-surface dark:bg-site-surface-muted px-3 py-2 text-site-text dark:text-site-text focus:border-site-focus focus:outline-hidden focus:ring-site-focus sm:text-sm">
                                     <option value="">{{ __('customer::site.addresses.select_upazila') }}</option>
                                     @if($address->district_id)
                                         @foreach(\Devfaysal\BangladeshGeocode\Models\Upazila::where('district_id', old('district_id', $address->district_id))->orderBy('name')->get() as $upz)
@@ -84,12 +84,12 @@
 
                             {{-- Union (optional) --}}
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="union_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                <label for="union_id" class="block text-sm font-medium text-site-text dark:text-site-text">
                                     {{ __('customer::site.addresses.union') }}
-                                    <span class="text-xs text-gray-400">{{ __('customer::site.addresses.optional') }}</span>
+                                    <span class="text-xs text-site-muted">{{ __('customer::site.addresses.optional') }}</span>
                                 </label>
                                 <select id="union_id" name="union_id"
-                                    class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white focus:border-primary-500 focus:outline-hidden focus:ring-primary-500 sm:text-sm">
+                                    class="mt-1 block w-full rounded-md border border-site-border dark:border-site-border bg-site-surface dark:bg-site-surface-muted px-3 py-2 text-site-text dark:text-site-text focus:border-site-focus focus:outline-hidden focus:ring-site-focus sm:text-sm">
                                     <option value="">{{ __('customer::site.addresses.select_union') }}</option>
                                     @if($address->upazilla_id)
                                         @foreach(\Devfaysal\BangladeshGeocode\Models\Union::where('upazila_id', old('upazilla_id', $address->upazilla_id))->orderBy('name')->get() as $un)
@@ -101,9 +101,9 @@
 
                             {{-- Street Address --}}
                             <div class="col-span-6">
-                                <label for="address" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('customer::site.addresses.street_address') }} <span class="text-red-500">*</span></label>
+                                <label for="address" class="block text-sm font-medium text-site-text dark:text-site-text">{{ __('customer::site.addresses.street_address') }} <span class="text-red-500">*</span></label>
                                 <input type="text" name="address" id="address" required value="{{ old('address', $address->address) }}"
-                                    class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-white shadow-xs focus:border-primary-500 focus:outline-hidden focus:ring-primary-500 sm:text-sm @error('address') border-red-500 @enderror"
+                                    class="mt-1 block w-full rounded-md border border-site-divider dark:border-site-divider bg-site-surface dark:bg-site-surface-muted px-3 py-2 text-site-text dark:text-site-text shadow-xs focus:border-site-focus focus:outline-hidden focus:ring-site-focus sm:text-sm @error('address') border-red-500 @enderror"
                                     placeholder="{{ __('customer::site.addresses.street_placeholder') }}">
                                 @error('address')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -114,19 +114,19 @@
                                 <div class="flex items-start">
                                     <div class="flex h-5 items-center">
                                         <input id="default" name="default" type="checkbox" value="1" {{ old('default', $address->default) ? 'checked' : '' }}
-                                            class="h-4 w-4 rounded-sm border-gray-300 dark:border-gray-600 text-primary-600 focus:ring-primary-500">
+                                            class="h-4 w-4 rounded-sm border-site-divider dark:border-site-divider text-site-link focus:ring-site-focus">
                                     </div>
                                     <div class="ml-3 text-sm">
-                                        <label for="default" class="font-medium text-gray-700 dark:text-gray-300">{{ __('customer::site.addresses.set_default_shipping') }}</label>
+                                        <label for="default" class="font-medium text-site-text dark:text-site-text">{{ __('customer::site.addresses.set_default_shipping') }}</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="bg-gray-50 dark:bg-gray-900 px-4 py-3 text-right sm:px-6 border-t border-gray-200 dark:border-gray-700">
+                    <div class="bg-site-surface-muted dark:bg-site-surface-muted px-4 py-3 text-right sm:px-6 border-t border-site-divider dark:border-site-divider">
                         <button type="submit"
-                            class="inline-flex justify-center rounded-md border border-transparent bg-primary-600 py-2 px-4 text-sm font-medium text-white shadow-xs hover:bg-primary-700 focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-250">
+                            class="inline-flex justify-center rounded-md border border-transparent bg-site-primary py-2 px-4 text-sm font-medium text-site-on-primary shadow-xs hover:bg-site-primary-hover focus:outline-hidden focus:ring-2 focus:ring-site-focus focus:ring-offset-2 transition-all duration-250">
                             {{ __('customer::site.addresses.update_address') }}
                         </button>
                     </div>

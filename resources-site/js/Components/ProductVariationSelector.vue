@@ -2,15 +2,15 @@
     <div class="space-y-2 sm:space-y-2.5">
         <div v-for="attr in attributes" :key="attr.id" class="space-y-1">
             <div
-                class="flex items-center justify-between text-[10px] font-semibold text-gray-700 dark:text-gray-300 sm:text-xs"
+                class="flex items-center justify-between text-[10px] font-semibold text-site-text dark:text-site-text sm:text-xs"
             >
                 <span
-                    class="text-[9px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 sm:text-[10px]"
+                    class="text-[9px] font-bold uppercase tracking-wider text-site-muted dark:text-site-muted sm:text-[10px]"
                     >{{ attr.name }}</span
                 >
                 <span
                     v-if="getSelectedValueName(attr.id)"
-                    class="max-w-[100px] truncate text-right font-bold capitalize text-primary-600 dark:text-primary-400"
+                    class="max-w-[100px] truncate text-right font-bold capitalize text-site-link dark:text-site-link"
                 >
                     {{ getSelectedValueName(attr.id) }}
                 </span>
@@ -29,8 +29,8 @@
                     :class="[
                         'h-5 w-5 rounded-full border transition-all duration-200 focus:outline-none sm:h-6 sm:w-6',
                         selectedIds.includes(Number(val.id))
-                            ? 'scale-110 border-primary-600 shadow-sm ring-2 ring-primary-500/40 ring-offset-1 dark:border-primary-400'
-                            : 'border-gray-200 hover:scale-105 hover:border-gray-400 dark:border-gray-700',
+                            ? 'scale-110 border-site-focus shadow-sm ring-2 ring-site-focus/40 ring-offset-1 dark:border-site-focus'
+                            : 'border-site-divider hover:scale-105 hover:border-site-divider dark:border-site-divider',
                         !isAvailable(val.id)
                             ? 'cursor-not-allowed opacity-30'
                             : 'cursor-pointer'
@@ -54,8 +54,8 @@
                     :class="[
                         'h-8 w-8 overflow-hidden rounded-md border bg-cover bg-center transition-all duration-200 focus:outline-none sm:h-9 sm:w-9',
                         selectedIds.includes(Number(val.id))
-                            ? 'scale-105 border-primary-600 shadow-sm ring-2 ring-primary-500/40 ring-offset-1 dark:border-primary-400'
-                            : 'border-gray-200 hover:border-gray-400 dark:border-gray-700',
+                            ? 'scale-105 border-site-focus shadow-sm ring-2 ring-site-focus/40 ring-offset-1 dark:border-site-focus'
+                            : 'border-site-divider hover:border-site-divider dark:border-site-divider',
                         !isAvailable(val.id)
                             ? 'cursor-not-allowed opacity-30'
                             : 'cursor-pointer'
@@ -70,7 +70,7 @@
                 >
                     <span
                         v-if="!val.swatch"
-                        class="flex h-full w-full items-center justify-center text-[10px] font-bold text-gray-400"
+                        class="flex h-full w-full items-center justify-center text-[10px] font-bold text-site-muted"
                         >{{ val.value.charAt(0) }}</span
                     >
                 </button>
@@ -85,8 +85,8 @@
                     :class="[
                         'rounded-md border px-2 py-0.5 text-[10px] font-semibold transition-all duration-200 focus:outline-none sm:px-2.5 sm:py-1 sm:text-xs',
                         selectedIds.includes(Number(val.id))
-                            ? 'border-primary-600 bg-primary-600 text-white shadow-sm ring-1 ring-primary-500/30'
-                            : 'dark:hover:bg-gray-700 border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200',
+                            ? 'border-site-focus bg-site-primary text-site-on-primary shadow-sm ring-1 ring-site-focus/30'
+                            : 'dark:hover:bg-site-surface-muted border-site-divider bg-site-surface text-site-text hover:border-site-divider hover:bg-site-surface-muted dark:border-site-divider dark:bg-site-surface-muted dark:text-site-text',
                         !isAvailable(val.id)
                             ? 'cursor-not-allowed opacity-30'
                             : 'cursor-pointer'
@@ -103,7 +103,7 @@
         <div v-if="variation" class="pt-0.5">
             <div class="flex items-center gap-1.5">
                 <div
-                    class="text-xs font-extrabold text-gray-900 dark:text-white sm:text-sm"
+                    class="text-xs font-extrabold text-site-text dark:text-site-text sm:text-sm"
                 >
                     <template
                         v-if="
@@ -112,7 +112,7 @@
                         "
                     >
                         <span
-                            class="mr-1 text-[10px] font-normal text-gray-400 line-through sm:text-xs"
+                            class="mr-1 text-[10px] font-normal text-site-muted line-through sm:text-xs"
                             >৳{{ variation.price }}</span
                         >
                         <span class="text-red-600 dark:text-red-400"

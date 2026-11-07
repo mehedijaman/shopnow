@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Response;
 use Modules\Settings\Http\Requests\SettingsGroupValidate;
+use Modules\Settings\Services\AppearanceSettings;
 use Modules\Settings\Services\SettingService;
 use Modules\Settings\Services\SmsSettings;
 use Modules\Settings\SettingsServiceProvider;
@@ -19,7 +20,7 @@ class SettingsController extends BackendController
 {
     use UploadFile;
 
-    private const GROUPS = ['general', 'branding', 'contact', 'social', 'seo', 'mail', 'sms', 'shipping', 'courier', 'homepage', 'pixel', 'downloads', 'analytics'];
+    private const GROUPS = ['general', 'branding', 'appearance', 'contact', 'social', 'seo', 'mail', 'sms', 'shipping', 'courier', 'homepage', 'pixel', 'downloads', 'analytics'];
 
     /** @var array<string, string[]> */
     private const IMAGE_FIELDS = [
@@ -39,6 +40,9 @@ class SettingsController extends BackendController
 
         $groups = self::GROUPS;
         $user = Auth::guard('user')->user();
+        if (! $user || ! $user->can('appearance-settings-edit')) {
+            $groups = array_values(array_filter($groups, static fn ($item) => $item !== 'appearance'));
+        }
         if (! $user || ! $user->can('sms-settings-edit')) {
             $groups = array_values(array_filter($groups, static fn ($item) => $item !== 'sms'));
         }
@@ -56,6 +60,7 @@ class SettingsController extends BackendController
             'group' => $group,
             'settings' => $service->getGroup($group),
             'groups' => $groups,
+            'appearance' => $group === 'appearance' ? app(AppearanceSettings::class)->metadata() : null,
             'sms' => $group === 'sms' ? [
                 'providers' => app(SmsSettings::class)->providerOptions(),
                 'configured' => app(SmsSettings::class)->configured(),
@@ -69,6 +74,12 @@ class SettingsController extends BackendController
     {
         abort_unless(in_array($group, self::GROUPS, true), 404);
         $this->authorizeGroupAccess($group);
+
+        if ($group === 'appearance') {
+            app(AppearanceSettings::class)->save($request->validated('palette'), (int) $request->validated('revision'));
+
+            return back()->with('success', __('settings::appearance.saved'));
+        }
 
         if ($group === 'sms') {
             app(SmsSettings::class)->save($request->validated());
@@ -112,6 +123,14 @@ class SettingsController extends BackendController
         }
 
         return back()->with('success', 'Settings updated.');
+    }
+
+    public function previewAppearance(string $group, SettingsGroupValidate $request, AppearanceSettings $appearance): JsonResponse
+    {
+        abort_unless($group === 'appearance', 404);
+
+        return response()->json(['variables' => $appearance->variables($request->validated('palette'))])
+            ->header('Cache-Control', 'private, no-store');
     }
 
     public function sendTestEmail(Request $request): JsonResponse
@@ -201,6 +220,10 @@ class SettingsController extends BackendController
 
     private function authorizeGroupAccess(string $group): void
     {
+        if ($group === 'appearance') {
+            abort_unless(Auth::guard('user')->user()?->can('appearance-settings-edit'), 403);
+        }
+
         if ($group === 'sms') {
             abort_unless(Auth::guard('user')->user()?->can('sms-settings-edit'), 403);
         }

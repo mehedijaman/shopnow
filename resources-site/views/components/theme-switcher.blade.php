@@ -16,7 +16,7 @@
         data-theme-toggle
         aria-label="{{ __('site.aria.toggle_theme') }}"
         title="{{ __('site.aria.toggle_theme') }}"
-        class="flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-primary-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-primary-400"
+        class="flex h-9 w-9 items-center justify-center rounded-xl text-site-muted transition hover:bg-site-surface-muted hover:text-site-link dark:text-site-muted dark:hover:bg-site-surface-muted dark:hover:text-site-link"
     >
         <i class="ri-moon-line text-lg dark:hidden"></i>
         <i class="ri-sun-line hidden text-lg dark:inline-block"></i>

@@ -11,26 +11,26 @@
 @section('content')
     <x-breadcrumb>
         <li class="flex shrink-0 items-center gap-1">
-            <a href="{{ route('shop.cart') }}" class="hover:text-primary-600 hover:underline">{{ __('cart::site.cart.title') }}</a>
-            <i class="ri-arrow-right-s-line text-gray-400"></i>
+            <a href="{{ route('shop.cart') }}" class="hover:text-site-link hover:underline">{{ __('cart::site.cart.title') }}</a>
+            <i class="ri-arrow-right-s-line text-site-muted"></i>
         </li>
         <li class="flex shrink-0 items-center">
-            <span class="font-medium text-gray-700 dark:text-gray-300">{{ __('cart::site.cart.checkout') }}</span>
+            <span class="font-medium text-site-text dark:text-site-text">{{ __('cart::site.cart.checkout') }}</span>
         </li>
     </x-breadcrumb>
 
     <div class="mx-auto max-w-7xl px-6 py-12 lg:px-6">
-        <section class="py-8 antialiased dark:bg-gray-900 md:py-16">
+        <section class="py-8 antialiased dark:bg-site-surface-muted md:py-16">
             <form action="#" class="mx-auto max-w-(--breakpoint-xl) px-4 2xl:px-0">
                 <ol
-                    class="flex w-full max-w-2xl items-center text-center text-sm font-medium text-gray-500 dark:text-gray-400 sm:text-base"
+                    class="flex w-full max-w-2xl items-center text-center text-sm font-medium text-site-muted dark:text-site-muted sm:text-base"
                 >
                     <li
-                        class="after:border flex items-center text-primary-700 after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 dark:text-primary-500 dark:after:border-gray-700 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10"
+                        class="after:border flex items-center text-site-link after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-site-divider dark:text-site-link dark:after:border-site-divider sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10"
                     >
                         <a href="{{ route('shop.cart') }}">
                             <span
-                                class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] dark:after:text-gray-500 sm:after:hidden"
+                                class="flex items-center after:mx-2 after:text-site-text after:content-['/'] dark:after:text-site-muted sm:after:hidden"
                             >
                                 <svg
                                     class="me-2 h-4 w-4 sm:h-5 sm:w-5"
@@ -55,10 +55,10 @@
                     </li>
 
                     <li
-                        class="after:border flex items-center text-primary-700 after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 dark:text-primary-500 dark:after:border-gray-700 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10"
+                        class="after:border flex items-center text-site-link after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-site-divider dark:text-site-link dark:after:border-site-divider sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10"
                     >
                         <span
-                            class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] dark:after:text-gray-500 sm:after:hidden"
+                            class="flex items-center after:mx-2 after:text-site-text after:content-['/'] dark:after:text-site-muted sm:after:hidden"
                         >
                             <svg
                                 class="me-2 h-4 w-4 sm:h-5 sm:w-5"

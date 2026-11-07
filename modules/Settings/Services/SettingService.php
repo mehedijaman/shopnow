@@ -18,6 +18,10 @@ class SettingService
      */
     public function getGroup(string $group): array
     {
+        if ($group === 'appearance') {
+            return app(AppearanceSettings::class)->forForm();
+        }
+
         if ($group === 'sms') {
             return app(SmsSettings::class)->forForm();
         }

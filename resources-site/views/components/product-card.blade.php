@@ -71,9 +71,9 @@
     }
 @endphp
 
-<div class="group relative  flex w-full flex-col overflow-hidden rounded-md sm:rounded-md bg-white shadow-sm ring-1 ring-gray-200/80 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg dark:bg-gray-900 dark:ring-gray-800">
+<div class="group relative  flex w-full flex-col overflow-hidden rounded-md sm:rounded-md bg-site-surface shadow-sm ring-1 ring-site-border/80 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg dark:bg-site-surface-muted dark:ring-site-border">
     {{-- Image --}}
-    <a href="{{ route('shop.product', [$product->id, $product->slug]) }}" class="relative block aspect-square w-full overflow-hidden {{ !$product->image_url ? 'bg-gray-100 dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-800/50' }}">
+    <a href="{{ route('shop.product', [$product->id, $product->slug]) }}" class="relative block aspect-square w-full overflow-hidden {{ !$product->image_url ? 'bg-site-surface-muted dark:bg-site-surface-muted' : 'bg-site-surface-muted dark:bg-site-surface-muted/50' }}">
         @php
             $defaultLogo = setting('branding.logo_url') ?: asset('logo.png');
         @endphp
@@ -88,7 +88,7 @@
         {{-- Badges --}}
         <div class="absolute left-2 top-1 z-10 flex flex-col gap-1 sm:left-3 sm:top-1.5">
             @if ($product->featured)
-                <span class="rounded-md bg-amber-500/90 backdrop-blur-sm px-1.5 py-0.5  text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white shadow-sm">
+                <span class="rounded-md bg-site-accent backdrop-blur-sm px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-site-on-accent shadow-sm">
                     <i class="ri-star-fill"></i>
                 </span>
             @endif
@@ -102,12 +102,12 @@
                     $hasVariationStock = $product->variations->contains(fn($v) => $v->active && $v->quantity > 0);
                 @endphp
                 @if (! $hasVariationStock)
-                    <span class="rounded-md bg-gray-900/90 backdrop-blur-sm px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white shadow-sm dark:bg-gray-700">
+                    <span class="rounded-md bg-site-strong/90 backdrop-blur-sm px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-site-on-strong shadow-sm dark:bg-site-surface-muted">
                         {{ __('site.product.out_of_stock') }}
                     </span>
                 @endif
             @elseif ($product->quantity <= 0)
-                <span class="rounded-md bg-gray-900/90 backdrop-blur-sm px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-white shadow-sm dark:bg-gray-700">
+                <span class="rounded-md bg-site-strong/90 backdrop-blur-sm px-1.5 py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest text-site-on-strong shadow-sm dark:bg-site-surface-muted">
                     {{ __('site.product.out_of_stock') }}
                 </span>
             @endif
@@ -125,12 +125,12 @@
     {{-- Body --}}
     <div class="flex flex-1 flex-col p-3 sm:p-4">
         @if ($product->category?->name)
-            <p class="mb-0.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-primary-600 dark:text-primary-400 truncate">
+            <p class="mb-0.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-site-link dark:text-site-link truncate">
                 {{ $product->category->name }}
             </p>
         @endif
 
-        <h3 class="mb-1.5 line-clamp-2 text-xs sm:text-sm font-semibold leading-tight sm:leading-snug text-gray-900 transition-colors group-hover:text-primary-600 dark:text-white dark:group-hover:text-primary-400">
+        <h3 class="mb-1.5 line-clamp-2 text-xs sm:text-sm font-semibold leading-tight sm:leading-snug text-site-text transition-colors group-hover:text-site-link dark:text-site-text dark:group-hover:text-site-link">
             <a href="{{ route('shop.product', [$product->id, $product->slug]) }}">
                 {{ $product->name }}
             </a>
@@ -148,17 +148,17 @@
                     @if ($minPrice)
                         <div class="flex items-baseline gap-1">
                             @if ($maxPrice && $maxPrice > $minPrice)
-                                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">{{ __('site.product.from') }}</span>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-site-muted dark:text-site-muted">{{ __('site.product.from') }}</span>
                             @endif
-                            <span class="text-base sm:text-lg font-extrabold text-gray-900 dark:text-white">
+                            <span class="text-base sm:text-lg font-extrabold text-site-text dark:text-site-text">
                                 ৳{{ rtrim(rtrim(number_format($minPrice, 2), '0'), '.') }}
                             </span>
                         </div>
                     @else
-                        <span class="text-xs font-bold text-gray-400">{{ __('site.product.price_varies') }}</span>
+                        <span class="text-xs font-bold text-site-muted">{{ __('site.product.price_varies') }}</span>
                     @endif
                 @elseif ($product->type?->value === 'bundle')
-                    <span class="text-base sm:text-lg font-extrabold text-gray-900 dark:text-white">
+                    <span class="text-base sm:text-lg font-extrabold text-site-text dark:text-site-text">
                         ৳{{ rtrim(rtrim(number_format($product->sale_price ?: $product->price, 2), '0'), '.') }}
                     </span>
                 @else
@@ -167,12 +167,12 @@
                             <span class="text-base sm:text-lg font-extrabold text-red-600 dark:text-red-400">
                                 ৳{{ rtrim(rtrim(number_format($product->sale_price, 2), '0'), '.') }}
                             </span>
-                            <span class="text-xs font-medium text-gray-400 line-through dark:text-gray-500">
+                            <span class="text-xs font-medium text-site-muted line-through dark:text-site-muted">
                                 ৳{{ rtrim(rtrim(number_format($product->price, 2), '0'), '.') }}
                             </span>
                         </div>
                     @else
-                        <span class="text-base sm:text-lg font-extrabold text-gray-900 dark:text-white">
+                        <span class="text-base sm:text-lg font-extrabold text-site-text dark:text-site-text">
                             ৳{{ rtrim(rtrim(number_format($product->price, 2), '0'), '.') }}
                         </span>
                     @endif

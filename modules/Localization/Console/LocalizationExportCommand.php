@@ -28,7 +28,7 @@ class LocalizationExportCommand extends Command
     protected const SURFACES = [
         'admin' => [
             'app' => ['common'],
-            'module' => ['admin', 'sms', 'enums', 'messages', 'mail'],
+            'module' => ['admin', 'sms', 'appearance', 'enums', 'messages', 'mail'],
         ],
         'site' => [
             'app' => ['common', 'site'],

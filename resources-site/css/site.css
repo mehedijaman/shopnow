@@ -2,6 +2,44 @@
 
 @config '../../tailwind.config.cjs';
 
+@theme inline {
+    --color-site-primary: var(--site-primary);
+    --color-site-accent: var(--site-accent);
+    --color-site-on-primary: var(--site-on-primary);
+    --color-site-on-accent: var(--site-on-accent);
+    --color-site-primary-hover: var(--site-primary-hover);
+    --color-site-accent-hover: var(--site-accent-hover);
+    --color-site-primary-soft: var(--site-primary-soft);
+    --color-site-background: var(--site-background);
+    --color-site-surface: var(--site-surface);
+    --color-site-surface-muted: var(--site-surface-muted);
+    --color-site-text: var(--site-text);
+    --color-site-muted: var(--site-muted);
+    --color-site-border: var(--site-border);
+    --color-site-divider: var(--site-divider);
+    --color-site-header: var(--site-header);
+    --color-site-header-text: var(--site-header-text);
+    --color-site-topbar: var(--site-topbar);
+    --color-site-topbar-text: var(--site-topbar-text);
+    --color-site-footer: var(--site-footer);
+    --color-site-footer-text: var(--site-footer-text);
+    --color-site-strong: var(--site-strong);
+    --color-site-on-strong: var(--site-on-strong);
+    --color-site-link: var(--site-link);
+    --color-site-focus: var(--site-focus);
+    --color-primary-50: var(--site-primary-50);
+    --color-primary-100: var(--site-primary-100);
+    --color-primary-200: var(--site-primary-200);
+    --color-primary-300: var(--site-primary-300);
+    --color-primary-400: var(--site-primary-400);
+    --color-primary-500: var(--site-primary-500);
+    --color-primary-600: var(--site-primary-600);
+    --color-primary-700: var(--site-primary-700);
+    --color-primary-800: var(--site-primary-800);
+    --color-primary-900: var(--site-primary-900);
+    --color-primary-950: var(--site-primary-950);
+}
+
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still
@@ -125,10 +163,44 @@
     }
 
     html {
-        @apply bg-skin-neutral-1 text-skin-neutral-12;
+        @apply bg-site-background text-site-text;
     }
 }
 
 body {
     @apply pb-16 lg:pb-0;
+}
+
+.site-topbar {
+    --site-text: var(--site-topbar-text);
+    --site-muted: var(--site-topbar-muted);
+    --site-link: var(--site-topbar-link);
+    --site-focus: var(--site-topbar-link);
+    --site-divider: color-mix(in srgb, var(--site-topbar), var(--site-topbar-text) 25%);
+    background: var(--site-topbar);
+    color: var(--site-topbar-text);
+}
+
+.site-header {
+    --site-text: var(--site-header-text);
+    --site-muted: var(--site-header-muted);
+    --site-link: var(--site-header-link);
+    --site-surface: var(--site-header);
+    --site-surface-muted: color-mix(in srgb, var(--site-header), var(--site-header-text) 6%);
+    --site-divider: color-mix(in srgb, var(--site-header), var(--site-header-text) 25%);
+    background: var(--site-header);
+    color: var(--site-header-text);
+}
+
+.site-footer {
+    --site-text: var(--site-footer-text);
+    --site-muted: var(--site-footer-muted);
+    --site-link: var(--site-footer-link);
+    --site-surface: var(--site-footer);
+    --site-surface-muted: color-mix(in srgb, var(--site-footer), var(--site-footer-text) 12%);
+    --site-strong: var(--site-surface-muted);
+    --site-on-strong: var(--site-footer-text);
+    --site-divider: color-mix(in srgb, var(--site-footer), var(--site-footer-text) 25%);
+    background: var(--site-footer);
+    color: var(--site-footer-text);
 }

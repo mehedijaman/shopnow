@@ -4,7 +4,7 @@
             <i :class="cartStore.totalQuantity > 0
                     ? 'ri-shopping-cart-fill'
                     : 'ri-shopping-cart-line'
-                " class="cursor-pointer text-2xl hover:text-skin-primary-9"></i>
+                " class="cursor-pointer text-2xl hover:text-site-link"></i>
             <span v-show="cartStore.totalQuantity > 0"
                 class="absolute left-auto top-0 -ml-1 rounded-full bg-red-500 px-1 py-0 text-xs text-white">
                 {{ cartStore.totalQuantity }}

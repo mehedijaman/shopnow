@@ -4,7 +4,7 @@
         class="mx-auto max-w-7xl px-4 pt-4 sm:px-6 sm:pt-4 lg:px-6"
     >
         <div
-            class="group relative h-[180px] w-full overflow-hidden rounded-sm bg-gray-900 shadow-sm sm:h-[260px] md:h-[340px] lg:h-[420px] xl:h-[460px]"
+            class="group relative h-[180px] w-full overflow-hidden rounded-sm bg-site-strong shadow-sm sm:h-[260px] md:h-[340px] lg:h-[420px] xl:h-[460px]"
             @mouseenter="pauseTimer"
             @mouseleave="startTimer"
         >
@@ -71,7 +71,7 @@
                             <!-- Slide Description -->
                             <p
                                 v-if="slide.description"
-                                class="mx-auto mb-4 max-w-2xl text-xs text-gray-200 drop-shadow-sm sm:mb-6 sm:text-sm md:text-base lg:text-lg"
+                                class="mx-auto mb-4 max-w-2xl text-xs text-site-text drop-shadow-sm sm:mb-6 sm:text-sm md:text-base lg:text-lg"
                             >
                                 {{ slide.description }}
                             </p>
@@ -79,7 +79,7 @@
                             <a
                                 v-if="slide.url && slide.button_text"
                                 :href="slide.url"
-                                class="pointer-events-auto inline-flex items-center justify-center rounded-full bg-white dark:bg-gray-800 px-5 py-2 text-xs font-bold text-gray-900 dark:text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-gray-100 dark:hover:bg-gray-800 hover:shadow-xl sm:px-7 sm:py-2.5 sm:text-sm"
+                                class="pointer-events-auto inline-flex items-center justify-center rounded-full bg-site-surface dark:bg-site-surface-muted px-5 py-2 text-xs font-bold text-site-text dark:text-site-text shadow-lg transition-all duration-300 hover:scale-105 hover:bg-site-surface-muted dark:hover:bg-site-surface-muted hover:shadow-xl sm:px-7 sm:py-2.5 sm:text-sm"
                             >
                                 {{ slide.button_text }}
                                 <svg
@@ -157,8 +157,8 @@
                     class="h-1.5 rounded-full transition-all duration-300 focus:outline-none sm:h-2"
                     :class="
                         index === currentIndex
-                            ? 'w-6 bg-white sm:w-8'
-                            : 'w-1.5 bg-white/40 hover:bg-white/70 sm:w-2'
+                            ? 'w-6 bg-site-surface sm:w-8'
+                            : 'w-1.5 bg-site-surface/40 hover:bg-site-surface/70 sm:w-2'
                     "
                     :aria-label="`Go to slide ${index + 1}`"
                     @click="goTo(index)"

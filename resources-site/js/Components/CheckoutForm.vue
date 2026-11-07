@@ -25,7 +25,7 @@
             <!-- Delivery Details -->
             <div v-if="requiresShipping" class="space-y-4">
                 <h2
-                    class="border-b border-gray-200 dark:border-gray-700 pb-2 text-xl font-semibold text-gray-900 dark:text-white"
+                    class="border-b border-site-divider dark:border-site-divider pb-2 text-xl font-semibold text-site-text dark:text-site-text"
                 >
                     {{ __('cart::site.checkout.delivery_details') }}
                 </h2>
@@ -35,7 +35,7 @@
                     <div class="col-span-2">
                         <label
                             for="name"
-                            class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                            class="mb-1.5 block text-sm font-medium text-site-text dark:text-site-text"
                         >
                             {{ __('cart::site.checkout.your_name') }}
                             <span class="text-red-500">*</span>
@@ -65,7 +65,7 @@
                         <div>
                             <label
                                 for="phone"
-                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                                class="mb-1.5 block text-sm font-medium text-site-text dark:text-site-text"
                             >
                                 {{ __('cart::site.checkout.phone_number') }}
                                 <span class="text-red-500">*</span>
@@ -92,7 +92,7 @@
                         <div>
                             <label
                                 for="email"
-                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                                class="mb-1.5 block text-sm font-medium text-site-text dark:text-site-text"
                             >
                                 {{ __('cart::site.checkout.email_optional') }}
                             </label>
@@ -121,7 +121,7 @@
                         class="col-span-2 space-y-2"
                     >
                         <label
-                            class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                            class="mb-1.5 block text-sm font-medium text-site-text dark:text-site-text"
                         >
                             {{ __('cart::site.checkout.shipping_address') }}
                             <span class="text-red-500">*</span>
@@ -135,8 +135,8 @@
                                 :class="[
                                     'flex flex-col justify-between rounded-xl border-2 p-4 text-left transition-all',
                                     selectedAddressId === addr.id
-                                        ? 'border-primary-500 bg-primary-50 text-primary-700'
-                                        : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                                        ? 'border-site-focus bg-site-primary-soft text-site-link'
+                                        : 'border-site-divider bg-site-surface text-site-text hover:border-site-divider'
                                 ]"
                             >
                                 <div
@@ -144,7 +144,7 @@
                                 >
                                     <span
                                         v-if="addr.default"
-                                        class="text-2xs rounded bg-primary-100 px-1.5 py-0.5 font-semibold text-primary-800"
+                                        class="text-2xs rounded bg-site-primary-soft px-1.5 py-0.5 font-semibold text-site-link"
                                         >{{
                                             __('cart::site.checkout.default')
                                         }}</span
@@ -153,7 +153,7 @@
                                         addr.address
                                     }}</span>
                                 </div>
-                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                <p class="mt-1 text-xs text-site-muted dark:text-site-muted">
                                     {{
                                         addr.union_name
                                             ? addr.union_name + ', '
@@ -178,8 +178,8 @@
                                 :class="[
                                     'flex min-h-[90px] flex-col items-center justify-center rounded-xl border-2 border-dashed p-4 text-center transition-all',
                                     selectedAddressId === 'new'
-                                        ? 'border-primary-500 bg-primary-50 text-primary-700'
-                                        : 'border-gray-200 bg-white text-gray-500 hover:border-gray-300 hover:bg-gray-50'
+                                        ? 'border-site-focus bg-site-primary-soft text-site-link'
+                                        : 'border-site-divider bg-site-surface text-site-muted hover:border-site-divider hover:bg-site-surface-muted'
                                 ]"
                             >
                                 <span class="text-lg font-bold">+</span>
@@ -193,10 +193,10 @@
                     <!-- Geocode dropdown selectors and textarea (shown if custom address is selected or no saved addresses) -->
                     <div
                         v-if="selectedAddressId === 'new'"
-                        class="border-gray-200 dark:border-gray-700 col-span-2 grid grid-cols-1 gap-4 rounded-xl border bg-gray-50/55 dark:bg-gray-900/55 p-4 md:grid-cols-2"
+                        class="border-site-divider dark:border-site-divider col-span-2 grid grid-cols-1 gap-4 rounded-xl border bg-site-surface-muted/55 dark:bg-site-surface-muted/55 p-4 md:grid-cols-2"
                     >
                         <div class="col-span-2">
-                            <h3 class="text-sm font-semibold text-gray-900 dark:text-white">
+                            <h3 class="text-sm font-semibold text-site-text dark:text-site-text">
                                 {{ __('cart::site.checkout.shipping_address') }}
                             </h3>
                         </div>
@@ -208,7 +208,7 @@
                         >
                             <label
                                 for="district"
-                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                                class="mb-1.5 block text-sm font-medium text-site-text dark:text-site-text"
                             >
                                 {{ __('cart::site.checkout.district') }}
                                 <span class="text-red-500">*</span>
@@ -235,18 +235,18 @@
                                         isDistrictDropdownOpen &&
                                         filteredDistricts.length > 0
                                     "
-                                    class="absolute z-30 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-1 text-xs shadow-lg"
+                                    class="absolute z-30 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-site-divider dark:border-site-divider bg-site-surface dark:bg-site-surface-muted p-1 text-xs shadow-lg"
                                 >
-                                    <ul class="divide-y divide-gray-50 dark:divide-gray-800">
+                                    <ul class="divide-y divide-site-divider dark:divide-site-divider">
                                         <li
                                             v-for="d in filteredDistricts"
                                             :key="d.id"
                                             @click="selectDistrictItem(d)"
                                             :class="[
-                                                'cursor-pointer rounded-md px-3 py-2 transition-colors hover:bg-primary-50 hover:text-primary-700',
+                                                'cursor-pointer rounded-md px-3 py-2 transition-colors hover:bg-site-primary-soft hover:text-site-link',
                                                 selectedDistrictId == d.id
-                                                    ? 'bg-primary-50 font-semibold text-primary-700'
-                                                    : 'text-gray-700'
+                                                    ? 'bg-site-primary-soft font-semibold text-site-link'
+                                                    : 'text-site-text'
                                             ]"
                                         >
                                             {{ d.name }}
@@ -269,10 +269,10 @@
                         >
                             <label
                                 for="upazila"
-                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                                class="mb-1.5 block text-sm font-medium text-site-text dark:text-site-text"
                             >
                                 {{ __('cart::site.checkout.upazila') }}
-                                <span class="text-xs text-gray-400">{{
+                                <span class="text-xs text-site-muted">{{
                                     __('cart::site.checkout.optional')
                                 }}</span>
                             </label>
@@ -298,18 +298,18 @@
                                         isUpazilaDropdownOpen &&
                                         filteredUpazilas.length > 0
                                     "
-                                    class="absolute z-30 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-1 text-xs shadow-lg"
+                                    class="absolute z-30 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-site-divider dark:border-site-divider bg-site-surface dark:bg-site-surface-muted p-1 text-xs shadow-lg"
                                 >
-                                    <ul class="divide-y divide-gray-50 dark:divide-gray-800">
+                                    <ul class="divide-y divide-site-divider dark:divide-site-divider">
                                         <li
                                             v-for="u in filteredUpazilas"
                                             :key="u.id"
                                             @click="selectUpazilaItem(u)"
                                             :class="[
-                                                'cursor-pointer rounded-md px-3 py-2 transition-colors hover:bg-primary-50 hover:text-primary-700',
+                                                'cursor-pointer rounded-md px-3 py-2 transition-colors hover:bg-site-primary-soft hover:text-site-link',
                                                 selectedUpazilaId == u.id
-                                                    ? 'bg-primary-50 font-semibold text-primary-700'
-                                                    : 'text-gray-700'
+                                                    ? 'bg-site-primary-soft font-semibold text-site-link'
+                                                    : 'text-site-text'
                                             ]"
                                         >
                                             {{ u.name }}
@@ -327,9 +327,9 @@
 
                         <!-- Union (optional) -->
                         <!-- <div>
-                            <label for="union" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            <label for="union" class="mb-1.5 block text-sm font-medium text-site-text dark:text-site-text">
                                 Union
-                                <span class="text-xs text-gray-400">(Optional)</span>
+                                <span class="text-xs text-site-muted">(Optional)</span>
                             </label>
                             <select v-model="selectedUnionId" id="union" :class="inputClass('union')"
                                 :disabled="!selectedUpazilaId" @change="handleUnionChange">
@@ -342,7 +342,7 @@
                         <div class="col-span-2">
                             <label
                                 for="address"
-                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                                class="mb-1.5 block text-sm font-medium text-site-text dark:text-site-text"
                             >
                                 {{ __('cart::site.checkout.street_address') }}
                                 <span class="text-red-500">*</span>
@@ -372,7 +372,7 @@
                         v-if="shippingOptions.length > 0"
                         class="space-y-3 pt-2"
                     >
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <label class="block text-sm font-medium text-site-text dark:text-site-text">
                             {{ __('cart::site.checkout.delivery_option') }}
                             <span class="text-red-500">*</span>
                         </label>
@@ -383,8 +383,8 @@
                                 :class="[
                                     'flex cursor-pointer items-center justify-between rounded-xl border-2 p-4 transition-all',
                                     selectedShippingOption?.name === option.name
-                                        ? 'border-primary-500 bg-primary-50'
-                                        : 'border-gray-200 bg-white hover:border-gray-300'
+                                        ? 'border-site-focus bg-site-primary-soft'
+                                        : 'border-site-divider bg-site-surface hover:border-site-divider'
                                 ]"
                             >
                                 <div class="flex items-center gap-3">
@@ -393,8 +393,8 @@
                                             'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2',
                                             selectedShippingOption?.name ===
                                             option.name
-                                                ? 'border-primary-500 bg-primary-500'
-                                                : 'border-gray-300'
+                                                ? 'border-site-focus bg-site-primary'
+                                                : 'border-site-divider'
                                         ]"
                                     >
                                         <div
@@ -402,11 +402,11 @@
                                                 selectedShippingOption?.name ===
                                                 option.name
                                             "
-                                            class="h-2 w-2 rounded-full bg-white dark:bg-gray-800"
+                                            class="h-2 w-2 rounded-full bg-site-surface dark:bg-site-surface-muted"
                                         ></div>
                                     </div>
                                     <span
-                                        class="text-sm font-semibold text-gray-900 dark:text-white"
+                                        class="text-sm font-semibold text-site-text dark:text-site-text"
                                         >{{ option.name }}</span
                                     >
                                 </div>
@@ -417,7 +417,7 @@
                                 >
                                 <span
                                     v-else
-                                    class="text-sm font-bold text-gray-900 dark:text-white"
+                                    class="text-sm font-bold text-site-text dark:text-site-text"
                                     >{{ option.price }} Tk.</span
                                 >
                                 <input
@@ -434,7 +434,7 @@
 
             <!-- Payment Method -->
             <!-- <div class="space-y-4">
-                <h2 class="border-b border-gray-200 dark:border-gray-700 pb-2 text-xl font-semibold text-gray-900 dark:text-white">
+                <h2 class="border-b border-site-divider dark:border-site-divider pb-2 text-xl font-semibold text-site-text dark:text-site-text">
                     Payment Method <span class="text-red-500 text-base">*</span>
                 </h2>
 
@@ -442,21 +442,21 @@
                     <button type="button" @click="selectPayment('cod')" :class="[
                         'flex items-center gap-3 rounded-xl border-2 p-4 text-left transition-all',
                         form.payment_method === 'cod'
-                            ? 'border-primary-500 bg-primary-50 text-primary-700'
-                            : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'
+                            ? 'border-site-focus bg-site-primary-soft text-site-link'
+                            : 'border-site-divider bg-site-surface text-site-text hover:border-site-divider hover:bg-site-surface-muted'
                     ]">
                         <span :class="[
                             'flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xl',
-                            form.payment_method === 'cod' ? 'bg-primary-100' : 'bg-gray-100'
+                            form.payment_method === 'cod' ? 'bg-site-primary-soft' : 'bg-site-surface-muted'
                         ]">💵</span>
                         <div>
                             <p class="font-semibold">Cash on Delivery</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">Pay when you receive</p>
+                            <p class="text-xs text-site-muted dark:text-site-muted">Pay when you receive</p>
                         </div>
                         <div class="ml-auto">
                             <div :class="[
                                 'h-5 w-5 rounded-full border-2 flex items-center justify-center',
-                                form.payment_method === 'cod' ? 'border-primary-500 bg-primary-500' : 'border-gray-300'
+                                form.payment_method === 'cod' ? 'border-site-focus bg-site-primary' : 'border-site-divider'
                             ]">
                                 <svg v-if="form.payment_method === 'cod'" class="h-3 w-3 text-white" viewBox="0 0 12 12"
                                     fill="currentColor">
@@ -473,22 +473,22 @@
                         :class="[
                             'flex items-center gap-3 rounded-xl border-2 p-4 text-left transition-all',
                             form.payment_method === 'sslcommerz'
-                                ? 'border-primary-500 bg-primary-50 text-primary-700'
-                                : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'
+                                ? 'border-site-focus bg-site-primary-soft text-site-link'
+                                : 'border-site-divider bg-site-surface text-site-text hover:border-site-divider hover:bg-site-surface-muted'
                         ]"
                     >
                         <span :class="[
                             'flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xl',
-                            form.payment_method === 'sslcommerz' ? 'bg-primary-100' : 'bg-gray-100'
+                            form.payment_method === 'sslcommerz' ? 'bg-site-primary-soft' : 'bg-site-surface-muted'
                         ]">💳</span>
                         <div>
                             <p class="font-semibold">Online Payment</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">SSLCommerz secured</p>
+                            <p class="text-xs text-site-muted dark:text-site-muted">SSLCommerz secured</p>
                         </div>
                         <div class="ml-auto">
                             <div :class="[
                                 'h-5 w-5 rounded-full border-2 flex items-center justify-center',
-                                form.payment_method === 'sslcommerz' ? 'border-primary-500 bg-primary-500' : 'border-gray-300'
+                                form.payment_method === 'sslcommerz' ? 'border-site-focus bg-site-primary' : 'border-site-divider'
                             ]">
                                 <svg v-if="form.payment_method === 'sslcommerz'" class="h-3 w-3 text-white" viewBox="0 0 12 12" fill="currentColor">
                                     <path d="M10 3L5 8.5 2 5.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
@@ -503,24 +503,24 @@
 
         <!-- Right: Order Summary -->
         <div class="mt-6 w-full sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-sm">
-            <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm">
-                <div class="border-b border-gray-100 dark:border-gray-800 px-5 py-4">
-                    <h3 class="font-semibold text-gray-900 dark:text-white">
+            <div class="rounded-xl border border-site-divider dark:border-site-divider bg-site-surface dark:bg-site-surface-muted shadow-sm">
+                <div class="border-b border-site-divider dark:border-site-divider px-5 py-4">
+                    <h3 class="font-semibold text-site-text dark:text-site-text">
                         {{ __('cart::site.cart.order_summary') }}
                     </h3>
                 </div>
 
-                <div class="divide-y divide-gray-100 dark:divide-gray-800 px-5">
+                <div class="divide-y divide-site-divider dark:divide-site-divider px-5">
                     <div class="flex items-center justify-between py-3 text-sm">
-                        <span class="text-gray-500 dark:text-gray-400">{{
+                        <span class="text-site-muted dark:text-site-muted">{{
                             __('cart::site.cart.subtotal')
                         }}</span>
-                        <span class="font-medium text-gray-900 dark:text-white"
+                        <span class="font-medium text-site-text dark:text-site-text"
                             >{{ cartStore.subtotal }} Tk.</span
                         >
                     </div>
                     <div class="flex items-center justify-between py-3 text-sm">
-                        <span class="text-gray-500 dark:text-gray-400">{{
+                        <span class="text-site-muted dark:text-site-muted">{{
                             __('cart::site.cart.shipping')
                         }}</span>
                         <span
@@ -528,34 +528,34 @@
                             class="font-medium text-green-600"
                             >{{ __('cart::site.cart.free') }}</span
                         >
-                        <span v-else class="font-medium text-gray-900 dark:text-white"
+                        <span v-else class="font-medium text-site-text dark:text-site-text"
                             >{{ shippingCharge }} Tk.</span
                         >
                     </div>
                     <div class="flex items-center justify-between py-3 text-sm">
-                        <span class="text-gray-500 dark:text-gray-400">{{
+                        <span class="text-site-muted dark:text-site-muted">{{
                             __('cart::site.cart.tax')
                         }}</span>
-                        <span class="font-medium text-gray-900 dark:text-white"
+                        <span class="font-medium text-site-text dark:text-site-text"
                             >{{ cartStore.tax }} Tk.</span
                         >
                     </div>
                     <div
                         class="flex items-center justify-between py-4 text-base font-bold"
                     >
-                        <span class="text-gray-900 dark:text-white">{{
+                        <span class="text-site-text dark:text-site-text">{{
                             __('cart::site.cart.total')
                         }}</span>
-                        <span class="text-primary-700"
+                        <span class="text-site-link"
                             >{{ orderTotal }} Tk.</span
                         >
                     </div>
                 </div>
 
                 <!-- Voucher -->
-                <div class="border-t border-gray-100 dark:border-gray-800 px-5 py-4">
+                <div class="border-t border-site-divider dark:border-site-divider px-5 py-4">
                     <label
-                        class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                        class="mb-1.5 block text-sm font-medium text-site-text dark:text-site-text"
                         >{{ __('cart::site.checkout.promo_code') }}
                     </label>
                     <div class="flex gap-2">
@@ -565,11 +565,11 @@
                             :placeholder="
                                 __('cart::site.checkout.promo_placeholder')
                             "
-                            class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 px-3 py-2 text-sm text-gray-900 dark:text-white focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                            class="block w-full rounded-lg border border-site-border dark:border-site-border bg-site-surface-muted dark:bg-site-surface-muted px-3 py-2 text-sm text-site-text dark:text-site-text focus:border-site-focus focus:outline-none focus:ring-1 focus:ring-site-focus"
                         />
                         <button
                             type="button"
-                            class="shrink-0 rounded-lg bg-gray-800 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700"
+                            class="shrink-0 rounded-lg bg-site-strong px-4 py-2 text-sm font-medium text-site-on-strong hover:bg-site-strong"
                         >
                             {{ __('cart::site.checkout.apply') }}
                         </button>
@@ -577,10 +577,10 @@
                 </div>
 
                 <!-- Special Note -->
-                <div class="border-t border-gray-100 dark:border-gray-800 px-5 py-4">
+                <div class="border-t border-site-divider dark:border-site-divider px-5 py-4">
                     <label
                         for="note"
-                        class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                        class="mb-1.5 block text-sm font-medium text-site-text dark:text-site-text"
                         >{{ __('cart::site.checkout.special_note') }}
                     </label>
                     <textarea
@@ -590,13 +590,13 @@
                         :placeholder="
                             __('cart::site.checkout.note_placeholder')
                         "
-                        class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 px-3 py-2 text-sm text-gray-900 dark:text-white focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        class="block w-full rounded-lg border border-site-border dark:border-site-border bg-site-surface-muted dark:bg-site-surface-muted px-3 py-2 text-sm text-site-text dark:text-site-text focus:border-site-focus focus:outline-none focus:ring-1 focus:ring-site-focus"
                     ></textarea>
                 </div>
 
                 <!-- Submit -->
-                <div class="border-t border-gray-100 dark:border-gray-800 px-5 py-4">
-                    <p class="mb-3 text-xs text-gray-500 dark:text-gray-400">
+                <div class="border-t border-site-divider dark:border-site-divider px-5 py-4">
+                    <p class="mb-3 text-xs text-site-muted dark:text-site-muted">
                         {{ __('cart::site.checkout.required_prefix') }}
                         <span class="font-semibold text-red-500">*</span>
                         {{ __('cart::site.checkout.required_suffix') }}
@@ -605,7 +605,7 @@
                         @click="submitForm"
                         type="button"
                         :disabled="submitting"
-                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 disabled:cursor-not-allowed disabled:opacity-60"
+                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-site-primary px-5 py-3 text-sm font-semibold text-site-on-primary shadow-sm transition hover:bg-site-primary-hover focus:outline-none focus:ring-4 focus:ring-site-focus disabled:cursor-not-allowed disabled:opacity-60"
                     >
                         <svg
                             v-if="submitting"
@@ -965,7 +965,7 @@ function handleUnionChange() {
 }
 
 const baseInputClass =
-    'block w-full rounded-lg border px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-1 transition'
+    'block w-full rounded-lg border px-3 py-2.5 text-sm text-site-text focus:outline-none focus:ring-1 transition'
 const validInputClass = `${baseInputClass} border-gray-300 bg-gray-50 focus:border-primary-500 focus:ring-primary-500`
 const errorInputClass = `${baseInputClass} border-red-400 bg-red-50 focus:border-red-500 focus:ring-red-400`
 

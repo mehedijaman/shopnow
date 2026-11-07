@@ -7,7 +7,7 @@
 @section('content')
     <x-breadcrumb>
         <li class="min-w-0">
-            <span class="font-semibold text-gray-800 dark:text-gray-200">{{ __('blog::site.posts.breadcrumb') }}</span>
+            <span class="font-semibold text-site-text dark:text-site-text">{{ __('blog::site.posts.breadcrumb') }}</span>
         </li>
     </x-breadcrumb>
 
@@ -16,24 +16,24 @@
         :tags="{{ json_encode($tags) }}"
     ></blog-toolbar>
 
-    <div class="bg-gray-50 dark:bg-gray-900 py-12 sm:py-16">
+    <div class="bg-site-surface-muted dark:bg-site-surface-muted py-12 sm:py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
             {{-- Section heading --}}
             <div class="mb-10 text-center">
                 <div class="mb-3 flex items-center justify-center gap-3">
-                    <span class="h-1.5 w-8 rounded-full bg-primary-600"></span>
-                    <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-3xl">{{ __('blog::site.posts.heading') }}</h1>
-                    <span class="h-1.5 w-8 rounded-full bg-primary-600"></span>
+                    <span class="h-1.5 w-8 rounded-full bg-site-primary"></span>
+                    <h1 class="text-2xl font-extrabold tracking-tight text-site-text dark:text-site-text sm:text-3xl">{{ __('blog::site.posts.heading') }}</h1>
+                    <span class="h-1.5 w-8 rounded-full bg-site-primary"></span>
                 </div>
                 @if (isset($fromArchive) || isset($fromTag) || isset($fromSearch))
-                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                    <p class="mt-2 text-sm text-site-muted dark:text-site-muted">
                         @if (isset($fromArchive))
-                            {{ __('blog::site.posts.from_archive') }} <span class="font-semibold text-gray-700 dark:text-gray-300">{{ $fromArchive }}</span>
+                            {{ __('blog::site.posts.from_archive') }} <span class="font-semibold text-site-text dark:text-site-text">{{ $fromArchive }}</span>
                         @elseif (isset($fromTag))
-                            {{ __('blog::site.posts.from_tag') }} <span class="font-semibold text-gray-700 dark:text-gray-300">{{ $fromTag }}</span>
+                            {{ __('blog::site.posts.from_tag') }} <span class="font-semibold text-site-text dark:text-site-text">{{ $fromTag }}</span>
                         @elseif (isset($fromSearch))
-                            {{ __('blog::site.posts.from_search') }} <span class="font-semibold text-gray-700 dark:text-gray-300">{{ $fromSearch }}</span>
+                            {{ __('blog::site.posts.from_search') }} <span class="font-semibold text-site-text dark:text-site-text">{{ $fromSearch }}</span>
                         @endif
                     </p>
                 @endif
@@ -42,10 +42,10 @@
             @if ($posts->count())
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($posts as $post)
-                        <article class="group flex flex-col overflow-hidden rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-800 shadow-sm transition-shadow duration-300 hover:shadow-md">
+                        <article class="group flex flex-col overflow-hidden rounded-xl border border-site-divider dark:border-site-divider bg-site-surface dark:bg-site-surface-muted shadow-sm transition-shadow duration-300 hover:shadow-md">
 
                             {{-- Thumbnail --}}
-                            <a href="/blog/{{ $post->slug }}" class="block overflow-hidden bg-gray-100 dark:bg-gray-800">
+                            <a href="/blog/{{ $post->slug }}" class="block overflow-hidden bg-site-surface-muted dark:bg-site-surface-muted">
                                 @if ($post->image_url)
                                     <img
                                         src="{{ $post->image_url }}"
@@ -56,8 +56,8 @@
                                         class="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                     />
                                 @else
-                                    <div class="flex aspect-video w-full items-center justify-center bg-gray-200 dark:bg-gray-700">
-                                        <i class="ri-image-line text-3xl text-gray-400"></i>
+                                    <div class="flex aspect-video w-full items-center justify-center bg-site-surface-muted dark:bg-site-surface-muted">
+                                        <i class="ri-image-line text-3xl text-site-muted"></i>
                                     </div>
                                 @endif
                             </a>
@@ -71,7 +71,7 @@
                                         @foreach ($post->tags as $tag)
                                             <a
                                                 href="/blog/tag/{{ $tag->slug }}"
-                                                class="rounded-full bg-primary-50 px-2.5 py-0.5 text-xs font-medium text-primary-700 hover:bg-primary-100"
+                                                class="rounded-full bg-site-primary-soft px-2.5 py-0.5 text-xs font-medium text-site-link hover:bg-site-primary-soft"
                                             >
                                                 {{ $tag->name }}
                                             </a>
@@ -80,19 +80,19 @@
                                 @endif
 
                                 {{-- Title --}}
-                                <h2 class="flex-1 text-base font-semibold leading-snug text-gray-900 dark:text-white transition-colors group-hover:text-primary-600">
+                                <h2 class="flex-1 text-base font-semibold leading-snug text-site-text dark:text-site-text transition-colors group-hover:text-site-link">
                                     <a href="/blog/{{ $post->slug }}">{{ $post->title }}</a>
                                 </h2>
 
                                 {{-- Excerpt --}}
                                 @if ($post->content)
-                                    <p class="mt-2 line-clamp-2 text-sm text-gray-500 dark:text-gray-400">
+                                    <p class="mt-2 line-clamp-2 text-sm text-site-muted dark:text-site-muted">
                                         {{ Str::limit(strip_tags($post->content), 120) }}
                                     </p>
                                 @endif
 
                                 {{-- Meta --}}
-                                <div class="mt-4 flex items-center gap-3 border-t border-gray-100 dark:border-gray-800 pt-4 text-xs text-gray-400">
+                                <div class="mt-4 flex items-center gap-3 border-t border-site-divider dark:border-site-divider pt-4 text-xs text-site-muted">
                                     <span class="flex items-center gap-1">
                                         <i class="ri-calendar-line text-sm"></i>
                                         {{ $post->published_at->format('M d, Y') }}
@@ -125,8 +125,8 @@
                 </div>
             @else
                 <div class="py-16 text-center">
-                    <i class="ri-article-line mb-3 block text-4xl text-gray-300"></i>
-                    <p class="text-gray-500 dark:text-gray-400">{{ __('blog::site.posts.empty') }}</p>
+                    <i class="ri-article-line mb-3 block text-4xl text-site-text"></i>
+                    <p class="text-site-muted dark:text-site-muted">{{ __('blog::site.posts.empty') }}</p>
                 </div>
             @endif
 

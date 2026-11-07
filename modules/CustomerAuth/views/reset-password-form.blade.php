@@ -2,10 +2,10 @@
 
 @section('content')
 
-<div class="flex items-center justify-center min-h-screen px-4 py-12 bg-gray-50 sm:px-6 lg:px-8">
+<div class="flex items-center justify-center min-h-screen px-4 py-12 bg-site-surface-muted sm:px-6 lg:px-8">
     <div class="w-full max-w-md">
         <div>
-            <h2 class="mt-6 text-3xl font-extrabold leading-9 text-center text-gray-900">
+            <h2 class="mt-6 text-3xl font-extrabold leading-9 text-center text-site-text">
                 Redefinição de Senha
             </h2>
         </div>
@@ -19,8 +19,8 @@
             <div>
                 <input type="text" name="email" id="email" autocapitalize="off" autocorrect="off" autocomplete="off"
                     value="{{ $email ?? old('email') }}" aria-label="Email" autofocus class=" @error('email') bg-red-100 @enderror appearance-none rounded-md relative block w-full px-3
-                    py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-hidden
-                    focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
+                    py-2 border border-site-border placeholder-site-muted text-site-text focus:outline-hidden
+                    focus:shadow-outline-blue focus:border-site-focus focus:z-10 sm:text-sm sm:leading-5"
                     placeholder="Email" />
 
                 @error('email')
@@ -31,7 +31,7 @@
 
             <div class="mt-6">
                 <input id="password" type="password"
-                    class="@error('password') bg-red-100 @enderror appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-hidden focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
+                    class="@error('password') bg-red-100 @enderror appearance-none rounded-md relative block w-full px-3 py-2 border border-site-border placeholder-site-muted text-site-text focus:outline-hidden focus:shadow-outline-blue focus:border-site-focus focus:z-10 sm:text-sm sm:leading-5"
                     name="password" autocomplete="new-password" placeholder="Nova Senha (mínimo de 8 caracteres)">
 
                 @error('password')
@@ -42,7 +42,7 @@
             <div class="mt-6">
                 <div class="col-md-6">
                     <input type="password" name="password_confirmation"
-                        class="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md appearance-none focus:outline-hidden focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
+                        class="relative block w-full px-3 py-2 text-site-text placeholder-site-muted border border-site-border rounded-md appearance-none focus:outline-hidden focus:shadow-outline-blue focus:border-site-focus focus:z-10 sm:text-sm sm:leading-5"
                         autocomplete="new-password" placeholder="Confirme a Nova Senha">
                 </div>
             </div>

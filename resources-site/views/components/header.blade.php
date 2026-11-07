@@ -51,17 +51,17 @@
      TOP ANNOUNCEMENT & CONTACT BAR
 ================================================ --}}
 @if(!empty($phones) || $email || !empty($activeSocials))
-<div class="border-b border-slate-800/80 bg-slate-950 text-xs font-medium tracking-wide text-slate-300 dark:bg-black">
+<div class="site-topbar border-b border-site-divider/80 text-xs font-medium tracking-wide">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         
         {{-- Left: Contact Details --}}
         <div class="flex items-center gap-4 text-xs">
             @if(!empty($phones))
                 <div class="flex items-center gap-1.5">
-                    <i class="ri-phone-line text-sm text-primary-400"></i>
+                    <i class="ri-phone-line text-sm text-site-link"></i>
                     <span>
                         @foreach($phones as $phone)
-                            <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}" class="transition-colors hover:text-white">
+                            <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}" class="transition-colors hover:text-site-text">
                                 {{ $phone }}
                             </a>@if(!$loop->last), @endif
                         @endforeach
@@ -70,12 +70,12 @@
             @endif
             
             @if(!empty($phones) && $email)
-                <div class="hidden sm:block h-3 w-px bg-slate-800"></div>
+                <div class="hidden sm:block h-3 w-px bg-site-divider"></div>
             @endif
             
             @if($email)
-                <a href="mailto:{{ $email }}" class="hidden sm:flex items-center gap-1.5 transition-colors hover:text-white">
-                    <i class="ri-mail-send-line text-sm text-primary-400"></i>
+                <a href="mailto:{{ $email }}" class="hidden sm:flex items-center gap-1.5 transition-colors hover:text-site-text">
+                    <i class="ri-mail-send-line text-sm text-site-link"></i>
                     <span>{{ $email }}</span>
                 </a>
             @endif
@@ -85,7 +85,7 @@
         @if(!empty($activeSocials))
         <div class="flex items-center gap-3">
             @foreach($activeSocials as $social)
-                <a href="{{ $social['url'] }}" target="_blank" rel="noopener noreferrer" aria-label="{{ $social['label'] }}" class="text-slate-400 transition-colors hover:text-primary-400">
+                <a href="{{ $social['url'] }}" target="_blank" rel="noopener noreferrer" aria-label="{{ $social['label'] }}" class="text-site-muted transition-colors hover:text-site-link">
                     <i class="{{ $social['icon'] }} text-sm"></i>
                 </a>
             @endforeach
@@ -101,8 +101,8 @@
 ================================================ --}}
 <div class="sticky top-0 z-50 block lg:hidden">
     {{-- Top Sticky Header Bar --}}
-    <header class="flex h-16 w-full items-center justify-between border-b border-slate-200/80 bg-white/95 px-4 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95">
-        <button id="toggleOpen" aria-label="{{ __('site.aria.open_menu') }}" class="flex h-10 w-10 items-center justify-center rounded-xl text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
+    <header class="site-header flex h-16 w-full items-center justify-between border-b border-site-divider/80 bg-site-surface/95 px-4 backdrop-blur-md dark:border-site-divider dark:bg-site-surface-muted/95">
+        <button id="toggleOpen" aria-label="{{ __('site.aria.open_menu') }}" class="flex h-10 w-10 items-center justify-center rounded-xl text-site-text transition hover:bg-site-surface-muted dark:text-site-text dark:hover:bg-site-surface-muted">
             <i class="ri-menu-3-line text-2xl"></i>
         </button>
 
@@ -129,7 +129,7 @@
 ================================================ --}}
 
 {{-- Top Row: Logo, Search, User & Cart Actions --}}
-<div class="relative z-[60] hidden w-full border-b border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-900 lg:block">
+<div class="site-header relative z-[60] hidden w-full border-b border-site-divider bg-site-surface dark:border-site-divider dark:bg-site-surface-muted lg:block">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-center py-5">
             {{-- Logo --}}
@@ -148,46 +148,46 @@
 </div>
 
 {{-- Bottom Row: Sticky Navbar --}}
-<div class="sticky top-0 z-50 hidden w-full border-b border-slate-200/60 bg-white/90 shadow-sm backdrop-blur-md dark:border-slate-800/60 dark:bg-slate-900/90 lg:block">
+<div class="site-header sticky top-0 z-50 hidden w-full border-b border-site-divider/60 bg-site-surface/90 shadow-sm backdrop-blur-md dark:border-site-divider/60 dark:bg-site-surface-muted/90 lg:block">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <nav class="flex h-12 items-center gap-x-8">
-            <a href="/" class="relative flex items-center py-3 text-sm font-extrabold text-slate-700 transition hover:text-primary-600 dark:text-slate-300 dark:hover:text-primary-400 {{ request()->is('/') ? 'text-primary-600 dark:text-primary-400' : '' }}">
+            <a href="/" class="relative flex items-center py-3 text-sm font-extrabold text-site-text transition hover:text-site-link dark:text-site-text dark:hover:text-site-link {{ request()->is('/') ? 'text-site-link dark:text-site-link' : '' }}">
                 <span>{{ __('site.nav.home') }}</span>
                 @if(request()->is('/'))
-                    <span class="absolute inset-x-0 bottom-0 h-[2.5px] rounded-full bg-primary-600"></span>
+                    <span class="absolute inset-x-0 bottom-0 h-[2.5px] rounded-full bg-site-primary"></span>
                 @endif
             </a>
-            <a href="{{ route('shop.index') }}" class="relative flex items-center py-3 text-sm font-extrabold text-slate-700 transition hover:text-primary-600 dark:text-slate-300 dark:hover:text-primary-400 {{ request()->routeIs('shop.*') ? 'text-primary-600 dark:text-primary-400' : '' }}">
+            <a href="{{ route('shop.index') }}" class="relative flex items-center py-3 text-sm font-extrabold text-site-text transition hover:text-site-link dark:text-site-text dark:hover:text-site-link {{ request()->routeIs('shop.*') ? 'text-site-link dark:text-site-link' : '' }}">
                 <span>{{ __('site.nav.shop') }}</span>
                 @if(request()->routeIs('shop.*'))
-                    <span class="absolute inset-x-0 bottom-0 h-[2.5px] rounded-full bg-primary-600"></span>
+                    <span class="absolute inset-x-0 bottom-0 h-[2.5px] rounded-full bg-site-primary"></span>
                 @endif
             </a>
-            <a href="/blog" class="relative flex items-center py-3 text-sm font-extrabold text-slate-700 transition hover:text-primary-600 dark:text-slate-300 dark:hover:text-primary-400 {{ request()->is('blog*') ? 'text-primary-600 dark:text-primary-400' : '' }}">
+            <a href="/blog" class="relative flex items-center py-3 text-sm font-extrabold text-site-text transition hover:text-site-link dark:text-site-text dark:hover:text-site-link {{ request()->is('blog*') ? 'text-site-link dark:text-site-link' : '' }}">
                 <span>{{ __('site.nav.blog') }}</span>
                 @if(request()->is('blog*'))
-                    <span class="absolute inset-x-0 bottom-0 h-[2.5px] rounded-full bg-primary-600"></span>
+                    <span class="absolute inset-x-0 bottom-0 h-[2.5px] rounded-full bg-site-primary"></span>
                 @endif
             </a>
-            <a href="{{ route('site.about') }}" class="relative flex items-center py-3 text-sm font-extrabold text-slate-700 transition hover:text-primary-600 dark:text-slate-300 dark:hover:text-primary-400 {{ request()->routeIs('site.about') ? 'text-primary-600 dark:text-primary-400' : '' }}">
+            <a href="{{ route('site.about') }}" class="relative flex items-center py-3 text-sm font-extrabold text-site-text transition hover:text-site-link dark:text-site-text dark:hover:text-site-link {{ request()->routeIs('site.about') ? 'text-site-link dark:text-site-link' : '' }}">
                 <span>{{ __('site.nav.about') }}</span>
                 @if(request()->routeIs('site.about'))
-                    <span class="absolute inset-x-0 bottom-0 h-[2.5px] rounded-full bg-primary-600"></span>
+                    <span class="absolute inset-x-0 bottom-0 h-[2.5px] rounded-full bg-site-primary"></span>
                 @endif
             </a>
-            <a href="{{ route('site.contact') }}" class="relative flex items-center py-3 text-sm font-extrabold text-slate-700 transition hover:text-primary-600 dark:text-slate-300 dark:hover:text-primary-400 {{ request()->routeIs('site.contact') ? 'text-primary-600 dark:text-primary-400' : '' }}">
+            <a href="{{ route('site.contact') }}" class="relative flex items-center py-3 text-sm font-extrabold text-site-text transition hover:text-site-link dark:text-site-text dark:hover:text-site-link {{ request()->routeIs('site.contact') ? 'text-site-link dark:text-site-link' : '' }}">
                 <span>{{ __('site.nav.contact') }}</span>
                 @if(request()->routeIs('site.contact'))
-                    <span class="absolute inset-x-0 bottom-0 h-[2.5px] rounded-full bg-primary-600"></span>
+                    <span class="absolute inset-x-0 bottom-0 h-[2.5px] rounded-full bg-site-primary"></span>
                 @endif
             </a>
-            <a href="{{ route('site.track') }}" class="relative flex items-center py-3 text-sm font-extrabold text-slate-700 transition hover:text-primary-600 dark:text-slate-300 dark:hover:text-primary-400 {{ request()->routeIs('site.track*') ? 'text-primary-600 dark:text-primary-400' : '' }}">
+            <a href="{{ route('site.track') }}" class="relative flex items-center py-3 text-sm font-extrabold text-site-text transition hover:text-site-link dark:text-site-text dark:hover:text-site-link {{ request()->routeIs('site.track*') ? 'text-site-link dark:text-site-link' : '' }}">
                 <span>{{ __('site.nav.track') }}</span>
                 @if(request()->routeIs('site.track*'))
-                    <span class="absolute inset-x-0 bottom-0 h-[2.5px] rounded-full bg-primary-600"></span>
+                    <span class="absolute inset-x-0 bottom-0 h-[2.5px] rounded-full bg-site-primary"></span>
                 @endif
             </a>
-            <button type="button" onclick="window.toggleSearchModal()" aria-label="{{ __('common.search') }}" class="ml-auto flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-primary-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-primary-400">
+            <button type="button" onclick="window.toggleSearchModal()" aria-label="{{ __('common.search') }}" class="ml-auto flex h-9 w-9 items-center justify-center rounded-xl text-site-muted transition hover:bg-site-surface-muted hover:text-site-link dark:text-site-muted dark:hover:bg-site-surface-muted dark:hover:text-site-link">
                 <i class="ri-search-2-line text-lg"></i>
             </button>
             <x-theme-switcher />
@@ -195,35 +195,35 @@
             <x-locale-switcher />
             @if (auth('customer')->check())
                 <div class="group relative">
-                    <button type="button" class="flex items-center gap-2 rounded-xl px-2 py-1.5 text-slate-700 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">
-                        <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-primary-600 text-white">
+                    <button type="button" class="flex items-center gap-2 rounded-xl px-2 py-1.5 text-site-text transition hover:bg-site-surface-muted dark:text-site-text dark:hover:bg-site-surface-muted">
+                        <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-site-primary text-site-on-primary">
                             <i class="ri-user-3-fill text-xs"></i>
                         </div>
-                        <i class="ri-arrow-down-s-line text-xs text-slate-400 transition-transform duration-200 group-hover:rotate-180"></i>
+                        <i class="ri-arrow-down-s-line text-xs text-site-muted transition-transform duration-200 group-hover:rotate-180"></i>
                     </button>
-                    <div class="invisible absolute right-0 top-full z-50 mt-2 w-60 origin-top-right rounded-2xl border border-slate-100 bg-white p-2 opacity-0 shadow-xl transition-all duration-200 group-hover:visible group-hover:opacity-100 dark:border-slate-800 dark:bg-slate-900">
-                        <div class="px-3 py-2 border-b border-slate-100 dark:border-slate-800 mb-1">
-                            <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">{{ __('site.account.signed_in_as') }}</p>
-                            <p class="truncate text-xs font-bold text-slate-900 dark:text-white">{{ auth('customer')->user()->name }}</p>
+                    <div class="invisible absolute right-0 top-full z-50 mt-2 w-60 origin-top-right rounded-2xl border border-site-divider bg-site-surface p-2 opacity-0 shadow-xl transition-all duration-200 group-hover:visible group-hover:opacity-100 dark:border-site-divider dark:bg-site-surface-muted">
+                        <div class="px-3 py-2 border-b border-site-divider dark:border-site-divider mb-1">
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-site-muted">{{ __('site.account.signed_in_as') }}</p>
+                            <p class="truncate text-xs font-bold text-site-text dark:text-site-text">{{ auth('customer')->user()->name }}</p>
                         </div>
-                        <a href="{{ route('account.profile') }}" class="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-primary-600 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-primary-400">
-                            <i class="ri-user-settings-line text-sm text-slate-400"></i> {{ __('site.account.my_profile') }}
+                        <a href="{{ route('account.profile') }}" class="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-semibold text-site-text transition hover:bg-site-surface-muted hover:text-site-link dark:text-site-text dark:hover:bg-site-surface-muted dark:hover:text-site-link">
+                            <i class="ri-user-settings-line text-sm text-site-muted"></i> {{ __('site.account.my_profile') }}
                         </a>
-                        <a href="{{ route('account.orders') }}" class="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-primary-600 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-primary-400">
-                            <i class="ri-file-list-3-line text-sm text-slate-400"></i> {{ __('site.account.my_orders') }}
+                        <a href="{{ route('account.orders') }}" class="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-semibold text-site-text transition hover:bg-site-surface-muted hover:text-site-link dark:text-site-text dark:hover:bg-site-surface-muted dark:hover:text-site-link">
+                            <i class="ri-file-list-3-line text-sm text-site-muted"></i> {{ __('site.account.my_orders') }}
                         </a>
-                        <a href="{{ route('account.downloads') }}" class="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-primary-600 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-primary-400">
-                            <i class="ri-download-2-line text-sm text-slate-400"></i> {{ __('site.account.my_downloads') }}
+                        <a href="{{ route('account.downloads') }}" class="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-semibold text-site-text transition hover:bg-site-surface-muted hover:text-site-link dark:text-site-text dark:hover:bg-site-surface-muted dark:hover:text-site-link">
+                            <i class="ri-download-2-line text-sm text-site-muted"></i> {{ __('site.account.my_downloads') }}
                         </a>
-                        <div class="my-1 border-t border-slate-100 dark:border-slate-800"></div>
+                        <div class="my-1 border-t border-site-divider dark:border-site-divider"></div>
                         <a href="{{ route('customerAuth.logout') }}" class="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-semibold text-rose-600 transition hover:bg-rose-50 dark:hover:bg-rose-950/30">
                             <i class="ri-logout-box-r-line text-sm"></i> {{ __('site.account.logout') }}
                         </a>
                     </div>
                 </div>
             @else
-                <a href="{{ route('customerAuth.loginForm') }}" class="flex items-center gap-1.5 rounded-xl px-2 py-1.5 text-slate-700 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800" aria-label="{{ __('site.aria.sign_in') }}">
-                    <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+                <a href="{{ route('customerAuth.loginForm') }}" class="flex items-center gap-1.5 rounded-xl px-2 py-1.5 text-site-text transition hover:bg-site-surface-muted dark:text-site-text dark:hover:bg-site-surface-muted" aria-label="{{ __('site.aria.sign_in') }}">
+                    <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-site-surface-muted text-site-muted dark:bg-site-surface-muted dark:text-site-text">
                         <i class="ri-user-line text-xs"></i>
                     </div>
                 </a>
@@ -237,12 +237,12 @@
 ================================================ --}}
 <div id="collapseMenu" class="fixed inset-0 z-[100] hidden lg:hidden">
     {{-- Backdrop --}}
-    <div class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm transition-opacity" id="toggleCloseBackdrop"></div>
+    <div class="fixed inset-0 bg-site-strong/70 backdrop-blur-sm transition-opacity" id="toggleCloseBackdrop"></div>
     
     {{-- Drawer Sidebar --}}
-    <div class="fixed inset-y-0 left-0 flex w-[85%] max-w-xs flex-col bg-white shadow-2xl transition-transform dark:bg-slate-900">
+    <div class="site-header fixed inset-y-0 left-0 flex w-[85%] max-w-xs flex-col bg-site-surface shadow-2xl transition-transform dark:bg-site-surface-muted">
         {{-- Header --}}
-        <div class="flex h-16 shrink-0 items-center justify-between border-b border-slate-100 px-5 dark:border-slate-800">
+        <div class="flex h-16 shrink-0 items-center justify-between border-b border-site-divider px-5 dark:border-site-divider">
             <a href="{{ route('site.index') }}">
                 @if ($logoUrl)
                     <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-14 w-auto max-w-[200px] object-contain dark:hidden" onerror="this.src='/logo.png'" />
@@ -255,7 +255,7 @@
             </a>
             <div class="flex items-center gap-1">
                 <x-theme-switcher />
-                <button id="toggleCloseBtn" aria-label="{{ __('site.aria.close_menu') }}" class="flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800">
+                <button id="toggleCloseBtn" aria-label="{{ __('site.aria.close_menu') }}" class="flex h-9 w-9 items-center justify-center rounded-xl text-site-muted transition hover:bg-site-surface-muted dark:text-site-muted dark:hover:bg-site-surface-muted">
                     <i class="ri-close-line text-2xl"></i>
                 </button>
             </div>
@@ -265,48 +265,48 @@
         <div class="flex-1 overflow-y-auto px-4 py-5">
             {{-- Navigation Links --}}
             <nav class="space-y-1">
-                <a href="/" class="flex items-center gap-3.5 rounded-2xl px-4 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50 hover:text-primary-600 dark:text-slate-200 dark:hover:bg-slate-800">
-                    <i class="ri-home-4-line text-lg text-slate-400"></i> {{ __('site.nav.home') }}
+                <a href="/" class="flex items-center gap-3.5 rounded-2xl px-4 py-3 text-sm font-bold text-site-text transition hover:bg-site-surface-muted hover:text-site-link dark:text-site-text dark:hover:bg-site-surface-muted">
+                    <i class="ri-home-4-line text-lg text-site-muted"></i> {{ __('site.nav.home') }}
                 </a>
-                <a href="{{ route('shop.index') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50 hover:text-primary-600 dark:text-slate-200 dark:hover:bg-slate-800">
-                    <i class="ri-shopping-bag-line text-lg text-slate-400"></i> {{ __('site.nav.shop') }}
+                <a href="{{ route('shop.index') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-3 text-sm font-bold text-site-text transition hover:bg-site-surface-muted hover:text-site-link dark:text-site-text dark:hover:bg-site-surface-muted">
+                    <i class="ri-shopping-bag-line text-lg text-site-muted"></i> {{ __('site.nav.shop') }}
                 </a>
-                <a href="/blog" class="flex items-center gap-3.5 rounded-2xl px-4 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50 hover:text-primary-600 dark:text-slate-200 dark:hover:bg-slate-800">
-                    <i class="ri-newspaper-line text-lg text-slate-400"></i> {{ __('site.nav.blog') }}
+                <a href="/blog" class="flex items-center gap-3.5 rounded-2xl px-4 py-3 text-sm font-bold text-site-text transition hover:bg-site-surface-muted hover:text-site-link dark:text-site-text dark:hover:bg-site-surface-muted">
+                    <i class="ri-newspaper-line text-lg text-site-muted"></i> {{ __('site.nav.blog') }}
                 </a>
-                <a href="{{ route('site.about') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50 hover:text-primary-600 dark:text-slate-200 dark:hover:bg-slate-800">
-                    <i class="ri-information-line text-lg text-slate-400"></i> {{ __('site.nav.about') }}
+                <a href="{{ route('site.about') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-3 text-sm font-bold text-site-text transition hover:bg-site-surface-muted hover:text-site-link dark:text-site-text dark:hover:bg-site-surface-muted">
+                    <i class="ri-information-line text-lg text-site-muted"></i> {{ __('site.nav.about') }}
                 </a>
-                <a href="{{ route('site.contact') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50 hover:text-primary-600 dark:text-slate-200 dark:hover:bg-slate-800">
-                    <i class="ri-mail-send-line text-lg text-slate-400"></i> {{ __('site.nav.contact') }}
+                <a href="{{ route('site.contact') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-3 text-sm font-bold text-site-text transition hover:bg-site-surface-muted hover:text-site-link dark:text-site-text dark:hover:bg-site-surface-muted">
+                    <i class="ri-mail-send-line text-lg text-site-muted"></i> {{ __('site.nav.contact') }}
                 </a>
-                <a href="{{ route('site.track') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50 hover:text-primary-600 dark:text-slate-200 dark:hover:bg-slate-800">
-                    <i class="ri-truck-line text-lg text-slate-400"></i> {{ __('site.nav.track_parcel') }}
+                <a href="{{ route('site.track') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-3 text-sm font-bold text-site-text transition hover:bg-site-surface-muted hover:text-site-link dark:text-site-text dark:hover:bg-site-surface-muted">
+                    <i class="ri-truck-line text-lg text-site-muted"></i> {{ __('site.nav.track_parcel') }}
                 </a>
             </nav>
 
             {{-- User Account Section --}}
-            <div class="mt-6 border-t border-slate-100 pt-5 dark:border-slate-800">
+            <div class="mt-6 border-t border-site-divider pt-5 dark:border-site-divider">
                 @if (auth('customer')->check())
-                    <p class="mb-2.5 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-400">{{ __('site.account.my_account') }}</p>
+                    <p class="mb-2.5 px-4 text-[10px] font-bold uppercase tracking-wider text-site-muted">{{ __('site.account.my_account') }}</p>
                     <nav class="space-y-1">
-                        <a href="{{ route('account.profile') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-primary-600 dark:text-slate-300 dark:hover:bg-slate-800">
-                            <i class="ri-user-settings-line text-lg text-slate-400"></i> {{ __('site.account.profile') }}
+                        <a href="{{ route('account.profile') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-2.5 text-sm font-semibold text-site-text transition hover:bg-site-surface-muted hover:text-site-link dark:text-site-text dark:hover:bg-site-surface-muted">
+                            <i class="ri-user-settings-line text-lg text-site-muted"></i> {{ __('site.account.profile') }}
                         </a>
-                        <a href="{{ route('account.orders') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-primary-600 dark:text-slate-300 dark:hover:bg-slate-800">
-                            <i class="ri-file-list-3-line text-lg text-slate-400"></i> {{ __('site.account.orders') }}
+                        <a href="{{ route('account.orders') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-2.5 text-sm font-semibold text-site-text transition hover:bg-site-surface-muted hover:text-site-link dark:text-site-text dark:hover:bg-site-surface-muted">
+                            <i class="ri-file-list-3-line text-lg text-site-muted"></i> {{ __('site.account.orders') }}
                         </a>
-                        <a href="{{ route('account.downloads') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-primary-600 dark:text-slate-300 dark:hover:bg-slate-800">
-                            <i class="ri-download-2-line text-lg text-slate-400"></i> {{ __('site.account.downloads') }}
+                        <a href="{{ route('account.downloads') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-2.5 text-sm font-semibold text-site-text transition hover:bg-site-surface-muted hover:text-site-link dark:text-site-text dark:hover:bg-site-surface-muted">
+                            <i class="ri-download-2-line text-lg text-site-muted"></i> {{ __('site.account.downloads') }}
                         </a>
-                        <div class="my-2 border-t border-slate-100 dark:border-slate-800"></div>
+                        <div class="my-2 border-t border-site-divider dark:border-site-divider"></div>
                         <a href="{{ route('customerAuth.logout') }}" class="flex items-center gap-3.5 rounded-2xl px-4 py-2.5 text-sm font-semibold text-rose-600 transition hover:bg-rose-50 dark:hover:bg-rose-950/30">
                             <i class="ri-logout-box-r-line text-lg"></i> {{ __('site.account.logout') }}
                         </a>
                     </nav>
                 @else
                     <div class="px-2">
-                        <a href="{{ route('customerAuth.loginForm') }}" class="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 py-3 text-sm font-bold text-white shadow-md transition hover:bg-primary-700">
+                        <a href="{{ route('customerAuth.loginForm') }}" class="flex w-full items-center justify-center gap-2 rounded-xl bg-site-primary py-3 text-sm font-bold text-site-on-primary shadow-md transition hover:bg-site-primary-hover">
                             <i class="ri-user-line text-base"></i> {{ __('site.account.sign_in_register') }}
                         </a>
                     </div>
@@ -315,11 +315,11 @@
 
             {{-- Social Links --}}
             @if(!empty($activeSocials))
-                <div class="mt-6 border-t border-slate-100 pt-5 dark:border-slate-800">
-                    <p class="mb-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-400">{{ __('common.follow_us') }}</p>
+                <div class="mt-6 border-t border-site-divider pt-5 dark:border-site-divider">
+                    <p class="mb-3 px-4 text-[10px] font-bold uppercase tracking-wider text-site-muted">{{ __('common.follow_us') }}</p>
                     <div class="flex flex-wrap gap-2 px-4">
                         @foreach($activeSocials as $social)
-                            <a href="{{ $social['url'] }}" target="_blank" rel="noopener noreferrer" aria-label="{{ $social['label'] }}" class="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-700 transition hover:bg-primary-600 hover:text-white dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-primary-600">
+                            <a href="{{ $social['url'] }}" target="_blank" rel="noopener noreferrer" aria-label="{{ $social['label'] }}" class="flex h-9 w-9 items-center justify-center rounded-xl bg-site-surface-muted text-site-text transition hover:bg-site-primary-hover hover:text-site-text dark:bg-site-surface-muted dark:text-site-text dark:hover:bg-site-primary-hover">
                                 <i class="{{ $social['icon'] }} text-base"></i>
                             </a>
                         @endforeach
